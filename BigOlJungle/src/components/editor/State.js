@@ -1,9 +1,25 @@
 import { reactive, ref } from 'vue'
+import { removeItem } from './Utils.js'
 
 class Node {
   constructor() {
     this.name = "Node";
+    this.componentName = null;
+    this.parentNode = null;
     this.children = [];
+  }
+
+  addChild(childNode) {
+    childNode.removeFromParent();
+    this.children.push(childNode);
+    childNode.parentNode = this;
+  }
+
+  removeFromParent() {
+    if (this.parentNode !== null) {
+      removeItem(this.parentNode.children, this);
+      this.parentNode = this;
+    }
   }
 }
 
@@ -18,6 +34,7 @@ class Site {
   constructor() {
     this.name = "MySite";
     this.nodeTree = reactive(new NodeTree());
+    this.selectedEntity = ref(null);
   }
 
   save() {
@@ -27,6 +44,14 @@ class Site {
   }
 
   deployZip() {
+  }
+
+  selectNode(node) {
+    this.selectedEntity.value = node;
+  }
+
+  getPropEditor() {
+    return this.selectedEntity;
   }
 };
 
@@ -98,5 +123,6 @@ var gApp = new Editor();
 export {
   gApp,
   kMenuItems,
+  Node
 };
 
