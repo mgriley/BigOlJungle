@@ -19,16 +19,23 @@ let nodeList = computed(() => {
   }
   return nodes;
 });
+
+function onClickBackground(evt) {
+  /*console.log("TargetId: "+evt.target.id);*/
+  if (evt.target.id == "Main") {
+    gApp.site.deselectAll();
+  }
+}
 </script>
 
 <template>  
   <NavBar />
-  <main>
+  <main id="Main" @click="onClickBackground">
     <!--<h1>Hello World!</h1>-->
     <NodeTreeView />
     <PropEditor />
 
-    <div class="AnchorDiv">
+    <div id="RootAnchorDiv" class="AnchorDiv">
       <template v-for="node in nodeList">
         <component v-if="node.componentName !== null" :is="kWidgetMap[node.componentName]" :node="node" />
       </template>
@@ -47,8 +54,8 @@ main {
   /*width: auto;*/
   top: 50%;
   left: 50%;
-  width: 600px;
-  height: 800px;
+  width: 0px;
+  height: 0px;
   /*-webkit-transform: translate(-50%, -50%);*/
   /*transform: translate(-50%, -50%);*/
 }

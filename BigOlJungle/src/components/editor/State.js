@@ -34,7 +34,9 @@ class Node {
       top: this.posY + 'px',
     }
     if (this.selected) {
-      style.border = '1px solid lightgrey';
+      // Note: style.border affects element size. outline is drawn
+      // outside of it.
+      style.outline = '1px solid lightgrey';
       style.cursor = 'move';
     }
     return style;
@@ -76,6 +78,13 @@ class Site {
     if (node) {
       node.selected = true;
     }
+  }
+
+  deselectAll() {
+    if (this.selectedEntity.value) {
+      this.selectedEntity.value.selected = false;
+    }
+    this.selectedEntity.value = null;
   }
 
   getPropEditor() {

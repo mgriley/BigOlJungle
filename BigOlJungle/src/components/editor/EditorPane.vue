@@ -11,13 +11,15 @@ const props = defineProps({
 const paneRef = ref(null)
 
 onMounted(() => {
+  paneRef.value.style.left = props.startX + 'px';
+  paneRef.value.style.top = props.startY + 'px';
   makeDraggable(paneRef.value);
 })
 
 </script>
 
 <template>
-  <div class="EditorPane" ref="paneRef" :style="{left: startX + 'px', top: startY + 'px'}">
+  <div class="EditorPane" ref="paneRef">
     <div class="EditorPaneHeader">{{ paneTitle }}</div>  
     <div class="PaneInner"> 
       <slot></slot>
@@ -31,8 +33,8 @@ onMounted(() => {
   z-index: 9;
   /*background-color: #0000;*/
   background: var(--color-background);
-  border: 1px solid #d3d3d3;
-  width: 300px;
+    border: 1px solid #d3d3d3;
+  min-width: 300px;
   /*height: 400px;*/
 }
 

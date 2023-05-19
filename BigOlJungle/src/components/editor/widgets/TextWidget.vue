@@ -34,11 +34,16 @@ export class TextNode extends State.Node {
 
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
+import { gApp } from '../State.js'
 import { setupWidget } from '../Utils.js'
 
 const props = defineProps({
   node: Object
 })
+
+function onClick() {
+  gApp.site.selectNode(props.node);
+}
 
 let elementRef = ref(null);
 
@@ -49,8 +54,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <p class="Widget" :style="node.getStyleObject()" ref="elementRef">{{ node.text }}</p>
+  <div class="Widget TextWidget" :style="node.getStyleObject()" ref="elementRef" @click="onClick">{{ node.text }}</div>
 </template>
 
 <style scoped>
 </style>
+
+<style>
+.TextWidget {
+  white-space: pre;
+}
+</style>
+

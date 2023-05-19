@@ -17,9 +17,16 @@ let colorRef = computed({
 </script>
 
 <template>
-  <input v-model="editorData.text">
   <NumberInput v-model="editorData.fontSize" min="1"/>
+  <!--<input v-model="editorData.text">-->
+  <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
 </template>
+
+<style>
+.TextWidgetTextArea {
+  margin-top: 24px;
+}
+</style>
 
 <style scoped>
 
