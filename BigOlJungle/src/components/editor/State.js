@@ -13,6 +13,7 @@ class Node {
     this.parentNode = null;
     this.children = [];
     this.selected = false;
+    this.openInNodeTree = true;
 
     this.posX = 0;
     this.posY = 0;
@@ -47,6 +48,37 @@ class Node {
 
   isSelected() {
     return this.selected;
+  }
+
+  // Returns [{node: Node, depth: Number}] in DFS order.
+  // Includes this node for the first entry.
+  getChildrenDfs() {
+    let stack = [{node: this, depth: 0}];
+    let output = [];
+    while (stack.length > 0) {
+      let item = stack.pop();
+      output.push(item)
+      for (let i = item.node.children.length - 1; i >= 0; --i) {
+        stack.push({node: item.node.children[i], depth: item.depth + 1});
+      }
+    }
+    return output;
+  }
+
+  // Covers same nodes as getChildrenDfs but runs nodeFunc on each node.
+  // Return false from nodeFunc if do not wish to handle children.
+  iterateChildrenDfs(nodeFunc) {
+    let stack = [{node: this, depth: 0}];
+    while (stack.length > 0) {
+      let item = stack.pop();
+      let visitChildren = nodeFunc(item.node, item.depth);
+      if (visitChildren === false) {
+        continue;
+      }
+      for (let i = item.node.children.length - 1; i >= 0; --i) {
+        stack.push({node: item.node.children[i], depth: item.depth + 1});
+      }
+    }
   }
 }
 
@@ -88,6 +120,13 @@ class Site {
       this.selectedEntity.value.selected = false;
     }
     this.selectedEntity.value = null;
+  }
+
+  deleteSelectedNodes() {
+    if (this.selectedEntity.value) {
+      this.selectedEntity.value.removeFromParent();
+      this.selectedEntity.value = null;
+    }
   }
 
   getPropEditor() {

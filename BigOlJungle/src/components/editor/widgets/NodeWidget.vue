@@ -15,14 +15,32 @@ const props = defineProps({
 let elementRef = ref(null);
 
 onMounted(() => {
-  // TODO
-  /*setupWidget(elementRef.value, props.node);*/
+  setupWidget(elementRef.value, props.node);
+})
+
+let styleObject = computed(() => {
+  let baseStyle = props.node.getStyleObject();
+  let curStyle = {
+    width: '0px',
+    height: '0px',
+  }
+  if (props.node.isSelected()) {
+    let boxLen = 30;
+    curStyle.width = boxLen+'px';
+    curStyle.height = boxLen+'px';
+    /*curStyle.background = 'black';*/
+    curStyle.outline = "2px solid black";
+  }
+  return {
+    ...baseStyle,
+    ...curStyle
+  }
 })
 
 </script>
 
 <template>
-  <div class="Widget NodeWidget" ref="elementRef">
+  <div class="Widget NodeWidget" ref="elementRef" :style="styleObject">
     <template v-for="childNode in node.children" :key="childNode.id">
       <component v-if="childNode.componentName !== null" :is="kWidgetMap[childNode.componentName]" :node="childNode" />
     </template>

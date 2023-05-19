@@ -8,7 +8,7 @@ export class TextNode extends State.Node {
     this.text = "Hello World!";
 
     this.fontName = null;
-    this.fontSize = 18;
+    this.fontSize = 36;
     this.color = null;
     this.bold = false;
     this.italic = false;

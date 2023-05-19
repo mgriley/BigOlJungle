@@ -47,7 +47,7 @@ onMounted(() => {
 }
 
 .PaneInner {
-  padding: 20px 5px;
+  /*padding: 20px 5px;*/
 }
 
 </style>
