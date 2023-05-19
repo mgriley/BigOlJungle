@@ -4,8 +4,9 @@ import { gApp } from './State.js'
 import NavBar from './NavBar.vue'
 import NodeTreeView from './NodeTreeView.vue'
 import PropEditor from './PropEditor.vue'
-import { kWidgetMap } from './widgets/Widgets.js'
+import { kWidgetMap, NodeWidget } from './widgets/Widgets.js'
 
+/*
 let nodeList = computed(() => {
   let root = gApp.site.nodeTree.root
   let stack = [root];
@@ -19,6 +20,11 @@ let nodeList = computed(() => {
   }
   return nodes;
 });
+*/
+
+let rootNode = computed(() => {
+  return gApp.site.nodeTree.root;
+})
 
 function onClickBackground(evt) {
   /*console.log("TargetId: "+evt.target.id);*/
@@ -35,10 +41,8 @@ function onClickBackground(evt) {
     <NodeTreeView />
     <PropEditor />
 
-    <div id="RootAnchorDiv" class="AnchorDiv">
-      <template v-for="node in nodeList">
-        <component v-if="node.componentName !== null" :is="kWidgetMap[node.componentName]" :node="node" />
-      </template>
+    <div class="AnchorDiv">
+      <NodeWidget :node="rootNode" />
     </div>
   </main>
 </template>

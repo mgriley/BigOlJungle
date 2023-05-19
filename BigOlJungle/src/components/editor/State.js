@@ -4,9 +4,12 @@ import { removeItem } from './Utils.js'
 var gApp = null;
 
 class Node {
+  static sNodeIdCtr = 1;
+
   constructor() {
+    this.id = Node.sNodeIdCtr++;
     this.name = "Node";
-    this.componentName = null;
+    this.componentName = "NodeWidget";
     this.parentNode = null;
     this.children = [];
     this.selected = false;
