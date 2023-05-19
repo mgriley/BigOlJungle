@@ -1,12 +1,18 @@
 import { reactive, ref } from 'vue'
 import { removeItem } from './Utils.js'
 
+var gApp = null;
+
 class Node {
   constructor() {
     this.name = "Node";
     this.componentName = null;
     this.parentNode = null;
     this.children = [];
+    this.selected = false;
+
+    this.posX = 0;
+    this.posY = 0;
   }
 
   addChild(childNode) {
@@ -20,6 +26,22 @@ class Node {
       removeItem(this.parentNode.children, this);
       this.parentNode = this;
     }
+  }
+
+  getStyleObject() {
+    let style = {
+      left: this.posX + 'px',
+      top: this.posY + 'px',
+    }
+    if (this.selected) {
+      style.border = '1px solid lightgrey';
+      style.cursor = 'move';
+    }
+    return style;
+  }
+
+  isSelected() {
+    return this.selected;
   }
 }
 
@@ -47,7 +69,13 @@ class Site {
   }
 
   selectNode(node) {
+    if (this.selectedEntity.value) {
+      this.selectedEntity.value.selected = false;
+    }
     this.selectedEntity.value = node;
+    if (node) {
+      node.selected = true;
+    }
   }
 
   getPropEditor() {
@@ -118,7 +146,7 @@ let kMenuItems = [
   }
 ];
 
-var gApp = new Editor();
+gApp = new Editor();
 
 export {
   gApp,

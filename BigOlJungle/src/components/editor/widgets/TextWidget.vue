@@ -15,28 +15,42 @@ export class TextNode extends State.Node {
     this.underline = false;
     this.lineHeight = null;
     this.letterSpacing = null;
+    this.maxWidth = 100;
+  }
+
+  getStyleObject() {
+    let parentStyle = super.getStyleObject();
+    let myStyle = {
+      fontSize: this.fontSize + 'px'     
+    };
+    return {
+      ...parentStyle,
+      ...myStyle
+    };
   }
 };
 
 </script>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive, computed } from 'vue'
+import { setupWidget } from '../Utils.js'
 
 const props = defineProps({
   node: Object
 })
 
+let elementRef = ref(null);
+
+onMounted(() => {
+  setupWidget(elementRef.value, props.node);
+})
+
 </script>
 
 <template>
-  <p class="TextWidget">{{ node.text }}</p>
+  <p class="Widget" :style="node.getStyleObject()" ref="elementRef">{{ node.text }}</p>
 </template>
 
 <style scoped>
-.TextWidget {
-  /*font-family: v-bind('node.fontName');*/
-  /*font-size: v-bind('node.fontSize');*/
-  font-size: 18px;
-}
 </style>

@@ -28,10 +28,28 @@ let nodeList = computed(() => {
     <NodeTreeView />
     <PropEditor />
 
-    <div>
+    <div class="AnchorDiv">
       <template v-for="node in nodeList">
         <component v-if="node.componentName !== null" :is="kWidgetMap[node.componentName]" :node="node" />
       </template>
     </div>
   </main>
 </template>
+
+<style scoped>
+
+main {
+  height: 100vh;
+}
+
+.AnchorDiv {
+  position: absolute;  
+  /*width: auto;*/
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 800px;
+  /*-webkit-transform: translate(-50%, -50%);*/
+  /*transform: translate(-50%, -50%);*/
+}
+</style>

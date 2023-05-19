@@ -52,3 +52,84 @@ export function makeDraggable(elmnt) {
   }
 }
 
+/*
+dragFuncs {
+  // Returns whether or not to allow the drag. (Called before onStart)
+  allowDrag() -> Bool,
+  onStart(startX, startY),
+  onUpdate(startX, startY, curX, curY),
+  onEnd(startX, startY, endX, endY)
+}
+*/
+export function makeDraggableExt(element, dragFuncs) {
+  element.onmousedown = dragMouseDown;
+
+  var startX = null;
+  var startY = null;
+  var curX = null;
+  var curY = null;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+
+    let allowDrag = true;
+    if (dragFuncs.allowDrag) {
+      allowDrag = dragFuncs.allowDrag();
+    }
+
+    if (allowDrag) {
+      startX = e.clientX;
+      startY = e.clientY;
+      curX = startX;
+      curY = startY;
+      document.onmouseup = closeDragElement;
+      document.onmousemove = elementDrag;
+      if (dragFuncs.onStart) {
+        dragFuncs.onStart(startX, startY);
+      }
+    }
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    curX = e.clientX;
+    curY = e.clientY;
+    if (dragFuncs.onUpdate) {
+      dragFuncs.onUpdate(startX, startY, curX, curY);
+    }
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+    if (dragFuncs.onEnd) {
+      dragFuncs.onEnd(startX, startY, curX, curY);
+    }
+  }
+}
+
+export function setupWidget(widgetElem, node) {
+  var dragObj = {
+    origPosX: null,
+    origPosY: null,
+  };
+  makeDraggableExt(widgetElem, {
+    allowDrag: () => {
+      return node.isSelected();
+    },
+    onStart: (startX, startY) => {
+      dragObj.origPosX = node.posX;
+      dragObj.origPosY = node.posY;
+    },
+    onUpdate: (startX, startY, curX, curY) => {
+      let diffX = curX - startX;
+      let diffY = curY - startY;
+      node.posX = dragObj.origPosX + diffX;
+      node.posY = dragObj.origPosY + diffY;
+    },
+  })
+}
+
+
