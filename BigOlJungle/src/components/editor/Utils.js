@@ -9,49 +9,6 @@ export function removeItem(arr, elem) {
   return true;
 }
 
-// See: https://www.w3schools.com/howto/howto_js_draggable.asp
-export function makeDraggable(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let header = elmnt.querySelector(".EditorPaneHeader");
-  if (header !== null) {
-    // if present, the header is where you move the DIV from:
-    header.onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
-
 /*
 dragFuncs {
   // Returns whether or not to allow the drag. (Called before onStart)
@@ -62,14 +19,16 @@ dragFuncs {
 }
 */
 export function makeDraggableExt(element, dragFuncs) {
-  element.onmousedown = dragMouseDown;
-
   var startX = null;
   var startY = null;
   var curX = null;
   var curY = null;
 
-  function dragMouseDown(e) {
+  let dragMouseDown = null;
+  let elementDrag = null;
+  let closeDragElement = null;
+
+  dragMouseDown = (e) => {
     e = e || window.event;
     e.preventDefault();
 
@@ -83,15 +42,15 @@ export function makeDraggableExt(element, dragFuncs) {
       startY = e.clientY;
       curX = startX;
       curY = startY;
-      document.onmouseup = closeDragElement;
-      document.onmousemove = elementDrag;
+      document.addEventListener("mouseup", closeDragElement);
+      document.addEventListener("mousemove", elementDrag);
       if (dragFuncs.onStart) {
         dragFuncs.onStart(startX, startY);
       }
     }
   }
 
-  function elementDrag(e) {
+  elementDrag = (e) => {
     e = e || window.event;
     e.preventDefault();
     curX = e.clientX;
@@ -101,13 +60,65 @@ export function makeDraggableExt(element, dragFuncs) {
     }
   }
 
-  function closeDragElement() {
-    document.onmouseup = null;
-    document.onmousemove = null;
+  closeDragElement = () => {
+    document.removeEventListener("mouseup", closeDragElement);
+    document.removeEventListener("mousemove", elementDrag);
     if (dragFuncs.onEnd) {
       dragFuncs.onEnd(startX, startY, curX, curY);
     }
   }
+
+  element.addEventListener("mousedown", dragMouseDown);
+}
+
+// See: https://www.w3schools.com/howto/howto_js_draggable.asp
+export function makeDraggable(elmnt) {
+  let draggableElem = elmnt;
+  // if present, the header is where you move the DIV from:
+  let header = elmnt.querySelector(".EditorPaneHeader");
+  if (header !== null) {
+    draggableElem = header;
+  }
+  var lastX = 0;
+  var lastY = 0;
+  makeDraggableExt(draggableElem, {
+    onStart: (startX, startY) => {
+      lastX = startX;
+      lastY = startY;
+    },
+    onUpdate: (startX, startY, curX, curY) => {
+      // set the element's new position:
+      let deltaX = curX - lastX;
+      let deltaY = curY - lastY;
+      lastX = curX;
+      lastY = curY;
+      elmnt.style.top = (elmnt.offsetTop + deltaY) + "px";
+      elmnt.style.left = (elmnt.offsetLeft + deltaX) + "px";
+    }
+  });
+}
+
+// Returns an opaque `listener` object that you can
+// removeHoverListener with when want to remove.
+export function addHoverListener(elem, hoverFuncs) {
+  let onHoverStart = (evt) => {
+    if (hoverFuncs.onStart) {
+      hoverFuncs.onStart(evt);
+    }
+  };
+  let onHoverEnd = (evt) => {
+    if (hoverFuncs.onEnd) {
+      hoverFuncs.onEnd(evt);
+    }
+  };
+  elem.addEventListener("mouseover", onHoverStart);
+  elem.addEventListener("mouseout", onHoverEnd);
+  return {onStart: onHoverStart, onEnd: onHoverEnd};
+}
+
+export function removeHoverListener(elem, listenerObj) {
+  elem.removeEventListener("mouseover", listenerObj.onStart);
+  elem.removeEventListener("mouseout", listenerObj.onEnd);
 }
 
 export function setupWidget(widgetElem, node) {

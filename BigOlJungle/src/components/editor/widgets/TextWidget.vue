@@ -2,9 +2,13 @@
 import * as State from '../State.js'
 
 export class TextNode extends State.Node {
+  static sUiShortName = "T";
+
   constructor() {
     super();
+    this.name = "Text";
     this.componentName = "TextWidget";
+    this.allowsChildren = false;
     this.text = "Hello World!";
 
     this.fontName = null;

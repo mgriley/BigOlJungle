@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
+import { makeDraggableExt } from '../Utils.js'
 
 const props = defineProps(['modelValue', 'min'])
 const emit = defineEmits(['update:modelValue'])
@@ -14,44 +15,23 @@ const value = computed({
 })
 
 function setupDragBall(elmnt) {
-  var startX = 0;
-  var startY = 0;
   var startVal = null;
 
-  elmnt.onmousedown = dragMouseDown;
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-
-    startVal = value.value;
-    startX = e.clientX;
-    startY = e.clientY;
-
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-
-    document.body.style.cursor = 'move';
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-
-    let diffX = e.clientX - startX;
-    let diffY = e.clientY - startY;
-
-    let newVal = Math.max(1, Math.floor(startVal - diffY/5.0));
-    /*console.log("New value: " + newVal);*/
-    value.value = newVal;
-  }
-
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-    document.body.style.cursor = "default";
-  }
+  makeDraggableExt(elmnt, {
+    onStart: () => {
+      startVal = value.value;
+      document.body.style.cursor = 'move';
+    },
+    onUpdate: (startX, startY, curX, curY) => {
+      let diffX = curX - startX;
+      let diffY = curY - startY;
+      let newVal = Math.max(1, Math.floor(startVal - diffY/5.0));
+      /*console.log("New value: " + newVal);*/
+      value.value = newVal;
+    },
+    onEnd: () => {
+    }
+  })
 }
 
 let dragBall = ref(null);

@@ -4,21 +4,75 @@ import { gApp, Node } from './State.js'
 import NodeTreeItem from './NodeTreeItem.vue'
 import EditorPane from './EditorPane.vue'
 import TextWidget, { TextNode } from './widgets/TextWidget.vue'
+import ModalSelector from './ModalSelector.vue'
 
 // See: https://vuejs.org/examples/#tree
 
-const nodeTree = gApp.site.nodeTree
+const nodeTree = gApp.site.nodeTree;
 
-const treeViewRef = ref(null)
+const treeViewRef = ref(null);
+const newNodeModal = ref(null);
 
-function addNode() {
-  let rootNode = nodeTree.root
-  let newNode = new TextNode();
-  rootNode.addChild(newNode);
+// TODO - make registry
+let newNodeOptions = [
+{
+  name: "Group",
+  classCtor: Node,
+},
+{
+  name: "Text",
+  classCtor: TextNode,
+}
+];
+
+function makeNewNode(clickEvt) {
+  newNodeModal.value.toggleModal(clickEvt);
+}
+
+function cloneNode() {
+  // TODO
+}
+
+function moveNodeUp() {
+  let selNode = gApp.site.getSelectedNode();
+  if (selNode) {
+    selNode.moveUp();
+  }
+}
+
+function moveNodeDown() {
+  let selNode = gApp.site.getSelectedNode();
+  if (selNode) {
+    selNode.moveDown();
+  }
+}
+
+function onChooseNewNode(nodeOption) {
+  let parentNode = null;
+  let insertIndex = null;
+  let selectedNode = gApp.site.getSelectedNode();
+  if (selectedNode) {
+    if (selectedNode.allowsChildren) {
+      parentNode = selectedNode;
+    } else {
+      parentNode = selectedNode.parentNode;
+      insertIndex = selectedNode.getIndexInParent() + 1;
+    }
+  } else {
+    parentNode = nodeTree.root;
+  }
+
+  let newNode = new (nodeOption.classCtor)();
+  parentNode.addChildAtIndex(newNode, insertIndex);
+  /*gApp.site.selectNode(newNode);*/
 }
 
 function deleteNode() {
   gApp.site.deleteSelectedNodes();
+}
+
+function moveNode(nodeA, nodeB) {
+  nodeA.moveNode(nodeB);
 }
 
 /*
@@ -27,6 +81,8 @@ let nodeList = computed(() => {
 })
 */
 
+// TODO - this is probably not good for vue perf. Use recursive Comp
+// method instead, but without nesting the divs.
 let nodeList = computed(() => {
   let nodes = [];
   nodeTree.root.iterateChildrenDfs((node, depth) => {
@@ -39,10 +95,14 @@ let nodeList = computed(() => {
 </script>
 
 <template>
-  <EditorPane paneTitle="Nodes" :startX="100" :startY="100">
+  <EditorPane paneTitle="Nodes" :startX="99" :startY="100">
     <div class="ButtonPane">
-      <button @click="addNode">New</button>
-      <button @click="deleteNode">Delete</button>
+      <button @click="makeNewNode">New</button>
+      <button @click="cloneNode">Clone</button>
+      <button @click="moveNodeUp">MoveUp</button>
+      <button @click="moveNodeDown">MoveDown</button>
+      <button class="DeleteBtn" @click="deleteNode">Delete</button>
+      <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
     <div class="treeInner"> 
       <template v-for="childNode in nodeList" :id="child.node.id">
@@ -58,15 +118,20 @@ let nodeList = computed(() => {
   /*background: blue;*/
   padding: 10px 5px;
 }
+
+.DeleteBtn {
+  /*float: right;*/
+}
 </style>
 
 <style>
 .treeInner {
   /*padding: 20px 5px;*/
+  background: lightgrey;
 }
 
 .item {
-  cursor: pointer;
+  /*cursor: pointer;*/
   line-height: 1.5;
 }
 

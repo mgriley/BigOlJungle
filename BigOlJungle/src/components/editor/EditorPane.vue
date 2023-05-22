@@ -36,6 +36,11 @@ onMounted(() => {
     border: 1px solid #d3d3d3;
   min-width: 300px;
   /*height: 400px;*/
+  /*
+  overflow: auto;
+  resize: both;
+  */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.33);
 }
 
 .EditorPaneHeader {
