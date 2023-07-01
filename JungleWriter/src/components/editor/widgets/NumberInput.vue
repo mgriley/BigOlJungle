@@ -2,7 +2,14 @@
 import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
 
-const props = defineProps(['modelValue', 'min'])
+const props = defineProps({
+  modelValue: [String, Number, Object],
+  name: String,
+  min: [Number, String],
+  isOptional: Boolean,
+  // Used when toggling the `Optional` flag
+  defaultValue: [String, Number, Object],
+})
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
@@ -11,6 +18,20 @@ const value = computed({
   },
   set(value) {
     emit('update:modelValue', value)
+  }
+})
+
+const optionalValue = computed({
+  get() {
+    return props.modelValue !== null;
+  },
+  set(value) {
+    if (value) {
+      //console.log("DefaultValue: "+props.defaultValue);
+      emit('update:modelValue', props.defaultValue);
+    } else {
+      emit('update:modelValue', null);
+    }
   }
 })
 
@@ -44,6 +65,7 @@ onMounted(() => {
 
 <template>
   <div class="Parent">
+    <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
     <input class="StdInput InputChild" type="number" v-model="value" min="min">
     <div class="DragBall InputChild" ref="dragBall">Drag</div>
   </div>
@@ -52,6 +74,10 @@ onMounted(() => {
 <style scoped>
 .Parent {
   display: flex;
+}
+
+.OptionalToggle {
+  margin-right: 10px;
 }
 
 .StdInput {

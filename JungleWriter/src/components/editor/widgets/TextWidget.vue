@@ -19,14 +19,42 @@ export class TextNode extends State.Node {
     this.underline = false;
     this.lineHeight = null;
     this.letterSpacing = null;
-    this.maxWidth = 100;
+    this.textAlign = 'left';
+    this.maxWidth = null;
   }
 
   getStyleObject() {
     let parentStyle = super.getStyleObject();
     let myStyle = {
-      fontSize: this.fontSize + 'px'     
+      fontSize: this.fontSize + 'px',
+      textAlign: this.textAlign,
     };
+    if (this.fontName) {
+      myStyle.fontFamily = this.fontName;
+    }
+    if (this.color) {
+      myStyle.color = this.color;
+    }
+    if (this.bold) {
+      myStyle.fontWeight = "bold";
+    }
+    if (this.italic) {
+      myStyle.fontStyle = "italic";
+    }
+    if (this.underline) {
+      myStyle.textDecoration = "underline";
+    }
+    if (this.lineHeight !== null) {
+      myStyle.lineHeight = this.lineHeight;
+    }
+    if (this.letterSpacing !== null) {
+      myStyle.letterSpacing = this.letterSpacing + 'px';
+    }
+    if (this.maxWidth !== null) {
+      myStyle.maxWidth = this.maxWidth + 'px';
+      // TODO - not wrapping properly
+      myStyle.overflowWrap = "normal";
+    }
     return {
       ...parentStyle,
       ...myStyle
