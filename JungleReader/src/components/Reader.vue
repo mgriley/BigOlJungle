@@ -30,8 +30,8 @@ function launchTutorial() {
           <router-link to="/settings">Settings</router-link>
         </div>
         <div class="Section">
-          <a href="TODO">ToucanWriter</a>
-          <a href="https://github.com/mgriley/BigOlJungle">GitHub</a>
+          <a href="TODO" target="_blank">ToucanWriter</a>
+          <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
         </div>
       </div>
     </div>
@@ -67,12 +67,6 @@ function launchTutorial() {
   }
 }
 
-header {
-  grid-area: header;
-  background-color: #fed330;
-  padding: 20px;
-}
-
 .main {
   grid-area: content;
   /*background-color: #20bf6b;*/
@@ -91,12 +85,6 @@ header {
 
 .SideMenu .Section {
   margin-bottom: 30px;
-}
-
-footer {
-  padding: 20px;
-  grid-area: footer;
-  background-color: #fd9644;
 }
 
 </style>

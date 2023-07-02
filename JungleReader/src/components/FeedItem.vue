@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
+import TreeIcon from './TreeIcon.vue'
 import draggable from 'vuedraggable'
 
 const props = defineProps({
@@ -22,6 +23,7 @@ function selectFeed(feed) {
 <template>
   <div class="FeedItem">
     <div class="FeedControls">
+      <TreeIcon :expanded="feed.expanded" @click="toggleExpandFeed(feed)"/>
       <div class="FeedName TextButton" @click="toggleExpandFeed(feed)">{{ feed.name }}</div>
       <div class="FeedButtons">
         <button @click="toggleExpandFeed(feed)">+/-</button>

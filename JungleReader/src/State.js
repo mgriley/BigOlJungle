@@ -29,6 +29,16 @@ class Feed {
       this.parentGroup.removeFeed(this);
     }
   }
+
+  // It is assumed that the Feed has already been removed its current
+  // parent's list of feeds and added to another group's list.
+  fixupAfterDrag(newGroup) {
+    this.parentGroup = newGroup;
+  }
+
+  isVisible() {
+    return this.parentGroup !== null ? this.parentGroup.expanded : false;
+  }
 }
 
 class FeedGroup {

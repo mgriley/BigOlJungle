@@ -1,4 +1,9 @@
 @import './base.css';
+@import './reader.css';
+
+:root {
+  --color-link-hover: hsla(160, 100%, 37%, 0.2);
+}
 
 #app {
   /*max-width: 1280px;*/
@@ -17,7 +22,8 @@ a,
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    /*background-color: hsla(160, 100%, 37%, 0.2);*/
+    background-color: var(--color-link-hover);
   }
 }
 
@@ -46,5 +52,15 @@ it gets clicked. Say if using for a button
 .TextButton {
   user-select: none;
   cursor: pointer;
+}
+
+/*
+.DraggedItem {
+  background-color: green;
+}
+*/
+
+.DraggedChosenItem {
+  background-color: var(--color-link-hover);
 }
 

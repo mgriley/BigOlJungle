@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import draggable from 'vuedraggable'
+import TreeIcon from './TreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
@@ -104,6 +105,31 @@ function toggleExplodeGroup(group) {
   }
 }
 
+function onDragChange(evt, group) {
+  //console.log(evt);
+  if (evt.added) {
+    let feed = evt.added.element;
+    //console.log("Elem changing group: " + feed.parentGroup.name + " -> " + group.name);
+    feed.fixupAfterDrag(group);
+    // If not already expanded, expand so that can see new feed.
+    group.expanded = true;
+  }
+}
+
+/*
+function onAddDraggedFeed(evt, group) {
+  console.log("On Added feed");
+
+  let feed = evt.draggedContext.element;
+  console.log("Feed: " + feed);
+  //feed.fixupAfterDrag(group);
+}
+
+function onRemoveDraggedFeed(evt) {
+  //console.log("On Removed feed");
+}
+*/
+
 function openSettings() {
   // TODO
 }
@@ -121,10 +147,12 @@ function openSettings() {
       <!--<button class="SettingsButton" @click="openSettings">Settings</button>-->
     </div>
     <div class="FeedGroups">
-      <draggable class="FeedGroup" :list="gApp.feedReader.groups" group="groups" itemKey="id">
+      <draggable class="FeedGroup" :list="gApp.feedReader.groups"
+        group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
         <template #item="{element}">
           <div class="FeedGroupItem">
             <div class="GroupControls">
+              <TreeIcon :expanded="element.expanded" @click="toggleExpandGroup(element)" />
               <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
               <div class="GroupButtons">
                 <button @click="toggleExpandGroup(element)">+/-</button>
@@ -133,13 +161,16 @@ function openSettings() {
                 <button @click="selectGroup(element)">Select</button>
               </div>
             </div>
-            <template v-if="element.expanded">
-              <draggable class="FeedGroup" :list="element.feeds" group="feeds" itemKey="id">
-                <template #item="{ element }">
+            <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
+            <draggable class="FeedGroup" :list="element.feeds" group="element.expanded"
+              itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
+              @change="(evt) => onDragChange(evt, element)">
+              <template #item="{ element }">
+                <template v-if="element.isVisible()">
                   <FeedItem :feed="element" @editFeed="editFeed" />
                 </template>
-              </draggable>
-            </template>
+              </template>
+            </draggable>
           </div>
         </template>
       </draggable>

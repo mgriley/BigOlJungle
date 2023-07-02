@@ -4,6 +4,8 @@ import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 
+import VueFeather from 'vue-feather';
+
 import MainFeed from './components/MainFeed.vue'
 import StarredView from './components/StarredView.vue'
 import HistoryView from './components/HistoryView.vue'
@@ -43,5 +45,6 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+app.component(VueFeather.name, VueFeather)
 
 app.mount('#app')

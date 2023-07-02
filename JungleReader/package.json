@@ -8,7 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "feather-icons": "^4.29.0",
     "vue": "^3.3.4",
+    "vue-feather": "^2.0.0",
     "vue-router": "^4.2.2",
     "vuedraggable": "^4.1.0"
   },
