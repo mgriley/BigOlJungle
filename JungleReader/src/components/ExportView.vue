@@ -1,11 +1,12 @@
 <script setup>
-import Reader from './components/Reader.vue'
+
 </script>
 
 <template>
-  <Reader /> 
+  <div class="ExportView">
+    <p>Export View</p>
+  </div>
 </template>
 
 <style scoped>
-
 </style>
