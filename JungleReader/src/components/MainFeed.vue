@@ -5,6 +5,7 @@ import draggable from 'vuedraggable'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
+import FeedItem from './FeedItem.vue'
 
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
@@ -68,10 +69,6 @@ function selectGroup(group) {
   gApp.feedReader.setSelectedItem(group);
 }
 
-function selectFeed(feed) {
-  gApp.feedReader.setSelectedItem(feed);
-}
-
 function editGroup(group, clickEvt) {
   groupToEdit.value = group;
   groupEditorModal.value.showModal(clickEvt);
@@ -107,10 +104,6 @@ function toggleExplodeGroup(group) {
   }
 }
 
-function toggleExpandFeed(feed) {
-  feed.expanded = !feed.expanded;
-}
-
 function openSettings() {
   // TODO
 }
@@ -128,35 +121,28 @@ function openSettings() {
       <!--<button class="SettingsButton" @click="openSettings">Settings</button>-->
     </div>
     <div class="FeedGroups">
-      <!--<div v-for="feedGroup in gApp.feedReader.groups" :id="feedGroup.id" class="FeedGroup">--!>
       <draggable class="FeedGroup" :list="gApp.feedReader.groups" group="groups" itemKey="id">
-        <div class="GroupControls">
-          <div class="GroupName TextButton" @click="toggleExpandGroup(feedGroup)">{{ feedGroup.name }}</div>
-          <div class="GroupButtons">
-            <button @click="toggleExpandGroup(feedGroup)">+/-</button>
-            <button @click="toggleExplodeGroup(feedGroup)">*</button>
-            <button @click="(evt) => editGroup(feedGroup, evt)">Edit</button>
-            <button @click="selectGroup(feedGroup)">Select</button>
-          </div>
-        </div>
-        <template v-if="feedGroup.expanded">
-          <div v-for="feed in feedGroup.feeds" :id="feed.id" class="Feed">
-            <div class="FeedControls">
-              <div class="FeedName TextButton" @click="toggleExpandFeed(feed)">{{ feed.name }}</div>
-              <div class="FeedButtons">
-                <button @click="toggleExpandFeed(feed)">+/-</button>
-                <button @click="(evt) => editFeed(feed, evt)">Edit</button>
-                <button @click="selectFeed(feed)">Select</button>
+        <template #item="{element}">
+          <div class="FeedGroupItem">
+            <div class="GroupControls">
+              <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
+              <div class="GroupButtons">
+                <button @click="toggleExpandGroup(element)">+/-</button>
+                <button @click="toggleExplodeGroup(element)">*</button>
+                <button @click="(evt) => editGroup(element, evt)">Edit</button>
+                <button @click="selectGroup(element)">Select</button>
               </div>
             </div>
-            <template v-if="feed.expanded">
-              <div v-for="link in feed.links" :id="link.id" class="Link">
-                <p>{{ link.name }}</p>
-              </div>
+            <template v-if="element.expanded">
+              <draggable class="FeedGroup" :list="element.feeds" group="feeds" itemKey="id">
+                <template #item="{ element }">
+                  <FeedItem :feed="element" @editFeed="editFeed" />
+                </template>
+              </draggable>
             </template>
           </div>
         </template>
-      </div>
+      </draggable>
     </div>
   </div>
   <BasicModal ref="groupEditorModal" :showCancel="false">
@@ -183,22 +169,6 @@ function openSettings() {
 
 .GroupControls {
   display: flex;
-}
-
-.Feed {
-  padding-left: 20px;
-}
-
-.FeedName {
-  margin-right: 20px;
-}
-
-.FeedControls {
-  display: flex;
-}
-
-.Link {
-  padding-left: 20px;
 }
 
 .SettingsButton {
