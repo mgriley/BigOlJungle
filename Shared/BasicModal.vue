@@ -1,8 +1,16 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 
-const props = defineProps(['options'])
-const emit = defineEmits(['choose'])
+/*const props = defineProps(['options'])*/
+
+const props = defineProps({
+  showDone: {
+    default: true,
+  },
+  showCancel: {
+    default: true,
+  }
+});
 
 let show = ref(false);
 let lastShowTime = 0;
@@ -28,11 +36,6 @@ function toggleModal(clickEvt) {
   }
 }
 
-function onSelectedOption(option) {
-  emit('choose', option);
-  closeModal();
-}
-
 defineExpose({
   showModal, closeModal, toggleModal
 })
@@ -45,9 +48,8 @@ onMounted(() => {
     if (show.value === true) {
       let curTime = Date.now() / 1000.0;
       if (!event.target.closest(".ModalSelector") &&
-        event.triggeredShow !== true &&
-        curTime - lastShowTime > 0.5) {
-        console.log("Hiding");
+          event.triggeredShow !== true &&
+        curTime - lastShowTime > 0.25) {
         show.value = false;
       }
     }
@@ -59,8 +61,10 @@ onMounted(() => {
 <template>
   <div v-if="show" class="ModalSelector modal-mask">
     <div class="modal-container">
-      <a v-for="option in options" href="#" @click="onSelectedOption(option)">{{ option.name }}</a>
-      <a class="CancelOption" href="#" @click="closeModal">Cancel</a>
+      <slot>Default Body</slot>
+
+      <button v-if="showCancel" @click="closeModal">Cancel</button>
+      <button v-if="showDone" @click="closeModal">Done</button>
     </div>
   </div>
 </template>

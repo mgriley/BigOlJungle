@@ -61,8 +61,21 @@ class FeedGroup {
 class FeedReader {
   constructor() {
     this.groups = reactive([])
-    this.selectedGroup = ref(null);
-    this.selectedFeed = ref(null);
+    this.selectedItem = ref(null);
+  }
+
+  makeDefaultGroup() {
+    let group = new FeedGroup();
+    group.name = "MyGroup";
+    this.addFeedGroup(group);
+  }
+
+  getSelectedItem() {
+    return this.selectedItem.value;
+  }
+
+  setSelectedItem(newItem) {
+    this.selectedItem.value = newItem;
   }
 
   addFeedGroup(feedGroup) {

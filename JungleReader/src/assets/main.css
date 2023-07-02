@@ -35,3 +35,16 @@ a,
   }
 }
 */
+
+/* For text you don't want to get highlighted when
+it gets clicked. Say if using for a button
+*/
+.NoSelect {
+  user-select: none;
+}
+
+.TextButton {
+  user-select: none;
+  cursor: pointer;
+}
+
