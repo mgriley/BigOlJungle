@@ -19,9 +19,13 @@ class Feed {
   constructor() {
     this.id = gApp.feedIdCtr++;
     this.name = "MyFeed";
+    this.parentGroup = null;
     this.links = []
     this.expanded = true
-    this.parentGroup = null;
+
+    this.type = "RSS";
+    this.url = "";
+    this.options = [];
   }
 
   removeFromParent() {

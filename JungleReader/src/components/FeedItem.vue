@@ -2,7 +2,6 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import TreeIcon from './TreeIcon.vue'
-import draggable from 'vuedraggable'
 
 const props = defineProps({
   feed: Object,

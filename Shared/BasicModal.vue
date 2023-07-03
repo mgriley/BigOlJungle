@@ -61,10 +61,14 @@ onMounted(() => {
 <template>
   <div v-if="show" class="ModalSelector modal-mask">
     <div class="modal-container">
-      <slot>Default Body</slot>
-
-      <button v-if="showCancel" @click="closeModal">Cancel</button>
-      <button v-if="showDone" @click="closeModal">Done</button>
+      <div class="Body">
+        <slot>Default Body</slot>
+      </div>
+      
+      <div class="Footer">
+        <button v-if="showCancel" @click="closeModal">Cancel</button>
+        <button v-if="showDone" @click="closeModal">Done</button>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +88,7 @@ onMounted(() => {
 }
 
 .modal-container {
+  padding: 0.75em 0.75em;
   position: absolute;
   z-index: 200;
   background-color: #f1f1f1;
@@ -93,6 +98,14 @@ onMounted(() => {
   /*width: 200px;*/
   margin: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+}
+
+.Body {
+  margin-bottom: 20px;
+}
+
+.Footer {
+  float: right;
 }
 
 /*

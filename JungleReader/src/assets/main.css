@@ -54,6 +54,10 @@ it gets clicked. Say if using for a button
   cursor: pointer;
 }
 
+.Block {
+  display: block;
+}
+
 /*
 .DraggedItem {
   background-color: green;
