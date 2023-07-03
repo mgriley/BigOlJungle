@@ -15,3 +15,9 @@ export function removeElem(array, elem) {
   }
 }
 
+export function extendArray(array, arrB) {
+  for (const elem of arrB) {
+    array.push(elem);
+  }
+}
+

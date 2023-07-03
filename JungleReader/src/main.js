@@ -2,6 +2,7 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
+import VueSelect from 'vue-select'
 import App from './App.vue'
 
 import VueFeather from 'vue-feather';
@@ -46,5 +47,6 @@ const router = createRouter({
 const app = createApp(App)
 app.use(router)
 app.component(VueFeather.name, VueFeather)
+app.component("v-select", VueSelect)
 
 app.mount('#app')

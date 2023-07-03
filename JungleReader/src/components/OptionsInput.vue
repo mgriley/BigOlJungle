@@ -19,8 +19,8 @@ function addOption() {
 <template>
   <div>
     <div v-for="(element, index) in options" class="OptionsEntry">
-      <input v-model="element.key" class="Block">
-      <input v-model="element.value" class="Block">
+      <input v-model="element.key" class="Block KeyInput">
+      <input v-model="element.value" class="Block ValueInput">
       <button @click="deleteOption(index)">X</button>
     </div>
     <button @click="addOption">Add</button>
@@ -32,5 +32,13 @@ function addOption() {
   display: flex;
   gap: 5px;
   margin-bottom: 5px;
+}
+
+.KeyInput {
+  width: 150px;
+}
+
+.ValueInput {
+  width: 200px;
 }
 </style>

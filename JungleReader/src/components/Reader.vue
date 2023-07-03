@@ -21,7 +21,6 @@ function launchTutorial() {
           <router-link to="/history">History</router-link>
         </div>
         <div class="Section">
-          <router-link to="/plugins">Plugins</router-link>
           <router-link to="/import">Import Config</router-link>
           <router-link to="/export">Export Config</router-link>
         </div>

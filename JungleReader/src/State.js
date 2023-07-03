@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem } from './Utils.js'
+import { registerCorePlugin } from './CorePlugins.js'
 
 var gApp = null;
 
@@ -43,6 +44,11 @@ class Feed {
   isVisible() {
     return this.parentGroup !== null ? this.parentGroup.expanded : false;
   }
+
+  moveToGroup(newGroup) {
+    this.removeFromParent();
+    newGroup.addFeed(this);
+  }
 }
 
 class FeedGroup {
@@ -67,14 +73,20 @@ class FeedGroup {
     removeElem(this.feeds, feed);
     feed.parentGroup = null;
   }
+}
 
-  moveFeed(feed, newIndex) {
+/*
+class Plugin {
+  constructor() {
+    this.name = "MyPlugin";
+    this.feedPlugins = []
   }
 }
+*/
 
 class FeedReader {
   constructor() {
-    this.groups = reactive([])
+    this.groups = reactive([]);
     this.selectedItem = ref(null);
   }
 
@@ -82,6 +94,27 @@ class FeedReader {
     let group = new FeedGroup();
     group.name = "MyGroup";
     this.addFeedGroup(group);
+  }
+
+  getGroupWithId(groupId) {
+    for (const group of this.groups) {
+      if (group.id == groupId) {
+        return group;
+      }
+    }
+    return null;
+  }
+
+  getFeedsOfType(feedType) {
+    let feeds = []
+    for (const group of this.groups) {
+      for (const feed of group.feeds) {
+        if (feed.type == feedType) {
+          feeds.push(feed);
+        }
+      }
+    }
+    return feeds;
   }
 
   getSelectedItem() {
@@ -103,9 +136,6 @@ class FeedReader {
   removeFeedGroup(feedGroup) {
     removeElem(this.groups, feedGroup);
   }
-
-  moveFeedGroup(feedGroup, newIndex) {
-  }
 }
 
 class JungleReader {
@@ -117,6 +147,25 @@ class JungleReader {
     this.feedReader = new FeedReader();
     this.starredLinks = [];
     this.linkHistory = [];
+
+    // this.plugins = reactive([])
+    this.feedPlugins = reactive([])
+    // this.feedTypes = reactive(['RSS', 'Reminder', 'YouTube'])
+  }
+
+  updateFeeds() {
+    console.log("updatingFeeds");
+    for (const feedPlugin of this.feedPlugins) {
+      let feeds = this.feedReader.getFeedsOfType(feedPlugin.name);  
+      feedPlugin.updateFeeds(feeds);
+    }
+  }
+
+  run() {
+    let app = this;
+    setInterval(function() {
+      app.updateFeeds();
+    }, 10000);
   }
 
   /*
@@ -128,8 +177,11 @@ class JungleReader {
   */
 };
 
-
 gApp = new JungleReader();
+
+registerCorePlugin(gApp);
+
+gApp.run();
 
 export {
   gApp,
