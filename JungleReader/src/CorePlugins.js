@@ -24,8 +24,7 @@ class RSSFeed extends FeedPlugin {
 
     this.parser.parseURL(
       "https://cors-anywhere.herokuapp.com/"+
-      "http://rss.cnn.com/rss/cnn_topstories.rss",
-      // "https://www.to-rss.xyz/wikipedia/current_events/",
+      "https://www.to-rss.xyz/wikipedia/current_events/",
       (err, feed) => {
       if (err) {
         throw err;

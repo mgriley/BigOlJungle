@@ -46,7 +46,7 @@ onMounted(() => {
       let curTime = Date.now() / 1000.0;
       if (!event.target.closest(".ModalSelector") &&
         event.triggeredShow !== true &&
-        curTime - lastShowTime > 0.5) {
+        curTime - lastShowTime > 0.25) {
         console.log("Hiding");
         show.value = false;
       }
