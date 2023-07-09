@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FeedGroup, Feed } from '../State.js'
+import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import TreeIcon from './TreeIcon.vue'
 
 const props = defineProps({
@@ -32,7 +32,13 @@ function selectFeed(feed) {
     </div>
     <template v-if="feed.expanded">
       <div v-for="link in feed.links" :id="link.id" class="Link">
-        <p>{{ link.name }}</p>
+        <p class="LinkElem">
+          <span class="Bullet">&#8226;</span>
+          <a :href="link.link" target="_blank">
+            {{ link.getStringDesc() }}
+          </a>
+          <span class="DaysAgo">{{ "(" + getTimeAgoStr(new Date(link.pubDate)) + ")" }}</span>
+        </p>
       </div>
     </template>
   </div>
@@ -53,6 +59,23 @@ function selectFeed(feed) {
 
 .Link {
   padding-left: 20px;
+}
+
+.LinkElem {
+  /*
+  max-width: 1000px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  */
+}
+
+.Bullet {
+  margin-right: 10px;
+}
+
+.DaysAgo {
+  margin-left: 10px;
 }
 
 </style>

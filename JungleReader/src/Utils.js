@@ -21,3 +21,11 @@ export function extendArray(array, arrB) {
   }
 }
 
+export function clearArray(array) {
+  array.length = 0;
+}
+
+export function replaceArray(array, newValues) {
+  array.splice(0, array.length, ...newValues);
+}
+

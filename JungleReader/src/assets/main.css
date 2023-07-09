@@ -1,5 +1,5 @@
 @import './base.css';
-@import './reader.css';
+/*@import './reader.css';*/
 
 :root {
   --color-link-hover: hsla(160, 100%, 37%, 0.2);

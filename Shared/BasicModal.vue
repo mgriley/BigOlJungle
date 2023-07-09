@@ -47,7 +47,7 @@ onMounted(() => {
     // that opened the modal from immediately closing it.
     if (show.value === true) {
       let curTime = Date.now() / 1000.0;
-      if (!event.target.closest(".ModalSelector") &&
+      if (!event.target.closest(".modal-container") &&
           event.triggeredShow !== true &&
         curTime - lastShowTime > 0.25) {
         show.value = false;
@@ -75,7 +75,6 @@ onMounted(() => {
 
 <style scoped>
 .modal-mask {
-/*
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -84,13 +83,10 @@ onMounted(() => {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-*/
 }
 
 .modal-container {
   padding: 0.75em 0.75em;
-  position: absolute;
-  z-index: 200;
   background-color: #f1f1f1;
   min-width: 160px;
   /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/

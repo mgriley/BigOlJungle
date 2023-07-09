@@ -5,8 +5,9 @@ import { extendArray } from './Utils.js'
 // import Parser from 'rss-parser'
 
 class RSSFeed extends FeedPlugin {
-  constructor() {
+  constructor(app) {
     super("RSS");
+    this.app = app;
     this.urlPlaceholderHelp = "Ex: https://www.someurl.com/feed.rss";
     this.quickHelpDocs = "Add an RSS feed with its URL.";
     this.parser = new RSSParser();
@@ -18,28 +19,32 @@ class RSSFeed extends FeedPlugin {
     }
   }
 
-  updateFeed(feed) {
-    console.log("Updating: ");  
-    console.log(feed);
+  dumpRSSResult(res) {
+    console.log(res.title);
+    res.items.forEach(function(entry) {
+      console.log(entry.title + ':' + entry.link);
+    })
+  }
 
-    this.parser.parseURL(
-      "https://cors-anywhere.herokuapp.com/"+
-      "https://www.to-rss.xyz/wikipedia/current_events/",
-      (err, feed) => {
+  updateFeed(feed) {
+    const url = this.app.makeCorsProxyUrl(
+        "https://www.to-rss.xyz/wikipedia/current_events/").toString();
+    this.parser.parseURL(url, (err, res) => {
       if (err) {
-        throw err;
+        console.log("Error parsing RSS URL: " + url);
+        feed.isError = true;
+        feed.errorMsg = "Error parsing RSS URL:\n" + err;
+        return;
       }
-      console.log(feed.title);
-      feed.items.forEach(function(entry) {
-        console.log(entry.title + ':' + entry.link);
-      })
+      feed.isError = false;
+      feed.updateLinks(res);
     })
   }
 }
 
 export function registerCorePlugin(app) {
   let feedPlugins = [
-    new RSSFeed(),
+    new RSSFeed(app),
   ];
   extendArray(app.feedPlugins, feedPlugins);
 }
