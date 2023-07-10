@@ -25,6 +25,10 @@ function getValue(obj) {
   }
 }
 
+let curValue = computed(() => {
+  return getValue(props.value);
+})
+
 function onChange(changeEvt) {
   let chosenValue = changeEvt.target.value;
   //console.log("NewVal: "+chosenValue);
@@ -43,7 +47,7 @@ function onChange(changeEvt) {
 
 <template>
   <div class="BasicSelector">
-    <select :model="getValue(value)" @change="onChange">
+    <select :model="curValue" @change="onChange">
       <option v-for="option in options" :key="getValue(option)" :value="getValue(option)">
         {{ getLabel(option) }}
       </option>

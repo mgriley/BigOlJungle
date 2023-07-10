@@ -5,6 +5,10 @@ import { registerCorePlugin } from './CorePlugins.js'
 // LocalStorage keys
 const kAppStateKey = "appState";
 
+// TODO - increase update interval for prod
+const kFeedUpdateIntervalSecs = 5;
+const kAutoSaveIntervalSecs = 10;
+
 var gApp = null;
 
 function getTimeAgoStr(date)  {
@@ -31,9 +35,8 @@ function getTimeAgoStr(date)  {
 
 class Link {
   constructor() {
-    // TODO
     this.id = gApp.linkIdCtr++;
-    this.title = "MyLink";
+    this.title = "";
     this.link = "";
     this.description = "";
     this.pubDate = null;
@@ -76,9 +79,12 @@ class Link {
       return this.title + ": " + this.description;
     } else if (this.title) {
       return this.title;
-    } else {
+    } else if (this.description) {
       return this.description;
+    } else if (this.link) {
+      return this.link
     }
+    return "Link";
   }
 
   setStarred(newStarred) {
@@ -108,8 +114,10 @@ class Feed {
     this.expanded = true
 
     this.type = "RSS";
+    // This is the feed URL/id
     this.url = "";
     this.options = [];
+    this.mainSiteUrl = "";
 
     this.isError = false;
     this.errorMsg = null;
@@ -124,6 +132,7 @@ class Feed {
       type: this.type,
       url: this.url,
       options: copyOptions(this.options),
+      mainSiteUrl: this.mainSiteUrl,
       isError: this.isError,
       errorMsg: this.errorMsg,
     }
@@ -141,6 +150,9 @@ class Feed {
     this.type = obj.type;
     this.url = obj.url;
     this.options = copyOptions(obj.options);
+    if (obj.mainSiteUrl) {
+      this.mainSiteUrl = obj.mainSiteUrl;
+    }
     this.isError = obj.isError;
     this.errorMsg = obj.errorMsg;
   }
@@ -162,9 +174,14 @@ class Feed {
     for (const linkData of newLinksData.items) {
       let newLink = new Link();
       newLink.title = linkData.title;
+      newLink.description = linkData.description;
       newLink.link = linkData.link;
       newLink.pubDate = linkData.pubDate;
       this.links.push(newLink);
+    }
+
+    if (newLinksData.link) {
+      this.mainSiteUrl = newLinksData.link;
     }
 
     console.log("New links:");
@@ -287,8 +304,6 @@ class FeedReader {
   }
 }
 
-const kAutoSaveIntervalSecs = 10;
-
 class JungleReader {
   constructor() {
     this.feedGroupIdCtr = 1;
@@ -345,7 +360,7 @@ class JungleReader {
     if (curTimeSecs() - this.lastAutoSaveTime > kAutoSaveIntervalSecs) {
       console.log("Running AutoSave");
       let stateData = this.writeStateToJson();
-      console.log(stateData);
+      //console.log(stateData);
 
       // TODO - only write if have the most reason of the data.
       // This way, should work even if have multiple tabs open.
@@ -386,7 +401,7 @@ class JungleReader {
       }
       console.log("Updating feeds");
       app.updateFeeds();
-    }, 10*1000);
+    }, kFeedUpdateIntervalSecs*1000);
     setInterval(function() {
       if (!document.hasFocus()) {
         return;

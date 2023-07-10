@@ -1,4 +1,32 @@
 <script setup>
+import { ref, onMounted, computed } from 'vue'
+
+let persistentStorageOn = ref(false);
+
+/*
+See:
+https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist
+https://web.dev/persistent-storage/
+*/
+function enablePersistentStorage() {
+	if (navigator.storage && navigator.storage.persist) {
+  	navigator.storage.persist().then((persistent) => {
+      persistentStorageOn.value = persistent;
+		});
+	} else {
+    persistentStorageOn.value = false;
+  }
+}
+
+onMounted(() => {
+  if (navigator.storage && navigator.storage.persist) {
+    navigator.storage.persisted().then((persistent) => {
+      persistentStorageOn.value = persistent;
+		});
+  } else {
+    persistentStorageOn.value = false;
+  }
+})
 
 </script>
 
@@ -20,6 +48,14 @@
 
     To get started, click Tutorial.
     </p>
+
+    <div>
+      <p>ToucanReader stores your config in your browser's storage. To make sure the browser doesn't
+        automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
+        your site data/cache will delete this data, so please export your config sometimes to back it up.</p>
+      <button v-if="!persistentStorageOn" @click="enablePersistentStorage">Turn On</button>
+      <p>Persistent Storage: {{ persistentStorageOn }}</p>
+    </div>
 
     <h3>Plugins:</h3>
   </div>

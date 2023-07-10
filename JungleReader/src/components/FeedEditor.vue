@@ -23,6 +23,12 @@ let supportedFeedTypes = computed(() => {
   return types;
 })
 
+function onChangeFeedType(feed, newType) {
+  console.log("Cur type: " + feed.type + ". New feed type: " + newType);
+  feed.type = newType;
+  // console.log("Feed type: " + feed.type);
+}
+
 </script>
 
 <template>
@@ -30,7 +36,8 @@ let supportedFeedTypes = computed(() => {
     <GroupSelector :currentGroup="feed.parentGroup" @change="changeGroup"/>
     <input v-model="feed.name" placeholder="Feed name" class="Block WideInput">
   </div>
-  <BasicSelector :value="feed.type" :options="supportedFeedTypes" />
+  <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
+  <!-- <p>{{ feed.type }}</p> -->
   <input v-model="feed.url" placeholder="Ex: https://www.someurl.com/feed.rss"
     class="Block WideInput">
 

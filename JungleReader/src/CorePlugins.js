@@ -12,6 +12,11 @@ function isValidUrl(urlString) {
   }
 }
 
+function cleanUrl(link) {
+  // Att https if no scheme was given
+  return (link.indexOf('://') === -1) ? 'https://' + link : link;
+}
+
 class RSSFeed extends FeedPlugin {
   constructor(app) {
     super("RSS");
@@ -35,6 +40,13 @@ class RSSFeed extends FeedPlugin {
   }
 
   updateFromRSS(feed, rssUrl) {
+    rssUrl = cleanUrl(rssUrl);
+    if (!isValidUrl(rssUrl)) {
+      feed.isError = true;
+      feed.errorMsg = `Invalid URL: "${feed.url}"`;
+      console.log(`Invalid url for feed ${feed.name}: ${feed.errorMsg}`);
+      return;
+    }
     const url = this.app.makeCorsProxyUrl(rssUrl).toString();
     this.parser.parseURL(url, (err, res) => {
       if (err) {
@@ -49,19 +61,35 @@ class RSSFeed extends FeedPlugin {
   }
 
   updateFeed(feed) {
+    console.log("Updating feed: " + feed.name);
     //const testUrl = "https://www.to-rss.xyz/wikipedia/current_events/"
-    if (isValidUrl(feed.url)) {
-      this.updateFromRSS(feed, feed.url)
-    } else {
-      feed.isError = true;
-      feed.errorMsg = `Invalid URL: "${feed.url}"`;
-    }
+    this.updateFromRSS(feed, this.transformUrlToRss(feed.url));
+  }
+
+  // May override in subclasses
+  transformUrlToRss(feedUrl) {
+    return feedUrl;
+  }
+}
+
+class MastodonFeed extends RSSFeed {
+  constructor(app) {
+    super(app);
+    this.name = "Mastodon";
+    this.urlPlaceholderHelp = "Ex: https://mastodon.social/@someuser";
+    this.quickHelpDocs = "Follow a Mastodon feed.";
+  }
+
+  transformUrlToRss(feedUrl) {
+    // See: https://mastodon.social/@brownpau/100523448408374430
+    return feedUrl + ".rss";
   }
 }
 
 export function registerCorePlugin(app) {
   let feedPlugins = [
     new RSSFeed(app),
+    new MastodonFeed(app),
   ];
   extendArray(app.feedPlugins, feedPlugins);
 }

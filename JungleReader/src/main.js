@@ -14,6 +14,7 @@ import PluginsView from './components/PluginsView.vue'
 import ImportView from './components/ImportView.vue'
 import ExportView from './components/ExportView.vue'
 import Settings from './components/Settings.vue'
+import AboutView from './components/AboutView.vue'
 
 const routes = [
   {
@@ -36,6 +37,9 @@ const routes = [
   },
   {
     path: '/settings', component: Settings
+  },
+  {
+    path: '/about', component: AboutView
   }
 ]
 
