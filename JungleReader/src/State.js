@@ -1,6 +1,9 @@
 import { reactive, ref } from 'vue'
-import { addElem, removeElem, clearArray, replaceArray } from './Utils.js'
+import { addElem, removeElem, clearArray, replaceArray, curTimeSecs } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
+
+// LocalStorage keys
+const kAppStateKey = "appState";
 
 var gApp = null;
 
@@ -36,6 +39,24 @@ class Link {
     this.pubDate = null;
   }
 
+  writeToJson() {
+    return {
+      id: this.id,
+      link: this.link,
+      title: this.title,
+      description: this.description,
+      pubDate: this.pubDate,
+    }
+  }
+
+  readFromJson(obj) {
+    this.id = obj.id;
+    this.link = obj.link;
+    this.title = obj.title;
+    this.description = obj.description;
+    this.pubDate = obj.pubDate;
+  }
+
   getStringId() {
     return this.url;
   }
@@ -69,6 +90,15 @@ class Link {
   }
 }
 
+function copyOptions(options) {
+  return options.map((option) => {
+    return {
+      key: option.key,
+      value: option.value,
+    }
+  })
+}
+
 class Feed {
   constructor() {
     this.id = gApp.feedIdCtr++;
@@ -83,6 +113,36 @@ class Feed {
 
     this.isError = false;
     this.errorMsg = null;
+  }
+
+  writeToJson() {
+    return {
+      id: this.id,
+      name: this.name,
+      links: this.links.map((link) => link.writeToJson()),
+      expanded: this.expanded,
+      type: this.type,
+      url: this.url,
+      options: copyOptions(this.options),
+      isError: this.isError,
+      errorMsg: this.errorMsg,
+    }
+  }
+
+  readFromJson(obj) {
+    this.id = obj.id;
+    this.name = obj.name;
+    this.links = obj.links.map((linkObj) => {
+      let link = new Link();
+      link.readFromJson(linkObj)
+      return link
+    })
+    this.expanded = obj.expanded;
+    this.type = obj.type;
+    this.url = obj.url;
+    this.options = copyOptions(obj.options);
+    this.isError = obj.isError;
+    this.errorMsg = obj.errorMsg;
   }
 
   removeFromParent() {
@@ -125,14 +185,6 @@ class Feed {
     this.removeFromParent();
     newGroup.addFeed(this);
   }
-
-  writeToJson() {
-    // TODO
-  }
-
-  readFromJson(obj) {
-    // TODO
-  }
 }
 
 class FeedGroup {
@@ -141,6 +193,28 @@ class FeedGroup {
     this.name = "MyGroup";
     this.feeds = []
     this.expanded = true
+  }
+
+  writeToJson() {
+    return {
+      id: this.id,
+      name: this.name,
+      expanded: this.expanded,
+      feeds: this.feeds.map((feed) => feed.writeToJson())
+    }
+  }
+
+  readFromJson(obj) {
+    this.id = obj["id"]
+    this.name = obj["name"]
+    this.expanded = obj["expanded"]
+    let thisGroup = this;
+    this.feeds = obj["feeds"].map((feedObj) => {
+      let feed = new Feed()
+      feed.readFromJson(feedObj)
+      feed.parentGroup = thisGroup;
+      return feed;
+    })
   }
 
   addFeed(feed) {
@@ -157,35 +231,7 @@ class FeedGroup {
     removeElem(this.feeds, feed);
     feed.parentGroup = null;
   }
-
-  writeToJson() {
-    return {
-      id: this.id,
-      name: this.name,
-      expanded: this.expanded,
-      feeds: this.feeds.map((feed) => feed.writeToJson())
-    }
-  }
-
-  readFromJson(obj) {
-    this.id = obj["id"]
-    this.name = obj["name"]
-    this.expanded = obj["expanded"]
-    this.feeds = obj["feeds"].map((feedObj) => {
-      let feed = new Feed()
-      feed.readFromJson(feedObj)
-    })
-  }
 }
-
-/*
-class Plugin {
-  constructor() {
-    this.name = "MyPlugin";
-    this.feedPlugins = []
-  }
-}
-*/
 
 class FeedReader {
   constructor() {
@@ -241,6 +287,8 @@ class FeedReader {
   }
 }
 
+const kAutoSaveIntervalSecs = 10;
+
 class JungleReader {
   constructor() {
     this.feedGroupIdCtr = 1;
@@ -254,35 +302,8 @@ class JungleReader {
     // this.plugins = reactive([])
     this.feedPlugins = reactive([])
     // this.feedTypes = reactive(['RSS', 'Reminder', 'YouTube'])
-  }
 
-  updateFeeds() {
-    console.log("updatingFeeds");
-    for (const feedPlugin of this.feedPlugins) {
-      let feeds = this.feedReader.getFeedsOfType(feedPlugin.name);  
-      feedPlugin.updateFeeds(feeds);
-    }
-  }
-
-  run() {
-    let app = this;
-    setInterval(function() {
-      // Note: only update feeds when tab is in foreground
-      if (document.hasFocus()) {
-        console.log("Updating feeds");
-        app.updateFeeds();
-      }
-    }, 10000);
-  }
-
-  getCorsProxyUrl() {
-    return "http://127.0.0.1:8787/corsproxy/";
-  }
-
-  makeCorsProxyUrl(targetUrl) {
-    const url = new URL("http://127.0.0.1:8787/corsproxy/");
-    url.searchParams.set("apiurl", targetUrl);
-    return url;
+    this.lastAutoSaveTime = curTimeSecs();
   }
 
   writeStateToJson() {
@@ -294,7 +315,7 @@ class JungleReader {
       groups: this.feedReader.groups.map((group) => group.writeToJson()),
     }
     
-    // TODO - starred and history
+    // TODO - starred, history, custom plugins
 
     return jsonObj;
   }
@@ -304,30 +325,88 @@ class JungleReader {
       let groups = jsonObj["groups"].map((groupObj) => {
         let group = new FeedGroup();
         group.readFromJson(groupObj)
+        return group;
       })
       replaceArray(this.feedReader.groups, groups)
     }
-    console.assert("feedGroupIdCtr" in jsonObj)
-    console.assert("feedIdCtr" in jsonObj);
-    console.assert("linkIdCtr" in jsonObj);
     this.feedGroupIdCtr = jsonObj["feedGroupIdCtr"]
     this.feedIdCtr = jsonObj["feedIdCtr"]
     this.linkIdCtr = jsonObj["linkIdCtr"]
   }
 
-  /*
-  openSite() {
+  updateFeeds() {
+    for (const feedPlugin of this.feedPlugins) {
+      let feeds = this.feedReader.getFeedsOfType(feedPlugin.name);  
+      feedPlugin.updateFeeds(feeds);
+    }
   }
 
-  importSite() {
+  tryAutoSave() {
+    if (curTimeSecs() - this.lastAutoSaveTime > kAutoSaveIntervalSecs) {
+      console.log("Running AutoSave");
+      let stateData = this.writeStateToJson();
+      console.log(stateData);
+
+      // TODO - only write if have the most reason of the data.
+      // This way, should work even if have multiple tabs open.
+      localStorage.setItem(kAppStateKey, JSON.stringify(stateData));
+
+      this.lastAutoSaveTime = curTimeSecs();
+    }
   }
-  */
+
+  readStateFromStorage() {
+    let appState = localStorage.getItem(kAppStateKey);
+    if (appState) {
+      console.log("Loading from existing data");
+      this.readStateFromJson(JSON.parse(appState));
+    }
+  }
+
+  run() {
+    let app = this;
+
+    this.readStateFromStorage()
+
+    // Note: this is called when localStorage is modified from another document with this
+    // domain (say, another tab)
+    window.addEventListener('storage', function(evt) {
+      if (evt.key == kAppStateKey) {
+        console.log("Updated storage from other page.");
+        app.readStateFromStorage();
+      }
+    });
+
+    registerCorePlugin(this);
+
+    setInterval(function() {
+      // Note: only update feeds when tab is in foreground
+      if (!document.hasFocus()) {
+        return;
+      }
+      console.log("Updating feeds");
+      app.updateFeeds();
+    }, 10*1000);
+    setInterval(function() {
+      if (!document.hasFocus()) {
+        return;
+      }
+      app.tryAutoSave();
+    }, 1000);
+  }
+
+  getCorsProxyUrl() {
+    return "http://127.0.0.1:8787/corsproxy/";
+  }
+
+  makeCorsProxyUrl(targetUrl) {
+    const url = new URL("http://127.0.0.1:8787/corsproxy/");
+    url.searchParams.set("apiurl", targetUrl);
+    return url;
+  }
 };
 
 gApp = new JungleReader();
-
-registerCorePlugin(gApp);
-
 gApp.run();
 
 export {

@@ -29,3 +29,7 @@ export function replaceArray(array, newValues) {
   array.splice(0, array.length, ...newValues);
 }
 
+export function curTimeSecs() {
+  return (new Date()).getTime() / 1000.0;
+}
+

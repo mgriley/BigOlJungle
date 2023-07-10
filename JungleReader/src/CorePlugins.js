@@ -4,6 +4,14 @@ import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 // import Parser from 'rss-parser'
 
+function isValidUrl(urlString) {
+  try {
+    return Boolean(new URL(urlString));
+  } catch (error) {
+    return false;
+  }
+}
+
 class RSSFeed extends FeedPlugin {
   constructor(app) {
     super("RSS");
@@ -26,9 +34,8 @@ class RSSFeed extends FeedPlugin {
     })
   }
 
-  updateFeed(feed) {
-    const url = this.app.makeCorsProxyUrl(
-        "https://www.to-rss.xyz/wikipedia/current_events/").toString();
+  updateFromRSS(feed, rssUrl) {
+    const url = this.app.makeCorsProxyUrl(rssUrl).toString();
     this.parser.parseURL(url, (err, res) => {
       if (err) {
         console.log("Error parsing RSS URL: " + url);
@@ -39,6 +46,16 @@ class RSSFeed extends FeedPlugin {
       feed.isError = false;
       feed.updateLinks(res);
     })
+  }
+
+  updateFeed(feed) {
+    //const testUrl = "https://www.to-rss.xyz/wikipedia/current_events/"
+    if (isValidUrl(feed.url)) {
+      this.updateFromRSS(feed, feed.url)
+    } else {
+      feed.isError = true;
+      feed.errorMsg = `Invalid URL: "${feed.url}"`;
+    }
   }
 }
 
