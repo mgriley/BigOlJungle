@@ -33,3 +33,7 @@ export function curTimeSecs() {
   return (new Date()).getTime() / 1000.0;
 }
 
+export function prettyJson(obj) {
+  return JSON.stringify(obj, null, 2);
+}
+

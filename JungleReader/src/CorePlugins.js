@@ -56,6 +56,7 @@ class RSSFeed extends FeedPlugin {
         return;
       }
       feed.isError = false;
+      this.transformRssResult(res)
       feed.updateLinks(res);
     })
   }
@@ -66,9 +67,13 @@ class RSSFeed extends FeedPlugin {
     this.updateFromRSS(feed, this.transformUrlToRss(feed.url));
   }
 
-  // May override in subclasses
+  // May override in subclass
   transformUrlToRss(feedUrl) {
     return feedUrl;
+  }
+
+  // May override in subclass
+  transformRssResult(rssResult) {
   }
 }
 
@@ -83,6 +88,16 @@ class MastodonFeed extends RSSFeed {
   transformUrlToRss(feedUrl) {
     // See: https://mastodon.social/@brownpau/100523448408374430
     return feedUrl + ".rss";
+  }
+
+  transformRssResult(rssRes) {
+    for (const item of rssRes.items) {
+      if (!item.title && !item.description) {
+        if (item.contentSnippet) {
+          item.description = item.contentSnippet;
+        }
+      }
+    }
   }
 }
 

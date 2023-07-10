@@ -34,15 +34,14 @@ function selectFeed(feed) {
     </div>
     <template v-if="feed.expanded">
       <template v-if="!feed.isError">
-        <div v-for="link in feed.links" :id="link.id" class="Link">
-          <p class="LinkElem">
-            <span class="Bullet">&#8226;</span>
+        <ul v-for="link in feed.links" :id="link.id" class="Link">
+          <li class="LinkElem">
             <a :href="link.link" target="_blank">
-              {{ link.getStringDesc() }}
+              {{ link.getTrimmedStringDesc() }}
             </a>
             <span class="DaysAgo">{{ "(" + getTimeAgoStr(new Date(link.pubDate)) + ")" }}</span>
-          </p>
-        </div>
+          </li>
+        </ul>
       </template>
       <template v-else>
         <div class="Link ErrorText">
@@ -67,7 +66,8 @@ function selectFeed(feed) {
 }
 
 .Link {
-  padding-left: 20px;
+  /* padding-left: 30px; */
+  /* margin-bottom: 1em; */
 }
 
 .ErrorIndicator {
@@ -85,6 +85,7 @@ function selectFeed(feed) {
   white-space: nowrap;
   text-overflow: ellipsis;
   */
+  /* line-height: 1; */
 }
 
 .Bullet {

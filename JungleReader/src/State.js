@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue'
-import { addElem, removeElem, clearArray, replaceArray, curTimeSecs } from './Utils.js'
+import { addElem, removeElem, clearArray,
+  replaceArray, curTimeSecs, prettyJson } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 
 // LocalStorage keys
@@ -64,8 +65,8 @@ class Link {
     return this.url;
   }
 
-  getStringDesc() {
-    let desc = this.getFullStringDesc()
+  getTrimmedStringDesc() {
+    let desc = this.getStringDesc()
     if (desc.length > 200) {
       desc = desc.substring(0, 200);
       desc += "...";
@@ -73,7 +74,7 @@ class Link {
     return desc;
   }
 
-  getFullStringDesc() {
+  getStringDesc() {
     // Note: only one of title or description is required in RSS
     if (this.title && this.description) {
       return this.title + ": " + this.description;
@@ -170,6 +171,7 @@ class Feed {
     }
     // TODO - preserve existing links if possible
 
+    console.log("NewLinksData: " + prettyJson(newLinksData));
     this.links = []
     for (const linkData of newLinksData.items) {
       let newLink = new Link();
@@ -360,7 +362,7 @@ class JungleReader {
     if (curTimeSecs() - this.lastAutoSaveTime > kAutoSaveIntervalSecs) {
       console.log("Running AutoSave");
       let stateData = this.writeStateToJson();
-      //console.log(stateData);
+      console.log(prettyJson(stateData));
 
       // TODO - only write if have the most reason of the data.
       // This way, should work even if have multiple tabs open.
