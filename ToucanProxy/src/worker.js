@@ -34,6 +34,23 @@ async function handleProxyRequest(request) {
   let apiRequest = new Request(apiUrl, request);
   apiRequest.headers.set("Origin", apiUrl.origin);
   let response = await fetch(apiRequest);
+
+  // Handle a single redirect
+  if (!response.ok && (300 <= response.status && response.status < 399)) {
+    //console.log("Response url: " + response.url);
+    // let newUrl = response.headers.get("Location");
+    let newUrl = response.url;
+    console.log("Handling redirect. Orig url: " + apiUrlStr + " New url: " + newUrl);
+    response = await fetch(newUrl, request);
+  }
+  if (!response.ok) {
+    console.log("Response error: " + response.statusText);
+    return new Response(null, {
+      status: 400,
+      statusText: `Server responded with error (${apiUrlStr}): ${response.status} ${response.statusText}`,
+    });
+  }
+
   // Recreate the response so you can modify the headers
   response = new Response(response.body, response);
   // TODO - restrict reqOrigin properly
@@ -73,7 +90,7 @@ async function handleOptionsRequest(request) {
 }
 
 function makeTestResponse(msg) {
-  return new Reponse("<p>"+msg+"</p>", {
+  return new Response("<p>"+msg+"</p>", {
     headers: {
       "content-type": "text/html;charset=UTF-8",
     },
@@ -101,12 +118,14 @@ async function handleRequest(request) {
   if (url.pathname.startsWith(PROXY_ENDPOINT)) {
     if (request.method === "OPTIONS") {
       // Handle CORS preflight requests
+      console.log("Handling preflight req");
       return await handleOptionsRequest(request);
     } else if (
       request.method === "GET" ||
       request.method === "HEAD" ||
       request.method === "POST"
     ) {
+      console.log("Handling proxy request");
       return await handleProxyRequest(request);
     } else {
       return new Response(null, {

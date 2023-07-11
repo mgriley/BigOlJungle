@@ -171,7 +171,7 @@ class Feed {
     }
     // TODO - preserve existing links if possible
 
-    console.log("NewLinksData: " + prettyJson(newLinksData));
+    // console.log("NewLinksData: " + prettyJson(newLinksData));
     this.links = []
     for (const linkData of newLinksData.items) {
       let newLink = new Link();
@@ -362,7 +362,7 @@ class JungleReader {
     if (curTimeSecs() - this.lastAutoSaveTime > kAutoSaveIntervalSecs) {
       console.log("Running AutoSave");
       let stateData = this.writeStateToJson();
-      console.log(prettyJson(stateData));
+      //console.log(prettyJson(stateData));
 
       // TODO - only write if have the most reason of the data.
       // This way, should work even if have multiple tabs open.
