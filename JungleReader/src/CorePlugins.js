@@ -1,5 +1,5 @@
 import { reactive, ref } from 'vue'
-import { addElem, removeElem } from './Utils.js'
+import { addElem, removeElem, hashString } from './Utils.js'
 import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 // import Parser from 'rss-parser'
@@ -172,12 +172,69 @@ class RedditFeed extends RSSFeed {
   }
 }
 
+class Bookmark extends RSSFeed {
+  constructor(app) {
+    super(app)
+    this.name = "Bookmark";
+    this.urlPlaceholderHelp = "Ex: https://www.somesite.com";
+    this.quickHelpDocs = "Add any website address. We cannot generate a full feed but will let you know if the page updated."
+  }
+
+  updateFeeds(feeds) {
+    for (const feed of feeds) {
+      this.updateFeed(feed);
+    }
+  }
+
+  updateFeed(feed) {
+    // We must extract the RSS link from the html of the link to the homepage
+    console.log("Updating feed: " + feed.name + ", " + feed.url);
+
+    function errorOut(errorMsg) {
+      feed.isError = true;
+      feed.errorMsg = errorMsg;
+      console.log(errorMsg);
+    }
+
+    // Store a hash of the text content of the page to detect changes
+    let plugin = this;
+    let siteUrl = this.app.makeCorsProxyUrl(cleanUrl(feed.url)).toString();
+    fetch(siteUrl).then((response) => {
+      if (!response.ok) {
+        errorOut(`Failed to get: ${siteUrl}. ${reponse.status} ${response.statusText}`);
+        return;
+      }
+      return response.text();
+    }).then((pageStr) => {
+      let pageHash = hashString(pageStr);
+      //console.log("PageStr: " + pageStr + ", Hash: " + pageHash);
+      let existingHash = feed.getPluginItem("pageHash");
+      if (existingHash !== pageHash || feed.isError) {
+        feed.setPluginItem("pageHash", pageHash);
+        feed.isError = false;
+        feed.updateLinks({
+          link: feed.url,
+          items: [{
+            title: "Page updated",
+            link: feed.url,
+            pubDate: String(new Date()),
+          }]
+        })
+      }
+    }).catch((error) => {
+      console.log(error);
+      errorOut(error.message);
+    });
+  }
+}
+
 export function registerCorePlugin(app) {
   let feedPlugins = [
     new RSSFeed(app),
     new MastodonFeed(app),
     new YouTubeFeed(app),
     new RedditFeed(app),
+    new Bookmark(app),
   ];
   extendArray(app.feedPlugins, feedPlugins);
 }

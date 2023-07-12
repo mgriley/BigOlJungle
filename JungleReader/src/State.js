@@ -122,6 +122,9 @@ class Feed {
 
     this.isError = false;
     this.errorMsg = null;
+    // Some data for the plugin to store on the Feed.
+    // map: String -> String
+    this.pluginData = {};
   }
 
   writeToJson() {
@@ -136,6 +139,7 @@ class Feed {
       mainSiteUrl: this.mainSiteUrl,
       isError: this.isError,
       errorMsg: this.errorMsg,
+      pluginData: {...this.pluginData},
     }
   }
 
@@ -156,6 +160,15 @@ class Feed {
     }
     this.isError = obj.isError;
     this.errorMsg = obj.errorMsg;
+    this.pluginData = obj.pluginData;
+  }
+
+  getPluginItem(key) {
+    return this.pluginData[key];
+  }
+
+  setPluginItem(key, value) {
+    this.pluginData[key] = value;
   }
 
   removeFromParent() {
