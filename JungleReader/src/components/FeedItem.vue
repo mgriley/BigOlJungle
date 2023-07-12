@@ -22,8 +22,11 @@ function selectFeed(feed) {
 <template>
   <div class="FeedItem">
     <div class="FeedControls">
-      <TreeIcon :expanded="feed.expanded" @click="toggleExpandFeed(feed)"/>
-      <div class="FeedName TextButton" @click="toggleExpandFeed(feed)">{{ feed.name }}</div>
+      <div class="FeedTitleBar" @click="toggleExpandFeed(feed)">
+        <TreeIcon :expanded="feed.expanded"/>
+        <div class="FeedName TextButton">{{ feed.name }}</div>
+        <div class="FeedInfo TextButton">({{feed.mostRecentLinkTimeStr()}})</div>
+      </div>
       <div class="FeedButtons">
         <button @click="toggleExpandFeed(feed)">+/-</button>
         <button @click="(evt) => emit('editFeed', feed, evt)">Edit</button>
@@ -39,6 +42,7 @@ function selectFeed(feed) {
             <a :href="link.link" target="_blank">
               {{ link.getTrimmedStringDesc() }}
             </a>
+            <span v-if="link.extraDataString" class="ExtraString">({{ link.extraDataString }})</span>
             <span class="DaysAgo">{{ "(" + getTimeAgoStr(new Date(link.pubDate)) + ")" }}</span>
           </li>
         </ul>
@@ -57,8 +61,13 @@ function selectFeed(feed) {
   padding-left: 20px;
 }
 
-.FeedName {
+.FeedTitleBar {
+  display: flex;
   margin-right: 20px;
+}
+
+.FeedName {
+  margin-right: 5px;
 }
 
 .FeedControls {
@@ -90,6 +99,10 @@ function selectFeed(feed) {
 
 .Bullet {
   margin-right: 10px;
+}
+
+.ExtraString {
+  margin-left: 5px;
 }
 
 .DaysAgo {

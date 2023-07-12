@@ -37,6 +37,17 @@ export function prettyJson(obj) {
   return JSON.stringify(obj, null, 2);
 }
 
+export function countToHumanStr(count) {
+  if (count > 1000*1000*1000) {
+    return Math.floor(count / (1000*1000*1000)) + "B";
+  } else if (count > 1000*1000) {
+    return Math.floor(count / (1000*1000)) + "M";
+  } else if (count > 10*1000) {
+    return Math.floor(count / (1000)) + "K";
+  }
+  return String(count);
+}
+
 
 /**
  * See: https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript

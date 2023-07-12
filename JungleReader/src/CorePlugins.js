@@ -1,5 +1,5 @@
 import { reactive, ref } from 'vue'
-import { addElem, removeElem, hashString } from './Utils.js'
+import { addElem, removeElem, hashString, prettyJson, countToHumanStr } from './Utils.js'
 import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 // import Parser from 'rss-parser'
@@ -30,7 +30,6 @@ class RSSFeed extends FeedPlugin {
     this.app = app;
     this.urlPlaceholderHelp = "Ex: https://www.someurl.com/feed.rss";
     this.quickHelpDocs = "Add an RSS feed with its URL.";
-    this.parser = new RSSParser();
   }
 
   updateFeeds(feeds) {
@@ -46,7 +45,9 @@ class RSSFeed extends FeedPlugin {
     })
   }
 
-  updateFromRSS(feed, rssUrl) {
+  updateFromRSS(feed, rssUrl, optParserOptions) {
+    optParserOptions = optParserOptions ?? {};
+
     rssUrl = cleanUrl(rssUrl);
     if (!isValidUrl(rssUrl)) {
       feed.isError = true;
@@ -55,7 +56,8 @@ class RSSFeed extends FeedPlugin {
       return;
     }
     const url = this.app.makeCorsProxyUrl(rssUrl).toString();
-    this.parser.parseURL(url, (err, res) => {
+    let parser = new RSSParser(optParserOptions);
+    parser.parseURL(url, (err, res) => {
       if (err) {
         console.log("Error parsing RSS URL: " + url);
         feed.isError = true;
@@ -148,11 +150,29 @@ class YouTubeFeed extends RSSFeed {
     }).then((htmlStr) => {
       let rssLink = extractRssLinkFromHtml(htmlStr);
       console.log("Extracted RSS link: " + rssLink);
-      plugin.updateFromRSS(feed, rssLink);
+      plugin.updateFromRSS(feed, rssLink, {
+        customFields: {
+          item: ['media:group'],
+        }
+      });
     }).catch((error) => {
       console.log(error);
       errorOut(error.message);
     });
+  }
+
+  transformRssResult(rssRes) {
+    console.log("RSS Res: " + prettyJson(rssRes));
+    // We turn the number of views into an extraDataString
+    for (const item of rssRes.items) {
+      let viewsStr = (item?.["media:group"]?.["media:community"]?.[0]?.
+        ["media:statistics"]?.[0]?.["$"]?.["views"]);
+      if (viewsStr) {
+        item.extraDataString = `${countToHumanStr(parseInt(viewsStr))} views`;
+      } else {
+        console.log("Failed to find 'views' count in YouTube RSS");
+      }
+    }
   }
 }
 

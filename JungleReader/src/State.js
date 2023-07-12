@@ -41,6 +41,7 @@ class Link {
     this.link = "";
     this.description = "";
     this.pubDate = null;
+    this.extraDataString = null;
   }
 
   writeToJson() {
@@ -50,6 +51,7 @@ class Link {
       title: this.title,
       description: this.description,
       pubDate: this.pubDate,
+      extraDataString: this.extraDataString,
     }
   }
 
@@ -59,6 +61,9 @@ class Link {
     this.title = obj.title;
     this.description = obj.description;
     this.pubDate = obj.pubDate;
+    if (obj.extraDataString) {
+      this.extraDataString = obj.extraDataString;
+    }
   }
 
   getStringId() {
@@ -122,9 +127,12 @@ class Feed {
 
     this.isError = false;
     this.errorMsg = null;
+
     // Some data for the plugin to store on the Feed.
     // map: String -> String
     this.pluginData = {};
+
+    this.mostRecentLinkTime = null;
   }
 
   writeToJson() {
@@ -140,6 +148,7 @@ class Feed {
       isError: this.isError,
       errorMsg: this.errorMsg,
       pluginData: {...this.pluginData},
+      mostRecentLinkTime: this.mostRecentLinkTime,
     }
   }
 
@@ -161,6 +170,9 @@ class Feed {
     this.isError = obj.isError;
     this.errorMsg = obj.errorMsg;
     this.pluginData = obj.pluginData;
+    if (obj.mostRecentLinkTime) {
+      this.mostRecentLinkTime = obj.mostRecentLinkTime;
+    }
   }
 
   getPluginItem(key) {
@@ -184,7 +196,8 @@ class Feed {
     }
     // TODO - preserve existing links if possible
 
-    // console.log("NewLinksData: " + prettyJson(newLinksData));
+    // console.log(`NewLinksData for ${this.url}: ` + prettyJson(newLinksData));
+    let mostRecentLinkTime = null;
     this.links = []
     for (const linkData of newLinksData.items) {
       let newLink = new Link();
@@ -192,15 +205,31 @@ class Feed {
       newLink.description = linkData.description;
       newLink.link = linkData.link;
       newLink.pubDate = linkData.pubDate;
+      if (linkData.extraDataString) {
+        newLink.extraDataString = linkData.extraDataString;
+      }
       this.links.push(newLink);
+
+      let pubTime = (new Date(newLink.pubDate)).getTime();
+      if (mostRecentLinkTime === null || pubTime > mostRecentLinkTime) {
+        mostRecentLinkTime = pubTime;
+      }
     }
+    this.mostRecentLinkTime = mostRecentLinkTime;
 
     if (newLinksData.link) {
       this.mainSiteUrl = newLinksData.link;
     }
 
-    console.log("New links:");
-    console.log(this.links);
+    //console.log(`New links for ${this.url}:`);
+    //console.log(this.links);
+  }
+
+  mostRecentLinkTimeStr() {
+    if (this.mostRecentLinkTime === null) {
+      return "___";
+    }
+    return getTimeAgoStr(new Date(this.mostRecentLinkTime));
   }
 
   // It is assumed that the Feed has already been removed its current
