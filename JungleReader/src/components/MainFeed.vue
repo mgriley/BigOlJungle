@@ -200,6 +200,8 @@ function openSettings() {
 
 .GroupControls {
   display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .SettingsButton {

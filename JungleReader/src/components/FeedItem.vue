@@ -13,6 +13,11 @@ function toggleExpandFeed(feed) {
   feed.expanded = !feed.expanded;
 }
 
+function onFeedClicked(feed) {
+  toggleExpandFeed(feed);
+  gApp.feedReader.setSelectedFeed(feed);
+}
+
 function selectFeed(feed) {
   gApp.feedReader.setSelectedItem(feed);
 }
@@ -22,7 +27,7 @@ function selectFeed(feed) {
 <template>
   <div class="FeedItem">
     <div class="FeedControls">
-      <div class="FeedTitleBar" @click="toggleExpandFeed(feed)">
+      <div class="FeedTitleBar" @click="onFeedClicked(feed)">
         <TreeIcon :expanded="feed.expanded"/>
         <div class="FeedName TextButton">{{ feed.name }}</div>
         <div class="FeedInfo TextButton">({{feed.mostRecentLinkTimeStr()}})</div>
@@ -72,6 +77,8 @@ function selectFeed(feed) {
 
 .FeedControls {
   display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .Link {

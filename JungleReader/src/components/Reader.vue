@@ -1,4 +1,8 @@
 <script setup>
+import { ref, onMounted, computed } from 'vue'
+import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import FeedViewer from './FeedViewer.vue'
+
 /*
 See:
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_fixed2
@@ -38,6 +42,9 @@ function launchTutorial() {
     <div class="main">
       <router-view></router-view>
     </div>
+    <div class="details">
+      <FeedViewer v-if="gApp.feedReader.getSelectedFeed()" :feed="gApp.feedReader.getSelectedFeed()" />
+    </div>
   </div>
 </template>
 
@@ -48,14 +55,14 @@ function launchTutorial() {
 }
 
 .toplevel {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: auto;
   display: grid;
   padding: 20px 10px;
   /*grid-gap: 20px;*/
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 3fr 2fr;
   grid-template-areas: 
-    "sidebar content"
+    "sidebar content right"
 }
 
 @media (max-width: 500px) {
@@ -64,6 +71,7 @@ function launchTutorial() {
     grid-template-areas:
       "content"
       "sidebar"
+      "right"
   }
 }
 
@@ -77,6 +85,11 @@ function launchTutorial() {
   grid-area: sidebar;
   padding: 20px;
   /*background-color: #45aaf2;*/
+}
+
+.details {
+  grid-area: right;
+  padding: 20px;
 }
 
 .SideMenu a {

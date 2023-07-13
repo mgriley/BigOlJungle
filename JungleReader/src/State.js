@@ -298,6 +298,7 @@ class FeedReader {
   constructor() {
     this.groups = reactive([]);
     this.selectedItem = ref(null);
+    this.selectedFeed = ref(null);
   }
 
   makeDefaultGroup() {
@@ -333,6 +334,14 @@ class FeedReader {
 
   setSelectedItem(newItem) {
     this.selectedItem.value = newItem;
+  }
+
+  getSelectedFeed() {
+    return this.selectedFeed.value;
+  }
+
+  setSelectedFeed(feed) {
+    this.selectedFeed.value = feed;
   }
 
   addFeedGroup(feedGroup) {
