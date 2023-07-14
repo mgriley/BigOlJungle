@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
-import FeedViewer from './FeedViewer.vue'
 
 /*
 See:
@@ -42,9 +41,6 @@ function launchTutorial() {
     <div class="main">
       <router-view></router-view>
     </div>
-    <div class="details">
-      <FeedViewer v-if="gApp.feedReader.getSelectedFeed()" :feed="gApp.feedReader.getSelectedFeed()" />
-    </div>
   </div>
 </template>
 
@@ -60,9 +56,9 @@ function launchTutorial() {
   display: grid;
   padding: 20px 10px;
   /*grid-gap: 20px;*/
-  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-columns: 280px 1fr;
   grid-template-areas: 
-    "sidebar content right"
+    "sidebar content"
 }
 
 @media (max-width: 500px) {
@@ -71,7 +67,6 @@ function launchTutorial() {
     grid-template-areas:
       "content"
       "sidebar"
-      "right"
   }
 }
 
@@ -84,12 +79,8 @@ function launchTutorial() {
 .sidenav {
   grid-area: sidebar;
   padding: 20px;
+  margin-left: 20px;
   /*background-color: #45aaf2;*/
-}
-
-.details {
-  grid-area: right;
-  padding: 20px;
 }
 
 .SideMenu a {

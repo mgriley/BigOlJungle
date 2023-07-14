@@ -26,9 +26,9 @@ function getTimeAgoStr(date)  {
     }
   } else {
     if (hoursDiff == 1) {
-      res = "1 hour ago";
+      res = "1 hr ago";
     } else {
-      res = hoursDiff + " hours ago" 
+      res = hoursDiff + " hrs ago" 
     }
   }
   return res;
@@ -227,9 +227,9 @@ class Feed {
 
   mostRecentLinkTimeStr() {
     if (this.mostRecentLinkTime === null) {
-      return "___";
+      return "";
     }
-    return getTimeAgoStr(new Date(this.mostRecentLinkTime));
+    return "(" + getTimeAgoStr(new Date(this.mostRecentLinkTime)) + ")";
   }
 
   // It is assumed that the Feed has already been removed its current

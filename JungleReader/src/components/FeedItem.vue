@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import TreeIcon from './TreeIcon.vue'
+import EditButton from './EditButton.vue'
 
 const props = defineProps({
   feed: Object,
@@ -28,36 +29,19 @@ function selectFeed(feed) {
   <div class="FeedItem">
     <div class="FeedControls">
       <div class="FeedTitleBar" @click="onFeedClicked(feed)">
-        <TreeIcon :expanded="feed.expanded"/>
+        <!-- <TreeIcon :expanded="feed.expanded"/> -->
         <div class="FeedName TextButton">{{ feed.name }}</div>
-        <div class="FeedInfo TextButton">({{feed.mostRecentLinkTimeStr()}})</div>
+        <div class="FeedInfo TextButton">{{feed.mostRecentLinkTimeStr()}}</div>
       </div>
       <div class="FeedButtons">
-        <button @click="toggleExpandFeed(feed)">+/-</button>
-        <button @click="(evt) => emit('editFeed', feed, evt)">Edit</button>
-        <button @click="selectFeed(feed)">Select</button>
-        <p class="ErrorIndicator" v-if="feed.isError">Error</p>
-        <p><a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" target="_blank">Go to site</a></p>
+        <!-- <button @click="toggleExpandFeed(feed)">+/-</button> -->
+        <EditButton @click="(evt) => emit('editFeed', feed, evt)" />
+        <div class="FeatherIcon">
+          <vue-feather class="MarginLeft" type="alert-octagon" v-if="feed.isError" />
+        </div>
+        <!-- <p class="ErrorIndicator" v-if="feed.isError">Error</p> -->
       </div>
     </div>
-    <template v-if="feed.expanded">
-      <template v-if="!feed.isError">
-        <ul v-for="link in feed.links" :id="link.id" class="Link">
-          <li class="LinkElem">
-            <a :href="link.link" target="_blank">
-              {{ link.getTrimmedStringDesc() }}
-            </a>
-            <span v-if="link.extraDataString" class="ExtraString">({{ link.extraDataString }})</span>
-            <span class="DaysAgo">{{ "(" + getTimeAgoStr(new Date(link.pubDate)) + ")" }}</span>
-          </li>
-        </ul>
-      </template>
-      <template v-else>
-        <div class="Link ErrorText">
-          <p>{{ feed.errorMsg }}</p>
-        </div>
-      </template>
-    </template>
   </div>
 </template>
 

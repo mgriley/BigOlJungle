@@ -7,6 +7,8 @@ import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 import FeedItem from './FeedItem.vue'
+import FeedViewer from './FeedViewer.vue'
+import EditButton from './EditButton.vue'
 
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
@@ -147,35 +149,37 @@ function openSettings() {
       <!--<button class="SettingsButton" @click="openSettings">Settings</button>-->
     </div>
     <div class="FeedGroups">
-      <draggable class="FeedGroup" :list="gApp.feedReader.groups"
-        group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
-        <template #item="{element}">
-          <div class="FeedGroupItem">
-            <div class="GroupControls">
-              <TreeIcon :expanded="element.expanded" @click="toggleExpandGroup(element)" />
-              <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
-              <div class="GroupButtons">
-                <button @click="toggleExpandGroup(element)">+/-</button>
-                <button @click="toggleExplodeGroup(element)">*</button>
-                <button @click="(evt) => editGroup(element, evt)">Edit</button>
-                <button @click="selectGroup(element)">Select</button>
+      <div class="LeftPane">
+        <draggable class="FeedGroup" :list="gApp.feedReader.groups"
+          group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
+          <template #item="{element}">
+            <div class="FeedGroupItem">
+              <div class="GroupControls">
+                <TreeIcon :expanded="element.expanded" @click="toggleExpandGroup(element)" />
+                <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
+                <div class="GroupButtons">
+                  <EditButton @click="(evt) => editGroup(element, evt)" />
+                </div>
               </div>
-            </div>
-            <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
-            <draggable class="FeedGroup" :list="element.feeds" group="element.expanded"
-              itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
-              @change="(evt) => onDragChange(evt, element)">
-              <template #item="{ element }">
-                <template v-if="element.isVisible()">
-                  <FeedItem :feed="element" @editFeed="editFeed" />
+              <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
+              <draggable class="FeedGroup" :list="element.feeds" group="element.expanded"
+                itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
+                @change="(evt) => onDragChange(evt, element)">
+                <template #item="{ element }">
+                  <template v-if="element.isVisible()">
+                    <FeedItem :feed="element" @editFeed="editFeed" />
+                  </template>
                 </template>
-              </template>
-            </draggable>
-          </div>
-        </template>
-      </draggable>
+              </draggable>
+            </div>
+          </template>
+        </draggable>
+      </div>
+      <div class="RightPane">
+        <FeedViewer v-if="gApp.feedReader.getSelectedFeed()" :feed="gApp.feedReader.getSelectedFeed()" />
+      </div>
     </div>
-  </div>
+  </div> 
   <BasicModal ref="groupEditorModal" :showCancel="false">
     <GroupEditor :group="groupToEdit"/>
     <button class="DeleteButton" @click="deleteGroupToEdit">Delete</button>
@@ -187,6 +191,25 @@ function openSettings() {
 </template>
 
 <style scoped>
+.FeedGroups {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas: "left right";
+}
+
+.LeftPane {
+  grid-area: left;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.RightPane {
+  grid-area: right;
+  padding-left: 40px;
+  overflow-y: auto;
+  height: 100%;
+}
+
 .ButtonMenu {
   margin-bottom: 20px;
 }

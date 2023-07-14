@@ -68,3 +68,17 @@ it gets clicked. Say if using for a button
   background-color: var(--color-link-hover);
 }
 
+.FeatherIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Flex {
+  display: flex;
+}
+
+.MarginLeft {
+  margin-left: 15px;
+}
+

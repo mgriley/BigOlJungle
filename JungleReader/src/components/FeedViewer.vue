@@ -11,6 +11,12 @@ const props = defineProps({
 
 <template>
   <div class="FeedView">
+    <div class="FeedName Flex">
+      <div>{{ feed.name }}</div>
+      <a :href="feed.mainSiteUrl" class="MarginLeft" target="_blank">
+        <vue-feather class="FeatherIcon" type="external-link"/>
+      </a>
+    </div>
     <template v-if="!feed.isError">
       <ul v-for="link in feed.links" :id="link.id" class="Link">
         <li class="LinkElem">
