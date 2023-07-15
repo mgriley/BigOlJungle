@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import PluginEditor from './PluginEditor.vue'
 
 let persistentStorageOn = ref(false);
 
@@ -33,33 +34,31 @@ onMounted(() => {
 <template>
   <div class="Settings">
     <h2>Settings</h2>
-    <p>
-    ToucanReader is a free + open source web reader, made to help you keep up with the sites you like.
-    It is designed for quick skimming, so you can skip to the good stuff.
-
-    It supports RSS, YouTube, Reddit, Mastodon, Twitter, and more. It has a flexible plugin system that allows developers
-    to add support for any other site / content sources. If your favourite site is not supported and you can't find a plugin for it 
-    (or code one yourself), you can still follow it using the "Reminder" plugin. 
-
-    Your data and reader config are stored locally in your browser. The data should stay
-    around even if you clear your browser's cookie / data. Right now there is no device sync,
-    so if you want to read on your phone and desktop, it is recommended that you set things up
-    on desktop then export the config for your phone.
-
-    To get started, click Tutorial.
-    </p>
-
-    <div>
+    <div class="SettingsSection">
+      <h3>Persistent Storage</h3>
       <p>ToucanReader stores your config in your browser's storage. To make sure the browser doesn't
         automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
         your site data/cache will delete this data, so please export your config sometimes to back it up.</p>
       <button v-if="!persistentStorageOn" @click="enablePersistentStorage">Turn On</button>
       <p>Persistent Storage: {{ persistentStorageOn }}</p>
     </div>
-
-    <h3>Plugins:</h3>
+    <div class="SettingsSection">
+      <h3>Google Drive Sync</h3>
+      <p>Connect your Google Drive account to backup and sync your reading config.</p>
+      <p>TODO</p>
+    </div>
+    <div class="SettingsSection">
+      <h3>Plugins</h3>
+      <p>Download plugins to add support for your favourite sites. See the GitHub page for a list of available plugins.</p>
+      <p>Also see the GitHub if you'd like to develop a plugin.</p>
+      <p>(Note that you cannot have multiple plugins with the same name/type.)</p>
+      <PluginEditor />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.SettingsSection {
+  margin-bottom: 30px;
+}
 </style>

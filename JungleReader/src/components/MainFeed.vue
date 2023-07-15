@@ -167,7 +167,7 @@ function openSettings() {
                 @change="(evt) => onDragChange(evt, element)">
                 <template #item="{ element }">
                   <template v-if="element.isVisible()">
-                    <FeedItem :feed="element" @editFeed="editFeed" />
+                    <FeedItem class="FeedGroupElem" :feed="element" @editFeed="editFeed" />
                   </template>
                 </template>
               </draggable>
@@ -195,6 +195,9 @@ function openSettings() {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-areas: "left right";
+}
+
+.FeedGroupElem {
 }
 
 .LeftPane {

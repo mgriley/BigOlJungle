@@ -1,6 +1,7 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, clearArray,
-  replaceArray, curTimeSecs, prettyJson } from './Utils.js'
+  replaceArray, curTimeSecs, prettyJson,
+  optionsToJson, jsonToOptions } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 
 // LocalStorage keys
@@ -102,15 +103,6 @@ class Link {
   }
 }
 
-function copyOptions(options) {
-  return options.map((option) => {
-    return {
-      key: option.key,
-      value: option.value,
-    }
-  })
-}
-
 class Feed {
   constructor() {
     this.id = gApp.feedIdCtr++;
@@ -143,7 +135,7 @@ class Feed {
       expanded: this.expanded,
       type: this.type,
       url: this.url,
-      options: copyOptions(this.options),
+      options: optionsToJson(this.options),
       mainSiteUrl: this.mainSiteUrl,
       isError: this.isError,
       errorMsg: this.errorMsg,
@@ -163,7 +155,7 @@ class Feed {
     this.expanded = obj.expanded;
     this.type = obj.type;
     this.url = obj.url;
-    this.options = copyOptions(obj.options);
+    this.options = jsonToOptions(obj.options);
     if (obj.mainSiteUrl) {
       this.mainSiteUrl = obj.mainSiteUrl;
     }
@@ -370,6 +362,7 @@ class JungleReader {
     // this.plugins = reactive([])
     this.feedPlugins = reactive([])
     // this.feedTypes = reactive(['RSS', 'Reminder', 'YouTube'])
+    this.customPlugins = reactive([])
 
     this.lastAutoSaveTime = curTimeSecs();
   }
@@ -403,9 +396,20 @@ class JungleReader {
   }
 
   updateFeeds() {
-    for (const feedPlugin of this.feedPlugins) {
-      let feeds = this.feedReader.getFeedsOfType(feedPlugin.name);  
+    let feedTypeSet = new Set();
+    let allPlugins = [...this.feedPlugins, ...this.customPlugins];
+    for (const feedPlugin of allPlugins) {
+      if (!feedPlugin.getFeedType()) {
+        continue;
+      }
+      if (feedTypeSet.has(feedPlugin.getFeedType())) {
+        console.log("Encountered a second plugin that handles feeds of type: \"" + feedPlugin.getFeedType()
+          + "\". This is not supported. Only the first plugin will work.");
+      }
+      let feeds = this.feedReader.getFeedsOfType(feedPlugin.getFeedType());  
+      // TODO - handle the Promise?
       feedPlugin.updateFeeds(feeds);
+      feedTypeSet.add(feedPlugin.getFeedType());
     }
   }
 

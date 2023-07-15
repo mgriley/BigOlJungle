@@ -48,6 +48,22 @@ export function countToHumanStr(count) {
   return String(count);
 }
 
+function copyOptions(options) {
+  return options.map((option) => {
+    return {
+      key: option.key,
+      value: option.value,
+    }
+  })
+}
+
+export function optionsToJson(options) {
+  return copyOptions(options);
+}
+
+export function jsonToOptions(json) {
+  return copyOptions(json);
+}
 
 /**
  * See: https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript

@@ -32,7 +32,8 @@ class RSSFeed extends FeedPlugin {
     this.quickHelpDocs = "Add an RSS feed with its URL.";
   }
 
-  updateFeeds(feeds) {
+  async updateFeeds(feeds) {
+    // TODO - do the async properly
     for (const feed of feeds) {
       this.updateFeed(feed);
     }
@@ -192,7 +193,7 @@ class RedditFeed extends RSSFeed {
   }
 }
 
-class Bookmark extends RSSFeed {
+class Bookmark extends FeedPlugin {
   constructor(app) {
     super(app)
     this.name = "Bookmark";
@@ -200,7 +201,7 @@ class Bookmark extends RSSFeed {
     this.quickHelpDocs = "Add any website address. We cannot generate a full feed but will let you know if the page updated."
   }
 
-  updateFeeds(feeds) {
+  async updateFeeds(feeds) {
     for (const feed of feeds) {
       this.updateFeed(feed);
     }
