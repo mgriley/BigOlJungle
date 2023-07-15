@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import PluginEditor from './PluginEditor.vue'
+import CodeEditor from './CodeEditor.vue'
 
 let persistentStorageOn = ref(false);
 
@@ -32,7 +34,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Settings">
+  <div class="TextPluginEditor" v-if="gApp.getPluginToEdit()">
+    <button class="DoneButton" @click="gApp.setPluginToEdit(null)">Back to Settings</button>  
+    <h2 class="PluginName">{{ gApp.getPluginToEdit().feedType }}</h2>
+    <CodeEditor class="CodeEditor" v-model="gApp.getPluginToEdit().pluginText" />
+    <div>
+      <h2>Docs</h2>
+      <p>TODO</p>
+    </div>
+  </div>
+  <div v-else class="Settings">
     <h2>Settings</h2>
     <div class="SettingsSection">
       <h3>Persistent Storage</h3>
@@ -58,6 +69,18 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.TextPluginEditor .PluginName {
+  margin-bottom: 10px;
+}
+
+.CodeEditor {
+  margin-bottom: 40px;
+}
+
+.DoneButton {
+  margin-bottom: 40px;
+}
+
 .SettingsSection {
   margin-bottom: 30px;
 }

@@ -31,6 +31,7 @@ function onChangePluginType(plugin, newType) {
 }
 
 function openTextEditor(plugin) {
+  gApp.setPluginToEdit(plugin);
 }
 
 </script>

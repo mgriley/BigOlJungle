@@ -363,6 +363,7 @@ class JungleReader {
     this.feedPlugins = reactive([])
     // this.feedTypes = reactive(['RSS', 'Reminder', 'YouTube'])
     this.customPlugins = reactive([])
+    this.pluginToEdit = ref(null);
 
     this.lastAutoSaveTime = curTimeSecs();
   }
@@ -393,6 +394,14 @@ class JungleReader {
     this.feedGroupIdCtr = jsonObj["feedGroupIdCtr"]
     this.feedIdCtr = jsonObj["feedIdCtr"]
     this.linkIdCtr = jsonObj["linkIdCtr"]
+  }
+
+  getPluginToEdit() {
+    return this.pluginToEdit.value;
+  }
+
+  setPluginToEdit(plugin) {
+    this.pluginToEdit.value = plugin;
   }
 
   updateFeeds() {

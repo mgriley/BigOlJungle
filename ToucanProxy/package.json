@@ -10,5 +10,8 @@
     "@cloudflare/workers-types": "^4.20230419.0",
     "itty-router": "^3.0.12",
     "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "vue-prism-editor": "^2.0.0-alpha.2"
   }
 }
