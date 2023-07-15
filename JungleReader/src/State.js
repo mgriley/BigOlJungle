@@ -3,6 +3,7 @@ import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
+import { CustomPlugin } from './PluginLib.js'
 
 // LocalStorage keys
 const kAppStateKey = "appState";
@@ -375,6 +376,7 @@ class JungleReader {
       feedIdCtr: this.feedIdCtr,
       linkIdCtr: this.linkIdCtr,
       groups: this.feedReader.groups.map((group) => group.writeToJson()),
+      customPlugins: this.customPlugins.map((plugin) => plugin.writeToJson()),
     }
     
     // TODO - starred, history, custom plugins
@@ -394,6 +396,13 @@ class JungleReader {
     this.feedGroupIdCtr = jsonObj["feedGroupIdCtr"]
     this.feedIdCtr = jsonObj["feedIdCtr"]
     this.linkIdCtr = jsonObj["linkIdCtr"]
+    if (jsonObj.customPlugins) {
+      replaceArray(this.customPlugins, jsonObj["customPlugins"].map((pluginObj) => {
+        let plugin = new CustomPlugin();
+        plugin.readFromJson(pluginObj);
+        return plugin;
+      }))
+    }
   }
 
   getPluginToEdit() {

@@ -23,12 +23,20 @@ export const CustomPluginType = {
   Text: 'Text',
 };
 
+const kDefaultCustomCode = (`
+
+function updateFeed(feedInfo) {
+  return "Hello World";  
+}
+
+`)
+
 export class CustomPlugin {
   constructor() {
     this.feedType = "";
     this.pluginType = CustomPluginType.URL;
     this.pluginUrl = "";
-    this.pluginText = "";
+    this.pluginText = kDefaultCustomCode;
     this.options = []
     this.quickHelpDocs = "";
   }
