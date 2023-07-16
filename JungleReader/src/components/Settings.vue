@@ -49,7 +49,7 @@ onMounted(() => {
       <h3>Persistent Storage</h3>
       <p>ToucanReader stores your config in your browser's storage. To make sure the browser doesn't
         automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
-        your site data/cache will delete this data, so please export your config sometimes to back it up.</p>
+        your site data/cache will delete this data, so please back up your config sometimes.</p>
       <button v-if="!persistentStorageOn" @click="enablePersistentStorage">Turn On</button>
       <p>Persistent Storage: {{ persistentStorageOn }}</p>
     </div>
@@ -60,10 +60,12 @@ onMounted(() => {
     </div>
     <div class="SettingsSection">
       <h3>Plugins</h3>
-      <p>Download plugins to add support for your favourite sites. See the GitHub page for a list of available plugins.</p>
-      <p>Also see the GitHub if you'd like to develop a plugin.</p>
+      <p>Download plugins to add support for your favourite sites. See the GitHub for links to some plugins.</p>
+      <p>If you'd like to develop a plugin, please see the GitHub :)</p>
       <p>(Note that you cannot have multiple plugins with the same name/type.)</p>
       <PluginEditor />
+    </div>
+    <div class="SettingsSection">
     </div>
   </div>
 </template>

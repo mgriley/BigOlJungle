@@ -64,7 +64,7 @@ export class CustomPlugin {
   }
 
   async updateFeeds(feeds) {
-    // TODO
+    // TODO get the text then
   }
 }
 
