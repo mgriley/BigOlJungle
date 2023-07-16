@@ -19,18 +19,20 @@ export class FeedPlugin {
   }
 }
 
+const kDefaultCustomCode = (`
+
+function updateFeed(feed) {
+  log("Hello world!");
+  log(JSON.stringify(feed));
+  // TODO - updateFeed(feed, linkData);
+}
+
+`)
+
 export const CustomPluginType = {
   URL: 'URL',
   Text: 'Text',
 };
-
-const kDefaultCustomCode = (`
-
-function updateFeed(feedInfo) {
-  return "Hello World";  
-}
-
-`)
 
 export class CustomPlugin {
   constructor() {
@@ -49,7 +51,7 @@ export class CustomPlugin {
       feedType: this.feedType,
       pluginType: this.pluginType,
       pluginUrl: this.pluginUrl,
-      pluginType: this.pluginText,
+      pluginText: this.pluginText,
       options: optionsToJson(this.options),
       quickHelpDocs: this.quickHelpDocs,
     }
@@ -95,6 +97,8 @@ export class CustomPlugin {
     } else if (this.pluginType == CustomPluginType.URL) {
       // TODO - load text
       throw new Error("Not Impl");
+    } else {
+      throw new Error(`Unexpected pluginType: \"${this.pluginType}\"`);
     }
     try {
       for (const feed of feeds) {
@@ -119,9 +123,8 @@ export class CustomPlugin {
   }
 
   async runInterpreter(interpreter, feed) {
-
-    console.log("Interpreter: ");
-    console.log(interpreter);
+    // console.log("Interpreter: ");
+    // console.log(interpreter);
 
     let args = {
       'feed': feed.name
