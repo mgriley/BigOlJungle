@@ -1,4 +1,7 @@
 import './assets/main.css'
+// TODO - not sure how to get this working.
+// import './assets/acorn_interpreter.js'
+// import '../node_modules/rss-parser/dist/rss-parser.min.js'
 
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'

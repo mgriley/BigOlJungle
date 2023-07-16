@@ -195,8 +195,8 @@ class RedditFeed extends RSSFeed {
 
 class Bookmark extends FeedPlugin {
   constructor(app) {
-    super(app)
-    this.name = "Bookmark";
+    super("Bookmark");
+    this.app = app;
     this.urlPlaceholderHelp = "Ex: https://www.somesite.com";
     this.quickHelpDocs = "Add any website address. We cannot generate a full feed but will let you know if the page updated."
   }

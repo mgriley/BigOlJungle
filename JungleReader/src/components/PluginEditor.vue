@@ -6,6 +6,7 @@ import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import BasicModal from 'Shared/BasicModal.vue'
 import OptionsInput from './OptionsInput.vue'
 import BasicSelector from './BasicSelector.vue'
+import ToggleSwitch from './ToggleSwitch.vue'
 
 let optionsEditorModal = ref(null);
 let pluginToEdit = ref(null);
@@ -51,6 +52,7 @@ function openTextEditor(plugin) {
             <button @click="openTextEditor(plugin)">Edit text</button>
           </template>
           <button @click="editOptions(plugin)">Options</button>
+          <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />
           <button @click="removePlugin(plugin)">X</button>
         </div>
       </div>

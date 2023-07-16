@@ -425,6 +425,7 @@ class JungleReader {
           + "\". This is not supported. Only the first plugin will work.");
       }
       let feeds = this.feedReader.getFeedsOfType(feedPlugin.getFeedType());  
+      feeds = feeds.filter((feed) => feed.isVisible());
       // TODO - handle the Promise?
       feedPlugin.updateFeeds(feeds);
       feedTypeSet.add(feedPlugin.getFeedType());

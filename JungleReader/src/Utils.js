@@ -105,3 +105,7 @@ export function hash64(str) {
 }
 */
 
+export function waitMillis(numMillis) {
+  return new Promise(resolve => setTimeout(resolve, numMillis));
+}
+
