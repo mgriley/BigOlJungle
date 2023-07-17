@@ -1,21 +1,9 @@
 import { reactive, ref } from 'vue'
-import { addElem, removeElem, hashString, prettyJson, countToHumanStr } from './Utils.js'
+import { addElem, removeElem, hashString, prettyJson, countToHumanStr,
+  isValidUrl, cleanUrl, } from './Utils.js'
 import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 // import Parser from 'rss-parser'
-
-function isValidUrl(urlString) {
-  try {
-    return Boolean(new URL(urlString));
-  } catch (error) {
-    return false;
-  }
-}
-
-function cleanUrl(link) {
-  // Att https if no scheme was given
-  return (link.indexOf('://') === -1) ? 'https://' + link : link;
-}
 
 function addRssSuffix(link) {
   if (!link.endsWith(".rss")) {

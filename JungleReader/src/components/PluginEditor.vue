@@ -14,7 +14,7 @@ let pluginToEdit = ref(null);
 let supportedPluginTypes = [CustomPluginType.URL, CustomPluginType.Text];
 
 function addPlugin() {
-  let plugin = new CustomPlugin();
+  let plugin = new CustomPlugin(gApp);
   gApp.customPlugins.push(plugin);
 }
 

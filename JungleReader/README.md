@@ -28,3 +28,7 @@ npm run dev
 npm run build
 ```
 
+### JS-Interpreter Notes
+
+Note that acorn_interpreter.js doesn't expose all of the required functions. For now, serve the full acorn.js and interpreter.js. Will have to minify these later.
+

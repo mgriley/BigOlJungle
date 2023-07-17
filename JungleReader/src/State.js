@@ -397,8 +397,9 @@ class JungleReader {
     this.feedIdCtr = jsonObj["feedIdCtr"]
     this.linkIdCtr = jsonObj["linkIdCtr"]
     if (jsonObj.customPlugins) {
+      let app = this;
       replaceArray(this.customPlugins, jsonObj["customPlugins"].map((pluginObj) => {
-        let plugin = new CustomPlugin();
+        let plugin = new CustomPlugin(app);
         plugin.readFromJson(pluginObj);
         return plugin;
       }))

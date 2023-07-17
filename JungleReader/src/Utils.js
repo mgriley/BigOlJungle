@@ -109,3 +109,58 @@ export function waitMillis(numMillis) {
   return new Promise(resolve => setTimeout(resolve, numMillis));
 }
 
+export function isValidUrl(urlString) {
+  try {
+    return Boolean(new URL(urlString));
+  } catch (error) {
+    return false;
+  }
+}
+
+export function cleanUrl(link) {
+  // Att https if no scheme was given
+  return (link.indexOf('://') === -1) ? 'https://' + link : link;
+}
+
+/*
+See: https://stackoverflow.com/questions/4200913/xml-to-javascript-object
+The following function parses XML and returns a JavaScript object with a scheme that corresponds to the XML.
+XML siblings w/ the same name are collapsed into arrays.
+nodes with names that can be found in the arrayTags parameter (array of tag name strings) always yield arrays
+even in case of only one tag occurrence. arrayTags can be omitted.
+Text nodes with only spaces are discarded.
+
+mimeType should be "text/html" or "text/xml"
+*/
+export function parseXml(xml, mimeType, arrayTags) {
+    let dom = (new DOMParser()).parseFromString(xml, mimeType);
+
+    function parseNode(xmlNode, result) {
+        if (xmlNode.nodeName == "#text") {
+            let v = xmlNode.nodeValue;
+            if (v.trim()) result['#text'] = v;
+            return;
+        }
+
+        let jsonNode = {},
+            existing = result[xmlNode.nodeName];
+        if (existing) {
+            if (!Array.isArray(existing)) result[xmlNode.nodeName] = [existing, jsonNode];
+            else result[xmlNode.nodeName].push(jsonNode);
+        }
+        else {
+            if (arrayTags && arrayTags.indexOf(xmlNode.nodeName) != -1) result[xmlNode.nodeName] = [jsonNode];
+            else result[xmlNode.nodeName] = jsonNode;
+        }
+
+        if (xmlNode.attributes) for (let attribute of xmlNode.attributes) jsonNode[attribute.nodeName] = attribute.nodeValue;
+
+        for (let node of xmlNode.childNodes) parseNode(node, jsonNode);
+    }
+
+    let result = {};
+    for (let node of dom.childNodes) parseNode(node, result);
+
+    return result;
+}
+
