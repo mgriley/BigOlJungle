@@ -122,45 +122,71 @@ export function cleanUrl(link) {
   return (link.indexOf('://') === -1) ? 'https://' + link : link;
 }
 
-/*
-See: https://stackoverflow.com/questions/4200913/xml-to-javascript-object
-The following function parses XML and returns a JavaScript object with a scheme that corresponds to the XML.
-XML siblings w/ the same name are collapsed into arrays.
-nodes with names that can be found in the arrayTags parameter (array of tag name strings) always yield arrays
-even in case of only one tag occurrence. arrayTags can be omitted.
-Text nodes with only spaces are discarded.
+const kNodeTypeNames = {
+  [Node.ELEMENT_NODE]: "elem",
+  [Node.ATTRIBUTE_NODE]: "attr",
+  [Node.TEXT_NODE]: "text",
+  [Node.CDATA_SECTION_NODE]: "cdata",
+  [Node.PROCESSING_INSTRUCTION_NODE]: "proc_ins",
+  [Node.COMMENT_NODE]: "comment",
+  [Node.DOCUMENT_NODE]: "doc",
+  [Node.DOCUMENT_TYPE_NODE]: "doc_type",
+  [Node.DOCUMENT_FRAGMENT_NODE]: "doc_frag",
+};
 
-mimeType should be "text/html" or "text/xml"
-*/
-export function parseXml(xml, mimeType, arrayTags) {
-    let dom = (new DOMParser()).parseFromString(xml, mimeType);
+function isWhitespaceNode(node) {
+  return node.nodeValue.trim().length == 0;
+}
 
-    function parseNode(xmlNode, result) {
-        if (xmlNode.nodeName == "#text") {
-            let v = xmlNode.nodeValue;
-            if (v.trim()) result['#text'] = v;
-            return;
-        }
-
-        let jsonNode = {},
-            existing = result[xmlNode.nodeName];
-        if (existing) {
-            if (!Array.isArray(existing)) result[xmlNode.nodeName] = [existing, jsonNode];
-            else result[xmlNode.nodeName].push(jsonNode);
-        }
-        else {
-            if (arrayTags && arrayTags.indexOf(xmlNode.nodeName) != -1) result[xmlNode.nodeName] = [jsonNode];
-            else result[xmlNode.nodeName] = jsonNode;
-        }
-
-        if (xmlNode.attributes) for (let attribute of xmlNode.attributes) jsonNode[attribute.nodeName] = attribute.nodeValue;
-
-        for (let node of xmlNode.childNodes) parseNode(node, jsonNode);
+function parseNode(node, result) {
+  let obj = {
+    type: kNodeTypeNames[node.nodeType],
+    value: node.nodeValue,
+    name: node.nodeName,
+    children: [],
+    attrs: {}
+  }
+  for (let child of node.childNodes) {
+    if (child.nodeType == Node.COMMENT_NODE ||
+      (child.nodeType == Node.TEXT_NODE && isWhitespaceNode(child))) {
+      continue;
     }
+    let childObj = parseNode(child);
+    obj.children.push(childObj);
+  }
+  if (node.attributes) {
+    for (let attr of node.attributes) {
+      obj.attrs[attr.nodeName] = attr.nodeValue;
+    }
+  }
 
-    let result = {};
-    for (let node of dom.childNodes) parseNode(node, result);
+  return obj;
+}
 
-    return result;
+// See:
+// https://www.javascripttutorial.net/javascript-dom/
+// https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Examples
+// https://stackoverflow.com/questions/4200913/xml-to-javascript-object
+//
+// mimeType should be "text/html" or "text/xml"
+export function parseXml(xml, mimeType) {
+  let dom = (new DOMParser()).parseFromString(xml, mimeType);
+  return parseNode(dom);
+}
+
+// See:
+// https://stackoverflow.com/questions/376373/pretty-printing-xml-with-javascript
+// https://jsfiddle.net/fbn5j7ya/
+export function formatXML(xml, tab = '\t', nl = '\n') {
+  let formatted = '', indent = '';
+  const nodes = xml.slice(1, -1).split(/>\s*</);
+  if (nodes[0][0] == '?') formatted += '<' + nodes.shift() + '>' + nl;
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    if (node[0] == '/') indent = indent.slice(tab.length); // decrease indent
+    formatted += indent + '<' + node + '>' + nl;
+    if (node[0] != '/' && node[node.length - 1] != '/' && node.indexOf('</') == -1) indent += tab; // increase indent
+  }
+  return formatted;
 }
 

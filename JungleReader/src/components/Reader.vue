@@ -16,7 +16,7 @@ function launchTutorial() {
 <template>
   <div class="toplevel">
     <div class="sidenav">
-      <p class="AppTitle">ToucanReader</p>
+      <p class="AppTitle">JungleReader</p>
       <div class="SideMenu">
         <div class="Section">
           <router-link to="/">My Feed</router-link>
@@ -33,7 +33,7 @@ function launchTutorial() {
         </div>
         <div class="Section">
           <router-link to="/about">About / Donate</router-link>
-          <a href="TODO" target="_blank">ToucanWriter</a>
+          <a href="TODO" target="_blank">JungleWriter</a>
           <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
         </div>
       </div>

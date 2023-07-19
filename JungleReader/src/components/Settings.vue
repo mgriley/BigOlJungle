@@ -47,7 +47,7 @@ onMounted(() => {
     <h2>Settings</h2>
     <div class="SettingsSection">
       <h3>Persistent Storage</h3>
-      <p>ToucanReader stores your config in your browser's storage. To make sure the browser doesn't
+      <p>JungleReader stores your config in your browser's storage. To make sure the browser doesn't
         automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
         your site data/cache will delete this data, so please back up your config sometimes.</p>
       <button v-if="!persistentStorageOn" @click="enablePersistentStorage">Turn On</button>

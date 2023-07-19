@@ -6,7 +6,7 @@
   <div class="AboutView">
     <p>About View</p>
     <p>
-    ToucanReader is a free + open source web reader, made to help you keep up with the sites you like.
+    JungleReader is a free + open source web reader, made to help you keep up with the sites you like.
     It is designed for quick skimming, so you can skip to the good stuff.
 
     It supports RSS, YouTube, Reddit, Mastodon, Twitter, and more. It has a flexible plugin system that allows developers

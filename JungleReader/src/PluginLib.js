@@ -2,6 +2,7 @@ import { reactive, ref } from 'vue'
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml } from './Utils.js'
+import * as InterpreterUtils from './InterpreterUtils.js'
 
 // Base-class of built-in FeedPlugins
 export class FeedPlugin {
@@ -34,14 +35,6 @@ export const CustomPluginType = {
   URL: 'URL',
   Text: 'Text',
 };
-
-function registerFunc(interpreter, obj, funcName, func) {
-  interpreter.setProperty(obj, funcName, interpreter.createNativeFunction(func));
-}
-
-function registerAsyncFunc(interpreter, obj, funcName, func) {
-  interpreter.setProperty(obj, funcName, interpreter.createAsyncFunction(func));
-}
 
 export class CustomPlugin {
   constructor(app) {
@@ -90,34 +83,7 @@ export class CustomPlugin {
   makeInterpreterInitFunc() {
     let plugin = this;
     return function(interpreter, globalObject) {
-      let logPrefix = `${plugin.feedType}: `;
-      registerFunc(interpreter, globalObject, "log", (logText) => {
-        console.log(logPrefix + logText);
-      });
-      registerFunc(interpreter, globalObject, "logError", (logText) => {
-        console.error(logPrefix + logText);
-      });
-      registerAsyncFunc(interpreter, globalObject, "fetchText",
-        (urlString, fetchOptions, callback) => {
-          let corsUrl = plugin.app.makeCorsProxyUrl(urlString).toString();
-          let fetchPromise = fetch(corsUrl, fetchOptions).then((response) => {
-            return response.text();
-          }).then((text) => {
-            callback(interpreter.nativeToPseudo({value: text, error: null}));
-          }).catch((error) => {
-            console.error(`Error on fetch \"${urlString}\":`, error);
-            callback(interpreter.nativeToPseudo({value: null, error: error.message}));
-          });
-          plugin.pendingPromises.push(fetchPromise);
-        });
-      registerFunc(interpreter, globalObject, "htmlToJs", (htmlString) => {
-        let js = parseXml(htmlString, "text/html");
-        return interpreter.nativeToPseudo(js);
-      });
-      registerFunc(interpreter, globalObject, "xmlToJs", (xmlString) => {
-        let js = parseXml(xmlString, "text/xml");
-        return interpreter.nativeToPseudo(js);
-      });
+      InterpreterUtils.setupInterpreter(plugin, interpreter, globalObject);
     };
   }
 
@@ -135,6 +101,7 @@ export class CustomPlugin {
     } else {
       throw new Error(`Unexpected pluginType: \"${this.pluginType}\"`);
     }
+
     try {
       this.pendingPromises = [];
       for (const feed of feeds) {

@@ -1,8 +1,0 @@
-{
-  "appId": "toucanreader.mriley.ca",
-  "appName": "ToucanReader",
-  "webDir": "dist",
-  "server": {
-    "androidScheme": "https"
-  }
-}
