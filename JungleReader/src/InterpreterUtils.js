@@ -1,6 +1,6 @@
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
-    parseXml, formatXML } from './Utils.js'
+    parseXml, formatXML, prettifyElement } from './Utils.js'
 
 function registerFunc(interpreter, obj, funcName, func) {
   interpreter.setProperty(obj, funcName, interpreter.createNativeFunction(func));
@@ -25,44 +25,116 @@ function setupBasicFuncs(registry) {
   });
   */
 
-  // TODO - generalize to different content types, too.
-  registry.addFunc("prettifyXML", (xmlString) => {
-    return formatXML(xmlString);
+  // stringType: "xml", "html", "json", "js", "elem"
+  registry.addFunc("pretty", (value, valueType) => {
+    let str = null;
+    let nativeValue = registry.interpreter.pseudoToNative(value);
+    if (valueType == "xml" || valueType == "html") {
+      str = formatXML(nativeValue);
+    } else if (valueType == "json") {
+      str = JSON.stringify(JSON.parse(nativeValue), null, 2);
+    } else if (valueType == "js") {
+      str = JSON.stringify(nativeValue, null, 2);
+    } else if (valueType == "elem") {
+      str = prettifyElement(nativeValue);
+    } else {
+      throw new Error("Unsupported valueType arg: " + valueType);
+    }
+    return str;
   });
 }
 
 function setupDocumentFuncs(registry) {
-  // mimeType should be "text/html" or "text/xml"
-  // TODO - allow passing "html", "xml", or "json"
-  registry.addFunc("parseToJs", (xmlString, mimeType) => {
-    let js = parseXml(htmlString, mimeType);
+  // stringType: "html", "xml", or "json"
+  registry.addFunc("parseToJs", (string, stringType) => {
+    let js = null;
+    if (stringType == "html" || stringType == "xml") {
+      js = parseXml(string, "text/" + stringType);
+    } else if (stringType == "json") {
+      js = JSON.parse(string);
+    } else {
+      throw new Error("Unsupported stringType: " + stringType);
+    }
     return registry.interpreter.nativeToPseudo(js);
   });
-  // mimeType should be "text/html" or "text/xml"
-  registry.addFunc("parseToDoc", (xmlString, mimeType) => {
-    let doc = (new DOMParser()).parseFromString(xmlString, mimeType);
+  // stringType: "html" or "xml"
+  registry.addFunc("parseToDoc", (string, stringType) => {
+    if (!(stringType == "html" || stringType == "xml")) {
+      throw new Error("Unsupported stringType: " + stringType);
+    }
+    let doc = (new DOMParser()).parseFromString(xmlString, "text/" + stringType);
     return registry.objTable.add(dom);
   });
 
-  // TODO - add familiar DOM funcs
+  // Traversal
+  registry.addFunc("getParent", (elemHandle) => {
+    let elemParent = registry.objTable.get(elemHandle).parentNode;
+    return registry.objTable.add(elemParent);
+  });
+  registry.addFunc("getChildren", (elemHandle) => {
+    let elemChildren = registry.objTable.get(elemHandle).children();
+    let childHandles = [];
+    for (const child of elemChildren) {
+      childHandles.push(registry.objTable.add(child));
+    }
+    return childHandles;
+  });
+  registry.addFunc("getNextSibling", (elemHandle) => {
+    let elemNext = registry.objTable.get(elemHandle).nextElementSibling;
+    return registry.objTable.add(elemNext);
+  });
+  registry.addFunc("getPrevSibling", (elemHandle) => {
+    let elemPrev = registry.objTable.get(elemHandle).previousElementSibling;
+    return registry.objTable.add(elemPrev);
+  });
+
+  // Properties
+  registry.addFunc("getNodeType", (elemHandle) => {
+    let elem = registry.objTable.get(elemHandle);
+    return elem.nodeType;
+  });
+  registry.addFunc("getNodeName", (elemHandle) => {
+    let elem = registry.objTable.get(elemHandle);
+    return elem.nodeName;
+  });
+  registry.addFunc("getNodeValue", (elemHandle) => {
+    let elem = registry.objTable.get(elemHandle);
+    return elem.nodeValue;
+  });
+  registry.addFunc("getAttr", (elemHandle, attrName) => {
+    let elem = registry.objTable.get(elemHandle);
+    return elem.getAttribute(attrName);
+  });
+  registry.addFunc("getInnerHTML", (elemHandle) => {
+    let elem = registry.objTable.get(elemHandle);
+    return elem.innerHTML;
+  });
+
+  // Querying
+  // TODO - do more later (getElementById, querySelector, etc.)
+  // See: https://www.javascripttutorial.net/javascript-dom/
 }
 
 function setupFetchFuncs(registry) {
-  registry.addAsyncFunc("fetchText",
+  // Fetches the doc at the given URL and returns response.text() as a string.
+  // Aborts the script on failure.
+  registry.addAsyncFunc("fetch",
     (urlString, fetchOptions, callback) => {
       let corsUrl = registry.plugin.app.makeCorsProxyUrl(urlString).toString();
       let fetchPromise = fetch(corsUrl, fetchOptions).then((response) => {
+        if (!response.ok) {
+          throw new Error(`Fetch failed with status: ${response.status} - ${response.statusText}`);
+        }
         return response.text();
       }).then((text) => {
-        callback(registry.interpreter.nativeToPseudo({value: text, error: null}));
+        callback(text);
       }).catch((error) => {
         console.error(`Error on fetch \"${urlString}\":`, error);
-        callback(registry.interpreter.nativeToPseudo({value: null, error: error.message}));
+        // Note: we purposefully abort with error in this case.
+        throw(error);
       });
       registry.plugin.pendingPromises.push(fetchPromise);
     });
-
-  // TODO - add fetch utils. 
 }
 
 class ObjTable {

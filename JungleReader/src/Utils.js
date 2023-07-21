@@ -174,6 +174,11 @@ export function parseXml(xml, mimeType) {
   return parseNode(dom);
 }
 
+// Document Element to pretty string
+export function prettifyElement(elem) {
+  return elem.outerHTML;
+}
+
 // See:
 // https://stackoverflow.com/questions/376373/pretty-printing-xml-with-javascript
 // https://jsfiddle.net/fbn5j7ya/
@@ -189,4 +194,5 @@ export function formatXML(xml, tab = '\t', nl = '\n') {
   }
   return formatted;
 }
+
 
