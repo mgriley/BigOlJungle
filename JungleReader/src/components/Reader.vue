@@ -19,6 +19,12 @@ function launchTutorial() {
       <p class="AppTitle">JungleReader</p>
       <div class="SideMenu">
         <div class="Section">
+          <div class="Flex">
+            <button class="SaveButton" @click="gApp.saveAll()">Save</button>
+            <!-- <h2 v-if="gApp.checkRequiresSave()">Must save!</h2> -->
+          </div>
+        </div>
+        <div class="Section">
           <router-link to="/">My Feed</router-link>
           <router-link to="/starred">Starred</router-link>
           <router-link to="/history">History</router-link>

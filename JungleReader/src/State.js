@@ -10,7 +10,6 @@ const kAppStateKey = "appState";
 
 // TODO - increase update interval for prod
 const kFeedUpdateIntervalSecs = 5;
-const kAutoSaveIntervalSecs = 10;
 
 var gApp = null;
 
@@ -366,7 +365,7 @@ class JungleReader {
     this.customPlugins = reactive([])
     this.pluginToEdit = ref(null);
 
-    this.lastAutoSaveTime = curTimeSecs();
+    this.requiresSave = ref(null);
   }
 
   writeStateToJson() {
@@ -433,18 +432,16 @@ class JungleReader {
     }
   }
 
-  tryAutoSave() {
-    if (curTimeSecs() - this.lastAutoSaveTime > kAutoSaveIntervalSecs) {
-      console.log("Running AutoSave");
-      let stateData = this.writeStateToJson();
-      //console.log(prettyJson(stateData));
+  checkRequiresSave() {
+    return this.requiresSave.value;
+  }
 
-      // TODO - only write if have the most reason of the data.
-      // This way, should work even if have multiple tabs open.
-      localStorage.setItem(kAppStateKey, JSON.stringify(stateData));
-
-      this.lastAutoSaveTime = curTimeSecs();
-    }
+  saveAll() {
+    console.log("Saving Reader");
+    let stateData = this.writeStateToJson();
+    let jsonData = prettyJson(stateData);
+    //console.log(jsonData);
+    localStorage.setItem(kAppStateKey, jsonData);
   }
 
   readStateFromStorage() {
@@ -479,12 +476,6 @@ class JungleReader {
       console.log("Updating feeds");
       app.updateFeeds();
     }, kFeedUpdateIntervalSecs*1000);
-    setInterval(function() {
-      if (!document.hasFocus()) {
-        return;
-      }
-      app.tryAutoSave();
-    }, 1000);
   }
 
   getCorsProxyUrl() {
