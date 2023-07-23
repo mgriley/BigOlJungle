@@ -3,6 +3,7 @@ import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml } from './Utils.js'
 import * as InterpreterUtils from './InterpreterUtils.js'
+import { QuickParser } from './QuickParse.js'
 
 // Base-class of built-in FeedPlugins
 export class FeedPlugin {
@@ -34,6 +35,7 @@ function updateFeed(feed) {
 export const CustomPluginType = {
   URL: 'URL',
   Text: 'Text',
+  QuickParse: 'QuickParse',
 };
 
 export class CustomPlugin {
@@ -44,6 +46,7 @@ export class CustomPlugin {
     this.pluginType = CustomPluginType.URL;
     this.pluginUrl = "";
     this.pluginText = kDefaultCustomCode;
+    this.quickParser = new QuickParser();
     this.options = []
     this.quickHelpDocs = "";
 
@@ -57,6 +60,7 @@ export class CustomPlugin {
       pluginType: this.pluginType,
       pluginUrl: this.pluginUrl,
       pluginText: this.pluginText,
+      quickParser: this.quickParser.writeToJson(),
       options: optionsToJson(this.options),
       quickHelpDocs: this.quickHelpDocs,
     }
@@ -71,6 +75,9 @@ export class CustomPlugin {
     this.pluginUrl = obj.pluginUrl;
     if ('pluginText' in obj) {
       this.pluginText = obj.pluginText;
+    }
+    if ('quickParser' in obj) {
+      this.quickParser.readFromJson(obj.quickParser);
     }
     this.options = jsonToOptions(obj.options);
     this.quickHelpDocs = obj.quickHelpDocs;
@@ -91,17 +98,21 @@ export class CustomPlugin {
     if (!this.isEnabled) {
       return;
     }
-    let interpreter = null;
     if (this.pluginType == CustomPluginType.Text) {
-      let initFunc = this.makeInterpreterInitFunc();
-      interpreter = new Interpreter(this.pluginText, initFunc);
+      this.updateFeedsFromProgram(feeds, this.pluginText);
     } else if (this.pluginType == CustomPluginType.URL) {
       // TODO - load text
       throw new Error("Not Impl");
+    } else if (this.pluginType == CustomPluginType.QuickParse) {
+      this.quickParser.updateFeeds(feeds)
     } else {
       throw new Error(`Unexpected pluginType: \"${this.pluginType}\"`);
     }
+  }
 
+  async updateFeedsFromProgram(feeds, programText) {
+    let initFunc = this.makeInterpreterInitFunc();
+    let interpreter = new Interpreter(programText, initFunc);
     try {
       this.pendingPromises = [];
       for (const feed of feeds) {
@@ -113,18 +124,6 @@ export class CustomPlugin {
     }
   }
 
-  getValue(interpreter, propName) {
-    // let prop = interpreter.getValue(propName);
-    let prop = interpreter.getProperty(interpreter.globalObject, propName);
-    return interpreter.pseudoToNative(prop);
-  }
-
-  setValue(interpreter, propName, propValue) {
-    let pseudoPropValue = interpreter.nativeToPseudo(propValue);
-    // interpreter.setValue(propName, pseudoPropValue);
-    interpreter.setProperty(interpreter.globalObject, propName, pseudoPropValue);
-  }
-
   async runInterpreter(interpreter, feed) {
     // console.log("Interpreter: ");
     // console.log(interpreter);
@@ -133,8 +132,7 @@ export class CustomPlugin {
       'feed': feed.name
     }
     
-    // this.setValue(interpreter, "feed", "Hello world!");
-    this.setValue(interpreter, "feed", {"lol": "Hello", "foo": "World"});
+    InterpreterUtils.setValue(interpreter, "feed", {"lol": "Hello", "foo": "World"});
     interpreter.appendCode("updateFeed(feed)");
 
     console.log(`Starting update for FeedType "${this.feedType}", URL: "${feed.url}"`);

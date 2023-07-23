@@ -2,6 +2,19 @@ import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, formatXML, prettifyElement } from './Utils.js'
 
+
+export function getValue(interpreter, propName) {
+  // let prop = interpreter.getValue(propName);
+  let prop = interpreter.getProperty(interpreter.globalObject, propName);
+  return interpreter.pseudoToNative(prop);
+}
+
+export function setValue(interpreter, propName, propValue) {
+  let pseudoPropValue = interpreter.nativeToPseudo(propValue);
+  // interpreter.setValue(propName, pseudoPropValue);
+  interpreter.setProperty(interpreter.globalObject, propName, pseudoPropValue);
+}
+
 function registerFunc(interpreter, obj, funcName, func) {
   interpreter.setProperty(obj, funcName, interpreter.createNativeFunction(func));
 }

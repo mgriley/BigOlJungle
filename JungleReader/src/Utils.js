@@ -213,3 +213,20 @@ export function downloadTextFile(contents, filename) {
     a.remove();
   }, 1000);
 }
+
+// Returns null on error.
+export async function asyncFetchText(url, options) {
+  let textStr = null;
+  try {
+    let response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`Failed to get: ${url}. ${reponse.status} ${response.statusText}`);
+    }
+    textStr = await response.text();
+  } catch (error) {
+    console.error(`Fetch for "${url}" failed with error: `, error);
+    return null;
+  }
+  return textStr;
+}
+

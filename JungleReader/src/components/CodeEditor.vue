@@ -39,6 +39,10 @@ function highlighter(code) {
     <!-- <textarea v-model="value"></textarea> -->
     <prism-editor class="my-editor" v-model="value" :highlight="highlighter" line-numbers></prism-editor>
   </div>
+  <div>
+    <h2>Docs</h2>
+    <p>TODO</p>
+  </div>
 </template>
 
 <style scoped>

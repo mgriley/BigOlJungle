@@ -11,7 +11,11 @@ import ToggleSwitch from './ToggleSwitch.vue'
 let optionsEditorModal = ref(null);
 let pluginToEdit = ref(null);
 
-let supportedPluginTypes = [CustomPluginType.URL, CustomPluginType.Text];
+let supportedPluginTypes = [
+  CustomPluginType.URL,
+  CustomPluginType.QuickParse,
+  CustomPluginType.Text,
+];
 
 function addPlugin() {
   let plugin = new CustomPlugin(gApp);
@@ -31,8 +35,12 @@ function onChangePluginType(plugin, newType) {
   plugin.pluginType = newType;
 }
 
-function openTextEditor(plugin) {
+function openEditor(plugin) {
   gApp.setPluginToEdit(plugin);
+}
+
+function openQuickParseEditor(plugin) {
+  // TODO
 }
 
 </script>
@@ -48,8 +56,11 @@ function openTextEditor(plugin) {
           <template v-if="plugin.pluginType == CustomPluginType.URL">
             <input v-model="plugin.pluginUrl" class="Block UrlInput" placeholder="Ex. https://www.myplugins.com/plugin.js">
           </template>
-          <template v-else>
-            <button @click="openTextEditor(plugin)">Edit text</button>
+          <template v-else-if="plugin.pluginType == CustomPluginType.Text">
+            <button @click="openEditor(plugin)">Edit text</button>
+          </template>
+          <template v-else-if="plugin.pluginType == CustomPluginType.QuickParse">
+            <button @click="openEditor(plugin)">Edit parser</button>
           </template>
           <button @click="editOptions(plugin)">Options</button>
           <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />
