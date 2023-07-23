@@ -195,4 +195,21 @@ export function formatXML(xml, tab = '\t', nl = '\n') {
   return formatted;
 }
 
+export function downloadTextFile(contents, filename) {
+  // See: https://web.dev/patterns/files/save-a-file/
+  const blob = new Blob([contents], { type: 'text/plain' });
+  const blobURL = URL.createObjectURL(blob);
+  // Create invisible link element and trigger
+  const a = document.createElement('a');
+  a.href = blobURL;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.append(a);
+  a.click();
 
+  // Revoke the blob URL and remove the element.
+  setTimeout(() => {
+    URL.revokeObjectURL(blobURL);
+    a.remove();
+  }, 1000);
+}

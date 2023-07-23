@@ -1,7 +1,7 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
-  optionsToJson, jsonToOptions } from './Utils.js'
+  optionsToJson, jsonToOptions, downloadTextFile } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
@@ -444,6 +444,27 @@ class JungleReader {
     localStorage.setItem(kAppStateKey, jsonData);
   }
 
+  exportConfig() {
+    console.log("Exporting config")
+    let stateData = this.writeStateToJson();
+    let jsonData = prettyJson(stateData);
+    downloadTextFile(jsonData, "JungleReaderConfig.txt");
+  }
+
+  // Returns: true on success, false on failure
+  importConfig(configStr) {
+    console.log("Importing config");
+    let prevConfig = this.writeStateToJson();
+    try {
+      this.readStateFromJson(JSON.parse(configStr));
+    } catch (error) {
+      console.error("Error occurred on import config. Falling back to old config.", error);
+      this.readStateFromJson(prevConfig);
+      return false;
+    }
+    return true;
+  }
+
   readStateFromStorage() {
     let appState = localStorage.getItem(kAppStateKey);
     if (appState) {
@@ -455,6 +476,7 @@ class JungleReader {
   run() {
     let app = this;
 
+    // TODO - trigger error if failed to read this.
     this.readStateFromStorage()
 
     // Note: this is called when localStorage is modified from another document with this

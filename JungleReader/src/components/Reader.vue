@@ -1,12 +1,48 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import BasicModal from 'Shared/BasicModal.vue'
 
 /*
 See:
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_fixed2
 https://codepen.io/flaviocopes/pen/JZWOEK
 */
+
+let importConfigModal = ref(null);
+let importFileInput = ref(null);
+
+function startImportConfig() {
+  importConfigModal.value.showModal();
+}
+
+function importConfig() {
+  const uploadedFile = importFileInput.value.files[0];
+  if (!uploadedFile) {
+    console.log("No file uploaded");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.addEventListener("load", (evt) => {
+    // TODO - handle more errors here.
+    if (!reader.result || reader.result === "") {
+      console.log("The read file is invalid");
+      return;
+    }
+    let success = gApp.importConfig(reader.result);  
+    if (!success) {
+      // TODO - show the error to the user
+      console.log("Import failed!");
+      return;
+    }
+    // TODO - trigger success toast
+    importConfigModal.value.closeModal();
+  }, false);
+
+  console.log("Reading file: " + uploadedFile.name);
+  reader.readAsText(uploadedFile);
+}
 
 function launchTutorial() {
   // TODO
@@ -30,8 +66,8 @@ function launchTutorial() {
           <router-link to="/history">History</router-link>
         </div>
         <div class="Section">
-          <router-link to="/import">Import Config</router-link>
-          <router-link to="/export">Export Config</router-link>
+          <button @click="startImportConfig()">Import Config</button>
+          <button @click="gApp.exportConfig()">Export Config</button>
         </div>
         <div class="Section">
           <a href="#" @click.prevent="launchTutorial()">Tutorial</a>
@@ -48,6 +84,15 @@ function launchTutorial() {
       <router-view></router-view>
     </div>
   </div>
+  <BasicModal ref="importConfigModal">
+    <h1>Import Config</h1>
+    <p>When you import a config, it will override your current config.</p>
+    <p>You may want to export your current config first.</p>
+    <div>
+      <input ref="importFileInput" type="file" id="input" />
+    </div>
+    <button @click="importConfig">Import</button>
+  </BasicModal>
 </template>
 
 <style scoped>
