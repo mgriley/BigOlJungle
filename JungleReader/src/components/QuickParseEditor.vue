@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import QuickParseNode from './QuickParseNode.vue'
+import BasicModal from 'Shared/BasicModal.vue'
 
 /*
 Format:
@@ -23,10 +24,67 @@ To click:
 
 const props = defineProps(['plugin'])
 
+let quickParser = props.plugin.quickParser;
 let showTutorial = ref(false);
+let itemSetterModal = ref(null);
+let selectedNodeObj = ref(null);
 
 function toggleTutorial() {
   showTutorial.value = !showTutorial.value;
+}
+
+let domItems = computed(() => {
+  return [
+    {
+      name: 'First Item Title',
+      path: quickParser.firstItemTitlePath,
+      required: true,
+    },
+    {
+      name: 'First Item Link',
+      path: quickParser.firstItemUrlPath,
+      required: false,
+    },
+    {
+      name: 'First Item Date',
+      path: quickParser.firstItemDatePath,
+      required: false,
+    },
+    {
+      name: 'First Item Author',
+      path: quickParser.firstItemAuthorPath,
+      required: false,
+    },
+    {
+      name: 'First Item Points',
+      path: quickParser.firstItemPtsPath,
+      required: false,
+    },
+    {
+      name: 'Second Item Title',
+      path: quickParser.secondItemTitlePath,
+      required: true,
+    }
+  ]
+})
+
+function openItemSetterModal(nodeData) {
+  console.log("Opening ItemSettingModal");
+  selectedNodeObj.value = nodeData;
+  itemSetterModal.value.showModal();
+}
+
+function setDomItem(domItem) {
+  quickParser.setPathFromNodeData(domItem.path, selectedNodeObj.value);
+}
+
+function clearDomItem(domItem) {
+  domItem.path.clear();
+}
+
+function onSelectTestNode(node) {
+  // console.log(node);
+  openItemSetterModal(node);
 }
 
 </script>
@@ -66,33 +124,76 @@ function toggleTutorial() {
         </p>
       </div>
     </div>
-    <p>Test URL</p>
-    <input v-model="plugin.quickParser.testUrl" class="Block UrlInput" placeholder="Ex. https://news.ycombinator.com" size="40">
-    <button @click="plugin.quickParser.fetchTestContent()">Fetch Test Page</button>
-    <div class="DomTree">
-      <template v-if="plugin.quickParser.testFetchContent !== null">
-        <QuickParseNode :nodeData="plugin.quickParser.testFetchContent" :childNum="0" :numChildren="1" />
-      </template>
-      <template v-else>
-      </template>
+    <div class="DomItems">
+      <h3>Parser Paths</h3>
+      <ul>
+        <li v-for="item in domItems">
+          <div class="Flex">
+            <p>{{ item.name }}{{ item.required ? "[Required]" : "[Optional]" }}</p>
+            <p>{{ item.path.toShortStr() }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="TestContent">
+      <p>Test URL</p>
+      <input v-model="plugin.quickParser.testUrl" class="Block UrlInput" placeholder="Ex. https://news.ycombinator.com" size="40">
+      <button @click="plugin.quickParser.fetchTestContent()">Fetch Test Page</button>
+      <div class="DomTree">
+        <template v-if="plugin.quickParser.testFetchContent !== null">
+          <QuickParseNode :nodeData="plugin.quickParser.testFetchContent" :childNum="0" :numChildren="1"
+            @selectNode="onSelectTestNode" />
+        </template>
+        <template v-else>
+          <p>Nothing here yet.</p>
+        </template>
+      </div>
     </div>
     <div>
+      <p>Test Output</p>
       <button @click="plugin.quickParser.runTestParse()">Run Test Parse</button>
-      <div v-if="plugin.quickParser.testParseOutput !== null">
-        <p>{{ plugin.quickParser.testParseOutput }}</p>
+      <div class="TestOutputBox">
+        <p>{{ plugin.quickParser.testParseOutput !== null ? plugin.quickParser.testParseOutput : "Nothing here yet." }}</p>
       </div>
     </div>
   </div>
+  <BasicModal ref="itemSetterModal">
+    <div v-for="item in domItems" class="Flex">
+      <button class="SetItemBtn" @click="setDomItem(item)">Set</button>
+      <button class="ClearItemBtn" @click="clearDomItem(item)">Clear</button>
+      <p>{{ item.name }}: {{ item.path.toShortStr() }}</p>
+    </div>
+  </BasicModal>
 </template>
 
 <style scoped>
 
+.DomItems {
+  margin: 20px 0px;
+}
+
 .DomTree {
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 40px;
+  border: 2px solid black;
+  padding: 10px;
+}
+
+.TestOutputBox {
+  margin: 20px 0px;
+  border: 2px solid black;
+  padding: 10px;
 }
 
 .Tutorial {
   margin-bottom: 40px;
+}
+
+.SetItemBtn {
+  margin-right: 5px;
+}
+
+.ClearItemBtn {
+  margin-right: 15px;
 }
 </style>

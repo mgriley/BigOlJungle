@@ -57,6 +57,18 @@ function copyOptions(options) {
   })
 }
 
+function deepCopyObject(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+export function writeObjToJson(obj) {
+  return deepCopyObject(obj);
+}
+
+export function readObjFromJson(obj) {
+  return deepCopyObject(obj);
+}
+
 export function optionsToJson(options) {
   return copyOptions(options);
 }
