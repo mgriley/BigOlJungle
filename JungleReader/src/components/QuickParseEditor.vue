@@ -79,7 +79,7 @@ function setDomItem(domItem) {
 }
 
 function clearDomItem(domItem) {
-  domItem.path.clear();
+  quickParser.clearPath(domItem.path);
 }
 
 function onSelectTestNode(node) {

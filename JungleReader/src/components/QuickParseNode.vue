@@ -61,13 +61,16 @@ function getAttrStr(nodeData) {
   <div class="QuickParseNode">
     <div class="Flex">
       <TreeIcon :style="{visibility: nodeData.children.length > 0 ? 'visible' : 'hidden'}" :expanded="isExpanded" @click="toggleExpanded" />
-      <div class="ParseNodeTitle TextButton" :class="{ChosenParseNode: nodeData.isChosen}" @click="emit('selectNode', nodeData)">
-        <template v-if="nodeData.type == 'text'">
-          <p>text: "{{ nodeData.value }}"</p>
-        </template>
-        <template v-else>
-          <p>&lt;{{ nodeData.name.toLowerCase() }}{{ getAttrStr(nodeData) }}&gt;</p>
-        </template>
+      <div class="Flex">
+        <div class="ParseNodeTitle TextButton Flex" :class="{ChosenParseNode: nodeData.isChosen}" @click="emit('selectNode', nodeData)">
+          <template v-if="nodeData.type == 'text'">
+            <p>text: "{{ nodeData.value }}"</p>
+          </template>
+          <template v-else>
+            <p>&lt;{{ nodeData.name.toLowerCase() }}{{ getAttrStr(nodeData) }}&gt;</p>
+          </template>
+        </div>
+        <p v-if="nodeData.helperText" class="HelperText">({{ nodeData.helperText }})</p>
       </div>
     </div>
     <template v-if="nodeData.children.length > 0">
@@ -97,5 +100,9 @@ function getAttrStr(nodeData) {
 .ChildList {
   list-style-type: none;
   padding-left: 20px;
+}
+
+.HelperText {
+  margin-left: 5px;
 }
 </style>

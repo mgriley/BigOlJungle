@@ -1,11 +1,13 @@
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, asyncFetchText,
-    writeObjToJson, readObjFromJson } from './Utils.js'
+    writeObjToJson, readObjFromJson, deepCopyObject } from './Utils.js'
 import { gApp } from './State.js'
 
-export class DocPath {
-  constructor() {
+export class DomPath {
+  constructor(name) {
+    this.name = name;
+    // Really more like a list of `deltas`
     this.pathItems = [];
   }
 
@@ -21,6 +23,10 @@ export class DocPath {
     }
   }
 
+  isEmpty() {
+    return this.pathItems.length === 0;
+  }
+
   toStr() {
     // return "Not impl";
     if (this.pathItems.length === 0) {
@@ -29,27 +35,45 @@ export class DocPath {
     let strItems = [];
     for (let i = 0; i < this.pathItems.length; ++i) {
       let pathItem = this.pathItems[i];
-      let childNumOf = i > 0 ? this.pathItems[i - 1].numChildren : 1;
-      strItems.push(`${pathItem.name.toLowerCase()}_${pathItem.childNum + 1}_${childNumOf}`);
+      let str = "";
+      if (pathItem.deltaType == 'GoDown') {
+        str = `GoDown to ${pathItem.nextChildNum}`;
+      } else if (pathItem.deltaType == 'GoUp') {
+        str = "GoUp";
+      }
+      strItems.push(str);
     }
-    return strItems.join(" / ");
+    return strItems.join(" -> ");
   }
 
   toShortStr() {
+    return this.toStr();
+    /*
     if (this.pathItems.length === 0) {
       return "Empty";
     }
     let item = this.pathItems[this.pathItems.length - 1];
     return `.../${item.name.toLowerCase()}`;
+    */
   }
 
   setFromNodeData(nodeData) {
-    // console.log("Setting from nodeData");
     this.pathItems = [];
+    if (!nodeData) {
+      return;
+    }
     let curNode = nodeData;
-    while (curNode) {
-      this.pathItems.push({childNum: curNode.childNum, numChildren: curNode.children.length,
-        name: curNode.name, type: curNode.type});
+    while (curNode.parent) {
+      let pathItem = {
+        deltaType: 'GoDown',
+        name: curNode.parent.name,
+        type: curNode.parent.type,
+        nextName: curNode.name,
+        nextType: curNode.type,
+        nextChildNum: curNode.childNum,
+        numChildren: curNode.parent.children.length,
+      };
+      this.pathItems.push(pathItem);
       curNode = curNode.parent;
     }
     this.pathItems.reverse();
@@ -59,21 +83,59 @@ export class DocPath {
     this.pathItems = [];
   }
 
-  // Returns null if not found
-  lookupNode(nodeTree) {
-    if (this.pathItems.length === 0) {
-      return null;
+  // Returns newNode = node + path, or null if not found
+  static addPath(rootNode, path) {
+    if (path.pathItems.length === 0) {
+      return rootNode;
     }
-    let curNode = nodeTree;
-    for (let i = 1; i < this.pathItems.length; ++i) {
-      let pathItem = this.pathItems[i];
-      if (pathItem.childNum < curNode.children.length) {
-        curNode = curNode.children[pathItem.childNum];
-      } else {
-        return null;
+    let curNode = rootNode;
+    for (let i = 0; i < path.pathItems.length; ++i) {
+      let pathItem = path.pathItems[i];
+      if (pathItem.deltaType == 'GoDown') {
+        if (pathItem.nextChildNum < curNode.children.length) {
+          curNode = curNode.children[pathItem.nextChildNum];
+        } else {
+          return null;
+        }
+      } else if (pathItem.deltaType == 'GoUp') {
+        curNode = curNode.parent;
+        if (!curNode) {
+          return null;
+        }
       }
     }
     return curNode;
+  }
+
+  static pathItemsEqual(itemA, itemB) {
+    return JSON.stringify(itemA) == JSON.stringify(itemB);
+  }
+
+  static findCommonPrefixItems(pathA, pathB) {
+    let prefix = [];
+    for (let i = 0; i < pathA.pathItems.length && i < pathB.pathItems.length; ++i) {
+      if (!DomPath.pathItemsEqual(pathA.pathItems[i], pathB.pathItems[i])) {
+        break;
+      }
+      prefix.push(deepCopyObject(pathA.pathItems.length));
+    }
+    return prefix;
+  }
+
+  // Returns pathA - pathB, or null on failure
+  // Both paths must cannot have any 'up' paths.
+  static getDelta(pathA, pathB) {
+    let prefixPath = DomPath.findCommonPrefixItems(pathA, pathB);
+    let deltaPath = [];
+    for (let i = 0; i < pathA.pathItems.length - prefixPath.length; ++i) {
+      deltaPath.push({deltaType: 'GoUp'});
+    }
+    for (let i = prefixPath.length; i < pathB.pathItems.length; ++i) {
+      deltaPath.push(deepCopyObject(pathB.pathItems[i]));
+    }
+    let domPath = new DomPath("Delta");
+    domPath.pathItems = deltaPath;
+    return domPath;
   }
 }
 
@@ -83,12 +145,12 @@ export class QuickParser {
     this.testFetchContent = null;
     this.testParseOutput = null;
 
-    this.firstItemTitlePath = new DocPath();
-    this.firstItemUrlPath = new DocPath();
-    this.firstItemDatePath = new DocPath();
-    this.firstItemPtsPath = new DocPath();
-    this.firstItemAuthorPath = new DocPath();
-    this.secondItemTitlePath = new DocPath();
+    this.firstItemTitlePath = new DomPath("First Item Title");
+    this.firstItemUrlPath = new DomPath("First Item Url");
+    this.firstItemDatePath = new DomPath("First Item Date");
+    this.firstItemPtsPath = new DomPath("First Item Pts");
+    this.firstItemAuthorPath = new DomPath("First Item Author");
+    this.secondItemTitlePath = new DomPath("Second Item Title");
   }
 
   writeToJson() {
@@ -126,7 +188,7 @@ export class QuickParser {
   }
 
   async updateFeed(feed) {
-    // TODO - fetch the text. Parse using the DocPaths
+    // TODO - fetch the text. Parse using the DomPaths
   }
 
   addHelperData(node, parentNode, childNum) {
@@ -134,6 +196,7 @@ export class QuickParser {
     node.parent = parentNode;
     node.childNum = childNum;
     node.isChosen = false;
+    node.helperText = "";
     for (let i = 0; i < node.children.length; ++i) {
       this.addHelperData(node.children[i], node, i);
     }
@@ -167,6 +230,7 @@ export class QuickParser {
 
   clearChosenFlags(node) {
     node.isChosen = false;
+    node.helperText = "";
     for (const child of node.children) {
       this.clearChosenFlags(child);
     }
@@ -187,9 +251,13 @@ export class QuickParser {
     this.clearChosenFlags(this.testFetchContent);
     let paths = this.getAllDomPaths();
     for (const path of paths) {
-      let node = path.lookupNode(this.testFetchContent);
+      if (path.isEmpty()) {
+        continue;
+      }
+      let node = DomPath.addPath(this.testFetchContent, path);
       if (node) {
         node.isChosen = true;
+        node.helperText = node.helperText ? `${node.helperText}, ${path.name}` : path.name;
       }
     }
   }
@@ -199,9 +267,77 @@ export class QuickParser {
     this.updateChosenFlags();
   }
 
+  clearPath(domPath) {
+    domPath.clear();
+    this.updateChosenFlags();
+  }
+
+  getTextValue(node) {
+    // TODO - handle a few different variations
+    return node.value;
+  }
+
+  async parsePage(pageUrl) {
+    let pageHtml = await asyncFetchText(gApp.makeCorsProxyUrl(pageUrl));
+    if (!pageHtml) {
+      // TODO - show an error toast
+      console.error("Failed to fetch content from the URL. Please check it.");
+      return null;
+    }
+    let jsonDoc = null;
+    try {
+      jsonDoc = parseXml(pageHtml, "text/html");
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+
+    if (this.firstItemTitlePath.isEmpty()) {
+      console.log("Error: the First Item Title is mandatory");
+      return null;
+    }
+    if (this.secondItemTitlePath.isEmpty()) {
+      console.log("Error: this Second Item Title is mandatory");
+      return null;
+    }
+    let firstItemAnchor = DomPath.addPath(jsonDoc, this.firstItemTitlePath);
+    if (!firstItemAnchor) {
+      console.error("Failed to find node for firstItemTitle");
+      return null;
+    }
+    let secondItemAnchor = DomPath.addPath(jsonDoc, this.secondItemTitlePath);
+    if (!secondItemAnchor) {
+      console.error("Failed to find node for secondItemTitle");
+      return null;
+    }
+
+    // Traverse the item list
+    let output = [];
+    let anchorDelta = DomPath.getDelta(this.firstItemTitle, this.secondItemTitle);
+    let curAnchor = firstItemAnchor;
+    while (curAnchor) {
+      let obj = {
+        title: this.getTextValue(curAnchor),
+      }
+      output.push(obj);
+      curAnchor = DomPath.addPath(curAnchor, anchorDelta);
+      if (!curAnchor) {
+        // Finished list
+        break;
+      }
+    }
+
+    return output;
+  }
+
   async runTestParse() {
     this.testParseOutput = null;
-    // TODO
+    let linkData = parsePage(this.testUrl);
+    if (linkData == null) {
+      console.error("Test parse failed");
+      return;
+    }
+    this.testParseOutput = JSON.stringify(this.testParseOutput, null, 2);
   }
 }
 
