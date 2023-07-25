@@ -313,7 +313,10 @@ export class QuickParser {
 
     // Traverse the item list
     let output = [];
-    let anchorDelta = DomPath.getDelta(this.firstItemTitle, this.secondItemTitle);
+    let anchorDelta = DomPath.getDelta(this.firstItemTitlePath, this.secondItemTitlePath);
+    console.log("TitleA Path: " + this.firstItemTitlePath.toStr());
+    console.log("TitleB Path: " + this.secondItemTitlePath.toStr());
+    console.log("Delta Path:  " + anchorDelta.toStr());
     let curAnchor = firstItemAnchor;
     while (curAnchor) {
       let obj = {
@@ -332,12 +335,12 @@ export class QuickParser {
 
   async runTestParse() {
     this.testParseOutput = null;
-    let linkData = parsePage(this.testUrl);
+    let linkData = await this.parsePage(this.testUrl);
     if (linkData == null) {
       console.error("Test parse failed");
       return;
     }
-    this.testParseOutput = JSON.stringify(this.testParseOutput, null, 2);
+    this.testParseOutput = JSON.stringify(linkData, null, 2);
   }
 }
 
