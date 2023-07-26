@@ -183,6 +183,7 @@ function onSelectTestNode(node) {
   margin: 20px 0px;
   border: 2px solid black;
   padding: 10px;
+  white-space: pre;
 }
 
 .Tutorial {

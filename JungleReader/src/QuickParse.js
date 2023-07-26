@@ -37,9 +37,9 @@ export class DomPath {
       let pathItem = this.pathItems[i];
       let str = "";
       if (pathItem.deltaType == 'GoDown') {
-        str = `GoDown to ${pathItem.nextChildNum}`;
+        str = `${pathItem.name}_${pathItem.nextName}_GoTo${pathItem.nextChildNum}`;
       } else if (pathItem.deltaType == 'GoUp') {
-        str = "GoUp";
+        str = `${pathItem.name}_GoUp`;
       }
       strItems.push(str);
     }
@@ -91,15 +91,19 @@ export class DomPath {
     let curNode = rootNode;
     for (let i = 0; i < path.pathItems.length; ++i) {
       let pathItem = path.pathItems[i];
+      console.log(`At node ${curNode.name}:`);
+      console.log(curNode);
       if (pathItem.deltaType == 'GoDown') {
         if (pathItem.nextChildNum < curNode.children.length) {
           curNode = curNode.children[pathItem.nextChildNum];
         } else {
+          console.log("Child out of range");
           return null;
         }
       } else if (pathItem.deltaType == 'GoUp') {
         curNode = curNode.parent;
         if (!curNode) {
+          console.log("No parent found");
           return null;
         }
       }
@@ -123,12 +127,21 @@ export class DomPath {
   }
 
   // Returns pathA - pathB, or null on failure
-  // Both paths must cannot have any 'up' paths.
+  // Both paths cannot have any 'up' paths, and they must share some common prefix.
+  // Ex.
+  // A: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, DIV1_GoTo0, DIV2_GoTo2, DIV3_GoTo3
+  // B: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3
+  // O: _GoUp, DIV3_GoUp, DIV2_GoUp, DIV1_GoUp, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3 
   static getDelta(pathA, pathB) {
     let prefixPath = DomPath.findCommonPrefixItems(pathA, pathB);
+    if (prefixPath == 0) {
+      throw new Error("The paths must have common prefix");
+    }
     let deltaPath = [];
-    for (let i = 0; i < pathA.pathItems.length - prefixPath.length; ++i) {
-      deltaPath.push({deltaType: 'GoUp'});
+    for (let i = pathA.pathItems.length - 1; i >= prefixPath.length; --i) {
+      let item = pathA.pathItems[i];
+      // Push a GoUp to get to `item`
+      deltaPath.push({name: item.nextName, deltaType: 'GoUp'});
     }
     for (let i = prefixPath.length; i < pathB.pathItems.length; ++i) {
       deltaPath.push(deepCopyObject(pathB.pathItems[i]));
@@ -291,6 +304,7 @@ export class QuickParser {
       console.error(error);
       return null;
     }
+    this.addHelperData(jsonDoc, null, 0);
 
     if (this.firstItemTitlePath.isEmpty()) {
       console.log("Error: the First Item Title is mandatory");
@@ -311,14 +325,19 @@ export class QuickParser {
       return null;
     }
 
-    // Traverse the item list
+    // Traverse the item list.
+    // TODO - change strategy. Find the first common ancestor. Verify that first and second
+    // are the same except for a childOffset within this common ancestor.
+    // Increment the firstChildOffset within the common ancestor, then repeatedly add
+    // the ancestor -> item delta.
     let output = [];
     let anchorDelta = DomPath.getDelta(this.firstItemTitlePath, this.secondItemTitlePath);
     console.log("TitleA Path: " + this.firstItemTitlePath.toStr());
     console.log("TitleB Path: " + this.secondItemTitlePath.toStr());
     console.log("Delta Path:  " + anchorDelta.toStr());
+    console.log("Starting list parsing");
     let curAnchor = firstItemAnchor;
-    while (curAnchor) {
+    while (curAnchor && output.length < 40) {
       let obj = {
         title: this.getTextValue(curAnchor),
       }
@@ -326,6 +345,7 @@ export class QuickParser {
       curAnchor = DomPath.addPath(curAnchor, anchorDelta);
       if (!curAnchor) {
         // Finished list
+        console.log("Done list parsing");
         break;
       }
     }
