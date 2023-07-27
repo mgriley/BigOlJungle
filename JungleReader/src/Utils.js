@@ -61,6 +61,20 @@ export function deepCopyObject(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
+export function valOr(val, defaultVal) {
+  return typeof val !== 'undefined' ? val : defaultVal;
+}
+
+export function deepCopyArray(arr, startInc, endExc) {
+  startInc = valOr(startInc, 0);
+  endExc = valOr(endExc, arr.length);
+  let res = [];
+  for (let i = startInc; i < endExc; ++i) {
+    res.push(deepCopyObject(arr[i]));
+  }
+  return res;
+}
+
 export function writeObjToJson(obj) {
   return deepCopyObject(obj);
 }

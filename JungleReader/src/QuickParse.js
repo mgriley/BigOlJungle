@@ -1,14 +1,21 @@
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, asyncFetchText,
-    writeObjToJson, readObjFromJson, deepCopyObject } from './Utils.js'
+    writeObjToJson, readObjFromJson,
+    deepCopyObject, deepCopyArray } from './Utils.js'
 import { gApp } from './State.js'
 
+function dumpListInfo(listInfo) {
+  console.log("ListRootPath: " + listInfo.listRootPath.toStr());
+  console.log("ItemPath: " + listInfo.itemPath.toStr());
+  console.log("ChildNumDelta: " + listInfo.childNumDelta);
+}
+
 export class DomPath {
-  constructor(name) {
+  constructor(name, pathItems=[]) {
     this.name = name;
     // Really more like a list of `deltas`
-    this.pathItems = [];
+    this.pathItems = pathItems;
   }
 
   writeToJson() {
@@ -35,15 +42,19 @@ export class DomPath {
     let strItems = [];
     for (let i = 0; i < this.pathItems.length; ++i) {
       let pathItem = this.pathItems[i];
-      let str = "";
-      if (pathItem.deltaType == 'GoDown') {
-        str = `${pathItem.name}_${pathItem.nextName}_GoTo${pathItem.nextChildNum}`;
-      } else if (pathItem.deltaType == 'GoUp') {
-        str = `${pathItem.name}_GoUp`;
-      }
-      strItems.push(str);
+      strItems.push(DomPath.itemToStr(pathItem));
     }
     return strItems.join(" -> ");
+  }
+
+  static itemToStr(pathItem) {
+    let str = "";
+    if (pathItem.deltaType == 'GoDown') {
+      str = `${pathItem.name}_${pathItem.nextName}_GoTo${pathItem.nextChildNum}`;
+    } else if (pathItem.deltaType == 'GoUp') {
+      str = `${pathItem.name}_GoUp`;
+    }
+    return str;
   }
 
   toShortStr() {
@@ -84,15 +95,16 @@ export class DomPath {
   }
 
   // Returns newNode = node + path, or null if not found
-  static addPath(rootNode, path) {
+  static addPath(rootNode, path, debug=false) {
     if (path.pathItems.length === 0) {
       return rootNode;
     }
     let curNode = rootNode;
     for (let i = 0; i < path.pathItems.length; ++i) {
       let pathItem = path.pathItems[i];
-      console.log(`At node ${curNode.name}:`);
-      console.log(curNode);
+      if (debug) {
+        console.log(`At node ${curNode.name}:`, curNode);
+      }
       if (pathItem.deltaType == 'GoDown') {
         if (pathItem.nextChildNum < curNode.children.length) {
           curNode = curNode.children[pathItem.nextChildNum];
@@ -121,7 +133,7 @@ export class DomPath {
       if (!DomPath.pathItemsEqual(pathA.pathItems[i], pathB.pathItems[i])) {
         break;
       }
-      prefix.push(deepCopyObject(pathA.pathItems.length));
+      prefix.push(deepCopyObject(pathA.pathItems[i]));
     }
     return prefix;
   }
@@ -131,7 +143,8 @@ export class DomPath {
   // Ex.
   // A: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, DIV1_GoTo0, DIV2_GoTo2, DIV3_GoTo3
   // B: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3
-  // O: _GoUp, DIV3_GoUp, DIV2_GoUp, DIV1_GoUp, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3 
+  // O: #text_GoUp, DIV3_GoUp, DIV2_GoUp, DIV1_GoUp, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3 
+  // TODO -  not as useful as I would've thought. Refactor to ret ancestor info.
   static getDelta(pathA, pathB) {
     let prefixPath = DomPath.findCommonPrefixItems(pathA, pathB);
     if (prefixPath == 0) {
@@ -149,6 +162,51 @@ export class DomPath {
     let domPath = new DomPath("Delta");
     domPath.pathItems = deltaPath;
     return domPath;
+  }
+
+  // Takes: pathA to Item1 and pathB to Item2 within some logical dom list
+  // Returns a {value, error} object
+  static detectLogicalList(pathA, pathB) {
+    let prefixPath = DomPath.findCommonPrefixItems(pathA, pathB);
+    if (prefixPath.length == 0) {
+      return {error: "The paths must have common prefix"};
+    }
+    if (!(pathA.pathItems.length > prefixPath.length &&
+      pathB.pathItems.length > prefixPath.length)) {
+      return {error: "The two paths must be items within some parent list element"};
+    }
+    // The listRoot should be the delta from the last common elem to a subchild elem.
+    // So: the name/type should match, but the nextChildNum should differ.
+    // The structure from listRoot -> someItem should be the same for A and B, otherwise we
+    // won't be able to traverse the list properly.
+    let listRootA = pathA.pathItems[prefixPath.length];
+    let listRootB = pathB.pathItems[prefixPath.length];
+    if (!(listRootA.name == listRootB.name && listRootA.type == listRootB.type
+      && listRootA.nextChildNum != listRootB.nextChildNum)) {
+      return {error: "Unable to find a proper list root."};
+    }
+    if (pathA.pathItems.length !== pathB.pathItems.length) {
+      return {error: "The two item paths must have the same number of elements."};
+    }
+    for (let i = prefixPath.length + 1; i < pathA.pathItems.length; ++i) {
+      let itemA = pathA.pathItems[i];
+      let itemB = pathB.pathItems[i];
+      if (itemA.nextChildNum !== itemB.nextChildNum) {
+        return {error: "The paths to item A and item B are not structurally the same. " +
+          `Failed to detect the list. Failed at item ${i+1}/${pathA.pathItems.length}: ` +
+          `${DomPath.itemToStr(itemA)} vs ${DomPath.itemToStr(itemB)}`};
+      }
+    }
+    let childNumDelta = listRootB.nextChildNum - listRootA.nextChildNum;
+    let itemPath = [deepCopyObject(listRootA),
+      ...deepCopyArray(pathB.pathItems, prefixPath.length + 1)];
+    return {
+      value: {
+        listRootPath: new DomPath("ListRootPath", deepCopyArray(prefixPath)),
+        childNumDelta: childNumDelta,
+        itemPath: new DomPath("ItemPath", itemPath)
+      }
+    }
   }
 }
 
@@ -326,28 +384,39 @@ export class QuickParser {
     }
 
     // Traverse the item list.
-    // TODO - change strategy. Find the first common ancestor. Verify that first and second
-    // are the same except for a childOffset within this common ancestor.
-    // Increment the firstChildOffset within the common ancestor, then repeatedly add
-    // the ancestor -> item delta.
-    let output = [];
-    let anchorDelta = DomPath.getDelta(this.firstItemTitlePath, this.secondItemTitlePath);
+    let listRes = DomPath.detectLogicalList(this.firstItemTitlePath, this.secondItemTitlePath);
+    if (listRes.error) {
+      console.error("Failed to detect the list of items. Error: ", listRes.error);
+      return null;
+    }
+    let listInfo = listRes.value;
     console.log("TitleA Path: " + this.firstItemTitlePath.toStr());
     console.log("TitleB Path: " + this.secondItemTitlePath.toStr());
-    console.log("Delta Path:  " + anchorDelta.toStr());
+    dumpListInfo(listInfo);
+
+    let listRootElem = DomPath.addPath(jsonDoc, listInfo.listRootPath);
+    if (!listRootElem) {
+      console.error("List parsing failed. Failed to find the list root at: " + listInfo.listRootPath.toStr());
+      return null;
+    }
+    console.log("ListRootElem: ", listRootElem);
+
+    let output = [];
+    let firstItemDelta = listInfo.itemPath.pathItems[0];
+    let curChildNum = firstItemDelta.nextChildNum;
     console.log("Starting list parsing");
-    let curAnchor = firstItemAnchor;
-    while (curAnchor && output.length < 40) {
-      let obj = {
-        title: this.getTextValue(curAnchor),
-      }
-      output.push(obj);
-      curAnchor = DomPath.addPath(curAnchor, anchorDelta);
-      if (!curAnchor) {
-        // Finished list
-        console.log("Done list parsing");
+    while (output.length < 40) {
+      let nextElem = DomPath.addPath(listRootElem, listInfo.itemPath, true);
+      if (!nextElem) {
+        console.log("Done list parsing. childNum: " + firstItemDelta.nextChildNum);
         break;
       }
+      let obj = {
+        itemNum: output.length + 1,
+        title: this.getTextValue(nextElem),
+      }
+      output.push(obj);
+      firstItemDelta.nextChildNum += listInfo.childNumDelta;
     }
 
     return output;
