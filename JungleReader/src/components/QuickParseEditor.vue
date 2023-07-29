@@ -153,7 +153,20 @@ function onSelectTestNode(node) {
       <p>Test Output</p>
       <button @click="plugin.quickParser.runTestParse()">Run Test Parse</button>
       <div class="TestOutputBox">
-        <p>{{ plugin.quickParser.testParseOutput !== null ? plugin.quickParser.testParseOutput : "Nothing here yet." }}</p>
+        <template v-if="plugin.quickParser.testParseOutput !== null">
+          <ol>
+            <li v-for="item in plugin.quickParser.testParseOutput">
+              <p>Title: {{ item.title }}</p>
+              <p v-if="item.url">Url: {{ item.url }}</p>
+              <p v-if="item.date">Date: {{ item.date }}</p>
+              <p v-if="item.author">Author: {{ item.author }}</p>
+              <p v-if="item.points">Points: {{ item.points }} </p>
+            </li>
+          </ol>
+        </template>
+        <template v-else>
+          <p>Nothing here yet</p>
+        </template>
       </div>
     </div>
   </div>

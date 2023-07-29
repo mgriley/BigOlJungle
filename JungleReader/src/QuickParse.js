@@ -449,10 +449,10 @@ export class QuickParser {
     console.log("ListRootElem: ", listRootElem);
 
     let optionalFields = [
-      {key: 'Url', field: this.firstItemUrl, extractFunc: extractUrl},
-      {key: 'Author', field: this.firstItemAuthor, extractFunc: extractText},
-      {key: 'Date', field: this.firstItemDate, extractFunc: extractDate},
-      {key: 'Points', field: this.firstItemPts, extractFunc: extractText},
+      {key: 'url', field: this.firstItemUrl, extractFunc: extractUrl},
+      {key: 'author', field: this.firstItemAuthor, extractFunc: extractText},
+      {key: 'date', field: this.firstItemDate, extractFunc: extractDate},
+      {key: 'points', field: this.firstItemPts, extractFunc: extractText},
     ];
     for (const item of optionalFields) {
       if (item.field.path.isEmpty()) {
@@ -538,7 +538,7 @@ export class QuickParser {
       console.error("Test parse failed");
       return;
     }
-    this.testParseOutput = JSON.stringify(linkData, null, 2);
+    this.testParseOutput = linkData;
   }
 }
 
