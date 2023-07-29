@@ -5,7 +5,7 @@ import {
   writeObjToJson, readObjFromJson,
   deepCopyObject, deepCopyArray,
   tryGetSibling, getSiblingNum,
-  fatalAssert,
+  fatalAssert, cleanUrl
 } from './Utils.js'
 import { gApp } from './State.js'
 
@@ -20,8 +20,13 @@ function extractText(node) {
 }
 
 function extractUrl(node) {
-  // TODO
-  return node.value;
+  let url = "";
+  if (node.attrs.href) {
+    url = node.attrs.href;
+  } else {
+    url = node.value;
+  }
+  return cleanUrl(url);
 }
 
 function extractDate(node) {
@@ -176,13 +181,44 @@ export class DomPath {
 
   // Returns pathA - pathB, or null on failure
   // Both paths cannot have any 'up' paths, and they must share some common prefix.
-  // Ex.
+  // Ex1.
   // A: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, Foo_GoTo0, Bar_GoTo2, Baz_GoTo3
   // B: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, Foo_GoTo1, Goo_GoTo2, Moo_GoTo3
   // Res: #text_GoUp, Baz_GoUp, Bar_GoSib+1, Goo_GoTo2, Moo_GoTo3 
+  //
+  // Ex2.
+  // A: Foo_GoTo0, Bar_GoTo1 
+  // B: Foo_GoTo0, Bar_GoTo1, Baz_GoTo2
+  // Res: Baz_GoTo2
+  //
+  // Ex3.
+  // A: Foo_GoTo0, Bar_GoTo1, Baz_GoTo2
+  // B: Foo_GoTo0, Bar_GoTo1
+  // Res: #text_GoUp
   static getDelta(pathA, pathB) {
     let prefixPath = DomPath.findCommonPrefixItems(pathA, pathB);
     fatalAssert(prefixPath != 0, "The paths must have a common prefix");
+
+    // Handle cases where A == B, A is an ancestor of B, or B is an ancestor of A
+    if (prefixPath.length == pathA.pathItems.length &&
+      prefixPath.length == pathB.pathItems.length) {
+      return DomPath("Delta", []);
+    } else if (prefixPath.length == pathA.pathItems.length) {
+      let deltaPath = [];
+      for (let i = prefixPath.length; i < pathB.pathItems.length; ++i) {
+        deltaPath.push(deepCopyObject(pathB.pathItems.length));
+      }
+      return new DomPath("Delta", deltaPath);
+    } else if (prefixPath.length == pathB.pathItems.length) {
+      let deltaPath = [];
+      for (let i = 0; i < pathA.pathItems.length - pathB.pathItems.length; ++i) {
+        let item = pathA.pathItems[(pathA.pathItems.length - 1) - i];
+        deltaPath.push({name: item.nextName, deltaType: 'GoUp'});
+      }
+      return new DomPath("Delta", deltaPath);
+    }
+
+    // Now handling: A and B have some common ancestor and are in different subtrees
     fatalAssert(pathA.pathItems.length > prefixPath.length + 1
       && pathB.pathItems.length > prefixPath.length + 1);
 
@@ -330,13 +366,31 @@ export class QuickParser {
       try {
         await this.updateFeed(feed);
       } catch (err) {
-        console.error(`Error updating plugin "${feed.name}":\n${err}`, err.stack);
+        console.error(`Error updating feed "${feed.name}":\n${err}`, err.stack);
+        feed.setError(`Error updating feed "${feed.name}": ${err.message}`);
       }
     }
   }
 
   async updateFeed(feed) {
-    // TODO - fetch the text. Parse using the DomPaths
+    let feedOutput = await this.parsePage(feed.url);
+    if (!feedOutput) {
+      console.error(`Failed to update feed: ${feed.url}`);
+      feed.setError(`Failed to parse page. Please check the QuickParse config.`);
+      return;
+    }
+    let feedItems = feedOutput.map((elem) => {
+      // TODO - handle other date formats
+      return {
+        title: elem.title,
+        link: elem.url,
+        // pubDate: elem.date,
+        author: elem.author,
+        extraDataString: elem.points,
+      }
+    });
+    // console.log(`Updating QP feed ${feed.name}:`, feedItems);
+    feed.updateLinks({link: feed.url, items: feedItems});
   }
 
   addHelperData(node, parentNode, childNum) {
@@ -437,16 +491,18 @@ export class QuickParser {
       return null;
     }
     let listInfo = listRes.value;
+    /*
     console.log("TitleA Path: " + this.firstItemTitle.path.toStr());
     console.log("TitleB Path: " + this.secondItemTitle.path.toStr());
     dumpListInfo(listInfo);
+    */
 
     let listRootElem = DomPath.addPath(jsonDoc, listInfo.listRootPath);
     if (!listRootElem) {
       console.error("List parsing failed. Failed to find the list root at: " + listInfo.listRootPath.toStr());
       return null;
     }
-    console.log("ListRootElem: ", listRootElem);
+    // console.log("ListRootElem: ", listRootElem);
 
     let optionalFields = [
       {key: 'url', field: this.firstItemUrl, extractFunc: extractUrl},
@@ -466,7 +522,7 @@ export class QuickParser {
       }
       item.enabled = true;
       item.deltaPath = DomPath.getDelta(this.firstItemTitle.path, item.field.path)
-      console.log(`Delta for ${item.field.name}: ${item.deltaPath.toStr()}`);
+      // console.log(`Delta for ${item.field.name}: ${item.deltaPath.toStr()}`);
     }
 
     let output = [];
@@ -476,7 +532,7 @@ export class QuickParser {
     while (output.length < 40) {
       let nextElem = DomPath.addPath(listRootElem, listInfo.itemPath);
       if (!nextElem) {
-        console.log("Done list parsing. childNum: " + firstItemDelta.nextChildNum);
+        console.log("Done list parsing.");
         break;
       }
       let obj = {
@@ -534,7 +590,7 @@ export class QuickParser {
   async runTestParse() {
     this.testParseOutput = null;
     let linkData = await this.parsePage(this.testUrl);
-    if (linkData == null) {
+    if (!linkData) {
       console.error("Test parse failed");
       return;
     }

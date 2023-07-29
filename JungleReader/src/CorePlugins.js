@@ -39,8 +39,7 @@ class RSSFeed extends FeedPlugin {
 
     rssUrl = cleanUrl(rssUrl);
     if (!isValidUrl(rssUrl)) {
-      feed.isError = true;
-      feed.errorMsg = `Invalid URL: "${feed.url}"`;
+      feed.setError(`Invalid URL: "${feed.url}"`);
       console.log(`Invalid url for feed ${feed.name}: ${feed.errorMsg}`);
       return;
     }
@@ -49,11 +48,9 @@ class RSSFeed extends FeedPlugin {
     parser.parseURL(url, (err, res) => {
       if (err) {
         console.log("Error parsing RSS URL: " + url);
-        feed.isError = true;
-        feed.errorMsg = "Error parsing RSS URL:\n" + err;
+        feed.setError("Error parsing RSS URL:\n" + err);
         return;
       }
-      feed.isError = false;
       this.transformRssResult(res)
       feed.updateLinks(res);
     })
@@ -123,12 +120,11 @@ class YouTubeFeed extends RSSFeed {
     console.log("Updating feed: " + feed.name + ", " + feed.url);
 
     function errorOut(errorMsg) {
-      feed.isError = true;
-      feed.errorMsg = errorMsg;
+      feed.setError(errorMsg);
       console.log(errorMsg);
     }
 
-    let channelUrl = this.app.makeCorsProxyUrl(cleanUrl(feed.url)).toString();
+    let channelUrl = this.app.makeCorsProxyUrl(feed.url).toString();
     let plugin = this;
     fetch(channelUrl).then((response) => {
       if (!response.ok) {
@@ -200,14 +196,13 @@ class Bookmark extends FeedPlugin {
     console.log("Updating feed: " + feed.name + ", " + feed.url);
 
     function errorOut(errorMsg) {
-      feed.isError = true;
-      feed.errorMsg = errorMsg;
+      feed.setError(errorMsg);
       console.log(errorMsg);
     }
 
     // Store a hash of the text content of the page to detect changes
     let plugin = this;
-    let siteUrl = this.app.makeCorsProxyUrl(cleanUrl(feed.url)).toString();
+    let siteUrl = this.app.makeCorsProxyUrl(feed.url).toString();
     fetch(siteUrl).then((response) => {
       if (!response.ok) {
         errorOut(`Failed to get: ${siteUrl}. ${reponse.status} ${response.statusText}`);
@@ -220,7 +215,6 @@ class Bookmark extends FeedPlugin {
       let existingHash = feed.getPluginItem("pageHash");
       if (existingHash !== pageHash || feed.isError) {
         feed.setPluginItem("pageHash", pageHash);
-        feed.isError = false;
         feed.updateLinks({
           link: feed.url,
           items: [{

@@ -1,7 +1,8 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
-  optionsToJson, jsonToOptions, downloadTextFile } from './Utils.js'
+  optionsToJson, jsonToOptions, downloadTextFile,
+  cleanUrl } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
@@ -181,6 +182,21 @@ class Feed {
     }
   }
 
+  /**
+  Data format:
+  {
+    items: [
+    {
+      title: "Some title",
+      description: "Something happened", // Optional
+      link: "https://mypage.com/thearticle", // Optional,
+      pubDate: "<date in pubDate format>", // Optional
+      extraDataString: "99 points", // Optional
+    },
+    ...
+    ]
+  }
+  */
   updateLinks(newLinksData) {
     let existingLinks = {}
     for (const link of this.links) {
@@ -215,6 +231,17 @@ class Feed {
 
     //console.log(`New links for ${this.url}:`);
     //console.log(this.links);
+    this.clearError();
+  }
+
+  setError(errorMsg) {
+    this.isError = true;
+    this.errorMsg = errorMsg;
+  }
+
+  clearError() {
+    this.isError = false;
+    this.errorMsg = "";
   }
 
   mostRecentLinkTimeStr() {
@@ -506,7 +533,7 @@ class JungleReader {
 
   makeCorsProxyUrl(targetUrl) {
     const url = new URL("http://127.0.0.1:8787/corsproxy/");
-    url.searchParams.set("apiurl", targetUrl);
+    url.searchParams.set("apiurl", cleanUrl(targetUrl));
     return url;
   }
 };
