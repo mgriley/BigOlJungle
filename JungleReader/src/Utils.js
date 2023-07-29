@@ -256,3 +256,31 @@ export async function asyncFetchText(url, options) {
   return textStr;
 }
 
+export function getSiblingNum(jsNode) {
+  if (!jsNode.parent) {
+    return 0;
+  }
+  for (let i = 0; i < jsNode.parent.children.length; ++i) {
+    if (jsNode.parent.children[i] == jsNode) {
+      return i;
+    }
+  }
+  throw new Error("Child not found");
+}
+
+export function tryGetSibling(jsNode, siblingNum) {
+  if (!jsNode.parent) {
+    return null;
+  }
+  if (!(0 <= siblingNum && siblingNum < jsNode.parent.children.length)) {
+    return null;
+  }
+  return jsNode.parent.children[siblingNum];
+}
+
+export function fatalAssert(condition, message) {
+  if (!condition) {
+    throw Error('Assert failed: ' + (message || ''));
+  }
+};
+

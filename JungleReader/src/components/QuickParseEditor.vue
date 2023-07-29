@@ -37,32 +37,32 @@ let domItems = computed(() => {
   return [
     {
       name: 'First Item Title',
-      path: quickParser.firstItemTitlePath,
+      path: quickParser.firstItemTitle.path,
       required: true,
     },
     {
       name: 'First Item Link',
-      path: quickParser.firstItemUrlPath,
+      path: quickParser.firstItemUrl.path,
       required: false,
     },
     {
       name: 'First Item Date',
-      path: quickParser.firstItemDatePath,
+      path: quickParser.firstItemDate.path,
       required: false,
     },
     {
       name: 'First Item Author',
-      path: quickParser.firstItemAuthorPath,
+      path: quickParser.firstItemAuthor.path,
       required: false,
     },
     {
       name: 'First Item Points',
-      path: quickParser.firstItemPtsPath,
+      path: quickParser.firstItemPts.path,
       required: false,
     },
     {
       name: 'Second Item Title',
-      path: quickParser.secondItemTitlePath,
+      path: quickParser.secondItemTitle.path,
       required: true,
     }
   ]

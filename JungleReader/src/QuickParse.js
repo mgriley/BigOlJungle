@@ -1,14 +1,41 @@
-import { addElem, removeElem, hashString,
-    optionsToJson, jsonToOptions, waitMillis,
-    parseXml, asyncFetchText,
-    writeObjToJson, readObjFromJson,
-    deepCopyObject, deepCopyArray } from './Utils.js'
+import {
+  addElem, removeElem, hashString,
+  optionsToJson, jsonToOptions, waitMillis,
+  parseXml, asyncFetchText,
+  writeObjToJson, readObjFromJson,
+  deepCopyObject, deepCopyArray,
+  tryGetSibling, getSiblingNum,
+  fatalAssert,
+} from './Utils.js'
 import { gApp } from './State.js'
 
 function dumpListInfo(listInfo) {
   console.log("ListRootPath: " + listInfo.listRootPath.toStr());
   console.log("ItemPath: " + listInfo.itemPath.toStr());
   console.log("ChildNumDelta: " + listInfo.childNumDelta);
+}
+
+function extractText(node) {
+  return node.value;
+}
+
+function extractUrl(node) {
+  // TODO
+  return node.value;
+}
+
+function extractDate(node) {
+  // TODO
+  return node.value;
+}
+
+function signStr(val) {
+  if (val > 0) {
+    return '+';
+  } else if (val < 0) {
+    return '-';
+  }
+  return '';
 }
 
 export class DomPath {
@@ -53,6 +80,8 @@ export class DomPath {
       str = `${pathItem.name}_${pathItem.nextName}_GoTo${pathItem.nextChildNum}`;
     } else if (pathItem.deltaType == 'GoUp') {
       str = `${pathItem.name}_GoUp`;
+    } else if (pathItem.deltaType == 'GoSibling') {
+      str = `${pathItem.name}_GoSib${signStr(pathItem.siblingDelta)}${pathItem.siblingDelta}`;
     }
     return str;
   }
@@ -118,6 +147,13 @@ export class DomPath {
           console.log("No parent found");
           return null;
         }
+      } else if (pathItem.deltaType == 'GoSibling') {
+        let siblingNum = getSiblingNum(curNode);
+        curNode = tryGetSibling(curNode, siblingNum + pathItem.siblingDelta);
+        if (!curNode) {
+          console.log(`No such sibling found at ${siblingNum + pathItem.siblingDelta}`);
+          return null;
+        }
       }
     }
     return curNode;
@@ -141,22 +177,37 @@ export class DomPath {
   // Returns pathA - pathB, or null on failure
   // Both paths cannot have any 'up' paths, and they must share some common prefix.
   // Ex.
-  // A: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, DIV1_GoTo0, DIV2_GoTo2, DIV3_GoTo3
-  // B: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3
-  // O: #text_GoUp, DIV3_GoUp, DIV2_GoUp, DIV1_GoUp, DIV1_GoTo1, DIV2_GoTo2, DIV3_GoTo3 
-  // TODO -  not as useful as I would've thought. Refactor to ret ancestor info.
+  // A: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, Foo_GoTo0, Bar_GoTo2, Baz_GoTo3
+  // B: DOC_GoTo0, HTML_GoTo0, BODY_GoTo0, Foo_GoTo1, Goo_GoTo2, Moo_GoTo3
+  // Res: #text_GoUp, Baz_GoUp, Bar_GoSib+1, Goo_GoTo2, Moo_GoTo3 
   static getDelta(pathA, pathB) {
     let prefixPath = DomPath.findCommonPrefixItems(pathA, pathB);
-    if (prefixPath == 0) {
-      throw new Error("The paths must have common prefix");
-    }
+    fatalAssert(prefixPath != 0, "The paths must have a common prefix");
+    fatalAssert(pathA.pathItems.length > prefixPath.length + 1
+      && pathB.pathItems.length > prefixPath.length + 1);
+
+    let pivotElemA = pathA.pathItems[prefixPath.length + 1];
+    let pivotElemB = pathB.pathItems[prefixPath.length + 1];
+    let pivotASiblingNum = pathA.pathItems[prefixPath.length].nextChildNum;
+    let pivotBSiblingNum = pathB.pathItems[prefixPath.length].nextChildNum;
+    fatalAssert(pivotASiblingNum != pivotBSiblingNum);
+
     let deltaPath = [];
-    for (let i = pathA.pathItems.length - 1; i >= prefixPath.length; --i) {
+    for (let i = pathA.pathItems.length - 1; i >= prefixPath.length + 1; --i) {
       let item = pathA.pathItems[i];
       // Push a GoUp to get to `item`
       deltaPath.push({name: item.nextName, deltaType: 'GoUp'});
     }
-    for (let i = prefixPath.length; i < pathB.pathItems.length; ++i) {
+    deltaPath.push({
+      deltaType: 'GoSibling',
+      siblingDelta: pivotBSiblingNum - pivotASiblingNum,
+      name: pivotElemA.name,
+      type: pivotElemA.type,
+      numChildren: pivotElemA.numChildren,
+      nextName: pivotElemA.nextName,
+      nextType: pivotElemA.nextType,
+    });
+    for (let i = prefixPath.length + 1; i < pathB.pathItems.length; ++i) {
       deltaPath.push(deepCopyObject(pathB.pathItems[i]));
     }
     let domPath = new DomPath("Delta");
@@ -210,41 +261,67 @@ export class DomPath {
   }
 }
 
+class ParseField {
+  constructor(name) {
+    this.name = name;
+    this.path = new DomPath(name);
+  }
+
+  writeToJson() {
+    return {
+      path: this.path.writeToJson()
+    }
+  }
+
+  readFromJson(obj) {
+    this.path.readFromJson(obj.path);
+  }
+}
+
 export class QuickParser {
   constructor() {
     this.testUrl = "";
     this.testFetchContent = null;
     this.testParseOutput = null;
 
-    this.firstItemTitlePath = new DomPath("First Item Title");
-    this.firstItemUrlPath = new DomPath("First Item Url");
-    this.firstItemDatePath = new DomPath("First Item Date");
-    this.firstItemPtsPath = new DomPath("First Item Pts");
-    this.firstItemAuthorPath = new DomPath("First Item Author");
-    this.secondItemTitlePath = new DomPath("Second Item Title");
+    this.firstItemTitle = new ParseField("First Item Title");
+    this.firstItemUrl = new ParseField("First Item Url");
+    this.firstItemDate = new ParseField("First Item Date");
+    this.firstItemPts = new ParseField("First Item Pts");
+    this.firstItemAuthor = new ParseField("First Item Author");
+    this.secondItemTitle = new ParseField("Second Item Title");
+
+    this.allFields = [
+      this.firstItemTitle,
+      this.firstItemUrl,
+      this.firstItemDate,
+      this.firstItemPts,
+      this.firstItemAuthor,
+      this.secondItemTitle,
+    ]
   }
 
   writeToJson() {
     return {
       testUrl: this.testUrl,
-      firstItemTitlePath: this.firstItemTitlePath.writeToJson(),
-      firstItemUrlPath: this.firstItemUrlPath.writeToJson(),
-      firstItemDatePath: this.firstItemDatePath.writeToJson(),
-      firstItemPtsPath: this.firstItemPtsPath.writeToJson(),
-      firstItemAuthorPath: this.firstItemAuthorPath.writeToJson(),
-      secondItemTitlePath: this.secondItemTitlePath.writeToJson(),
+      firstItemTitle: this.firstItemTitle.writeToJson(),
+      firstItemUrl: this.firstItemUrl.writeToJson(),
+      firstItemDate: this.firstItemDate.writeToJson(),
+      firstItemPts: this.firstItemPts.writeToJson(),
+      firstItemAuthor: this.firstItemAuthor.writeToJson(),
+      secondItemTitle: this.secondItemTitle.writeToJson(),
     };
   }
 
   readFromJson(obj) {
     this.testUrl = obj.testUrl;
-    if ("firstItemTitlePath" in obj) {
-      this.firstItemTitlePath.readFromJson(obj.firstItemTitlePath);
-      this.firstItemUrlPath.readFromJson(obj.firstItemUrlPath);
-      this.firstItemDatePath.readFromJson(obj.firstItemDatePath);
-      this.firstItemPtsPath.readFromJson(obj.firstItemPtsPath);
-      this.firstItemAuthorPath.readFromJson(obj.firstItemAuthorPath);
-      this.secondItemTitlePath.readFromJson(obj.secondItemTitlePath);
+    if ("firstItemTitle" in obj) {
+      this.firstItemTitle.readFromJson(obj.firstItemTitle);
+      this.firstItemUrl.readFromJson(obj.firstItemUrl);
+      this.firstItemDate.readFromJson(obj.firstItemDate);
+      this.firstItemPts.readFromJson(obj.firstItemPts);
+      this.firstItemAuthor.readFromJson(obj.firstItemAuthor);
+      this.secondItemTitle.readFromJson(obj.secondItemTitle);
     }
   }
 
@@ -307,21 +384,10 @@ export class QuickParser {
     }
   }
 
-  getAllDomPaths() {
-    return [
-      this.firstItemTitlePath,
-      this.firstItemUrlPath,
-      this.firstItemAuthorPath,
-      this.firstItemDatePath,
-      this.firstItemPtsPath,
-      this.secondItemTitlePath,
-    ]
-  }
-
   updateChosenFlags() {
     this.clearChosenFlags(this.testFetchContent);
-    let paths = this.getAllDomPaths();
-    for (const path of paths) {
+    for (const field of this.allFields) {
+      let path = field.path;
       if (path.isEmpty()) {
         continue;
       }
@@ -343,11 +409,6 @@ export class QuickParser {
     this.updateChosenFlags();
   }
 
-  getTextValue(node) {
-    // TODO - handle a few different variations
-    return node.value;
-  }
-
   async parsePage(pageUrl) {
     let pageHtml = await asyncFetchText(gApp.makeCorsProxyUrl(pageUrl));
     if (!pageHtml) {
@@ -364,34 +425,20 @@ export class QuickParser {
     }
     this.addHelperData(jsonDoc, null, 0);
 
-    if (this.firstItemTitlePath.isEmpty()) {
-      console.log("Error: the First Item Title is mandatory");
-      return null;
-    }
-    if (this.secondItemTitlePath.isEmpty()) {
-      console.log("Error: this Second Item Title is mandatory");
-      return null;
-    }
-    let firstItemAnchor = DomPath.addPath(jsonDoc, this.firstItemTitlePath);
-    if (!firstItemAnchor) {
-      console.error("Failed to find node for firstItemTitle");
-      return null;
-    }
-    let secondItemAnchor = DomPath.addPath(jsonDoc, this.secondItemTitlePath);
-    if (!secondItemAnchor) {
-      console.error("Failed to find node for secondItemTitle");
+    let isValid = this.validateRequiredFields(jsonDoc);
+    if (!isValid) {
       return null;
     }
 
     // Traverse the item list.
-    let listRes = DomPath.detectLogicalList(this.firstItemTitlePath, this.secondItemTitlePath);
+    let listRes = DomPath.detectLogicalList(this.firstItemTitle.path, this.secondItemTitle.path);
     if (listRes.error) {
       console.error("Failed to detect the list of items. Error: ", listRes.error);
       return null;
     }
     let listInfo = listRes.value;
-    console.log("TitleA Path: " + this.firstItemTitlePath.toStr());
-    console.log("TitleB Path: " + this.secondItemTitlePath.toStr());
+    console.log("TitleA Path: " + this.firstItemTitle.path.toStr());
+    console.log("TitleB Path: " + this.secondItemTitle.path.toStr());
     dumpListInfo(listInfo);
 
     let listRootElem = DomPath.addPath(jsonDoc, listInfo.listRootPath);
@@ -401,25 +448,87 @@ export class QuickParser {
     }
     console.log("ListRootElem: ", listRootElem);
 
+    let optionalFields = [
+      {key: 'Url', field: this.firstItemUrl, extractFunc: extractUrl},
+      {key: 'Author', field: this.firstItemAuthor, extractFunc: extractText},
+      {key: 'Date', field: this.firstItemDate, extractFunc: extractDate},
+      {key: 'Points', field: this.firstItemPts, extractFunc: extractText},
+    ];
+    for (const item of optionalFields) {
+      if (item.field.path.isEmpty()) {
+        continue;
+      }
+      let concreteItem = DomPath.addPath(jsonDoc, item.field.path);
+      if (!concreteItem) {
+        console.error(`Failed to find item for field: ${item.field.name}. Please check it.`);
+        item.enabled = false;
+        continue;
+      }
+      item.enabled = true;
+      item.deltaPath = DomPath.getDelta(this.firstItemTitle.path, item.field.path)
+      console.log(`Delta for ${item.field.name}: ${item.deltaPath.toStr()}`);
+    }
+
     let output = [];
     let firstItemDelta = listInfo.itemPath.pathItems[0];
     let curChildNum = firstItemDelta.nextChildNum;
     console.log("Starting list parsing");
     while (output.length < 40) {
-      let nextElem = DomPath.addPath(listRootElem, listInfo.itemPath, true);
+      let nextElem = DomPath.addPath(listRootElem, listInfo.itemPath);
       if (!nextElem) {
         console.log("Done list parsing. childNum: " + firstItemDelta.nextChildNum);
         break;
       }
       let obj = {
         itemNum: output.length + 1,
-        title: this.getTextValue(nextElem),
+        title: extractText(nextElem),
+      }
+      for (const item of optionalFields) {
+        if (!item.enabled) {
+          continue;
+        }
+        this.applyOptionalItem(nextElem, item, obj);
       }
       output.push(obj);
       firstItemDelta.nextChildNum += listInfo.childNumDelta;
     }
 
     return output;
+  }
+
+  validateRequiredFields(jsonDoc) {
+    if (this.firstItemTitle.path.isEmpty()) {
+      console.log("Error: the First Item Title is mandatory");
+      return false;
+    }
+    if (this.secondItemTitle.path.isEmpty()) {
+      console.log("Error: this Second Item Title is mandatory");
+      return false;
+    }
+    let firstItemAnchor = DomPath.addPath(jsonDoc, this.firstItemTitle.path);
+    if (!firstItemAnchor) {
+      console.error("Failed to find node for firstItemTitle");
+      return false;
+    }
+    let secondItemAnchor = DomPath.addPath(jsonDoc, this.secondItemTitle.path);
+    if (!secondItemAnchor) {
+      console.error("Failed to find node for secondItemTitle");
+      return false;
+    }
+    return true;
+  }
+
+  applyOptionalItem(anchorElem, item, outputObj) {
+    let resolvedObj = DomPath.addPath(anchorElem, item.deltaPath);
+    if (!resolvedObj) {
+      console.log(`Failed to resolve ${item.field.name} for item ${outputObj.itemNum}`);
+      return;
+    }
+    let extractedVal = item.extractFunc(resolvedObj);
+    if (!extractedVal) {
+      return;
+    }
+    outputObj[item.key] = extractedVal;
   }
 
   async runTestParse() {
