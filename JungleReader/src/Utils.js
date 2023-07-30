@@ -284,3 +284,33 @@ export function fatalAssert(condition, message) {
   }
 };
 
+export async function copyToClipboard(text) {
+  return navigator.clipboard.writeText(text).then(() => {
+    console.log("Copied!");
+  }).catch((error) => {
+    console.error("Failed to copy", error);
+  });
+}
+
+// Returns `error` on error, otherwise null
+export function readFromJsonWithRollback(obj, jsonText) {
+  let origState = obj.writeToJson();
+  try {
+    obj.readFromJson(jsonText);
+  } catch (error) {
+    console.error("Failed to read from json. Rolling back to original state.");
+    obj.readFromJson(origState);
+    return error;
+  }
+  return null;
+}
+
+export function safeParseJson(jsonStr) {
+  try {
+    return JSON.parse(jsonStr);
+  } catch (error) {
+    console.error("Error parsing json.", error);
+    return null;
+  }
+}
+

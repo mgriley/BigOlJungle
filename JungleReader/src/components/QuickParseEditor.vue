@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import { copyToClipboard, readFromJsonWithRollback,
+  prettyJson, safeParseJson } from '../Utils.js'
 import QuickParseNode from './QuickParseNode.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 
@@ -28,6 +30,9 @@ let quickParser = props.plugin.quickParser;
 let showTutorial = ref(false);
 let itemSetterModal = ref(null);
 let selectedNodeObj = ref(null);
+
+let pasteConfigModal = ref(null);
+let pasteConfigText = ref("");
 
 function toggleTutorial() {
   showTutorial.value = !showTutorial.value;
@@ -87,6 +92,35 @@ function onSelectTestNode(node) {
   openItemSetterModal(node);
 }
 
+function copyConfig() {
+  let config = JSON.stringify(quickParser.writeToJson(true));
+  copyToClipboard(config);
+}
+
+function pasteConfig() {
+  console.log("Paste Config:");
+  pasteConfigModal.value.showModal();
+  pasteConfigText.value = "";
+}
+
+function submitPasteConfig(configText) {
+  // console.log("Parsing: " + configText);
+  let configObj = safeParseJson(configText);
+  if (!configObj) {
+    return;
+  }
+  let origState = quickParser.writeToJson();
+  try {
+    quickParser.readFromJson(configObj, true);
+  } catch (error) {
+    console.error("Failed to read from json. Rolling back to original state.");
+    // TODO - error toast
+    quickParser.readFromJson(origState);
+    return;
+  }
+  pasteConfigModal.value.closeModal();
+}
+
 </script>
 
 <template>
@@ -123,6 +157,10 @@ function onSelectTestNode(node) {
         you'll have to come back here to update the annotations.
         </p>
       </div>
+    </div>
+    <div class="ShareButtons">
+      <button @click="copyConfig">Copy Config</button>
+      <button @click="pasteConfig">Paste Config</button>
     </div>
     <div class="DomItems">
       <h3>Parser Paths</h3>
@@ -177,6 +215,11 @@ function onSelectTestNode(node) {
       <p>{{ item.name }}: {{ item.path.toShortStr() }}</p>
     </div>
   </BasicModal>
+  <BasicModal ref="pasteConfigModal">
+    <h3>Paste Config</h3>
+    <textarea class="PasteBox Block" v-model="pasteConfigText" placeholder="Paste here."></textarea>
+    <button @click="submitPasteConfig(pasteConfigText)">Import</button>
+  </BasicModal>
 </template>
 
 <style scoped>
@@ -210,4 +253,10 @@ function onSelectTestNode(node) {
 .ClearItemBtn {
   margin-right: 15px;
 }
+
+.PasteBox {
+  width: 800px;
+  height: 300px;
+}
+
 </style>

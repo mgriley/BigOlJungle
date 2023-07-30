@@ -37,10 +37,12 @@ function extractDate(node) {
 function signStr(val) {
   if (val > 0) {
     return '+';
-  } else if (val < 0) {
-    return '-';
   }
   return '';
+}
+
+function numWithSign(val) {
+  return (val >= 0 ? '+' : '') + val;
 }
 
 export class DomPath {
@@ -50,16 +52,61 @@ export class DomPath {
     this.pathItems = pathItems;
   }
 
-  writeToJson() {
-    return {
-      pathItems: writeObjToJson(this.pathItems)
+  writeToJson(compact=false) {
+    if (compact) {
+      return this.writeToJsonCompact();
     }
+    return writeObjToJson(this.pathItems);
   }
 
-  readFromJson(obj) {
-    if ('pathItems' in obj) {
-      this.pathItems = readObjFromJson(obj.pathItems)
+  readFromJson(obj, compact=false) {
+    if (compact) {
+      this.readFromJsonCompact(obj);
+      return;
     }
+    this.pathItems = readObjFromJson(obj);
+  }
+
+  writeToJsonCompact() {
+    return this.pathItems.map((item) => {
+      if (item.deltaType == 'GoDown') {
+        return `C${item.nextChildNum}`;
+      } else if (item.deltaType == 'GoUp') {
+        return `P`;
+      } else if (item.deltaType == 'GoSibling') {
+        return `S${numWithSign(item.siblingDelta)}`;
+      }
+    }).join('/');
+  }
+
+  readFromJsonCompact(obj) {
+    this.pathItems = obj.split("/").map((item) => {
+      let commonArgs = {
+        name: "Elem",
+        type: "Elem",
+        nextName: "Elem",
+        nextType: "Elem",
+      }
+      if (item[0] == "C") {
+        return {
+          deltaType: "GoDown",
+          nextChildNum: parseInt(item.slice(1)),
+          ...commonArgs,
+        }
+      } else if (item[0] == "P") {
+        return {
+          deltaType: "GoUp",
+          name: "Elem",
+        }
+      } else if (item[0] == "S") {
+        return {
+          deltaType: "GoSibling",
+          siblingDelta: parseInt(item.slice(1)),
+          ...commonArgs,
+        }
+      }
+    });
+    console.log("PathItems: ", this.pathItems);
   }
 
   isEmpty() {
@@ -116,7 +163,6 @@ export class DomPath {
         nextName: curNode.name,
         nextType: curNode.type,
         nextChildNum: curNode.childNum,
-        numChildren: curNode.parent.children.length,
       };
       this.pathItems.push(pathItem);
       curNode = curNode.parent;
@@ -239,7 +285,6 @@ export class DomPath {
       siblingDelta: pivotBSiblingNum - pivotASiblingNum,
       name: pivotElemA.name,
       type: pivotElemA.type,
-      numChildren: pivotElemA.numChildren,
       nextName: pivotElemA.nextName,
       nextType: pivotElemA.nextType,
     });
@@ -303,14 +348,12 @@ class ParseField {
     this.path = new DomPath(name);
   }
 
-  writeToJson() {
-    return {
-      path: this.path.writeToJson()
-    }
+  writeToJson(compact=false) {
+    return this.path.writeToJson(compact);
   }
 
-  readFromJson(obj) {
-    this.path.readFromJson(obj.path);
+  readFromJson(obj, compact=false) {
+    this.path.readFromJson(obj, compact);
   }
 }
 
@@ -337,27 +380,28 @@ export class QuickParser {
     ]
   }
 
-  writeToJson() {
+  writeToJson(compact=false) {
     return {
+      ver: "1",
       testUrl: this.testUrl,
-      firstItemTitle: this.firstItemTitle.writeToJson(),
-      firstItemUrl: this.firstItemUrl.writeToJson(),
-      firstItemDate: this.firstItemDate.writeToJson(),
-      firstItemPts: this.firstItemPts.writeToJson(),
-      firstItemAuthor: this.firstItemAuthor.writeToJson(),
-      secondItemTitle: this.secondItemTitle.writeToJson(),
+      firstItemTitle: this.firstItemTitle.writeToJson(compact),
+      firstItemUrl: this.firstItemUrl.writeToJson(compact),
+      firstItemDate: this.firstItemDate.writeToJson(compact),
+      firstItemPts: this.firstItemPts.writeToJson(compact),
+      firstItemAuthor: this.firstItemAuthor.writeToJson(compact),
+      secondItemTitle: this.secondItemTitle.writeToJson(compact),
     };
   }
 
-  readFromJson(obj) {
+  readFromJson(obj, compact=false) {
     this.testUrl = obj.testUrl;
     if ("firstItemTitle" in obj) {
-      this.firstItemTitle.readFromJson(obj.firstItemTitle);
-      this.firstItemUrl.readFromJson(obj.firstItemUrl);
-      this.firstItemDate.readFromJson(obj.firstItemDate);
-      this.firstItemPts.readFromJson(obj.firstItemPts);
-      this.firstItemAuthor.readFromJson(obj.firstItemAuthor);
-      this.secondItemTitle.readFromJson(obj.secondItemTitle);
+      this.firstItemTitle.readFromJson(obj.firstItemTitle, compact);
+      this.firstItemUrl.readFromJson(obj.firstItemUrl, compact);
+      this.firstItemDate.readFromJson(obj.firstItemDate, compact);
+      this.firstItemPts.readFromJson(obj.firstItemPts, compact);
+      this.firstItemAuthor.readFromJson(obj.firstItemAuthor, compact);
+      this.secondItemTitle.readFromJson(obj.secondItemTitle, compact);
     }
   }
 
