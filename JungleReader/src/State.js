@@ -393,6 +393,10 @@ class JungleReader {
     this.pluginToEdit = ref(null);
 
     this.requiresSave = ref(null);
+
+    // Map reqId -> {resolve, reject}
+    this.extReqIdCtr = 1;
+    this.pendingExtRequests = {};
   }
 
   writeStateToJson() {
@@ -508,11 +512,16 @@ class JungleReader {
 
     // Note: this is called when localStorage is modified from another document with this
     // domain (say, another tab)
-    window.addEventListener('storage', function(evt) {
+    window.addEventListener('storage', (evt) => {
       if (evt.key == kAppStateKey) {
         console.log("Updated storage from other page.");
         app.readStateFromStorage();
       }
+    });
+
+    // Handle messages from JungleExt
+    window.addEventListener('message', (evt) => {
+      app.handleWindowMessage(evt);
     });
 
     registerCorePlugin(this);
@@ -535,6 +544,41 @@ class JungleReader {
     const url = new URL("http://127.0.0.1:8787/corsproxy/");
     url.searchParams.set("apiurl", cleanUrl(targetUrl));
     return url;
+  }
+
+  handleWindowMessage(evt) {
+    // console.log("Received window message: ", evt);
+    if (!(evt.source == window && evt.data)) {
+      console.error("Received unexpected event: ", evt);
+      return;
+    }
+    // Note: handleWindowMessage when we call our own postMessage, so ignore those
+    if (!(evt.data.type == "ExtResponse" && evt.data.reqId)) {
+      return;
+    }
+    let requestPromise = this.pendingExtRequests[evt.data.reqId];
+    if (!requestPromise) {
+      console.error("No request found for reqId: " + evt.data.reqId);
+      return;
+    }
+    requestPromise.resolve(evt.data.payload);
+    delete this.pendingExtRequests[evt.data.reqId];
+  }
+
+  // Send a request to the JungleExt WebExtension
+  async makeExtRequest(msg) {
+    let app = this;
+    let reqPromise = new Promise((resolve, reject) => {
+      let reqId = app.extReqIdCtr++;
+      app.pendingExtRequests[reqId] = {resolve: resolve, reject: reject};
+      // TODO - review the postMessage docs. Esp targetOrigin security stuff.  
+      window.postMessage({
+        type: "ExtRequest",
+        reqId: reqId,
+        payload: msg,
+      }, "*");
+    });
+    return reqPromise;
   }
 };
 

@@ -296,7 +296,7 @@ export async function copyToClipboard(text) {
 export function readFromJsonWithRollback(obj, jsonText) {
   let origState = obj.writeToJson();
   try {
-    obj.readFromJson(jsonText);
+    obj.readFromJson(jsonText, ...extraArgs);
   } catch (error) {
     console.error("Failed to read from json. Rolling back to original state.");
     obj.readFromJson(origState);

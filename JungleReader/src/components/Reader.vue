@@ -47,6 +47,12 @@ function importConfig() {
 function launchTutorial() {
   // TODO
 }
+
+async function testJungleExt() {
+  let reply = await gApp.makeExtRequest({hello: "world"});
+  console.log("Got reply: ", reply);
+}
+
 </script>
 
 <template>
@@ -59,6 +65,7 @@ function launchTutorial() {
             <button class="SaveButton" @click="gApp.saveAll()">Save</button>
             <!-- <h2 v-if="gApp.checkRequiresSave()">Must save!</h2> -->
           </div>
+          <button @click="testJungleExt">Test Ext</button>
         </div>
         <div class="Section">
           <router-link to="/">My Feed</router-link>
