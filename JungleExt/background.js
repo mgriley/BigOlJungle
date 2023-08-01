@@ -19,7 +19,8 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }).then((text) => {
       sendResponse({text: text});
     }).catch((error) => {
-      console.error("Fetch on error: ", error);
+      console.error("Background fetch error: ", error);
+      // TODO - handle error in page
       sendResponse({error: error});
     });
   }

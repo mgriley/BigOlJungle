@@ -571,12 +571,11 @@ class JungleReader {
     let reqPromise = new Promise((resolve, reject) => {
       let reqId = app.extReqIdCtr++;
       app.pendingExtRequests[reqId] = {resolve: resolve, reject: reject};
-      // TODO - review the postMessage docs. Esp targetOrigin security stuff.  
       window.postMessage({
         type: "ExtRequest",
         reqId: reqId,
         payload: msg,
-      }, "*");
+      }, location.origin);
     });
     return reqPromise;
   }

@@ -1,0 +1,17 @@
+{
+  "name": "jungleext",
+  "version": "1.0.0",
+  "description": "Extension that adds support for JungleReader. Needed to support cross-domain web pages.",
+  "main": "background.js",
+  "scripts": {
+    "lint": "web-ext lint",
+    "dev": "web-ext lint && web-ext run",
+    "build": "web-ext lint && web-ext build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Matthew Riley",
+  "devDependencies": {
+    "web-ext": "^7.6.2"
+  }
+}
