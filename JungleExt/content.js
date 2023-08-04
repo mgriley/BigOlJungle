@@ -12,13 +12,18 @@ processing.
 console.log("Content Script Loaded!");
 
 window.addEventListener("message", async (event) => {
-  // TODO - verify message origin, very important 
-  if (!(event.source == window && event.data)) {
+  let allowedOrigins = new Set([
+    "https://www.junglereader.com",
+    "https://junglereader.pages.dev"
+  ]);
+  if (!(event.source == window &&
+    allowedOrigins.has(event.origin) &&
+    event.data)) {
     return;
   }
   if (event.data.type == "ExtRequest") {
     const response = await browser.runtime.sendMessage(event.data.payload);
-    console.log("Response: ", response);
+    // console.log("Response: ", response);
     window.postMessage({type: "ExtResponse", reqId: event.data.reqId, payload: response}, event.origin);
   }
 });

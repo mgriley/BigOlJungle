@@ -12,7 +12,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["*://*.junglereader.com/*", "http://localhost/*"],
+      "matches": ["*://*.junglereader.com/*", "*://junglereader.pages.dev/*"],
       "js": [
         "browser-polyfill.js",
         "content.js"

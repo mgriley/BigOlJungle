@@ -50,7 +50,11 @@ function launchTutorial() {
 
 async function testJungleExt() {
   // let reply = await gApp.makeExtRequest({type: "echo", data: {hello: "world"}});
+  /*
   let reply = await gApp.makeExtRequest({type: "fetch", data: "lol"});
+  console.log("Got reply: ", reply);
+  */
+  let reply = await gApp.fetchText("https://news.ycombinator.com");
   console.log("Got reply: ", reply);
 }
 

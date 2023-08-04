@@ -9,19 +9,19 @@ console.log("Background Script Loaded!");
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Received message: ", message);
   if (message.type == 'echo') {
-    sendResponse({echo: message.data});
+    sendResponse({result: message.data});
   } else if (message.type == 'fetch') {
-    fetch("https://news.ycombinator.com", {}).then((response) => {
+    const { url, options } = message.data;
+    fetch(url, options).then((response) => {
       if (!response.ok) {
-        throw new Error(`Fetch failed`);
+        throw new Error(`Failed to fetch \"${url}\". ${response.status} ${response.statusText}`);
       }
       return response.text();
     }).then((text) => {
-      sendResponse({text: text});
+      sendResponse({result: text});
     }).catch((error) => {
       console.error("Background fetch error: ", error);
-      // TODO - handle error in page
-      sendResponse({error: error});
+      sendResponse({error: error.toString(), message: message});
     });
   }
 

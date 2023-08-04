@@ -565,6 +565,10 @@ class JungleReader {
     delete this.pendingExtRequests[evt.data.reqId];
   }
 
+  async fetchText(url, options) {
+    return this.makeExtRequest({type: "fetch", data: {url: url, options: options}});
+  }
+
   // Send a request to the JungleExt WebExtension
   async makeExtRequest(msg) {
     let app = this;
