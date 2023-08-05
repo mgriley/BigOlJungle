@@ -8,8 +8,6 @@
 		"96": "icons/icon-96.png"
   },
   "permissions": [
-  ],
-  "optional_permissions:": [
     "https://*/*"
   ],
   "content_scripts": [
