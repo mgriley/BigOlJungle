@@ -1,6 +1,7 @@
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, formatXML, prettifyElement } from './Utils.js'
+import { gApp } from './State.js'
 
 
 export function getValue(interpreter, propName) {
@@ -133,13 +134,7 @@ function setupFetchFuncs(registry) {
   // Aborts the script on failure.
   registry.addAsyncFunc("fetch",
     (urlString, fetchOptions, callback) => {
-      let corsUrl = registry.plugin.app.makeCorsProxyUrl(urlString).toString();
-      let fetchPromise = fetch(corsUrl, fetchOptions).then((response) => {
-        if (!response.ok) {
-          throw new Error(`Fetch failed with status: ${response.status} - ${response.statusText}`);
-        }
-        return response.text();
-      }).then((text) => {
+      let fetchPromise = gApp.fetchText(urlString, fetchOptions).then((text) => {
         callback(text);
       }).catch((error) => {
         console.error(`Error on fetch \"${urlString}\":`, error);

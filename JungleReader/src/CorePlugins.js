@@ -3,6 +3,7 @@ import { addElem, removeElem, hashString, prettyJson, countToHumanStr,
   isValidUrl, cleanUrl, } from './Utils.js'
 import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
+import { gApp } from './State.js'
 // import Parser from 'rss-parser'
 
 function addRssSuffix(link) {
@@ -36,24 +37,21 @@ class RSSFeed extends FeedPlugin {
 
   updateFromRSS(feed, rssUrl, optParserOptions) {
     optParserOptions = optParserOptions ?? {};
-
-    rssUrl = cleanUrl(rssUrl);
-    if (!isValidUrl(rssUrl)) {
-      feed.setError(`Invalid URL: "${feed.url}"`);
-      console.log(`Invalid url for feed ${feed.name}: ${feed.errorMsg}`);
-      return;
-    }
-    const url = this.app.makeCorsProxyUrl(rssUrl).toString();
-    let parser = new RSSParser(optParserOptions);
-    parser.parseURL(url, (err, res) => {
-      if (err) {
-        console.log("Error parsing RSS URL: " + url);
-        feed.setError("Error parsing RSS URL:\n" + err);
-        return;
-      }
-      this.transformRssResult(res)
-      feed.updateLinks(res);
-    })
+    let plugin = this;
+    gApp.fetchText(rssUrl).then((rssText) => {
+      let parser = new RSSParser(optParserOptions);
+      parser.parseString(rssText, (err, res) => {
+        if (err) {
+          console.log("Error parsing RSS URL: " + url);
+          feed.setError("Error parsing RSS URL:\n" + err);
+          return;
+        }
+        plugin.transformRssResult(res)
+        feed.updateLinks(res);
+      });
+    }).catch((err) => {
+      throw new Error(`Error on update from RSS: ${err}`);
+    });
   }
 
   updateFeed(feed) {
@@ -124,15 +122,8 @@ class YouTubeFeed extends RSSFeed {
       console.log(errorMsg);
     }
 
-    let channelUrl = this.app.makeCorsProxyUrl(feed.url).toString();
     let plugin = this;
-    fetch(channelUrl).then((response) => {
-      if (!response.ok) {
-        errorOut(`Failed to get: ${channelUrl}. ${reponse.status} ${response.statusText}`);
-        return;
-      }
-      return response.text();
-    }).then((htmlStr) => {
+    gApp.fetchText(feed.url).then((htmlStr) => {
       let rssLink = extractRssLinkFromHtml(htmlStr);
       console.log("Extracted RSS link: " + rssLink);
       plugin.updateFromRSS(feed, rssLink, {
@@ -202,14 +193,7 @@ class Bookmark extends FeedPlugin {
 
     // Store a hash of the text content of the page to detect changes
     let plugin = this;
-    let siteUrl = this.app.makeCorsProxyUrl(feed.url).toString();
-    fetch(siteUrl).then((response) => {
-      if (!response.ok) {
-        errorOut(`Failed to get: ${siteUrl}. ${reponse.status} ${response.statusText}`);
-        return;
-      }
-      return response.text();
-    }).then((pageStr) => {
+    gApp.fetchText(feed.url).then((pageStr) => {
       let pageHash = hashString(pageStr);
       //console.log("PageStr: " + pageStr + ", Hash: " + pageHash);
       let existingHash = feed.getPluginItem("pageHash");

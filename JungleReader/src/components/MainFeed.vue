@@ -140,6 +140,9 @@ function openSettings() {
 
 <template>
   <div class="MainFeed">
+    <div v-if="!gApp.isJungleExtPresent.value">
+      <h3>JungleExt is not installed! Problem</h3>
+    </div>
     <div class="ButtonMenu">
       <button @click="addFeedGroup">Add Group</button>
       <button @click="addFeed">Add Feed</button>

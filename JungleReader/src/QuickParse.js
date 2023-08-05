@@ -1,7 +1,7 @@
 import {
   addElem, removeElem, hashString,
   optionsToJson, jsonToOptions, waitMillis,
-  parseXml, asyncFetchText,
+  parseXml,
   writeObjToJson, readObjFromJson,
   deepCopyObject, deepCopyArray,
   tryGetSibling, getSiblingNum,
@@ -454,7 +454,7 @@ export class QuickParser {
       console.error("You must set the Test URL first");
       return;
     }
-    let testHtml = await asyncFetchText(gApp.makeCorsProxyUrl(this.testUrl));
+    let testHtml = await gApp.fetchText(this.testUrl);
     if (!testHtml) {
       // TODO - show an error toast
       console.error("Failed to fetch content from the test URL. Please check it.");
@@ -508,7 +508,7 @@ export class QuickParser {
   }
 
   async parsePage(pageUrl) {
-    let pageHtml = await asyncFetchText(gApp.makeCorsProxyUrl(pageUrl));
+    let pageHtml = await gApp.fetchText(pageUrl);
     if (!pageHtml) {
       // TODO - show an error toast
       console.error("Failed to fetch content from the URL. Please check it.");

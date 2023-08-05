@@ -2,7 +2,7 @@ import { reactive, ref } from 'vue'
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
-  cleanUrl } from './Utils.js'
+  cleanUrl, isValidUrl, valOr } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
@@ -397,6 +397,7 @@ class JungleReader {
     // Map reqId -> {resolve, reject}
     this.extReqIdCtr = 1;
     this.pendingExtRequests = {};
+    this.isJungleExtPresent = ref(true);
   }
 
   writeStateToJson() {
@@ -534,17 +535,23 @@ class JungleReader {
       console.log("Updating feeds");
       app.updateFeeds();
     }, kFeedUpdateIntervalSecs*1000);
+
+    this.checkIfJungleExtPresent();
   }
 
+  /*
   getCorsProxyUrl() {
     return "http://127.0.0.1:8787/corsproxy/";
   }
+  */
 
+  /*
   makeCorsProxyUrl(targetUrl) {
     const url = new URL("http://127.0.0.1:8787/corsproxy/");
     url.searchParams.set("apiurl", cleanUrl(targetUrl));
     return url;
   }
+  */
 
   handleWindowMessage(evt) {
     // console.log("Received window message: ", evt);
@@ -566,11 +573,29 @@ class JungleReader {
   }
 
   async fetchText(url, options) {
-    return this.makeExtRequest({type: "fetch", data: {url: url, options: options}});
+    let urlString = (typeof url === 'string') ? url : url.toString();
+    urlString = cleanUrl(urlString);
+    if (!isValidUrl(urlString)) {
+      throw new Error(`Tried to fetch from invalid URL: "${urlString}"`);
+    }
+    return this.makeExtRequest({type: "fetch", data: {url: urlString, options: options}});
+  }
+
+  async checkIfJungleExtPresent() {
+    try {
+      console.log("Checking for JungleExt...");
+      let response = await this.makeExtRequest({type: "echo", data: {}}, {timeout: 1000});
+      this.isJungleExtPresent.value = true;
+      console.log("JungleExt found!");
+    } catch (error) {
+      console.error("JungleExt does not seem to be installed. Please install.");
+      this.isJungleExtPresent.value = false;
+    }
   }
 
   // Send a request to the JungleExt WebExtension
-  async makeExtRequest(msg) {
+  async makeExtRequest(msg, opts) {
+    opts = valOr(opts);
     let app = this;
     let reqPromise = new Promise((resolve, reject) => {
       let reqId = app.extReqIdCtr++;
@@ -580,6 +605,13 @@ class JungleReader {
         reqId: reqId,
         payload: msg,
       }, location.origin);
+      setTimeout(function() {
+        let reqPromise = app.pendingExtRequests[reqId];
+        if (reqPromise) {
+          reqPromise.reject(new Error("Extension request timed out. Check that the extension is installed."));
+          delete app.pendingExtRequests[reqId];
+        }
+      }, valOr(opts.timeout, 10*1000));
     });
     return reqPromise;
   }
