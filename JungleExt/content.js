@@ -16,15 +16,20 @@ window.addEventListener("message", async (event) => {
     "https://www.junglereader.com",
     "https://junglereader.pages.dev"
   ]);
+  let msgData = event.data;
   if (!(event.source == window &&
     allowedOrigins.has(event.origin) &&
-    event.data)) {
+    msgData)) {
     return;
   }
-  if (event.data.type == "ExtRequest") {
-    const response = await browser.runtime.sendMessage(event.data.payload);
+  if (msgData.type == "ExtRequest") {
+    if (!msgData.payload) {
+      console.error("No payload. Invalid request.");
+      return;
+    }
+    const response = await browser.runtime.sendMessage(msgData.payload);
     // console.log("Response: ", response);
-    window.postMessage({type: "ExtResponse", reqId: event.data.reqId, payload: response}, event.origin);
+    window.postMessage({type: "ExtResponse", reqId: msgData.reqId, payload: response}, event.origin);
   }
 });
 
