@@ -2,7 +2,7 @@ import { reactive, ref } from 'vue'
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
-  cleanUrl, isValidUrl, valOr } from './Utils.js'
+  cleanUrl, isValidUrl, valOr, waitMillis } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
@@ -583,6 +583,8 @@ class JungleReader {
 
   async checkIfJungleExtPresent() {
     try {
+      // Wait for the extension to load, briefly
+      await waitMillis(2000);
       console.log("Checking for JungleExt...");
       let response = await this.makeExtRequest({type: "echo", data: {}}, {timeout: 1000});
       this.isJungleExtPresent.value = true;
@@ -595,7 +597,7 @@ class JungleReader {
 
   // Send a request to the JungleExt WebExtension
   async makeExtRequest(msg, opts) {
-    opts = valOr(opts);
+    opts = valOr(opts, {});
     let app = this;
     let reqPromise = new Promise((resolve, reject) => {
       let reqId = app.extReqIdCtr++;

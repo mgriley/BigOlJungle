@@ -11,17 +11,27 @@ processing.
 
 console.log("Content Script Loaded!");
 
+function isAllowedOrigin(origin) {
+  return origin == "https://www.junglereader.com" ||
+    origin.endsWith(".junglereader.pages.dev");
+}
+
 window.addEventListener("message", async (event) => {
-  let allowedOrigins = new Set([
-    "https://www.junglereader.com",
-    "https://junglereader.pages.dev"
-  ]);
-  let msgData = event.data;
-  if (!(event.source == window &&
-    allowedOrigins.has(event.origin) &&
-    msgData)) {
+  console.log("JungleExt received message.");
+  if (event.source !== window) {
+    console.error("Message did not come from this window");
     return;
   }
+  if (!isAllowedOrigin(event.origin)) {
+    console.error(`Invalid message origin, ignoring. Origin: "${event.origin}"`);
+    return;
+  }
+  let msgData = event.data;
+  if (!msgData) {
+    console.error("Message has no data. Ignoring", event);
+    return;
+  }
+
   if (msgData.type == "ExtRequest") {
     if (!msgData.payload) {
       console.error("No payload. Invalid request.");
