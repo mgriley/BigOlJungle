@@ -377,7 +377,9 @@ class FeedReader {
 }
 
 class JungleReader {
-  constructor() {
+  constructor(toaster) {
+    this.toaster = toaster;
+
     this.feedGroupIdCtr = 1;
     this.feedIdCtr = 1;
     this.linkIdCtr = 1;
@@ -474,6 +476,7 @@ class JungleReader {
     let jsonData = prettyJson(stateData);
     //console.log(jsonData);
     localStorage.setItem(kAppStateKey, jsonData);
+    this.toast({message: 'Config Saved!'});
   }
 
   exportConfig() {
@@ -617,13 +620,24 @@ class JungleReader {
     });
     return reqPromise;
   }
+
+  getToaster() {
+    return this.toaster;
+  }
+
+  toast(toastOpts) {
+    return this.toaster.open(toastOpts);
+  }
 };
 
-gApp = new JungleReader();
-gApp.run();
+function initGlobalReader(toaster) {
+  gApp = new JungleReader(toaster);
+  gApp.run();
+}
 
 export {
   gApp,
+  initGlobalReader,
   Feed,
   FeedGroup,
   Link,

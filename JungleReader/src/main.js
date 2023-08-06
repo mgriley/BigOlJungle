@@ -7,6 +7,10 @@ import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import VueSelect from 'vue-select'
 import App from './App.vue'
+import { initGlobalReader } from './State.js'
+
+import ToastPlugin from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-default.css';
 
 import VueFeather from 'vue-feather';
 
@@ -53,7 +57,14 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+app.use(ToastPlugin)
 app.component(VueFeather.name, VueFeather)
 app.component("v-select", VueSelect)
 
 app.mount('#app')
+
+// For some reason doing app.$toast does not work here.
+// console.log("Globals: ", app.config.globalProperties);
+// console.log("Toaster: ", app.config.globalProperties.$toast);
+initGlobalReader(app.config.globalProperties.$toast)
+
