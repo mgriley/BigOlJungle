@@ -13,5 +13,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       "Shared": fileURLToPath(new URL('../Shared', import.meta.url)),
     }
+  },
+  test: {
+    environment: "jsdom"
   }
 })
