@@ -158,7 +158,7 @@ class Feed {
     this.id = obj.id;
     this.name = obj.name;
     this.links = obj.links.map((linkObj) => {
-      let link = new Link();
+      let link = new Link(0);
       link.readFromJson(linkObj)
       return link
     })
@@ -217,7 +217,7 @@ class Feed {
     let mostRecentLinkTime = null;
     this.links = []
     for (const linkData of newLinksData.items) {
-      let newLink = new Link();
+      let newLink = Link.create();
       newLink.title = linkData.title;
       newLink.description = linkData.description;
       newLink.link = linkData.link;
