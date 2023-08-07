@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "JungleExt",
   "version": "1.0",
-  "description": "Adds support needed for JungleReader (www.junglereader.com). Specifically, this extension can make web requests to external websites (like reddit, mastodon, etc.) in a secure script then pass the results to JungleReader for processing.",
+  "description": "The official companion extension for JungleReader (www.junglereader.com). This extension allows JungleReader to fetch pages from external websites like reddit, mastodon, etc.",
   "icons": {
     "48": "icons/icon-48.png",
 		"96": "icons/icon-96.png"
