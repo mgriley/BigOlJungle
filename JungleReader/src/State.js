@@ -424,9 +424,6 @@ class JungleReader {
       groups: this.feedReader.groups.map((group) => group.writeToJson()),
       customPlugins: this.customPlugins.map((plugin) => plugin.writeToJson()),
     }
-    
-    // TODO - starred, history, custom plugins
-
     return jsonObj;
   }
 

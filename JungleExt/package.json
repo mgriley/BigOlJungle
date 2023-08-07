@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "web-ext lint",
     "dev": "web-ext lint && web-ext run",
-    "build": "web-ext lint && web-ext build",
+    "build": "web-ext lint && web-ext build --overwrite-dest",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
