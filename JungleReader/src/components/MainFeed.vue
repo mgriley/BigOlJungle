@@ -17,7 +17,7 @@ let groupToEdit = ref(null);
 let feedToEdit = ref(null);
 
 function addFeedGroup() {
-  let group = new FeedGroup();
+  let group = FeedGroup.create();
   gApp.feedReader.addFeedGroup(group);
   editGroup(group);
 }
@@ -46,7 +46,7 @@ function addFeed() {
   }
   parentFeed = gApp.feedReader.groups[0];
 
-  let feed = new Feed();
+  let feed = Feed.create();
   parentFeed.addFeed(feed);
   editFeed(feed);
 }

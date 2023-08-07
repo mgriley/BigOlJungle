@@ -37,13 +37,18 @@ function getTimeAgoStr(date)  {
 }
 
 class Link {
-  constructor() {
-    this.id = gApp.linkIdCtr++;
+  // Called internally
+  constructor(id) {
+    this.id = id;
     this.title = "";
     this.link = "";
     this.description = "";
     this.pubDate = null;
     this.extraDataString = null;
+  }
+
+  static create() {
+    return new Link(gApp.linkIdCtr++);
   }
 
   writeToJson() {
@@ -105,8 +110,8 @@ class Link {
 }
 
 class Feed {
-  constructor() {
-    this.id = gApp.feedIdCtr++;
+  constructor(id) {
+    this.id = id;
     this.name = "MyFeed";
     this.parentGroup = null;
     this.links = []
@@ -126,6 +131,10 @@ class Feed {
     this.pluginData = {};
 
     this.mostRecentLinkTime = null;
+  }
+
+  create() {
+    return new Feed(gApp.feedIdCtr++);
   }
 
   writeToJson() {
@@ -268,11 +277,15 @@ class Feed {
 }
 
 class FeedGroup {
-  constructor() {
-    this.id = gApp.feedGroupIdCtr++;
+  constructor(id) {
+    this.id = id;
     this.name = "MyGroup";
     this.feeds = []
     this.expanded = true
+  }
+
+  static create() {
+    return new FeedGroup(gApp.feedGroupIdCtr++);
   }
 
   writeToJson() {
@@ -290,7 +303,7 @@ class FeedGroup {
     this.expanded = obj["expanded"]
     let thisGroup = this;
     this.feeds = obj["feeds"].map((feedObj) => {
-      let feed = new Feed()
+      let feed = new Feed(0)
       feed.readFromJson(feedObj)
       feed.parentGroup = thisGroup;
       return feed;
@@ -321,7 +334,7 @@ class FeedReader {
   }
 
   makeDefaultGroup() {
-    let group = new FeedGroup();
+    let group = FeedGroup.create();
     group.name = "MyGroup";
     this.addFeedGroup(group);
   }
@@ -420,7 +433,7 @@ class JungleReader {
   readStateFromJson(jsonObj) {
     if ("groups" in jsonObj) {
       let groups = jsonObj["groups"].map((groupObj) => {
-        let group = new FeedGroup();
+        let group = new FeedGroup(0);
         group.readFromJson(groupObj)
         return group;
       })
