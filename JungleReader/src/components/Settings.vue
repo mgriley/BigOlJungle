@@ -1,12 +1,15 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import { gApp, FetchMethod, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import PluginEditor from './PluginEditor.vue'
 import CodeEditor from './CodeEditor.vue'
 import QuickParseEditor from './QuickParseEditor.vue'
+import BasicSelector from './BasicSelector.vue'
 
 let persistentStorageOn = ref(false);
+
+let supportedFetchMethods = [FetchMethod.JungleExt, FetchMethod.Proxy]
 
 /*
 See:
@@ -69,6 +72,13 @@ onMounted(() => {
       <PluginEditor />
     </div>
     <div class="SettingsSection">
+      <h3>Advanced</h3>
+      <div>
+        <h4>Fetch Method</h4>
+        <p>By default, JungleReader will try to use JungleExt to make external web requests.</p>
+        <p>You can choose to use a CORS proxy, instead. This is useful for development.</p>
+        <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
+      </div>
     </div>
   </div>
 </template>

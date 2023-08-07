@@ -389,6 +389,11 @@ class FeedReader {
   }
 }
 
+let FetchMethod = {
+  JungleExt: 'JungleExt',
+  Proxy: 'Proxy'
+};
+
 class JungleReader {
   constructor(toaster) {
     this.toaster = toaster;
@@ -413,6 +418,8 @@ class JungleReader {
     this.extReqIdCtr = 1;
     this.pendingExtRequests = {};
     this.isJungleExtPresent = ref(true);
+
+    this.fetchMethod = ref(FetchMethod.JungleExt)
   }
 
   writeStateToJson() {
@@ -423,6 +430,7 @@ class JungleReader {
       linkIdCtr: this.linkIdCtr,
       groups: this.feedReader.groups.map((group) => group.writeToJson()),
       customPlugins: this.customPlugins.map((plugin) => plugin.writeToJson()),
+      fetchMethod: this.fetchMethod.value,
     }
     return jsonObj;
   }
@@ -447,6 +455,7 @@ class JungleReader {
         return plugin;
       }))
     }
+    this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.JungleExt)
   }
 
   getPluginToEdit() {
@@ -552,20 +561,6 @@ class JungleReader {
     this.checkIfJungleExtPresent();
   }
 
-  /*
-  getCorsProxyUrl() {
-    return "http://127.0.0.1:8787/corsproxy/";
-  }
-  */
-
-  /*
-  makeCorsProxyUrl(targetUrl) {
-    const url = new URL("http://127.0.0.1:8787/corsproxy/");
-    url.searchParams.set("apiurl", cleanUrl(targetUrl));
-    return url;
-  }
-  */
-
   handleWindowMessage(evt) {
     // console.log("Received window message: ", evt);
     if (!(evt.source == window && evt.data)) {
@@ -585,13 +580,42 @@ class JungleReader {
     delete this.pendingExtRequests[evt.data.reqId];
   }
 
+  async fetchTextWithExt(urlString, options) {
+    return this.makeExtRequest({type: "fetch", data: {url: urlString, options: options}});
+  }
+
+  getCorsProxyUrl() {
+    return "http://127.0.0.1:8787/corsproxy/";
+  }
+
+  makeCorsProxyUrl(targetUrl) {
+    const url = new URL("http://127.0.0.1:8787/corsproxy/");
+    url.searchParams.set("apiurl", cleanUrl(targetUrl));
+    return url;
+  }
+
+  async fetchTextWithProxy(urlString, options) {
+    let response = await fetch(this.makeCorsProxyUrl(urlString));
+    if (!response.ok) {
+      throw new Error(`Response error: ${response.statusCode} ${response.statusText}`);
+    }
+    let text = await response.text();
+    return text;
+  }
+
   async fetchText(url, options) {
     let urlString = (typeof url === 'string') ? url : url.toString();
     urlString = cleanUrl(urlString);
     if (!isValidUrl(urlString)) {
       throw new Error(`Tried to fetch from invalid URL: "${urlString}"`);
     }
-    return this.makeExtRequest({type: "fetch", data: {url: urlString, options: options}});
+    if (this.fetchMethod.value == FetchMethod.JungleExt) {
+      return this.fetchTextWithExt(urlString, options);
+    } else if (this.fetchMethod.value == FetchMethod.Proxy) {
+      return this.fetchTextWithProxy(urlString, options);
+    } else {
+      console.error(`Unknown fetchMethod: "${this.fetchMethod.value}"`);
+    }
   }
 
   async checkIfJungleExtPresent() {
@@ -651,5 +675,6 @@ export {
   Feed,
   FeedGroup,
   Link,
-  getTimeAgoStr
+  getTimeAgoStr,
+  FetchMethod,
 };

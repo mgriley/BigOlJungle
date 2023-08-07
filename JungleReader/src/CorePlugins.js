@@ -42,8 +42,9 @@ class RSSFeed extends FeedPlugin {
       let parser = new RSSParser(optParserOptions);
       parser.parseString(rssText, (err, res) => {
         if (err) {
-          console.log("Error parsing RSS URL: " + url);
-          feed.setError("Error parsing RSS URL:\n" + err);
+          let parseError = `Error parsing RSS feed. Url: "${rssUrl}", Error: ${err}`;
+          console.log(parseError);
+          feed.setError(parseError);
           return;
         }
         plugin.transformRssResult(res)
