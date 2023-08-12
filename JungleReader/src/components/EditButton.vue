@@ -3,7 +3,7 @@
 
 <template>
   <div class="FeatherIcon">
-    <vue-feather class="TextButton" type="edit"></vue-feather>
+    <vue-feather class="TextButton" type="settings"></vue-feather>
   </div>
 </template>
 

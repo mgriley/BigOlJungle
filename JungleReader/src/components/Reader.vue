@@ -114,7 +114,7 @@ async function testJungleExt() {
 }
 
 .toplevel {
-  /* max-width: 1280px; */
+  max-width: 1280px;
   margin: auto;
   display: grid;
   padding: 20px 10px;
@@ -148,6 +148,9 @@ async function testJungleExt() {
 
 .SideMenu a {
   display: block;
+  font-weight: bold;
+  font-size: 0.8em;
+  color: var(--mute-text);
 }
 
 .SideMenu .Section {

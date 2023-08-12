@@ -128,6 +128,7 @@ class Feed {
       errorMsg: this.errorMsg,
       pluginData: {...this.pluginData},
       mostRecentLinkTime: this.mostRecentLinkTime,
+      lastReloadTime: this.lastReloadTime ? this.lastReloadTime.toJSON() : null
     }
   }
 
@@ -150,6 +151,9 @@ class Feed {
     this.pluginData = obj.pluginData;
     if (obj.mostRecentLinkTime) {
       this.mostRecentLinkTime = obj.mostRecentLinkTime;
+    }
+    if (obj.lastReloadTime) {
+      this.lastReloadTime = new Date(obj.lastReloadTime);
     }
   }
 

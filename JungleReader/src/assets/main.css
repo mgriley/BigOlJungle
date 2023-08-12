@@ -2,7 +2,6 @@
 /*@import './reader.css';*/
 
 :root {
-  --color-link-hover: hsla(160, 100%, 37%, 0.2);
 }
 
 #app {
@@ -13,17 +12,15 @@
   font-weight: normal;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: var(--main-text);
   transition: 0.4s;
 }
 
 @media (hover: hover) {
   a:hover {
-    /*background-color: hsla(160, 100%, 37%, 0.2);*/
-    background-color: var(--color-link-hover);
+    background-color: var(--link-hover-bg);
   }
 }
 
