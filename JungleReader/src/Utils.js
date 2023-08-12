@@ -314,3 +314,44 @@ export function safeParseJson(jsonStr) {
   }
 }
 
+// Ex. pluralStr(1, "day") -> "day", pluralStr(2, "day") -> "days"
+function pluralStr(number, str) {
+  if (number == 1) {
+    return str;
+  }
+  return str + "s";
+}
+
+function quantityStr(number, unitStr) {
+  return `${number} ${pluralStr(number, unitStr)}`
+}
+
+export function getTimeAgoStr(date, opts)  {
+  opts = valOr(opts, {});
+  let curDate = new Date();    
+  let hoursDiff = (curDate.getTime() - date.getTime()) / (1000.0*60*60);
+  hoursDiff = Math.floor(hoursDiff);
+  let res = null;
+  if (hoursDiff > 24) {
+    let daysAgo = Math.floor(hoursDiff / 24.0);
+    res = quantityStr(daysAgo, "day") + " ago";
+  } else if (hoursDiff >= 1) {
+    res = quantityStr(hoursDiff, "hr") + " ago";
+  } else {
+    // hoursDiff == 0
+    if (valOr(opts.enableMins, false)) {
+      let minsDiff = (curDate.getTime() - date.getTime()) / (1000.0*60);
+      minsDiff = Math.floor(minsDiff);
+      res = quantityStr(minsDiff, "min") + " ago";
+    } else {
+      res = "0 hrs ago";
+    }
+  }
+  return res;
+}
+
+export function secsSinceDate(date) {
+  let curDate = new Date();
+  return (curDate - date) / (1000.0);
+}
+

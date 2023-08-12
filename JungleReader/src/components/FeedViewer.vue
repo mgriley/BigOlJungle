@@ -1,21 +1,36 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import { gApp, FeedGroup, Feed } from '../State.js'
+import * as utils from '../Utils.js'
 import TreeIcon from './TreeIcon.vue'
 
 const props = defineProps({
   feed: Object,
 })
 
+function goBack() {
+  gApp.router.go(-1);
+}
+
 </script>
 
 <template>
-  <div class="FeedView">
-    <div class="FeedName Flex">
-      <div>{{ feed.name }}</div>
-      <a :href="feed.mainSiteUrl" class="MarginLeft" target="_blank">
-        <vue-feather class="FeatherIcon" type="external-link"/>
-      </a>
+  <div class="FeedViewer">
+    <button class="BackBtn" @click="goBack">Back to Feed</button>
+    <div class="HeaderBox">
+      <div class="FeedName">
+        <div>{{ feed.name }}</div>
+        <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="" target="_blank">
+          {{ feed.mainSiteUrl }}
+        </a>
+        <div v-if="!feed.reloading">
+          <div v-if="feed.lastReloadTime">Last Reload: {{ utils.getTimeAgoStr(feed.lastReloadTime, {enableMins: true}) }}</div>
+          <button @click="feed.reload()">Reload</button>
+        </div>
+        <div v-else>
+          Reloading...
+        </div>
+      </div>
     </div>
     <template v-if="!feed.isError">
       <ul v-for="link in feed.links" :id="link.id" class="Link">
@@ -24,7 +39,7 @@ const props = defineProps({
             {{ link.getTrimmedStringDesc() }}
           </a>
           <span v-if="link.extraDataString" class="ExtraString">({{ link.extraDataString }})</span>
-          <span class="DaysAgo">{{ "(" + getTimeAgoStr(new Date(link.pubDate)) + ")" }}</span>
+          <span class="DaysAgo">{{ "(" + utils.getTimeAgoStr(new Date(link.pubDate)) + ")" }}</span>
         </li>
       </ul>
     </template>
@@ -74,6 +89,14 @@ const props = defineProps({
 
 .FeedButtons {
   display: flex;
+}
+
+.BackBtn {
+  margin-bottom: 40px;
+}
+
+.HeaderBox {
+  margin-bottom: 30px;
 }
 
 </style>

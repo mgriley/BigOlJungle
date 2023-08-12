@@ -7,7 +7,6 @@ import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 import FeedItem from './FeedItem.vue'
-import FeedViewer from './FeedViewer.vue'
 import EditButton from './EditButton.vue'
 
 let feedEditorModal = ref(null);
@@ -146,9 +145,6 @@ function openSettings() {
     <div class="ButtonMenu">
       <button @click="addFeedGroup">Add Group</button>
       <button @click="addFeed">Add Feed</button>
-      <button @click="deleteSelectedFeedGroup">Delete Group</button>
-      <button @click="deleteSelectedFeed">Delete Feed</button>
-      <button @click="toggleExplodeView">*</button>
       <!--<button class="SettingsButton" @click="openSettings">Settings</button>-->
     </div>
     <div class="FeedGroups">
@@ -178,9 +174,6 @@ function openSettings() {
           </template>
         </draggable>
       </div>
-      <div class="RightPane">
-        <FeedViewer v-if="gApp.feedReader.getSelectedFeed()" :feed="gApp.feedReader.getSelectedFeed()" />
-      </div>
     </div>
   </div> 
   <BasicModal ref="groupEditorModal" :showCancel="false">
@@ -196,8 +189,8 @@ function openSettings() {
 <style scoped>
 .FeedGroups {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-areas: "left right";
+  grid-template-columns: 1fr;
+  grid-template-areas: "left";
 }
 
 .FeedGroupElem {
@@ -205,13 +198,6 @@ function openSettings() {
 
 .LeftPane {
   grid-area: left;
-  overflow-y: auto;
-  height: 100%;
-}
-
-.RightPane {
-  grid-area: right;
-  padding-left: 40px;
   overflow-y: auto;
   height: 100%;
 }

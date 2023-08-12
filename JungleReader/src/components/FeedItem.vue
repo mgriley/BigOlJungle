@@ -10,17 +10,9 @@ const props = defineProps({
 
 const emit = defineEmits(['editFeed'])
 
-function toggleExpandFeed(feed) {
-  feed.expanded = !feed.expanded;
-}
-
 function onFeedClicked(feed) {
-  toggleExpandFeed(feed);
-  gApp.feedReader.setSelectedFeed(feed);
-}
-
-function selectFeed(feed) {
-  gApp.feedReader.setSelectedItem(feed);
+  feed.reloadIfStale();
+  gApp.router.push({name: 'feed', params: {id: feed.id}})
 }
 
 </script>
@@ -29,7 +21,6 @@ function selectFeed(feed) {
   <div class="FeedItem">
     <div class="FeedControls">
       <div class="FeedTitleBar" @click="onFeedClicked(feed)">
-        <!-- <TreeIcon :expanded="feed.expanded"/> -->
         <div class="FeedName TextButton">{{ feed.name }}</div>
         <div class="FeedInfo TextButton">{{feed.mostRecentLinkTimeStr()}}</div>
       </div>

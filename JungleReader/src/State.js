@@ -2,39 +2,15 @@ import { reactive, ref } from 'vue'
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
-  cleanUrl, isValidUrl, valOr, waitMillis } from './Utils.js'
+  cleanUrl, isValidUrl, valOr, waitMillis,
+  getTimeAgoStr, secsSinceDate } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
 // LocalStorage keys
 const kAppStateKey = "appState";
 
-// TODO - increase update interval for prod
-const kFeedUpdateIntervalSecs = 5;
-
 var gApp = null;
-
-function getTimeAgoStr(date)  {
-  let curDate = new Date();    
-  let hoursDiff = (curDate.getTime() - date.getTime()) / (1000.0*60*60);
-  hoursDiff = Math.floor(hoursDiff);
-  let res = null;
-  if (hoursDiff > 24) {
-    let daysAgo = Math.floor(hoursDiff / 24.0);
-    if (daysAgo == 1) {
-      res = "1 day ago";
-    } else {
-      res = daysAgo + " days ago";
-    }
-  } else {
-    if (hoursDiff == 1) {
-      res = "1 hr ago";
-    } else {
-      res = hoursDiff + " hrs ago" 
-    }
-  }
-  return res;
-}
 
 class Link {
   // Called internally
@@ -115,7 +91,6 @@ class Feed {
     this.name = "MyFeed";
     this.parentGroup = null;
     this.links = []
-    this.expanded = true
 
     this.type = "RSS";
     // This is the feed URL/id
@@ -131,9 +106,12 @@ class Feed {
     this.pluginData = {};
 
     this.mostRecentLinkTime = null;
+
+    this.reloading = false;
+    this.lastReloadTime = null;
   }
 
-  create() {
+  static create() {
     return new Feed(gApp.feedIdCtr++);
   }
 
@@ -142,7 +120,6 @@ class Feed {
       id: this.id,
       name: this.name,
       links: this.links.map((link) => link.writeToJson()),
-      expanded: this.expanded,
       type: this.type,
       url: this.url,
       options: optionsToJson(this.options),
@@ -162,7 +139,6 @@ class Feed {
       link.readFromJson(linkObj)
       return link
     })
-    this.expanded = obj.expanded;
     this.type = obj.type;
     this.url = obj.url;
     this.options = jsonToOptions(obj.options);
@@ -189,6 +165,42 @@ class Feed {
     if (this.parentGroup) {
       this.parentGroup.removeFeed(this);
     }
+  }
+
+  async reloadIfStale() {
+    if (this.lastReloadTime) {
+      return;
+    }
+    let minsUntilStale = 30;
+    if (secsSinceDate(this.lastReloadTime) > minsUntilStale*60) {
+      this.reload();
+    }
+  }
+
+  async reload() {
+    if (this.reloading) {
+      return;
+    }
+    let plugin = gApp.getFeedPluginByType(this.type);
+    if (!plugin) {
+      let errorMsg = `No plugin of type: \"${this.type}\" found.`;
+      this.setError(errorMsg);
+      return;
+    }
+
+    console.log(`Reloading ${this.name}...`);
+    this.reloading = true;
+    try {
+      await plugin.updateFeeds([this]);
+    } catch (error) {
+      console.log(`Failed to reload ${this.name} with error`, error);
+      this.setError(error);
+      this.reloading = false;
+      return;
+    }
+    console.log(`Reloaded ${this.name}`)
+    this.reloading = false;
+    this.lastReloadTime = new Date();
   }
 
   /**
@@ -348,6 +360,17 @@ class FeedReader {
     return null;
   }
 
+  getFeedWithId(feedId) {
+    for (const group of this.groups) {
+      for (const feed of group.feeds) {
+        if (feed.id == feedId) {
+          return feed;
+        }
+      }
+    }
+    return null;
+  }
+
   getFeedsOfType(feedType) {
     let feeds = []
     for (const group of this.groups) {
@@ -389,14 +412,33 @@ class FeedReader {
   }
 }
 
+/*
+// TODO
+class ProxyInfo {
+  constructor() {
+    this.url = "";
+    // TODO - allow HTTP basic access
+    // this.username = 
+  }
+
+  writeToJson() {
+  }
+
+  readFromJson(obj) {
+  }
+}
+*/
+
 let FetchMethod = {
   JungleExt: 'JungleExt',
-  Proxy: 'Proxy'
+  Proxy: 'Proxy',
+  DevProxy: 'DevProxy'
 };
 
 class JungleReader {
-  constructor(toaster) {
+  constructor(toaster, router) {
     this.toaster = toaster;
+    this.router = router;
 
     this.feedGroupIdCtr = 1;
     this.feedIdCtr = 1;
@@ -466,6 +508,7 @@ class JungleReader {
     this.pluginToEdit.value = plugin;
   }
 
+  /*
   updateFeeds() {
     let feedTypeSet = new Set();
     let allPlugins = [...this.feedPlugins, ...this.customPlugins];
@@ -483,6 +526,17 @@ class JungleReader {
       feedPlugin.updateFeeds(feeds);
       feedTypeSet.add(feedPlugin.getFeedType());
     }
+  }
+  */
+
+  getFeedPluginByType(pluginType) {
+    let allPlugins = [...this.feedPlugins, ...this.customPlugins];
+    for (const feedPlugin of allPlugins) {
+      if (feedPlugin.getFeedType() == pluginType) {
+        return feedPlugin;
+      }
+    }
+    return null;
   }
 
   checkRequiresSave() {
@@ -549,6 +603,7 @@ class JungleReader {
 
     registerCorePlugin(this);
 
+    /*
     setInterval(function() {
       // Note: only update feeds when tab is in foreground
       if (!document.hasFocus()) {
@@ -556,7 +611,8 @@ class JungleReader {
       }
       console.log("Updating feeds");
       app.updateFeeds();
-    }, kFeedUpdateIntervalSecs*1000);
+    }, 5000);
+    */
 
     this.checkIfJungleExtPresent();
   }
@@ -584,18 +640,18 @@ class JungleReader {
     return this.makeExtRequest({type: "fetch", data: {url: urlString, options: options}});
   }
 
-  getCorsProxyUrl() {
+  getDevProxyUrl() {
     return "http://127.0.0.1:8787/corsproxy/";
   }
 
-  makeCorsProxyUrl(targetUrl) {
+  makeDevProxyUrl(targetUrl) {
     const url = new URL("http://127.0.0.1:8787/corsproxy/");
     url.searchParams.set("apiurl", cleanUrl(targetUrl));
     return url;
   }
 
-  async fetchTextWithProxy(urlString, options) {
-    let response = await fetch(this.makeCorsProxyUrl(urlString));
+  async fetchTextWithDevProxy(urlString, options) {
+    let response = await fetch(this.makeDevProxyUrl(urlString));
     if (!response.ok) {
       throw new Error(`Response error: ${response.statusCode} ${response.statusText}`);
     }
@@ -612,7 +668,9 @@ class JungleReader {
     if (this.fetchMethod.value == FetchMethod.JungleExt) {
       return this.fetchTextWithExt(urlString, options);
     } else if (this.fetchMethod.value == FetchMethod.Proxy) {
-      return this.fetchTextWithProxy(urlString, options);
+      throw new Error("Not yet impl. Coming soon");
+    } else if (this.fetchMethod.value == FetchMethod.DevProxy) {
+      return this.fetchTextWithDevProxy(urlString, options);
     } else {
       console.error(`Unknown fetchMethod: "${this.fetchMethod.value}"`);
     }
@@ -664,8 +722,8 @@ class JungleReader {
   }
 };
 
-function initGlobalReader(toaster) {
-  gApp = new JungleReader(toaster);
+function initGlobalReader(toaster, router) {
+  gApp = new JungleReader(toaster, router);
   gApp.run();
 }
 

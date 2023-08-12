@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FetchMethod, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
+import { getTimeAgoStr } from '../Utils.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import PluginEditor from './PluginEditor.vue'
 import CodeEditor from './CodeEditor.vue'
@@ -9,7 +10,7 @@ import BasicSelector from './BasicSelector.vue'
 
 let persistentStorageOn = ref(false);
 
-let supportedFetchMethods = [FetchMethod.JungleExt, FetchMethod.Proxy]
+let supportedFetchMethods = [FetchMethod.JungleExt, FetchMethod.DevProxy]
 
 /*
 See:
@@ -75,8 +76,11 @@ onMounted(() => {
       <h3>Advanced</h3>
       <div>
         <h4>Fetch Method</h4>
-        <p>By default, JungleReader will try to use JungleExt to make external web requests.</p>
-        <p>You can choose to use a CORS proxy, instead. This is useful for development.</p>
+        <p>
+        By default, JungleReader will try to use JungleExt to make external web requests. 
+        Soon, you'll be able to use a custom CORS proxy, instead, if you want. The DevProxy
+        proxies requests to ToucanProxy running on localhost:8787.
+        </p>
         <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
       </div>
     </div>

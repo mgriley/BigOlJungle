@@ -35,10 +35,10 @@ class RSSFeed extends FeedPlugin {
     })
   }
 
-  updateFromRSS(feed, rssUrl, optParserOptions) {
+  async updateFromRSS(feed, rssUrl, optParserOptions) {
     optParserOptions = optParserOptions ?? {};
     let plugin = this;
-    gApp.fetchText(rssUrl).then((rssText) => {
+    await gApp.fetchText(rssUrl).then((rssText) => {
       let parser = new RSSParser(optParserOptions);
       parser.parseString(rssText, (err, res) => {
         if (err) {
@@ -55,10 +55,10 @@ class RSSFeed extends FeedPlugin {
     });
   }
 
-  updateFeed(feed) {
+  async updateFeed(feed) {
     console.log("Updating feed: " + feed.name);
     //const testUrl = "https://www.to-rss.xyz/wikipedia/current_events/"
-    this.updateFromRSS(feed, this.transformUrlToRss(feed.url));
+    await this.updateFromRSS(feed, this.transformUrlToRss(feed.url));
   }
 
   // May override in subclass
@@ -114,7 +114,7 @@ class YouTubeFeed extends RSSFeed {
     this.quickHelpDocs = "Follow a YouTube channel. Enter a link to the channel";
   }
 
-  updateFeed(feed) {
+  async updateFeed(feed) {
     // We must extract the RSS link from the html of the link to the homepage
     console.log("Updating feed: " + feed.name + ", " + feed.url);
 
@@ -124,10 +124,10 @@ class YouTubeFeed extends RSSFeed {
     }
 
     let plugin = this;
-    gApp.fetchText(feed.url).then((htmlStr) => {
+    await gApp.fetchText(feed.url).then((htmlStr) => {
       let rssLink = extractRssLinkFromHtml(htmlStr);
       console.log("Extracted RSS link: " + rssLink);
-      plugin.updateFromRSS(feed, rssLink, {
+      return plugin.updateFromRSS(feed, rssLink, {
         customFields: {
           item: ['media:group'],
         }
@@ -179,11 +179,11 @@ class Bookmark extends FeedPlugin {
 
   async updateFeeds(feeds) {
     for (const feed of feeds) {
-      this.updateFeed(feed);
+      await this.updateFeed(feed);
     }
   }
 
-  updateFeed(feed) {
+  async updateFeed(feed) {
     // We must extract the RSS link from the html of the link to the homepage
     console.log("Updating feed: " + feed.name + ", " + feed.url);
 
@@ -194,7 +194,7 @@ class Bookmark extends FeedPlugin {
 
     // Store a hash of the text content of the page to detect changes
     let plugin = this;
-    gApp.fetchText(feed.url).then((pageStr) => {
+    await gApp.fetchText(feed.url).then((pageStr) => {
       let pageHash = hashString(pageStr);
       //console.log("PageStr: " + pageStr + ", Hash: " + pageHash);
       let existingHash = feed.getPluginItem("pageHash");

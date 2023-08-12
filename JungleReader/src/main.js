@@ -22,10 +22,14 @@ import ImportView from './components/ImportView.vue'
 import ExportView from './components/ExportView.vue'
 import Settings from './components/Settings.vue'
 import AboutView from './components/AboutView.vue'
+import FeedView from './components/FeedView.vue'
 
 const routes = [
   {
     path: '/', component: MainFeed
+  },
+  {
+    path: '/feed/:id', name: 'feed', component: FeedView,
   },
   {
     path: '/starred', component: StarredView
@@ -66,5 +70,6 @@ app.mount('#app')
 // For some reason doing app.$toast does not work here.
 // console.log("Globals: ", app.config.globalProperties);
 // console.log("Toaster: ", app.config.globalProperties.$toast);
-initGlobalReader(app.config.globalProperties.$toast)
+initGlobalReader(app.config.globalProperties.$toast,
+  app.config.globalProperties.$router)
 
