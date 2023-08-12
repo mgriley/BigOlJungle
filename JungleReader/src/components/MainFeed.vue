@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import draggable from 'vuedraggable'
-import TreeIcon from './TreeIcon.vue'
+import TextTreeIcon from './TextTreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
@@ -139,9 +139,6 @@ function openSettings() {
 
 <template>
   <div class="MainFeed">
-    <div v-if="!gApp.isJungleExtPresent.value">
-      <h3>JungleExt is not installed! Problem</h3>
-    </div>
     <div class="ButtonMenu">
       <button @click="addFeedGroup">Add Group</button>
       <button @click="addFeed">Add Feed</button>
@@ -149,16 +146,17 @@ function openSettings() {
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
+        <div v-if="!gApp.isJungleExtPresent.value">
+          <h3>JungleExt is not installed! Problem</h3>
+        </div>
         <draggable class="FeedGroup" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
           <template #item="{element}">
             <div class="FeedGroupItem">
               <div class="GroupControls">
-                <TreeIcon :expanded="element.expanded" @click="toggleExpandGroup(element)" />
+                <TextTreeIcon class="GroupName Collapse" :expanded="element.expanded" @click="toggleExpandGroup(element)" />
                 <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
-                <div class="GroupButtons">
-                  <EditButton @click="(evt) => editGroup(element, evt)" />
-                </div>
+                <div @click="(evt) => editGroup(element, evt)" class="EditButton TextButton">edit</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
               <draggable class="FeedGroup" :list="element.feeds" group="element.expanded"
@@ -207,19 +205,38 @@ function openSettings() {
 }
 
 .FeedGroup {
+  margin: 10px 0px 40px 0px;
+  line-height: 1.25;
 }
 
 .GroupName {
   margin-right: 20px;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
 .GroupControls {
   display: flex;
+  align-items: baseline;
   flex-wrap: nowrap;
   white-space: nowrap;
+}
+
+.GroupControls .Collapse {
+  font-weight: 600;
+  margin-right: 10px;
+  //color: var(--nice-red);
 }
 
 .SettingsButton {
   float: right;
 }
+
+.EditButton {
+  margin-left: 20px;
+  color: var(--very-mute-text);
+  font-weight: normal;
+}
+
 </style>

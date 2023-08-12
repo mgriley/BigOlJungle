@@ -59,13 +59,8 @@ function launchTutorial() {
       </p>
       <div class="SideMenu">
         <div class="Section">
-          <div class="Flex">
-            <button class="SaveButton" @click="gApp.saveAll()">Save</button>
-            <!-- <h2 v-if="gApp.checkRequiresSave()">Must save!</h2> -->
-          </div>
-        </div>
-        <div class="Section">
           <router-link to="/">My Feed</router-link>
+          <button class="SaveButton" @click="gApp.saveAll()">Save</button>
         </div>
         <div class="Section">
           <a href="#" @click.prevent="startImportConfig()">Import Config</a>
@@ -104,6 +99,8 @@ function launchTutorial() {
   margin-bottom: 20px;
   line-height: 0.8em;
   letter-spacing: -2px;
+  padding-bottom: 2px;
+  /* border-bottom: 8px solid var(--main-text); */
   /* background-color: var(--main-text); */
   /* color: var(--main-bg); */
   /* padding: 10px; */
@@ -146,7 +143,7 @@ function launchTutorial() {
   display: block;
   font-weight: bold;
   font-size: 1.0em;
-  color: var(--mute-text);
+  /* color: var(--mute-text); */
 }
 
 .SideMenu .Section {

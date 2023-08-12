@@ -18,6 +18,35 @@ a {
   transition: 0.4s;
 }
 
+button {
+  min-width: 100px;
+  padding: 5px 10px;
+  margin: 4px 2px;
+  background: none;
+  border: 2px solid black;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+button:hover {
+  background-color: var(--main-text);
+  color: var(--main-bg);
+}
+
+.TextButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.TextButton:hover {
+  color: var(--text-button-hover);
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: var(--link-hover-bg);

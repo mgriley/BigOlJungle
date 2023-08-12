@@ -27,10 +27,13 @@
 :root {
   /* --main-bg: rgb(249, 234, 220); */
   /* --main-text: rgb(0, 0, 0); */
-  /* --mute-text: rgb(30, 30, 30); */
   --main-bg: rgb(252, 252, 252);
   --main-text: rgb(50, 50, 50);
+  --mute-text: rgb(80, 80, 80);
+  --very-mute-text: rgb(120, 120, 120);
   --link-hover-bg: rgba(127, 127, 127, 0.4);
+  --nice-red: rgb(215, 46, 36);
+  --text-button-hover: var(--nice-red);
 }
 
 /*

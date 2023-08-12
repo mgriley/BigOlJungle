@@ -3,7 +3,7 @@ const props = defineProps(['expanded'])
 </script>
 
 <template>
-  <p class="TextChevron"><b>{{ expanded ? "[-]" : "[+]" }}</b></p>
+  <p class="TextChevron TextButton">{{ expanded ? "-" : "+" }}</p>
 </template>
 
 <style scoped>

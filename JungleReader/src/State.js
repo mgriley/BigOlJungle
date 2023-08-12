@@ -53,11 +53,13 @@ class Link {
     return this.url;
   }
 
-  getTrimmedStringDesc() {
+  getTrimmedStringDesc(maxLen) {
+    maxLen = valOr(maxLen, 200)
     let desc = this.getStringDesc()
-    if (desc.length > 200) {
-      desc = desc.substring(0, 200);
-      desc += "...";
+    if (desc.length > maxLen) {
+      let ellipse = "...";
+      desc = desc.substring(0, maxLen - ellipse.length);
+      desc += ellipse;
     }
     return desc;
   }
