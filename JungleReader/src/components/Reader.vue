@@ -48,38 +48,28 @@ function launchTutorial() {
   // TODO
 }
 
-async function testJungleExt() {
-  // let reply = await gApp.makeExtRequest({type: "echo", data: {hello: "world"}});
-  /*
-  let reply = await gApp.makeExtRequest({type: "fetch", data: "lol"});
-  console.log("Got reply: ", reply);
-  */
-  let reply = await gApp.fetchText("https://news.ycombinator.com");
-  console.log("Got reply: ", reply);
-}
-
 </script>
 
 <template>
   <div class="toplevel">
     <div class="sidenav">
-      <p class="AppTitle">JungleReader</p>
+      <p class="AppTitle">
+        Jungle
+        Reader
+      </p>
       <div class="SideMenu">
         <div class="Section">
           <div class="Flex">
             <button class="SaveButton" @click="gApp.saveAll()">Save</button>
             <!-- <h2 v-if="gApp.checkRequiresSave()">Must save!</h2> -->
           </div>
-          <button @click="testJungleExt">Test Ext</button>
         </div>
         <div class="Section">
           <router-link to="/">My Feed</router-link>
-          <router-link to="/starred">Starred</router-link>
-          <router-link to="/history">History</router-link>
         </div>
         <div class="Section">
-          <button @click="startImportConfig()">Import Config</button>
-          <button @click="gApp.exportConfig()">Export Config</button>
+          <a href="#" @click.prevent="startImportConfig()">Import Config</a>
+          <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
         </div>
         <div class="Section">
           <a href="#" @click.prevent="launchTutorial()">Tutorial</a>
@@ -109,8 +99,14 @@ async function testJungleExt() {
 
 <style scoped>
 .AppTitle {
-  font-weight: bold;
+  font-size: 2.5em;
+  font-weight: 900;
   margin-bottom: 20px;
+  line-height: 0.8em;
+  letter-spacing: -2px;
+  /* background-color: var(--main-text); */
+  /* color: var(--main-bg); */
+  /* padding: 10px; */
 }
 
 .toplevel {
@@ -149,7 +145,7 @@ async function testJungleExt() {
 .SideMenu a {
   display: block;
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 1.0em;
   color: var(--mute-text);
 }
 

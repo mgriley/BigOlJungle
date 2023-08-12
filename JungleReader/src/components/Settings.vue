@@ -37,6 +37,16 @@ onMounted(() => {
   }
 })
 
+async function testFetchText() {
+  // let reply = await gApp.makeExtRequest({type: "echo", data: {hello: "world"}});
+  /*
+  let reply = await gApp.makeExtRequest({type: "fetch", data: "lol"});
+  console.log("Got reply: ", reply);
+  */
+  let reply = await gApp.fetchText("https://news.ycombinator.com");
+  console.log("Got reply: ", reply);
+}
+
 </script>
 
 <template>
@@ -82,6 +92,10 @@ onMounted(() => {
         proxies requests to ToucanProxy running on localhost:8787.
         </p>
         <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
+      </div>
+      <div>
+        <h4>Dev Zone</h4>
+        <button @click="testFetchText">Test Fetch</button>
       </div>
     </div>
   </div>

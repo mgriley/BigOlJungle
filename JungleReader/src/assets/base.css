@@ -25,9 +25,11 @@
 
 /* semantic color variables for this project */
 :root {
-  --main-bg: rgb(249, 234, 220);
-  --main-text: rgb(0, 0, 0);
-  --mute-text: rgb(30, 30, 30);
+  /* --main-bg: rgb(249, 234, 220); */
+  /* --main-text: rgb(0, 0, 0); */
+  /* --mute-text: rgb(30, 30, 30); */
+  --main-bg: rgb(252, 252, 252);
+  --main-text: rgb(50, 50, 50);
   --link-hover-bg: rgba(127, 127, 127, 0.4);
 }
 
