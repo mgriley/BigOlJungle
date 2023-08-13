@@ -48,7 +48,6 @@ function openQuickParseEditor(plugin) {
 <template>
   <div class="PluginEditor">
     <div class="PluginList">
-      <button class="AddPluginBtn" @click="addPlugin">Add Plugin</button>
       <div v-for="plugin in gApp.customPlugins" class="Plugin">
         <div class="MainEntries Flex">
           <input v-model="plugin.feedType" class="Block FeedInput" placeholder="Ex. MyPlugin">
@@ -67,6 +66,7 @@ function openQuickParseEditor(plugin) {
           <button @click="removePlugin(plugin)">X</button>
         </div>
       </div>
+      <button class="AddPluginBtn" @click="addPlugin">Add Plugin</button>
     </div>
   </div>
   <BasicModal ref="optionsEditorModal">

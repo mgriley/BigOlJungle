@@ -63,39 +63,41 @@ async function testFetchText() {
       </div>
     </div>
     <div v-else class="Settings">
-      <h2>Settings</h2>
+      <h1>Settings</h1>
       <div class="SettingsSection">
         <h3>Persistent Storage</h3>
         <p>JungleReader stores your config in your browser's storage. To make sure the browser doesn't
           automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
           your site data/cache will delete this data, so please back up your config sometimes.</p>
-        <button v-if="!persistentStorageOn" @click="enablePersistentStorage">Turn On</button>
-        <p>Persistent Storage: {{ persistentStorageOn }}</p>
+        <h4 class="MarginTop Italic">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</h4>
+        <button v-if="!persistentStorageOn" @click="enablePersistentStorage">{{ persistentStorageOn ? "Disable" : "Enable" }}</button>
       </div>
       <div class="SettingsSection">
         <h3>Cloud Sync</h3>
         <p>Connect your Google Drive account to backup and sync the reader between devices.</p>
-        <p>(Coming Soon!)</p>
+        <h4 class="Italic">(Coming Soon!)</h4>
       </div>
       <div class="SettingsSection">
         <h3>Plugins</h3>
-        <p>Download or create plugins to add support for your favourite sites.</p>
-        <p>If you'd like to develop a plugin, please see the GitHub for more info :)</p>
-        <p>(Note that you cannot have multiple plugins with the same name.)</p>
+        <p>
+          Download or create plugins to add support for your favourite sites.
+          If you'd like to develop a plugin, please see the GitHub for more info :)
+          (Note that you cannot have multiple plugins with the same name.)
+        </p>
         <PluginEditor />
       </div>
       <div class="SettingsSection">
         <h3>Advanced</h3>
-        <div>
+        <div class="SubSection">
           <h4>Fetch Method</h4>
-          <p>
+          <p class="FetchDesc">
           By default, JungleReader will try to use JungleExt to make external web requests. 
           Soon, you'll be able to use a custom CORS proxy, instead, if you want. The DevProxy
           proxies requests to ToucanProxy running on localhost:8787.
           </p>
           <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
         </div>
-        <div>
+        <div class="SubSection">
           <h4>Dev Zone</h4>
           <button @click="testFetchText">Test Fetch</button>
         </div>
@@ -127,5 +129,14 @@ async function testFetchText() {
 
 .SettingsSection {
   margin-bottom: 30px;
+}
+
+.SubSection {
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.FetchDesc {
+  margin-bottom: 15px;
 }
 </style>

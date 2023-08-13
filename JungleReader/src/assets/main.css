@@ -47,6 +47,14 @@ button:hover {
   color: var(--text-button-hover);
 }
 
+.SmallButton {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  min-width: 20px;
+  line-height: 1rem;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: var(--link-hover-bg);
@@ -108,6 +116,10 @@ it gets clicked. Say if using for a button
   margin-left: 15px;
 }
 
+.MarginTop {
+  margin-top: 10px;
+}
+
 .DeleteButton {
   background-color: var(--nice-red);
   border-color: var(--nice-red);
@@ -139,5 +151,36 @@ select {
   outline: 1px solid var(--main-text);
   */
   font-size: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.75;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.5;
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.Italic {
+    font-style: italic;
 }
 

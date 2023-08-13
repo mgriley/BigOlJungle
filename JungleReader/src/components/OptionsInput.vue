@@ -54,11 +54,4 @@ function addOption() {
   width: 200px;
 }
 
-.SmallButton {
-  border: none;
-  padding: 0px;
-  margin: 0px;
-  min-width: 20px;
-  line-height: 1rem;
-}
 </style>

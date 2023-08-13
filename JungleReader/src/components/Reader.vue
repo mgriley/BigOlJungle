@@ -86,11 +86,10 @@ function goToHome() {
       <router-view></router-view>
     </div>
   </div>
-  <BasicModal ref="importConfigModal">
-    <h1>Import Config</h1>
+  <BasicModal ref="importConfigModal" title="Import Config">
     <p>When you import a config, it will override your current config.</p>
     <p>You may want to export your current config first.</p>
-    <div>
+    <div class="ImportBox">
       <input ref="importFileInput" type="file" id="input" />
     </div>
     <button @click="importConfig">Import</button>
@@ -174,6 +173,15 @@ function goToHome() {
 .router-link-active {
   background-color: var(--link-hover-bg);
   //border-bottom: 1px solid black;
+}
+
+.ImportBox {
+  margin-top: 10px;
+}
+
+.ImportBox input {
+  font-size: 1rem;
+  margin-bottom: 5px;
 }
 
 </style>
