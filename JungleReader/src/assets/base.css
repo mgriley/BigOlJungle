@@ -33,6 +33,7 @@
   --very-mute-text: rgb(120, 120, 120);
   --link-hover-bg: rgba(127, 127, 127, 0.4);
   --nice-red: rgb(215, 46, 36);
+  --bright-red: rgb(255, 46, 46);
   --text-button-hover: var(--nice-red);
   --light-text-bg: rgb(150, 150, 150, 0.5);
 }

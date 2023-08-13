@@ -18,6 +18,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['onDelete'])
+
 let dialog = ref(null);
 let isOpen = ref(false);
 let lastShowTime = 0;
@@ -72,13 +74,13 @@ onMounted(() => {
 <template>
   <dialog class="ModalSelector modal-container" ref="dialog" @close="isOpen = false">
     <div v-if="isOpen">
-      <p v-if="title" class="Title">{{ title }}</p>
+      <div v-if="title" class="Title">{{ title }}</div>
       <div class="Body">
         <slot>Default Body</slot>
       </div>
       
       <div class="Footer">
-        <button v-if="showDelete" @click="">Delete</button>
+        <button v-if="showDelete" @click="emit('onDelete')" class="DeleteBtn">Delete</button>
         <button v-if="showCancel" @click="closeModal">Cancel</button>
         <button v-if="showDone" @click="closeModal">Done</button>
       </div>
@@ -99,9 +101,10 @@ onMounted(() => {
 */
 
 .modal-container {
+  border: 1px solid var(--mute-text);
   padding: 0.75em 0.75em;
   min-width: 160px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 2px 8px var(--main-text);
   margin: auto;
 }
 
@@ -113,31 +116,14 @@ onMounted(() => {
   float: right;
 }
 
-.modal-container a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+.DeleteBtn {
+  margin-right: 20px;
 }
-
-.CancelOption {
-  background-color: lightblue;  
-}
-
-.modal-container a:hover {
-  background-color: #ddd;
-}
-
-/*
-.modal-default-button {
-  float: right;
-}
-*/
 
 .Title {
   font-size: 2rem;
   font-weight: 800;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 </style>

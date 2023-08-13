@@ -15,7 +15,7 @@
 a {
   text-decoration: none;
   color: var(--main-text);
-  transition: 0.4s;
+  transition: 0.2s;
 }
 
 button {
@@ -32,12 +32,6 @@ button {
 button:hover {
   background-color: var(--main-text);
   color: var(--main-bg);
-}
-
-input[type=text] {
-  padding: 5px;
-  /* margin: 5px 0; */
-  border: 2px solid var(--main-text);
 }
 
 .TextButton {
@@ -112,5 +106,38 @@ it gets clicked. Say if using for a button
 
 .MarginLeft {
   margin-left: 15px;
+}
+
+.DeleteButton {
+  background-color: var(--nice-red);
+  border-color: var(--nice-red);
+  color: var(--main-bg)
+}
+
+.DeleteButton:hover {
+  background-color: var(--bright-red);
+  border-color: var(--bright-red);
+}
+
+.FormFieldName {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-top: 10px;
+}
+
+.BasicTextInput {
+  padding: 5px;
+  /* margin: 5px 0; */
+  border: 1px solid var(--main-text);
+  font-size: 1rem;
+}
+
+select {
+  /*
+  border: none;
+  outline: 1px solid var(--main-text);
+  */
+  font-size: 1rem;
 }
 

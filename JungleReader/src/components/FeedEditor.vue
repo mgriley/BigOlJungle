@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import BasicModal from 'Shared/BasicModal.vue'
+import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'
@@ -14,6 +15,8 @@ const props = defineProps({
 function changeGroup(newGroup) {
   props.feed.moveToGroup(newGroup);  
 }
+
+let showOptions = ref(false);
 
 let supportedFeedTypes = computed(() => {
   let types = []
@@ -36,15 +39,19 @@ function onChangeFeedType(feed, newType) {
 
 <template>
   <div class="FeedHeader">
+    <div class="FormFieldName">Name</div>
+    <input v-model="feed.name" placeholder="Feed name" class="Block WideInput BasicTextInput">
+    <div class="FormFieldName">Group</div>
     <GroupSelector :currentGroup="feed.parentGroup" @change="changeGroup"/>
-    <input v-model="feed.name" placeholder="Feed name" class="Block WideInput">
   </div>
+  <div class="FormFieldName">Feed Type</div>
   <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
   <!-- <p>{{ feed.type }}</p> -->
+  <div class="FormFieldName">Feed URL</div>
   <input v-model="feed.url" placeholder="Ex: https://www.someurl.com/feed.rss"
-    class="Block WideInput">
+    class="Block WideInput BasicTextInput">
 
-  <p>Options:</p>
+  <div class="FormFieldName">Custom Options</div>
   <OptionsInput :options="feed.options" />
 </template>
 

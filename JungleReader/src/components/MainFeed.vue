@@ -177,11 +177,11 @@ function openSettings() {
   </div> 
   <BasicModal ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
-    <button class="DeleteButton" @click="deleteGroupToEdit">Delete</button>
+    <button class="DeleteButton" @click="deleteGroupToEdit">Delete Group</button>
   </BasicModal>
   <BasicModal ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
-    <button class="DeleteButton" @click="deleteFeedToEdit">Delete</button>
+    <button class="DeleteButton DeleteFeedButton" @click="deleteFeedToEdit">Delete Feed</button>
   </BasicModal>
 </template>
 
@@ -246,6 +246,14 @@ function openSettings() {
   margin-left: 20px;
   color: var(--very-mute-text);
   font-weight: normal;
+}
+
+.DeleteButton {
+  margin-top: 20px;
+}
+
+.DeleteFeedButton {
+  margin-top: 30px;
 }
 
 </style>

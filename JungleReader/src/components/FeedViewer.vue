@@ -35,8 +35,8 @@ function goBack() {
       </div>
     </div>
     <template v-if="!feed.isError">
-      <ol class="LinkList">
-        <li v-for="link in feed.links" :id="link.id" class="LinkElem">
+      <div class="LinkList">
+        <div class="LinkElem" v-for="link in feed.links" :id="link.id">
           <div>
             <a :href="link.link" target="_blank" class="LinkText">
               {{ link.getTrimmedStringDesc(150) }}
@@ -46,8 +46,8 @@ function goBack() {
             <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
             <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
           </div>
-        </li>
-      </ol>
+        </div>
+      </div>
     </template>
     <template v-else>
       <div class="Link ErrorText">
@@ -87,15 +87,6 @@ function goBack() {
   color: red;
 }
 
-.LinkList li::marker {
-  font-size: 1.5rem;
-  //font-weight: 700;
-}
-
-.LinkList li {
-  margin-bottom: 20px;
-}
-
 .LinkElem {
   /*
   max-width: 1000px;
@@ -107,6 +98,12 @@ function goBack() {
   font-size: 1.5rem;
   line-height: 1.3;
 
+  /* border: 16px solid var(--main-text); */
+  border: 2px solid var(--main-text);
+  padding: 5px 10px;
+  margin-bottom: 20px;
+
+  box-shadow: 4px 4px 0px var(--main-text);
 }
 
 .LinkText {

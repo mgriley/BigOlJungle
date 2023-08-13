@@ -17,21 +17,33 @@ function addOption() {
 </script>
 
 <template>
-  <div>
+  <div class="OptionsContainer">
     <div v-for="(element, index) in options" class="OptionsEntry">
-      <input v-model="element.key" class="Block KeyInput">
-      <input v-model="element.value" class="Block ValueInput">
-      <button @click="deleteOption(index)">X</button>
+      <input v-model="element.key" class="Block KeyInput BasicTextInput">
+      <input v-model="element.value" class="Block ValueInput BasicTextInput">
+      <button class="DeleteBtn SmallButton" @click="deleteOption(index)">Delete</button>
     </div>
-    <button @click="addOption">Add</button>
+    <button @click="addOption" class="SmallButton">Add</button>
   </div>
 </template>
 
 <style scoped>
+.OptionsContainer {
+  padding: 10px;
+  border: 2px dashed var(--main-text);
+}
+
 .OptionsEntry {
   display: flex;
+  flex-direction: row;
+  align-items: baseline;
   gap: 5px;
   margin-bottom: 5px;
+}
+
+.OptionsEntry input {
+  padding: 2px;
+  line-height: 1rem;
 }
 
 .KeyInput {
@@ -40,5 +52,13 @@ function addOption() {
 
 .ValueInput {
   width: 200px;
+}
+
+.SmallButton {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  min-width: 20px;
+  line-height: 1rem;
 }
 </style>
