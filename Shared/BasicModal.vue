@@ -4,12 +4,18 @@ import { ref, onMounted, reactive, computed } from 'vue'
 /*const props = defineProps(['options'])*/
 
 const props = defineProps({
+  title: {
+    default: "",
+  },
   showDone: {
     default: true,
   },
   showCancel: {
     default: true,
-  }
+  },
+  showDelete: {
+    default: false,
+  },
 });
 
 let show = ref(false);
@@ -61,11 +67,13 @@ onMounted(() => {
 <template>
   <div v-if="show" class="ModalSelector modal-mask">
     <div class="modal-container">
+      <p v-if="title" class="Title">{{ title }}</p>
       <div class="Body">
         <slot>Default Body</slot>
       </div>
       
       <div class="Footer">
+        <button v-if="showDelete" @click="">Delete</button>
         <button v-if="showCancel" @click="closeModal">Cancel</button>
         <button v-if="showDone" @click="closeModal">Done</button>
       </div>
@@ -136,5 +144,11 @@ onMounted(() => {
   float: right;
 }
 */
+
+.Title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
 
 </style>

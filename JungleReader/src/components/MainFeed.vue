@@ -139,6 +139,7 @@ function openSettings() {
 
 <template>
   <div class="MainFeed">
+    <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <div class="ButtonMenu">
       <button @click="addFeedGroup">Add Group</button>
       <button @click="addFeed">Add Feed</button>
@@ -174,17 +175,25 @@ function openSettings() {
       </div>
     </div>
   </div> 
-  <BasicModal ref="groupEditorModal" :showCancel="false">
+  <BasicModal ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
     <button class="DeleteButton" @click="deleteGroupToEdit">Delete</button>
   </BasicModal>
-  <BasicModal ref="feedEditorModal" :showCancel="false">
+  <BasicModal ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
     <button class="DeleteButton" @click="deleteFeedToEdit">Delete</button>
   </BasicModal>
 </template>
 
 <style scoped>
+.MainFeed {
+  position: relative;
+}
+
+.SaveButton {
+  float: right;
+}
+
 .FeedGroups {
   display: grid;
   grid-template-columns: 1fr;

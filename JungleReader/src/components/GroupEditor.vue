@@ -10,9 +10,12 @@ const props = defineProps({
 
 <template>
   <div>
-    <input v-model="group.name">
+    <input class="GroupNameEdit" v-model="group.name" type="text" autofocus>
   </div>
 </template>
 
 <style scoped>
+.GroupNameEdit {
+  font-size: 1.5rem;
+}
 </style>

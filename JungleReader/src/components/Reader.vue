@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import { gApp, FeedGroup, Feed, getTimeAgoStr, kReaderVersionString } from '../State.js'
 import BasicModal from 'Shared/BasicModal.vue'
 
 /*
@@ -48,19 +48,21 @@ function launchTutorial() {
   // TODO
 }
 
+function goToHome() {
+  gApp.router.replace({path: "/"})  
+}
+
 </script>
 
 <template>
   <div class="toplevel">
     <div class="sidenav">
-      <p class="AppTitle">
-        Jungle
-        Reader
+      <p class="AppTitle" @click="goToHome">
+        Jungle<br>Reader
       </p>
       <div class="SideMenu">
         <div class="Section">
-          <router-link to="/">My Feed</router-link>
-          <button class="SaveButton" @click="gApp.saveAll()">Save</button>
+          <router-link to="/" id="HomeLink">Home</router-link>
         </div>
         <div class="Section">
           <a href="#" @click.prevent="startImportConfig()">Import Config</a>
@@ -74,6 +76,9 @@ function launchTutorial() {
           <router-link to="/about">About / Donate</router-link>
           <a href="TODO" target="_blank">JungleWriter</a>
           <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
+        </div>
+        <div class="Section">
+          <p class="VersionNum">Version {{ kReaderVersionString }}</p>
         </div>
       </div>
     </div>
@@ -96,10 +101,11 @@ function launchTutorial() {
 .AppTitle {
   font-size: 2.5em;
   font-weight: 900;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   line-height: 0.8em;
   letter-spacing: -2px;
   padding-bottom: 2px;
+  cursor: pointer;
   /* border-bottom: 8px solid var(--main-text); */
   /* background-color: var(--main-text); */
   /* color: var(--main-bg); */
@@ -117,12 +123,17 @@ function launchTutorial() {
     "sidebar content"
 }
 
-@media (max-width: 500px) {
-  .wrapper {
-    grid-template-columns: 4fr;
+/* Display a single column on mobile */
+@media (max-width: 600px) {
+  .toplevel {
+    grid-template-columns: 1fr;
     grid-template-areas:
-      "content"
       "sidebar"
+      "content";
+  }
+
+  .sidenav {
+    border-bottom: 2px solid var(--main-text);
   }
 }
 
@@ -148,6 +159,21 @@ function launchTutorial() {
 
 .SideMenu .Section {
   margin-bottom: 30px;
+}
+
+.VersionNum {
+  color: var(--very-mute-text);
+  font-style: italic;
+}
+
+#HomeLink {
+  //font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.router-link-active {
+  background-color: var(--link-hover-bg);
+  //border-bottom: 1px solid black;
 }
 
 </style>

@@ -38,7 +38,7 @@ function goBack() {
       <ol class="LinkList">
         <li v-for="link in feed.links" :id="link.id" class="LinkElem">
           <div>
-            <a :href="link.link" target="_blank">
+            <a :href="link.link" target="_blank" class="LinkText">
               {{ link.getTrimmedStringDesc(150) }}
             </a>
           </div>
@@ -89,7 +89,7 @@ function goBack() {
 
 .LinkList li::marker {
   font-size: 1.5rem;
-  font-weight: 700;
+  //font-weight: 700;
 }
 
 .LinkList li {
@@ -107,6 +107,11 @@ function goBack() {
   font-size: 1.5rem;
   line-height: 1.3;
 
+}
+
+.LinkText {
+  //background-color: var(--light-text-bg);
+  font-weight: 500;
 }
 
 .LinkElem .SubInfo {
@@ -135,7 +140,6 @@ function goBack() {
 
 .BackBtn {
   float: right;
-  margin-bottom: 40px;
 }
 
 .HeaderBox {

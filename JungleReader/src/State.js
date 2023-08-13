@@ -7,6 +7,8 @@ import { addElem, removeElem, clearArray,
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
+const kReaderVersionString = "0.0";
+
 // LocalStorage keys
 const kAppStateKey = "appState";
 
@@ -741,4 +743,5 @@ export {
   Link,
   getTimeAgoStr,
   FetchMethod,
+  kReaderVersionString,
 };
