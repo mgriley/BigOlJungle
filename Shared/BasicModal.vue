@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, reactive, computed, watch } from 'vue'
 
 /*const props = defineProps(['options'])*/
 
@@ -18,11 +18,13 @@ const props = defineProps({
   },
 });
 
-let show = ref(false);
+let dialog = ref(null);
+let isOpen = ref(false);
 let lastShowTime = 0;
 
 function showModal(clickEvt) {
-  show.value = true;
+  dialog.value.showModal();
+  isOpen.value = true;
   lastShowTime = Date.now() / 1000.0;
 
   if (clickEvt) {
@@ -31,11 +33,11 @@ function showModal(clickEvt) {
 }
 
 function closeModal() {
-  show.value = false;
+  dialog.value.close();
 }
 
 function toggleModal(clickEvt) {
-  if (!show.value) {
+  if (!dialog.value.open) {
     showModal(clickEvt);
   } else {
     closeModal();
@@ -47,26 +49,29 @@ defineExpose({
 })
 
 onMounted(() => {
+  /*
+  // Note: this causes a lot of issues, so avoid for now. Can use Esc to dismiss.
   document.addEventListener("click", function(event) {
     // Dismiss the modal by clicking outside
     // Note: the time comparison is a bit of a hack to prevent the click event
     // that opened the modal from immediately closing it.
-    if (show.value === true) {
+    if (dialog.value.open) {
       let curTime = Date.now() / 1000.0;
       if (!event.target.closest(".modal-container") &&
           event.triggeredShow !== true &&
         curTime - lastShowTime > 0.25) {
-        show.value = false;
+        closeModal();
       }
     }
   });  
+  */
 });
 
 </script>
 
 <template>
-  <div v-if="show" class="ModalSelector modal-mask">
-    <div class="modal-container">
+  <dialog class="ModalSelector modal-container" ref="dialog" @close="isOpen = false">
+    <div v-if="isOpen">
       <p v-if="title" class="Title">{{ title }}</p>
       <div class="Body">
         <slot>Default Body</slot>
@@ -78,30 +83,26 @@ onMounted(() => {
         <button v-if="showDone" @click="closeModal">Done</button>
       </div>
     </div>
-  </div>
+  </dialog>
 </template>
 
 <style scoped>
+/*
 .modal-mask {
   position: fixed;
-  z-index: 9998;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
 }
+*/
 
 .modal-container {
   padding: 0.75em 0.75em;
-  background-color: #f1f1f1;
   min-width: 160px;
-  /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
-
-  /*width: 200px;*/
-  margin: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  margin: auto;
 }
 
 .Body {
@@ -111,18 +112,6 @@ onMounted(() => {
 .Footer {
   float: right;
 }
-
-/*
-.modal-container {
-  width: 300px;
-  margin: auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-}
-*/
 
 .modal-container a {
   color: black;
