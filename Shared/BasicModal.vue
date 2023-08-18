@@ -59,7 +59,7 @@ onMounted(() => {
     // that opened the modal from immediately closing it.
     if (dialog.value.open) {
       let curTime = Date.now() / 1000.0;
-      if (!event.target.closest(".modal-container") &&
+      if (!event.target.closest(".BasicModal") &&
           event.triggeredShow !== true &&
         curTime - lastShowTime > 0.25) {
         closeModal();
@@ -72,7 +72,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <dialog class="ModalSelector modal-container" ref="dialog" @close="isOpen = false">
+  <dialog class="ModalSelector BasicModal" ref="dialog" @close="isOpen = false">
     <div v-if="isOpen">
       <div v-if="title" class="Title">{{ title }}</div>
       <div class="Body">
@@ -89,25 +89,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/*
-.modal-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
-*/
-
-.modal-container {
-  border: 1px solid var(--mute-text);
-  padding: 0.75em 0.75em;
-  min-width: 160px;
-  box-shadow: 0 2px 8px var(--main-text);
-  margin: auto;
-}
-
 .Body {
   margin-bottom: 20px;
 }
@@ -118,12 +99,6 @@ onMounted(() => {
 
 .DeleteBtn {
   margin-right: 20px;
-}
-
-.Title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 10px;
 }
 
 </style>

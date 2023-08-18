@@ -36,6 +36,8 @@
   --bright-red: rgb(255, 46, 46);
   --text-button-hover: var(--nice-red);
   --light-text-bg: rgb(150, 150, 150, 0.5);
+  --help-btn: rgb(46, 36, 215);
+  --bright-help-btn: rgb(46, 36, 255);
 }
 
 /*

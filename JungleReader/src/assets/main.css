@@ -131,6 +131,17 @@ it gets clicked. Say if using for a button
   border-color: var(--bright-red);
 }
 
+.HelpButton {
+  background-color: var(--help-btn);
+  border-color: var(--help-btn);
+  color: var(--main-bg)
+}
+
+.HelpButton:hover {
+  background-color: var(--bright-help-btn);
+  border-color: var(--bright-help-btn);
+}
+
 .FormFieldName {
   font-size: 1.25rem;
   font-weight: 500;
@@ -187,4 +198,19 @@ h4 {
 .Bold {
   font-weight: bold;
 }
+
+.BasicModal {
+  border: 1px solid var(--mute-text);
+  padding: 0.75em 0.75em;
+  min-width: 160px;
+  box-shadow: 0 2px 8px var(--main-text);
+  margin: auto;
+}
+
+.BasicModal .Title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
 

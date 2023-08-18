@@ -6,6 +6,8 @@ import PluginEditor from './PluginEditor.vue'
 import CodeEditor from './CodeEditor.vue'
 import QuickParseEditor from './QuickParseEditor.vue'
 import BasicSelector from './BasicSelector.vue'
+import HelpButton from './HelpButton.vue'
+import { kPluginHelp } from '../HelpText.js'
 
 </script>
 
@@ -33,6 +35,9 @@ import BasicSelector from './BasicSelector.vue'
       <p class="Italic">
         (Note that you cannot have multiple plugins with the same name.)
       </p>
+      <div class="PluginHelp">
+        <HelpButton title="Plugin Help" :text="kPluginHelp" />
+      </div>
     </div>
     <PluginEditor />
   </div>
@@ -61,6 +66,11 @@ import BasicSelector from './BasicSelector.vue'
 }
 
 .Desc {
+  margin-bottom: 40px;
+}
+
+.PluginHelp {
+  margin-top: 20px;
   margin-bottom: 40px;
 }
 
