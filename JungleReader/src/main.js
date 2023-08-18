@@ -38,9 +38,6 @@ const routes = [
     path: '/history', component: HistoryView
   },
   {
-    path: '/plugins', component: PluginsView
-  },
-  {
     path: '/import', component: ImportView
   },
   {
@@ -48,6 +45,9 @@ const routes = [
   },
   {
     path: '/settings', component: Settings
+  },
+  {
+    path: '/plugins', component: PluginsView
   },
   {
     path: '/about', component: AboutView

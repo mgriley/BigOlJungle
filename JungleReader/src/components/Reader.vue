@@ -44,10 +44,6 @@ function importConfig() {
   reader.readAsText(uploadedFile);
 }
 
-function launchTutorial() {
-  // TODO
-}
-
 function goToHome() {
   gApp.router.replace({path: "/"})  
 }
@@ -69,11 +65,11 @@ function goToHome() {
           <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
         </div>
         <div class="Section">
-          <a href="#" @click.prevent="launchTutorial()">Tutorial</a>
+          <router-link to="/plugins">Plugins</router-link>
           <router-link to="/settings">Settings</router-link>
         </div>
         <div class="Section">
-          <router-link to="/about">About / Donate</router-link>
+          <router-link to="/about">About</router-link>
           <a href="TODO" target="_blank">JungleWriter</a>
           <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
         </div>

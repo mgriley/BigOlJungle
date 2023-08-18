@@ -52,17 +52,7 @@ async function testFetchText() {
 <template>
   <div class="SettingsContainer">
     <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
-    <div class="TextPluginEditor" v-if="gApp.getPluginToEdit()">
-      <button class="DoneButton" @click="gApp.setPluginToEdit(null)">Back to Settings</button>  
-      <h2 class="PluginName">{{ gApp.getPluginToEdit().feedType }}</h2>
-      <div v-if="gApp.getPluginToEdit().pluginType == CustomPluginType.Text">
-        <CodeEditor class="CodeEditor" v-model="gApp.getPluginToEdit().pluginText" />
-      </div>
-      <div v-else-if="gApp.getPluginToEdit().pluginType == CustomPluginType.QuickParse">
-        <QuickParseEditor :plugin="gApp.getPluginToEdit()" />
-      </div>
-    </div>
-    <div v-else class="Settings">
+    <div class="Settings">
       <h1>Settings</h1>
       <div class="SettingsSection">
         <h3>Persistent Storage</h3>
@@ -76,15 +66,6 @@ async function testFetchText() {
         <h3>Cloud Sync</h3>
         <p>Connect your Google Drive account to backup and sync the reader between devices.</p>
         <h4 class="Italic">(Coming Soon!)</h4>
-      </div>
-      <div class="SettingsSection">
-        <h3>Plugins</h3>
-        <p>
-          Download or create plugins to add support for your favourite sites.
-          If you'd like to develop a plugin, please see the GitHub for more info :)
-          (Note that you cannot have multiple plugins with the same name.)
-        </p>
-        <PluginEditor />
       </div>
       <div class="SettingsSection">
         <h3>Advanced</h3>
@@ -113,18 +94,6 @@ async function testFetchText() {
 
 .SaveButton {
   float: right;
-}
-
-.TextPluginEditor .PluginName {
-  margin-bottom: 10px;
-}
-
-.CodeEditor {
-  margin-bottom: 40px;
-}
-
-.DoneButton {
-  margin-bottom: 40px;
 }
 
 .SettingsSection {
