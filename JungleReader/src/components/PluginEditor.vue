@@ -8,7 +8,6 @@ import OptionsInput from './OptionsInput.vue'
 import BasicSelector from './BasicSelector.vue'
 import ToggleSwitch from './ToggleSwitch.vue'
 
-let optionsEditorModal = ref(null);
 let pluginToEdit = ref(null);
 
 let supportedPluginTypes = [
@@ -24,11 +23,6 @@ function addPlugin() {
 
 function removePlugin(plugin) {
   removeElem(gApp.customPlugins, plugin);
-}
-
-function editOptions(plugin) {
-  pluginToEdit.value = plugin;
-  optionsEditorModal.value.showModal();  
 }
 
 function onChangePluginType(plugin, newType) {
@@ -49,31 +43,33 @@ function openQuickParseEditor(plugin) {
   <div class="PluginEditor">
     <div class="PluginList">
       <div v-for="plugin in gApp.customPlugins" class="Plugin">
-        <div class="MainEntries Flex">
-          <input v-model="plugin.feedType" class="Block FeedInput" placeholder="Ex. MyPlugin">
+        <div class="MainEntries">
+          <div class="Header Flex">
+            <input v-model="plugin.feedType" class="BasicTextInput Block FeedInput" placeholder="Ex. MyPlugin">
+            <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />
+          </div>
+          <div class="FieldName">Type</div>
           <BasicSelector :value="plugin.pluginType" :options="supportedPluginTypes" @change="(newVal) => onChangePluginType(plugin, newVal)" />
           <template v-if="plugin.pluginType == CustomPluginType.URL">
+            <div class="FieldName">Url</div>
             <input v-model="plugin.pluginUrl" class="Block UrlInput" placeholder="Ex. https://www.myplugins.com/plugin.js">
           </template>
           <template v-else-if="plugin.pluginType == CustomPluginType.Text">
-            <button @click="openEditor(plugin)">Edit text</button>
+            <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>
           </template>
           <template v-else-if="plugin.pluginType == CustomPluginType.QuickParse">
-            <button @click="openEditor(plugin)">Edit parser</button>
+            <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>
           </template>
-          <button @click="editOptions(plugin)">Options</button>
-          <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />
-          <button @click="removePlugin(plugin)">X</button>
+          <div class="Options">
+            <div class="FieldName">Custom Options</div>
+            <OptionsInput :options="plugin.options" />
+          </div>
+          <button class="DeleteButton" @click="removePlugin(plugin)">Delete Plugin</button>
         </div>
       </div>
       <button class="AddPluginBtn" @click="addPlugin">Add Plugin</button>
     </div>
   </div>
-  <BasicModal ref="optionsEditorModal">
-    <h2>{{ pluginToEdit.feedType }}</h2>
-    <p>Add optional custom options here:</p>
-    <OptionsInput :options="pluginToEdit.options" />
-  </BasicModal>
 </template>
 
 <style scoped>
@@ -98,4 +94,22 @@ function openQuickParseEditor(plugin) {
 .UrlInput {
   width: 400px;
 }
+
+
+.FieldName {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.EditorBtn {
+  margin-top: 15px;
+}
+
+.Options {
+  margin-bottom: 20px;
+  width: 500px;
+}
+
 </style>
