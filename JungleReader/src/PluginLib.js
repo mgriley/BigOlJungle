@@ -51,6 +51,8 @@ export class CustomPlugin {
     this.quickHelpDocs = "";
 
     this.pendingPromises = [];
+
+    this.expandedInUi = true;
   }
 
   writeToJson() {
@@ -99,12 +101,12 @@ export class CustomPlugin {
       return;
     }
     if (this.pluginType == CustomPluginType.Text) {
-      this.updateFeedsFromProgram(feeds, this.pluginText);
+      await this.updateFeedsFromProgram(feeds, this.pluginText);
     } else if (this.pluginType == CustomPluginType.URL) {
       // TODO - load text
       throw new Error("Not Impl");
     } else if (this.pluginType == CustomPluginType.QuickParse) {
-      this.quickParser.updateFeeds(feeds)
+      await this.quickParser.updateFeeds(feeds)
     } else {
       throw new Error(`Unexpected pluginType: \"${this.pluginType}\"`);
     }

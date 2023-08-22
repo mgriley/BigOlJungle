@@ -21,7 +21,7 @@ a {
 button {
   min-width: 100px;
   padding: 5px 10px;
-  margin: 4px 2px;
+  /*margin: 4px 0px;*/
   background: none;
   border: 2px solid black;
   cursor: pointer;
@@ -84,6 +84,11 @@ it gets clicked. Say if using for a button
 }
 
 .TextButton {
+  user-select: none;
+  cursor: pointer;
+}
+
+.MockButton {
   user-select: none;
   cursor: pointer;
 }
