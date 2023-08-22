@@ -36,16 +36,21 @@ function highlighter(code) {
 
 <template>
   <div class="CodeEditor">
+    <h3>Script Editor</h3>
     <!-- <textarea v-model="value"></textarea> -->
     <prism-editor class="my-editor" v-model="value" :highlight="highlighter" line-numbers></prism-editor>
   </div>
   <div>
-    <h2>Docs</h2>
+    <h3>Docs</h3>
     <p>TODO</p>
   </div>
 </template>
 
 <style scoped>
+
+.CodeEditor {
+  margin-bottom: 40px;
+}
 
 /* required class */
 .my-editor {

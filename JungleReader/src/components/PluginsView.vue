@@ -62,6 +62,7 @@ import { kPluginHelp } from '../HelpText.js'
 
 .DoneButton {
   margin-bottom: 40px;
+  margin-right: 4px;
   float: right;
 }
 

@@ -213,6 +213,10 @@ function openSettings() {
   margin-bottom: 20px;
 }
 
+.ButtonMenu button {
+  margin-right: 4px;
+}
+
 .FeedGroup {
   margin: 10px 0px 40px 0px;
   line-height: 1.25;

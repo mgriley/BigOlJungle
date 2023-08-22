@@ -97,6 +97,10 @@ onMounted(() => {
   float: right;
 }
 
+.Footer button {
+  margin-right: 4px;
+}
+
 .DeleteBtn {
   margin-right: 20px;
 }

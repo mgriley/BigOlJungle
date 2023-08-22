@@ -22,6 +22,7 @@ import ImportView from './components/ImportView.vue'
 import ExportView from './components/ExportView.vue'
 import Settings from './components/Settings.vue'
 import AboutView from './components/AboutView.vue'
+import JungleWriterView from './components/JungleWriterView.vue'
 import FeedView from './components/FeedView.vue'
 
 const routes = [
@@ -51,6 +52,9 @@ const routes = [
   },
   {
     path: '/about', component: AboutView
+  },
+  {
+    path: '/junglewriter', component: JungleWriterView
   }
 ]
 

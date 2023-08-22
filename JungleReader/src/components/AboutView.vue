@@ -6,7 +6,7 @@
   <div class="AboutView">
     <h1>About</h1>
     <p class="Emphasis">
-    JungleReader is a free+open-source all-terrain web reader.
+    JungleReader is a free+open-source web reader.
     </p>
     <p>
     It's made to help you keep up with the sites you like,
@@ -19,11 +19,11 @@
     Your data and reader config are stored locally in your browser. The data should stay
     around even if you clear your browser's cookies / data, but make sure to export your config sometimes. Cloud backup & sync is coming soon.
     </p>
+    <h4 class="MoreInfo">More</h4>
     <p>
-    I (Matt Riley) made this site as a hobby project, hope you like it :) I have more 
-    web related projects brewing (JungleWriter, JungleServer, JungleMask, ...), so stay tuned. 
-    I made a newsletter where I'll send occassional updates for anyone who wants to follow along.
-    TODO
+    We made this site as a hobby project, hope you like it! We have more 
+    web related hobby projects planned (JungleWriter, JungleServer, JungleMask, ...), so stay tuned. Here's a newletter
+    if you'd like to follow along with development:
     </p>
     <p>
     </p>
@@ -39,4 +39,9 @@
   font-weight: bold;
   font-size: 1.2rem;
 }
+
+.MoreInfo {
+  margin-top: 80px;
+}
+
 </style>
