@@ -11,8 +11,12 @@ const props = defineProps({
 const emit = defineEmits(['editFeed'])
 
 function onFeedClicked(feed) {
-  feed.reloadIfStale();
-  gApp.router.push({name: 'feed', params: {id: feed.id}})
+  if (feed.type == "Bookmark") {
+    window.open(feed.url, "_blank").focus();
+  } else {
+    feed.reloadIfStale();
+    gApp.router.push({name: 'feed', params: {id: feed.id}})
+  }
 }
 
 </script>

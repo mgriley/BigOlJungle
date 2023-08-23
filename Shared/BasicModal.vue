@@ -73,7 +73,8 @@ onMounted(() => {
 
 <template>
   <dialog class="ModalSelector BasicModal" ref="dialog" @close="isOpen = false">
-    <div v-if="isOpen">
+    <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
+    <!-- <div v-if="isOpen"> -->
       <div v-if="title" class="Title">{{ title }}</div>
       <div class="Body">
         <slot>Default Body</slot>
@@ -84,7 +85,7 @@ onMounted(() => {
         <button v-if="showCancel" @click="closeModal">Cancel</button>
         <button v-if="showDone" @click="closeModal">Done</button>
       </div>
-    </div>
+    <!-- </div> -->
   </dialog>
 </template>
 

@@ -1,9 +1,15 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import BasicModal from 'Shared/BasicModal.vue'
+import { FeedGroup } from '../State.js'
 
 const props = defineProps({
   group: Object
+});
+
+const dummyGroup = new FeedGroup(0);
+
+const realGroup = computed(() => {
+  return props.group ? props.group : dummyGroup;
 });
 
 </script>
@@ -11,7 +17,7 @@ const props = defineProps({
 <template>
   <div class="FormFieldName">Name</div>
   <div>
-    <input class="BasicTextInput" v-model="group.name" type="text" autofocus>
+    <input class="BasicTextInput" v-model="realGroup.name" type="text" placeholder="Group Name" autofocus>
   </div>
 </template>
 

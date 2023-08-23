@@ -70,7 +70,7 @@ function goToHome() {
         </div>
         <div class="Section">
           <router-link to="/about">About</router-link>
-          <router-link to="/junglewriter">JungleWriter</router-link>
+          <a href="TODO" target="_blank">Report Bugs</a>
           <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
         </div>
         <div class="Section">

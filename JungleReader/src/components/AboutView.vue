@@ -25,8 +25,11 @@
     web related hobby projects planned (JungleWriter, JungleServer, JungleMask, ...), so stay tuned. Here's a newletter
     if you'd like to follow along with development:
     </p>
+    <p>TODO - newsletter</p>
     <p>
+    To leave feedback or report bugs, go here:
     </p>
+    <p>TODO - Google form</p>
   </div>
 </template>
 

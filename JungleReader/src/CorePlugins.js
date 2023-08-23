@@ -169,6 +169,10 @@ class RedditFeed extends RSSFeed {
   }
 }
 
+/*
+Bookmark feed have special handling in the reader. When the feed is clicked, we go
+to the given link.
+*/
 class Bookmark extends FeedPlugin {
   constructor(app) {
     super("Bookmark");
@@ -178,41 +182,7 @@ class Bookmark extends FeedPlugin {
   }
 
   async updateFeeds(feeds) {
-    for (const feed of feeds) {
-      await this.updateFeed(feed);
-    }
-  }
-
-  async updateFeed(feed) {
-    // We must extract the RSS link from the html of the link to the homepage
-    console.log("Updating feed: " + feed.name + ", " + feed.url);
-
-    function errorOut(errorMsg) {
-      feed.setError(errorMsg);
-      console.log(errorMsg);
-    }
-
-    // Store a hash of the text content of the page to detect changes
-    let plugin = this;
-    await gApp.fetchText(feed.url).then((pageStr) => {
-      let pageHash = hashString(pageStr);
-      //console.log("PageStr: " + pageStr + ", Hash: " + pageHash);
-      let existingHash = feed.getPluginItem("pageHash");
-      if (existingHash !== pageHash || feed.isError) {
-        feed.setPluginItem("pageHash", pageHash);
-        feed.updateLinks({
-          link: feed.url,
-          items: [{
-            title: "Page updated",
-            link: feed.url,
-            pubDate: String(new Date()),
-          }]
-        })
-      }
-    }).catch((error) => {
-      console.log(error);
-      errorOut(error.message);
-    });
+    // No-op
   }
 }
 

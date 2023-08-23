@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
-import BasicModal from 'Shared/BasicModal.vue'
 import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'

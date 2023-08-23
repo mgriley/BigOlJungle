@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
-import BasicModal from 'Shared/BasicModal.vue'
 import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
@@ -9,8 +8,16 @@ import BasicSelector from './BasicSelector.vue'
 import draggable from 'vuedraggable'
 
 const props = defineProps({
-  feed: Object
+  feed: {
+    type: Object,
+  }
 });
+
+const dummyFeed = new Feed(0);
+
+const realFeed = computed(() => {
+  return props.feed ? props.feed : dummyFeed;
+})
 
 function changeGroup(newGroup) {
   props.feed.moveToGroup(newGroup);  
@@ -40,19 +47,19 @@ function onChangeFeedType(feed, newType) {
 <template>
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
-    <input v-model="feed.name" placeholder="Feed name" class="Block WideInput BasicTextInput">
+    <input v-model="realFeed.name" placeholder="Feed Name" class="Block WideInput BasicTextInput" autofocus>
     <div class="FormFieldName">Group</div>
-    <GroupSelector :currentGroup="feed.parentGroup" @change="changeGroup"/>
+    <GroupSelector v-if="feed" :currentGroup="realFeed.parentGroup" @change="changeGroup"/>
   </div>
   <div class="FormFieldName">Feed Type</div>
-  <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
+  <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
   <!-- <p>{{ feed.type }}</p> -->
   <div class="FormFieldName">Feed URL</div>
-  <input v-model="feed.url" placeholder="Ex: https://www.someurl.com/feed.rss"
+  <input v-model="realFeed.url" placeholder="Ex: https://www.someurl.com/feed.rss"
     class="Block WideInput BasicTextInput">
 
   <div class="FormFieldName">Custom Options</div>
-  <OptionsInput :options="feed.options" />
+  <OptionsInput :options="realFeed.options" />
 </template>
 
 <style scoped>
