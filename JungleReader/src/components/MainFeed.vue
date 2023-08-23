@@ -8,6 +8,7 @@ import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 import FeedItem from './FeedItem.vue'
 import EditButton from './EditButton.vue'
+import SetupHelp from './SetupHelp.vue'
 
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
@@ -117,33 +118,15 @@ function onDragChange(evt, group) {
   }
 }
 
-/*
-function onAddDraggedFeed(evt, group) {
-  console.log("On Added feed");
-
-  let feed = evt.draggedContext.element;
-  console.log("Feed: " + feed);
-  //feed.fixupAfterDrag(group);
-}
-
-function onRemoveDraggedFeed(evt) {
-  //console.log("On Removed feed");
-}
-*/
-
-function openSettings() {
-  // TODO
-}
-
 </script>
 
 <template>
+  <SetupHelp />
   <div class="MainFeed">
     <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <div class="ButtonMenu">
       <button @click="addFeedGroup">Add Group</button>
       <button @click="addFeed">Add Feed</button>
-      <!--<button class="SettingsButton" @click="openSettings">Settings</button>-->
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
