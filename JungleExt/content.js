@@ -12,8 +12,9 @@ processing.
 console.log("Content Script Loaded!");
 
 function isAllowedOrigin(origin) {
-  return origin == "https://www.junglereader.com" ||
-    origin.endsWith(".junglereader.pages.dev");
+  let originHostname = (new URL(origin)).hostname;
+  return originHostname == "www.junglereader.com" ||
+    originHostname.endsWith(".junglereader.pages.dev");
 }
 
 window.addEventListener("message", async (event) => {
