@@ -79,8 +79,12 @@ async function testFetchText() {
           <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
         </div>
         <div class="SubSection">
+          <h4>Other</h4>
+          <button @click="gApp.setDoneWelcome(false)" class="SmallButton">Reset Welcome Page</button>
+        </div>
+        <div class="SubSection">
           <h4>Dev Zone</h4>
-          <button @click="testFetchText">Test Fetch</button>
+          <button @click="testFetchText" class="SmallButton">Test Fetch</button>
         </div>
       </div>
     </div>

@@ -121,7 +121,7 @@ function onDragChange(evt, group) {
 </script>
 
 <template>
-  <SetupHelp />
+  <SetupHelp v-if="!gApp.isDoneWelcome()" />
   <div class="MainFeed">
     <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <div class="ButtonMenu">

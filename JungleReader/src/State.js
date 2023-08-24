@@ -11,6 +11,7 @@ const kReaderVersionString = "0.0";
 
 // LocalStorage keys
 const kAppStateKey = "appState";
+const kDoneWelcomeKey= "doneWelcome";
 
 var gApp = null;
 
@@ -470,6 +471,8 @@ class JungleReader {
     this.isJungleExtPresent = ref(true);
 
     this.fetchMethod = ref(FetchMethod.JungleExt)
+
+    this.doneWelcome = ref(false);
   }
 
   writeStateToJson() {
@@ -506,6 +509,15 @@ class JungleReader {
       }))
     }
     this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.JungleExt)
+  }
+
+  isDoneWelcome() {
+    return this.doneWelcome.value;
+  }
+
+  setDoneWelcome(newVal) {
+    this.doneWelcome.value = newVal;
+    localStorage.setItem(kDoneWelcomeKey, this.doneWelcome.value);
   }
 
   getPluginToEdit() {
@@ -592,6 +604,9 @@ class JungleReader {
   run() {
     let app = this;
 
+    let doneWelcome = localStorage.getItem(kDoneWelcomeKey);
+    this.doneWelcome.value = Boolean(doneWelcome);
+
     // TODO - trigger error if failed to read this.
     this.readStateFromStorage()
 
@@ -610,17 +625,6 @@ class JungleReader {
     });
 
     registerCorePlugin(this);
-
-    /*
-    setInterval(function() {
-      // Note: only update feeds when tab is in foreground
-      if (!document.hasFocus()) {
-        return;
-      }
-      console.log("Updating feeds");
-      app.updateFeeds();
-    }, 5000);
-    */
 
     this.checkIfJungleExtPresent();
   }

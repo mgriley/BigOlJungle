@@ -12,6 +12,10 @@
   font-weight: normal;
 }
 
+b {
+  font-weight: 600;
+}
+
 a {
   text-decoration: none;
   color: var(--main-text);
@@ -217,5 +221,4 @@ h4 {
   font-weight: 800;
   margin-bottom: 10px;
 }
-
 

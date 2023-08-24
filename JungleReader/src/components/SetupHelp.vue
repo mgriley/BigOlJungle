@@ -2,6 +2,10 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
 
+function onSetupDone() {
+  gApp.setDoneWelcome(true);
+}
+
 </script>
 
 <template>
@@ -15,43 +19,53 @@ import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
     whatever they may be. Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more.
     Ever wanted to follow all the sites/blogs you like in one place? JungleReader is for you.
     </p>
-    <h4>Getting Started</h4>
-    <h4>Step 1: Install the Browser Extension</h4>
+    <h2>Getting Started</h2>
+    <h3>Step 1: Install the Browser Extension</h3>
     <p>
     To get started, you'll have to install the JungleExt browser extension. This extension lets JungleReader fetch pages
     from other websites, so that you can read them all here. Currently, the extension is only available for Firefox. Support for Chrome and Safari
     is coming soon!
     </p>
-    <h4>Option 1 - Download to Firefox from Addons Store</h4>
+    <h4>Option 1 - Download for Firefox from Addons Store (Recommended)</h4>
     <p>
     Download from the offical Firefox addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>.
     </p>
-    <h4>Option 2 - Download to Firefox from Zip</h4>
+    <h4>Option 2 - Download for Firefox from Zip</h4>
     <p>
     You can download the extension from a zip file, if you'd prefer. This way, you can open the zip and inspect the addon code before installing.
     The addon will not auto-update. JungleReader will notify you if a new version is available.
     </p>
-    <p>1. Download here</p>
-    <p>2. Go to blahblahblah</p>
-    <h4>Addon Info</h4>
+    <ol>
+      <li>Download here</li>
+      <li>Go to blahblahblah</li>
+    </ol>
+    <h4>About the Extension</h4>
     <p>
-    When you install the addon, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-    any other website you may choose. Native apps can do this by default, but websites cannot, for security reasons. I chose to make JungleReader as a webapp, so
-    JungleExt is a necessary evil for now. If you'd like to inspect the addon code, you can view 
+    When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
+    any other website you may choose. Websites cannot normally do this, for security reasons. 
+    If you'd like to inspect the addon code, you can view 
     it on GitHub or install the extension as a zip.
     </p>
-    <h4>Step 2: Add Your First Feed</h4>
+    <h3>Step 2: Add Your First Feed</h3>
+    Let's add some feeds.
+    <ol>
+      <li>
+      Click the <b>Add Feed</b> button below. Name the feed "World News", leave the feed type as <b>RSS</b>, and set
+      the URL to <b>https://www.cbc.ca/webfeed/rss/rss-world</b> (which is the RSS feed for CBC World News).
+      </li>
+      <li>You should see your new feed show up in big type. Click it to see the feed content.</li>
+      <li>
+      Add another feed called "Creating Games". Set the type to <b>YouTube</b> and the URL to
+      <b>https://www.youtube.com/@sora_sakurai_en</b>.
+      </li>
+    </ol>
+    <p class="Emphasis AllSet">You're all set!</p>
     <p>
-    Click the "Add Feed" button. Name the feed "World News", leave the feed type as RSS, and set
-    the url to "https://www.cbc.ca/webfeed/rss/rss-world" (which is the RSS feed for CBC World News).
-    </p>
-    <p>You should see your new feed show up below. Clicking it should take you to a page with the RSS items.</p>
-    <p>
-    You're all set! Experiment with "Add Group" to organize your feeds, try adding feeds of different types, and
+    From here, add feeds for each site you'd like to follow. Experiment with "Add Group" to organize your feeds, try adding feeds of different types, and
     check out the "Plugins" page. JungleReader has a flexible plugin system that lets developers add support for many page types. If you're ever stuck,
     click the Help/Info buttons as you go. Enjoy!
     </p>
-    <button class="DoneBtn">I'm Done!</button>
+    <button class="DoneBtn" @click="onSetupDone">I'm Done!</button>
   </div>
 </template>
 
@@ -76,8 +90,30 @@ import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
   font-weight: 500;
 }
 
-.DoneBtn {
-  margin-top: 50px;
+h2 {
+  font-size: 1.75rem;
+  line-height: 1.75;
 }
+
+h3 {
+  line-height: 1.75;
+}
+
+h4 {
+  line-height: 1.5;
+}
+
+ol {
+  margin: 15px 0px;
+}
+
+.AllSet {
+  margin-top: 30px;
+}
+
+.DoneBtn {
+  margin-top: 20px;
+}
+
 
 </style>
