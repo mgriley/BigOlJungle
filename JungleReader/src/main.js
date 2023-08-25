@@ -23,6 +23,7 @@ import ExportView from './components/ExportView.vue'
 import Settings from './components/Settings.vue'
 import AboutView from './components/AboutView.vue'
 import FeedView from './components/FeedView.vue'
+import PrivacyPolicy from './components/PrivacyPolicy.vue'
 
 const routes = [
   {
@@ -51,7 +52,10 @@ const routes = [
   },
   {
     path: '/about', component: AboutView
-  }
+  },
+  {
+    path: '/privacypolicy', component: PrivacyPolicy
+  },
 ]
 
 const router = createRouter({

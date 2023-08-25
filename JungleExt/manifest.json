@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "JungleExt",
-  "version": "1.0",
+  "version": "1.1",
   "description": "The official companion extension for JungleReader (www.junglereader.com). This extension allows JungleReader to fetch pages from external websites like reddit, mastodon, etc.",
   "homepage_url": "https://github.com/mgriley/BigOlJungle/tree/master/JungleExt",
   "icons": {

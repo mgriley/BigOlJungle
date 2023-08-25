@@ -47,4 +47,8 @@
   margin-top: 80px;
 }
 
+.Other {
+  margin-top: 40px;
+}
+
 </style>
