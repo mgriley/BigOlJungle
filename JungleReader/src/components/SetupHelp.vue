@@ -42,8 +42,7 @@ function onSetupDone() {
     <h4>About the Extension</h4>
     <p>
     When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-    any other website you may choose. Websites cannot normally do this, for security reasons. 
-    If you'd like to inspect the addon code, you can view 
+    any other website you may choose. Websites cannot normally do this, for security reasons. If you'd like to inspect the addon code, you can view 
     it on GitHub or install the extension as a zip.
     </p>
     <h3>Step 2: Add Your First Feed</h3>

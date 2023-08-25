@@ -13,7 +13,7 @@ console.log("Content Script Loaded!");
 
 function isAllowedOrigin(origin) {
   let originHostname = (new URL(origin)).hostname;
-  return originHostname == "www.junglereader.com" ||
+  return originHostname.endsWith(".junglereader.com") ||
     originHostname.endsWith(".junglereader.pages.dev");
 }
 

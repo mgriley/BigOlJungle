@@ -644,8 +644,14 @@ class JungleReader {
       console.error("No request found for reqId: " + evt.data.reqId);
       return;
     }
-    requestPromise.resolve(evt.data.payload);
     delete this.pendingExtRequests[evt.data.reqId];
+
+    let payload = evt.data.payload;
+    if (payload.error) {
+      requestPromise.reject(new Error(payload.error));
+    } else {
+      requestPromise.resolve(payload.result);
+    }
   }
 
   async fetchTextWithExt(urlString, options) {
@@ -717,8 +723,8 @@ class JungleReader {
       setTimeout(function() {
         let reqPromise = app.pendingExtRequests[reqId];
         if (reqPromise) {
-          reqPromise.reject(new Error("Extension request timed out. Check that the extension is installed."));
           delete app.pendingExtRequests[reqId];
+          reqPromise.reject(new Error("Extension request timed out. Check that the extension is installed."));
         }
       }, valOr(opts.timeout, 10*1000));
     });

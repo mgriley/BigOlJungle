@@ -39,6 +39,7 @@ class RSSFeed extends FeedPlugin {
     optParserOptions = optParserOptions ?? {};
     let plugin = this;
     await gApp.fetchText(rssUrl).then((rssText) => {
+      console.log("rssText: ", rssText);
       let parser = new RSSParser(optParserOptions);
       parser.parseString(rssText, (err, res) => {
         if (err) {
