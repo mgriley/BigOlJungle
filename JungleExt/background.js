@@ -6,6 +6,13 @@
 
 console.log("Background Script Loaded!");
 
+function handleInfo(message, sendResponse) {
+  let extInfo = {
+    version: "1.0.0",
+  }
+  sendResponse({result: extInfo});
+}
+
 function handleEcho(message, sendResponse) {
   sendResponse({result: message.data});
 }
@@ -29,7 +36,9 @@ async function handleFetch(message, sendResponse) {
 
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Received message: ", message);
-  if (message.type == 'echo') {
+  if (message.type == "info") {
+    handleInfo(message, sendResponse);
+  } else if (message.type == 'echo') {
     handleEcho(message, sendResponse);
   } else if (message.type == 'fetch') {
     handleFetch(message, sendResponse);

@@ -654,6 +654,10 @@ class JungleReader {
     }
   }
 
+  async queryExtInfo() {
+    return this.makeExtRequest({type: "info", data: {}});
+  }
+
   async fetchTextWithExt(urlString, options) {
     return this.makeExtRequest({type: "fetch", data: {url: urlString, options: options}});
   }
@@ -699,9 +703,9 @@ class JungleReader {
       // Wait for the extension to load, briefly
       await waitMillis(2000);
       console.log("Checking for JungleExt...");
-      let response = await this.makeExtRequest({type: "echo", data: {}}, {timeout: 1000});
+      let extInfo = await this.makeExtRequest({type: "info", data: {}}, {timeout: 1000});
       this.isJungleExtPresent.value = true;
-      console.log("JungleExt found!");
+      console.log("JungleExt found! Info: ", extInfo);
     } catch (error) {
       console.error("JungleExt does not seem to be installed. Please install.");
       this.isJungleExtPresent.value = false;

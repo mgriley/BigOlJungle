@@ -47,6 +47,37 @@ async function testFetchText() {
   console.log("Got reply: ", reply);
 }
 
+function addTestFeeds() {
+  let feeds = [
+    {
+      name: "TerenceTao",
+      type: "Mastodon",
+      url: "https://mathstodon.xyz/@tao",
+    },
+    {
+      name: "CreatingGames",
+      type: "YouTube",
+      url: "https://www.youtube.com/@sora_sakurai_en",
+    },
+    {
+      name: "CBC World News",
+      type: "RSS",
+      url: "https://www.cbc.ca/webfeed/rss/rss-world",
+    }
+  ];
+
+  let group = FeedGroup.create();
+  group.name = "Test Group";
+  gApp.feedReader.addFeedGroup(group);
+  for (const feedData of feeds) {
+    let feed = Feed.create();
+    feed.name = feedData.name;
+    feed.type = feedData.type;
+    feed.url = feedData.url;
+    group.addFeed(feed);
+  }
+}
+
 </script>
 
 <template>
@@ -84,7 +115,8 @@ async function testFetchText() {
         </div>
         <div class="SubSection">
           <h4>Dev Zone</h4>
-          <button @click="testFetchText" class="SmallButton">Test Fetch</button>
+          <button @click="addTestFeeds" class="SmallButton Block">Add test feeds</button>
+          <button @click="testFetchText" class="SmallButton Block">Test Fetch</button>
         </div>
       </div>
     </div>
@@ -111,5 +143,9 @@ async function testFetchText() {
 
 .FetchDesc {
   margin-bottom: 15px;
+}
+
+.SmallButton {
+  line-height: 1.5rem;
 }
 </style>
