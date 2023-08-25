@@ -1,5 +1,7 @@
 <script setup>
 
+// See: https://www.privacypolicygenerator.info/privacy-policy-no-data-collection/
+
 </script>
 
 <template>
