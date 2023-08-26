@@ -2,10 +2,17 @@
 
 Official companion extension for JungleReader. Needed to support cross-domain web requests.
 
-## Uses:
-See Mozilla cross-browser WebExtension guide.
+## Developing:
 
+I use Firefox for development, so the default tooling is for Firefox. I use helper scripts
+to build the zip for Chrome and Safari.
+
+Mozilla Guides:
+See Mozilla cross-browser WebExtension guide.
 https://github.com/mozilla/webextension-polyfill
+
+Chrome Guides:
+Development Basics: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics
 
 ## Credits
 

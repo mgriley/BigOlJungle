@@ -4,6 +4,8 @@
 // See: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Background_scripts
 // https://github.com/mdn/webextensions-examples
 
+import './browser-polyfill.js'
+
 console.log("Background Script Loaded!");
 
 function handleInfo(message, sendResponse) {
