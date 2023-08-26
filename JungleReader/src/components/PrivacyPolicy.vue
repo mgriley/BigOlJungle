@@ -8,10 +8,11 @@
 <div class="PrivacyPolicy">
 	<h1>Privacy Policy</h1>
 
+  <h4>General</h4>
   <p>
   JungleReader (which includes www.junglereader.com and the JungleExt browser extension) does not collect any personal data. 
   All of your data (such as what sites you follow) is stored locally on your computer in your browser's local storage. We
-  do not run any servers, currently. In the future, we may add the option to backup this data to a cloud drive of your choice,
+  do not run any servers, currently. In the future, we may let users optionally backup their data to a cloud drive of their choice,
   such as Google Drive. JungleReader is hosted with CloudFlare Pages.
   </p>
 

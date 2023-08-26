@@ -23,22 +23,36 @@ function onSetupDone() {
     <h3>Step 1: Install the Browser Extension</h3>
     <p>
     To get started, you'll have to install the JungleExt browser extension. This extension lets JungleReader fetch pages
-    from other websites, so that you can read them all here. Currently, the extension is only available for Firefox. Support for Chrome and Safari
-    is coming soon!
+    from other websites, so that you can read them all here. Currently, the extension supports Firefox and Google Chrome.
     </p>
-    <h4>Option 1 - Download for Firefox from Addons Store (Recommended)</h4>
-    <p>
-    Download from the offical Firefox addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>.
-    </p>
-    <h4>Option 2 - Download for Firefox from Zip</h4>
+    <h4>Option 1 - Download from Addon Store (Recommended)</h4>
+    <ul>
+      <li>
+      Download from the Firefox addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a> (recommended).
+      </li>
+      <li>
+      Download from the Chrome addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>. 
+      </li>
+    </ul>
+    <h4>Option 2 - Download Manually as a Zip</h4>
     <p>
     You can download the extension from a zip file, if you'd prefer. This way, you can open the zip and inspect the addon code before installing.
     The addon will not auto-update. JungleReader will notify you if a new version is available.
     </p>
+    <p>
+    Firefox:
     <ol>
       <li>Download here</li>
       <li>Go to blahblahblah</li>
     </ol>
+    </p>
+    <p>
+    Chrome:
+    <ol>
+      <li>Download here</li>
+      <li>Go to blahblahblah</li>
+    </ol>
+    </p>
     <h4>About the Extension</h4>
     <p>
     When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
