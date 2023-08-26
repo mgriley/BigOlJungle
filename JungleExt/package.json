@@ -6,7 +6,10 @@
   "scripts": {
     "lint": "web-ext lint",
     "dev": "web-ext lint && web-ext run",
-    "build": "web-ext lint && web-ext build --overwrite-dest",
+    "build-firefox": "web-ext lint && ./PackageUtil.py --platform firefox",
+    "build-firefox-webext": "web-ext lint && web-ext build --overwrite-dest --artifacts-dir firefox-artifacts",
+    "build-chrome": "./PackageUtil.py --platform chrome",
+    "build-safari": "./PackageUtil.py --platform safari",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
