@@ -59,6 +59,7 @@ function goToHome() {
       <div class="SideMenu">
         <div class="Section">
           <router-link to="/" id="HomeLink">Home</router-link>
+          <router-link to="/explore">Explore</router-link>
         </div>
         <div class="Section">
           <a href="#" @click.prevent="startImportConfig()">Import Config</a>

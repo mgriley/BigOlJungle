@@ -15,6 +15,7 @@ import 'vue-toast-notification/dist/theme-default.css';
 import VueFeather from 'vue-feather';
 
 import MainFeed from './components/MainFeed.vue'
+import ExploreView from './components/ExploreView.vue'
 import StarredView from './components/StarredView.vue'
 import HistoryView from './components/HistoryView.vue'
 import PluginsView from './components/PluginsView.vue'
@@ -27,16 +28,24 @@ import PrivacyPolicy from './components/PrivacyPolicy.vue'
 
 const routes = [
   {
-    path: '/', component: MainFeed
+    path: '/', component: MainFeed,
+    props: route => ({query: route.query})
   },
   {
     path: '/feed/:id', name: 'feed', component: FeedView,
   },
   {
-    path: '/starred', component: StarredView
+    path: '/addfeed', name: 'addfeed',
+    redirect: origRoute => {
+      // console.log("/addfeed query: ", origRoute.query);
+      return {
+        path: "/",
+        query: {action: 'addfeed', ...origRoute.query}
+      }
+    }
   },
   {
-    path: '/history', component: HistoryView
+    path: '/explore', component: ExploreView
   },
   {
     path: '/import', component: ImportView

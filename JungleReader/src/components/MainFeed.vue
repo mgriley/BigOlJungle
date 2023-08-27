@@ -10,6 +10,12 @@ import FeedItem from './FeedItem.vue'
 import EditButton from './EditButton.vue'
 import SetupHelp from './SetupHelp.vue'
 
+const props = defineProps({
+  query: {
+    type: Object,
+  }
+})
+
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
 
@@ -39,7 +45,8 @@ function deleteGroupToEdit() {
   groupEditorModal.value.closeModal();
 }
 
-function addFeed() {
+function addFeed(optArgs) {
+  optArgs = optArgs || {};
   let parentFeed = null;
   if (gApp.feedReader.groups.length == 0) {
     gApp.feedReader.makeDefaultGroup();
@@ -47,6 +54,15 @@ function addFeed() {
   parentFeed = gApp.feedReader.groups[0];
 
   let feed = Feed.create();
+  if (optArgs.name) {
+    feed.name = optArgs.name;
+  }
+  if (optArgs.type) {
+    feed.type = optArgs.type;
+  }
+  if (optArgs.url) {
+    feed.url = optArgs.url;
+  }
   parentFeed.addFeed(feed);
   editFeed(feed);
 }
@@ -117,6 +133,15 @@ function onDragChange(evt, group) {
     group.expanded = true;
   }
 }
+
+onMounted(() => {
+  if (props.query) {
+    console.log("Query: ", props.query);
+    if (props.query.action == "addfeed") {
+      addFeed(props.query);
+    }
+  }
+})
 
 </script>
 
