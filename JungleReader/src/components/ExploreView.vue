@@ -1,11 +1,23 @@
 <script setup>
+import { gApp, FeedGroup, Feed } from '../State.js'
+
+let exploreData = [
+  {
+    group: "Try some",
+    feeds: [
+      {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
+    ]
+  }
+]
 </script>
 
 <template>
   <div class="ExploreView">
     <h1>Explore</h1>
     <p>Here are some feeds you can add to get started:</p>
-    <button @click="$router.replace({path: '/addfeed', query: {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'}})">TTao</button>
+    <div v-for="group in exploreData">
+      <button v-for="feed in group.feeds" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: feed.type, url: feed.url}})">{{ feed.name }}</button>
+    </div>
   </div>
 </template>
 

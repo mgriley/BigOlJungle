@@ -45,12 +45,7 @@ function onChangeFeedType(feed, newType) {
 
 const feedShareLink = computed(() => {
   let feed = props.feed ? props.feed : dummyFeed
-  let params = new URLSearchParams({
-    name: feed.name,
-    type: feed.type,
-    url: feed.url,
-  });
-  return "https://www.junglereader.com/addfeed/" + params.toString();
+  return Feed.makeShareLink(feed.name, feed.type, feed.url);
 })
 
 </script>

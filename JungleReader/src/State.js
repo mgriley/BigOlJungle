@@ -120,6 +120,15 @@ class Feed {
     return new Feed(gApp.feedIdCtr++);
   }
 
+  static makeShareLink(name, type, url) {
+    let params = new URLSearchParams({
+      name: name,
+      type: type,
+      url: url,
+    });
+    return window.location.origin + "/#/addfeed?" + params.toString();
+  }
+
   writeToJson() {
     return {
       id: this.id,
