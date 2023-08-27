@@ -59,6 +59,11 @@ button:hover {
   line-height: 1rem;
 }
 
+.LinkButton {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: var(--link-hover-bg);

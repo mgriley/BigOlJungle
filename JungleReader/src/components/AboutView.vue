@@ -21,15 +21,14 @@
     </p>
     <h4 class="MoreInfo">More</h4>
     <p>
-    We made this site as a hobby project, hope you like it! We have more 
+    I made this site as a hobby project, hope you like it! I have more 
     web related hobby projects planned (JungleWriter, JungleServer, JungleMask, ...), so stay tuned. Here's a newletter
     if you'd like to follow along with development:
     </p>
-    <p>TODO - newsletter</p>
+    <div class="ml-embedded Newsletter" data-form="KvDpFc"></div>
     <p>
-    To leave feedback or report bugs, go here:
+    You can also leave feedback, report bugs, or request features <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="LinkButton">here</a>.
     </p>
-    <p>TODO - Google form</p>
   </div>
 </template>
 
@@ -49,6 +48,10 @@
 
 .Other {
   margin-top: 40px;
+}
+
+.Newsletter {
+  margin-bottom: 20px;
 }
 
 </style>
