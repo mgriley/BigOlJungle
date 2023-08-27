@@ -141,7 +141,7 @@ export class CustomPlugin {
     while (true) {
       let moreCode = interpreter.run()
       if (moreCode) {
-        // We hit an async function. The interpret `run` will rreturn true until the
+        // We hit an async function. The interpret `run` will return true until the
         // async function results are ready.
         if (this.pendingPromises.length > 0) {
           // Wait until all dependent promises we must wait for complete
