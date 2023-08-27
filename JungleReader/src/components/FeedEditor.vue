@@ -5,6 +5,7 @@ import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'
+import LinkSnippet from './LinkSnippet.vue'
 import draggable from 'vuedraggable'
 
 const props = defineProps({
@@ -42,6 +43,16 @@ function onChangeFeedType(feed, newType) {
   // console.log("Feed type: " + feed.type);
 }
 
+const feedShareLink = computed(() => {
+  let feed = props.feed ? props.feed : dummyFeed
+  let params = new URLSearchParams({
+    name: feed.name,
+    type: feed.type,
+    url: feed.url,
+  });
+  return "https://www.junglereader.com/addfeed/" + params.toString();
+})
+
 </script>
 
 <template>
@@ -60,6 +71,9 @@ function onChangeFeedType(feed, newType) {
 
   <div class="FormFieldName">Custom Options</div>
   <OptionsInput :options="realFeed.options" />
+
+  <div class="FormFieldName">Share Link</div>
+  <LinkSnippet :theLink="feedShareLink" />
 </template>
 
 <style scoped>
