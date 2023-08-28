@@ -7,6 +7,7 @@ import PluginEditor from './PluginEditor.vue'
 import CodeEditor from './CodeEditor.vue'
 import QuickParseEditor from './QuickParseEditor.vue'
 import BasicSelector from './BasicSelector.vue'
+import ButtonGenerator from './ButtonGenerator.vue'
 
 let persistentStorageOn = ref(false);
 
@@ -97,6 +98,11 @@ function addTestFeeds() {
         <h3>Cloud Sync</h3>
         <p>Connect your Google Drive account to backup and sync the reader between devices.</p>
         <h4 class="Italic">(Coming Soon!)</h4>
+      </div>
+      <div class="SettingsSection">
+        <h3>Generate "Follow on JungleReader" Button</h3>
+        <p>Want a "Follow on JungleReader" button for your own website or feed? You can generate one here.</p>
+        <ButtonGenerator />
       </div>
       <div class="SettingsSection">
         <h3>Advanced</h3>

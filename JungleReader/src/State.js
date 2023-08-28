@@ -482,6 +482,11 @@ class JungleReader {
     this.fetchMethod = ref(FetchMethod.JungleExt)
 
     this.doneWelcome = ref(false);
+    this.buttonGenerator = reactive({
+      name: "",
+      type: "",
+      url: ""
+    });
   }
 
   writeStateToJson() {

@@ -32,3 +32,8 @@ npm run build
 
 Note that acorn_interpreter.js doesn't expose all of the required functions. For now, serve the full acorn.js and interpreter.js. Will have to minify these later.
 
+## Assets
+
+Small chameleon svg (CC0 license):
+https://www.svgrepo.com/svg/170979/chameleon
+
