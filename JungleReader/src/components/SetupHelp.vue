@@ -74,7 +74,7 @@ function onSetupDone() {
     </ol>
     <p class="Emphasis AllSet">You're all set!</p>
     <p>
-    From here, add feeds for each site you'd like to follow. Experiment with "Add Group" to organize your feeds, try adding feeds of different types, and
+    From here, add feeds for each site you'd like to follow. The "Explore" tab has some to get you started. Experiment with "Add Group" to organize your feeds, try adding feeds of different types, and
     check out the "Plugins" page. JungleReader has a flexible plugin system that lets developers add support for many page types. If you're ever stuck,
     click the Help/Info buttons as you go. Enjoy!
     </p>

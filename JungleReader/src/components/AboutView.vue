@@ -34,6 +34,12 @@
         </ul>
       </div>
     </div>
+    <div class="MoreInfo">
+      <h4>Image Credits</h4>
+      <p>
+      TODO - put the SVG image credits here.
+      </p>
+    </div>
   </div>
 </template>
 
