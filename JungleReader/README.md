@@ -32,6 +32,12 @@ npm run build
 
 Note that acorn_interpreter.js doesn't expose all of the required functions. For now, serve the full acorn.js and interpreter.js. Will have to minify these later.
 
+## Articles/Info
+
+Articles on how to setup the domain properly in namecheap and Cloudflare Pages:
+- https://www.bigcartel.com/resources/help/article/namecheap
+- https://www.namecheap.com/support/knowledgebase/article.aspx/9604/2237/types-of-domain-redirects-301-302-url-redirects-url-frame-and-cname/
+
 ## Assets
 
 Small chameleon svg (CC0 license):
