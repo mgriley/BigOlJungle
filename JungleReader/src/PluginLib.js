@@ -1,7 +1,7 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
-    parseXml } from './Utils.js'
+    parseXml, isDomainInWhitelist } from './Utils.js'
 import * as InterpreterUtils from './InterpreterUtils.js'
 import { QuickParser } from './QuickParse.js'
 
@@ -49,6 +49,7 @@ export class CustomPlugin {
     this.pluginText = kDefaultCustomCode;
     this.quickParser = new QuickParser();
     this.options = []
+    this.domainWhitelist = []
     this.quickHelpDocs = "";
 
     this.pendingPromises = [];
@@ -65,6 +66,7 @@ export class CustomPlugin {
       pluginText: this.pluginText,
       quickParser: this.quickParser.writeToJson(),
       options: optionsToJson(this.options),
+      domainWhitelist: writeObjToJson(this.domainWhitelist),
       quickHelpDocs: this.quickHelpDocs,
     }
   }
@@ -83,6 +85,9 @@ export class CustomPlugin {
       this.quickParser.readFromJson(obj.quickParser);
     }
     this.options = jsonToOptions(obj.options);
+    if ('domainWhitelist' in obj) {
+      this.domainWhitelist = readObjFromJson(obj.domainWhitelist);
+    }
     this.quickHelpDocs = obj.quickHelpDocs;
   }
 
@@ -159,6 +164,14 @@ export class CustomPlugin {
     }
 
     console.log(`Done update for FeedType "${this.feedType}", URL: "${feed.url}"`);
+  }
+
+  isUrlAllowed(urlString) {
+    let allowedUrls = [];
+    for (const item of this.domainWhitelist) {
+      allowedUrls.push(item.value);
+    }
+    return isDomainInWhitelist(urlString, [this.pluginUrl, ...allowedUrls]);
   }
 }
 

@@ -355,3 +355,23 @@ export function secsSinceDate(date) {
   return (curDate - date) / (1000.0);
 }
 
+// Used for web-request whitelisting
+export function isSameHost(urlA, urlB) {
+  return urlA.host === urlB.host;
+}
+
+/*
+Note: this only validates that the `host` part of the `URL` objects match.
+`host` is domainname:port, like "www.mysite.com", or, if has a specified port, "www.mysite.com:123".
+*/
+export function isDomainInWhitelist(urlString, allowedUrls) {
+    let candidateUrl = new URL(urlString);
+    for (const allowedUrlStr of allowedUrls) {
+      let allowedUrl = new URL(allowedUrlStr);
+      if (isSameHost(candidateUrl, allowedUrl)) {
+        return true;
+      }
+    }
+    return false;
+}
+

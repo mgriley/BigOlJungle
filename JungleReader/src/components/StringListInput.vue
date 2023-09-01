@@ -11,7 +11,7 @@ function deleteOption(index) {
 }
 
 function addOption() {
-  props.options.push("");
+  props.options.push({value: ""});
 }
 
 </script>
@@ -19,7 +19,7 @@ function addOption() {
 <template>
   <div class="StringListContainer">
     <div v-for="(element, index) in options" class="OptionsEntry">
-      <input v-model="element" class="Block ValueInput BasicTextInput">
+      <input v-model="element.value" class="Block ValueInput BasicTextInput">
       <button class="DeleteBtn SmallButton" @click="deleteOption(index)">Delete</button>
     </div>
     <button @click="addOption" class="SmallButton">Add</button>
@@ -33,6 +33,10 @@ function addOption() {
 }
 
 .OptionsEntry {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 5px;
   margin-bottom: 5px;
 }
 
@@ -46,7 +50,7 @@ function addOption() {
 }
 
 .ValueInput {
-  width: 200px;
+  width: 300px;
 }
 
 </style>

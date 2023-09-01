@@ -134,7 +134,9 @@ function setupFetchFuncs(registry) {
   // Aborts the script on failure.
   registry.addAsyncFunc("fetch",
     (urlString, fetchOptions, callback) => {
-      // TODO - apply white-listing here.
+      if (!register.plugin.isUrlAllowed(urlString)) {
+        throw new Error(`URL "${urlString}" is not in the whitelist for plugin ${plugin.feedType}`);
+      }
       let fetchPromise = gApp.fetchText(urlString, fetchOptions).then((text) => {
         callback(text);
       }).catch((error) => {
