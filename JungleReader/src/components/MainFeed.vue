@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
+import { valOr } from '../Utils.js'
 import draggable from 'vuedraggable'
 import TextTreeIcon from './TextTreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
@@ -18,9 +19,12 @@ const props = defineProps({
 
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
+let addFromLinkModal = ref(null);
 
 let groupToEdit = ref(null);
 let feedToEdit = ref(null);
+
+let linkedFeed = ref({});
 
 function addFeedGroup() {
   let group = FeedGroup.create();
@@ -64,7 +68,22 @@ function addFeed(optArgs) {
     feed.url = optArgs.url;
   }
   parentFeed.addFeed(feed);
-  editFeed(feed);
+  if (valOr(optArgs.editWhenDone, true)) {
+    editFeed(feed);
+  }
+}
+
+function promptAddFeedFromLink(query) {
+  linkedFeed.value = query;
+  addFromLinkModal.value.showModal();
+}
+
+function addFeedFromLink() {
+  let args = {
+    ...linkedFeed.value,
+    editWhenDone: false
+  };
+  addFeed(args);
 }
 
 function deleteFeed(feed) {
@@ -134,11 +153,18 @@ function onDragChange(evt, group) {
   }
 }
 
+function addLinkedFeedDesc(args) {
+  return `Name: ${args.name}
+Type: ${args.type}
+URL:  ${args.url}
+`
+}
+
 onMounted(() => {
   if (props.query) {
     console.log("Query: ", props.query);
     if (props.query.action == "addfeed") {
-      addFeed(props.query);
+      promptAddFeedFromLink(props.query);
     }
   }
 })
@@ -190,6 +216,12 @@ onMounted(() => {
   <BasicModal ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
     <button class="DeleteButton DeleteFeedButton" @click="deleteFeedToEdit">Delete Feed</button>
+  </BasicModal>
+  <BasicModal ref="addFromLinkModal" title="Add Feed" doneText="Yes" cancelText="No" @onDone="addFeedFromLink">
+    <p><b>Add the following feed?</b></p>
+    <div class="AddLinkedFeedInfo CodeBlock">
+      {{ addLinkedFeedDesc(linkedFeed) }}
+    </div>
   </BasicModal>
 </template>
 
@@ -266,6 +298,11 @@ onMounted(() => {
 
 .DeleteFeedButton {
   margin-top: 30px;
+}
+
+.AddLinkedFeedInfo {
+  font-family: monospace;
+  font-size: 1rem;
 }
 
 </style>

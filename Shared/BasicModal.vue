@@ -10,15 +10,21 @@ const props = defineProps({
   showDone: {
     default: true,
   },
+  doneText: {
+    default: 'Done',
+  },
   showCancel: {
     default: true,
+  },
+  cancelText: {
+    default: 'Cancel',
   },
   showDelete: {
     default: false,
   },
 });
 
-const emit = defineEmits(['onDelete'])
+const emit = defineEmits(['onDelete', 'onDone'])
 
 let dialog = ref(null);
 let isOpen = ref(false);
@@ -44,6 +50,16 @@ function toggleModal(clickEvt) {
   } else {
     closeModal();
   }
+}
+
+function onDone() {
+  emit('onDone');
+  closeModal();
+}
+
+function onCancel() {
+  emit('onCancel');
+  closeModal();
 }
 
 defineExpose({
@@ -82,8 +98,8 @@ onMounted(() => {
       
       <div class="Footer">
         <button v-if="showDelete" @click="emit('onDelete')" class="DeleteBtn">Delete</button>
-        <button v-if="showCancel" @click="closeModal">Cancel</button>
-        <button v-if="showDone" @click="closeModal">Done</button>
+        <button v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
+        <button v-if="showDone" @click="onDone">{{ doneText }}</button>
       </div>
     <!-- </div> -->
   </dialog>
