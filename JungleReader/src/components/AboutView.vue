@@ -19,6 +19,9 @@
       Your data and reader config are stored locally in your browser. The data should stay
       around even if you clear your browser's cookies / data, but make sure to export your config sometimes. Cloud backup & sync is coming soon.
       </p>
+      <p>
+      To add JungleReader support to your own website, go to <router-link to="/getread">Get Read</router-link>.
+      </p>
     </div>
     <div class="MoreInfo">
       <h4>More</h4>

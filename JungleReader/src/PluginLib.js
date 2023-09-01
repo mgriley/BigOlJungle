@@ -34,6 +34,7 @@ function updateFeed(feed) {
 
 export const CustomPluginType = {
   URL: 'URL',
+  // Note: this should really be `Script`
   Text: 'Text',
   QuickParse: 'QuickParse',
 };

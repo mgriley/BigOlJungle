@@ -8,7 +8,6 @@
   /*max-width: 1280px;*/
   margin: 0 auto;
   /*padding: 2rem;*/
-
   /*font-weight: normal;*/
 }
 
@@ -36,6 +35,17 @@ button {
 button:hover {
   background-color: var(--main-text);
   color: var(--main-bg);
+}
+
+.CodeBlock {
+  /*background: var(--main-text);*/
+  /*color: var(--main-bg);*/
+  padding: 10px;
+  border: 2px solid var(--main-text);
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 1rem;
+  white-space: pre;
 }
 
 .TextButton {

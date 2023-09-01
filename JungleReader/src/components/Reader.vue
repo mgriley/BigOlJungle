@@ -71,8 +71,9 @@ function goToHome() {
         </div>
         <div class="Section">
           <router-link to="/about">About</router-link>
-          <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug</a>
+          <router-link to="/getread">Get Read</router-link>
           <router-link to="/privacypolicy">Privacy Policy</router-link>
+          <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug</a>
           <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
         </div>
         <div class="Section">

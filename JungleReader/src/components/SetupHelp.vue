@@ -31,7 +31,8 @@ function onSetupDone() {
       Download from the Firefox addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a> (recommended).
       </li>
       <li>
-      Download from the Chrome addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>. 
+      Coming soon (in review)
+      <!-- Download from the Chrome addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>.  -->
       </li>
     </ul>
     <h4>Option 2 - Download Manually as a Zip</h4>
@@ -42,15 +43,19 @@ function onSetupDone() {
     <p>
     Firefox:
     <ol>
-      <li>Download here</li>
-      <li>Go to blahblahblah</li>
+      <li>Download <a href="jungleext-firefox-1.4.zip">JungleExt.zip</a>, and unzip.</li>
+      <li>In a new tab, type "about:debugging" in the address bar.</li>
+      <li>Click the "This Firefox" link.</li>
+      <li>Click the "Load Temporary Add-on" link and select the addon folder.</li>
     </ol>
     </p>
     <p>
     Chrome:
     <ol>
-      <li>Download here</li>
-      <li>Go to blahblahblah</li>
+      <li>Download <a href="jungleext-chrome-1.4.zip">JungleExt.zip</a>, and unzip.</li>
+      <li>Go to <a href="chrome://extensions">chrome://extensions</a></li>
+      <li>Turn on Developer Mode</li>
+      <li>Click "Load unpacked" and select the extension folder</li>
     </ol>
     </p>
     <h4>About the Extension</h4>

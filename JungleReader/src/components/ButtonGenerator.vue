@@ -42,7 +42,7 @@ function changeBigButtonSize(newVal) {
 <template>
 <div class="ButtonGenerator">
   <div class="Fields">
-    <h3>Enter:</h3>
+    <h3><i>Enter:</i></h3>
     <div class="FormFieldName">Feed Name</div>
     <input v-model="buttonGenerator.name" placeholder="My Feed" class="Block WideInput BasicTextInput" autofocus>
     <div class="FormFieldName">Feed Type</div>
@@ -51,7 +51,7 @@ function changeBigButtonSize(newVal) {
     <input v-model="buttonGenerator.url" placeholder="https://www.mysite.com" class="Block WideInput BasicTextInput" autofocus>
   </div>
   <div class="Output">
-    <h3>Output:</h3>
+    <h3><i>Output:</i></h3>
     <div class="FormFieldName">Link</div>
     <LinkSnippet :theLink="feedLink" />
     <div class="FormFieldName">HTML Big Button Link (as shown)</div>
