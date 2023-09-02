@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, computed, watch } from 'vue'
 
-/*const props = defineProps(['options'])*/
-
 const props = defineProps({
   title: {
     default: "",
@@ -88,7 +86,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <dialog class="ModalSelector BasicModal" ref="dialog" @close="isOpen = false">
+  <dialog class="BasicModal" ref="dialog" @close="isOpen = false">
     <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
     <!-- <div v-if="isOpen"> -->
       <div v-if="title" class="Title">{{ title }}</div>
@@ -106,6 +104,30 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
+dialog::backdrop {
+  /*backdrop-filter: blur(10px);*/
+}
+
+/* For some reason, the the regular CSS does not seem to work in the modal */
+.BasicModal {
+  color: var(--popup-text);
+  background-color: var(--popup-bg);
+  border: 1px solid var(--main-text);
+  /*border: none;*/
+  border-radius: 10px;
+  padding: 0.75em 0.75em;
+  min-width: 160px;
+  /*box-shadow: 0 4px 12px var(--main-text);*/
+  margin: auto;
+}
+
+.BasicModal .Title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
 .Body {
   margin-bottom: 20px;
 }

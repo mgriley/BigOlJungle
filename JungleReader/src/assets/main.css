@@ -26,7 +26,8 @@ button {
   padding: 5px 10px;
   /*margin: 4px 0px;*/
   background: none;
-  border: 2px solid black;
+  color: var(--main-text);
+  border: 2px solid var(--main-text);
   cursor: pointer;
   font-weight: 600;
   font-size: 1em;
@@ -38,8 +39,7 @@ button:hover {
 }
 
 .CodeBlock {
-  /*background: var(--main-text);*/
-  /*color: var(--main-bg);*/
+  /*background-color: var(--input-bg);*/
   padding: 10px;
   border: 2px solid var(--main-text);
   border-radius: 5px;
@@ -147,12 +147,13 @@ it gets clicked. Say if using for a button
 .DeleteButton {
   background-color: var(--nice-red);
   border-color: var(--nice-red);
-  color: var(--main-bg)
+  color: var(--main-text);
 }
 
 .DeleteButton:hover {
   background-color: var(--bright-red);
   border-color: var(--bright-red);
+  color: var(--main-text);
 }
 
 .HelpButton {
@@ -177,7 +178,13 @@ it gets clicked. Say if using for a button
   padding: 5px;
   /* margin: 5px 0; */
   border: 1px solid var(--main-text);
+  border-radius: 4px;
   font-size: 1rem;
+  background-color: var(--input-bg);
+}
+
+input[type="text"], textarea {
+  background-color: var(--input-bg); 
 }
 
 select {
@@ -186,6 +193,10 @@ select {
   outline: 1px solid var(--main-text);
   */
   font-size: 1rem;
+}
+
+select option {
+  /* TODO */
 }
 
 h1 {
@@ -221,19 +232,5 @@ h4 {
 
 .Bold {
   font-weight: bold;
-}
-
-.BasicModal {
-  border: 1px solid var(--mute-text);
-  padding: 0.75em 0.75em;
-  min-width: 160px;
-  box-shadow: 0 2px 8px var(--main-text);
-  margin: auto;
-}
-
-.BasicModal .Title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 10px;
 }
 

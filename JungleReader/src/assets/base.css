@@ -27,6 +27,7 @@
 :root {
   /* --main-bg: rgb(249, 234, 220); */
   /* --main-text: rgb(0, 0, 0); */
+  /*
   --main-bg: rgb(252, 252, 252);
   --main-text: rgb(50, 50, 50);
   --mute-text: rgb(80, 80, 80);
@@ -34,6 +35,23 @@
   --link-hover-bg: rgba(127, 127, 127, 0.4);
   --nice-red: rgb(215, 46, 36);
   --bright-red: rgb(255, 46, 46);
+  --text-button-hover: var(--nice-red);
+  --light-text-bg: rgb(150, 150, 150, 0.5);
+  --help-btn: rgb(46, 36, 215);
+  --bright-help-btn: rgb(46, 36, 255);
+  */
+  color-scheme: dark;
+  --main-text: rgb(247, 248, 235);
+  --main-bg: rgb(20, 29, 22);
+  --popup-text: var(--main-text);
+  --popup-bg: color-mix(in srgb, var(--main-bg) 90%, white);
+  --input-text: var(--main-text);
+  --input-bg: color-mix(in srgb, var(--main-bg) 80%, white);
+  --mute-text: color-mix(in srgb, var(--main-text) 90%, black);
+  --very-mute-text: rgb(217, 218, 205);
+  --link-hover-bg: rgba(127, 127, 127, 0.4);
+  --nice-red: rgb(215, 46, 36);
+  --bright-red: color-mix(in srgb, var(--nice-red) 20%, red);
   --text-button-hover: var(--nice-red);
   --light-text-bg: rgb(150, 150, 150, 0.5);
   --help-btn: rgb(46, 36, 215);
