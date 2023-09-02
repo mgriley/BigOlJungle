@@ -1,7 +1,8 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
-    parseXml, isDomainInWhitelist } from './Utils.js'
+    parseXml, isDomainInWhitelist,
+    writeObjToJson, readObjFromJson } from './Utils.js'
 import * as InterpreterUtils from './InterpreterUtils.js'
 import { QuickParser } from './QuickParse.js'
 

@@ -38,28 +38,28 @@ const routes = [
     path: '/addfeed', name: 'addfeed',
   },
   {
-    path: '/explore', component: ExploreView
+    path: '/explore', name: 'explore', component: ExploreView
   },
   {
-    path: '/import', component: ImportView
+    path: '/import', name: 'import', component: ImportView
   },
   {
-    path: '/export', component: ExportView
+    path: '/export', name: 'export', component: ExportView
   },
   {
-    path: '/settings', component: Settings
+    path: '/settings', name: 'settings', component: Settings
   },
   {
-    path: '/plugins', component: PluginsView
+    path: '/plugins', name: 'plugins', component: PluginsView
   },
   {
-    path: '/about', component: AboutView
+    path: '/about', name: 'about', component: AboutView
   },
   {
-    path: '/privacypolicy', component: PrivacyPolicy
+    path: '/privacypolicy', name: 'privacypolicy', component: PrivacyPolicy
   },
   {
-    path: '/getread', component: GetReadView
+    path: '/getread', name: 'getread', component: GetReadView
   },
 ]
 

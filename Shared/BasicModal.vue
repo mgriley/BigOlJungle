@@ -24,7 +24,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['onDelete', 'onDone'])
+const emit = defineEmits(['onDelete', 'onCancel', 'onDone'])
 
 let dialog = ref(null);
 let isOpen = ref(false);
