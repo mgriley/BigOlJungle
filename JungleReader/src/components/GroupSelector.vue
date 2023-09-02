@@ -17,7 +17,7 @@ function onChange(changeEvt) {
 
 <template>
   <div class="GroupSelector">
-    <select :model="currentGroup.id" @change="onChange">
+    <select v-if="currentGroup" :model="currentGroup.id" @change="onChange">
       <option v-for="group in gApp.feedReader.groups" :key="group.id" :value="group.id">
         {{ group.name }}
       </option>

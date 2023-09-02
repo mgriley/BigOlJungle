@@ -487,6 +487,18 @@ class JungleReader {
       type: "",
       url: ""
     });
+
+    // Register handler for action routes
+    this.linkAction = null;
+    let app = this;
+    this.router.beforeEach((to, from) => {
+      // Handle urls that are just supposed to trigger actions
+      if (to.name == 'addfeed') {
+        console.log("Got 'addfeed' route with query: ", to.query);
+        app.linkAction = {name: 'addfeed', args: to.query};
+        return {name: 'mainfeed'};
+      }
+    });
   }
 
   writeStateToJson() {
@@ -532,6 +544,12 @@ class JungleReader {
   setDoneWelcome(newVal) {
     this.doneWelcome.value = newVal;
     localStorage.setItem(kDoneWelcomeKey, this.doneWelcome.value);
+  }
+
+  consumeLinkAction() {
+    let action = this.linkAction;
+    this.linkAction = null;
+    return action;
   }
 
   getPluginToEdit() {
@@ -761,6 +779,7 @@ class JungleReader {
 function initGlobalReader(toaster, router) {
   gApp = new JungleReader(toaster, router);
   gApp.run();
+  return gApp;
 }
 
 export {

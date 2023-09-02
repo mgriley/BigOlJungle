@@ -29,21 +29,13 @@ import GetReadView from './components/GetReadView.vue'
 
 const routes = [
   {
-    path: '/', component: MainFeed,
-    props: route => ({query: route.query})
+    path: '/', name: 'mainfeed', component: MainFeed,
   },
   {
     path: '/feed/:id', name: 'feed', component: FeedView,
   },
   {
     path: '/addfeed', name: 'addfeed',
-    redirect: origRoute => {
-      // console.log("/addfeed query: ", origRoute.query);
-      return {
-        path: "/",
-        query: {action: 'addfeed', ...origRoute.query}
-      }
-    }
   },
   {
     path: '/explore', component: ExploreView

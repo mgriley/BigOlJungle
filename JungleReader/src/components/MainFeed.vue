@@ -12,9 +12,6 @@ import EditButton from './EditButton.vue'
 import SetupHelp from './SetupHelp.vue'
 
 const props = defineProps({
-  query: {
-    type: Object,
-  }
 })
 
 let feedEditorModal = ref(null);
@@ -161,10 +158,10 @@ URL:  ${args.url}
 }
 
 onMounted(() => {
-  if (props.query) {
-    console.log("Query: ", props.query);
-    if (props.query.action == "addfeed") {
-      promptAddFeedFromLink(props.query);
+  let linkAction = gApp.consumeLinkAction();
+  if (linkAction) {
+    if (linkAction.name == "addfeed") {
+      promptAddFeedFromLink(linkAction.args);
     }
   }
 })
