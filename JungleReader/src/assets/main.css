@@ -45,7 +45,10 @@ button:hover {
   border-radius: 5px;
   font-family: monospace;
   font-size: 1rem;
-  white-space: pre;
+  /* white-space: pre-wrap; */
+  /* I'm not sure how to get this working right for mobile, so use pre-wrap for now */
+  white-space: pre-wrap;
+  overflow-x: scroll;
 }
 
 .TextButton {

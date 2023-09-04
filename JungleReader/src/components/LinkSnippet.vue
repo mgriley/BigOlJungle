@@ -42,6 +42,7 @@ function copyText() {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 400px;
+  min-width: 10px;
 }
 
 .CopyButton {

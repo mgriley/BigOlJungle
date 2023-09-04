@@ -50,9 +50,7 @@ let rssTemplate = `<?xml version="1.0" encoding="UTF-8" ?>
 
     You can use this template to get you started:
     </p>
-    <div class="CodeBlock">
-      {{ rssTemplate }}
-    </div>
+    <p class="CodeBlock">{{ rssTemplate }}</p>
     <p>More info on RSS: <a href="https://www.w3schools.com/xml/xml_rss.asp">https://www.w3schools.com/xml/xml_rss.asp</a></p>
     <p>
     Once you have your RSS feed, you can create a "www.junglereader.com/#/addfeed/..." link that, once clicked, will take the user to their JungleReader page

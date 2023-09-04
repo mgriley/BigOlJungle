@@ -52,6 +52,7 @@ function onFeedClicked(feed) {
   margin-right: 5px;
   font-size: 4rem;
   font-weight: 800;
+  text-overflow: ellipsis;
 }
 
 .FeedControls {

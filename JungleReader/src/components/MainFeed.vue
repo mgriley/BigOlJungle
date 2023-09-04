@@ -264,6 +264,7 @@ onMounted(() => {
   font-size: 2rem;
   font-weight: 800;
   letter-spacing: -1px;
+  /* text-overflow: ellipsis; */
 }
 
 .GroupControls {
