@@ -224,6 +224,7 @@ input[type="text"], textarea {
 
 select {
   font-size: 1rem;
+  color: var(--main-text);
   background-color: var(--input-bg);
   /*border: 1px solid var(--mute-text);*/
   border: none;

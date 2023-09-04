@@ -205,9 +205,6 @@ onMounted(() => {
   padding-left: 10px;
 }
 
-.SidebarBtn:hover {
-}
-
 /*
 Display a single column on mobile.
 Also collapse the menu.

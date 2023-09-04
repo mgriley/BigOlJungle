@@ -89,8 +89,10 @@ function getAttrStr(nodeData) {
   font-family: monospace;
 }
 
-.ParseNodeTitle:hover {
-  background-color: lightblue;      
+@media (hover: hover) {
+  .ParseNodeTitle:hover {
+    background-color: lightblue;      
+  }
 }
 
 .ChosenParseNode {
