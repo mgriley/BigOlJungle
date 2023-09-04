@@ -218,6 +218,7 @@ Also collapse the menu.
     grid-template-areas:
       "sidebar"
       "content";
+    max-width: 100%;
   }
 
   .Sidebar {

@@ -44,10 +44,6 @@ import { kPluginHelp } from '../HelpText.js'
 </template>
 
 <style scoped>
-.PluginsContainer {
-  position: relative;
-}
-
 .SaveButton {
   float: right;
 }

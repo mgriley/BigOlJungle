@@ -155,6 +155,7 @@ function openEditor(plugin) {
 
 .PluginDetails {
   width: 800px;
+  max-width: 100%;
   padding: 10px 15px;
   border: 2px solid var(--mute-text);
   border-radius: 8px;
