@@ -4,7 +4,6 @@ import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import { removeElem } from '../Utils.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import OptionsInput from './OptionsInput.vue'
-import StringListInput from './StringListInput.vue'
 import BasicSelector from './BasicSelector.vue'
 import ToggleSwitch from './ToggleSwitch.vue'
 import TextTreeIcon from './TextTreeIcon.vue'
@@ -75,7 +74,7 @@ function openEditor(plugin) {
             </div>
             <div v-if="plugin.pluginType == CustomPluginType.Text" class="Options FieldEntry">
               <div class="FieldName CustomOptionsField">Domain Whitelist</div>
-              <StringListInput :options="plugin.domainWhitelist" />
+              <OptionsInput :options="plugin.domainWhitelist" :hasKeys="false" />
             </div>
             <button class="DeleteButton" @click="removePlugin(plugin)">Delete Plugin</button>
           </div>
@@ -117,12 +116,11 @@ function openEditor(plugin) {
 }
 
 .NameInput {
-  width: 300px;
   margin-right: 20px;
 }
 
 .UrlInput {
-  width: 400px;
+  width: 30ch;
 }
 
 
@@ -146,7 +144,7 @@ function openEditor(plugin) {
 
 .Options {
   margin-bottom: 20px;
-  width: 500px;
+  /* max-width: 500px; */
 }
 
 .CustomOptionsField {
@@ -154,8 +152,7 @@ function openEditor(plugin) {
 }
 
 .PluginDetails {
-  width: 800px;
-  max-width: 100%;
+  /*max-width: 800px;*/
   padding: 10px 15px;
   border: 2px solid var(--mute-text);
   border-radius: 8px;

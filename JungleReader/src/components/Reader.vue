@@ -219,6 +219,7 @@ Also collapse the menu.
       "sidebar"
       "content";
     max-width: 100%;
+    /*overflow-x: hidden;*/
   }
 
   .Sidebar {

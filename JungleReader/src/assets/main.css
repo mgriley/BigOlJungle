@@ -5,7 +5,6 @@
 }
 
 #app {
-  /*max-width: 1280px;*/
   margin: 0 auto;
   /*padding: 2rem;*/
   /*font-weight: normal;*/
@@ -135,6 +134,7 @@ it gets clicked. Say if using for a button
 
 .Flex {
   display: flex;
+  flex-flow: row wrap;
 }
 
 .MarginLeft {
@@ -175,6 +175,8 @@ it gets clicked. Say if using for a button
   margin-top: 10px;
 }
 
+/* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
+/* See: https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width */
 .BasicTextInput {
   display: block;
   padding: 5px;
