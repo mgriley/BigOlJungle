@@ -125,7 +125,7 @@ dialog::backdrop {
 }
 
 .BasicModal .Title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
   line-height: 1;
   margin-top: 5px;

@@ -32,9 +32,11 @@ function copyText() {
 <style scoped>
 .LinkSnippet {
   display: flex;
+  flex-flow: row nowrap;
 }
 
 .LinkText {
+  flex: 1 50px;
   padding: 0 5px;
   border: 1px solid var(--light-text-bg);
   border-radius: 5px;

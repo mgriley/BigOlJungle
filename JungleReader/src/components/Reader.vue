@@ -97,8 +97,8 @@ onMounted(() => {
             <router-link to="/about">About</router-link>
             <router-link to="/getread">Get Read</router-link>
             <router-link to="/privacypolicy">Privacy Policy</router-link>
-            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug</a>
-            <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
+            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug <vue-feather type="external-link" size="18" /></a>
+            <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub <vue-feather type="external-link" size="18" /></a>
           </div>
           <div class="Section">
             <p class="VersionNum">Version {{ kReaderVersionString }}</p>
