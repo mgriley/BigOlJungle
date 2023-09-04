@@ -74,11 +74,11 @@ app.use(ToastPlugin)
 app.component(VueFeather.name, VueFeather)
 app.component("v-select", VueSelect)
 
-app.mount('#app')
-
 // For some reason doing app.$toast does not work here.
 // console.log("Globals: ", app.config.globalProperties);
 // console.log("Toaster: ", app.config.globalProperties.$toast);
 initGlobalReader(app.config.globalProperties.$toast,
   app.config.globalProperties.$router)
+
+app.mount('#app')
 

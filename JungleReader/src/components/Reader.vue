@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr, kReaderVersionString } from '../State.js'
 import BasicModal from 'Shared/BasicModal.vue'
 
@@ -52,11 +52,15 @@ function goToHome() {
 let menuOpen = ref(false);
 
 function toggleMobileMenu() {
-  let sidebar = document.getElementById("SidebarContent");
-  let menuBtn = document.getElementById("SidebarMenuIcon");
-  sidebar.classList.toggle("open");
-  menuOpen.value = sidebar.classList.contains("open");
+  menuOpen.value = !menuOpen.value;
 }
+
+onMounted(() => {
+  // Close the menu when we change routes 
+  watch(gApp.router.currentRoute, (newVal, oldVal) => {
+    menuOpen.value = false;
+  });
+});
 
 </script>
 
@@ -72,7 +76,7 @@ function toggleMobileMenu() {
           <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
         </button>
       </div>
-      <div class="SidebarContent" id="SidebarContent">
+      <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
         <p class="AppTitle" @click="goToHome">
           Jungle<br>Reader
         </p>
