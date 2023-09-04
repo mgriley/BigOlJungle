@@ -77,7 +77,7 @@ function changeBigButtonSize(newVal) {
 
 .FormFieldName {
   font-size: 1rem;
-  line-height: 1.5;
+  margin: 5px 0;
   margin-top: 5px;
 }
 

@@ -10,6 +10,41 @@
   /*font-weight: normal;*/
 }
 
+p {
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.Italic {
+  font-style: italic;
+}
+
+.Bold {
+  font-weight: bold;
+}
+
 b {
   font-weight: 600;
 }
@@ -69,7 +104,7 @@ button:hover {
   padding: 0px;
   margin: 0px;
   min-width: 20px;
-  line-height: 1rem;
+  /* line-height: 1rem; */
 }
 
 .LinkButton {
@@ -118,12 +153,6 @@ it gets clicked. Say if using for a button
 .Block {
   display: block;
 }
-
-/*
-.DraggedItem {
-  background-color: green;
-}
-*/
 
 .DraggedChosenItem {
   background-color: var(--color-link-hover);
@@ -174,8 +203,8 @@ it gets clicked. Say if using for a button
 .FormFieldName {
   font-size: 1.25rem;
   font-weight: 500;
-  line-height: 1.4;
   margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 /* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
@@ -207,38 +236,7 @@ select {
   max-width: 30ch;
 }
 
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -2px;
-  line-height: 1.75;
-}
-
-h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  line-height: 1.25;
-}
-
-h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  line-height: 1.5;
-}
-
-h4 {
-  font-size: 1.2rem;
-  font-weight: 500;
-  line-height: 1.25;
-}
-
-.Italic {
-  font-style: italic;
-}
-
-.Bold {
-  font-weight: bold;
+.PageHeader {
+  margin-bottom: 20px;
 }
 

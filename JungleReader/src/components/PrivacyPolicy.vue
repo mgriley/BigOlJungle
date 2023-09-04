@@ -6,7 +6,7 @@
 
 <template>
 <div class="PrivacyPolicy">
-	<h1>Privacy Policy</h1>
+	<h1 class="PageHeader">Privacy Policy</h1>
 
   <h4>General</h4>
   <p>
@@ -27,7 +27,7 @@
 
 h4 {
   margin-top: 20px;
-  line-height: 1.75;
+  margin-bottom: 5px;
 }
 
 </style>

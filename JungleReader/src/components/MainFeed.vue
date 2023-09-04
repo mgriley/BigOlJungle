@@ -256,7 +256,6 @@ onMounted(() => {
 
 .FeedGroup {
   margin: 10px 0px 40px 0px;
-  line-height: 1.25;
 }
 
 .GroupName {

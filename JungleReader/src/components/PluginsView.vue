@@ -24,7 +24,7 @@ import { kPluginHelp } from '../HelpText.js'
     </div>
   </div>
   <div v-else>
-    <h1>Plugins</h1>
+    <h1 class="PageHeader">Plugins</h1>
     <div class="Desc">
       <p>
         Plugins allow JungleReader to support sites that aren't supported out-of-the-box.

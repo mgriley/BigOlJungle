@@ -4,7 +4,7 @@
 <template>
   <div class="AboutView">
     <div class="MainInfo">
-      <h1>About</h1>
+      <h1 class="PageHeader">About</h1>
       <p class="Emphasis">
       JungleReader is a free+open-source web reader.
       </p>

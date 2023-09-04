@@ -13,7 +13,7 @@ let exploreData = [
 
 <template>
   <div class="ExploreView">
-    <h1>Explore</h1>
+    <h1 class="PageHeader">Explore</h1>
     <p>Here are some feeds you can add to get started:</p>
     <p>To add JungleReader support to your own website, go to <router-link to="/getread">Get Read</router-link>.</p> 
     <div v-for="group in exploreData">

@@ -110,15 +110,15 @@ function onSetupDone() {
 
 h2 {
   font-size: 1.75rem;
-  line-height: 1.75;
+  margin: 8px 0;
 }
 
 h3 {
-  line-height: 1.75;
+  margin: 6px 0;
 }
 
 h4 {
-  line-height: 1.5;
+  margin: 4px 0;
 }
 
 ol {

@@ -48,7 +48,6 @@ function addOption() {
 
 .OptionsEntry input {
   padding: 2px;
-  line-height: 1rem;
 
   /* Needed to get flex resize working */
   min-width: 0px;

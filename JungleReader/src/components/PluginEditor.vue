@@ -127,7 +127,7 @@ function openEditor(plugin) {
 .FieldName {
   font-size: 1rem;
   font-weight: 500;
-  line-height: 1.5;
+  margin: 0.2em 0;
 }
 
 .FieldEntry {

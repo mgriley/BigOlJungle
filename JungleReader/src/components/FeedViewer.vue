@@ -70,7 +70,7 @@ function goBack() {
   font-size: 4rem;
   font-weight: 800;
   letter-spacing: -3px;
-  line-height: 1.5;
+  line-height: 1;
 }
 
 .FeedNameBox .Subtitle {
@@ -94,11 +94,9 @@ function goBack() {
   white-space: nowrap;
   text-overflow: ellipsis;
   */
-  /* line-height: 1; */
   font-size: 1.5rem;
   line-height: 1.3;
 
-  /* border: 16px solid var(--main-text); */
   border: 2px solid var(--main-text);
   padding: 5px 10px;
   margin-bottom: 20px;
@@ -117,7 +115,7 @@ function goBack() {
   font-size: 1.25rem;
   font-weight: 800;
   font-style: italic;
-  line-height: 1.25;
+  margin: 5px 0;
 }
 
 .ExtraString {

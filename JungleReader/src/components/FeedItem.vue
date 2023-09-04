@@ -82,7 +82,6 @@ function onFeedClicked(feed) {
   white-space: nowrap;
   text-overflow: ellipsis;
   */
-  /* line-height: 1; */
 }
 
 .Bullet {

@@ -84,7 +84,7 @@ function addTestFeeds() {
   <div class="SettingsContainer">
     <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <div class="Settings">
-      <h1>Settings</h1>
+      <h1 class="PageHeader">Settings</h1>
       <div class="SettingsSection">
         <h3>Persistent Storage</h3>
         <p>JungleReader stores your config in your browser's storage. To make sure the browser doesn't
@@ -146,6 +146,6 @@ function addTestFeeds() {
 }
 
 .SmallButton {
-  line-height: 1.5rem;
+  margin: 0.2em 0;
 }
 </style>
