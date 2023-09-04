@@ -89,15 +89,17 @@ onMounted(() => {
   <dialog class="BasicModal" ref="dialog" @close="isOpen = false">
     <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
     <!-- <div v-if="isOpen"> -->
-      <div v-if="title" class="Title">{{ title }}</div>
-      <div class="Body">
-        <slot>Default Body</slot>
-      </div>
-      
-      <div class="Footer">
-        <button v-if="showDelete" @click="emit('onDelete')" class="DeleteBtn">Delete</button>
-        <button v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
-        <button v-if="showDone" @click="onDone">{{ doneText }}</button>
+      <div class="InnerModal">
+        <div v-if="title" class="Title">{{ title }}</div>
+        <div class="Body">
+          <slot>Default Body</slot>
+        </div>
+        
+        <div class="Footer">
+          <button v-if="showDelete" @click="emit('onDelete')" class="DeleteBtn">Delete</button>
+          <button v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
+          <button v-if="showDone" @click="onDone">{{ doneText }}</button>
+        </div>
       </div>
     <!-- </div> -->
   </dialog>
@@ -125,6 +127,8 @@ dialog::backdrop {
 .BasicModal .Title {
   font-size: 2rem;
   font-weight: 800;
+  line-height: 1;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 

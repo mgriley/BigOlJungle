@@ -50,7 +50,7 @@ function openEditor(plugin) {
             <div class="NameTypeBox Flex FieldEntry">
               <div>
                 <div class="FieldName">Name</div>
-                <input v-model="plugin.feedType" class="BasicTextInput Block NameInput" placeholder="Ex. MyPlugin">
+                <input v-model="plugin.feedType" class="BasicTextInput Block NameInput" placeholder="Ex. MyPlugin" type="text">
               </div>
               <div>
                 <div class="FieldName">Type</div>
@@ -60,7 +60,7 @@ function openEditor(plugin) {
             <div class="EditorField">
               <template v-if="plugin.pluginType == CustomPluginType.URL">
                 <div class="FieldName">Url</div>
-                <input v-model="plugin.pluginUrl" class="Block UrlInput" placeholder="Ex. https://www.myplugins.com/plugin.js">
+                <input v-model="plugin.pluginUrl" class="BasicTextInput Block UrlInput" placeholder="Ex. https://www.myplugins.com/plugin.js" type="text">
               </template>
               <template v-else-if="plugin.pluginType == CustomPluginType.Text">
                 <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>
@@ -156,7 +156,9 @@ function openEditor(plugin) {
 .PluginDetails {
   width: 800px;
   padding: 10px 15px;
-  border: 2px solid var(--main-text);
+  border: 2px solid var(--mute-text);
+  border-radius: 8px;
+  background-color: var(--popup-bg);
 }
 
 </style>

@@ -28,6 +28,7 @@ button {
   background: none;
   color: var(--main-text);
   border: 2px solid var(--main-text);
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1em;
@@ -175,9 +176,11 @@ it gets clicked. Say if using for a button
 }
 
 .BasicTextInput {
+  display: block;
   padding: 5px;
   /* margin: 5px 0; */
-  border: 1px solid var(--main-text);
+  /*border: 1px solid var(--main-text);*/
+  border: none;
   border-radius: 4px;
   font-size: 1rem;
   background-color: var(--input-bg);
@@ -188,15 +191,15 @@ input[type="text"], textarea {
 }
 
 select {
-  /*
-  border: none;
-  outline: 1px solid var(--main-text);
-  */
   font-size: 1rem;
-}
-
-select option {
-  /* TODO */
+  background-color: var(--input-bg);
+  /*border: 1px solid var(--mute-text);*/
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  padding: 5px;
+  min-width: 18ch;
+  max-width: 30ch;
 }
 
 h1 {

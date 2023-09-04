@@ -6,6 +6,7 @@ import BasicModal from 'Shared/BasicModal.vue'
 /*
 See:
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_fixed2
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav
 https://codepen.io/flaviocopes/pen/JZWOEK
 */
 
@@ -48,36 +49,56 @@ function goToHome() {
   gApp.router.replace({path: "/"})  
 }
 
+let menuOpen = ref(false);
+
+function toggleMobileMenu() {
+  let sidebar = document.getElementById("SidebarContent");
+  let menuBtn = document.getElementById("SidebarMenuIcon");
+  sidebar.classList.toggle("open");
+  menuOpen.value = sidebar.classList.contains("open");
+}
+
 </script>
 
 <template>
   <div class="toplevel">
-    <div class="sidenav">
-      <p class="AppTitle" @click="goToHome">
-        Jungle<br>Reader
-      </p>
-      <div class="SideMenu">
-        <div class="Section">
-          <router-link to="/" id="HomeLink">Home</router-link>
-          <router-link to="/explore">Explore</router-link>
-        </div>
-        <div class="Section">
-          <a href="#" @click.prevent="startImportConfig()">Import Config</a>
-          <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
-        </div>
-        <div class="Section">
-          <router-link to="/plugins">Plugins</router-link>
-          <router-link to="/settings">Settings</router-link>
-        </div>
-        <div class="Section">
-          <router-link to="/about">About</router-link>
-          <router-link to="/getread">Get Read</router-link>
-          <router-link to="/privacypolicy">Privacy Policy</router-link>
-          <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug</a>
-          <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
-        </div>
-        <div class="Section">
-          <p class="VersionNum">Version {{ kReaderVersionString }}</p>
+    <div class="Sidebar">
+      <div class="SidebarBtnBar Flex">
+        <button class="SidebarBtn" @click="toggleMobileMenu">
+          JungleReader
+          <!-- <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather> -->
+        </button>
+        <button class="SidebarMenuBtn" @click="toggleMobileMenu">
+          <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
+        </button>
+      </div>
+      <div class="SidebarContent" id="SidebarContent">
+        <p class="AppTitle" @click="goToHome">
+          Jungle<br>Reader
+        </p>
+        <div class="SideMenu">
+          <div class="Section">
+            <router-link to="/" id="HomeLink">Home</router-link>
+            <router-link to="/explore">Explore</router-link>
+          </div>
+          <div class="Section">
+            <a href="#" @click.prevent="startImportConfig()">Import Config</a>
+            <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
+          </div>
+          <div class="Section">
+            <router-link to="/plugins">Plugins</router-link>
+            <router-link to="/settings">Settings</router-link>
+          </div>
+          <div class="Section">
+            <router-link to="/about">About</router-link>
+            <router-link to="/getread">Get Read</router-link>
+            <router-link to="/privacypolicy">Privacy Policy</router-link>
+            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug</a>
+            <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub</a>
+          </div>
+          <div class="Section">
+            <p class="VersionNum">Version {{ kReaderVersionString }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -121,31 +142,21 @@ function goToHome() {
     "sidebar content"
 }
 
-/* Display a single column on mobile */
-@media (max-width: 600px) {
-  .toplevel {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "sidebar"
-      "content";
-  }
-
-  .sidenav {
-    border-bottom: 2px solid var(--main-text);
-  }
-}
-
 .main {
   grid-area: content;
   /*background-color: #20bf6b;*/
   padding: 20px;
 }
 
-.sidenav {
+.Sidebar {
   grid-area: sidebar;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   margin-left: 20px;
   /*background-color: #45aaf2;*/
+}
+
+.SidebarContent {
+  padding-bottom: 6px;
 }
 
 .SideMenu a {
@@ -155,9 +166,88 @@ function goToHome() {
   /* color: var(--mute-text); */
 }
 
-.SideMenu .Section {
+.SideMenu .Section:not(:last-child) {
   margin-bottom: 30px;
 }
+
+.SidebarBtnBar {
+  display: none;
+}
+
+.SidebarBtn {
+  border-radius: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  background-color: var(--main-text);
+  color: var(--main-bg);
+}
+
+.SidebarMenuBtn {
+  min-width: 0;
+  border-radius: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  border: none;
+  /* background-color: color-mix(in srgb, var(--main-text) 80%, black); */
+  background-color: var(--main-text);
+  color: var(--main-bg);
+  /* border-width: 2px; */
+  margin-left: auto;
+}
+
+.SidebarBtn .MenuIcon {
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.SidebarBtn:hover {
+}
+
+/*
+Display a single column on mobile.
+Also collapse the menu.
+*/
+@media (max-width: 600px) {
+  .toplevel {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sidebar"
+      "content";
+  }
+
+  .Sidebar {
+    /*border-bottom: 1px solid var(--mute-text);*/
+    margin-left: 0;
+  }
+
+  .SidebarBtnBar {
+    display: flex;
+  }
+
+  .AppTitle {
+    display: none;
+  }
+
+  .SidebarContent {
+    display: none;
+    padding-top: 20px;
+    background-color: var(--popup-bg);
+  }
+
+  .SidebarContent a {
+    padding-left: 10px;
+  }
+
+  .SidebarContent p {
+    padding-left: 10px;
+  }
+
+  .SidebarContent.open {
+    display: block;
+  }
+}
+
 
 .VersionNum {
   color: var(--very-mute-text);
