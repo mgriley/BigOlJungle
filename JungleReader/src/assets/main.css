@@ -4,11 +4,26 @@
 :root {
 }
 
+/*
+Disable double-tap to globally on mobile. It causes a lot of problems with buttons
+like menu show/hide.
+See: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices
+*/
+* {
+  touch-action: manipulation;
+}
+
 #app {
   margin: 0 auto;
   /*padding: 2rem;*/
   /*font-weight: normal;*/
 }
+
+/* Prevent flashes on tap on mobile */
+/* https://stackoverflow.com/questions/6211959/html5-div-flashes-on-tap */
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+};
 
 p {
   line-height: 1.6;
@@ -55,6 +70,16 @@ a {
   transition: 0.2s;
 }
 
+@media (hover: hover) {
+  a:hover {
+    background-color: var(--link-hover-bg);
+  }
+}
+
+a:active {
+  background-color: var(--link-hover-bg);
+}
+
 button {
   min-width: 100px;
   padding: 5px 10px;
@@ -68,7 +93,14 @@ button {
   font-size: 1em;
 }
 
-button:hover {
+@media (hover: hover) {
+  button:hover {
+    background-color: var(--main-text);
+    color: var(--main-bg);
+  }
+}
+
+button:active {
   background-color: var(--main-text);
   color: var(--main-bg);
 }
@@ -95,14 +127,21 @@ button:hover {
   font-size: 1.1em;
 }
 
-.TextButton:hover {
+
+@media (hover: hover) {
+  .TextButton:hover {
+    color: var(--text-button-hover);
+  }
+}
+
+.TextButton:active {
   color: var(--text-button-hover);
 }
 
 .SmallButton {
   border: none;
   padding: 0px;
-  margin: 0px;
+  margin: 5px 0px;
   min-width: 20px;
   /* line-height: 1rem; */
 }
@@ -110,12 +149,6 @@ button:hover {
 .LinkButton {
   text-decoration: underline;
   font-weight: 600;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: var(--link-hover-bg);
-  }
 }
 
 /*
@@ -183,7 +216,15 @@ it gets clicked. Say if using for a button
   color: var(--main-text);
 }
 
-.DeleteButton:hover {
+@media (hover: hover) {
+  .DeleteButton:hover {
+    background-color: var(--bright-red);
+    border-color: var(--bright-red);
+    color: var(--main-text);
+  }
+}
+
+.DeleteButton:active {
   background-color: var(--bright-red);
   border-color: var(--bright-red);
   color: var(--main-text);
@@ -195,7 +236,14 @@ it gets clicked. Say if using for a button
   color: var(--main-bg)
 }
 
-.HelpButton:hover {
+@media (hover: hover) {
+  .HelpButton:hover {
+    background-color: var(--bright-help-btn);
+    border-color: var(--bright-help-btn);
+  }
+}
+
+.HelpButton:active {
   background-color: var(--bright-help-btn);
   border-color: var(--bright-help-btn);
 }
@@ -229,7 +277,6 @@ select {
   /*border: 1px solid var(--mute-text);*/
   border: none;
   border-radius: 4px;
-  outline: none;
   padding: 5px;
   min-width: 18ch;
   max-width: 30ch;

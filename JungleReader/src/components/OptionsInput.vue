@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
-import draggable from 'vuedraggable'
 
 const props = defineProps({
   options: Object,
@@ -23,8 +22,8 @@ function addOption() {
 <template>
   <div class="OptionsContainer">
     <div v-for="(element, index) in options" class="OptionsEntry">
-      <input v-if="hasKeys" v-model="element.key" class="KeyInput BasicTextInput" type="text">
-      <input v-model="element.value" class="ValueInput BasicTextInput" type="text">
+      <input v-if="hasKeys" v-model="element.key" class="KeyInput BasicTextInput" type="text" size="1">
+      <input v-model="element.value" class="ValueInput BasicTextInput" type="text" size="1">
       <button class="DeleteBtn SmallButton" @click="deleteOption(index)">Delete</button>
     </div>
     <button @click="addOption" class="SmallButton">Add</button>
@@ -41,7 +40,8 @@ function addOption() {
 .OptionsEntry {
   display: flex;
   flex-flow: row wrap;
-  align-items: baseline;
+  /* The align-items baseline causes issues on mobile */
+  /* align-items: baseline; */
   gap: 5px;
   margin-bottom: 5px;
 }

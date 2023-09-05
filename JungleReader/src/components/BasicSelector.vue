@@ -48,7 +48,8 @@ function onChange(changeEvt) {
 <template>
   <div class="BasicSelector">
     <select :value="curValue" @change="onChange">
-      <option disabled value="">Please Select</option>
+      <!-- <option disabled value="">Please Select</option> -->
+      <!-- <option disabled value="">Current: {{curValue}}</option> -->
       <option v-for="option in options" :key="getValue(option)" :value="getValue(option)">
         {{ getLabel(option) }}
       </option>

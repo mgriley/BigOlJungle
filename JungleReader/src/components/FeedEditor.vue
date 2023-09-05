@@ -6,7 +6,6 @@ import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'
 import LinkSnippet from './LinkSnippet.vue'
-import draggable from 'vuedraggable'
 
 const props = defineProps({
   feed: {

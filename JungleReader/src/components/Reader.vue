@@ -97,8 +97,8 @@ onMounted(() => {
             <router-link to="/about">About</router-link>
             <router-link to="/getread">Get Read</router-link>
             <router-link to="/privacypolicy">Privacy Policy</router-link>
-            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug <vue-feather type="external-link" size="18" /></a>
-            <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub <vue-feather type="external-link" size="18" /></a>
+            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug <vue-feather type="external-link" size="16" /></a>
+            <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub <vue-feather type="external-link" size="16" /></a>
           </div>
           <div class="Section">
             <p class="VersionNum">Version {{ kReaderVersionString }}</p>
@@ -216,7 +216,9 @@ Also collapse the menu.
       "sidebar"
       "content";
     max-width: 100%;
-    /*overflow-x: hidden;*/
+    /* Hide x-overflow on mobile so that we don't get janky horizontal scrolling/jerking */
+    /* When commented out, can try dragging left/right on mobile and see the difference */
+    overflow-x: hidden;
   }
 
   .Sidebar {

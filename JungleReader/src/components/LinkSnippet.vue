@@ -37,7 +37,7 @@ function copyText() {
 
 .LinkText {
   flex: 1 50px;
-  padding: 0 5px;
+  padding: 3px 5px;
   border: 1px solid var(--light-text-bg);
   border-radius: 5px;
   white-space: nowrap;

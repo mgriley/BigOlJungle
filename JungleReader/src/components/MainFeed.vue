@@ -173,8 +173,8 @@ onMounted(() => {
   <div class="MainFeed">
     <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <div class="ButtonMenu">
-      <button @click="addFeed">Add Feed</button>
-      <button @click="addFeedGroup">Add Group</button>
+      <button @click="addFeed()">Add Feed</button>
+      <button @click="addFeedGroup()">Add Group</button>
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">

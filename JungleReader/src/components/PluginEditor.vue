@@ -33,6 +33,11 @@ function openEditor(plugin) {
   gApp.setPluginToEdit(plugin);
 }
 
+function requiresWhitelist(pluginType) {
+  return pluginType == CustomPluginType.Text ||
+    pluginType == CustomPluginType.URL;
+}
+
 </script>
 
 <template>
@@ -59,7 +64,7 @@ function openEditor(plugin) {
             <div class="EditorField">
               <template v-if="plugin.pluginType == CustomPluginType.URL">
                 <div class="FieldName">Url</div>
-                <input v-model="plugin.pluginUrl" class="BasicTextInput Block UrlInput" placeholder="Ex. https://www.myplugins.com/plugin.js" type="text">
+                <input v-model="plugin.pluginUrl" class="BasicTextInput Block UrlInput" placeholder="Ex. www.myplugins.com/plugin.js" type="text">
               </template>
               <template v-else-if="plugin.pluginType == CustomPluginType.Text">
                 <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>
@@ -72,7 +77,7 @@ function openEditor(plugin) {
               <div class="FieldName CustomOptionsField">Custom Options</div>
               <OptionsInput :options="plugin.options" />
             </div>
-            <div v-if="plugin.pluginType == CustomPluginType.Text" class="Options FieldEntry">
+            <div v-if="requiresWhitelist(plugin.pluginType)" class="Options FieldEntry">
               <div class="FieldName CustomOptionsField">Domain Whitelist</div>
               <OptionsInput :options="plugin.domainWhitelist" :hasKeys="false" />
             </div>
@@ -120,7 +125,10 @@ function openEditor(plugin) {
 }
 
 .UrlInput {
+  display: flex;
   width: 30ch;
+  max-width: 30ch;
+  /* min-width: 10ch; */
 }
 
 
@@ -144,7 +152,6 @@ function openEditor(plugin) {
 
 .Options {
   margin-bottom: 20px;
-  /* max-width: 500px; */
 }
 
 .CustomOptionsField {
@@ -152,7 +159,6 @@ function openEditor(plugin) {
 }
 
 .PluginDetails {
-  /*max-width: 800px;*/
   padding: 10px 15px;
   border: 2px solid var(--mute-text);
   border-radius: 8px;

@@ -95,6 +95,10 @@ function getAttrStr(nodeData) {
   }
 }
 
+.ParseNodeTitle:active {
+  background-color: lightblue;
+}
+
 .ChosenParseNode {
   background-color: orange;
 }

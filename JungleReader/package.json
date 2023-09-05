@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "ngrok": "ngrok http --domain=patient-definitely-mastiff.ngrok-free.app 5173",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "vite build && wrangler pages deploy dist",
