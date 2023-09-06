@@ -17,7 +17,6 @@ function onSetupDone() {
     <p>
     It's made to help you keep up with the sites you like,
     whatever they may be. Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more.
-    Ever wanted to follow all the sites/blogs you like in one place? JungleReader is for you.
     </p>
     <h2>Getting Started</h2>
     <h3>Step 1: Install the Browser Extension</h3>
@@ -31,8 +30,7 @@ function onSetupDone() {
       Download from the Firefox addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a> (recommended).
       </li>
       <li>
-      Coming soon (in review)
-      <!-- Download from the Chrome addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>.  -->
+      Download from the Chrome addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>.
       </li>
     </ul>
     <h4>Option 2 - Download Manually as a Zip</h4>
@@ -61,20 +59,21 @@ function onSetupDone() {
     <h4>About the Extension</h4>
     <p>
     When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-    any other website you may choose. Websites cannot normally do this, for security reasons. If you'd like to inspect the addon code, you can view 
+    any other website you may choose. If you'd like to inspect the addon code, you can view 
     it on GitHub or install the extension as a zip.
     </p>
     <h3>Step 2: Add Your First Feed</h3>
     Let's add some feeds.
     <ol>
       <li>
-      Click the <b>Add Feed</b> button below. Name the feed "World News", leave the feed type as <b>RSS</b>, and set
-      the URL to <b>https://www.cbc.ca/webfeed/rss/rss-world</b> (which is the RSS feed for CBC World News).
+      Click the <b>Add Feed</b> button below. Name the feed "Creating Games", set the feed type to <b>YouTube</b>, and set
+      the URL to <b>https://www.youtube.com/@sora_sakurai_en</b>.
       </li>
-      <li>You should see your new feed show up in big type. Click it to see the feed content.</li>
       <li>
-      Add another feed called "Creating Games". Set the type to <b>YouTube</b> and the URL to
-      <b>https://www.youtube.com/@sora_sakurai_en</b>.
+      You should see your new feed show up in big type. Click it to see the feed content.
+      </li>
+      <li>
+      Add another feed called "CBC World News". Leave the type as RSS and set the URL to <b>https://www.cbc.ca/webfeed/rss/rss-world</b>.
       </li>
     </ol>
     <p class="Emphasis AllSet">You're all set!</p>
@@ -92,6 +91,7 @@ function onSetupDone() {
   padding-bottom: 40px;
   border-bottom: 6px dashed var(--main-text);
   margin-bottom: 40px;
+  overflow-wrap: break-word;
 }
 
 .SetupHelp p {
@@ -132,6 +132,5 @@ ol {
 .DoneBtn {
   margin-top: 20px;
 }
-
 
 </style>

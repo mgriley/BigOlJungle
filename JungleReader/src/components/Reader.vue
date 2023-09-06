@@ -147,6 +147,7 @@ onMounted(() => {
 }
 
 .main {
+  max-width: 100%;
   grid-area: content;
   /*background-color: #20bf6b;*/
   padding: 20px;
@@ -211,19 +212,26 @@ Also collapse the menu.
 */
 @media (max-width: 600px) {
   .toplevel {
-    grid-template-columns: 1fr;
+    max-width: 100%;
+    padding: 20px 20px;
+    grid-template-columns: 100%;
     grid-template-areas:
       "sidebar"
       "content";
-    max-width: 100%;
     /* Hide x-overflow on mobile so that we don't get janky horizontal scrolling/jerking */
     /* When commented out, can try dragging left/right on mobile and see the difference */
     overflow-x: hidden;
   }
 
+  .main {
+    padding: 0;
+  }
+
   .Sidebar {
     /*border-bottom: 1px solid var(--mute-text);*/
     margin-left: 0;
+    margin-bottom: 15px;
+    padding: 0;
   }
 
   .SidebarBtnBar {
