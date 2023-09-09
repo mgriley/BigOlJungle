@@ -194,10 +194,8 @@ onMounted(() => {
   font-weight: 900;
   border: none;
   border-radius: 0;
-  /* background-color: color-mix(in srgb, var(--main-text) 80%, black); */
   background-color: var(--main-text);
   color: var(--main-bg);
-  /* border-width: 2px; */
   margin-left: auto;
 
   display: flex;
@@ -213,7 +211,7 @@ onMounted(() => {
 Display a single column on mobile.
 Also collapse the menu.
 */
-@media (--mobile-width) {
+@media (max-width: 600px) {
   .toplevel {
     max-width: 100%;
     padding: 20px 20px;

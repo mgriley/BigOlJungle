@@ -45,21 +45,19 @@
   --main-text: rgb(247, 248, 235);
   --main-bg: rgb(20, 29, 22);
   --popup-text: var(--main-text);
-  --popup-bg: color-mix(in srgb, var(--main-bg) 90%, white);
+  --popup-bg: rgb(52, 69, 56);
   --input-text: var(--main-text);
-  --input-bg: color-mix(in srgb, var(--main-bg) 80%, white);
-  --mute-text: color-mix(in srgb, var(--main-text) 90%, black);
+  --input-bg: rgb(67, 89, 73);
+  --mute-text: rgb(10, 10, 10);
   --very-mute-text: rgb(217, 218, 205);
   --link-hover-bg: rgba(127, 127, 127, 0.4);
   --nice-red: rgb(215, 46, 36);
-  --bright-red: color-mix(in srgb, var(--nice-red) 20%, red);
+  --bright-red: rgb(245, 49, 0);
   --text-button-hover: var(--nice-red);
   --light-text-bg: rgb(150, 150, 150, 0.5);
   --help-btn: rgb(46, 36, 215);
   --bright-help-btn: rgb(46, 36, 255);
 }
-
-@custom-media --mobile-width (max-width: 600px);
 
 /*
 @media (prefers-color-scheme: dark) {
