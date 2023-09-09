@@ -52,7 +52,7 @@ const feedShareLink = computed(() => {
 <template>
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
-    <input v-model="realFeed.name" placeholder="Feed Name" class="Block WideInput BasicTextInput" autofocus>
+    <input v-model="realFeed.name" placeholder="Feed Name" class="Block BasicTextInput WideInput" autofocus>
     <div class="FormFieldName">Group</div>
     <GroupSelector v-if="feed" :currentGroup="realFeed.parentGroup" @change="changeGroup"/>
   </div>
@@ -61,7 +61,7 @@ const feedShareLink = computed(() => {
   <!-- <p>{{ feed.type }}</p> -->
   <div class="FormFieldName">Feed URL</div>
   <input v-model="realFeed.url" placeholder="Ex: https://www.someurl.com/feed.rss"
-    class="Block WideInput BasicTextInput">
+    class="Block BasicTextInput WideInput">
 
   <div class="FormFieldName">Custom Options</div>
   <OptionsInput :options="realFeed.options" />
@@ -76,6 +76,7 @@ const feedShareLink = computed(() => {
 }
 
 .WideInput {
-  min-width: 400px;
+  width: 30ch;
+  max-width: 100%;
 }
 </style>

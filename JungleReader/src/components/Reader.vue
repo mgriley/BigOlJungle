@@ -190,15 +190,18 @@ onMounted(() => {
 
 .SidebarMenuBtn {
   min-width: 0;
-  border-radius: 0;
   font-size: 1.5rem;
   font-weight: 900;
   border: none;
+  border-radius: 0;
   /* background-color: color-mix(in srgb, var(--main-text) 80%, black); */
   background-color: var(--main-text);
   color: var(--main-bg);
   /* border-width: 2px; */
   margin-left: auto;
+
+  display: flex;
+  align-items: center;
 }
 
 .SidebarBtn .MenuIcon {

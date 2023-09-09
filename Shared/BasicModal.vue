@@ -102,6 +102,7 @@ dialog::backdrop {
   border-radius: 10px;
   padding: 0.75em 0.75em;
   min-width: 160px;
+  max-width: 90%;
   /*box-shadow: 0 4px 12px var(--main-text);*/
   margin: auto;
 }
