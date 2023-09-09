@@ -276,7 +276,7 @@ onMounted(() => {
 .GroupControls .Collapse {
   font-weight: 600;
   margin-right: 10px;
-  //color: var(--nice-red);
+  /*color: var(--nice-red);*/
 }
 
 .SettingsButton {

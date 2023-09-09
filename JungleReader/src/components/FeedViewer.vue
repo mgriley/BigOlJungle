@@ -105,13 +105,13 @@ function goBack() {
 }
 
 .LinkText {
-  //background-color: var(--light-text-bg);
+  /*background-color: var(--light-text-bg);*/
   font-weight: 500;
 }
 
 .LinkElem .SubInfo {
   display: flex;
-  //color: var(--mute-text);
+  /*color: var(--mute-text);*/
   font-size: 1.25rem;
   font-weight: 800;
   font-style: italic;

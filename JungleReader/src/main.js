@@ -5,7 +5,6 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import VueSelect from 'vue-select'
 import App from './App.vue'
 import { initGlobalReader } from './State.js'
 
@@ -72,7 +71,6 @@ const app = createApp(App)
 app.use(router)
 app.use(ToastPlugin)
 app.component(VueFeather.name, VueFeather)
-app.component("v-select", VueSelect)
 
 // For some reason doing app.$toast does not work here.
 // console.log("Globals: ", app.config.globalProperties);

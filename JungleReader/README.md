@@ -32,6 +32,10 @@ npm run build
 
 Note that acorn_interpreter.js doesn't expose all of the required functions. For now, serve the full acorn.js and interpreter.js. Will have to minify these later.
 
+## Tooling Notes
+
+Uses postcss with postcss-preset-env to allow using new css syntax. Converts to plain/old CSS for browsers that don't support it. See the npm page for postcss-preset-env. It reads the "browserslist" key in package.json.
+
 ## Articles/Info
 
 Articles on how to setup the domain properly in namecheap and Cloudflare Pages:

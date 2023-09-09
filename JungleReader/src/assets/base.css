@@ -40,6 +40,7 @@
   --help-btn: rgb(46, 36, 215);
   --bright-help-btn: rgb(46, 36, 255);
   */
+
   color-scheme: dark;
   --main-text: rgb(247, 248, 235);
   --main-bg: rgb(20, 29, 22);
@@ -57,6 +58,8 @@
   --help-btn: rgb(46, 36, 215);
   --bright-help-btn: rgb(46, 36, 255);
 }
+
+@custom-media --mobile-width (max-width: 600px);
 
 /*
 @media (prefers-color-scheme: dark) {

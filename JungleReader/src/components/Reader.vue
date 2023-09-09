@@ -213,7 +213,7 @@ onMounted(() => {
 Display a single column on mobile.
 Also collapse the menu.
 */
-@media (max-width: 600px) {
+@media (--mobile-width) {
   .toplevel {
     max-width: 100%;
     padding: 20px 20px;
@@ -271,13 +271,13 @@ Also collapse the menu.
 }
 
 #HomeLink {
-  //font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   font-weight: 900;
 }
 
 .router-link-active {
   background-color: var(--link-hover-bg);
-  //border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
 }
 
 .ImportBox {
