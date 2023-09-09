@@ -15,7 +15,7 @@ let exploreData = [
   <div class="ExploreView">
     <h1 class="PageHeader">Explore</h1>
     <p>Here are some feeds you can add to get started:</p>
-    <p>To add JungleReader support to your own website, go to <router-link to="/getread">Get Read</router-link>.</p> 
+    <p>To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.</p> 
     <div v-for="group in exploreData">
       <button v-for="feed in group.feeds" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: feed.type, url: feed.url}})">{{ feed.name }}</button>
     </div>
@@ -23,33 +23,9 @@ let exploreData = [
 </template>
 
 <style scoped>
-.MainInfo p {
-  margin-bottom: 20px;
-}
-
 .Emphasis {
   font-weight: bold;
   font-size: 1.2rem;
-}
-
-.MoreInfo {
-  margin-top: 60px;
-}
-
-.Other {
-  margin-top: 40px;
-}
-
-.Newsletter {
-  margin-bottom: 20px;
-}
-
-.SponsorFrame {
-  margin-top: 20px;
-}
-
-.ExtraWidgets {
-  margin-top: 40px;
 }
 
 </style>

@@ -83,7 +83,13 @@
   /*font-weight: normal;*/
 }
 
+html {
+  /* Always show the y scroll-bar, to prevent reflow on scrollbar show/hide */
+  overflow-y: scroll;
+}
+
 body {
+  position: relative;
   max-width: 100vw;
   min-height: 100vh;
   color: var(--main-text);
@@ -95,5 +101,18 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 768px) {
+  /*
+  This is a fix for the body scrolling behind the modal, on mobile.
+  See: https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
+
+  BasicModal.vue adds/removes the modal-open class to the body.
+  */
+  body.modal-open {
+    position: fixed;
+    overflow: hidden;
+  }
 }
 

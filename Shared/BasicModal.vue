@@ -60,6 +60,14 @@ defineExpose({
   showModal, closeModal, toggleModal
 })
 
+watch(isOpen, (newVal, oldVal) => {
+  if (newVal) {
+    document.body.classList.add("modal-open");
+  } else {
+    document.body.classList.remove("modal-open");
+  }
+});
+
 /*
 Note to future self: Do not attempt to do a `click away to dismiss` trick here, in javascript.
 Ends up being very finnicky.
@@ -105,6 +113,20 @@ dialog::backdrop {
   max-width: 90%;
   /*box-shadow: 0 4px 12px var(--main-text);*/
   margin: auto;
+}
+
+@media (max-width: 600px) {
+  .BasicModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: none;
+    border-radius: 0;
+    max-width: 100vw;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+  }
 }
 
 .BasicModal .Title {

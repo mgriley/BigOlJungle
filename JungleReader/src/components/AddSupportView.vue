@@ -30,8 +30,8 @@ let rssTemplate = `<?xml version="1.0" encoding="UTF-8" ?>
 </script>
 
 <template>
-  <div class="GetRead">
-    <h1 class="PageHeader">Get Read on JungleReader</h1>
+  <div class="AddSupport">
+    <h1 class="PageHeader">Add Support</h1>
     <p><b>Want to add JungleReader support to your own website (or someone else's)? Follow this guide.</b></p>
     <p>
     The best and easiest way to make your site readable on JungleReader is to add a RSS feed to your site. A RSS feed is
@@ -71,10 +71,10 @@ let rssTemplate = `<?xml version="1.0" encoding="UTF-8" ?>
 </template>
 
 <style scoped>
-.GetRead {
+.AddSupport {
 }
 
-.GetRead p {
+.AddSupport p {
   margin-bottom: 20px;
 }
 

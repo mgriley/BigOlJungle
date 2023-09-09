@@ -21,7 +21,7 @@ function goBack() {
       <div class="FeedNameBox">
         <div class="FeedName">{{ feed.name }}</div>
         <div class="Subtitle">
-          <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="" target="_blank">
+          <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton" target="_blank">
             {{ feed.mainSiteUrl }}
           </a>
           <div v-if="!feed.reloading">

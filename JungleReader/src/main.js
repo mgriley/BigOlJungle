@@ -24,7 +24,7 @@ import Settings from './components/Settings.vue'
 import AboutView from './components/AboutView.vue'
 import FeedView from './components/FeedView.vue'
 import PrivacyPolicy from './components/PrivacyPolicy.vue'
-import GetReadView from './components/GetReadView.vue'
+import AddSupportView from './components/AddSupportView.vue'
 
 const routes = [
   {
@@ -58,7 +58,7 @@ const routes = [
     path: '/privacypolicy', name: 'privacypolicy', component: PrivacyPolicy
   },
   {
-    path: '/getread', name: 'getread', component: GetReadView
+    path: '/addsupport', name: 'addsupport', component: AddSupportView
   },
 ]
 

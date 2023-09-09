@@ -160,7 +160,7 @@ function requiresWhitelist(pluginType) {
 
 .PluginDetails {
   padding: 10px 15px;
-  border: 2px solid var(--mute-text);
+  /* border: 2px solid var(--mute-text); */
   border-radius: 8px;
   background-color: var(--popup-bg);
 }

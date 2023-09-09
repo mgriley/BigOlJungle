@@ -55,11 +55,11 @@ function changeBigButtonSize(newVal) {
     <div class="FormFieldName">Link</div>
     <LinkSnippet :theLink="feedLink" />
     <div class="FormFieldName">HTML Big Button Link (as shown)</div>
-    <div v-html="bigImgButton"></div>
+    <div class="BtnPreview" v-html="bigImgButton"></div>
     <BasicSelector :value="bigImgButtonSize" :options="bigImgButtonSizes" @change="changeBigButtonSize" />
 		<LinkSnippet :theLink="bigImgButton" />
     <div class="FormFieldName">HTML Small Button Link (as shown)</div>
-    <div v-html="smallImgButton"></div>
+    <div class="BtnPreview" v-html="smallImgButton"></div>
     <BasicSelector :value="smallImgButtonSize" :options="smallImgButtonSizes" @change="changeSmallButtonSize" />
     <LinkSnippet :theLink="smallImgButton" />
   </div>
@@ -91,4 +91,18 @@ function changeBigButtonSize(newVal) {
   margin-top: 16px;
 }
 
+.BtnPreview {
+  display: inline-block;
+  padding: 5px;
+  border: 2px dashed var(--main-bg);
+  background-color: white;
+}
+
 </style>
+
+<style>
+.JRSmallLink, .JRBigLink {
+  background-color: none;
+}
+</style>
+

@@ -18,6 +18,9 @@ function onSetupDone() {
     It's made to help you keep up with the sites you like,
     whatever they may be. Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more.
     </p>
+    <p class="Emphasis MobileWarning">
+    It looks like you're on mobile. JungleReader only supports desktop, so please come back later :)
+    </p>
     <h2>Getting Started</h2>
     <h3>Step 1: Install the Browser Extension</h3>
     <p>
@@ -131,6 +134,19 @@ ol {
 
 .DoneBtn {
   margin-top: 20px;
+}
+
+.MobileWarning {
+  font-style: italic;
+  display: none;
+  background-color: var(--input-bg);
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .MobileWarning {
+    display: block;
+  }
 }
 
 </style>

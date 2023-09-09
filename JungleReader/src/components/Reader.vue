@@ -95,7 +95,7 @@ onMounted(() => {
           </div>
           <div class="Section">
             <router-link to="/about">About</router-link>
-            <router-link to="/getread">Get Read</router-link>
+            <router-link to="/addsupport">Add Support</router-link>
             <router-link to="/privacypolicy">Privacy Policy</router-link>
             <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug <vue-feather type="external-link" size="16" /></a>
             <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub <vue-feather type="external-link" size="16" /></a>
@@ -211,7 +211,7 @@ onMounted(() => {
 Display a single column on mobile.
 Also collapse the menu.
 */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .toplevel {
     max-width: 100%;
     padding: 20px 20px;
