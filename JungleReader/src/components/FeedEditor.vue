@@ -68,6 +68,8 @@ const feedShareLink = computed(() => {
 
   <div class="FormFieldName">Share Link</div>
   <LinkSnippet :theLink="feedShareLink" />
+
+  <button @click="realFeed.changeStyleId()" class="Block MarginTop">Regen Style</button>
 </template>
 
 <style scoped>

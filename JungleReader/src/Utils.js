@@ -375,3 +375,7 @@ export function isDomainInWhitelist(urlString, allowedUrls) {
     return false;
 }
 
+export function getRandInt(maxValExclusive) {
+  return Math.floor(Math.random() * maxValExclusive);
+}
+

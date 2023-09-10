@@ -3,11 +3,12 @@ import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
   cleanUrl, isValidUrl, valOr, waitMillis,
-  getTimeAgoStr, secsSinceDate } from './Utils.js'
+  getTimeAgoStr, secsSinceDate, getRandInt } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 
 const kReaderVersionString = "0.0";
+const kMaxStyleId = 10*1000*1000*1000;
 
 // LocalStorage keys
 const kAppStateKey = "appState";
@@ -96,6 +97,7 @@ class Feed {
     this.name = "MyFeed";
     this.parentGroup = null;
     this.links = []
+    this.styleId = getRandInt(kMaxStyleId);
 
     this.type = "RSS";
     // This is the feed URL/id
@@ -134,6 +136,7 @@ class Feed {
       id: this.id,
       name: this.name,
       links: this.links.map((link) => link.writeToJson()),
+      styleId: this.styleId,
       type: this.type,
       url: this.url,
       options: optionsToJson(this.options),
@@ -154,6 +157,9 @@ class Feed {
       link.readFromJson(linkObj)
       return link
     })
+    if ('styleId' in obj) {
+      this.styleId = obj.styleId;
+    }
     this.type = obj.type;
     this.url = obj.url;
     this.options = jsonToOptions(obj.options);
@@ -169,6 +175,10 @@ class Feed {
     if (obj.lastReloadTime) {
       this.lastReloadTime = new Date(obj.lastReloadTime);
     }
+  }
+
+  changeStyleId() {
+    this.styleId = getRandInt(kMaxStyleId);
   }
 
   getPluginItem(key) {

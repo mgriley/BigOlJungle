@@ -249,7 +249,7 @@ onMounted(() => {
 }
 
 .ButtonMenu button {
-  margin-right: 4px;
+  margin-right: 12px;
 }
 
 
@@ -257,7 +257,6 @@ onMounted(() => {
 }
 
 .FeedList {
-  margin: 10px 0px 40px 0px;
   padding: 20px;
   display: flex;
   flex-flow: row wrap;

@@ -122,8 +122,10 @@ onMounted(() => {
 
 <style scoped>
 .AppTitle {
+  font-family: 'Gill Sans';
   font-size: 2.5em;
-  font-weight: 900;
+  /* font-weight: 900; */
+  font-weight: 800;
   margin-bottom: 40px;
   line-height: 0.8em;
   letter-spacing: -2px;
@@ -151,6 +153,7 @@ onMounted(() => {
   grid-area: content;
   /*background-color: #20bf6b;*/
   padding: 20px;
+  overflow-x: visible;
 }
 
 .Sidebar {
