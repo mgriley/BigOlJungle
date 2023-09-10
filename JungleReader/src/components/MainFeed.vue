@@ -7,7 +7,8 @@ import TextTreeIcon from './TextTreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
-import FeedItem from './FeedItem.vue'
+//import FeedItem from './FeedItem.vue'
+import FeedTile from './FeedTile.vue'
 import EditButton from './EditButton.vue'
 import SetupHelp from './SetupHelp.vue'
 
@@ -181,7 +182,7 @@ onMounted(() => {
         <div v-if="!gApp.isJungleExtPresent.value">
           <h3>JungleExt is not installed! Problem</h3>
         </div>
-        <draggable class="FeedGroup" :list="gApp.feedReader.groups"
+        <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
           <template #item="{element}">
             <div class="FeedGroupItem">
@@ -191,12 +192,12 @@ onMounted(() => {
                 <div @click="(evt) => editGroup(element, evt)" class="EditButton TextButton">edit</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
-              <draggable class="FeedGroup" :list="element.feeds" group="element.expanded"
+              <draggable class="FeedList" :list="element.feeds" group="element.expanded"
                 itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
                 @change="(evt) => onDragChange(evt, element)">
                 <template #item="{ element }">
                   <template v-if="element.isVisible()">
-                    <FeedItem class="FeedGroupElem" :feed="element" @editFeed="editFeed" />
+                    <FeedTile :feed="element" @editFeed="editFeed" />
                   </template>
                 </template>
               </draggable>
@@ -237,9 +238,6 @@ onMounted(() => {
   grid-template-areas: "left";
 }
 
-.FeedGroupElem {
-}
-
 .LeftPane {
   grid-area: left;
   overflow-y: auto;
@@ -254,8 +252,15 @@ onMounted(() => {
   margin-right: 4px;
 }
 
-.FeedGroup {
+
+.GroupList {
+}
+
+.FeedList {
   margin: 10px 0px 40px 0px;
+  padding: 20px;
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .GroupName {
