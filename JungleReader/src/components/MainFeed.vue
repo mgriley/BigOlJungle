@@ -9,7 +9,6 @@ import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 //import FeedItem from './FeedItem.vue'
 import FeedTile from './FeedTile.vue'
-import EditButton from './EditButton.vue'
 import SetupHelp from './SetupHelp.vue'
 
 const props = defineProps({
@@ -49,11 +48,16 @@ function deleteGroupToEdit() {
 
 function addFeed(optArgs) {
   optArgs = optArgs || {};
-  let parentFeed = null;
-  if (gApp.feedReader.groups.length == 0) {
-    gApp.feedReader.makeDefaultGroup();
+
+  let parentGroup = null;
+  if (optArgs.group) {
+    parentGroup = optArgs.group;  
+  } else {
+    if (gApp.feedReader.groups.length == 0) {
+      gApp.feedReader.makeDefaultGroup();
+    }
+    parentGroup = gApp.feedReader.groups[0];
   }
-  parentFeed = gApp.feedReader.groups[0];
 
   let feed = Feed.create();
   if (optArgs.name) {
@@ -65,7 +69,7 @@ function addFeed(optArgs) {
   if (optArgs.url) {
     feed.url = optArgs.url;
   }
-  parentFeed.addFeed(feed);
+  parentGroup.addFeed(feed);
   if (valOr(optArgs.editWhenDone, true)) {
     editFeed(feed);
   }
@@ -173,9 +177,14 @@ onMounted(() => {
   <SetupHelp v-if="!gApp.isDoneWelcome()" />
   <div class="MainFeed">
     <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
+    <!--
+    <div class="BackgroundImg">
+      <img width="400px" height="400px" src="BigChameleon.svg" />  
+    </div>
+    !-->
     <div class="ButtonMenu">
-      <button @click="addFeed()">Add Feed</button>
-      <button @click="addFeedGroup()">Add Group</button>
+      <button class="AddBtn" @click="addFeed()">Add Feed</button>
+      <button class="AddBtn" @click="addFeedGroup()">Add Group</button>
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
@@ -189,16 +198,22 @@ onMounted(() => {
               <div class="GroupControls">
                 <TextTreeIcon class="GroupName Collapse" :expanded="element.expanded" @click="toggleExpandGroup(element)" />
                 <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
-                <div @click="(evt) => editGroup(element, evt)" class="EditButton TextButton">edit</div>
+                <div @click="(evt) => editGroup(element, evt)" class="EditGroupButton TextButton">edit</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
               <draggable class="FeedList" :list="element.feeds" group="element.expanded"
                 itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
-                @change="(evt) => onDragChange(evt, element)">
+                @change="(evt) => onDragChange(evt, element)"
+                :class="{Closed: !element.expanded, OpenEmpty: element.expanded && element.isEmpty()}">
                 <template #item="{ element }">
                   <template v-if="element.isVisible()">
                     <FeedTile :feed="element" @editFeed="editFeed" />
                   </template>
+                </template>
+                <template #footer>
+                  <div v-if="element.expanded && element.isEmpty()" class="EmptyGroupIndicator">
+                    <p>This group is empty. <button class="SmallButton" @click="addFeed({group: element})">Add a feed</button></p>
+                  </div>
                 </template>
               </draggable>
             </div>
@@ -242,24 +257,47 @@ onMounted(() => {
   grid-area: left;
   overflow-y: auto;
   height: 100%;
+  overflow: visible;
 }
 
 .ButtonMenu {
-  margin-bottom: 20px;
+  padding-left: 5px;
 }
 
 .ButtonMenu button {
   margin-right: 12px;
 }
 
+.AddBtn {
+  border-radius: 0;
+  border-width: 4px;
+  border-style: dotted;
+  /* background-color: orange; */
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Gill Sans';
+}
 
 .GroupList {
+  margin-top: 20px;
+  overflow: visible;
 }
 
 .FeedList {
-  padding: 20px;
+  padding: 5px 10px 20px 20px;
   display: flex;
   flex-flow: row wrap;
+  overflow: visible;
+  gap: 30px 30px;
+}
+
+.FeedList.Closed {
+  padding-top: 0px;
+  padding-bottom: 5px;
+}
+
+.FeedList.OpenEmpty {
+  padding-top: 0px;  
 }
 
 .GroupName {
@@ -287,10 +325,17 @@ onMounted(() => {
   float: right;
 }
 
-.EditButton {
-  margin-left: 20px;
+.EditGroupButton {
   color: var(--very-mute-text);
   font-weight: normal;
+}
+
+.EditGroupButton:hover {
+  color: var(--text-button-hover);
+}
+
+.EditGroupButton:active {
+  color: var(--text-button-hover);
 }
 
 .DeleteButton {
@@ -304,6 +349,17 @@ onMounted(() => {
 .AddLinkedFeedInfo {
   font-family: monospace;
   font-size: 1rem;
+}
+
+.BackgroundImg {
+  background-color: white;
+  height: 600px;
+}
+
+.EmptyGroupIndicator {
+  font-size: 1.2em;
+  font-style: italic;
+  padding-left: 5px;
 }
 
 </style>

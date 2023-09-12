@@ -16,7 +16,7 @@ function goBack() {
 
 <template>
   <div class="FeedViewer">
-    <button class="BackBtn" @click="goBack">Back to Feed</button>
+    <button class="BackBtn" @click="goBack">Back to Home</button>
     <div class="HeaderBox">
       <div class="FeedNameBox">
         <div class="FeedName">{{ feed.name }}</div>

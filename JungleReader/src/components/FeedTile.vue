@@ -49,8 +49,14 @@ const tileStyle = computed(() => {
     'MidnightBlue',
     'OliveDrab',
   ];
+  let bgColor = getItemFromStyleId(colors, props.feed.styleId);
   return {
-    'background-color': getItemFromStyleId(colors, props.feed.styleId),
+    '--test-color': 'red',
+    '--bg-color': bgColor,
+    //'box-shadow': `4px 4px 8px ${bgColor}`,
+    // 'box-shadow': `0px 2px 12px 2px color-mix(in srgb, ${bgColor}, transparent 30%)`,
+    '--box-shadow': `8px 8px 8px color-mix(in srgb, ${bgColor}, transparent 30%)`,
+    // 'box-shadow': `4px 4px 0px var(--main-text)`,
   }
 });
 
@@ -87,19 +93,6 @@ const titleStyle = computed(() => {
     Hello World
     </div>
     <div @click.stop="(evt) => emit('editFeed', feed, evt)" class="EditButton TextButton">edit</div>
-    <!--
-    <div class="FeedControls">
-      <div class="FeedTitleBar" @click="onFeedClicked(feed)">
-        <div class="FeedName TextButton">{{ feed.name }}</div>
-      </div>
-      <div @click="(evt) => emit('editFeed', feed, evt)" class="EditButton TextButton">edit</div>
-      <div class="FeedButtons">
-        <div class="FeatherIcon">
-          <vue-feather class="MarginLeft" type="alert-octagon" v-if="feed.isError" />
-        </div>
-      </div>
-    </div>
-    !-->
   </div>
 </template>
 
@@ -108,25 +101,29 @@ const titleStyle = computed(() => {
   border-radius: 0px;
   border: 4px dotted var(--main-text);
   position: relative;
-  width: 180px;
-  height: 140px;
+  width: var(--feed-tile-width);
+  height: var(--feed-tile-height);
   padding: 6px;
   /* background-color: var(--main-text); */
   /* color: var(--main-bg); */
-  margin: 0px 30px 30px 0px;
   cursor: pointer;
-  transition: all ease 0.2s;
+  /* transition: all ease 0.2s; */
+  transition: all 0.1s ease;
   overflow: hidden;
-  /* box-shadow: 4px 4px 0px var(--main-text); */
+  z-index: 0;
+
+  background-color: var(--bg-color);
+  box-shadow: var(--box-shadow);
+  /* box-shadow: 10px 10px 10px var(--main-text); */
   /* box-shadow: 0 0 5px rgba(255,255,255,.9); */
   /* box-shadow: 0px 5px 10px 0px rgba(0,255,255,0.7); */
 }
 
 .FeedTile:hover {
   transform: scale(1.2) translateY(-5px) rotate(5deg);
-  /* box-shadow: 0px 10px 20px 2px rgba(0,255,255,0.7); */
-  /* box-shadow: 2px 2px 0px var(--main-text);   */
-  /* box-shadow: 0 0 11px rgba(255,255,255,.9); */
+  /* box-shadow: 0 4 10px 4px color-mix(in srgb, var(--bg-color), transparent 30%); */
+  box-shadow: none;
+  z-index: 1;
 }
 
 .FeedTitle {

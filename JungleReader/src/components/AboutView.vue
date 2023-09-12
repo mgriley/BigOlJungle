@@ -20,7 +20,7 @@
       around even if you clear your browser's cookies / data, but make sure to export your config sometimes. Cloud backup & sync is coming soon.
       </p>
       <p>
-      To add JungleReader support to your own website, go to <router-link to="/addsupport">Add Support</router-link>.
+      To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
       </p>
     </div>
     <div class="MoreInfo">

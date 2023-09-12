@@ -364,6 +364,10 @@ class FeedGroup {
     removeElem(this.feeds, feed);
     feed.parentGroup = null;
   }
+
+  isEmpty() {
+    return this.feeds.length === 0;
+  }
 }
 
 class FeedReader {
@@ -668,7 +672,9 @@ class JungleReader {
 
     registerCorePlugin(this);
 
-    this.checkIfJungleExtPresent();
+    if (this.fetchMethod.value == FetchMethod.JungleExt) {
+      this.checkIfJungleExtPresent();
+    }
   }
 
   handleWindowMessage(evt) {

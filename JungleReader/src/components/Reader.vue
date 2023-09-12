@@ -86,12 +86,12 @@ onMounted(() => {
             <router-link to="/explore">Explore</router-link>
           </div>
           <div class="Section">
-            <a href="#" @click.prevent="startImportConfig()">Import Config</a>
-            <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
-          </div>
-          <div class="Section">
             <router-link to="/plugins">Plugins</router-link>
             <router-link to="/settings">Settings</router-link>
+          </div>
+          <div class="Section">
+            <a href="#" @click.prevent="startImportConfig()">Import Config</a>
+            <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
           </div>
           <div class="Section">
             <router-link to="/about">About</router-link>

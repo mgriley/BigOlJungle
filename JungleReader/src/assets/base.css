@@ -57,6 +57,9 @@
   --light-text-bg: rgb(150, 150, 150, 0.5);
   --help-btn: rgb(46, 36, 215);
   --bright-help-btn: rgb(46, 36, 255);
+
+  --feed-tile-width: 180px;
+  --feed-tile-height: 140px;
 }
 
 /*
