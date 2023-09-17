@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
 
+let showExtDetails = ref(false);
+
 function onSetupDone() {
   gApp.setDoneWelcome(true);
 }
@@ -12,59 +14,41 @@ function onSetupDone() {
   <div class="SetupHelp">
     <h1>Welcome!</h1>
     <p class="Emphasis">
-    JungleReader is a free+open-source web reader.
+    JungleReader is a free and open-source web reader.
     </p>
     <p>
     It's made to help you keep up with the sites you like,
-    whatever they may be. Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more.
+    whatever they may be. Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more. Let's get started.
     </p>
     <p class="Emphasis MobileWarning">
     It looks like you're on mobile. JungleReader only supports desktop, so please come back later :)
     </p>
-    <h2>Getting Started</h2>
-    <h3>Step 1: Install the Browser Extension</h3>
-    <p>
-    To get started, you'll have to install the JungleExt browser extension. This extension lets JungleReader fetch pages
-    from other websites, so that you can read them all here. Currently, the extension supports Firefox and Google Chrome.
-    </p>
-    <h4>Option 1 - Download from Addon Store (Recommended)</h4>
-    <ul>
-      <li>
-      Download from the Firefox addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a> (recommended).
-      </li>
-      <li>
-      Download from the Chrome addons store <a class="UnderlineLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">here</a>.
-      </li>
-    </ul>
-    <h4>Option 2 - Download Manually as a Zip</h4>
-    <p>
-    You can download the extension from a zip file, if you'd prefer. This way, you can open the zip and inspect the addon code before installing.
-    The addon will not auto-update. JungleReader will notify you if a new version is available.
-    </p>
-    <p>
-    Firefox:
-    <ol>
-      <li>Download <a href="jungleext-firefox-1.4.zip">JungleExt.zip</a>, and unzip.</li>
-      <li>In a new tab, type "about:debugging" in the address bar.</li>
-      <li>Click the "This Firefox" link.</li>
-      <li>Click the "Load Temporary Add-on" link and select the addon folder.</li>
-    </ol>
-    </p>
-    <p>
-    Chrome:
-    <ol>
-      <li>Download <a href="jungleext-chrome-1.4.zip">JungleExt.zip</a>, and unzip.</li>
-      <li>Go to <a href="chrome://extensions">chrome://extensions</a></li>
-      <li>Turn on Developer Mode</li>
-      <li>Click "Load unpacked" and select the extension folder</li>
-    </ol>
-    </p>
-    <h4>About the Extension</h4>
-    <p>
-    When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-    any other website you may choose. If you'd like to inspect the addon code, you can view 
-    it on GitHub or install the extension as a zip.
-    </p>
+    <div class="HelpStep">
+      <h3>Step 1: Install the browser extension</h3>
+      <p>
+      You'll need the JungleExt browser extension. This extension lets JungleReader fetch pages
+      to read from other websites.
+      </p>
+      <div class="ExtButtonDiv Flex">
+        <div>
+          <a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank"><img src="FirefoxInstallExtBtn.png"/></a>
+          <p>Install for Firefox</p>
+        </div>
+        <div>
+          <a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank"><img src="ChromeInstallExtBtn.png" /></a>
+          <p>Install for Chrome</p>
+        </div>
+      </div>
+      <a class="LinkButton" @click.prevent="showExtDetails = !showExtDetails">Why do I need this extension?</a>
+      <template v-if="showExtDetails">
+        <p class="DisclosureBody">
+        JungleReader works by fetching webpages and feeds from other websites and showing their contents here. The JungleExt browser extension handles this.
+        When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
+        any other website you may choose. The extension does not actually do anything beyond handling simple web requests. If you'd like to inspect the addon code, you can view 
+        it on GitHub or install the extension as a zip.
+        </p>
+      </template>
+    </div>
     <h3>Step 2: Add Your First Feed</h3>
     Let's add some feeds.
     <ol>
@@ -147,6 +131,14 @@ ol {
   .MobileWarning {
     display: block;
   }
+}
+
+.ExtButtonDiv {
+  gap: var(--space-l);
+}
+
+.HelpStep {
+  margin-bottom: var(--space-xl);
 }
 
 </style>

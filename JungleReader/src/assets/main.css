@@ -269,3 +269,7 @@ select {
   margin-bottom: 20px;
 }
 
+.DisclosureBody {
+  margin-top: var(--space-xs);
+}
+

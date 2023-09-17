@@ -60,6 +60,13 @@
 
   --feed-tile-width: 180px;
   --feed-tile-height: 140px;
+
+  --space-xs: 8px;
+  --space-s: 16px;
+  --space-m: 24px;
+  --space-l: 32px;
+  --space-xl: 48px;
+  --space-xxl: 80px;
 }
 
 /*
