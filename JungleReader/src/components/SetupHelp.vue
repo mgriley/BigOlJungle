@@ -45,7 +45,7 @@ function onSetupDone() {
         <p class="DisclosureBody">
         JungleReader works by fetching webpages and feeds from other websites and showing their contents here. The JungleExt browser extension handles this.
         When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-        any other website you may choose. The extension does not do anything beyond handling simple web requests. If you'd like to inspect the addon code, you can view 
+        any other website you may choose. The extension does not do anything beyond handling simple web requests. If you'd like to inspect the code, you can view 
         it on GitHub or install the extension as a zip (instructions on GitHub).
         </p>
       </template>

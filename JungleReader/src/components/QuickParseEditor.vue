@@ -174,8 +174,9 @@ function submitPasteConfig(configText) {
       </ul>
     </div>
     <div class="TestContent">
-      <p>Test URL</p>
-      <input v-model="plugin.quickParser.testUrl" class="BasicTextInput UrlInput" placeholder="Ex. https://news.ycombinator.com" size="40">
+      <div class="FormFieldNameWithInfo">Test URL</div>
+      <div class="FormFieldInfo">Ex. https://news.ycombinator.com</div>
+      <input v-model="plugin.quickParser.testUrl" class="BasicTextInput UrlInput" size="40">
       <button @click="plugin.quickParser.fetchTestContent()">Fetch Test Page</button>
       <div class="DomTree">
         <template v-if="plugin.quickParser.testFetchContent !== null">

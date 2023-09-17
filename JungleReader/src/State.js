@@ -94,7 +94,7 @@ class Link {
 class Feed {
   constructor(id) {
     this.id = id;
-    this.name = "MyFeed";
+    this.name = "";
     this.parentGroup = null;
     this.links = []
     this.styleId = getRandInt(kMaxStyleId);
@@ -319,7 +319,7 @@ class Feed {
 class FeedGroup {
   constructor(id) {
     this.id = id;
-    this.name = "MyGroup";
+    this.name = "";
     this.feeds = []
     this.expanded = true
   }
@@ -366,7 +366,7 @@ class FeedGroup {
   }
 
   isEmpty() {
-    return this.feeds.length === 0;
+    return this.feeds.length == 0;
   }
 }
 

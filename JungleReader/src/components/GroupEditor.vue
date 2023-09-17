@@ -17,7 +17,7 @@ const realGroup = computed(() => {
 <template>
   <div class="FormFieldName">Name</div>
   <div>
-    <input class="BasicTextInput" v-model="realGroup.name" type="text" placeholder="Group Name" autofocus>
+    <input class="BasicTextInput" v-model="realGroup.name" type="text" autofocus>
   </div>
 </template>
 

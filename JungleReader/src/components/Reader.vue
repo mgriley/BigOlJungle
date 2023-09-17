@@ -124,7 +124,7 @@ onMounted(() => {
     </div>
     <button @click="importConfig">Import</button>
   </BasicModal>
-  <BasicModal ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
+  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
     <p>
     This will download your current config, which includes your feeds, groups,
     plugins, settings, and other data.
@@ -300,6 +300,10 @@ Also collapse the menu.
 .ImportBox input {
   font-size: 1rem;
   margin-bottom: 5px;
+}
+
+.ExportModal {
+  width: 600px;
 }
 
 </style>

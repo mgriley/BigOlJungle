@@ -54,7 +54,7 @@ function requiresWhitelist(pluginType) {
             <div class="NameTypeBox Flex FieldEntry">
               <div>
                 <div class="FieldName">Name</div>
-                <input v-model="plugin.feedType" class="BasicTextInput Block NameInput" placeholder="Ex. MyPlugin" type="text">
+                <input v-model="plugin.feedType" class="BasicTextInput Block NameInput" type="text">
               </div>
               <div>
                 <div class="FieldName">Type</div>
@@ -63,8 +63,9 @@ function requiresWhitelist(pluginType) {
             </div>
             <div class="EditorField">
               <template v-if="plugin.pluginType == CustomPluginType.URL">
-                <div class="FieldName">Url</div>
-                <input v-model="plugin.pluginUrl" class="BasicTextInput Block UrlInput" placeholder="Ex. www.myplugins.com/plugin.js" type="text">
+                <div class="FormFieldNameWithInfo">Url</div>
+                <div class="FormFieldInfo">Ex: www.myplugins.com/plugin.js</div>
+                <input v-model="plugin.pluginUrl" class="BasicTextInput Block UrlInput" type="text">
               </template>
               <template v-else-if="plugin.pluginType == CustomPluginType.Text">
                 <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>

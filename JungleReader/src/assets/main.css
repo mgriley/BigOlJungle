@@ -232,8 +232,18 @@ it gets clicked. Say if using for a button
 }
 
 .FormFieldName {
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin-top: var(--space-s);
+  margin-bottom: 4px;
+}
+
+.FormFieldNameWithInfo {
+  margin-top: var(--space-s);
+}
+
+.FormFieldInfo {
+  margin-bottom: 4px;
+  font-size: 20px;
+  color: var(--mute-text);
 }
 
 /* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */

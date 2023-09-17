@@ -44,7 +44,7 @@ export class CustomPlugin {
   constructor(app) {
     this.app = app;
     this.isEnabled = true;
-    this.feedType = "MyPlugin";
+    this.feedType = "NoName";
     this.pluginType = CustomPluginType.URL;
     this.pluginUrl = "";
     this.pluginText = kDefaultCustomCode;

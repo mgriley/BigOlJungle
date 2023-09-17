@@ -52,16 +52,16 @@ const feedShareLink = computed(() => {
 <template>
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
-    <input v-model="realFeed.name" placeholder="Feed Name" class="Block BasicTextInput WideInput" autofocus>
+    <input v-model="realFeed.name" class="Block BasicTextInput WideInput" autofocus>
     <div class="FormFieldName">Group</div>
     <GroupSelector v-if="feed" :currentGroup="realFeed.parentGroup" @change="changeGroup"/>
   </div>
   <div class="FormFieldName">Feed Type</div>
   <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
   <!-- <p>{{ feed.type }}</p> -->
-  <div class="FormFieldName">Feed URL</div>
-  <input v-model="realFeed.url" placeholder="Ex: https://www.someurl.com/feed.rss"
-    class="Block BasicTextInput WideInput">
+  <div class="FormFieldNameWithInfo">Feed URL</div>
+  <div class="FormFieldInfo">Ex: www.someurl.com/feed.rss</div>
+  <input v-model="realFeed.url" class="Block BasicTextInput WideInput">
 
   <div class="FormFieldName">Custom Options</div>
   <OptionsInput :options="realFeed.options" />
