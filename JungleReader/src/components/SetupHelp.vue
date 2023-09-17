@@ -6,23 +6,24 @@ let showExtDetails = ref(false);
 
 function onSetupDone() {
   gApp.setDoneWelcome(true);
+  // window.scrollTo(0, 0);
+  // gApp.toast({message: 'Setup Done!'});
 }
 
 </script>
 
 <template>
   <div class="SetupHelp">
-    <h1>Welcome!</h1>
-    <p class="Emphasis">
-    JungleReader is a free and open-source web reader.
-    </p>
-    <p>
-    It's made to help you keep up with the sites you like,
-    whatever they may be. Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more. Let's get started.
-    </p>
-    <p class="Emphasis MobileWarning">
-    It looks like you're on mobile. JungleReader only supports desktop, so please come back later :)
-    </p>
+    <h1 class="PageHeader">Welcome!</h1>
+    <div class="HelpStep">
+      <p>
+      JungleReader is a free and open-source web reader. It's made to help you keep up with the sites you like.
+      Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more. Let's get started!
+      </p>
+      <p class="Emphasis MobileWarning">
+      It looks like you're on mobile. JungleReader only supports desktop, so please come back later :)
+      </p>
+    </div>
     <div class="HelpStep">
       <h3>Step 1: Install the browser extension</h3>
       <p>
@@ -39,37 +40,36 @@ function onSetupDone() {
           <p>Install for Chrome</p>
         </div>
       </div>
-      <a class="LinkButton" @click.prevent="showExtDetails = !showExtDetails">Why do I need this extension?</a>
+      <button class="TextButton" @click="showExtDetails = !showExtDetails">Why do I need this extension?</button>
       <template v-if="showExtDetails">
         <p class="DisclosureBody">
         JungleReader works by fetching webpages and feeds from other websites and showing their contents here. The JungleExt browser extension handles this.
         When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-        any other website you may choose. The extension does not actually do anything beyond handling simple web requests. If you'd like to inspect the addon code, you can view 
-        it on GitHub or install the extension as a zip.
+        any other website you may choose. The extension does not do anything beyond handling simple web requests. If you'd like to inspect the addon code, you can view 
+        it on GitHub or install the extension as a zip (instructions on GitHub).
         </p>
       </template>
     </div>
-    <h3>Step 2: Add Your First Feed</h3>
-    Let's add some feeds.
-    <ol>
-      <li>
-      Click the <b>Add Feed</b> button below. Name the feed "Creating Games", set the feed type to <b>YouTube</b>, and set
-      the URL to <b>https://www.youtube.com/@sora_sakurai_en</b>.
-      </li>
-      <li>
-      You should see your new feed show up in big type. Click it to see the feed content.
-      </li>
-      <li>
-      Add another feed called "CBC World News". Leave the type as RSS and set the URL to <b>https://www.cbc.ca/webfeed/rss/rss-world</b>.
-      </li>
-    </ol>
-    <p class="Emphasis AllSet">You're all set!</p>
-    <p>
-    From here, add feeds for each site you'd like to follow. The "Explore" tab has some to get you started. Experiment with "Add Group" to organize your feeds, try adding feeds of different types, and
-    check out the "Plugins" page. JungleReader has a flexible plugin system that lets developers add support for many page types. If you're ever stuck,
-    click the Help/Info buttons as you go. Enjoy!
-    </p>
-    <button class="DoneBtn" @click="onSetupDone">I'm Done!</button>
+    <div class="HelpStep">
+      <h3>Step 2: Add a feed</h3>
+      <p>
+      Scroll down and click "Add Feed". Name the feed "Creating Games", set the feed type to <b>YouTube</b>, and set
+      the URL to <b>www.youtube.com/@sora_sakurai_en</b>. Click the new feed to see its content.
+      </p>
+    </div>
+    <div class="HelpStep">
+      <h3>You're done!</h3>
+      <p>
+      From here:
+      </p>
+      <ol>
+        <li>Add feeds for each site you'd like to follow</li>
+        <li>Check out the <router-link to="/explore">"Explore"</router-link> tab for suggestions</li>
+        <li>Share your feeds using the Share Links</li>
+        <li>If you're a developer, check out the Plugins page</li>
+      </ol>
+      <button class="DoneBtn" @click="onSetupDone">Done!</button>
+    </div>
   </div>
 </template>
 
@@ -138,7 +138,7 @@ ol {
 }
 
 .HelpStep {
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-l);
 }
 
 </style>
