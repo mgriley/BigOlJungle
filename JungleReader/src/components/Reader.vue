@@ -13,8 +13,14 @@ https://codepen.io/flaviocopes/pen/JZWOEK
 let importConfigModal = ref(null);
 let importFileInput = ref(null);
 
+let exportConfigModal = ref(null);
+
 function startImportConfig() {
   importConfigModal.value.showModal();
+}
+
+function startExportConfig() {
+  exportConfigModal.value.showModal();
 }
 
 function importConfig() {
@@ -91,7 +97,7 @@ onMounted(() => {
           </div>
           <div class="Section">
             <a href="#" @click.prevent="startImportConfig()">Import Config</a>
-            <a href="#" @click.prevent="gApp.exportConfig()">Export Config</a>
+            <a href="#" @click.prevent="startExportConfig()">Export Config</a>
           </div>
           <div class="Section">
             <router-link to="/about">About</router-link>
@@ -117,6 +123,12 @@ onMounted(() => {
       <input ref="importFileInput" type="file" id="input" />
     </div>
     <button @click="importConfig">Import</button>
+  </BasicModal>
+  <BasicModal ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
+    <p>
+    This will download your current config, which includes your feeds, groups,
+    plugins, settings, and other data.
+    </p>
   </BasicModal>
 </template>
 

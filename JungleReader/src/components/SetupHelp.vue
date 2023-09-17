@@ -65,7 +65,6 @@ function onSetupDone() {
       <ol>
         <li>Add feeds for each site you'd like to follow</li>
         <li>Check out the <router-link to="/explore">"Explore"</router-link> tab for suggestions</li>
-        <li>Share your feeds using the Share Links</li>
         <li>If you're a developer, check out the Plugins page</li>
       </ol>
       <button class="DoneBtn" @click="onSetupDone">Done!</button>
@@ -76,7 +75,7 @@ function onSetupDone() {
 <style scoped>
 .SetupHelp {
   padding-bottom: 40px;
-  border-bottom: 6px dashed var(--main-text);
+  border-bottom: 1px solid var(--mute-text);
   margin-bottom: 40px;
   overflow-wrap: break-word;
 }
