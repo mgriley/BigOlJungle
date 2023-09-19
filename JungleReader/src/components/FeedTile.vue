@@ -103,30 +103,27 @@ const titleStyle = computed(() => {
 
 <style scoped>
 .FeedTile {
-  /* border-radius: 0px; */
-  /* border: 4px dotted var(--main-text); */
-  border-radius: 8px;
   position: relative;
   width: var(--feed-tile-width);
   height: var(--feed-tile-height);
   padding: 6px;
-  /* background-color: var(--main-text); */
-  /* color: var(--main-bg); */
   cursor: pointer;
-  /* transition: all ease 0.2s; */
   transition: all 0.1s ease;
   overflow: hidden;
   z-index: 0;
 
-  background-color: var(--bg-color);
-  box-shadow: var(--box-shadow);
-  /* box-shadow: 10px 10px 10px var(--main-text); */
-  /* box-shadow: 0 0 5px rgba(255,255,255,.9); */
-  /* box-shadow: 0px 5px 10px 0px rgba(0,255,255,0.7); */
+  /* background-color: var(--bg-color); */
+  /* box-shadow: var(--box-shadow); */
+
+  border-radius: 4px;
+  border: 2px solid var(--main-text);
+  box-shadow: 8px 8px 8px color-mix(in srgb, var(--primary-color), transparent 30%);
+  /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--nice-red), transparent 30%); */
 }
 
 .FeedTile:hover {
-  transform: scale(1.2) translateY(-5px) rotate(5deg);
+  /* transform: scale(1.2) translateY(-5px) rotate(5deg); */
+  transform: scale(1.2) translateY(-5px);
   /* box-shadow: 0 4 10px 4px color-mix(in srgb, var(--bg-color), transparent 30%); */
   box-shadow: none;
   z-index: 1;
@@ -153,11 +150,11 @@ const titleStyle = computed(() => {
 .EditButton {
   display: none;
   position: absolute;
-  right: 4px;
-  bottom: 4px;
-  font-size: 20px;
-  padding: 0 2px;
-  background-color: var(--main-bg);
+  right: var(--space-xxs);
+  bottom: var(--space-xxs);
+  font-size: var(--p-size);
+  padding: 4px 8px;
+  background-color: var(--dark-color);
 }
 
 .FeedTile:hover .EditButton {

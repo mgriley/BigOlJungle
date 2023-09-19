@@ -196,9 +196,10 @@ onMounted(() => {
           <template #item="{element}">
             <div class="FeedGroupItem">
               <div class="GroupControls">
-                <TextTreeIcon class="GroupName Collapse" :expanded="element.expanded" @click="toggleExpandGroup(element)" />
-                <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</div>
-                <div @click="(evt) => editGroup(element, evt)" class="EditGroupButton TextButton">edit</div>
+                <div class="GroupName TextButton" :class="{Closed: !element.expanded}"
+                  @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</div>
+                <div @click="toggleExpandGroup(element)" class="GroupControlButton OpenIndicator TextButton">{{ element.expanded ? "[hide]" : "[show]" }}</div>
+                <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton EditGroupButton TextButton">[edit]</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
               <draggable class="FeedList" :list="element.feeds" group="element.expanded"
@@ -222,13 +223,13 @@ onMounted(() => {
       </div>
     </div>
   </div> 
-  <BasicModal ref="groupEditorModal" :showCancel="false" title="Edit Group">
+  <BasicModal class="GroupEditorModal" ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
     <button class="DeleteButton SmallButton" @click="deleteGroupToEdit">Delete Group</button>
   </BasicModal>
   <BasicModal class="FeedEditorModal" ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
-    <button class="DeleteButton SmallButton DeleteFeedButton" @click="deleteFeedToEdit">Delete Feed</button>
+    <button class="DeleteButton SmallButton" @click="deleteFeedToEdit">Delete Feed</button>
   </BasicModal>
   <BasicModal ref="addFromLinkModal" title="Add Feed" doneText="Yes" cancelText="No" @onDone="addFeedFromLink">
     <p><b>Add the following feed?</b></p>
@@ -261,31 +262,23 @@ onMounted(() => {
 }
 
 .ButtonMenu {
-  padding-left: 5px;
 }
 
 .ButtonMenu button {
-  margin-right: 12px;
+  margin-right: var(--space-xs);
 }
-
-/*
-.AddBtn {
-  border-radius: 0;
-  border-width: 4px;
-  border-style: dotted;
-  font-size: 24px;
-  font-weight: 700;
-  font-family: 'Gill Sans';
-}
-*/
 
 .GroupList {
-  margin-top: 20px;
+  margin-top: var(--space-xl);
   overflow: visible;
 }
 
+.FeedGroupItem {
+  margin-bottom: var(--space-m);
+}
+
 .FeedList {
-  padding: 5px 10px 20px 20px;
+  padding: var(--space-s) 0 var(--space-l) var(--space-zero);
   display: flex;
   flex-flow: row wrap;
   overflow: visible;
@@ -294,7 +287,7 @@ onMounted(() => {
 
 .FeedList.Closed {
   padding-top: 0px;
-  padding-bottom: 5px;
+  padding-bottom: var(--space-xxs);
 }
 
 .FeedList.OpenEmpty {
@@ -302,12 +295,18 @@ onMounted(() => {
 }
 
 .GroupName {
-  margin-right: 20px;
+  margin-right: var(--space-m);
   font-size: 2rem;
   font-weight: 800;
   letter-spacing: -1px;
   /* text-overflow: ellipsis; */
 }
+
+/*
+.GroupName.Closed {
+  color: var(--mute-text);
+}
+*/
 
 .GroupControls {
   display: flex;
@@ -326,25 +325,25 @@ onMounted(() => {
   float: right;
 }
 
+.OpenIndicator {
+  margin-right: var(--space-xxs);
+}
+
 .EditGroupButton {
-  color: var(--very-mute-text);
+}
+
+.GroupControlButton {
   font-weight: normal;
+  font-size: var(--h4-size);
+  color: var(--secondary-text);
 }
 
-.EditGroupButton:hover {
-  color: var(--text-button-hover);
-}
-
-.EditGroupButton:active {
+.GroupControlButton:hover, .GroupControlButton:active {
   color: var(--text-button-hover);
 }
 
 .DeleteButton {
-  margin-top: 20px;
-}
-
-.DeleteFeedButton {
-  margin-top: 30px;
+  margin-top: var(--space-l);
 }
 
 .AddLinkedFeedInfo {
@@ -358,9 +357,15 @@ onMounted(() => {
 }
 
 .EmptyGroupIndicator {
-  font-size: 1.2em;
   font-style: italic;
-  padding-left: 5px;
+}
+
+.EmptyGroupIndicator p {
+  font-size: var(--h4-size);
+}
+
+.GroupEditorModal {
+  /* width: 400px; */
 }
 
 .FeedEditorModal {

@@ -88,3 +88,14 @@ Does not alter the other styles of the element.
   color: var(--text-button-hover);
 }
 
+.SaveButton {
+  /* text-decoration: underline; */
+  /*
+  border: none;
+  border-radius: 4px;
+  padding: 2px;
+  margin: 5px 0px;
+  min-width: 20px;
+  */
+}
+

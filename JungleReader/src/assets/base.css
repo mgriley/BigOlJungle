@@ -60,6 +60,7 @@
   --bright-red: rgb(245, 49, 0);
   --text-button-hover: var(--nice-red);
 
+  --space-zero: 0px;
   --space-xxs: 4px;
   --space-xs: 8px;
   --space-s: 16px;

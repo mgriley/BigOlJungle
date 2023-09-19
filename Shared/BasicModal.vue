@@ -113,7 +113,13 @@ dialog::backdrop {
   max-width: 90%;
   /* max-width: 90% */;
   /*box-shadow: 0 4px 12px var(--main-text);*/
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5vh;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(4px);
 }
 
 @media (max-width: 600px) {
@@ -146,7 +152,7 @@ dialog::backdrop {
 }
 
 .Footer button {
-  margin-right: 4px;
+  margin-right: var(--space-xs);
 }
 
 .DeleteBtn {

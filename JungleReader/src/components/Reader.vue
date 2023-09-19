@@ -187,7 +187,7 @@ onMounted(() => {
   font-weight: var(--bold-weight);
   font-size: var(--p-size);
   text-decoration: none;
-  margin-bottom: var(--space-xxs);
+  margin-bottom: var(--space-xs);
 }
 
 .SideMenu .Section:not(:last-child) {
@@ -283,7 +283,7 @@ Also collapse the menu.
 
 
 .VersionNum {
-  color: var(--very-mute-text);
+  color: var(--mute-text);
   font-style: italic;
 }
 
