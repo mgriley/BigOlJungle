@@ -21,7 +21,7 @@ function showHelp() {
 </script>
 
 <template>
-  <button class="SmallButton" @click="showHelp">
+  <button class="HelpButton SmallButton" @click="showHelp">
     {{ title }}
   </button>
   <BasicModal ref="helpModal" :showCancel="false" :title="title">
@@ -30,4 +30,7 @@ function showHelp() {
 </template>
 
 <style scoped>
+.HelpButton {
+  text-decoration: underline;
+}
 </style>

@@ -26,7 +26,6 @@
   --nice-red: rgb(215, 46, 36);
   --bright-red: rgb(245, 49, 0);
   --text-button-hover: var(--nice-red);
-  --light-text-bg: var(--lightest-color);
   --help-btn: rgb(46, 36, 215);
   --bright-help-btn: rgb(46, 36, 255);
   */
@@ -60,10 +59,8 @@
   --nice-red: rgb(215, 46, 36);
   --bright-red: rgb(245, 49, 0);
   --text-button-hover: var(--nice-red);
-  --light-text-bg: var(--dark-color);
-  --help-btn: rgb(46, 36, 215);
-  --bright-help-btn: rgb(46, 36, 255);
 
+  --space-xxs: 4px;
   --space-xs: 8px;
   --space-s: 16px;
   --space-m: 24px;
@@ -71,21 +68,13 @@
   --space-xl: 48px;
   --space-xxl: 80px;
 
-  /*
-  --small-size: 15px;
-  --p-size: 18px;
-  --h4-size: 22px;
-  --h3-size: 28px;
-  --h2-size: 36px;
-  --h1-size: 44px;
-  */
-  --small-size: calc(var(--p-size)*0.75);
   /* --p-size: 1rem; */
   --p-size: 22px;
   --h4-size: calc(var(--p-size)*1.25);
   --h3-size: calc(var(--h4-size)*1.25);
   --h2-size: calc(var(--h3-size)*1.25);
   --h1-size: calc(var(--h2-size)*1.25);
+  --small-size: calc(var(--p-size)*0.90);
 
   --bold-weight: 700;
 

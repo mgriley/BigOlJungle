@@ -135,11 +135,11 @@ onMounted(() => {
 <style scoped>
 .AppTitle {
   font-family: 'Gill Sans';
-  font-size: 2.5em;
+  font-size: 2em;
   /* font-weight: 900; */
   color: var(--header-text);
   font-weight: 800;
-  margin-bottom: 40px;
+  margin-bottom: var(--space-xl);
   line-height: 0.8em;
   letter-spacing: -2px;
   padding-bottom: 2px;
@@ -154,41 +154,44 @@ onMounted(() => {
   max-width: 1280px;
   margin: auto;
   display: grid;
-  padding: 20px 10px;
-  /*grid-gap: 20px;*/
+  padding: var(--space-m) var(--space-xs);
   grid-template-columns: 280px 1fr;
+  gap: var(--space-xl);
   grid-template-areas: 
     "sidebar content"
 }
 
 .main {
-  max-width: 100%;
+  /* max-width: 100%; */
+  /* Aim for 40-80ch max-width */
+  max-width: 840px;
   grid-area: content;
   /*background-color: #20bf6b;*/
-  padding: 20px;
+  padding: var(--space-m);
   overflow-x: visible;
 }
 
 .Sidebar {
   grid-area: sidebar;
-  padding: 20px 20px 0px 20px;
-  margin-left: 20px;
+  padding: var(--space-m) var(--space-m) 0px var(--space-m);
+  margin-left: var(--space-m);
   /*background-color: #45aaf2;*/
 }
 
 .SidebarContent {
-  padding-bottom: 6px;
+  padding-bottom: var(--space-xs);
 }
 
 .SideMenu a {
   display: block;
-  font-weight: bold;
-  font-size: 1.0em;
-  /* color: var(--mute-text); */
+  font-weight: var(--bold-weight);
+  font-size: var(--p-size);
+  text-decoration: none;
+  margin-bottom: var(--space-xxs);
 }
 
 .SideMenu .Section:not(:last-child) {
-  margin-bottom: 30px;
+  margin-bottom: var(--space-l);
 }
 
 .SidebarBtnBar {
@@ -295,12 +298,12 @@ Also collapse the menu.
 }
 
 .ImportBox {
-  margin-top: 10px;
+  margin-top: var(--space-s);
 }
 
 .ImportBox input {
   font-size: 1rem;
-  margin-bottom: 5px;
+  margin-bottom: var(--space-xs);
 }
 
 .ExportModal {

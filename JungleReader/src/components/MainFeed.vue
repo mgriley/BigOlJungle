@@ -226,7 +226,7 @@ onMounted(() => {
     <GroupEditor :group="groupToEdit"/>
     <button class="DeleteButton SmallButton" @click="deleteGroupToEdit">Delete Group</button>
   </BasicModal>
-  <BasicModal ref="feedEditorModal" :showCancel="false" title="Edit Feed">
+  <BasicModal class="FeedEditorModal" ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
     <button class="DeleteButton SmallButton DeleteFeedButton" @click="deleteFeedToEdit">Delete Feed</button>
   </BasicModal>
@@ -268,15 +268,16 @@ onMounted(() => {
   margin-right: 12px;
 }
 
+/*
 .AddBtn {
   border-radius: 0;
   border-width: 4px;
   border-style: dotted;
-  /* background-color: orange; */
   font-size: 24px;
   font-weight: 700;
   font-family: 'Gill Sans';
 }
+*/
 
 .GroupList {
   margin-top: 20px;
@@ -360,6 +361,10 @@ onMounted(() => {
   font-size: 1.2em;
   font-style: italic;
   padding-left: 5px;
+}
+
+.FeedEditorModal {
+  width: 500px;
 }
 
 </style>

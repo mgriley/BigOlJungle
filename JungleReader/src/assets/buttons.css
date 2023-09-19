@@ -1,5 +1,9 @@
 @import './base.css';
 
+:root {
+  --button-border-radius: 6px;
+}
+
 button {
   min-width: 100px;
   padding: 5px 10px;
@@ -7,31 +11,27 @@ button {
   background: none;
   color: var(--main-text);
   border: 2px solid var(--main-text);
-  border-radius: 6px;
+  border-radius: var(--button-border-radius);
   cursor: pointer;
   font-weight: 600;
   font-size: 1em;
 }
 
-@media (hover: hover) {
-  button:hover {
-    background-color: var(--main-text);
-    color: var(--main-bg);
-  }
-}
-
-button:active {
+button:hover, button:active {
   background-color: var(--main-text);
   color: var(--main-bg);
 }
 
+/* No need for a different PrimaryButton for now */
+/*
 .PrimaryButton {
-  /* TODO */
 }
 
-.SecondaryButton {
+.PrimaryButton:hover, .PrimaryButton:active {
 }
+*/
 
+/* Aka tertiary button */
 .SmallButton {
   border: none;
   border-radius: 4px;
@@ -41,16 +41,26 @@ button:active {
   /* line-height: 1rem; */
 }
 
+.SmallButton:hover, .SmallButton:active {
+  background-color: var(--main-text);
+  color: var(--main-bg);
+}
+
+.DeleteButton {
+  text-decoration: underline;
+  /* padding: 5px 10px; */
+  /* border: 1px solid var(--main-text); */
+}
+
+.DeleteButton:hover {
+}
+
 .LinkButton {
   text-decoration: underline;
   font-weight: 600;
 }
 
-.MockButton {
-  user-select: none;
-  cursor: pointer;
-}
-
+/* For adding to a text div that is supposed to respond to @click */
 .TextButton {
   background: none;
   border: none;
@@ -61,13 +71,20 @@ button:active {
   font-size: 1.1em;
 }
 
-@media (hover: hover) {
-  .TextButton:hover {
-    color: var(--text-button-hover);
-  }
+.TextButton:hover, .TextButton:active {
+  color: var(--text-button-hover);
 }
 
-.TextButton:active {
+/*
+Also, for adding to a text div that is supposed to respond to @click.
+Does not alter the other styles of the element.
+*/
+.MockButton {
+  user-select: none;
+  cursor: pointer;
+}
+
+.MockButton:hover, .MockButton:active {
   color: var(--text-button-hover);
 }
 

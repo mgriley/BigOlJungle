@@ -37,18 +37,20 @@ function copyText() {
 
 .LinkText {
   flex: 1 50px;
-  padding: 3px 5px;
-  border: 1px solid var(--light-text-bg);
+  padding: 0 5px;
   border-radius: 5px;
+  border: 1px solid var(--secondary-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 400px;
+  max-width: 30ch;
   min-width: 10px;
 }
 
 .CopyButton {
   margin-left: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 </style>

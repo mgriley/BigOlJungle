@@ -84,7 +84,7 @@ function requiresWhitelist(pluginType) {
               <div class="FieldName CustomOptionsField">Domain Whitelist</div>
               <OptionsInput :options="plugin.domainWhitelist" :hasKeys="false" />
             </div>
-            <button class="SmallButton" @click="removePlugin(plugin)">Delete Plugin</button>
+            <button class="SmallButton DeleteButton" @click="removePlugin(plugin)">Delete Plugin</button>
           </div>
         </div>
       </div>

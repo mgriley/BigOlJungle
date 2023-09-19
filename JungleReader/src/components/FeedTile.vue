@@ -2,7 +2,6 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
 import TreeIcon from './TreeIcon.vue'
-import EditButton from './EditButton.vue'
 
 const props = defineProps({
   feed: Object,
@@ -25,6 +24,7 @@ function getItemFromStyleId(list, styleId) {
 
 const tileStyle = computed(() => {
   // See: https://www.w3schools.com/colors/colors_names.asp
+  /*
   let colors = [
     'red',
     'Tomato',
@@ -48,6 +48,11 @@ const tileStyle = computed(() => {
     'IndianRed',
     'MidnightBlue',
     'OliveDrab',
+  ];
+  */
+  let colors = [
+    'IndianRed',
+    'CornflowerBlue',
   ];
   let bgColor = getItemFromStyleId(colors, props.feed.styleId);
   return {
@@ -98,8 +103,9 @@ const titleStyle = computed(() => {
 
 <style scoped>
 .FeedTile {
-  border-radius: 0px;
-  border: 4px dotted var(--main-text);
+  /* border-radius: 0px; */
+  /* border: 4px dotted var(--main-text); */
+  border-radius: 8px;
   position: relative;
   width: var(--feed-tile-width);
   height: var(--feed-tile-height);

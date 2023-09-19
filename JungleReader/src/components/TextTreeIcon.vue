@@ -10,5 +10,6 @@ const props = defineProps(['expanded'])
 .TextChevron {
   margin-right: 5px;
   cursor: pointer;
+  color: var(--header-text);
 }
 </style>

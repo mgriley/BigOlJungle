@@ -66,18 +66,11 @@ b {
 }
 
 a {
-  text-decoration: none;
   color: var(--main-text);
   transition: 0.2s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: var(--link-hover-bg);
-  }
-}
-
-a:active {
+a:hover, a:active {
   background-color: var(--link-hover-bg);
 }
 
@@ -87,10 +80,10 @@ a:active {
   display: block;
   padding: 5px;
   /* margin: 5px 0; */
-  /*border: 1px solid var(--main-text);*/
+  /* border: 1px solid var(--light-color); */
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: var(--p-size);
   background-color: var(--input-bg);
 }
 
@@ -99,10 +92,9 @@ input[type="text"], textarea {
 }
 
 select {
-  font-size: 1rem;
-  color: var(--main-text);
+  font-size: var(--p-size);
+  /* color: var(--main-text); */
   background-color: var(--input-bg);
-  /*border: 1px solid var(--mute-text);*/
   border: none;
   border-radius: 4px;
   padding: 5px;

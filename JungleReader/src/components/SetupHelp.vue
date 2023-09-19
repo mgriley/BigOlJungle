@@ -67,7 +67,7 @@ function onSetupDone() {
         <li>Check out the <router-link to="/explore">"Explore"</router-link> tab for suggestions</li>
         <li>If you're a developer, check out the Plugins page</li>
       </ol>
-      <button class="DoneBtn" @click="onSetupDone">Done!</button>
+      <button class="DoneBtn PrimaryButton" @click="onSetupDone">Done!</button>
     </div>
   </div>
 </template>
