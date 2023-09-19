@@ -379,7 +379,7 @@ class FeedReader {
 
   makeDefaultGroup() {
     let group = FeedGroup.create();
-    group.name = "MyGroup";
+    group.name = "Main";
     this.addFeedGroup(group);
   }
 

@@ -47,7 +47,9 @@ function requiresWhitelist(pluginType) {
         <div class="MainEntries">
           <div class="NameBox Flex">
             <TextTreeIcon class="TreeToggle" :expanded="plugin.expandedInUi" @click="plugin.expandedInUi = !plugin.expandedInUi" />
-            <h3 class="NameHeader Block MockButton" :class="{Disabled: !plugin.isEnabled}" @click="plugin.expandedInUi = !plugin.expandedInUi">{{ plugin.feedType }}</h3>
+            <h3 class="NameHeader Block MockButton" :class="{Disabled: !plugin.isEnabled}" @click="plugin.expandedInUi = !plugin.expandedInUi">
+            {{ plugin.feedType ? plugin.feedType : "(No name)" }}
+            </h3>
             <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />
           </div>
           <div v-if="plugin.expandedInUi" class="PluginDetails">
@@ -82,7 +84,7 @@ function requiresWhitelist(pluginType) {
               <div class="FieldName CustomOptionsField">Domain Whitelist</div>
               <OptionsInput :options="plugin.domainWhitelist" :hasKeys="false" />
             </div>
-            <button class="DeleteButton" @click="removePlugin(plugin)">Delete Plugin</button>
+            <button class="SmallButton" @click="removePlugin(plugin)">Delete Plugin</button>
           </div>
         </div>
       </div>

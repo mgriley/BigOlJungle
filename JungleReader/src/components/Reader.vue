@@ -137,6 +137,7 @@ onMounted(() => {
   font-family: 'Gill Sans';
   font-size: 2.5em;
   /* font-weight: 900; */
+  color: var(--header-text);
   font-weight: 800;
   margin-bottom: 40px;
   line-height: 0.8em;

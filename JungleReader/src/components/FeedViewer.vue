@@ -105,7 +105,6 @@ function goBack() {
 }
 
 .LinkText {
-  /*background-color: var(--light-text-bg);*/
   font-weight: 500;
 }
 

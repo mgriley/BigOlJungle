@@ -1,0 +1,49 @@
+@import './base.css';
+
+/*
+Various CSS utils
+*/
+
+.Italic {
+  font-style: italic;
+}
+
+.Bold {
+  font-weight: var(--bold-weight);
+}
+
+/*
+For text you don't want to get highlighted when
+it gets clicked. Say if using for a button
+*/
+.NoSelect {
+  user-select: none;
+}
+
+.Block {
+  display: block;
+}
+
+.Flex {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.MarginLeft {
+  margin-left: 15px;
+}
+
+.MarginTop {
+  margin-top: 10px;
+}
+
+.DraggedChosenItem {
+  background-color: var(--color-link-hover);
+}
+
+.FeatherIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+

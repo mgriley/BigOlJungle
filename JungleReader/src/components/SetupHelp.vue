@@ -40,7 +40,7 @@ function onSetupDone() {
           <p>Install for Chrome</p>
         </div>
       </div>
-      <button class="TextButton" @click="showExtDetails = !showExtDetails">Why do I need this extension?</button>
+      <button class="SmallButton" @click="showExtDetails = !showExtDetails">Why do I need this extension?</button>
       <template v-if="showExtDetails">
         <p class="DisclosureBody">
         JungleReader works by fetching webpages and feeds from other websites and showing their contents here. The JungleExt browser extension handles this.

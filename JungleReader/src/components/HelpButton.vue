@@ -21,7 +21,7 @@ function showHelp() {
 </script>
 
 <template>
-  <button class="HelpButton" @click="showHelp">
+  <button class="SmallButton" @click="showHelp">
     {{ title }}
   </button>
   <BasicModal ref="helpModal" :showCancel="false" :title="title">

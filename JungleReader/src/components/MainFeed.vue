@@ -197,7 +197,7 @@ onMounted(() => {
             <div class="FeedGroupItem">
               <div class="GroupControls">
                 <TextTreeIcon class="GroupName Collapse" :expanded="element.expanded" @click="toggleExpandGroup(element)" />
-                <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name }}</div>
+                <div class="GroupName TextButton" @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</div>
                 <div @click="(evt) => editGroup(element, evt)" class="EditGroupButton TextButton">edit</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
@@ -224,11 +224,11 @@ onMounted(() => {
   </div> 
   <BasicModal ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
-    <button class="DeleteButton" @click="deleteGroupToEdit">Delete Group</button>
+    <button class="DeleteButton SmallButton" @click="deleteGroupToEdit">Delete Group</button>
   </BasicModal>
   <BasicModal ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
-    <button class="DeleteButton DeleteFeedButton" @click="deleteFeedToEdit">Delete Feed</button>
+    <button class="DeleteButton SmallButton DeleteFeedButton" @click="deleteFeedToEdit">Delete Feed</button>
   </BasicModal>
   <BasicModal ref="addFromLinkModal" title="Add Feed" doneText="Yes" cancelText="No" @onDone="addFeedFromLink">
     <p><b>Add the following feed?</b></p>

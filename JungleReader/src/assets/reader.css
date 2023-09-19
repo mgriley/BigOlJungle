@@ -1,0 +1,42 @@
+@import './base.css';
+
+.PageHeader {
+  margin-bottom: 20px;
+}
+
+.FormFieldName {
+  margin-top: var(--space-s);
+  margin-bottom: 4px;
+}
+
+.FormFieldNameWithInfo {
+  margin-top: var(--space-s);
+}
+
+.FormFieldInfo {
+  margin-bottom: 4px;
+  font-size: 20px;
+  color: var(--mute-text);
+}
+
+.FormFieldItem {
+  margin-top: var(--space-s);
+}
+
+.DisclosureBody {
+  margin-top: var(--space-xs);
+}
+
+.CodeBlock {
+  /*background-color: var(--input-bg);*/
+  padding: 10px;
+  border: 2px solid var(--main-text);
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 1rem;
+  /* white-space: pre-wrap; */
+  /* I'm not sure how to get this working right for mobile, so use pre-wrap for now */
+  white-space: pre-wrap;
+  overflow-x: scroll;
+}
+

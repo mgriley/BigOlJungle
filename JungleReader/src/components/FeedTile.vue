@@ -87,7 +87,7 @@ const titleStyle = computed(() => {
 <template>
   <div class="FeedTile" :style="tileStyle" @click="onFeedClicked(feed)">
     <div class="FeedTitle" :style="titleStyle">
-      {{ feed.name }}
+      {{ feed.name ? feed.name : "NoName" }}
     </div>
     <div class="Details">
     Hello World

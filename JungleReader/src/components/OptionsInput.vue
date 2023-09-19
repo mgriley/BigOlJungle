@@ -20,6 +20,10 @@ function addOption() {
 </script>
 
 <template>
+<template v-if="options.length == 0">
+  <button @click="addOption" class="SmallButton">Add</button>
+</template>
+<template v-else>
   <div class="OptionsContainer">
     <div v-for="(element, index) in options" class="OptionsEntry">
       <input v-if="hasKeys" v-model="element.key" class="KeyInput BasicTextInput" type="text" size="1">
@@ -28,6 +32,7 @@ function addOption() {
     </div>
     <button @click="addOption" class="SmallButton">Add</button>
   </div>
+</template>
 </template>
 
 <style scoped>
@@ -63,6 +68,10 @@ function addOption() {
 }
 
 .DeleteBtn {
+}
+
+.SmallButton {
+  margin: 0;
 }
 
 </style>

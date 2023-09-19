@@ -1,5 +1,7 @@
 @import './base.css';
-/*@import './reader.css';*/
+@import './utils.css';
+@import './buttons.css';
+@import './reader.css';
 
 :root {
 }
@@ -27,41 +29,40 @@ div {
 
 p {
   line-height: 1.6;
+  font-size: var(--p-size);
+  color: var(--secondary-text);
+}
+
+h1, h2, h3, h4 {
+  font-weight: var(--bold-weight);
+  color: var(--header-text);
 }
 
 h1 {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: var(--h1-size);
+  line-height: 1.1;
   letter-spacing: -2px;
 }
 
 h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: var(--h2-size);
+  line-height: 1.2;
   letter-spacing: -1px;
 }
 
 h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: var(--h3-size);
+  line-height: 1.4;
   letter-spacing: -1px;
 }
 
 h4 {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-.Italic {
-  font-style: italic;
-}
-
-.Bold {
-  font-weight: bold;
+  font-size: var(--h4-size);
+  line-height: 1.6;
 }
 
 b {
-  font-weight: 600;
+  font-weight: var(--bold-weight);
 }
 
 a {
@@ -78,172 +79,6 @@ a {
 
 a:active {
   background-color: var(--link-hover-bg);
-}
-
-button {
-  min-width: 100px;
-  padding: 5px 10px;
-  /*margin: 4px 0px;*/
-  background: none;
-  color: var(--main-text);
-  border: 2px solid var(--main-text);
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1em;
-}
-
-@media (hover: hover) {
-  button:hover {
-    background-color: var(--main-text);
-    color: var(--main-bg);
-  }
-}
-
-button:active {
-  background-color: var(--main-text);
-  color: var(--main-bg);
-}
-
-.CodeBlock {
-  /*background-color: var(--input-bg);*/
-  padding: 10px;
-  border: 2px solid var(--main-text);
-  border-radius: 5px;
-  font-family: monospace;
-  font-size: 1rem;
-  /* white-space: pre-wrap; */
-  /* I'm not sure how to get this working right for mobile, so use pre-wrap for now */
-  white-space: pre-wrap;
-  overflow-x: scroll;
-}
-
-.TextButton {
-  background: none;
-  border: none;
-  padding: 0;
-  user-select: none;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1.1em;
-}
-
-
-@media (hover: hover) {
-  .TextButton:hover {
-    color: var(--text-button-hover);
-  }
-}
-
-.TextButton:active {
-  color: var(--text-button-hover);
-}
-
-.SmallButton {
-  border: none;
-  border-radius: 4px;
-  padding: 2px;
-  margin: 5px 0px;
-  min-width: 20px;
-  /* line-height: 1rem; */
-}
-
-.LinkButton {
-  text-decoration: underline;
-  font-weight: 600;
-}
-
-/*
-For text you don't want to get highlighted when
-it gets clicked. Say if using for a button
-*/
-.NoSelect {
-  user-select: none;
-}
-
-.MockButton {
-  user-select: none;
-  cursor: pointer;
-}
-
-.Block {
-  display: block;
-}
-
-.DraggedChosenItem {
-  background-color: var(--color-link-hover);
-}
-
-.FeatherIcon {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.Flex {
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.MarginLeft {
-  margin-left: 15px;
-}
-
-.MarginTop {
-  margin-top: 10px;
-}
-
-.DeleteButton {
-  background-color: var(--nice-red);
-  border-color: var(--nice-red);
-  color: var(--main-text);
-}
-
-@media (hover: hover) {
-  .DeleteButton:hover {
-    background-color: var(--bright-red);
-    border-color: var(--bright-red);
-    color: var(--main-text);
-  }
-}
-
-.DeleteButton:active {
-  background-color: var(--bright-red);
-  border-color: var(--bright-red);
-  color: var(--main-text);
-}
-
-.HelpButton {
-  background-color: var(--help-btn);
-  border-color: var(--help-btn);
-  color: var(--main-bg)
-}
-
-@media (hover: hover) {
-  .HelpButton:hover {
-    background-color: var(--bright-help-btn);
-    border-color: var(--bright-help-btn);
-  }
-}
-
-.HelpButton:active {
-  background-color: var(--bright-help-btn);
-  border-color: var(--bright-help-btn);
-}
-
-.FormFieldName {
-  margin-top: var(--space-s);
-  margin-bottom: 4px;
-}
-
-.FormFieldNameWithInfo {
-  margin-top: var(--space-s);
-}
-
-.FormFieldInfo {
-  margin-bottom: 4px;
-  font-size: 20px;
-  color: var(--mute-text);
 }
 
 /* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
@@ -273,13 +108,5 @@ select {
   padding: 5px;
   min-width: 18ch;
   max-width: 30ch;
-}
-
-.PageHeader {
-  margin-bottom: 20px;
-}
-
-.DisclosureBody {
-  margin-top: var(--space-xs);
 }
 
