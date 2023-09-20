@@ -1,7 +1,7 @@
 @import './base.css';
 
 :root {
-  --button-border-radius: 6px;
+  --button-border-radius: var(--border-radius-small);
 }
 
 button {
@@ -10,7 +10,8 @@ button {
   /*margin: 4px 0px;*/
   background: none;
   color: var(--main-text);
-  border: 2px solid var(--main-text);
+  /* border: 2px solid var(--main-text); */
+  border: 1px solid var(--main-text);
   border-radius: var(--button-border-radius);
   cursor: pointer;
   font-weight: 600;
@@ -25,6 +26,10 @@ button:hover, button:active {
 /* No need for a different PrimaryButton for now */
 /*
 .PrimaryButton {
+  border: none;
+  border-radius: var(--button-border-radius);
+  background-color: var(--main-text);
+  color: var(--main-bg);
 }
 
 .PrimaryButton:hover, .PrimaryButton:active {
@@ -34,7 +39,7 @@ button:hover, button:active {
 /* Aka tertiary button */
 .SmallButton {
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   padding: 2px;
   margin: 5px 0px;
   min-width: 20px;
@@ -88,14 +93,13 @@ Does not alter the other styles of the element.
   color: var(--text-button-hover);
 }
 
-.SaveButton {
-  /* text-decoration: underline; */
-  /*
+.SaveButton, .BackButton {
+  text-decoration: underline;
+  /* color: var(--secondary-text); */
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   padding: 2px;
   margin: 5px 0px;
   min-width: 20px;
-  */
 }
 

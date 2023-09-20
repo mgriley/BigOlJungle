@@ -3,7 +3,14 @@ import { gApp, FeedGroup, Feed } from '../State.js'
 
 let exploreData = [
   {
-    group: "Try some",
+    group: "Random",
+    feeds: [
+      {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
+      {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
+    ]
+  },
+  {
+    group: "News",
     feeds: [
       {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
     ]
@@ -14,10 +21,17 @@ let exploreData = [
 <template>
   <div class="ExploreView">
     <h1 class="PageHeader">Explore</h1>
-    <p>Here are some feeds you can add to get started:</p>
-    <p>To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.</p> 
-    <div v-for="group in exploreData">
-      <button v-for="feed in group.feeds" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: feed.type, url: feed.url}})">{{ feed.name }}</button>
+    <p class="Info">
+    Here are some feeds you can add to get started. Click to add.
+    To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
+    </p> 
+    <div v-for="group in exploreData" class="Group">
+      <h3>{{ group.group }}</h3>
+      <ul>
+        <li v-for="feed in group.feeds">
+          <button class="SmallButton Block" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: feed.type, url: feed.url}})">{{ feed.name }}</button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -26,6 +40,14 @@ let exploreData = [
 .Emphasis {
   font-weight: bold;
   font-size: 1.2rem;
+}
+
+.Info {
+  margin-bottom: var(--space-m);
+}
+
+.Group {
+  margin-bottom: var(--space-s);
 }
 
 </style>

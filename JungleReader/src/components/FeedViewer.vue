@@ -16,19 +16,19 @@ function goBack() {
 
 <template>
   <div class="FeedViewer">
-    <button class="BackBtn" @click="goBack">Back to Home</button>
+    <button class="BackButton" @click="goBack">Back to Home</button>
     <div class="HeaderBox">
       <div class="FeedNameBox">
-        <div class="FeedName">{{ feed.name }}</div>
+        <h1 class="FeedName">{{ feed.name }}</h1>
         <div class="Subtitle">
-          <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton" target="_blank">
+          <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
             {{ feed.mainSiteUrl }}
           </a>
           <div v-if="!feed.reloading">
-            <div v-if="feed.lastReloadTime">Last Reload: {{ utils.getTimeAgoStr(feed.lastReloadTime, {enableMins: true}) }}</div>
-            <button @click="feed.reload()">Reload</button>
+            <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reload: {{ utils.getTimeAgoStr(feed.lastReloadTime, {enableMins: true}) }}</div>
+            <button class="SmallButton ReloadButton" @click="feed.reload()">Reload</button>
           </div>
-          <div v-else>
+          <div v-else class="SubtitleText">
             Reloading...
           </div>
         </div>
@@ -37,11 +37,12 @@ function goBack() {
     <template v-if="!feed.isError">
       <div class="LinkList">
         <div class="LinkElem" v-for="link in feed.links" :id="link.id">
-          <div>
+          <p class="LinkText">
             <a :href="link.link" target="_blank" class="LinkText">
-              {{ link.getTrimmedStringDesc(150) }}
+              <!-- {{ link.getTrimmedStringDesc(150) }} -->
+              {{ link.getTrimmedStringDesc(500) }}
             </a>
-          </div>
+          </p>
           <div class="SubInfo">
             <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
             <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
@@ -60,6 +61,7 @@ function goBack() {
 <style scoped>
 .FeedViewer {
   position: relative;
+  max-width: 720px;
 }
 
 .FeedNameBox {
@@ -67,16 +69,23 @@ function goBack() {
 }
 
 .FeedName {
-  font-size: 4rem;
-  font-weight: 800;
-  letter-spacing: -3px;
   line-height: 1;
+  margin-bottom: var(--space-s);
 }
 
 .FeedNameBox .Subtitle {
-  font-size: 1rem;
-  font-weight: 600;
+  margin-bottom: var(--space-xl);
+}
+
+.SubtitleText {
+  font-size: var(--small-size);
+  /* font-weight: var(--bold-weight); */
   font-style: italic;
+}
+
+.ReloadButton {
+  margin: 0;
+  padding: 0;
 }
 
 .ErrorIndicator {
@@ -94,35 +103,29 @@ function goBack() {
   white-space: nowrap;
   text-overflow: ellipsis;
   */
-  font-size: 1.5rem;
-  line-height: 1.3;
 
-  border: 2px solid var(--main-text);
-  padding: 5px 10px;
-  margin-bottom: 20px;
-
-  box-shadow: 4px 4px 0px var(--main-text);
+  border: 1px solid var(--main-text);
+  border-radius: var(--border-radius-small);
+  /* padding: 8px 12px; */
+  padding: var(--space-s);
+  margin-bottom: var(--space-m);
 }
 
 .LinkText {
-  font-weight: 500;
+  text-decoration: none;
 }
 
 .LinkElem .SubInfo {
   display: flex;
   /*color: var(--mute-text);*/
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: var(--small-size);
+  font-weight: var(--bold-weight);
   font-style: italic;
-  margin: 5px 0;
+  margin-top: var(--space-xs);
 }
 
 .ExtraString {
-  margin-right: 15px;
-}
-
-.Bullet {
-  margin-right: 10px;
+  margin-right: 16px;
 }
 
 .DaysAgo {
@@ -132,12 +135,12 @@ function goBack() {
   display: flex;
 }
 
-.BackBtn {
+.BackButton {
   float: right;
 }
 
 .HeaderBox {
-  margin-bottom: 30px;
+  margin-bottom: var(--space-l);
 }
 
 </style>

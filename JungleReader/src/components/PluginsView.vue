@@ -14,7 +14,7 @@ import { kPluginHelp } from '../HelpText.js'
 <template>
   <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
   <div class="TextPluginEditor" v-if="gApp.getPluginToEdit()">
-    <button class="DoneButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
+    <button class="DoneButton BackButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
     <h1 class="PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
     <div v-if="gApp.getPluginToEdit().pluginType == CustomPluginType.Text">
       <CodeEditor class="CodeEditor" v-model="gApp.getPluginToEdit().pluginText" />
@@ -57,8 +57,7 @@ import { kPluginHelp } from '../HelpText.js'
 }
 
 .DoneButton {
-  margin-bottom: 40px;
-  margin-right: 4px;
+  margin-right: var(--space-xs);
   float: right;
 }
 

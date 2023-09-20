@@ -116,13 +116,12 @@ onMounted(() => {
       <router-view></router-view>
     </div>
   </div>
-  <BasicModal ref="importConfigModal" title="Import Config">
+  <BasicModal ref="importConfigModal" title="Import Config" doneText="Import" @onDone="importConfig">
     <p>When you import a config, it will override your current config.</p>
     <p>You may want to export your current config first.</p>
     <div class="ImportBox">
       <input ref="importFileInput" type="file" id="input" />
     </div>
-    <button @click="importConfig">Import</button>
   </BasicModal>
   <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
     <p>
@@ -184,10 +183,11 @@ onMounted(() => {
 
 .SideMenu a {
   display: block;
-  font-weight: var(--bold-weight);
+  /* font-weight: var(--bold-weight); */
   font-size: var(--p-size);
   text-decoration: none;
   margin-bottom: var(--space-xs);
+  /* color: var(--secondary-text); */
 }
 
 .SideMenu .Section:not(:last-child) {
@@ -288,8 +288,6 @@ Also collapse the menu.
 }
 
 #HomeLink {
-  /* font-size: 1.5rem; */
-  font-weight: 900;
 }
 
 .router-link-active {

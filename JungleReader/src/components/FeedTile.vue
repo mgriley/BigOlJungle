@@ -117,7 +117,7 @@ const titleStyle = computed(() => {
   /* background-color: var(--bg-color); */
   /* box-shadow: var(--box-shadow); */
 
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   border: 1px solid var(--main-text);
   /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--primary-color), transparent 30%); */
   /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--nice-red), transparent 30%); */

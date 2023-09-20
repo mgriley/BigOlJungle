@@ -183,8 +183,8 @@ onMounted(() => {
     </div>
     !-->
     <div class="ButtonMenu">
-      <button class="AddBtn" @click="addFeed()">Add Feed</button>
-      <button class="AddBtn" @click="addFeedGroup()">Add Group</button>
+      <button class="AddBtn PrimaryButton" @click="addFeed()">Add Feed</button>
+      <button class="AddBtn PrimaryButton" @click="addFeedGroup()">Add Group</button>
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
@@ -250,13 +250,9 @@ onMounted(() => {
 }
 
 .FeedGroups {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas: "left";
 }
 
 .LeftPane {
-  grid-area: left;
   overflow-y: auto;
   height: 100%;
   overflow: visible;
@@ -267,6 +263,9 @@ onMounted(() => {
 
 .ButtonMenu button {
   margin-right: var(--space-xs);
+}
+
+.AddBtn {
 }
 
 .GroupList {
@@ -299,7 +298,6 @@ onMounted(() => {
   margin-right: var(--space-m);
   font-size: 2rem;
   font-weight: 800;
-  letter-spacing: -1px;
   /* text-overflow: ellipsis; */
 }
 
@@ -327,16 +325,17 @@ onMounted(() => {
 }
 
 .OpenIndicator {
-  margin-right: var(--space-xs);
+  margin-right: var(--space-s);
 }
 
 .EditGroupButton {
+  min-width: 48px;
 }
 
 .GroupControlButton {
   font-weight: normal;
   text-decoration: underline;
-  font-size: calc(var(--p-size) + 2px);
+  font-size: calc(var(--p-size));
   color: var(--secondary-text);
 }
 

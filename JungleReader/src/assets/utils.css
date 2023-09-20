@@ -24,17 +24,33 @@ it gets clicked. Say if using for a button
   display: block;
 }
 
+.InlineBlock {
+  display: inline-block;
+}
+
 .Flex {
   display: flex;
   flex-flow: row wrap;
 }
 
 .MarginLeft {
-  margin-left: 15px;
+  margin-left: 16px;
 }
 
 .MarginTop {
-  margin-top: 10px;
+  margin-top: 8px;
+}
+
+.MarginBotS {
+  margin-bottom: var(--space-s);
+}
+
+.MarginBotXS {
+  margin-bottom: var(--space-xs);
+}
+
+.MarginBotXXS {
+  margin-bottom: var(--space-xxs);
 }
 
 .DraggedChosenItem {

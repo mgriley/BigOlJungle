@@ -77,7 +77,13 @@
   --h1-size: calc(var(--h2-size)*1.25);
   --small-size: calc(var(--p-size)*0.90);
 
+  --main-line-height: 1.6;
+
   --bold-weight: 700;
+
+  --border-radius-small: 4px;
+  --border-radius-med: 6px;
+  --border-radius-large: 8px;
 
   /* --feed-tile-width: 180px; */
   /* --feed-tile-height: 140px; */

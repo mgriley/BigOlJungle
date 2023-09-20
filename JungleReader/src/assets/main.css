@@ -28,7 +28,7 @@ div {
 }
 
 p {
-  line-height: 1.6;
+  line-height: var(--main-line-height);
   font-size: var(--p-size);
   color: var(--secondary-text);
 }
@@ -47,13 +47,13 @@ h1 {
 h2 {
   font-size: var(--h2-size);
   line-height: 1.2;
-  letter-spacing: -1px;
+  /* letter-spacing: -1px; */
 }
 
 h3 {
   font-size: var(--h3-size);
   line-height: 1.4;
-  letter-spacing: -1px;
+  /* letter-spacing: -1px; */
 }
 
 h4 {
@@ -82,7 +82,7 @@ a:hover, a:active {
   /* margin: 5px 0; */
   /* border: 1px solid var(--light-color); */
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   font-size: var(--p-size);
   background-color: var(--input-bg);
 }
@@ -96,8 +96,8 @@ select {
   /* color: var(--main-text); */
   background-color: var(--input-bg);
   border: none;
-  border-radius: 4px;
-  padding: 5px;
+  border-radius: var(--border-radius-small);
+  padding: 4px;
   min-width: 18ch;
   max-width: 30ch;
 }
