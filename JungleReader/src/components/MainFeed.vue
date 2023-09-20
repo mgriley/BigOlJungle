@@ -198,8 +198,9 @@ onMounted(() => {
               <div class="GroupControls">
                 <div class="GroupName TextButton" :class="{Closed: !element.expanded}"
                   @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</div>
-                <div @click="toggleExpandGroup(element)" class="GroupControlButton OpenIndicator TextButton">{{ element.expanded ? "[hide]" : "[show]" }}</div>
-                <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton EditGroupButton TextButton">[edit]</div>
+                <!-- <div class="GroupControlButton OpenIndicator"><vue-feather :type="element.expanded ? 'eye' : 'eye-off'" size="32" stroke-width="1" /></div> -->
+                <div @click="toggleExpandGroup(element)" class="GroupControlButton OpenIndicator TextButton">{{ element.expanded ? "hide" : "show" }}</div>
+                <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton EditGroupButton TextButton">edit</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
               <draggable class="FeedList" :list="element.feeds" group="element.expanded"
@@ -282,7 +283,7 @@ onMounted(() => {
   display: flex;
   flex-flow: row wrap;
   overflow: visible;
-  gap: 30px 30px;
+  gap: var(--space-m) var(--space-m);
 }
 
 .FeedList.Closed {
@@ -326,7 +327,7 @@ onMounted(() => {
 }
 
 .OpenIndicator {
-  margin-right: var(--space-xxs);
+  margin-right: var(--space-xs);
 }
 
 .EditGroupButton {
@@ -334,7 +335,8 @@ onMounted(() => {
 
 .GroupControlButton {
   font-weight: normal;
-  font-size: var(--h4-size);
+  text-decoration: underline;
+  font-size: calc(var(--p-size) + 2px);
   color: var(--secondary-text);
 }
 
@@ -361,7 +363,7 @@ onMounted(() => {
 }
 
 .EmptyGroupIndicator p {
-  font-size: var(--h4-size);
+  font-size: var(--p-size);
 }
 
 .GroupEditorModal {

@@ -119,6 +119,9 @@ dialog::backdrop {
 }
 
 dialog::backdrop {
+  /*backdrop-filter: blur(4px) invert(80%);*/
+  /* Note - this invert looks oddly good */
+  /* backdrop-filter: invert(80%); */
   backdrop-filter: blur(4px);
 }
 

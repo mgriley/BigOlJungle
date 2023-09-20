@@ -32,11 +32,11 @@ function onSetupDone() {
       </p>
       <div class="ExtButtonDiv Flex">
         <div>
-          <a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank"><img src="FirefoxInstallExtBtn.png"/></a>
+          <a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank"><img src="./FirefoxInstallExtBtn.png"/></a>
           <p>Install for Firefox</p>
         </div>
         <div>
-          <a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank"><img src="ChromeInstallExtBtn.png" /></a>
+          <a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank"><img src="./ChromeInstallExtBtn.png" /></a>
           <p>Install for Chrome</p>
         </div>
       </div>

@@ -83,7 +83,7 @@ const titleStyle = computed(() => {
   ];
   */
   return {
-    'font-family': getItemFromStyleId(availableFonts, props.feed.styleId),
+    // 'font-family': getItemFromStyleId(availableFonts, props.feed.styleId),
   };
 });
 
@@ -104,9 +104,11 @@ const titleStyle = computed(() => {
 <style scoped>
 .FeedTile {
   position: relative;
+  display: flex;
+  flex-flow: column nowrap;
   width: var(--feed-tile-width);
   height: var(--feed-tile-height);
-  padding: 6px;
+  padding: var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
   overflow: hidden;
@@ -116,8 +118,8 @@ const titleStyle = computed(() => {
   /* box-shadow: var(--box-shadow); */
 
   border-radius: 4px;
-  border: 2px solid var(--main-text);
-  box-shadow: 8px 8px 8px color-mix(in srgb, var(--primary-color), transparent 30%);
+  border: 1px solid var(--main-text);
+  /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--primary-color), transparent 30%); */
   /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--nice-red), transparent 30%); */
 }
 
@@ -130,21 +132,19 @@ const titleStyle = computed(() => {
 }
 
 .FeedTitle {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: var(--p-size);
+  font-weight: var(--bold-weight);
   line-height: 1;
   text-overflow: ellipsis;
   overflow-wrap: anywhere;
-  text-align: center;
-  margin-top: 5px;
-  transform: rotate(-8deg);
+  text-align: left;
+  /* margin-bottom: var(--space-s); */
+  /* transform: rotate(-8deg); */
 }
 
 .Details {
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 15px;
-  margin-left: 10px;
+  font-size: var(--small-size);
+  margin-top: auto;
 }
 
 .EditButton {
