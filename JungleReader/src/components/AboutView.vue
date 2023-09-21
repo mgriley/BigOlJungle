@@ -6,7 +6,7 @@
     <div class="MainInfo">
       <h1 class="PageHeader">About</h1>
       <p class="Emphasis">
-      JungleReader is a free+open-source web reader.
+      JungleReader is a free and open-source web reader.
       </p>
       <p>
       It's made to help you keep up with the sites you like,
@@ -48,32 +48,32 @@
 
 <style scoped>
 .MainInfo p {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-m);
 }
 
 .Emphasis {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: var(--h4-size);
 }
 
 .MoreInfo {
-  margin-top: 60px;
+  margin-top: var(--space-xl);
 }
 
 .Other {
-  margin-top: 40px;
+  margin-top: var(--space-xl);
 }
 
 .Newsletter {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-m);
 }
 
 .SponsorFrame {
-  margin-top: 20px;
+  margin-top: var(--space-m);
 }
 
 .ExtraWidgets {
-  margin-top: 40px;
+  margin-top: var(--space-l);
 }
 
 </style>

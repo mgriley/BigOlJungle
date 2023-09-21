@@ -17,12 +17,9 @@ const props = defineProps({
   cancelText: {
     default: 'Cancel',
   },
-  showDelete: {
-    default: false,
-  },
 });
 
-const emit = defineEmits(['onDelete', 'onCancel', 'onDone'])
+const emit = defineEmits(['onCancel', 'onDone'])
 
 let dialog = ref(null);
 let isOpen = ref(false);
@@ -80,13 +77,12 @@ Ends up being very finnicky.
     <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
     <!-- <div v-if="isOpen"> -->
       <div class="InnerModal">
-        <div v-if="title" class="Title">{{ title }}</div>
+        <h3 v-if="title" class="Title">{{ title }}</h3>
         <div class="Body">
           <slot>Default Body</slot>
         </div>
         
         <div class="Footer">
-          <button v-if="showDelete" @click="emit('onDelete')" class="DeleteBtn">Delete</button>
           <button v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
           <button v-if="showDone" @click="onDone">{{ doneText }}</button>
         </div>
@@ -107,12 +103,10 @@ dialog::backdrop {
   background-color: var(--popup-bg);
   border: 1px solid var(--main-text);
   /*border: none;*/
-  border-radius: 10px;
-  padding: 0.75em 0.75em;
+  border-radius: var(--border-radius-large);
+  padding: var(--space-m);
   min-width: 160px;
   max-width: 90%;
-  /* max-width: 90% */;
-  /*box-shadow: 0 4px 12px var(--main-text);*/
   margin-left: auto;
   margin-right: auto;
   margin-top: 5vh;
@@ -140,14 +134,11 @@ dialog::backdrop {
 }
 
 .BasicModal .Title {
-  font-size: 1.75rem;
-  font-weight: 800;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-xs);
 }
 
 .Body {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-m);
 }
 
 .Footer {
@@ -158,8 +149,8 @@ dialog::backdrop {
   margin-right: var(--space-xs);
 }
 
-.DeleteBtn {
-  margin-right: 20px;
+.Footer button:last-child {
+  margin-right: 0;  
 }
 
 </style>

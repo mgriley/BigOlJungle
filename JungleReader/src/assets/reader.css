@@ -1,20 +1,28 @@
 @import './base.css';
 
 .PageHeader {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-m);
 }
 
 .FormFieldName {
   margin-top: var(--space-s);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-xxs);
+}
+
+.FormFieldName:first-child {
+  margin-top: 0;
 }
 
 .FormFieldNameWithInfo {
   margin-top: var(--space-s);
 }
 
+.FormFieldNameWithInfo:first-child {
+  margin-top: 0;
+}
+
 .FormFieldInfo {
-  margin-bottom: 4px;
+  margin-bottom: var(--space-xxs);
   font-size: var(--small-size);
   color: var(--mute-text);
 }
@@ -29,11 +37,11 @@
 
 .CodeBlock {
   /*background-color: var(--input-bg);*/
-  padding: 10px;
-  border: 2px solid var(--main-text);
-  border-radius: 5px;
+  padding: var(--space-s);
+  border: 1px solid var(--main-text);
+  border-radius: var(--border-radius-med);
   font-family: monospace;
-  font-size: 1rem;
+  font-size: var(--p-size);
   /* white-space: pre-wrap; */
   /* I'm not sure how to get this working right for mobile, so use pre-wrap for now */
   white-space: pre-wrap;

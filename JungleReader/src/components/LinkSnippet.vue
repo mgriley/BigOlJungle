@@ -36,9 +36,9 @@ function copyText() {
 }
 
 .LinkText {
-  flex: 1 50px;
-  padding: 0 5px;
-  border-radius: 5px;
+  flex: 1 48px;
+  padding: 0 4px;
+  border-radius: 4px;
   border: 1px solid var(--secondary-text);
   white-space: nowrap;
   overflow: hidden;
@@ -48,7 +48,7 @@ function copyText() {
 }
 
 .CopyButton {
-  margin-left: 10px;
+  margin-left: 8px;
   margin-top: 0;
   margin-bottom: 0;
 }

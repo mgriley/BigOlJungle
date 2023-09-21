@@ -114,19 +114,12 @@ const titleStyle = computed(() => {
   overflow: hidden;
   z-index: 0;
 
-  /* background-color: var(--bg-color); */
-  /* box-shadow: var(--box-shadow); */
-
   border-radius: var(--border-radius-small);
   border: 1px solid var(--main-text);
-  /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--primary-color), transparent 30%); */
-  /* box-shadow: 8px 8px 8px color-mix(in srgb, var(--nice-red), transparent 30%); */
 }
 
 .FeedTile:hover {
-  /* transform: scale(1.2) translateY(-5px) rotate(5deg); */
   transform: scale(1.2) translateY(-5px);
-  /* box-shadow: 0 4 10px 4px color-mix(in srgb, var(--bg-color), transparent 30%); */
   box-shadow: none;
   z-index: 1;
 }
@@ -138,8 +131,6 @@ const titleStyle = computed(() => {
   text-overflow: ellipsis;
   overflow-wrap: anywhere;
   text-align: left;
-  /* margin-bottom: var(--space-s); */
-  /* transform: rotate(-8deg); */
 }
 
 .Details {

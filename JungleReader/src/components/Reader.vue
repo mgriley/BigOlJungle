@@ -134,12 +134,12 @@ onMounted(() => {
 <style scoped>
 .AppTitle {
   font-family: 'Gill Sans';
-  font-size: 2em;
+  font-size: 44px;
   /* font-weight: 900; */
   color: var(--header-text);
   font-weight: 800;
   margin-bottom: var(--space-xl);
-  line-height: 0.8em;
+  line-height: 0.8;
   letter-spacing: -2px;
   padding-bottom: 2px;
   cursor: pointer;
@@ -200,7 +200,7 @@ onMounted(() => {
 
 .SidebarBtn {
   border-radius: 0;
-  font-size: 1.5rem;
+  font-size: var(--p-size);
   font-weight: 900;
   letter-spacing: -2px;
   background-color: var(--main-text);
@@ -222,8 +222,8 @@ onMounted(() => {
 }
 
 .SidebarBtn .MenuIcon {
-  margin-left: 10px;
-  padding-left: 10px;
+  margin-left: 8px;
+  padding-left: 8px;
 }
 
 /*
@@ -233,7 +233,7 @@ Also collapse the menu.
 @media (max-width: 768px) {
   .toplevel {
     max-width: 100%;
-    padding: 20px 20px;
+    padding: 24px 24px;
     grid-template-columns: 100%;
     grid-template-areas:
       "sidebar"
@@ -250,7 +250,7 @@ Also collapse the menu.
   .Sidebar {
     /*border-bottom: 1px solid var(--mute-text);*/
     margin-left: 0;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     padding: 0;
   }
 
@@ -269,11 +269,11 @@ Also collapse the menu.
   }
 
   .SidebarContent a {
-    padding-left: 10px;
+    padding-left: 8px;
   }
 
   .SidebarContent p {
-    padding-left: 10px;
+    padding-left: 8px;
   }
 
   .SidebarContent.open {
@@ -300,7 +300,7 @@ Also collapse the menu.
 }
 
 .ImportBox input {
-  font-size: 1rem;
+  font-size: var(--p-size);
   margin-bottom: var(--space-xs);
 }
 

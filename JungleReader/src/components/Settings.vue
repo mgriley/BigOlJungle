@@ -133,20 +133,20 @@ function addTestFeeds() {
 }
 
 .SettingsSection {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .SubSection {
-  margin-top: 10px;
-  margin-bottom: 25px;
+  margin-top: 8px;
+  margin-bottom: 24px;
 }
 
 .FetchDesc {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .SmallButton {
-  margin: 0.2em 0;
+  margin: 4px 0;
 }
 
 .MutedHeader {

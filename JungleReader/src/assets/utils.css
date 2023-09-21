@@ -34,11 +34,11 @@ it gets clicked. Say if using for a button
 }
 
 .MarginLeft {
-  margin-left: 16px;
+  margin-left: var(--space-s);
 }
 
 .MarginTop {
-  margin-top: 8px;
+  margin-top: var(--space-xs);
 }
 
 .MarginBotS {

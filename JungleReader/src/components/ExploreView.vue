@@ -37,11 +37,6 @@ let exploreData = [
 </template>
 
 <style scoped>
-.Emphasis {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
 .Info {
   margin-bottom: var(--space-m);
 }

@@ -6,8 +6,7 @@ import PluginEditor from './PluginEditor.vue'
 import CodeEditor from './CodeEditor.vue'
 import QuickParseEditor from './QuickParseEditor.vue'
 import BasicSelector from './BasicSelector.vue'
-import HelpButton from './HelpButton.vue'
-import { kPluginHelp } from '../HelpText.js'
+import MoreInfoText from './MoreInfoText.vue'
 
 </script>
 
@@ -26,18 +25,18 @@ import { kPluginHelp } from '../HelpText.js'
   <div v-else>
     <h1 class="PageHeader">Plugins</h1>
     <div class="Desc">
-      <p>
+      <p class="MarginBotS">
         Plugins allow JungleReader to support sites that aren't supported out-of-the-box.
-        The plugin system is meant to help devs create feeds for almost any site or data source. There are a couple different
+        The plugin system is designed to help devs add support for almost any site or data source.
+      </p>
+      <MoreInfoText text="More info on plugins">
+        There are a couple different
         options. You can write a custom script, use the QuickParser gui,
         or provide a link to someone else's plugin.
-      </p>
-      <p class="Italic">
-        (Note that you cannot have multiple plugins with the same name.)
-      </p>
-      <div class="PluginHelp">
-        <HelpButton title="Plugin Help" :text="kPluginHelp" />
-      </div>
+        <p class="Italic">
+          (Note that you cannot have multiple plugins with the same name.)
+        </p>
+      </MoreInfoText>
     </div>
     <PluginEditor />
   </div>
@@ -49,7 +48,7 @@ import { kPluginHelp } from '../HelpText.js'
 }
 
 .TextPluginEditor .PluginName {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .CodeEditor {
@@ -66,7 +65,7 @@ import { kPluginHelp } from '../HelpText.js'
 }
 
 .PluginHelp {
-  margin-top: 20px;
+  margin-top: var(--space-xs);
   margin-bottom: 40px;
 }
 

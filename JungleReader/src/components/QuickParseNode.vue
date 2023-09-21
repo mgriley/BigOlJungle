@@ -105,10 +105,10 @@ function getAttrStr(nodeData) {
 
 .ChildList {
   list-style-type: none;
-  padding-left: 20px;
+  padding-left: 24px;
 }
 
 .HelperText {
-  margin-left: 5px;
+  margin-left: 4px;
 }
 </style>

@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
-
-let showExtDetails = ref(false);
+import MoreInfoText from './MoreInfoText.vue'
 
 function onSetupDone() {
   gApp.setDoneWelcome(true);
@@ -32,23 +31,20 @@ function onSetupDone() {
       </p>
       <div class="ExtButtonDiv Flex">
         <div>
-          <a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank"><img src="./FirefoxInstallExtBtn.png"/></a>
+          <a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank"><img src="../assets/FirefoxInstallExtBtn.png"/></a>
           <p>Install for Firefox</p>
         </div>
         <div>
-          <a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank"><img src="./ChromeInstallExtBtn.png" /></a>
+          <a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank"><img src="../assets/ChromeInstallExtBtn.png" /></a>
           <p>Install for Chrome</p>
         </div>
       </div>
-      <button class="SmallButton" @click="showExtDetails = !showExtDetails">Why do I need this extension?</button>
-      <template v-if="showExtDetails">
-        <p class="DisclosureBody">
+      <MoreInfoText text="Why do I need this extension?">
         JungleReader works by fetching webpages and feeds from other websites and showing their contents here. The JungleExt browser extension handles this.
         When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
         any other website you may choose. The extension does not do anything beyond handling simple web requests. If you'd like to inspect the code, you can view 
         it on GitHub or install the extension as a zip (instructions on GitHub).
-        </p>
-      </template>
+      </MoreInfoText>
     </div>
     <div class="HelpStep">
       <h3>Step 2: Add a feed</h3>
@@ -57,15 +53,15 @@ function onSetupDone() {
       the URL to <b>www.youtube.com/@sora_sakurai_en</b>. Click the new feed to see its content.
       </p>
     </div>
-    <div class="HelpStep">
+    <div class="HelpStep DoneStep">
       <h3>You're done!</h3>
-      <p>
+      <p class="FromHereText">
       From here:
       </p>
-      <ol>
-        <li>Add feeds for each site you'd like to follow</li>
-        <li>Check out the <router-link to="/explore">"Explore"</router-link> tab for suggestions</li>
-        <li>If you're a developer, check out the Plugins page</li>
+      <ol class="NextStepsList">
+        <li><p>Add feeds for each site you'd like to follow</p></li>
+        <li><p>Check out the <router-link to="/explore">"Explore"</router-link> tab for suggestions</p></li>
+        <li><p>If you're a developer, check out the Plugins page</p></li>
       </ol>
       <button class="DoneBtn PrimaryButton" @click="onSetupDone">Done!</button>
     </div>
@@ -81,12 +77,12 @@ function onSetupDone() {
 }
 
 .SetupHelp p {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .Emphasis {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: var(--h4-size);
 }
 
 .UnderlineLink {
@@ -94,36 +90,23 @@ function onSetupDone() {
   font-weight: 500;
 }
 
-h2 {
-  font-size: 1.75rem;
-  margin: 8px 0;
-}
-
-h3 {
-  margin: 6px 0;
-}
-
-h4 {
-  margin: 4px 0;
-}
-
 ol {
-  margin: 15px 0px;
+  margin: 16px 0px;
 }
 
 .AllSet {
-  margin-top: 30px;
+  margin-top: 32px;
 }
 
 .DoneBtn {
-  margin-top: 20px;
+  margin-top: 56px;
 }
 
 .MobileWarning {
   font-style: italic;
   display: none;
   background-color: var(--input-bg);
-  padding: 10px;
+  padding: 8px;
 }
 
 @media (max-width: 768px) {
@@ -138,6 +121,22 @@ ol {
 
 .HelpStep {
   margin-bottom: var(--space-l);
+}
+
+.HelpStep:last-child {
+  margin-bottom: 0;
+}
+
+.DoneStep .FromHereText {
+  margin-bottom: 4px;
+}
+
+.NextStepsList {
+  margin: 0;
+}
+
+.NextStepsList p {
+  margin-bottom: 0;  
 }
 
 </style>

@@ -226,20 +226,20 @@ function submitPasteConfig(configText) {
 <style scoped>
 
 .DomItems {
-  margin: 20px 0px;
+  margin: 24px 0px;
 }
 
 .DomTree {
-  margin-top: 20px;
+  margin-top: 24px;
   margin-bottom: 40px;
   border: 2px solid black;
-  padding: 10px;
+  padding: 8px;
 }
 
 .TestOutputBox {
-  margin: 20px 0px;
+  margin: 24px 0px;
   border: 2px solid black;
-  padding: 10px;
+  padding: 8px;
   white-space: pre;
 }
 
@@ -248,11 +248,11 @@ function submitPasteConfig(configText) {
 }
 
 .SetItemBtn {
-  margin-right: 5px;
+  margin-right: 4px;
 }
 
 .ClearItemBtn {
-  margin-right: 15px;
+  margin-right: 16px;
 }
 
 .PasteBox {

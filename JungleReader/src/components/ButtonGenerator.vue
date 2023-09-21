@@ -75,25 +75,13 @@ function changeBigButtonSize(newVal) {
   */
 }
 
-.FormFieldName {
-  font-size: 1rem;
-  margin: 5px 0;
-  margin-top: 5px;
-}
-
 .Output {
-  margin-top: 16px;
-}
-
-.Output .FormFieldName {
-  font-weight: 600;
-  font-size: 1.1rem;
   margin-top: 16px;
 }
 
 .BtnPreview {
   display: inline-block;
-  padding: 5px;
+  padding: 4px;
   border: 2px dashed var(--main-bg);
   background-color: white;
 }

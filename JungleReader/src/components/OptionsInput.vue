@@ -47,8 +47,8 @@ function addOption() {
   flex-flow: row wrap;
   /* The align-items baseline causes issues on mobile */
   /* align-items: baseline; */
-  gap: 5px;
-  margin-bottom: 5px;
+  gap: 4px;
+  margin-bottom: 4px;
 }
 
 .OptionsEntry input {

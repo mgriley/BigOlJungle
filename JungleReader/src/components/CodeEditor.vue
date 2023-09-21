@@ -49,7 +49,7 @@ function highlighter(code) {
 <style scoped>
 
 .CodeEditor {
-  margin-bottom: 40px;
+  margin-bottom: var(--space-xl);
 }
 
 /* required class */
@@ -60,9 +60,9 @@ function highlighter(code) {
 
   /* you must provide font-family font-size line-height. Example: */
   font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-  font-size: 22px;
-  line-height: 1.5;
-  padding: 5px;
+  font-size: var(--p-size);
+  line-height: var(--main-line-height);
+  padding: 4px;
 }
 
 /* optional class for removing the outline */

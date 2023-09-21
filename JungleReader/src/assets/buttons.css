@@ -6,7 +6,7 @@
 
 button {
   min-width: 100px;
-  padding: 5px 10px;
+  padding: 6px 12px;
   /*margin: 4px 0px;*/
   background: none;
   color: var(--main-text);
@@ -15,7 +15,8 @@ button {
   border-radius: var(--button-border-radius);
   cursor: pointer;
   font-weight: 600;
-  font-size: 1em;
+  /* font-weight: var(--bold-weight); */
+  font-size: var(--p-size);
 }
 
 button:hover, button:active {
@@ -41,9 +42,8 @@ button:hover, button:active {
   border: none;
   border-radius: var(--border-radius-small);
   padding: 2px;
-  margin: 5px 0px;
+  margin: 4px 0px;
   min-width: 20px;
-  /* line-height: 1rem; */
 }
 
 .SmallButton:hover, .SmallButton:active {
@@ -72,8 +72,7 @@ button:hover, button:active {
   padding: 0;
   user-select: none;
   cursor: pointer;
-  font-weight: 700;
-  font-size: 1.1em;
+  font-weight: var(--bold-weight);
 }
 
 .TextButton:hover, .TextButton:active {
@@ -99,7 +98,7 @@ Does not alter the other styles of the element.
   border: none;
   border-radius: var(--border-radius-small);
   padding: 2px;
-  margin: 5px 0px;
+  margin: 4px 0px;
   min-width: 20px;
 }
 

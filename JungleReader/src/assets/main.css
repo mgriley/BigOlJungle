@@ -78,7 +78,7 @@ a:hover, a:active {
 /* See: https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width */
 .BasicTextInput {
   display: block;
-  padding: 5px;
+  padding: 4px;
   /* margin: 5px 0; */
   /* border: 1px solid var(--light-color); */
   border: none;

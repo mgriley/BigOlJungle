@@ -75,17 +75,11 @@ let rssTemplate = `<?xml version="1.0" encoding="UTF-8" ?>
 }
 
 .AddSupport p {
-  margin-bottom: 20px;
-}
-
-
-h4 {
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-bottom: var(--space-m);
 }
 
 .GenSection {
-  margin-top: 30px;
+  margin-top: var(--space-l);
 }
 
 </style>

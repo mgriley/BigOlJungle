@@ -196,8 +196,8 @@ onMounted(() => {
           <template #item="{element}">
             <div class="FeedGroupItem">
               <div class="GroupControls">
-                <div class="GroupName TextButton" :class="{Closed: !element.expanded}"
-                  @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</div>
+                <h2 class="TextButton GroupName" :class="{Closed: !element.expanded}"
+                  @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</h2>
                 <!-- <div class="GroupControlButton OpenIndicator"><vue-feather :type="element.expanded ? 'eye' : 'eye-off'" size="32" stroke-width="1" /></div> -->
                 <div @click="toggleExpandGroup(element)" class="GroupControlButton OpenIndicator TextButton">{{ element.expanded ? "hide" : "show" }}</div>
                 <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton EditGroupButton TextButton">edit</div>
@@ -296,8 +296,8 @@ onMounted(() => {
 
 .GroupName {
   margin-right: var(--space-m);
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 40px;
+  /* font-size: var(--h3-size); */
   /* text-overflow: ellipsis; */
 }
 
@@ -316,7 +316,7 @@ onMounted(() => {
 
 .GroupControls .Collapse {
   font-weight: 600;
-  margin-right: 10px;
+  margin-right: 8px;
   /*color: var(--nice-red);*/
 }
 
@@ -349,7 +349,7 @@ onMounted(() => {
 
 .AddLinkedFeedInfo {
   font-family: monospace;
-  font-size: 1rem;
+  font-size: var(--p-size);
 }
 
 .BackgroundImg {
@@ -358,6 +358,7 @@ onMounted(() => {
 }
 
 .EmptyGroupIndicator {
+  margin-top: var(--space-xs);
   font-style: italic;
 }
 

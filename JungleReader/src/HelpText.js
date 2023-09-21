@@ -1,4 +1,5 @@
 
+/*
 export const kPluginHelp = `
 <h1>Hello World</h1>
 <p>
@@ -9,3 +10,4 @@ Testing?
 Testing 2?
 </p>
 `
+*/

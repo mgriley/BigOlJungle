@@ -26,8 +26,8 @@
 }
 
 h4 {
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-top: 24px;
+  margin-bottom: 4px;
 }
 
 </style>

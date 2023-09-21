@@ -18,8 +18,6 @@ import ExploreView from './components/ExploreView.vue'
 import StarredView from './components/StarredView.vue'
 import HistoryView from './components/HistoryView.vue'
 import PluginsView from './components/PluginsView.vue'
-import ImportView from './components/ImportView.vue'
-import ExportView from './components/ExportView.vue'
 import Settings from './components/Settings.vue'
 import AboutView from './components/AboutView.vue'
 import FeedView from './components/FeedView.vue'
@@ -38,12 +36,6 @@ const routes = [
   },
   {
     path: '/explore', name: 'explore', component: ExploreView
-  },
-  {
-    path: '/import', name: 'import', component: ImportView
-  },
-  {
-    path: '/export', name: 'export', component: ExportView
   },
   {
     path: '/settings', name: 'settings', component: Settings
