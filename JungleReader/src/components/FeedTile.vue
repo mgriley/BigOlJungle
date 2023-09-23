@@ -90,35 +90,40 @@ const titleStyle = computed(() => {
 </script>
 
 <template>
-  <div class="FeedTile" :style="tileStyle" @click="onFeedClicked(feed)">
-    <div class="FeedTitle" :style="titleStyle">
-      {{ feed.name ? feed.name : "NoName" }}
-    </div>
-    <div class="Details">
-    Hello World
+  <div class="TileContainer">
+    <div class="FeedTile" :style="tileStyle" @click="onFeedClicked(feed)">
+      <div class="FeedTitle" :style="titleStyle">
+        {{ feed.name ? feed.name : "NoName" }}
+      </div>
+      <div class="Details">
+      Hello World
+      </div>
     </div>
     <div @click.stop="(evt) => emit('editFeed', feed, evt)" class="EditButton TextButton">edit</div>
   </div>
 </template>
 
 <style scoped>
-.FeedTile {
+.TileContainer {
   position: relative;
   display: flex;
   flex-flow: column nowrap;
+  z-index: 0;
+  transition: all 0.1s ease;
+}
+
+.FeedTile {
   width: var(--feed-tile-width);
   height: var(--feed-tile-height);
   padding: var(--space-xs);
   cursor: pointer;
-  transition: all 0.1s ease;
   overflow: hidden;
-  z-index: 0;
 
   border-radius: var(--border-radius-small);
   border: 1px solid var(--main-text);
 }
 
-.FeedTile:hover {
+.TileContainer:hover {
   transform: scale(1.2) translateY(-5px);
   box-shadow: none;
   z-index: 1;
@@ -141,14 +146,17 @@ const titleStyle = computed(() => {
 .EditButton {
   display: none;
   position: absolute;
+  /*
   right: var(--space-xxs);
   bottom: var(--space-xxs);
+  */
+  bottom: -40px;
   font-size: var(--p-size);
   padding: 4px 8px;
   background-color: var(--dark-color);
 }
 
-.FeedTile:hover .EditButton {
+.TileContainer:hover .EditButton {
   display: block;
 }
 
