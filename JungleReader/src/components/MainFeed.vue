@@ -197,9 +197,9 @@ onMounted(() => {
             <div class="FeedGroupItem">
               <div class="GroupControls">
                 <h2 class="TextButton GroupName" :class="{Closed: !element.expanded}"
-                  @click="toggleExpandGroup(element)">{{ element.name ? element.name : "NoName" }}</h2>
-                <!-- <div class="GroupControlButton OpenIndicator"><vue-feather :type="element.expanded ? 'eye' : 'eye-off'" size="32" stroke-width="1" /></div> -->
-                <div @click="toggleExpandGroup(element)" class="GroupControlButton OpenIndicator TextButton">{{ element.expanded ? "hide" : "show" }}</div>
+                  @click="toggleExpandGroup(element)">
+                  {{ element.name ? element.name : "NoName" }}{{ element.expanded ? "" : "..." }}
+                </h2>
                 <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton EditGroupButton TextButton">edit</div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
@@ -306,6 +306,10 @@ onMounted(() => {
   color: var(--mute-text);
 }
 */
+
+.ExpandEllipse {
+  color: var(--nice-red);
+}
 
 .GroupControls {
   display: flex;

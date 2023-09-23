@@ -40,7 +40,7 @@ function goBack() {
           <p class="LinkText">
             <a :href="link.link" target="_blank" class="LinkText">
               <!-- {{ link.getTrimmedStringDesc(150) }} -->
-              {{ link.getTrimmedStringDesc(500) }}
+              {{ link.getTrimmedStringDesc(150) }}
             </a>
           </p>
           <div class="SubInfo">
