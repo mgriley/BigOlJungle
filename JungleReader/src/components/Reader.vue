@@ -183,10 +183,11 @@ onMounted(() => {
 
 .SideMenu a {
   display: block;
-  /* font-weight: var(--bold-weight); */
+  font-weight: var(--bold-weight);
   font-size: var(--p-size);
   text-decoration: none;
-  margin-bottom: var(--space-xs);
+  padding: var(--space-xxs);
+  /* margin-bottom: var(--space-xs); */
   /* color: var(--secondary-text); */
 }
 
