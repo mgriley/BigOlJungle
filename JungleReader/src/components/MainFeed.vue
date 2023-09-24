@@ -14,6 +14,8 @@ import SetupHelp from './SetupHelp.vue'
 const props = defineProps({
 })
 
+let feedCreatorModal = ref(null);
+let groupCreatorModal = ref(null);
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
 let addFromLinkModal = ref(null);
@@ -26,19 +28,12 @@ let linkedFeed = ref({});
 function addFeedGroup() {
   let group = FeedGroup.create();
   gApp.feedReader.addFeedGroup(group);
-  editGroup(group);
+  groupToEdit.value = group;
+  groupCreatorModal.value.showModal();
 }
 
 function deleteGroup(group) {
   gApp.feedReader.removeFeedGroup(group);
-}
-
-function deleteSelectedFeedGroup() {
-  let selectedItem = gApp.feedReader.getSelectedItem();
-  if (selectedItem instanceof FeedGroup) {
-    deleteFeedGroup(selectedItem);
-    gApp.feedReader.setSelectedItem(null);
-  }
 }
 
 function deleteGroupToEdit() {
@@ -71,8 +66,29 @@ function addFeed(optArgs) {
   }
   parentGroup.addFeed(feed);
   if (valOr(optArgs.editWhenDone, true)) {
-    editFeed(feed);
+    feedToEdit.value = feed;
+    feedCreatorModal.value.showModal();
   }
+}
+
+function onDoneAddFeed() {
+  // gApp.toast({message: 'Added feed', type: 'success'});  
+}
+
+function onDoneAddGroup() {
+  // gApp.toast({message: 'Added group', type: 'success'});
+}
+
+function onCancelAddFeed() {
+  // console.log("Canceled add feed");
+  deleteFeed(feedToEdit.value);
+  feedToEdit.value = null;
+}
+
+function onCancelAddGroup() {
+  // console.log("Canceled add group");
+  deleteGroup(groupToEdit.value);  
+  groupToEdit.value = null;
 }
 
 function promptAddFeedFromLink(query) {
@@ -92,21 +108,9 @@ function deleteFeed(feed) {
   feed.removeFromParent();
 }
 
-function deleteSelectedFeed() {
-  let selectedItem = gApp.feedReader.getSelectedItem();
-  if (selectedItem instanceof Feed) {
-    deleteFeed(selectedItem);
-    gApp.feedReader.setSelectedItem(selectedItem);
-  }
-}
-
 function deleteFeedToEdit() {
   deleteFeed(feedToEdit.value);
   feedEditorModal.value.closeModal();
-}
-
-function selectGroup(group) {
-  gApp.feedReader.setSelectedItem(group);
 }
 
 function editGroup(group, clickEvt) {
@@ -224,6 +228,14 @@ onMounted(() => {
       </div>
     </div>
   </div> 
+  <BasicModal class="GroupCreatorModal" ref="groupCreatorModal" title="Add Group"
+    doneText="Save" @onCancel="onCancelAddGroup" @onDone="onDoneAddGroup">
+    <GroupEditor :group="groupToEdit" />
+  </BasicModal>
+  <BasicModal class="FeedCreatorModal" ref="feedCreatorModal" title="Add Feed"
+    doneText="Save" @onCancel="onCancelAddFeed" @onDone="onDoneAddFeed">
+    <FeedEditor :feed="feedToEdit" />
+  </BasicModal>
   <BasicModal class="GroupEditorModal" ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
     <button class="DeleteButton SmallButton" @click="deleteGroupToEdit">Delete Group</button>

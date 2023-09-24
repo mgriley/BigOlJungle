@@ -22,13 +22,9 @@ const props = defineProps({
 const emit = defineEmits(['onCancel', 'onDone'])
 
 let dialog = ref(null);
-let isOpen = ref(false);
-let lastShowTime = 0;
 
 function showModal() {
   dialog.value.showModal();
-  isOpen.value = true;
-  lastShowTime = Date.now() / 1000.0;
 }
 
 function closeModal() {
@@ -53,17 +49,13 @@ function onCancel() {
   closeModal();
 }
 
+function handleNativeCancel() {
+  emit('onCancel');
+}
+
 defineExpose({
   showModal, closeModal, toggleModal
 })
-
-watch(isOpen, (newVal, oldVal) => {
-  if (newVal) {
-    document.body.classList.add("modal-open");
-  } else {
-    document.body.classList.remove("modal-open");
-  }
-});
 
 /*
 Note to future self: Do not attempt to do a `click away to dismiss` trick here, in javascript.
@@ -73,7 +65,7 @@ Ends up being very finnicky.
 </script>
 
 <template>
-  <dialog class="BasicModal" ref="dialog" @close="isOpen = false">
+  <dialog class="BasicModal" ref="dialog" @close="" @cancel="handleNativeCancel">
     <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
     <!-- <div v-if="isOpen"> -->
       <div class="InnerModal">
@@ -83,7 +75,7 @@ Ends up being very finnicky.
         </div>
         
         <div class="Footer">
-          <button v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
+          <button class="TertiaryButton" v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
           <button v-if="showDone" @click="onDone">{{ doneText }}</button>
         </div>
       </div>
@@ -138,7 +130,7 @@ dialog::backdrop {
 }
 
 .Body {
-  margin-bottom: var(--space-m);
+  margin-bottom: var(--space-xl);
 }
 
 .Footer {
@@ -146,7 +138,7 @@ dialog::backdrop {
 }
 
 .Footer button {
-  margin-right: var(--space-xs);
+  margin-right: var(--space-s);
 }
 
 .Footer button:last-child {

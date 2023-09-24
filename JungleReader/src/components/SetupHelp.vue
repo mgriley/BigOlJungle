@@ -19,8 +19,8 @@ function onSetupDone() {
       JungleReader is a free and open-source web reader. It's made to help you keep up with the sites you like.
       Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more. Let's get started!
       </p>
-      <p class="Emphasis MobileWarning">
-      It looks like you're on mobile. JungleReader only supports desktop, so please come back later :)
+      <p class="MobileWarning">
+      It looks like you're on mobile. JungleReader only supports desktop, so please come back later on desktop :)
       </p>
     </div>
     <div class="HelpStep">
@@ -104,10 +104,10 @@ ol {
 }
 
 .MobileWarning {
-  font-style: italic;
+  color: var(--main-text);
   display: none;
   background-color: var(--input-bg);
-  padding: 8px;
+  padding: 16px;
 }
 
 @media (max-width: 768px) {

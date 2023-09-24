@@ -92,7 +92,7 @@ Does not alter the other styles of the element.
   color: var(--text-button-hover);
 }
 
-.SaveButton, .BackButton {
+.TertiaryButton, .SaveButton, .BackButton {
   text-decoration: underline;
   /* color: var(--secondary-text); */
   border: none;
