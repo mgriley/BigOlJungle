@@ -22,8 +22,8 @@ const value = computed({
   <div class="ToggleSwitch Flex">
     <p class="Label">{{ label }}</p>
     <label class="switch">
-      <input class="Checkbox" type="checkbox" v-model="value">
       <span class="slider round"></span>
+      <input class="Checkbox" type="checkbox" v-model="value">
     </label>
   </div>
 </template>

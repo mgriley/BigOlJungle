@@ -615,7 +615,7 @@ class JungleReader {
     let jsonData = prettyJson(stateData);
     console.log(jsonData);
     localStorage.setItem(kAppStateKey, jsonData);
-    this.toast({message: 'Config Saved!'});
+    this.toast({message: 'Changes saved!', type: 'success'});
   }
 
   exportConfig() {

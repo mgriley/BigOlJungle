@@ -24,9 +24,9 @@ function goBack() {
           <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
             {{ feed.mainSiteUrl }}
           </a>
-          <div v-if="!feed.reloading">
+          <div v-if="!feed.reloading" class="ReloadInfo">
             <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reload: {{ utils.getTimeAgoStr(feed.lastReloadTime, {enableMins: true}) }}</div>
-            <button class="SmallButton ReloadButton" @click="feed.reload()">Reload</button>
+            <button class="SmallButton ReloadButton" @click="feed.reload()">Reload now</button>
           </div>
           <div v-else class="SubtitleText">
             Reloading...
@@ -79,8 +79,17 @@ function goBack() {
 
 .SubtitleText {
   font-size: var(--small-size);
+  color: var(--secondary-text);
   /* font-weight: var(--bold-weight); */
-  font-style: italic;
+  /* font-style: italic; */
+}
+
+.ReloadInfo {
+  /*
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-m);
+  */
 }
 
 .ReloadButton {

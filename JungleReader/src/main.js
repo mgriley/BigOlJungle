@@ -23,6 +23,7 @@ import AboutView from './components/AboutView.vue'
 import FeedView from './components/FeedView.vue'
 import PrivacyPolicy from './components/PrivacyPolicy.vue'
 import AddSupportView from './components/AddSupportView.vue'
+import StyleTestView from './components/StyleTestView.vue'
 
 const routes = [
   {
@@ -51,6 +52,9 @@ const routes = [
   },
   {
     path: '/addsupport', name: 'addsupport', component: AddSupportView
+  },
+  {
+    path: '/style', name: 'style', component: StyleTestView
   },
 ]
 

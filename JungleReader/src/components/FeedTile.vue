@@ -151,7 +151,7 @@ const titleStyle = computed(() => {
   font-weight: normal;
   padding: 8px 12px;
 
-  background-color: var(--dark-color);
+  background-color: var(--medium-color);
   /* color: var(--secondary-text); */
 
   /* background-color: var(--main-text); */

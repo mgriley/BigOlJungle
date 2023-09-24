@@ -233,7 +233,7 @@ onMounted(() => {
     <button class="DeleteButton SmallButton" @click="deleteFeedToEdit">Delete Feed</button>
   </BasicModal>
   <BasicModal ref="addFromLinkModal" title="Add Feed" doneText="Yes" cancelText="No" @onDone="addFeedFromLink">
-    <p><b>Add the following feed?</b></p>
+    <p>Add the following feed?</p>
     <div class="AddLinkedFeedInfo CodeBlock">
       {{ addLinkedFeedDesc(linkedFeed) }}
     </div>
