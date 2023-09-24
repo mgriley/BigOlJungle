@@ -91,6 +91,10 @@ function onCancelAddGroup() {
   groupToEdit.value = null;
 }
 
+function onClickBigReload() {
+  gApp.reloadAllFeeds();
+}
+
 function promptAddFeedFromLink(query) {
   linkedFeed.value = query;
   addFromLinkModal.value.showModal();
@@ -187,8 +191,18 @@ onMounted(() => {
     </div>
     !-->
     <div class="ButtonMenu">
-      <button class="AddBtn PrimaryButton" @click="addFeed()">Add Feed</button>
-      <button class="AddBtn PrimaryButton" @click="addFeedGroup()">Add Group</button>
+      <button class="MenuBtn PrimaryButton" @click="addFeed()">
+        <vue-feather type="rss" />
+        Add Feed
+      </button>
+      <button class="MenuBtn PrimaryButton" @click="addFeedGroup()">
+        <vue-feather type="grid" />
+        Add Group
+      </button>
+      <button class="MenuBtn PrimaryButton BigReloadBtn" @click="onClickBigReload()">
+        <vue-feather type="rotate-cw" />
+        Big Refresh
+      </button>
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
@@ -271,13 +285,28 @@ onMounted(() => {
 }
 
 .ButtonMenu {
+  display: flex;
+  flex-flow: row;
 }
 
 .ButtonMenu button {
   margin-right: var(--space-xs);
 }
 
-.AddBtn {
+.MenuBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.BigReloadBtn {
+  margin-left: var(--space-m);
+}    
+
+.InnerReloadBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .GroupList {

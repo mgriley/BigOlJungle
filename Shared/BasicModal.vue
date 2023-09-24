@@ -130,7 +130,7 @@ dialog::backdrop {
 }
 
 .Body {
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-l);
 }
 
 .Footer {

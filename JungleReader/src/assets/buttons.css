@@ -4,6 +4,7 @@
   --button-border-radius: var(--border-radius-small);
 }
 
+/* The default 'button' is the PrimaryButton here */
 button {
   min-width: 100px;
   padding: 6px 12px;
@@ -37,7 +38,17 @@ button:hover, button:active {
 }
 */
 
-/* Aka tertiary button */
+.TertiaryButton, .SaveButton, .BackButton {
+  text-decoration: underline;
+  /* color: var(--secondary-text); */
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: 2px;
+  margin: 4px 0px;
+  min-width: 20px;
+}
+
+/* For low-profile buttons (look like bold text) */
 .SmallButton {
   border: none;
   border-radius: var(--border-radius-small);
@@ -90,15 +101,5 @@ Does not alter the other styles of the element.
 
 .MockButton:hover, .MockButton:active {
   color: var(--text-button-hover);
-}
-
-.TertiaryButton, .SaveButton, .BackButton {
-  text-decoration: underline;
-  /* color: var(--secondary-text); */
-  border: none;
-  border-radius: var(--border-radius-small);
-  padding: 2px;
-  margin: 4px 0px;
-  min-width: 20px;
 }
 

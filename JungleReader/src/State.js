@@ -574,6 +574,24 @@ class JungleReader {
     this.pluginToEdit.value = plugin;
   }
 
+  async reloadAllFeeds() {
+    // Make a copy of all the current feeds
+    let allFeeds = []
+    for (const group of this.feedReader.groups) {
+      for (const feed of group.feeds) {
+        allFeeds.push(feed);
+      }
+    }
+
+    // Kick off a reload for each one
+    console.log("Starting reload all...");
+    for (const feed of allFeeds) {
+      feed.reloadIfStale();
+      await waitMillis(200);
+    }
+    console.log("Done reload all");
+  }
+
   /*
   updateFeeds() {
     let feedTypeSet = new Set();
