@@ -8,12 +8,19 @@ const props = defineProps({
   feed: Object,
 })
 
+let lastReadTime = ref(0);
+
 function goBack() {
   gApp.router.go(-1);
 }
 
+function isLinkNew(link) {
+  let pubTime = (new Date(link.pubDate)).getTime();
+  return pubTime > lastReadTime.value;
+}
+
 onMounted(() => {
-  // TODO - store lastReadTime so can highlight unread posts
+  lastReadTime.value = props.feed.lastReadTime;
   props.feed.markAsRead();  
 })
 
@@ -52,6 +59,7 @@ onMounted(() => {
             <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
             <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
           </div>
+          <div v-if="isLinkNew(link)" class="NewIndicator">New</div>
         </div>
       </div>
     </template>
@@ -125,13 +133,7 @@ onMounted(() => {
 }
 
 .LinkElem {
-  /*
-  max-width: 1000px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  */
-
+  position: relative;
   border: 1px solid var(--main-text);
   border-radius: var(--border-radius-small);
   /* padding: 8px 12px; */
@@ -169,6 +171,16 @@ onMounted(() => {
 
 .HeaderBox {
   margin-bottom: var(--space-l);
+}
+
+.NewIndicator {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background-color: var(--nice-red);
+  padding: 4px 12px;
+  font-size: var(--smaller-size);
+  border-radius: 4px;
 }
 
 </style>

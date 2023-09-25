@@ -227,34 +227,4 @@ const titleStyle = computed(() => {
 }
 */
 
-.UnreadIcon {
-  --width: 24px;
-  position: absolute;
-  z-index: 1;
-  width: var(--width);
-  height: var(--width);
-  top: calc(var(--width) * -0.5);
-  right: calc(var(--width) * -0.5);
-  background-color: var(--nice-red); 
-  border-radius: calc(var(--width) / 2);
-
-  /*
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  */
-}
-
-.Asterisk {
-  /*
-  height: 100%;
-  font-size: var(--p-size);
-  font-weight: var(--bold-weight);
-  color: var(--main-text);
-  line-height: 36px;
-  transform: rotate(20deg);
-  */
-}
-
 </style>
