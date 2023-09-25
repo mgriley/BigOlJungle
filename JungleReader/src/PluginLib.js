@@ -51,6 +51,7 @@ export class CustomPlugin {
     this.quickParser = new QuickParser();
     this.options = []
     this.domainWhitelist = []
+    this.urlPlaceholderHelp = "Check the plugin docs for examples.";
     this.quickHelpDocs = "";
 
     this.pendingPromises = [];

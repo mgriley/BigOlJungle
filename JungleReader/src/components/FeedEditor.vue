@@ -47,6 +47,14 @@ const feedShareLink = computed(() => {
   return Feed.makeShareLink(feed.name, feed.type, feed.url);
 })
 
+function getUrlPlaceholder(feed) {
+  let plugin = gApp.getFeedPluginByType(feed.type);
+  if (!plugin) {
+    return "No help available.";
+  }
+  return plugin.urlPlaceholderHelp;
+}
+
 </script>
 
 <template>
@@ -60,7 +68,7 @@ const feedShareLink = computed(() => {
   <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
   <!-- <p>{{ feed.type }}</p> -->
   <div class="FormFieldNameWithInfo">Feed URL</div>
-  <div class="FormFieldInfo">Ex: www.someurl.com/feed.rss</div>
+  <div class="FormFieldInfo">{{ getUrlPlaceholder(realFeed) }}</div>
   <input v-model="realFeed.url" class="Block BasicTextInput WideInput">
 
   <div class="FormFieldName">Custom Options</div>

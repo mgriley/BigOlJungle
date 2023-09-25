@@ -94,6 +94,7 @@ const titleStyle = computed(() => {
   <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" :style="tileStyle" @click="onFeedClicked(feed)">
     <div class="FeedTitle" :style="titleStyle">
       {{ feed.name ? feed.name : "NoName" }}
+      <vue-feather class="BookmarkIcon" v-if="feed.type == 'Bookmark'" type="external-link" size="22" />
     </div>
     <template v-if="!feed.isReloading()">
       <div class="Details">
@@ -142,6 +143,12 @@ const titleStyle = computed(() => {
   text-overflow: ellipsis;
   overflow-wrap: anywhere;
   text-align: left;
+}
+
+.BookmarkIcon {
+  color: var(--secondary-text);
+  position: relative;
+  top: 2px;
 }
 
 .FeedTile.Reloading {
