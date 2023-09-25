@@ -22,9 +22,8 @@ class RSSFeed extends FeedPlugin {
   }
 
   async updateFeeds(feeds) {
-    // TODO - do the async properly
     for (const feed of feeds) {
-      this.updateFeed(feed);
+      await this.updateFeed(feed);
     }
   }
 

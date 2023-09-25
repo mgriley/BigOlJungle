@@ -201,7 +201,7 @@ onMounted(() => {
       </button>
       <button class="MenuBtn PrimaryButton BigReloadBtn" @click="onClickBigReload()">
         <vue-feather type="rotate-cw" />
-        Big Refresh
+        Big Reload
       </button>
     </div>
     <div class="FeedGroups">

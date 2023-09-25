@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import * as utils from '../Utils.js'
 import TreeIcon from './TreeIcon.vue'
 
 const props = defineProps({
@@ -90,14 +91,20 @@ const titleStyle = computed(() => {
 </script>
 
 <template>
-  <div class="FeedTile" :style="tileStyle" @click="onFeedClicked(feed)">
+  <div class="FeedTile" :class="{Reloading: feed.isReloading()}" :style="tileStyle" @click="onFeedClicked(feed)">
     <div class="FeedTitle" :style="titleStyle">
       {{ feed.name ? feed.name : "NoName" }}
     </div>
-    <div class="Details">
-    Hello World
-    </div>
-    <div @click.stop="(evt) => emit('editFeed', feed, evt)" class="EditButton TextButton">edit</div>
+    <template v-if="!feed.isReloading()">
+      <div class="Details">
+        <p class="LastUpdate">Last update</p>
+        <p class="UpdateDaysAgo">{{ feed.mostRecentLinkTimeStr() }}</p>
+      </div>
+      <div @click.stop="(evt) => emit('editFeed', feed, evt)" class="EditButton TextButton">edit</div>
+    </template>
+    <template v-else>
+      <p class="ReloadingText">Reloading...</p>
+    </template>
   </div>
 </template>
 
@@ -133,9 +140,27 @@ const titleStyle = computed(() => {
   text-align: left;
 }
 
+.FeedTile.Reloading {
+  /* border-color: red; */
+}
+
 .Details {
-  font-size: var(--small-size);
   margin-top: auto;
+  font-size: var(--small-size);
+}
+
+.Details p {
+  line-height: 1.1;
+}
+
+.LastUpdate {
+  font-size: calc(var(--small-size) * 0.7);
+  color: var(--light-color);
+}
+
+.UpdateDaysAgo {
+  font-size: calc(var(--small-size) * 0.9);
+  color: var(--main-text);
 }
 
 .EditButton {
@@ -168,5 +193,26 @@ const titleStyle = computed(() => {
 .FeedTile:hover .EditButton {
   display: block;
 }
+
+.ReloadIndicator {
+}
+
+.ReloadingText {
+  margin-top: auto;
+  padding: 4px;
+  font-size: var(--small-size);
+  color: var(--main-text);
+  background-color: var(--medium-color);
+}
+
+/*
+.Reload-enter-active, .Reload-leave-active {
+  transition: opacity 1s ease;
+}
+
+.Reload-enter-from, .Reload-leave-to {
+  opacity: 0;
+}
+*/
 
 </style>

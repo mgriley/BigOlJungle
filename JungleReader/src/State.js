@@ -115,7 +115,7 @@ class Feed {
     this.mostRecentLinkTime = null;
 
     this.reloading = false;
-    this.lastReloadTime = null;
+    this.lastReloadTime = new Date(0);
   }
 
   static create() {
@@ -195,11 +195,15 @@ class Feed {
     }
   }
 
-  async reloadIfStale() {
-    if (this.lastReloadTime) {
+  isReloading() {
+    return this.reloading;
+  }
+
+  async reloadIfStale(optMinsUntilStale) {
+    let minsUntilStale = valOr(optMinsUntilStale, 30);
+    if (this.reloading) {
       return;
     }
-    let minsUntilStale = 30;
     if (secsSinceDate(this.lastReloadTime) > minsUntilStale*60) {
       this.reload();
     }
@@ -247,6 +251,7 @@ class Feed {
   }
   */
   updateLinks(newLinksData) {
+    console.log(`Updating feeds link for "${this.name}"`);
     let existingLinks = {}
     for (const link of this.links) {
       existingLinks[link.stringId] = link;
@@ -293,11 +298,18 @@ class Feed {
     this.errorMsg = "";
   }
 
+  getMostRecentLinkTime() {
+    if (this.mostRecentLinkTime === null) {
+      return null;
+    }
+    return new Date(this.mostRecentLinkTime);
+  }
+
   mostRecentLinkTimeStr() {
     if (this.mostRecentLinkTime === null) {
-      return "";
+      return "---";
     }
-    return "(" + getTimeAgoStr(new Date(this.mostRecentLinkTime)) + ")";
+    return getTimeAgoStr(new Date(this.mostRecentLinkTime), {enableMins: true});
   }
 
   // It is assumed that the Feed has already been removed its current
@@ -586,8 +598,8 @@ class JungleReader {
     // Kick off a reload for each one
     console.log("Starting reload all...");
     for (const feed of allFeeds) {
-      feed.reloadIfStale();
-      await waitMillis(200);
+      feed.reloadIfStale(1);
+      await waitMillis(50);
     }
     console.log("Done reload all");
   }
@@ -748,6 +760,7 @@ class JungleReader {
   }
 
   async fetchText(url, options) {
+    await waitMillis(3000);
     let urlString = (typeof url === 'string') ? url : url.toString();
     urlString = cleanUrl(urlString);
     if (!isValidUrl(urlString)) {
