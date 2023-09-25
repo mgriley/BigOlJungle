@@ -112,7 +112,11 @@ class Feed {
     // map: String -> String
     this.pluginData = {};
 
+    // Timestamp of most recent link item
     this.mostRecentLinkTime = null;
+    // Timestamp of when most recently viewed this feed
+    // TODO - save somehow
+    this.lastReadTime = 0;
 
     this.reloading = false;
     this.lastReloadTime = new Date(0);
@@ -296,6 +300,18 @@ class Feed {
   clearError() {
     this.isError = false;
     this.errorMsg = "";
+  }
+
+  markAsRead() {
+    console.log(`Marking as read: "${this.name}"`);
+    this.lastReadTime = (new Date()).getTime();
+  }
+
+  hasUnreadContent() {
+    if (this.mostRecentLinkTime === null) {
+      return false;
+    }
+    return this.mostRecentLinkTime > this.lastReadTime;
   }
 
   getMostRecentLinkTime() {

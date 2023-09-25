@@ -12,6 +12,11 @@ function goBack() {
   gApp.router.go(-1);
 }
 
+onMounted(() => {
+  // TODO - store lastReadTime so can highlight unread posts
+  props.feed.markAsRead();  
+})
+
 </script>
 
 <template>

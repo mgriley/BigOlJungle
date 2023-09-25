@@ -91,7 +91,7 @@ const titleStyle = computed(() => {
 </script>
 
 <template>
-  <div class="FeedTile" :class="{Reloading: feed.isReloading()}" :style="tileStyle" @click="onFeedClicked(feed)">
+  <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" :style="tileStyle" @click="onFeedClicked(feed)">
     <div class="FeedTitle" :style="titleStyle">
       {{ feed.name ? feed.name : "NoName" }}
     </div>
@@ -105,6 +105,9 @@ const titleStyle = computed(() => {
     <template v-else>
       <p class="ReloadingText">Reloading...</p>
     </template>
+    <div v-if="feed.hasUnreadContent()" class="UnreadIcon">
+      <!-- <p class="Asterisk"><vue-feather type="bell" size="16" /></p> -->
+    </div>
   </div>
 </template>
 
@@ -118,7 +121,7 @@ const titleStyle = computed(() => {
   padding: var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
-  overflow: hidden;
+  /* overflow: hidden; */
   z-index: 0;
 
   border-radius: var(--border-radius-small);
@@ -135,6 +138,7 @@ const titleStyle = computed(() => {
   font-size: var(--p-size);
   font-weight: var(--bold-weight);
   line-height: 1;
+  overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: anywhere;
   text-align: left;
@@ -142,6 +146,13 @@ const titleStyle = computed(() => {
 
 .FeedTile.Reloading {
   /* border-color: red; */
+}
+
+.FeedTile.HasUnread {
+  /*
+  border-color: var(--nice-red);
+  border-width: 2px;
+  */
 }
 
 .Details {
@@ -199,10 +210,11 @@ const titleStyle = computed(() => {
 
 .ReloadingText {
   margin-top: auto;
-  padding: 4px;
+  padding: 4px 8px;
   font-size: var(--small-size);
   color: var(--main-text);
   background-color: var(--medium-color);
+  border-radius: 2px;
 }
 
 /*
@@ -214,5 +226,35 @@ const titleStyle = computed(() => {
   opacity: 0;
 }
 */
+
+.UnreadIcon {
+  --width: 24px;
+  position: absolute;
+  z-index: 1;
+  width: var(--width);
+  height: var(--width);
+  top: calc(var(--width) * -0.5);
+  right: calc(var(--width) * -0.5);
+  background-color: var(--nice-red); 
+  border-radius: calc(var(--width) / 2);
+
+  /*
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  */
+}
+
+.Asterisk {
+  /*
+  height: 100%;
+  font-size: var(--p-size);
+  font-weight: var(--bold-weight);
+  color: var(--main-text);
+  line-height: 36px;
+  transform: rotate(20deg);
+  */
+}
 
 </style>
