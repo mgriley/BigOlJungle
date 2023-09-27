@@ -12,7 +12,7 @@ const emit = defineEmits(['editFeed'])
 
 function onFeedClicked(feed) {
   if (feed.type == "Bookmark") {
-    window.open(feed.url, "_blank").focus();
+    window.open(utils.cleanUrl(feed.url), "_blank").focus();
   } else {
     feed.reloadIfStale();
     gApp.router.push({name: 'feed', params: {id: feed.id}})

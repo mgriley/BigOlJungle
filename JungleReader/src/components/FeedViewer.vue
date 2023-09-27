@@ -175,12 +175,17 @@ onMounted(() => {
 
 .NewIndicator {
   position: absolute;
-  top: -12px;
-  right: -12px;
+  top: -16px;
+  right: -16px;
   background-color: var(--nice-red);
   padding: 4px 12px;
   font-size: var(--smaller-size);
-  border-radius: 4px;
+
+  border: 6px solid var(--main-bg);
+  border-radius: 8px;
+
+  color: var(--main-bg);
+  font-weight: var(--bold-weight);
 }
 
 </style>
