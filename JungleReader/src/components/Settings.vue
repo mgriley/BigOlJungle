@@ -27,16 +27,6 @@ function enablePersistentStorage() {
   }
 }
 
-onMounted(() => {
-  if (navigator.storage && navigator.storage.persist) {
-    navigator.storage.persisted().then((persistent) => {
-      persistentStorageOn.value = persistent;
-		});
-  } else {
-    persistentStorageOn.value = false;
-  }
-})
-
 async function testFetchText() {
   // let reply = await gApp.makeExtRequest({type: "echo", data: {hello: "world"}});
   /*
@@ -78,6 +68,29 @@ function addTestFeeds() {
   }
 }
 
+function dumpLocalStorage() {
+  let keys = [];
+  for (let i = 0; i < localStorage.length; ++i) {
+    keys.push(localStorage.key(i));
+  }
+  keys.sort();
+  for (let i = 0; i < keys.length; ++i) {
+    let key = keys[i];
+    let val = localStorage.getItem(key);
+    console.log(`${i}: ${key}:\n${val}`);
+  }
+}
+
+onMounted(() => {
+  if (navigator.storage && navigator.storage.persist) {
+    navigator.storage.persisted().then((persistent) => {
+      persistentStorageOn.value = persistent;
+		});
+  } else {
+    persistentStorageOn.value = false;
+  }
+})
+
 </script>
 
 <template>
@@ -117,6 +130,7 @@ function addTestFeeds() {
           <h4>Dev Zone</h4>
           <button @click="addTestFeeds" class="SmallButton Block">Add test feeds</button>
           <button @click="testFetchText" class="SmallButton Block">Test Fetch</button>
+          <button @click="dumpLocalStorage" class="SmallButton Block">Dump localStorage</button>
         </div>
       </div>
     </div>

@@ -6,13 +6,14 @@ import { addElem, removeElem, clearArray,
   getTimeAgoStr, secsSinceDate, getRandInt } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
+import { ContentCache } from './ContentCache.js'
 
 const kReaderVersionString = "0.0";
 const kMaxStyleId = 10*1000*1000*1000;
 
 // LocalStorage keys
 const kAppStateKey = "appState";
-const kDoneWelcomeKey= "doneWelcome";
+const kDoneWelcomeKey = "doneWelcome";
 
 var gApp = null;
 
@@ -113,13 +114,14 @@ class Feed {
     this.pluginData = {};
 
     // Timestamp of most recent link item
-    this.mostRecentLinkTime = null;
+    this.mostRecentLinkTime = 0;
+
     // Timestamp of when most recently viewed this feed
-    // TODO - save somehow
     this.lastReadTime = 0;
 
     this.reloading = false;
-    this.lastReloadTime = new Date(0);
+    // Timestamp of when last reloaded the feed from the source
+    this.lastReloadTime = 0;
   }
 
   static create() {
@@ -135,11 +137,11 @@ class Feed {
     return window.location.origin + "/#/addfeed?" + params.toString();
   }
 
-  writeToJson() {
+  writeToJson(contentCache) {
+    this.writeLinksToCache(contentCache);
     return {
       id: this.id,
       name: this.name,
-      links: this.links.map((link) => link.writeToJson()),
       styleId: this.styleId,
       type: this.type,
       url: this.url,
@@ -149,18 +151,15 @@ class Feed {
       errorMsg: this.errorMsg,
       pluginData: {...this.pluginData},
       mostRecentLinkTime: this.mostRecentLinkTime,
-      lastReloadTime: this.lastReloadTime ? this.lastReloadTime.toJSON() : null
+      lastReadTime: this.lastReadTime,
+      lastReloadTime: this.lastReloadTime
     }
   }
 
-  readFromJson(obj) {
+  readFromJson(obj, contentCache) {
     this.id = obj.id;
     this.name = obj.name;
-    this.links = obj.links.map((linkObj) => {
-      let link = new Link(0);
-      link.readFromJson(linkObj)
-      return link
-    })
+    this.links = this.readLinksFromCache(contentCache);
     if ('styleId' in obj) {
       this.styleId = obj.styleId;
     }
@@ -176,9 +175,27 @@ class Feed {
     if (obj.mostRecentLinkTime) {
       this.mostRecentLinkTime = obj.mostRecentLinkTime;
     }
-    if (obj.lastReloadTime) {
-      this.lastReloadTime = new Date(obj.lastReloadTime);
+    if (obj.lastReadTime) {
+      this.lastReadTime = obj.lastReadTime;
     }
+    if (obj.lastReloadTime && typeof obj.lastReloadTime === 'number') {
+      this.lastReloadTime = obj.lastReloadTime;
+    }
+  }
+
+  writeLinksToCache(contentCache) {
+    let linksData = this.links.map((link) => link.writeToJson());
+    contentCache.setItem(`feed${this.id}/links`, linksData);
+  }
+
+  readLinksFromCache(contentCache) {
+    let linksData = contentCache.getItem(`feed${this.id}/links`);
+    linksData = linksData !== null ? linksData : [];
+    return linksData.map((linkObj) => {
+      let link = new Link(0);
+      link.readFromJson(linkObj)
+      return link
+    });
   }
 
   changeStyleId() {
@@ -208,7 +225,7 @@ class Feed {
     if (this.reloading) {
       return;
     }
-    if (secsSinceDate(this.lastReloadTime) > minsUntilStale*60) {
+    if (secsSinceDate(new Date(this.lastReloadTime)) > minsUntilStale*60) {
       this.reload();
     }
   }
@@ -236,7 +253,7 @@ class Feed {
     }
     console.log(`Reloaded ${this.name}`)
     this.reloading = false;
-    this.lastReloadTime = new Date();
+    this.lastReloadTime = (new Date()).getTime();
   }
 
   /**
@@ -263,7 +280,7 @@ class Feed {
     // TODO - preserve existing links if possible
 
     // console.log(`NewLinksData for ${this.url}: ` + prettyJson(newLinksData));
-    let mostRecentLinkTime = null;
+    let mostRecentLinkTime = 0;
     this.links = []
     for (const linkData of newLinksData.items) {
       let newLink = Link.create();
@@ -277,7 +294,7 @@ class Feed {
       this.links.push(newLink);
 
       let pubTime = (new Date(newLink.pubDate)).getTime();
-      if (mostRecentLinkTime === null || pubTime > mostRecentLinkTime) {
+      if (mostRecentLinkTime == 0 || pubTime > mostRecentLinkTime) {
         mostRecentLinkTime = pubTime;
       }
     }
@@ -286,6 +303,9 @@ class Feed {
     if (newLinksData.link) {
       this.mainSiteUrl = newLinksData.link;
     }
+
+    // Update links in the content cache
+    this.writeLinksToCache(gApp.contentCache);
 
     //console.log(`New links for ${this.url}:`);
     //console.log(this.links);
@@ -308,24 +328,31 @@ class Feed {
   }
 
   hasUnreadContent() {
-    if (this.mostRecentLinkTime === null) {
+    if (this.mostRecentLinkTime == 0) {
       return false;
     }
     return this.mostRecentLinkTime > this.lastReadTime;
   }
 
   getMostRecentLinkTime() {
-    if (this.mostRecentLinkTime === null) {
+    if (this.mostRecentLinkTime == 0) {
       return null;
     }
     return new Date(this.mostRecentLinkTime);
   }
 
   mostRecentLinkTimeStr() {
-    if (this.mostRecentLinkTime === null) {
+    if (this.mostRecentLinkTime == 0) {
       return "---";
     }
     return getTimeAgoStr(new Date(this.mostRecentLinkTime), {enableMins: true});
+  }
+
+  lastReloadTimeStr() {
+    if (this.lastReloadTime == 0) {
+      return "---";
+    }
+    return getTimeAgoStr(new Date(this.lastReloadTime), {enableMins: true});
   }
 
   // It is assumed that the Feed has already been removed its current
@@ -356,23 +383,23 @@ class FeedGroup {
     return new FeedGroup(gApp.feedGroupIdCtr++);
   }
 
-  writeToJson() {
+  writeToJson(contentCache) {
     return {
       id: this.id,
       name: this.name,
       expanded: this.expanded,
-      feeds: this.feeds.map((feed) => feed.writeToJson())
+      feeds: this.feeds.map((feed) => feed.writeToJson(contentCache))
     }
   }
 
-  readFromJson(obj) {
+  readFromJson(obj, contentCache) {
     this.id = obj["id"]
     this.name = obj["name"]
     this.expanded = obj["expanded"]
     let thisGroup = this;
     this.feeds = obj["feeds"].map((feedObj) => {
       let feed = new Feed(0)
-      feed.readFromJson(feedObj)
+      feed.readFromJson(feedObj, contentCache)
       feed.parentGroup = thisGroup;
       return feed;
     })
@@ -505,6 +532,7 @@ class JungleReader {
     this.linkIdCtr = 1;
 
     this.feedReader = new FeedReader();
+    this.contentCache = new ContentCache();
     this.starredLinks = [];
     this.linkHistory = [];
 
@@ -549,7 +577,7 @@ class JungleReader {
       feedGroupIdCtr: this.feedGroupIdCtr,
       feedIdCtr: this.feedIdCtr,
       linkIdCtr: this.linkIdCtr,
-      groups: this.feedReader.groups.map((group) => group.writeToJson()),
+      groups: this.feedReader.groups.map((group) => group.writeToJson(this.contentCache)),
       customPlugins: this.customPlugins.map((plugin) => plugin.writeToJson()),
       fetchMethod: this.fetchMethod.value,
     }
@@ -560,7 +588,7 @@ class JungleReader {
     if ("groups" in jsonObj) {
       let groups = jsonObj["groups"].map((groupObj) => {
         let group = new FeedGroup(0);
-        group.readFromJson(groupObj)
+        group.readFromJson(groupObj, this.contentCache)
         return group;
       })
       replaceArray(this.feedReader.groups, groups)

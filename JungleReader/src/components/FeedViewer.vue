@@ -36,7 +36,7 @@ onMounted(() => {
           <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
             {{ feed.mainSiteUrl }}
           </a>
-          <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reloaded: {{ utils.getTimeAgoStr(feed.lastReloadTime, {enableMins: true}) }}</div>
+          <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
           <button class="SmallButton ReloadButton" @click="feed.reload()">Reload now</button>
         </div>
       </div>
@@ -176,10 +176,10 @@ onMounted(() => {
 .NewIndicator {
   position: absolute;
   top: -16px;
-  right: -16px;
+  right: -14px;
   background-color: var(--nice-red);
-  padding: 4px 12px;
-  font-size: var(--smaller-size);
+  padding: 2px 8px;
+  font-size: calc(var(--smaller-size) * 0.95);
 
   border: 6px solid var(--main-bg);
   border-radius: 8px;
