@@ -5,6 +5,7 @@ import { copyToClipboard, readFromJsonWithRollback,
   prettyJson, safeParseJson, getTimeAgoStr } from '../Utils.js'
 import QuickParseNode from './QuickParseNode.vue'
 import BasicModal from 'Shared/BasicModal.vue'
+import MoreInfoText from './MoreInfoText.vue'
 
 /*
 Format:
@@ -27,22 +28,28 @@ To click:
 const props = defineProps(['plugin'])
 
 let quickParser = props.plugin.quickParser;
-let showTutorial = ref(false);
 let itemSetterModal = ref(null);
 let selectedNodeObj = ref(null);
 
 let pasteConfigModal = ref(null);
 let pasteConfigText = ref("");
 
-function toggleTutorial() {
-  showTutorial.value = !showTutorial.value;
-}
+let runningFetchTestContent = ref(false);
+let fetchTestContentError = ref(null);
+
+let runningTestParse = ref(false);
+let testParseError = ref(null);
 
 let domItems = computed(() => {
   return [
     {
       name: 'First Item Title',
       path: quickParser.firstItemTitle.path,
+      required: true,
+    },
+    {
+      name: 'Second Item Title',
+      path: quickParser.secondItemTitle.path,
       required: true,
     },
     {
@@ -65,11 +72,6 @@ let domItems = computed(() => {
       path: quickParser.firstItemPts.path,
       required: false,
     },
-    {
-      name: 'Second Item Title',
-      path: quickParser.secondItemTitle.path,
-      required: true,
-    }
   ]
 })
 
@@ -95,6 +97,7 @@ function onSelectTestNode(node) {
 function copyConfig() {
   let config = JSON.stringify(quickParser.writeToJson(true));
   copyToClipboard(config);
+  gApp.toast({message: 'Copied!', type: 'success'});
 }
 
 function pasteConfig() {
@@ -107,6 +110,7 @@ function submitPasteConfig(configText) {
   // console.log("Parsing: " + configText);
   let configObj = safeParseJson(configText);
   if (!configObj) {
+    gApp.toast({message: "Failed to parse config. Check for errors.", type: "error"});
     return;
   }
   let origState = quickParser.writeToJson();
@@ -114,97 +118,119 @@ function submitPasteConfig(configText) {
     quickParser.readFromJson(configObj, true);
   } catch (error) {
     console.error("Failed to read from json. Rolling back to original state.");
-    // TODO - error toast
     quickParser.readFromJson(origState);
+    gApp.toast({message: "Failed to read the config. Check it for errors.", type: "error"});
     return;
   }
-  pasteConfigModal.value.closeModal();
+  gApp.toast({message: "Imported config", type: "success"});
+}
+
+async function fetchTestContent() {
+  console.log("Fetching test content...");
+  runningFetchTestContent.value = true;
+  try {
+    await props.plugin.quickParser.fetchTestContent();
+    fetchTestContentError.value = null;
+  } catch (error) {
+    console.log("Error on fetch: ", error);
+    fetchTestContentError.value = "Error fetching test content. " +
+      "Please check the url and see the console logs for details.";
+  }
+  runningFetchTestContent.value = false;
+  console.log("Done fetch");
+}
+
+async function runTestParse() {
+  runningTestParse.value = true;  
+  try {
+    await props.plugin.quickParser.runTestParse();
+    testParseError.value = null;
+  } catch (error) {
+    testParseError.value = "Error running test parse. Please check console logs for details.";
+  }
+  runningTestParse.value = false;
 }
 
 </script>
 
 <template>
   <div class="QuickParseEditor">
-    <div class="Tutorial">
-      <button @click="toggleTutorial">Tutorial</button>
-      <div v-if="showTutorial">
-        <p>
-        Tutorial: Use the QuickParser to teach JungleReader how to read websites of a certain type, such as reddit feeds.
-        You'll have to help by annotating the HTML page. Here's how:
-        </p>
-        <ul>
-          <li>
-          Step 1: Enter the URL of the website you'd like to read and press "Fetch".
-          </li>
-          <li>
-          Step 2: You should see the page's raw HTML show up. Search through the HTML until you find the text of the items you'd
-          like to read. For example, if the website shows a list of posts, first the HTML for the first post in the list.
-          </li>
-          <li>
-          Step 3: See the list of colored items? You'll need to fill in the required ones. Click an HTML element in the HTML viewer,
-          then set which item it is.
-          </li>
-          <li>
-          Step 4: Once you have set the items, click "Run Test Parse". If you have set things up correctly, you should see the
-          website's posts printed properly. Any missing items will be pointed out. If it's working, you're all done. You can use
-          the custom feed name from your feeds page.
-          </li>
-        </ul>
-
-        <p>
-        Also Note: if the website you're reading has a complex structure, the QuickParser might not work on it. In that case, you may be
-        able to use a "Text" type CustomPlugin to write a parser program. If the website changes its HTML, your feeds will show errors and
-        you'll have to come back here to update the annotations.
-        </p>
-      </div>
-    </div>
     <div class="ShareButtons">
-      <button @click="copyConfig">Copy Config</button>
-      <button @click="pasteConfig">Paste Config</button>
+      <button class="TertiaryButton" @click="copyConfig">Copy Config</button>
+      <button class="TertiaryButton" @click="pasteConfig">Paste Config</button>
     </div>
-    <div class="DomItems">
-      <h3>Parser Paths</h3>
-      <ul>
-        <li v-for="item in domItems">
-          <div class="Flex">
-            <p>{{ item.name }}{{ item.required ? "[Required]" : "[Optional]" }}</p>
-            <p>{{ item.path.toShortStr() }}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="TestContent">
-      <div class="FormFieldNameWithInfo">Test URL</div>
+    <MoreInfoText class="Tutorial" text="How does this work?" >
+      <p>
+      Make a <b>QuickParse</b> plugin to parse simple feed or post-based websites. You'll annotate
+      a sample page here to teach the plugin how to read webpages of that format, then you can create feeds from those
+      sites. You'll need some basic knowledge of HTML.
+      </p>
+      <p>
+      To create the plugin, just follow the steps below. You will enter the page you'd like to parse, annotate it, then
+      check that the output is expected. Once done, you can use the plugin to create new feeds and share it with others.
+      </p>
+      <p>
+      Also Note: if the website you're reading has a complex structure, QuickParse may not work for you. In that case, 
+      try a "Script" plugin instead. If the website changes its HTML, your feeds will show errors and
+      you'll have to come back here to update the annotations.
+      </p>
+    </MoreInfoText>
+    <div class="Step">
+      <h4>Step 1 - Enter test url</h4>
       <div class="FormFieldInfo">Ex. https://news.ycombinator.com</div>
       <input v-model="plugin.quickParser.testUrl" class="BasicTextInput UrlInput" size="40">
-      <button @click="plugin.quickParser.fetchTestContent()">Fetch Test Page</button>
+    </div>
+    <div class="Step">
+      <h4>Step 2 - Annotate</h4>
+      <div class="DomItems">
+        <div class="AnnotateItem" v-for="item in domItems">
+          <div class="TextItems Flex">
+            <p><vue-feather :type="item.path.isEmpty() ? 'circle' : 'check-circle'" /></p>
+            <p>{{ item.name }}</p>
+            <p>{{ item.required ? "" : "(Optional)" }}</p>
+          </div>
+        </div>
+      </div>
+      <button @click="fetchTestContent()">Start annotating</button>
       <div class="DomTree">
-        <template v-if="plugin.quickParser.testFetchContent !== null">
-          <QuickParseNode :nodeData="plugin.quickParser.testFetchContent" :childNum="0" :numChildren="1"
-            @selectNode="onSelectTestNode" />
+        <p v-if="runningFetchTestContent" class="MarginBotS">Running...</p>
+        <template v-if="fetchTestContentError">
+          {{ fetchTestContentError }}
         </template>
         <template v-else>
-          <p>Nothing here yet.</p>
+          <template v-if="plugin.quickParser.testFetchContent !== null">
+            <QuickParseNode :nodeData="plugin.quickParser.testFetchContent" :childNum="0" :numChildren="1"
+              @selectNode="onSelectTestNode" />
+          </template>
+          <template v-else>
+            <p>Nothing here yet.</p>
+          </template>
         </template>
       </div>
     </div>
-    <div>
-      <p>Test Output</p>
-      <button @click="plugin.quickParser.runTestParse()">Run Test Parse</button>
+    <div class="Step">
+      <h4>Step 3 - Check output</h4>
+      <button @click="runTestParse()">Run check</button>
       <div class="TestOutputBox">
-        <template v-if="plugin.quickParser.testParseOutput !== null">
-          <ol>
-            <li v-for="item in plugin.quickParser.testParseOutput">
-              <p>Title: {{ item.title }}</p>
-              <p v-if="item.url">Url: {{ item.url }}</p>
-              <p v-if="item.date">Date: {{ item.date }}</p>
-              <p v-if="item.author">Author: {{ item.author }}</p>
-              <p v-if="item.points">Points: {{ item.points }} </p>
-            </li>
-          </ol>
+        <p v-if="runningTestParse" class="MarginBotS">Running...</p>
+        <template v-if="testParseError">
+          <p>{{ testParseError }}</p>
         </template>
         <template v-else>
-          <p>Nothing here yet</p>
+          <template v-if="plugin.quickParser.testParseOutput !== null">
+            <ol>
+              <li v-for="item in plugin.quickParser.testParseOutput">
+                <p>Title: {{ item.title }}</p>
+                <p v-if="item.url">Url: {{ item.url }}</p>
+                <p v-if="item.date">Date: {{ item.date }}</p>
+                <p v-if="item.author">Author: {{ item.author }}</p>
+                <p v-if="item.points">Points: {{ item.points }} </p>
+              </li>
+            </ol>
+          </template>
+          <template v-else>
+            <p>Nothing here yet</p>
+          </template>
         </template>
       </div>
     </div>
@@ -216,35 +242,54 @@ function submitPasteConfig(configText) {
       <p>{{ item.name }}: {{ item.path.toShortStr() }}</p>
     </div>
   </BasicModal>
-  <BasicModal ref="pasteConfigModal">
-    <h3>Paste Config</h3>
+  <BasicModal ref="pasteConfigModal" title="Paste Config"
+    doneText="Import" @onDone="submitPasteConfig(pasteConfigText)">
     <textarea class="PasteBox Block" v-model="pasteConfigText" placeholder="Paste here."></textarea>
-    <button @click="submitPasteConfig(pasteConfigText)">Import</button>
   </BasicModal>
 </template>
 
 <style scoped>
 
+.ShareButtons {
+  margin-bottom: var(--space-xl);
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-xs);
+}
+
+.Tutorial {
+  margin-bottom: var(--space-m);
+}
+
+.Tutorial p {
+  margin-bottom: var(--space-m);
+}
+
+.Step {
+  margin-bottom: var(--space-l);
+}
+
+.Step h4 {
+  margin-bottom: var(--space-xs);
+}
+
 .DomItems {
-  margin: 24px 0px;
+  margin-bottom: var(--space-m);
 }
 
 .DomTree {
-  margin-top: 24px;
-  margin-bottom: 40px;
-  border: 2px solid black;
+  margin: 8px 0px 24px 0px;
+  border: 1px solid var(--secondary-text);
+  border-radius: var(--border-radius-small);
   padding: 8px;
 }
 
 .TestOutputBox {
-  margin: 24px 0px;
-  border: 2px solid black;
+  margin: 8px 0px 24px 0px;
+  border: 1px solid var(--secondary-text);
+  border-radius: var(--border-radius-small);
   padding: 8px;
   white-space: pre;
-}
-
-.Tutorial {
-  margin-bottom: 40px;
 }
 
 .SetItemBtn {
@@ -258,6 +303,24 @@ function submitPasteConfig(configText) {
 .PasteBox {
   width: 800px;
   height: 300px;
+}
+
+.AnnotateItemList {
+}
+
+.AnnotateItem {
+  /*
+  border: 1px solid var(--secondary-text);
+  border-radius: var(--border-radius-small);
+  */
+  padding: 0px 4px;
+  /* margin-bottom: 4px; */
+  /* display: inline-block; */
+}
+
+.AnnotateItem .TextItems {
+  gap: 8px;
+  align-items: baseline;
 }
 
 </style>

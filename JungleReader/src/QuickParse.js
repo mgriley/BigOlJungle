@@ -636,7 +636,7 @@ export class QuickParser {
     let linkData = await this.parsePage(this.testUrl);
     if (!linkData) {
       console.error("Test parse failed");
-      return;
+      throw new Error("Test parse failed.");
     }
     this.testParseOutput = linkData;
   }

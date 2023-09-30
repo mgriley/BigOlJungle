@@ -14,7 +14,7 @@ import MoreInfoText from './MoreInfoText.vue'
   <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
   <div class="TextPluginEditor" v-if="gApp.getPluginToEdit()">
     <button class="DoneButton BackButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
-    <h1 class="PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
+    <h1 class="PageHeader PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
     <div v-if="gApp.getPluginToEdit().pluginType == CustomPluginType.Text">
       <CodeEditor class="CodeEditor" v-model="gApp.getPluginToEdit().pluginText" />
     </div>
@@ -47,8 +47,11 @@ import MoreInfoText from './MoreInfoText.vue'
   float: right;
 }
 
-.TextPluginEditor .PluginName {
+.TextPluginEditor {
   margin-bottom: 8px;
+}
+
+.PluginName {
 }
 
 .CodeEditor {
