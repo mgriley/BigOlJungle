@@ -185,11 +185,11 @@ class Feed {
 
   writeLinksToCache(contentCache) {
     let linksData = this.links.map((link) => link.writeToJson());
-    contentCache.setItem(`feed${this.id}/links`, linksData);
+    contentCache.setItem(`feeds/${this.id}/links`, linksData);
   }
 
   readLinksFromCache(contentCache) {
-    let linksData = contentCache.getItem(`feed${this.id}/links`);
+    let linksData = contentCache.getItem(`feeds/${this.id}/links`);
     linksData = linksData !== null ? linksData : [];
     return linksData.map((linkObj) => {
       let link = new Link(0);
@@ -689,7 +689,29 @@ class JungleReader {
     let jsonData = prettyJson(stateData);
     console.log(jsonData);
     localStorage.setItem(kAppStateKey, jsonData);
+    this.cleanContentCache();
     this.toast({message: 'Changes saved!', type: 'success'});
+  }
+
+  cleanContentCache() {
+    // Remove cache entries for feeds that no longer exist
+    let cacheKeys = this.contentCache.getKeys();
+    let feedKeys = {};
+    for (const cacheKey of cacheKeys) {
+      if (cacheKey.startsWith("feeds/")) {
+        // feedId -> cacheKey
+        feedKeys[cacheKey.split("/")[1]] = cacheKey;
+      }
+    }
+    for (const group of this.feedReader.groups) {
+      for (const feed of group.feeds) {
+        delete feedKeys[feed.id];
+      }
+    }
+    for (const feedId in feedKeys) {
+      console.log("Removing cache entry for deleted feed: ", feedId);
+      this.contentCache.removeItem(feedKeys[feedId]);
+    }
   }
 
   exportConfig() {

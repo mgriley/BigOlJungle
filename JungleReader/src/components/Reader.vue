@@ -154,8 +154,8 @@ onMounted(() => {
   margin: auto;
   display: grid;
   padding: var(--space-m) var(--space-xs);
-  grid-template-columns: 280px 1fr;
-  gap: var(--space-xl);
+  grid-template-columns: 1fr 3fr;
+  /* gap: var(--space-s); */
   grid-template-areas: 
     "sidebar content"
 }
@@ -173,7 +173,7 @@ onMounted(() => {
 .Sidebar {
   grid-area: sidebar;
   padding: var(--space-m) var(--space-m) 0px var(--space-m);
-  margin-left: var(--space-m);
+  /* margin-left: var(--space-m); */
   /*background-color: #45aaf2;*/
 }
 
