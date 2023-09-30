@@ -61,7 +61,7 @@ function getAttrStr(nodeData) {
   <div class="QuickParseNode">
     <div class="Flex">
       <TreeIcon :style="{visibility: nodeData.children.length > 0 ? 'visible' : 'hidden'}" :expanded="isExpanded" @click="toggleExpanded" />
-      <div class="Flex">
+      <div class="NodeLine">
         <div class="ParseNodeTitle TextButton Flex" :class="{ChosenParseNode: nodeData.isChosen}" @click="emit('selectNode', nodeData)">
           <template v-if="nodeData.type == 'text'">
             <p>text: "{{ nodeData.value }}"</p>
@@ -89,18 +89,21 @@ function getAttrStr(nodeData) {
   font-family: monospace;
 }
 
-@media (hover: hover) {
-  .ParseNodeTitle:hover {
-    background-color: lightblue;      
-  }
+.NodeLine {
+  display: flex;
+  flex-flow: row wrap;
+  white-space: nowrap;
 }
 
-.ParseNodeTitle:active {
+.ParseNodeTitle:hover p, .ParseNodeTitle:active p {
+  /* background-color: var(--medium-color); */
   background-color: lightblue;
+  color: var(--main-bg);
 }
 
-.ChosenParseNode {
+.ChosenParseNode p {
   background-color: orange;
+  color: var(--main-bg);
 }
 
 .ChildList {
@@ -109,6 +112,8 @@ function getAttrStr(nodeData) {
 }
 
 .HelperText {
+  color: var(--mute-text);
   margin-left: 4px;
 }
+
 </style>

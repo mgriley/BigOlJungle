@@ -4,6 +4,7 @@ import { gApp, FeedGroup, Feed } from '../State.js'
 import { copyToClipboard, readFromJsonWithRollback,
   prettyJson, safeParseJson, getTimeAgoStr } from '../Utils.js'
 import QuickParseNode from './QuickParseNode.vue'
+import QuickParseField from './QuickParseField.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import MoreInfoText from './MoreInfoText.vue'
 
@@ -182,14 +183,9 @@ async function runTestParse() {
     </div>
     <div class="Step">
       <h4>Step 2 - Annotate</h4>
+      <p>Find and click these items in the HTML:</p>
       <div class="DomItems">
-        <div class="AnnotateItem" v-for="item in domItems">
-          <div class="TextItems Flex">
-            <p><vue-feather :type="item.path.isEmpty() ? 'circle' : 'check-circle'" /></p>
-            <p>{{ item.name }}</p>
-            <p>{{ item.required ? "" : "(Optional)" }}</p>
-          </div>
-        </div>
+        <QuickParseField v-for="item in domItems" :item="item" />
       </div>
       <button @click="fetchTestContent()">Start annotating</button>
       <div class="DomTree">
@@ -233,13 +229,17 @@ async function runTestParse() {
           </template>
         </template>
       </div>
+      <p>Remember to "Save Changes" when you're done!</p>
     </div>
   </div>
   <BasicModal ref="itemSetterModal">
-    <div v-for="item in domItems" class="Flex">
-      <button class="SetItemBtn" @click="setDomItem(item)">Set</button>
-      <button class="ClearItemBtn" @click="clearDomItem(item)">Clear</button>
-      <p>{{ item.name }}: {{ item.path.toShortStr() }}</p>
+    <p>Annotate as...</p>
+    <div class="ItemSetterList">
+      <div v-for="item in domItems" class="ItemSetterItem Flex">
+        <button class="SetItemBtn TertiaryButton" @click="setDomItem(item)">Set</button>
+        <button class="ClearItemBtn TertiaryButton" @click="clearDomItem(item)">Clear</button>
+        <QuickParseField :item="item" />
+      </div>
     </div>
   </BasicModal>
   <BasicModal ref="pasteConfigModal" title="Paste Config"
@@ -292,12 +292,15 @@ async function runTestParse() {
   white-space: pre;
 }
 
+.ItemSetterItem {
+}
+
 .SetItemBtn {
-  margin-right: 4px;
+  margin-right: 8px;
 }
 
 .ClearItemBtn {
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
 .PasteBox {
@@ -306,21 +309,6 @@ async function runTestParse() {
 }
 
 .AnnotateItemList {
-}
-
-.AnnotateItem {
-  /*
-  border: 1px solid var(--secondary-text);
-  border-radius: var(--border-radius-small);
-  */
-  padding: 0px 4px;
-  /* margin-bottom: 4px; */
-  /* display: inline-block; */
-}
-
-.AnnotateItem .TextItems {
-  gap: 8px;
-  align-items: baseline;
 }
 
 </style>
