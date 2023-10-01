@@ -3,9 +3,6 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
 import { getTimeAgoStr } from '../Utils.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
-import PluginEditor from './PluginEditor.vue'
-import CodeEditor from './CodeEditor.vue'
-import QuickParseEditor from './QuickParseEditor.vue'
 import BasicSelector from './BasicSelector.vue'
 
 let persistentStorageOn = ref(false);

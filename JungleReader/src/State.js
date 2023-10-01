@@ -307,8 +307,7 @@ class Feed {
     // Update links in the content cache
     this.writeLinksToCache(gApp.contentCache);
 
-    //console.log(`New links for ${this.url}:`);
-    //console.log(this.links);
+    console.log(`New links for ${this.url}:\n`, this.links);
     this.clearError();
   }
 

@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr } from '../State.js'
+import MoreInfoText from './MoreInfoText.vue'
+import BasicModal from 'Shared/BasicModal.vue'
 
 // See: https://github.com/koca/vue-prism-editor/tree/feature/next
 // PrismEditor Config {
@@ -35,20 +37,28 @@ function highlighter(code) {
 </script>
 
 <template>
-  <div class="CodeEditor">
-    <h3>Script Editor</h3>
+  <div class="ScriptEditor">
+    <div class="Flex ScriptEditorHeader">
+      <h3 class="SectionHeader">Script Editor</h3>
+      <div class="ShareButtons">
+        <button class="TertiaryButton" @click="copyConfig">Copy Script</button>
+        <button class="TertiaryButton" @click="pasteConfig">Paste Script</button>
+      </div>
+    </div>
     <!-- <textarea v-model="value"></textarea> -->
     <prism-editor class="my-editor" v-model="value" :highlight="highlighter" line-numbers></prism-editor>
   </div>
   <div>
-    <h3>Docs</h3>
-    <p>TODO</p>
+    <h3 class="SectionHeader">Docs</h3>
+    <MoreInfoText class="Tutorial" text="How does this work?">
+      Lol hi
+    </MoreInfoText>
   </div>
 </template>
 
 <style scoped>
 
-.CodeEditor {
+.ScriptEditor {
   margin-bottom: var(--space-xl);
 }
 
@@ -71,5 +81,19 @@ function highlighter(code) {
   outline: none;
 }
 */
+
+.SectionHeader {
+}
+
+.ScriptEditorHeader {
+  margin-bottom: var(--space-xs);
+}
+
+.ShareButtons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-xs);
+  margin-left: auto;
+}
 
 </style>

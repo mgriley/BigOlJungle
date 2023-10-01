@@ -156,26 +156,36 @@ async function runTestParse() {
 
 <template>
   <div class="QuickParseEditor">
-    <div class="ShareButtons">
-      <button class="TertiaryButton" @click="copyConfig">Copy Config</button>
-      <button class="TertiaryButton" @click="pasteConfig">Paste Config</button>
+    <div class="Flex TitleBox">
+      <h3>QuickParse Editor</h3>
+      <div class="ShareButtons">
+        <button class="TertiaryButton" @click="copyConfig">Copy Config</button>
+        <button class="TertiaryButton" @click="pasteConfig">Paste Config</button>
+      </div>
     </div>
-    <MoreInfoText class="Tutorial" text="How does this work?" >
-      <p>
-      Make a <b>QuickParse</b> plugin to parse simple feed or post-based websites. You'll annotate
-      a sample page here to teach the plugin how to read webpages of that format, then you can create feeds from those
-      sites. You'll need some basic knowledge of HTML.
-      </p>
-      <p>
-      To create the plugin, just follow the steps below. You will enter the page you'd like to parse, annotate it, then
-      check that the output is expected. Once done, you can use the plugin to create new feeds and share it with others.
-      </p>
-      <p>
-      Also Note: if the website you're reading has a complex structure, QuickParse may not work for you. In that case, 
-      try a "Script" plugin instead. If the website changes its HTML, your feeds will show errors and
-      you'll have to come back here to update the annotations.
-      </p>
-    </MoreInfoText>
+    <div class="FirstSection">
+      <MoreInfoText class="Tutorial" text="How does this work?" >
+        <p>
+        Make a <b>QuickParse</b> plugin to parse simple feed or post-based webpages.
+        You'll need some basic knowledge of HTML.
+        </p>
+        <p>
+        To create the plugin, just follow the steps below. You will enter a representative page you'd like to parse, annotate it, then
+        check that the output is expected. Once done, the QuickParse plugin will know how to create feeds from any pages that follow the
+        same format.
+        </p>
+        <p>
+        <b>Sharing your plugin:</b> You can do "Copy config" then tells others to "Paste Config".
+        You can also do "Copy config" then host the file online, like at https://www.yoursite.com/myplugin.json. Other users
+        can add your plugin by creating a "URL" plugin with that URL.
+        </p>
+        <p>
+        <b>Also Note:</b> if the website you're reading has a complex structure, QuickParse may not work for you. In that case, 
+        try a "Script" plugin instead. If the website changes its HTML, your feeds will show errors and
+        you'll have to come back here to update the annotations.
+        </p>
+      </MoreInfoText>
+    </div>
     <div class="Step">
       <h4>Step 1 - Enter test url</h4>
       <div class="FormFieldInfo">Ex. https://news.ycombinator.com</div>
@@ -250,8 +260,20 @@ async function runTestParse() {
 
 <style scoped>
 
+.TitleBox {
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-xs);
+}
+
+.FirstSection {
+  margin-bottom: var(--space-l);
+}
+
 .ShareButtons {
-  margin-bottom: var(--space-xl);
+  margin-left: auto;
+}
+
+.ShareButtons {
   display: flex;
   flex-flow: row wrap;
   gap: var(--space-xs);

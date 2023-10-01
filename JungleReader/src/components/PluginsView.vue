@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import PluginEditor from './PluginEditor.vue'
-import CodeEditor from './CodeEditor.vue'
+import ScriptEditor from './ScriptEditor.vue'
 import QuickParseEditor from './QuickParseEditor.vue'
 import BasicSelector from './BasicSelector.vue'
 import MoreInfoText from './MoreInfoText.vue'
@@ -16,7 +16,7 @@ import MoreInfoText from './MoreInfoText.vue'
     <button class="DoneButton BackButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
     <h1 class="PageHeader PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
     <div v-if="gApp.getPluginToEdit().pluginType == CustomPluginType.Text">
-      <CodeEditor class="CodeEditor" v-model="gApp.getPluginToEdit().pluginText" />
+      <ScriptEditor class="ScriptEditor" v-model="gApp.getPluginToEdit().pluginText" />
     </div>
     <div v-else-if="gApp.getPluginToEdit().pluginType == CustomPluginType.QuickParse">
       <QuickParseEditor :plugin="gApp.getPluginToEdit()" />
@@ -54,7 +54,7 @@ import MoreInfoText from './MoreInfoText.vue'
 .PluginName {
 }
 
-.CodeEditor {
+.ScriptEditor {
   margin-bottom: 40px;
 }
 
