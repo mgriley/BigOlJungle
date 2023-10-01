@@ -1,0 +1,105 @@
+@import './base.css';
+
+:root {
+  --button-border-radius: var(--border-radius-small);
+}
+
+/* The default 'button' is the PrimaryButton here */
+button {
+  min-width: 100px;
+  padding: 6px 12px;
+  /*margin: 4px 0px;*/
+  background: none;
+  color: var(--main-text);
+  /* border: 2px solid var(--main-text); */
+  border: 1px solid var(--main-text);
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  font-weight: 600;
+  /* font-weight: var(--bold-weight); */
+  font-size: var(--p-size);
+}
+
+button:hover, button:active {
+  background-color: var(--main-text);
+  color: var(--main-bg);
+}
+
+/* No need for a different PrimaryButton for now */
+/*
+.PrimaryButton {
+  border: none;
+  border-radius: var(--button-border-radius);
+  background-color: var(--main-text);
+  color: var(--main-bg);
+}
+
+.PrimaryButton:hover, .PrimaryButton:active {
+}
+*/
+
+.TertiaryButton, .SaveButton, .BackButton {
+  text-decoration: underline;
+  /* color: var(--secondary-text); */
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: 2px;
+  margin: 4px 0px;
+  min-width: 20px;
+}
+
+/* For low-profile buttons (look like bold text) */
+.SmallButton {
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: 2px;
+  margin: 4px 0px;
+  min-width: 20px;
+}
+
+.SmallButton:hover, .SmallButton:active {
+  background-color: var(--main-text);
+  color: var(--main-bg);
+}
+
+.DeleteButton {
+  text-decoration: underline;
+  /* padding: 5px 10px; */
+  /* border: 1px solid var(--main-text); */
+}
+
+.DeleteButton:hover {
+}
+
+.LinkButton {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* For adding to a text div that is supposed to respond to @click */
+.TextButton {
+  background: none;
+  border: none;
+  padding: 0;
+  user-select: none;
+  cursor: pointer;
+  font-weight: var(--bold-weight);
+}
+
+.TextButton:hover, .TextButton:active {
+  color: var(--text-button-hover);
+}
+
+/*
+Also, for adding to a text div that is supposed to respond to @click.
+Does not alter the other styles of the element.
+*/
+.MockButton {
+  user-select: none;
+  cursor: pointer;
+}
+
+.MockButton:hover, .MockButton:active {
+  color: var(--text-button-hover);
+}
+

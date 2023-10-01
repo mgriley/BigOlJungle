@@ -20,7 +20,9 @@ onMounted(() => {
 
 <template>
   <div class="EditorPane" ref="paneRef">
-    <div class="EditorPaneHeader">{{ paneTitle }}</div>  
+    <div class="EditorPaneHeader">
+      {{ paneTitle }}
+    </div>  
     <div class="PaneInner"> 
       <slot></slot>
     </div>
@@ -31,9 +33,9 @@ onMounted(() => {
 .EditorPane {
   position: absolute;
   z-index: 9;
-  /*background-color: #0000;*/
-  background: var(--color-background);
-    border: 1px solid #d3d3d3;
+  background-color: var(--popup-bg);
+  /* border: var(--border-reg); */
+  border-radius: var(--border-radius-large);
   min-width: 300px;
   /*height: 400px;*/
   /*
@@ -44,15 +46,14 @@ onMounted(() => {
 }
 
 .EditorPaneHeader {
-  padding: 5px 20px;
+  padding: var(--space-xs) var(--space-s);
   cursor: move;
-  z-index: 10;
-  background-color: #2196F3;
-  color: #fff;
+  /* background-color: var(--light-color); */
+  background-color: var(--editor-header-color);
 }
 
 .PaneInner {
-  /*padding: 20px 5px;*/
+  padding: var(--space-xs) var(--space-s) var(--space-s) var(--space-s);
 }
 
 </style>

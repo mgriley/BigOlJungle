@@ -13,7 +13,7 @@ export class TextNode extends State.Node {
 
     this.fontName = null;
     this.fontSize = 36;
-    this.color = null;
+    this.color = "var(--darkest-color)";
     this.bold = false;
     this.italic = false;
     this.underline = false;

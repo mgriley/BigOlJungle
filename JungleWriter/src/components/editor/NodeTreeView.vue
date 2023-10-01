@@ -97,14 +97,14 @@ let nodeList = computed(() => {
 <template>
   <EditorPane paneTitle="Nodes" :startX="99" :startY="100">
     <div class="ButtonPane">
-      <button @click="makeNewNode">New</button>
-      <button @click="cloneNode">Clone</button>
-      <button @click="moveNodeUp">MoveUp</button>
-      <button @click="moveNodeDown">MoveDown</button>
-      <button class="DeleteBtn" @click="deleteNode">Delete</button>
+      <button class="TertiaryButton" @click="makeNewNode">New</button>
+      <button class="TertiaryButton" @click="cloneNode">Clone</button>
+      <button class="TertiaryButton" @click="moveNodeUp">MoveUp</button>
+      <button class="TertiaryButton" @click="moveNodeDown">MoveDown</button>
+      <button class="DeleteBtn TertiaryButton" @click="deleteNode">Delete</button>
       <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
-    <div class="treeInner"> 
+    <div class="TreeInner"> 
       <template v-for="childNode in nodeList" :id="child.node.id">
         <NodeTreeItem class="item" :node="childNode.node" :depth="childNode.depth"></NodeTreeItem>
       </template>
@@ -115,8 +115,11 @@ let nodeList = computed(() => {
 <style scoped>
 .ButtonPane {
   display: inline-block;
-  /*background: blue;*/
-  padding: 10px 5px;
+  padding-bottom: var(--space-xxs);
+}
+
+.ButtonPane button {
+  margin-right: var(--space-xxs);
 }
 
 .DeleteBtn {
@@ -125,18 +128,12 @@ let nodeList = computed(() => {
 </style>
 
 <style>
-.treeInner {
-  /*padding: 20px 5px;*/
-  background: lightgrey;
+.TreeInner {
 }
 
 .item {
   /*cursor: pointer;*/
   line-height: 1.5;
-}
-
-.bold {
-  font-weight: bold;
 }
 
 </style>

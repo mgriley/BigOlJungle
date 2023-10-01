@@ -52,7 +52,7 @@ let styleObject = computed(() => {
 
 <style>
 .NodeWidget {
-  position: absolute;  
+  /* position: absolute;   */
   width: 0px;
   height: 0px;
 }

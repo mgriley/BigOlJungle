@@ -64,10 +64,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Parent">
-    <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
-    <input class="StdInput InputChild" type="number" v-model="value" min="min">
-    <div class="DragBall InputChild" ref="dragBall">Drag</div>
+  <div class="NumberInput StdInput">
+    <div class="InputLabel" v-if="name">{{name}}</div>
+    <div class="Parent">
+      <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
+      <input class="BasicTextInput InputChild" type="number" v-model="value" min="min">
+      <div class="DragBall InputChild" ref="dragBall">Drag</div>
+    </div>
   </div>
 </template>
 
@@ -77,20 +80,21 @@ onMounted(() => {
 }
 
 .OptionalToggle {
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .StdInput {
-  margin-right: 20px;
+  margin-right: 16px;
 }
 
 .DragBall {
   cursor: move;
-  font-weight: bold;
+  font-weight: var(--bold-weight);
 }
 
 .InputChild {
   /*display: inline-block;*/
   flex: 1;
 }
+
 </style>

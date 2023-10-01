@@ -24,22 +24,17 @@ let editorComponent = computed(() => {
 
 <template>
   <EditorPane paneTitle="Properties" :startX="800" :startY="100">
-    <div class="EditorPaneInner">
-      <template v-if="propEditor">
-        <p>Type: {{ propEditor.componentName }}</p>
-        <component v-if="kEditorMap[propEditor.componentName]" :is="kEditorMap[propEditor.componentName]" :editorData="propEditor"></component>
-      </template>
-      <template v-else>
-        <p>None</p>
-      </template>
-    </div>
+    <template v-if="propEditor">
+      <p class="MarginBotXS">Type: {{ propEditor.componentName }}</p>
+      <component v-if="kEditorMap[propEditor.componentName]" :is="kEditorMap[propEditor.componentName]" :editorData="propEditor"></component>
+    </template>
+    <template v-else>
+      <p>None</p>
+    </template>
   </EditorPane>
 </template>
 
 <style>
-.EditorPaneInner {
-  padding: 20px 5px;
-}
 </style>
 
 <style scoped>

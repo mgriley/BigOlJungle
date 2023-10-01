@@ -63,7 +63,7 @@ let depthText = computed(() => {
 let styleObject = computed(() => {
   let obj = {};
   if (props.node.isSelected()) {
-    obj.background = "lightblue";
+    obj["background-color"] = "var(--row-highlight-bg)";
   }
   return obj;
 })
@@ -164,30 +164,29 @@ function setupDrag(itemElem, dragBtn) {
 <style scoped>
 .OpenBtn {
   display: inline-block;
-  margin-left: 10px;
-  margin-right: 5px;
-  font-weight: bold;
+  margin-left: 8px;
+  margin-right: 4px;
 }
 
 .ItemContainer {
-  padding: 0px 10px;
-  background: white;
+  padding: 0px 8px;
+  /* background: white; */
   /*margin: 5px 5px;*/
-  border-top: 1px solid lightgrey;
+  border-top: 1px solid var(--secondary-text);
 }
 
 .DragBtn {
   cursor: move;
-  font-weight: bold;
-  margin-left: 10px;
-  margin-right: 10px;
+  font-weight: var(--bold-weight);
+  margin-left: 8px;
+  margin-right: 8px;
   float: right;
 }
 
 .NodeTypeIcon {
-  margin-left: 10px;
-  margin-right: 10px;
-  font-weight: bold;
+  margin-left: 8px;
+  margin-right: 8px;
+  font-weight: var(--bold-weight);
   font-size: 0.75em;
 }
 

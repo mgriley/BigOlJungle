@@ -1,0 +1,72 @@
+@import './base.css';
+
+.Widget {
+  position: absolute;
+}
+
+.PageHeader {
+  margin-bottom: var(--space-m);
+}
+
+.StdInput {
+  margin-bottom: var(--space-xs);
+}
+
+.InputLabel {
+  color: var(--main-text);
+  font-size: var(--small-size);
+}
+
+.FormFieldName {
+  margin-top: var(--space-s);
+  margin-bottom: var(--space-xxs);
+}
+
+.FormFieldName:first-child {
+  margin-top: 0;
+}
+
+.FormFieldNameWithInfo {
+  margin-top: var(--space-s);
+}
+
+.FormFieldNameWithInfo:first-child {
+  margin-top: 0;
+}
+
+.FormFieldInfo {
+  margin-bottom: var(--space-xxs);
+  font-size: var(--small-size);
+  color: var(--mute-text);
+}
+
+.FormFieldItem {
+  margin-top: var(--space-s);
+}
+
+.DisclosureBody {
+  margin-top: var(--space-xs);
+}
+
+.CodeBlock {
+  /*background-color: var(--input-bg);*/
+  padding: var(--space-s);
+  border: 1px solid var(--main-text);
+  border-radius: var(--border-radius-med);
+  font-family: monospace;
+  font-size: var(--p-size);
+  /* white-space: pre-wrap; */
+  /* I'm not sure how to get this working right for mobile, so use pre-wrap for now */
+  white-space: pre-wrap;
+  overflow-x: scroll;
+}
+
+.v-toast__item {
+  /* padding: 100px; */
+  padding: 0;
+}
+
+.v-toast__text {
+  color: var(--main-text);
+}
+

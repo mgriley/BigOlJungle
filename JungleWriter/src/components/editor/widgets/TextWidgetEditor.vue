@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <NumberInput v-model="editorData.fontSize" name="Font Size" min="1"/>
+  <NumberInput v-model="editorData.fontSize" name="Font Size" min="1" />
   <div class="FontStyleButtons">
     <BoolInput class="Item" v-model="editorData.bold" name="Bold" />
     <BoolInput class="Item" v-model="editorData.italic" name="Italic" />
@@ -21,12 +21,15 @@ const props = defineProps({
   <NumberInput v-model="editorData.lineHeight" name="Line Height" min="0" :isOptional="true" :defaultValue="1.25"/>
   <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" min="0" :isOptional="true" :defaultValue="1"/>
   <NumberInput v-model="editorData.maxWidth" name="Max Width" min="0" :isOptional="true" :defaultValue="200" />
+  <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
 </template>
 
-<style>
+<style scoped>
 .TextWidgetTextArea {
-  margin-top: 24px;
+  margin-top: var(--space-s);
+  width: 100%;
+  /* resize: vertical; */
 }
 
 .FontStyleButtons {
@@ -37,9 +40,4 @@ const props = defineProps({
 .FontStyleButtons .Item {
   margin-right: 10px;
 }
-
-</style>
-
-<style scoped>
-
 </style>
