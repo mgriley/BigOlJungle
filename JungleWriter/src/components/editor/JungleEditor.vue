@@ -2,8 +2,10 @@
 import { computed } from 'vue'
 import { gApp } from './State.js'
 import NavBar from './NavBar.vue'
+import PreviewBtn from './PreviewBtn.vue'
 import NodeTreeView from './NodeTreeView.vue'
 import PropEditor from './PropEditor.vue'
+import SettingsEditor from './SettingsEditor.vue'
 import { kWidgetMap, NodeWidget } from './widgets/Widgets.js'
 
 /*
@@ -32,14 +34,27 @@ function onClickBackground(evt) {
     gApp.site.deselectAll();
   }
 }
+
+function getMainStyleObject() {
+  return {
+    'background-color': gApp.site.getSettings().backgroundColor
+  };
+}
+
+let isEditing = computed(() => {
+  return gApp.site.getIsEditing();
+});
+
 </script>
 
 <template>  
-  <NavBar />
-  <main id="Main" @click="onClickBackground">
+  <NavBar v-if="isEditing" />
+  <PreviewBtn />
+  <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
     <!--<h1>Hello World!</h1>-->
-    <NodeTreeView />
-    <PropEditor />
+    <NodeTreeView v-if="isEditing" />
+    <PropEditor v-if="isEditing" />
+    <SettingsEditor v-if="isEditing" />
 
     <div class="AnchorDiv">
       <NodeWidget :node="rootNode" />

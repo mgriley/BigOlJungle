@@ -10,6 +10,8 @@ const props = defineProps({
 
 const paneRef = ref(null)
 
+let isCollapsed = ref(false);
+
 onMounted(() => {
   paneRef.value.style.left = props.startX + 'px';
   paneRef.value.style.top = props.startY + 'px';
@@ -21,9 +23,14 @@ onMounted(() => {
 <template>
   <div class="EditorPane" ref="paneRef">
     <div class="EditorPaneHeader">
-      {{ paneTitle }}
+      <div>
+        {{ paneTitle }}{{ isCollapsed ? "..." : "" }}
+      </div>
+      <button @click="isCollapsed = !isCollapsed">
+        {{ isCollapsed ? "[+]" : "[-]" }}
+      </button>
     </div>  
-    <div class="PaneInner"> 
+    <div class="PaneInner" v-if="!isCollapsed"> 
       <slot></slot>
     </div>
   </div>
@@ -50,6 +57,8 @@ onMounted(() => {
   cursor: move;
   /* background-color: var(--light-color); */
   background-color: var(--editor-header-color);
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .PaneInner {

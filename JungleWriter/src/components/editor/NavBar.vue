@@ -5,7 +5,9 @@ import { kMenuItems } from './State.js'
 
 <template>  
   <div class="NavBar">
-    <p class="MenuIcon">JW</p>
+    <div class="MenuIcon">
+      Menu
+    </div>
     <div class="InnerMenu">
       <div v-for="item in kMenuItems" class="MenuItem">
         <p>
@@ -20,6 +22,7 @@ import { kMenuItems } from './State.js'
 <style scoped>
 .NavBar {
   position: absolute;
+  display: flex;
   top: 16px;
   left: 16px;
   display: inline-block;
@@ -27,9 +30,14 @@ import { kMenuItems } from './State.js'
 }
 
 .MenuIcon {
-  border: 1px solid blue;
-  border-radius: 4px;
+  border: 1px solid var(--main-text);
+  /* border-radius: var(--border-radius-med); */
   display: inline-block;
+  padding: 6px;
+  background-color: var(--dark-color);
+  color: var(--main-text);
+  cursor: pointer;
+  /* font-size: var(--smaller-size); */
 }
 
 .NavBar .InnerMenu {

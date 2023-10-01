@@ -11,7 +11,7 @@ export class TextNode extends State.Node {
     this.allowsChildren = false;
     this.text = "Hello World!";
 
-    this.fontName = null;
+    this.fontFamily = null;
     this.fontSize = 36;
     this.color = "var(--darkest-color)";
     this.bold = false;
@@ -29,8 +29,8 @@ export class TextNode extends State.Node {
       fontSize: this.fontSize + 'px',
       textAlign: this.textAlign,
     };
-    if (this.fontName) {
-      myStyle.fontFamily = this.fontName;
+    if (this.fontFamily) {
+      myStyle.fontFamily = this.fontFamily;
     }
     if (this.color) {
       myStyle.color = this.color;

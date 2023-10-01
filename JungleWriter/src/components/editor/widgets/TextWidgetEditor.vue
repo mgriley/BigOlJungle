@@ -3,6 +3,8 @@ import { ref, onMounted, computed } from 'vue'
 import NumberInput from './NumberInput.vue'
 import BoolInput from './BoolInput.vue'
 import TextAlignInput from './TextAlignInput.vue'
+import FontInput from './FontInput.vue'
+import ColorInput from './ColorInput.vue'
 
 const props = defineProps({
   editorData: Object
@@ -11,7 +13,9 @@ const props = defineProps({
 </script>
 
 <template>
+  <FontInput v-model="editorData.fontFamily" name="Font Family" :isOptional="true" />
   <NumberInput v-model="editorData.fontSize" name="Font Size" min="1" />
+  <ColorInput v-model="editorData.color" name="Color" :isOptional="true" />
   <div class="FontStyleButtons">
     <BoolInput class="Item" v-model="editorData.bold" name="Bold" />
     <BoolInput class="Item" v-model="editorData.italic" name="Italic" />

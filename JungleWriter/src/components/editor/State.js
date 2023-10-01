@@ -207,12 +207,20 @@ class NodeTree {
   }
 };
 
+class SiteSettings {
+  constructor() {
+    this.backgroundColor = "rgb(255, 255, 255)";
+  }
+}
+
 
 class Site {
   constructor() {
     this.name = "MySite";
     this.nodeTree = reactive(new NodeTree());
     this.selectedEntity = ref(null);
+    this.settings = reactive(new SiteSettings());
+    this.isEditing = ref(true);
   }
 
   save() {
@@ -222,6 +230,18 @@ class Site {
   }
 
   deployZip() {
+  }
+
+  getSettings() {
+    return this.settings;
+  }
+
+  getIsEditing() {
+    return this.isEditing.value;
+  }
+
+  setIsEditing(newVal) {
+    this.isEditing.value = newVal;
   }
 
   getSelectedNode() {
