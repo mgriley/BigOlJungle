@@ -1,5 +1,7 @@
 import { reactive, ref } from 'vue'
 import { removeItem } from './Utils.js'
+import { UserStorage } from './UserStorage.js'
+import { gNodeDataMap } from './widgets/NodeDataMap.js'
 
 var gApp = null;
 
@@ -14,9 +16,9 @@ class Node {
   constructor() {
     this.id = gState.nodeIdCtr++;
     gState.nodeLookupMap[this.id] = this;
+    this.type = "Node";
 
     this.name = "Group";
-    this.componentName = "NodeWidget";
     this.parentNode = null;
     this.children = [];
     this.allowsChildren = true;
@@ -25,6 +27,34 @@ class Node {
 
     this.posX = 0;
     this.posY = 0;
+  }
+
+  writeToJson() {
+    return {
+      id: this.id,
+      type: this.type,
+      name: this.name,
+      openInNodeTree: this.openInNodeTree,
+      posX: this.posX,
+      posY: this.posY,
+      allowsChildren: this.allowsChildren,
+      children: this.children.map((c) => c.writeToJson()),
+    }
+  }
+
+  readFromJson(obj) {
+    this.id = obj.id;
+    this.type = obj.type;
+    this.name = obj.name;
+    this.openInNodeTree = obj.openInNodeTree;
+    this.posX = obj.posX;
+    this.posY = obj.posY;
+    this.allowsChildren = obj.allowsChildren;
+    for (const childObj of obj.children) {
+      let childNode = new (gNodeDataMap[childObj.type].nodeClass)();
+      childNode.readFromJson(childObj);
+      this.addChild(childNode);
+    }
   }
 
   destroy() {
@@ -205,25 +235,78 @@ class NodeTree {
     this.root = new Node();
     this.root.name = "Root";
   }
+
+  writeToJson() {
+    return {
+      root: this.root.writeToJson(),
+    }
+  }
+
+  readFromJson(obj) {
+    this.root.readFromJson(obj);
+  }
 };
 
 class SiteSettings {
   constructor() {
     this.backgroundColor = "rgb(255, 255, 255)";
   }
+
+  writeToJson() {
+    return {
+      backgroundColor: this.backgroundColor,
+    }
+  }
+
+  readFromJson(obj) {
+    this.backgroundColor = obj.backgroundColor;
+  }
 }
 
 
 class Site {
-  constructor() {
-    this.name = "MySite";
-    this.nodeTree = reactive(new NodeTree());
-    this.selectedEntity = ref(null);
-    this.settings = reactive(new SiteSettings());
-    this.isEditing = ref(true);
+  constructor(editor, id) {
+    this.editor = editor;
+    this.id = id;
+    this.name = "";
+    this.nodeTree = new NodeTree();
+    this.selectedEntity = null;
+    this.settings = new SiteSettings();
+    this.isEditing = true;
+
+    // TODO - store the id of the site that was editing last
+  }
+
+  writeToJson() {
+    let obj = {
+      id: this.id,
+      name: this.name,
+      nodeTree: this.nodeTree.writeToJson(),
+      settings: this.settings.writeToJson(),
+    };
+    return obj;
+  }
+
+  readFromJson(obj) {
+    this.id = obj.id;
+    this.name = obj.name;
+    this.nodeTree.readFromJson(obj.nodeTree);
+    this.settings.readFromJson(obj.settings);
   }
 
   save() {
+    // TODO - handle errors
+    let obj = this.writeToJson();
+    this.editor.userStorage.setItem(`sites/${this.id}/data`, obj);
+    console.log("Saved site:", obj);
+  }
+
+  static load(editor, siteId) {
+    // TODO - handle errors
+    let siteData = this.editor.userStorage.getItem(`sites/${siteId}/data`);
+    let site = new Site(editor, siteId);
+    site.readFromJson(siteData);
+    return site;
   }
 
   exportSite() {
@@ -237,38 +320,39 @@ class Site {
   }
 
   getIsEditing() {
-    return this.isEditing.value;
+    return this.isEditing;
   }
 
   setIsEditing(newVal) {
-    this.isEditing.value = newVal;
+    this.isEditing = newVal;
   }
 
   getSelectedNode() {
-    return this.selectedEntity.value;
+    return this.selectedEntity;
   }
 
   selectNode(node) {
-    if (this.selectedEntity.value) {
-      this.selectedEntity.value.selected = false;
+    if (this.selectedEntity) {
+      this.selectedEntity.selected = false;
     }
-    this.selectedEntity.value = node;
+    this.selectedEntity = node;
+    console.log("SelectedNode!");
     if (node) {
       node.selected = true;
     }
   }
 
   deselectAll() {
-    if (this.selectedEntity.value) {
-      this.selectedEntity.value.selected = false;
+    if (this.selectedEntity) {
+      this.selectedEntity.selected = false;
     }
-    this.selectedEntity.value = null;
+    this.selectedEntity = null;
   }
 
   deleteSelectedNodes() {
-    if (this.selectedEntity.value) {
-      this.selectedEntity.value.destroy();
-      this.selectedEntity.value = null;
+    if (this.selectedEntity) {
+      this.selectedEntity.destroy();
+      this.selectedEntity = null;
     }
   }
 
@@ -279,15 +363,39 @@ class Site {
 
 class Editor {
   constructor() {
-    this.site = null;
-    this.createDummySite();
+    this.sites = reactive([]);
+    // The site currently being edited
+    this.siteRef = ref(null);
+
+    this.siteIdCtr = 1;
+    this.userStorage = new UserStorage();
   }
 
-  createDummySite() {
-    this.site = new Site();  
+  writeToJson() {
+    let obj = {
+    }
+    return obj;
+  }
+  
+  readFromJson() {
+  }
+
+  get site() {
+    return this.siteRef.value;
+  }
+
+  run() {
+    console.log("Starting JungleWriter...");
   }
 
   createSite() {
+    let site = reactive(new Site(this, this.siteIdCtr++));
+    this.sites.unshift(site);
+    return site;
+  }
+
+  selectSite(site) {
+    this.siteRef.value = site;
   }
 
   openSite() {
@@ -310,7 +418,15 @@ function onOpenFile() {
 function onSaveFile() {
 }
 
+function goToSites() {
+  gApp.selectSite(null);
+}
+
 let kMenuItems = [
+  {
+    name: "Main Menu",
+    action: goToSites
+  },
   {
     name: "File",
     items: [
@@ -337,13 +453,18 @@ let kMenuItems = [
   },
   {
     name: "Settings"
-  }
+  },
 ];
 
-gApp = new Editor();
+function initGlobalApp() {
+  gApp = new Editor();
+  gApp.run();
+  return gApp;
+}
 
 export {
   gApp,
+  initGlobalApp,
   kMenuItems,
   Node
 };

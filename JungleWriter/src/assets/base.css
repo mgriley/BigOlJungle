@@ -54,9 +54,14 @@
 
   --bold-weight: 700;
 
-  --border-radius-small: 4px;
-  --border-radius-med: 6px;
-  --border-radius-large: 8px;
+  --border-radius-s: 4px;
+  --border-radius-m: 6px;
+  --border-radius-l: 8px;
+
+  /* Legacy */
+  --border-radius-small: var(--border-radius-s);
+  --border-radius-med: var(--border-radius-m);
+  --border-radius-large: var(--border-radius-l);
 
   --border-reg: 1px solid var(--secondary-text);
 

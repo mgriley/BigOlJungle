@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, Node } from './State.js'
-import { kEditorMap } from './widgets/Widgets.js'
 import EditorPane from './EditorPane.vue'
 import ColorInput from './widgets/ColorInput.vue'
 

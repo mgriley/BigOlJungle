@@ -10,10 +10,10 @@ import { kMenuItems } from './State.js'
     </div>
     <div class="InnerMenu">
       <div v-for="item in kMenuItems" class="MenuItem">
-        <p>
+        <div>
           <a v-if="item.action" href="#" @click="item.action()">{{ item.name }}</a>
           <a href="#" v-else>{{ item.name }}</a>
-        </p>
+        </div>
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@ import { kMenuItems } from './State.js'
 .NavBar .InnerMenu {
   display: none;
   background-color: blue;
+  padding: var(--space-xs) var(--space-xl) var(--space-s) var(--space-s);
 }
 
 .NavBar:hover .InnerMenu {

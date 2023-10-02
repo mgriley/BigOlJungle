@@ -4,7 +4,7 @@
 
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
-import { kWidgetMap } from './Widgets.js'
+import { gNodeDataMap } from './NodeDataMap.js'
 import { gApp } from '../State.js'
 import { setupWidget } from '../Utils.js'
 
@@ -42,7 +42,7 @@ let styleObject = computed(() => {
 <template>
   <div class="Widget NodeWidget" ref="elementRef" :style="styleObject">
     <template v-for="childNode in node.children" :key="childNode.id">
-      <component v-if="childNode.componentName !== null" :is="kWidgetMap[childNode.componentName]" :node="childNode" />
+      <component v-if="childNode.type !== null" :is="gNodeDataMap[childNode.type].widget" :node="childNode" />
     </template>
   </div>
 </template>

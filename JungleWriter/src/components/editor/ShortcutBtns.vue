@@ -9,7 +9,10 @@ function togglePreview() {
 </script>
 
 <template>  
-  <div class="PreviewBtn">
+  <div class="ShortcutBtns">
+    <button class="MenuIcon" v-if="gApp.site.getIsEditing()" @click="gApp.site.save()">
+      Save
+    </button>
     <button class="MenuIcon" @click="togglePreview">
       Preview <vue-feather v-if="!gApp.site.getIsEditing()" type="x" class="XIcon" />
     </button>
@@ -17,13 +20,14 @@ function togglePreview() {
 </template>
 
 <style scoped>
-.PreviewBtn {
-  position: absolute;
-  display: flex;
-  right: 16px;
-  bottom: 16px;
-  display: inline-block;
+.ShortcutBtns {
   z-index: 10;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 2px;
 }
 
 .MenuIcon {

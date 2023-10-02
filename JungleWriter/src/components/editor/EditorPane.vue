@@ -24,9 +24,9 @@ onMounted(() => {
   <div class="EditorPane" ref="paneRef">
     <div class="EditorPaneHeader">
       <div>
-        {{ paneTitle }}{{ isCollapsed ? "..." : "" }}
+        {{ paneTitle }}
       </div>
-      <button @click="isCollapsed = !isCollapsed">
+      <button @click="isCollapsed = !isCollapsed" class="CollapseBtn TextButton">
         {{ isCollapsed ? "[+]" : "[-]" }}
       </button>
     </div>  
@@ -59,6 +59,13 @@ onMounted(() => {
   background-color: var(--editor-header-color);
   display: flex;
   flex-flow: row nowrap;
+  align-items: baseline;
+}
+
+.CollapseBtn {
+  margin-left: var(--space-xs);
+  padding: 4px;
+  min-width: 0;
 }
 
 .PaneInner {

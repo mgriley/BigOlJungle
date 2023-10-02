@@ -3,7 +3,8 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp, Node } from './State.js'
 import NodeTreeItem from './NodeTreeItem.vue'
 import EditorPane from './EditorPane.vue'
-import TextWidget, { TextNode } from './widgets/TextWidget.vue'
+import { TextNode } from './widgets/TextNode.js'
+import TextWidget from './widgets/TextWidget.vue'
 import ModalSelector from './ModalSelector.vue'
 
 // See: https://vuejs.org/examples/#tree
