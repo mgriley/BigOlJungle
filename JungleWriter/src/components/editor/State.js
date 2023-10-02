@@ -1,5 +1,5 @@
 import { reactive, ref } from 'vue'
-import { removeItem } from './Utils.js'
+import { removeItem, prettyJson } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 
@@ -38,11 +38,14 @@ class Node {
       posX: this.posX,
       posY: this.posY,
       allowsChildren: this.allowsChildren,
-      children: this.children.map((c) => c.writeToJson()),
+      children: this.children.map((c) => {
+        return c.writeToJson();
+      }),
     }
   }
 
   readFromJson(obj) {
+    // console.log("Reading Node:", prettyJson(obj));
     this.id = obj.id;
     this.type = obj.type;
     this.name = obj.name;
@@ -243,7 +246,8 @@ class NodeTree {
   }
 
   readFromJson(obj) {
-    this.root.readFromJson(obj);
+    // console.log("Reading NodeTree:", prettyJson(obj));
+    this.root.readFromJson(obj.root);
   }
 };
 
@@ -298,12 +302,14 @@ class Site {
     // TODO - handle errors
     let obj = this.writeToJson();
     this.editor.userStorage.setItem(`sites/${this.id}/data`, obj);
-    console.log("Saved site:", obj);
+    console.log("Saved site:", prettyJson(obj));
   }
 
   static load(editor, siteId) {
     // TODO - handle errors
-    let siteData = this.editor.userStorage.getItem(`sites/${siteId}/data`);
+    console.log("Loading site with id: ", siteId);
+    let siteData = editor.userStorage.getItem(`sites/${siteId}/data`);
+    console.log("Site data:", prettyJson(siteData));
     let site = new Site(editor, siteId);
     site.readFromJson(siteData);
     return site;
@@ -363,21 +369,45 @@ class Site {
 
 class Editor {
   constructor() {
+    // Note: list of {id, name, ptr} per site.
+    // When the site is edited, the full site object is loaded.
     this.sites = reactive([]);
     // The site currently being edited
     this.siteRef = ref(null);
-
     this.siteIdCtr = 1;
+
     this.userStorage = new UserStorage();
   }
 
   writeToJson() {
-    let obj = {
+    return {
+      version: "1",
+      sites: this.sites.map((site) => {
+        return {id: site.id, name: site.name, ptr: null};
+      }), 
+      siteIdCtr: this.siteIdCtr,
     }
-    return obj;
   }
   
-  readFromJson() {
+  readFromJson(obj) {
+    for (const site of obj.sites) {
+      this.sites.push(site);
+    }
+    this.siteIdCtr = obj.siteIdCtr;
+  }
+
+  save() {
+    // TODO - handle errors
+    let obj = this.writeToJson();
+    this.userStorage.setItem(`app/data`, obj);
+    console.log("Saved app:", prettyJson(obj));
+  }
+
+  load() {
+    // TODO - handle errors
+    console.log("Loading app...");
+    let data = this.userStorage.getItem(`app/data`);
+    this.readFromJson(data);
   }
 
   get site() {
@@ -386,16 +416,34 @@ class Editor {
 
   run() {
     console.log("Starting JungleWriter...");
+    this.load();
   }
 
   createSite() {
     let site = reactive(new Site(this, this.siteIdCtr++));
-    this.sites.unshift(site);
+    this.sites.unshift({id: site.id, name: site.name, ptr: site});
+    this.save();
     return site;
   }
 
-  selectSite(site) {
-    this.siteRef.value = site;
+  loadSiteWithId(siteId) {
+    for (const site of this.sites) {
+      if (site.id == siteId) {
+        if (!site.ptr) {
+          site.ptr = Site.load(this, site.id);
+        }
+        return site.ptr;
+      }
+    }
+    return null;
+  }
+  
+  selectSiteById(siteId) {
+    this.siteRef.value = this.loadSiteWithId(siteId);
+  }
+
+  deselectSite() {
+    this.siteRef.value = null;
   }
 
   openSite() {
@@ -419,7 +467,7 @@ function onSaveFile() {
 }
 
 function goToSites() {
-  gApp.selectSite(null);
+  gApp.deselectSite();
 }
 
 let kMenuItems = [

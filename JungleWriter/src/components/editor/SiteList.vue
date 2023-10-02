@@ -15,7 +15,7 @@ function addSite() {
     <div class="MarginBotS">
       <button @click="addSite">Add Site</button>
     </div>
-    <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.selectSite(site)">
+    <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.selectSiteById(site.id)">
       <p class="SiteName">{{ site.name ? site.name : "NoName" }}</p>
     </div>
   </div>

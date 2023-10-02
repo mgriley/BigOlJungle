@@ -1,4 +1,5 @@
 import * as State from '../State.js'
+import { extendMap } from '../Utils.js'
 
 export class TextNode extends State.Node {
   static sUiShortName = "T";
@@ -7,8 +8,8 @@ export class TextNode extends State.Node {
     super();
     this.type = "TextNode";
     this.allowsChildren = false;
-    this.text = "Hello World!";
 
+    this.text = "Hello World!";
     this.fontFamily = null;
     this.fontSize = 36;
     this.color = "var(--darkest-color)";
@@ -19,6 +20,39 @@ export class TextNode extends State.Node {
     this.letterSpacing = null;
     this.textAlign = 'left';
     this.maxWidth = null;
+  }
+
+  writeToJson() {
+    let obj = super.writeToJson();
+    extendMap(obj, {
+      text: this.text,
+      fontFamily: this.fontFamily,
+      fontSize: this.fontSize,
+      color: this.color,
+      bold: this.bold,
+      italic: this.italic,
+      underline: this.underline,
+      lineHeight: this.lineHeight,
+      letterSpacing: this.letterSpacing,
+      textAlign: this.textAlign,
+      maxWidth: this.maxWidth,
+    });
+    return obj;
+  }
+
+  readFromJson(obj) {
+    super.readFromJson(obj);
+    this.text = obj.text;
+    this.fontFamily = obj.fontFamily;
+    this.fontSize = obj.fontSize;
+    this.color = obj.color;
+    this.bold = obj.bold;
+    this.italic = obj.italic;
+    this.underline = obj.underline;
+    this.lineHeight = obj.lineHeight;
+    this.letterSpacing = obj.letterSpacing;
+    this.textAlign = obj.textAlign;
+    this.maxWidth = obj.maxWidth;
   }
 
   getStyleObject() {
