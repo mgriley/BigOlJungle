@@ -407,7 +407,9 @@ class Editor {
     // TODO - handle errors
     console.log("Loading app...");
     let data = this.userStorage.getItem(`app/data`);
-    this.readFromJson(data);
+    if (data) {
+      this.readFromJson(data);
+    }
   }
 
   get site() {
