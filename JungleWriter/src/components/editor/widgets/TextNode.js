@@ -6,6 +6,7 @@ export class TextNode extends State.Node {
 
   constructor() {
     super();
+    this.name = "Text";
     this.type = "TextNode";
     this.allowsChildren = false;
 

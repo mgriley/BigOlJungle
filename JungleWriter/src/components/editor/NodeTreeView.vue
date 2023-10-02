@@ -98,7 +98,7 @@ let nodeList = computed(() => {
 <template>
   <EditorPane paneTitle="Nodes" :startX="99" :startY="100">
     <div class="ButtonPane">
-      <button class="TertiaryButton" @click="makeNewNode">New</button>
+      <button class="TertiaryButton NewButton" @click="makeNewNode">New</button>
       <button class="TertiaryButton" @click="cloneNode">Clone</button>
       <button class="TertiaryButton" @click="moveNodeUp">MoveUp</button>
       <button class="TertiaryButton" @click="moveNodeDown">MoveDown</button>
@@ -121,6 +121,10 @@ let nodeList = computed(() => {
 
 .ButtonPane button {
   margin-right: var(--space-xxs);
+}
+
+.ButtonPane .NewButton {
+  margin-right: var(--space-m);
 }
 
 .DeleteBtn {
