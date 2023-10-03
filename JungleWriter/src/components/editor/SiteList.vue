@@ -10,13 +10,21 @@ function addSite() {
 </script>
 
 <template>
-  <div class="SiteList">
-    <h1 class="PageHeader">Site List</h1>
-    <div class="MarginBotS">
-      <button @click="addSite">Add Site</button>
-    </div>
-    <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.selectSiteById(site.id)">
-      <p class="SiteName">{{ site.name ? site.name : "NoName" }}</p>
+  <div class="Container">
+    <div class="SiteList">
+      <h1 class="PageHeader">Site List</h1>
+      <div class="MarginBotS">
+        <button @click="addSite">Add Site</button>
+      </div>
+      <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.selectSiteById(site.id)">
+        <p class="SiteName">{{ site.name ? site.name : "NoName" }}</p>
+        <p class="SiteId">Id: {{ site.id }}</p>
+      </div>
+      <div class="DevControls">
+        <div>Dev Controls</div>
+        <button @click="gApp.userStorage.dumpAll()" class="TertiaryButton">Dump storage</button>
+        <button @click="gApp.userStorage.clearAll()" class="TertiaryButton">Clear storage</button>
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +55,20 @@ function addSite() {
 
 .SiteItem p {
   color: var(--main-text);
+}
+
+.SiteId {
+  margin-left: var(--space-m);
+}
+
+.DevControls {
+  margin-top: var(--space-xl);
+  border-top: 1px solid var(--secondary-text);
+  padding-top: var(--space-xs);
+}
+
+.DevControls button {
+  display: block;
 }
 
 </style>

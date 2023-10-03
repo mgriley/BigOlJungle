@@ -424,6 +424,8 @@ class Editor {
   createSite() {
     let site = reactive(new Site(this, this.siteIdCtr++));
     this.sites.unshift({id: site.id, name: site.name, ptr: site});
+    // Save the site now so that it populates the UserStorage with an entry
+    site.save();
     this.save();
     return site;
   }
@@ -432,7 +434,7 @@ class Editor {
     for (const site of this.sites) {
       if (site.id == siteId) {
         if (!site.ptr) {
-          site.ptr = Site.load(this, site.id);
+          site.ptr = reactive(Site.load(this, site.id));
         }
         return site.ptr;
       }

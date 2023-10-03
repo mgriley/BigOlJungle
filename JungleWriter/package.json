@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5175",
     "build": "vite build",
     "deploy": "vite build && wrangler pages deploy dist",
     "preview": "vite preview",

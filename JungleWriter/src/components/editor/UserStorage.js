@@ -32,5 +32,23 @@ export class UserStorage {
     }
     return keys;
   }
+
+  dumpAll() {
+    let keys = this.getKeys();
+    keys.sort();
+    console.log(`User Storage (${keys.length} keys)`);
+    for (const key of keys) {
+      let valueObj = this.getItem(key);
+      console.log(`${key}:\n${prettyJson(valueObj)}`);
+    }
+  }
+
+  clearAll() {
+    console.log("Clearing storage");
+    let keys = this.getKeys();
+    for (const key of keys) {
+      this.removeItem(key);
+    }
+  }
 };
 
