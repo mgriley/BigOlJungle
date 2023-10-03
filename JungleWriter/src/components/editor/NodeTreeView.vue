@@ -96,7 +96,7 @@ let nodeList = computed(() => {
 </script>
 
 <template>
-  <EditorPane paneTitle="Nodes" :startX="99" :startY="100">
+  <EditorPane paneTitle="Nodes" paneId="NodeTree" :startX="99" :startY="100">
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode">New</button>
       <button class="TertiaryButton" @click="cloneNode">Clone</button>

@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <EditorPane paneTitle="Properties" :startX="800" :startY="100">
+  <EditorPane paneTitle="Properties" paneId="PropEditor" :startX="800" :startY="100">
     <template v-if="propEditor">
       <p class="MarginBotXS">Type: {{ propEditor.type }}</p>
       <component v-if="gNodeDataMap[propEditor.type].editor" :is="gNodeDataMap[propEditor.type].editor" :editorData="propEditor"></component>

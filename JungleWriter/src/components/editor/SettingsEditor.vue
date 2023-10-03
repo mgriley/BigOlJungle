@@ -9,7 +9,7 @@ let settings = gApp.site.getSettings();
 </script>
 
 <template>
-  <EditorPane paneTitle="Settings" :startX="800" :startY="100">
+  <EditorPane paneTitle="Settings" paneId="SiteSettings" :startX="800" :startY="100">
     <ColorInput name="Background Color" v-model="settings.backgroundColor" />
   </EditorPane>
 </template>

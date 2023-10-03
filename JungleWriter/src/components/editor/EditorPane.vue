@@ -1,21 +1,43 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { makeDraggable } from './Utils.js'
+import { ref, reactive, onMounted, onUnmounted, watch } from 'vue'
+import { gApp } from './State.js'
+import { makeDraggable, readFromStorage, writeToStorage, prettyJson } from './Utils.js'
+import { EditorPaneSettings } from './EditorPane.js'
 
 const props = defineProps({
   paneTitle: String,
+  // Must be unique among all panes
+  paneId: {
+    type: String,
+    required: true
+  },
   startX: Number,
   startY: Number,
 })
 
 const paneRef = ref(null)
+let settings = reactive(new EditorPaneSettings());
 
-let isCollapsed = ref(false);
-
+let intervalId = null;
 onMounted(() => {
-  paneRef.value.style.left = props.startX + 'px';
-  paneRef.value.style.top = props.startY + 'px';
+  settings.posX = props.startX + 'px';
+  settings.posY = props.startY + 'px';
+  readFromStorage(settings, gApp.userStorage, `app/workspace/panes/${props.paneId}`);
+  paneRef.value.style.left = settings.posX;
+  paneRef.value.style.top = settings.posY;
   makeDraggable(paneRef.value);
+
+  intervalId = setInterval(() => {
+    // Update settings
+    settings.posX = paneRef.value.style.left;
+    settings.posY = paneRef.value.style.top;
+    writeToStorage(settings, gApp.userStorage, `app/workspace/panes/${props.paneId}`);
+    console.log("Saving pane settings:", prettyJson(settings.writeToJson())); 
+  }, 3000);
+})
+
+onUnmounted(() => {
+  clearInterval(intervalId);
 })
 
 </script>
@@ -26,11 +48,11 @@ onMounted(() => {
       <div>
         {{ paneTitle }}
       </div>
-      <button @click="isCollapsed = !isCollapsed" class="CollapseBtn TextButton">
-        {{ isCollapsed ? "[+]" : "[-]" }}
+      <button @click="settings.isCollapsed = !settings.isCollapsed" class="CollapseBtn TextButton">
+        {{ settings.isCollapsed ? "[+]" : "[-]" }}
       </button>
     </div>  
-    <div class="PaneInner" v-if="!isCollapsed"> 
+    <div class="PaneInner" v-if="!settings.isCollapsed"> 
       <slot></slot>
     </div>
   </div>
