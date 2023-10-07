@@ -3,7 +3,6 @@ import { addElem, removeElem, hashString,
     parseXml, formatXML, prettifyElement } from './Utils.js'
 import { gApp } from './State.js'
 
-
 export function getValue(interpreter, propName) {
   // let prop = interpreter.getValue(propName);
   let prop = interpreter.getProperty(interpreter.globalObject, propName);
@@ -25,12 +24,9 @@ function registerAsyncFunc(interpreter, obj, funcName, func) {
 }
 
 function setupBasicFuncs(registry) {
-  let logPrefix = `${registry.plugin.feedType}: `;
+  let logPrefix = `${registry.state.plugin.feedType}: `;
   registry.addFunc("log", (logText) => {
     console.log(logPrefix + logText);
-  });
-  registry.addFunc("logError", (logText) => {
-    console.error(logPrefix + logText);
   });
   /*
   // Note: does not work as expected. Use built-in JSON.stringify.
@@ -38,6 +34,22 @@ function setupBasicFuncs(registry) {
     return JSON.stringify(jsObj, null, 2);
   });
   */
+
+  registry.addFunc("parseJson", (jsonString) => {
+    let js = JSON.parse(jsonString);
+    return registry.interpreter.nativeToPseudo(js);
+  });
+  registry.addFunc("parseXml", (xmlString) => {
+    let js = parseXml(xmlString, "text/xml");
+    return registry.interpreter.nativeToPseudo(js);
+  });
+  registry.addFunc("parseHtml", (htmlString) => {
+    let js = parseXml(htmlString, "text/html");
+    return registry.interpreter.nativeToPseudo(js);
+  });
+  registry.addFunc("stringify", (jsObj) => {
+    // TODO - convert js to pretty json string
+  });
 
   // stringType: "xml", "html", "json", "js", "elem"
   registry.addFunc("pretty", (value, valueType) => {
@@ -132,19 +144,21 @@ function setupDocumentFuncs(registry) {
 function setupFetchFuncs(registry) {
   // Fetches the doc at the given URL and returns response.text() as a string.
   // Aborts the script on failure.
-  registry.addAsyncFunc("fetch",
+  registry.addAsyncFunc("fetchText",
     (urlString, fetchOptions, callback) => {
-      if (!register.plugin.isUrlAllowed(urlString)) {
+      console.log(`Fetching ${urlString}...`);
+      if (!registry.state.plugin.isUrlAllowed(urlString)) {
         throw new Error(`URL "${urlString}" is not in the whitelist for plugin ${plugin.feedType}`);
       }
       let fetchPromise = gApp.fetchText(urlString, fetchOptions).then((text) => {
+        console.log("Fetch done");
         callback(text);
       }).catch((error) => {
         console.error(`Error on fetch \"${urlString}\":`, error);
         // Note: we purposefully abort with error in this case.
         throw(error);
       });
-      registry.plugin.pendingPromises.push(fetchPromise);
+      registry.state.pendingPromises.push(fetchPromise);
     });
 }
 
@@ -171,8 +185,8 @@ class ObjTable {
 }
 
 class RegistryUtil {
-  constructor(plugin, interpreter, globalObject, objTable) {
-    this.plugin = plugin;
+  constructor(state, interpreter, globalObject, objTable) {
+    this.state = state;
     this.interpreter = interpreter;
     this.globalObject = globalObject;
     this.objTable = objTable;
@@ -187,11 +201,11 @@ class RegistryUtil {
   }
 }
 
-export function setupInterpreter(plugin, interpreter, globalObject) {
+export function setupInterpreter(state, interpreter, globalObject) {
   let objTable = new ObjTable();
-  let registry = new RegistryUtil(plugin, interpreter, globalObject, objTable);
+  let registry = new RegistryUtil(state, interpreter, globalObject, objTable);
   setupBasicFuncs(registry);
-  setupDocumentFuncs(registry);
+  // setupDocumentFuncs(registry);
   setupFetchFuncs(registry);
 }
 

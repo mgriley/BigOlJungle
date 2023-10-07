@@ -6,6 +6,7 @@ import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import OptionsInput from './OptionsInput.vue'
 import BasicSelector from './BasicSelector.vue'
 import ToggleSwitch from './ToggleSwitch.vue'
+import MoreInfoText from './MoreInfoText.vue'
 
 let pluginToEdit = ref(null);
 
@@ -45,7 +46,7 @@ function requiresWhitelist(pluginType) {
       <div v-for="plugin in gApp.customPlugins" class="Plugin">
         <div class="NameBox Flex">
           <h4 class="NameHeader Block MockButton" :class="{Disabled: !plugin.isEnabled}" @click="plugin.expandedInUi = !plugin.expandedInUi">
-          {{ plugin.feedType ? plugin.feedType : "(No name)" }}{{ plugin.expandedInUi ? "" : "..." }}
+          {{ plugin.feedType ? plugin.feedType : "NoName" }}{{ plugin.expandedInUi ? "" : "..." }}
           </h4>
           <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />
         </div>
@@ -62,9 +63,9 @@ function requiresWhitelist(pluginType) {
           </div>
           <div class="EditorField">
             <template v-if="plugin.pluginType == CustomPluginType.URL">
-              <div class="FormFieldNameWithInfo">Url</div>
-              <div class="FormFieldInfo">Ex: www.myplugins.com/plugin.js</div>
-              <input v-model="plugin.pluginUrl" class="BasicTextInput Block UrlInput" type="text">
+              <div class="FormFieldNameWithInfo UrlPluginStart">Url</div>
+              <div class="FormFieldInfo">Ex: www.myplugins.com/SomePlugin.json</div>
+              <input v-model="plugin.remoteParser.pluginUrl" class="BasicTextInput Block UrlInput" type="text">
             </template>
             <template v-else-if="plugin.pluginType == CustomPluginType.Text">
               <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>
@@ -73,15 +74,17 @@ function requiresWhitelist(pluginType) {
               <button class="EditorBtn" @click="openEditor(plugin)">Open Editor</button>
             </template>
           </div>
-          <div class="Options FieldEntry">
-            <div class="FormFieldName CustomOptionsField">Custom Options</div>
-            <OptionsInput :options="plugin.options" />
-          </div>
-          <div v-if="requiresWhitelist(plugin.pluginType)" class="Options FieldEntry">
-            <div class="FormFieldName CustomOptionsField">Domain Whitelist</div>
-            <OptionsInput :options="plugin.domainWhitelist" :hasKeys="false" />
-          </div>
-          <button class="SmallButton DeleteButton" @click="removePlugin(plugin)">Delete Plugin</button>
+          <MoreInfoText class="PluginSettings" text="Settings" :showEllipse="true">
+            <div class="Options FieldEntry">
+              <div class="FormFieldName CustomOptionsField">Custom Options</div>
+              <OptionsInput :options="plugin.options" />
+            </div>
+            <div v-if="requiresWhitelist(plugin.pluginType)" class="Options FieldEntry">
+              <div class="FormFieldName CustomOptionsField">Domain Whitelist</div>
+              <OptionsInput :options="plugin.domainWhitelist" :hasKeys="false" />
+            </div>
+            <button class="SmallButton DeleteButton" @click="removePlugin(plugin)">Delete Plugin</button>
+          </MoreInfoText>
         </div>
       </div>
       <button class="AddPluginBtn" @click="addPlugin">Add Plugin</button>
@@ -129,7 +132,11 @@ function requiresWhitelist(pluginType) {
 }
 
 .EditorField {
-  margin-bottom: var(--space-l);
+  margin-bottom: var(--space-m);
+}
+
+.EditorField .UrlPluginStart {
+  margin-top: var(--space-s);
 }
 
 .EditorBtn {

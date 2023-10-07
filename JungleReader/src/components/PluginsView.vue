@@ -16,7 +16,7 @@ import MoreInfoText from './MoreInfoText.vue'
     <button class="DoneButton BackButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
     <h1 class="PageHeader PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
     <div v-if="gApp.getPluginToEdit().pluginType == CustomPluginType.Text">
-      <ScriptEditor class="ScriptEditor" v-model="gApp.getPluginToEdit().pluginText" />
+      <ScriptEditor class="ScriptEditor" :plugin="gApp.getPluginToEdit()" />
     </div>
     <div v-else-if="gApp.getPluginToEdit().pluginType == CustomPluginType.QuickParse">
       <QuickParseEditor :plugin="gApp.getPluginToEdit()" />

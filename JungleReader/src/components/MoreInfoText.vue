@@ -2,7 +2,11 @@
 import { ref, onMounted, computed } from 'vue'
 
 let props = defineProps({
-  text: String
+  text: String,
+  showEllipse: {
+    default: false,
+    type: Boolean
+  }
 })
 
 let showMoreInfo = ref(false);
@@ -11,7 +15,7 @@ let showMoreInfo = ref(false);
 
 <template>
   <div>
-    <button class="SmallButton" @click="showMoreInfo = !showMoreInfo">{{ text }}</button>
+    <button class="SmallButton" @click="showMoreInfo = !showMoreInfo">{{ text }}{{ (showEllipse && !showMoreInfo) ? "..." : "" }}</button>
     <template v-if="showMoreInfo">
       <p class="DisclosureBody">
         <slot>Default text</slot>

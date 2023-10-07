@@ -85,8 +85,9 @@ onUnmounted(() => {
 }
 
 .CollapseBtn {
+  margin: 0;
   margin-left: var(--space-xs);
-  padding: 4px;
+  padding: 0px;
   min-width: 0;
 }
 
