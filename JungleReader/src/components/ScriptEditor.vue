@@ -35,9 +35,11 @@ function highlighter(code) {
 
 function exportScript() {
   console.log("Exporting script");
+  // Note: we split the text by newline for readability when
+  // dumping the json
   let scriptData = {
     version: "1.0",
-    type: "script",
+    type: "Script",
     data: {
       text: scriptParser.pluginText.split("\n"),
     }

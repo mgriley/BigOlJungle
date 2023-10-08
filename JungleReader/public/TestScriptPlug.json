@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "type": "script",
+  "data": {
+    "text": [
+      "",
+      "",
+      "function updateFeed(feedUrl, customOptions) {",
+      "  log(\"The feed: \" + feedUrl);",
+      "  logJs(customOptions);",
+      "",
+      "  return [{",
+      "    title: \"Hello World\",",
+      "    description: \"Some description\", // Optional",
+      "    link: \"https://google.com\", // Optional",
+      "    pubDate: \"Thu, 20 Dec 2022 02:46:11 UTC\", // Optional",
+      "  }];",
+      "}",
+      "",
+      ""
+    ]
+  }
+}
