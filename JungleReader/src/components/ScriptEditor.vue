@@ -27,6 +27,7 @@ let importScriptModal = ref(null);
 let importScriptText = ref("");
 
 let isTestRunning = ref(false);
+let testOutput = ref("Nothing here yet.");
 
 function highlighter(code) {
   return Prism.highlight(code, Prism.languages.javascript);
@@ -47,23 +48,21 @@ function exportScript() {
 }
 
 function importScript() {
-  // TODO
+  gApp.toast({message: "Not yet implemented. Coming soon.", type: "error"});
   /*
-  console.log("Paste Config:");
-  pasteConfigModal.value.showModal();
-  pasteConfigText.value = "";
+  importScriptModal.value.showModal();
+  importScriptModal.value = "";
   */
 }
 
-function submitPasteConfig(configText) {
-  // TODO - fix up
-  // console.log("Parsing: " + configText);
+function submitImportScript(configText) {
+  /*
   let configObj = safeParseJson(configText);
   if (!configObj) {
-    gApp.toast({message: "Failed to parse config. Check for errors.", type: "error"});
+    gApp.toast({message: "Failed to parse script. Check for errors.", type: "error"});
     return;
   }
-  let origState = quickParser.writeToJson();
+  let origState = scriptParser.writeToJson();
   try {
     quickParser.readFromJson(configObj, true);
   } catch (error) {
@@ -73,6 +72,7 @@ function submitPasteConfig(configText) {
     return;
   }
   gApp.toast({message: "Imported config", type: "success"});
+  */
 }
 
 function sigToStr(funcSig) {
@@ -90,12 +90,15 @@ async function runTestParse() {
   testFeed.url = scriptParser.testUrl;
   testFeed.options = [];
 
-  console.log("Running test parse for: " + scriptParser.testUrl);
+  console.log("*** Running test parse for: " + scriptParser.testUrl + " ***");
   isTestRunning.value = true;
+  testOutput.value = "Running...";
   try {
-    await updateFeedFromScript(props.plugin, scriptParser.pluginText, testFeed);
+    let result = await updateFeedFromScript(props.plugin, scriptParser.pluginText, testFeed);
+    testOutput.value =  `New feed data:\n${prettyJson(result)}`
   } catch (err) {
     console.error(err);
+    testOutput.value = "Error:\n" + err.toString();
   }
   isTestRunning.value = false;  
 }
@@ -120,14 +123,25 @@ async function runTestParse() {
       <div class="FormFieldNameWithInfo TestUrlLabel">Test URL</div>
       <div class="FormFieldInfo">Ex. https://news.ycombinator.com </div>
       <input v-model="scriptParser.testUrl" class="Block BasicTextInput WideInput TestUrl">
-      <button class="MarginBotXS" @click="runTestParse">Run Test</button>
-      <p v-if="isTestRunning">Running...</p>
-      <p>Check the dev console for the plugin output.</p>
+      <button class="" @click="runTestParse">Run Test</button>
+      <p class="TestOutputBox">{{ testOutput }}</p>
+      <p>Check the dev console for the plugin logs.</p>
     </div>
     <div class="DocsSection">
       <h3 class="SectionHeader">Docs</h3>
       <MoreInfoText class="Tutorial" text="How does this work?">
-        Lol hi
+        <p>
+        Use a Script plugin to update the feed contents using a simple Javascript program. JungleReader runs
+        the script locally in a minimal Javascript sandbox.
+        </p>
+        <p>
+        The sandbox does not have access to many functions, and only supports ES5 (so no `let/const`, arrow functions, etc.).
+        This is a work in progress.
+        </p>
+        <p>
+        Sharing your plugin: Do "Export Script" to get your Script plugin as a JSON file. Host this file somewhere.
+        Instruct users to create a Plugin with type "URL", and specify your file URL.
+        </p>
       </MoreInfoText>
       <div class="DocsContainer">
         <div v-for="group in docs.functionDocs" class="GroupDoc">
@@ -199,7 +213,7 @@ async function runTestParse() {
 
 .TestOutputBox {
   font-family: monospace;
-  margin: 8px 0px var(--space-l) 0px;
+  margin: 8px 0px var(--space-m) 0px;
   border: 1px solid var(--secondary-text);
   border-radius: var(--border-radius-small);
   padding: 8px;
@@ -210,12 +224,16 @@ async function runTestParse() {
   margin-bottom: var(--space-l);
 }
 
+.Tutorial p {
+  margin-bottom: var(--space-s);
+}
+
 .GroupDoc {
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-m);
 }
 
 .FuncDoc {
-  margin-bottom: var(--space-s);
+  margin-bottom: var(--space-m);
 }
 
 .FuncSig {

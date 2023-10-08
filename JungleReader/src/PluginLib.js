@@ -39,7 +39,7 @@ export class CustomPlugin {
     this.pluginType = CustomPluginType.URL;
     this.remoteParser = new RemoteParser();
     this.quickParser = new QuickParser();
-    this.scriptParser = new ScriptParser();
+    this.scriptParser = new ScriptParser(this);
     this.options = []
     this.domainWhitelist = []
     this.urlPlaceholderHelp = "Check the plugin docs for examples.";
@@ -108,14 +108,12 @@ export class CustomPlugin {
     }
   }
 
-  isUrlAllowed(urlString) {
+  isUrlAllowed(feed, urlString) {
     let allowedUrls = [];
     for (const item of this.domainWhitelist) {
       allowedUrls.push(item.value);
     }
-    // TODO - this is wrong. Should allow the feedURL (explicitly 
-    let feedUrl = TODO;
-    return isDomainInWhitelist(urlString, [feedUrl, ...allowedUrls]);
+    return isDomainInWhitelist(urlString, [feed.url, ...allowedUrls]);
   }
 }
 

@@ -24,16 +24,32 @@ function registerAsyncFunc(interpreter, obj, funcName, func) {
 }
 
 function setupBasicFuncs(registry) {
-  let logPrefix = `${registry.state.plugin.feedType}: `;
+  let feedType = registry.state.plugin.feedType;
+  let logPrefix = ``;
+
+  registry.addFunc("abort", (abortMsg) => {
+    let msg = `${logPrefix}Aborted with error: ${abortMsg}`
+    console.log(msg);
+    throw new Error(msg);
+  });
+
   registry.addFunc("log", (logText) => {
     console.log(logPrefix + logText);
   });
-  /*
-  // Note: does not work as expected. Use built-in JSON.stringify.
-  registerFunc(interpreter, globalObject, "prettify", (jsObj) => {
-    return JSON.stringify(jsObj, null, 2);
+  registry.addFunc("logJs", (jsObj) => {
+    let nativeValue = registry.interpreter.pseudoToNative(jsObj);
+    let str = JSON.stringify(nativeValue, null, 2);
+    console.log(logPrefix + str);
   });
-  */
+  registry.addFunc("logJson", (jsonStr) => {
+    let nativeValue = registry.interpreter.pseudoToNative(jsonStr);
+    let str = JSON.stringify(JSON.parse(nativeValue), null, 2);
+    console.log(logPrefix + str);
+  });
+  registry.addFunc("logXml", (xmlStr) => {
+    let nativeValue = registry.interpreter.pseudoToNative(xmlStr);
+    console.log(logPrefix + formatXML(nativeValue));
+  });
 
   registry.addFunc("parseJson", (jsonString) => {
     let js = JSON.parse(jsonString);
@@ -47,26 +63,10 @@ function setupBasicFuncs(registry) {
     let js = parseXml(htmlString, "text/html");
     return registry.interpreter.nativeToPseudo(js);
   });
-  registry.addFunc("stringify", (jsObj) => {
-    // TODO - convert js to pretty json string
-  });
 
-  // stringType: "xml", "html", "json", "js", "elem"
-  registry.addFunc("pretty", (value, valueType) => {
-    let str = null;
-    let nativeValue = registry.interpreter.pseudoToNative(value);
-    if (valueType == "xml" || valueType == "html") {
-      str = formatXML(nativeValue);
-    } else if (valueType == "json") {
-      str = JSON.stringify(JSON.parse(nativeValue), null, 2);
-    } else if (valueType == "js") {
-      str = JSON.stringify(nativeValue, null, 2);
-    } else if (valueType == "elem") {
-      str = prettifyElement(nativeValue);
-    } else {
-      throw new Error("Unsupported valueType arg: " + valueType);
-    }
-    return str;
+  registry.addFunc("stringify", (jsObj) => {
+    let nativeValue = registry.interpreter.pseudoToNative(jsObj);
+    return JSON.stringify(nativeValue, null, 2);
   });
 }
 
@@ -147,10 +147,12 @@ function setupFetchFuncs(registry) {
   registry.addAsyncFunc("fetchText",
     (urlString, fetchOptions, callback) => {
       console.log(`Fetching ${urlString}...`);
-      if (!registry.state.plugin.isUrlAllowed(urlString)) {
-        throw new Error(`URL "${urlString}" is not in the whitelist for plugin ${plugin.feedType}`);
+      if (!registry.state.plugin.isUrlAllowed(registry.state.feed, urlString)) {
+        throw new Error(`URL "${urlString}" is not in the whitelist for plugin ${registry.state.plugin.feedType}. ` +
+                        `The whitelist is user-entered feedUrl + user-entered domain whitelist.`);
       }
-      let fetchPromise = gApp.fetchText(urlString, fetchOptions).then((text) => {
+      let nativeOptions = registry.interpreter.pseudoToNative(fetchOptions);
+      let fetchPromise = gApp.fetchText(urlString, nativeOptions).then((text) => {
         console.log("Fetch done");
         callback(text);
       }).catch((error) => {

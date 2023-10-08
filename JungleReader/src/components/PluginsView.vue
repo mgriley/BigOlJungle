@@ -29,6 +29,12 @@ import MoreInfoText from './MoreInfoText.vue'
         Plugins allow JungleReader to support sites that aren't supported out-of-the-box.
         The plugin system is designed to help devs add support for almost any site or data source.
       </p>
+      <div class="WorkInProgress MarginBotS Flex">
+        <p>
+        <u>Alert</u> Plugins are a work in progress. You can try them, but some things may
+        not work yet!
+        </p>
+      </div>
       <MoreInfoText text="More info on plugins">
         There are a couple different
         options. You can write a custom script, use the QuickParser gui,
@@ -65,6 +71,14 @@ import MoreInfoText from './MoreInfoText.vue'
 
 .Desc {
   margin-bottom: 40px;
+}
+
+.WorkInProgress {
+  padding: 16px;
+  background-color: var(--dark-color);
+  border-radius: 6px;
+  align-items: center;
+  gap: 8px;
 }
 
 .PluginHelp {

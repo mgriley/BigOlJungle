@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import { copyToClipboard, readFromJsonWithRollback,
-  prettyJson, safeParseJson, getTimeAgoStr } from '../Utils.js'
+  prettyJson, safeParseJson, getTimeAgoStr, downloadTextFile } from '../Utils.js'
 import QuickParseNode from './QuickParseNode.vue'
 import QuickParseField from './QuickParseField.vue'
 import BasicModal from 'Shared/BasicModal.vue'
@@ -95,12 +95,25 @@ function onSelectTestNode(node) {
   openItemSetterModal(node);
 }
 
-function copyConfig() {
-  let config = JSON.stringify(quickParser.writeToJson(true));
-  copyToClipboard(config);
-  gApp.toast({message: 'Copied!', type: 'success'});
+function exportConfig() {
+  console.log("Exporting script");
+  let pluginData = {
+    version: "1.0",
+    type: "QuickParse",
+    data: {
+      config: JSON.stringify(quickParser.writeToJson(true)),
+    }
+  };
+  let jsonData = prettyJson(pluginData);
+  downloadTextFile(jsonData, `${props.plugin.feedType}.json`);
+  console.log(jsonData);
 }
 
+function importConfig() {
+  gApp.toast({message: "Not yet implemented. Coming soon.", type: "error"});
+}
+
+// TODO - no longer used
 function pasteConfig() {
   console.log("Paste Config:");
   pasteConfigModal.value.showModal();
@@ -159,8 +172,8 @@ async function runTestParse() {
     <div class="Flex TitleBox">
       <h3>QuickParse Editor</h3>
       <div class="ShareButtons">
-        <button class="TertiaryButton" @click="copyConfig">Copy Config</button>
-        <button class="TertiaryButton" @click="pasteConfig">Paste Config</button>
+        <button class="TertiaryButton" @click="importConfig">Import Config</button>
+        <button class="TertiaryButton" @click="exportConfig">Export Config</button>
       </div>
     </div>
     <div class="FirstSection">
@@ -193,7 +206,10 @@ async function runTestParse() {
     </div>
     <div class="Step">
       <h4>Step 2 - Annotate</h4>
-      <p>Find and click these items in the HTML:</p>
+      <p>
+      Click 'Start annotating', then fill in the items below by finding and clicking them
+      in the HTML.
+      </p>
       <div class="DomItems">
         <QuickParseField v-for="item in domItems" :item="item" />
       </div>
@@ -243,7 +259,7 @@ async function runTestParse() {
     </div>
   </div>
   <BasicModal ref="itemSetterModal">
-    <p>Annotate as...</p>
+    <p>This element is the...</p>
     <div class="ItemSetterList">
       <div v-for="item in domItems" class="ItemSetterItem Flex">
         <button class="SetItemBtn TertiaryButton" @click="setDomItem(item)">Set</button>

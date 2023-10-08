@@ -83,7 +83,7 @@ export function prettifyElement(elem) {
 // See:
 // https://stackoverflow.com/questions/376373/pretty-printing-xml-with-javascript
 // https://jsfiddle.net/fbn5j7ya/
-export function formatXML(xml, tab = '\t', nl = '\n') {
+export function formatXML(xml, tab = '  ', nl = '\n') {
   let formatted = '', indent = '';
   const nodes = xml.slice(1, -1).split(/>\s*</);
   if (nodes[0][0] == '?') formatted += '<' + nodes.shift() + '>' + nl;

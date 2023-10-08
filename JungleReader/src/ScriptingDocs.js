@@ -10,13 +10,14 @@ export let functionDocs = [
     name: "Main",
     funcs: [
       {
-        sig: "updateFeed(feedUrl)",
+        sig: "updateFeed(feedUrl, customOptions)",
         desc: `
-        You implement this function! It is called with the user-entered feedUrl as a str, and must return
+        You implement this function! It is called with the user-entered feedUrl str and a dict
+        of any user-entered custom options. You must return
         a FeedUpdate struct with the updated feed data (or abort with a descriptive error).
         `,
         ex: `
-function updateFeed(feedUrl) {
+function updateFeed(feedUrl, customOptions) {
   let text = fetchText(feedUrl);
 
   // Do some parsing of the text...
@@ -41,9 +42,9 @@ function updateFeed(feedUrl) {
     name: "Basic",
     funcs: [
       {
-        sig: "log(str)",
-        ex: `log("Hello World");`,
-        desc: `Log a string to the browser dev console.`
+        sig: "abort(errMsg)",
+        desc: "Abort the script. The user will be shown the given error msg on the feed.",
+        ex: `abort("Failed to parse things!");`
       },
     ]
   },
@@ -56,9 +57,71 @@ function updateFeed(feedUrl) {
           "Returns the text as a string if the fetch succeeds, otherwise aborts." +
           " `options` is an object containing any custom settings for the request. " +
           " See: https://developer.mozilla.org/en-US/docs/Web/API/fetch",
-        ex: `let text = fetch("https://news.ycombinator.com")`,
+        ex: `
+// Simple fetch:
+var text = fetchText("https://news.ycombinator.com")
+var obj = parseHtml(text);
+logJs(obj);
+...
+
+// Fetch with options:
+var text = fetchText("https://someapi.com/users", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer " + myToken,
+    "Content-Type": "application/json",
+  },
+  body: stringify(bodyObj)
+}); 
+...
+`,
       }
     ]
-  }
+  },
+  {
+    name: "Utils",
+    funcs: [
+      {
+        sig: "log(str)",
+        desc: `Log a string to the browser dev console.`,
+        ex: `log("Hello World");`,
+      },
+      {
+        sig: "logJs(obj)",
+        desc: "Pretty print a js object",
+        ex: `logJs({"hello": "world"})`
+      },
+      {
+        sig: "logJson(jsonStr)",
+        desc: "Pretty print a JSON string",
+        ex: `logJson("{\\"hello\\": \\"world\\"}")`
+      },
+      {
+        sig: "logXml(xmlStr)",
+        desc: "Pretty print a XML (including HTML) string",
+        ex: `logXml("<html><body><p>Hello World</p></body></html>")`
+      },
+      {
+        sig: "stringify(obj)",
+        desc: `Converts a js object to a string (like JSON.stringify).`,
+        ex: `var str = stringify({"hello": "world"})`,
+      },
+      {
+        sig: "parseJson(jsonStr)",
+        desc: `Parses a JSON string to a js object (like JSON.parse).`,
+        ex: `var obj = parseJson("{\\"hello\\": \\"world\\"}");`
+      },
+      {
+        sig: "parseHtml(htmlStr)",
+        desc: `Parses a HTML string to a js object.`,
+        ex: `var obj = parseHtml("<html><body><p>Hello World</p></body></html>");`
+      },
+      {
+        sig: "parseXml(xmlStr)",
+        desc: `Parses a XML string to a js object.`,
+        ex: `var obj = parseXml("<doc><elem>Some elem</elem></doc>")`,
+      }
+    ]
+  },
 ]
 

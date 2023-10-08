@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <div class="AnnotateItem" :class="{IsEmpty: item.path.isEmpty()}">
     <div class="TextItems Flex">
-      <p class="FeatherIcon"><vue-feather :type="item.path.isEmpty() ? 'circle' : 'check-circle'" /></p>
+      <p class="FeatherIcon" :class="{IsSet: !item.path.isEmpty()}"><vue-feather :type="item.path.isEmpty() ? 'circle' : 'check-circle'" /></p>
       <p class="NameText">{{ item.name }}</p>
       <p class="OptionalIndicator">{{ item.required ? "" : "(Optional)" }}</p>
     </div>
@@ -34,7 +34,7 @@ const props = defineProps({
   align-items: center;
 }
 
-.AnnotateItem .FeatherIcon {
+.AnnotateItem .FeatherIcon.IsSet {
   color: orange;
 }
 
@@ -45,10 +45,5 @@ const props = defineProps({
 .OptionalIndicator {
   color: var(--mute-text);
 }
-
-.AnnotateItem .FeatherIcon {
-  color: orange;
-}
-
 
 </style>

@@ -7,10 +7,16 @@ import { gApp } from './State.js'
 
 const kDefaultCustomCode = (`
 
-function updateFeed(feed) {
-  log("Hello world!");
-  log(JSON.stringify(feed));
-  // TODO - updateFeed(feed, linkData);
+function updateFeed(feedUrl, customOptions) {
+  log("The feed: " + feedUrl);
+  logJs(customOptions);
+
+  return [{
+    title: "Hello World",
+    description: "Some description", // Optional
+    link: "https://google.com", // Optional
+    pubDate: "Thu, 20 Dec 2022 02:46:11 UTC", // Optional
+  }];
 }
 
 `)
@@ -25,6 +31,7 @@ class ScriptRunner {
   async run() {
     let interpreterInputs = {
       plugin: this.plugin,
+      feed: this.feed,
       pendingPromises: [],
     };
     let initFunc = function(interpreter, globalObject) {
@@ -32,11 +39,13 @@ class ScriptRunner {
     };
     let interpreter = new Interpreter(this.scriptText, initFunc);
 
-    let args = {
-      'feed': this.feed.name
+    let optionsDict = {};
+    for (const option in this.feed.options) {
+      optionsDict[option.key] = option.value;
     }
-    InterpreterUtils.setValue(interpreter, "feed", {"lol": "Hello", "foo": "World"});
-    interpreter.appendCode("updateFeed(feed)");
+    InterpreterUtils.setValue(interpreter, "feedUrl", this.feed.url);
+    InterpreterUtils.setValue(interpreter, "customOptions", optionsDict);
+    interpreter.appendCode("var _finalResult = updateFeed(feedUrl, customOptions);");
 
     console.log(`Starting update for FeedType "${this.plugin.feedType}", URL: "${this.feed.url}"`);
     while (true) {
@@ -58,13 +67,26 @@ class ScriptRunner {
       }
     }
 
-    console.log(`Done update for FeedType "${this.plugin.feedType}", URL: "${this.feed.url}"`);
+    let result = InterpreterUtils.getValue(interpreter, "_finalResult");
+    console.log(`Done script for FeedType "${this.plugin.feedType}", URL: "${this.feed.url}". ` +
+      ` Updating links with result:\n${result}`);
+
+    if (result instanceof Array) {
+      // We allow returning a list of items, for convenience, instead of the whole struct.
+      // Convert to the whole struct here.
+      result = {
+        items: result
+      }
+    }
+    this.feed.updateLinks(result);
+
+    return result;
   }
 };
 
 export async function updateFeedFromScript(plugin, scriptText, feed) {
   let scriptRunner = new ScriptRunner(plugin, scriptText, feed); 
-  await scriptRunner.run();
+  return await scriptRunner.run();
 }
 
 export class ScriptParser {

@@ -382,7 +382,7 @@ export class QuickParser {
 
   writeToJson(compact=false) {
     return {
-      ver: "1",
+      version: "1",
       testUrl: this.testUrl,
       firstItemTitle: this.firstItemTitle.writeToJson(compact),
       firstItemUrl: this.firstItemUrl.writeToJson(compact),
@@ -402,17 +402,6 @@ export class QuickParser {
       this.firstItemPts.readFromJson(obj.firstItemPts, compact);
       this.firstItemAuthor.readFromJson(obj.firstItemAuthor, compact);
       this.secondItemTitle.readFromJson(obj.secondItemTitle, compact);
-    }
-  }
-
-  async updateFeeds(feeds) {
-    for (const feed of feeds) {
-      try {
-        await this.updateFeed(feed);
-      } catch (err) {
-        console.error(`Error updating feed "${feed.name}":\n${err}`, err.stack);
-        feed.setError(`Error updating feed "${feed.name}": ${err.message}`);
-      }
     }
   }
 
