@@ -2,6 +2,15 @@
   "version": "1.0",
   "type": "QuickParse",
   "data": {
-    "config": "{\"version\":\"1\",\"testUrl\":\"https://news.ycombinator.com\",\"firstItemTitle\":\"C0/C1/C0/C0/C0/C2/C0/C0/C0/C0/C2/C0/C0/C0\",\"firstItemUrl\":\"C0/C1/C0/C0/C0/C2/C0/C0/C0/C0/C2/C0/C0\",\"firstItemDate\":\"C0/C1/C0/C0/C0/C2/C0/C0/C0/C1/C1/C0/C3/C0/C0\",\"firstItemPts\":\"C0/C1/C0/C0/C0/C2/C0/C0/C0/C1/C1/C0/C0/C0\",\"firstItemAuthor\":\"C0/C1/C0/C0/C0/C2/C0/C0/C0/C1/C1/C0/C2/C0\",\"secondItemTitle\":\"C0/C1/C0/C0/C0/C2/C0/C0/C0/C3/C2/C0/C0/C0\"}"
+    "config": {
+      "version": "1",
+      "testUrl": "https://news.ycombinator.com",
+      "firstItemTitle": "C0/C1/C0/C0/C0/C2/C0/C0/C0/C0/C2/C0/C0/C0",
+      "firstItemUrl": "C0/C1/C0/C0/C0/C2/C0/C0/C0/C0/C2/C0/C0",
+      "firstItemDate": "C0/C1/C0/C0/C0/C2/C0/C0/C0/C1/C1/C0/C3/C0/C0",
+      "firstItemPts": "C0/C1/C0/C0/C0/C2/C0/C0/C0/C1/C1/C0/C0/C0",
+      "firstItemAuthor": "C0/C1/C0/C0/C0/C2/C0/C0/C0/C1/C1/C0/C2/C0",
+      "secondItemTitle": "C0/C1/C0/C0/C0/C2/C0/C0/C0/C3/C2/C0/C0/C0"
+    }
   }
 }

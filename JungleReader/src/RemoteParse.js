@@ -1,13 +1,15 @@
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, isDomainInWhitelist,
-    writeObjToJson, readObjFromJson } from './Utils.js'
+    writeObjToJson, readObjFromJson, prettyJson } from './Utils.js'
 import { updateFeedFromScript } from './ScriptParse.js'
+import { updateFeedFromQuickParse } from './QuickParse.js'
 import * as InterpreterUtils from './InterpreterUtils.js'
 import { gApp } from './State.js'
 
 export class RemoteParser {
-  constructor() {
+  constructor(plugin) {
+    this.plugin = plugin;
     this.pluginUrl = "";
   }
 
@@ -24,12 +26,13 @@ export class RemoteParser {
   async updateFeed(feed) {
     let pluginText = await gApp.fetchText(this.pluginUrl);
     let pluginJson = JSON.parse(pluginText);
-    console.log("Fetched plugin: " + prettyJson(prettyText));
-    if (pluginJson.type == "QuickParse") {
-      throw new Error("Not yet impl");
-    } else if (pluginJson.type == "Script") {
+    console.log("Fetched plugin: " + prettyJson(pluginText));
+    if (pluginJson.type.toLowerCase() == "quickparse") {
+	    let configObj = pluginJson.data.config;		
+      await updateFeedFromQuickParse(this.plugin, configObj, feed);
+    } else if (pluginJson.type.toLowerCase() == "script") {
       let scriptText = pluginJson.data.text.join("\n");
-      await updateFeedFromScript(this, scriptText, feed);
+      await updateFeedFromScript(this.plugin, scriptText, feed);
     } else {
       throw new Error("Invalid plugin type: " + pluginJson.type);
     }

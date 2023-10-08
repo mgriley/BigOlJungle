@@ -101,7 +101,7 @@ function exportConfig() {
     version: "1.0",
     type: "QuickParse",
     data: {
-      config: JSON.stringify(quickParser.writeToJson(true)),
+      config: quickParser.writeToJson(true),
     }
   };
   let jsonData = prettyJson(pluginData);

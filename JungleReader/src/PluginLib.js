@@ -37,8 +37,8 @@ export class CustomPlugin {
     this.isEnabled = true;
     this.feedType = "";
     this.pluginType = CustomPluginType.URL;
-    this.remoteParser = new RemoteParser();
-    this.quickParser = new QuickParser();
+    this.remoteParser = new RemoteParser(this);
+    this.quickParser = new QuickParser(this);
     this.scriptParser = new ScriptParser(this);
     this.options = []
     this.domainWhitelist = []

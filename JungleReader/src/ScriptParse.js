@@ -85,8 +85,9 @@ class ScriptRunner {
 };
 
 export async function updateFeedFromScript(plugin, scriptText, feed) {
-  let scriptRunner = new ScriptRunner(plugin, scriptText, feed); 
-  return await scriptRunner.run();
+  let parser = new ScriptParser(plugin);
+  parser.pluginText = scriptText;
+  return await parser.updateFeed(feed);
 }
 
 export class ScriptParser {
@@ -109,7 +110,8 @@ export class ScriptParser {
   }
 
   async updateFeed(feed) {
-    await updateFeedFromScript(this.plugin, this.pluginText, feed);
+    let scriptRunner = new ScriptRunner(this.plugin, this.pluginText, feed); 
+    return await scriptRunner.run();
   }
 };
 

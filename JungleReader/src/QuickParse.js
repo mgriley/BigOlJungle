@@ -357,8 +357,15 @@ class ParseField {
   }
 }
 
+export async function updateFeedFromQuickParse(plugin, quickParseConfig, feed) {
+  let parser = new QuickParser(plugin);
+  parser.readFromJson(quickParseConfig);
+  await parser.updateFeed(feed);
+}
+
 export class QuickParser {
-  constructor() {
+  constructor(plugin) {
+    this.plugin = plugin;
     this.testUrl = "";
     this.testFetchContent = null;
     this.testParseOutput = null;
