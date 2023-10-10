@@ -32,7 +32,7 @@ onMounted(() => {
     settings.posX = paneRef.value.style.left;
     settings.posY = paneRef.value.style.top;
     writeToStorage(settings, gApp.userStorage, `app/workspace/panes/${props.paneId}`);
-    console.log("Saving pane settings:", prettyJson(settings.writeToJson())); 
+    //console.log("Saving pane settings:", prettyJson(settings.writeToJson())); 
   }, 3000);
 })
 

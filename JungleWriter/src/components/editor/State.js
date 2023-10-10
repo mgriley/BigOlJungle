@@ -1,6 +1,7 @@
 import { reactive, ref } from 'vue'
 import { removeItem, prettyJson } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
+import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 
 var gApp = null;
@@ -377,6 +378,7 @@ class Editor {
     this.siteIdCtr = 1;
 
     this.userStorage = new UserStorage();
+    this.fileStorage = new FileStorage();
   }
 
   writeToJson() {

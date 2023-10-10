@@ -35,6 +35,16 @@ export function extendMap(map, newEntries) {
   }
 }
 
+// Takes dict {a:valA, b:valB, ...} and returns
+// {a:mapFunc(a, valA), b:mapFunc(b, valB), ...}
+export function mapDict(dict, mapFunc) {
+  let newDict = {};
+  for (const key in dict) {
+    newDict[key] = mapFunc(key, dict[key]);
+  }
+  return newDict;
+}
+
 export function curTimeSecs() {
   return (new Date()).getTime() / 1000.0;
 }

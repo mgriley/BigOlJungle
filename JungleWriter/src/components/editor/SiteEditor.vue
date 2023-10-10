@@ -6,6 +6,7 @@ import ShortcutBtns from './ShortcutBtns.vue'
 import NodeTreeView from './NodeTreeView.vue'
 import PropEditor from './PropEditor.vue'
 import SettingsEditor from './SettingsEditor.vue'
+import FileEditor from './FileEditor.vue'
 import NodeWidget from './widgets/NodeWidget.vue'
 
 /*
@@ -55,6 +56,7 @@ let isEditing = computed(() => {
     <NodeTreeView v-if="isEditing" />
     <PropEditor v-if="isEditing" />
     <SettingsEditor v-if="isEditing" />
+    <FileEditor v-if="isEditing" />
 
     <div class="AnchorDiv">
       <NodeWidget :node="rootNode" />

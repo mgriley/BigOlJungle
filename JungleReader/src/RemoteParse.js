@@ -24,10 +24,12 @@ export class RemoteParser {
   }
 
   async updateFeed(feed) {
+    throw new Error("Remote plugins are not yet implemented. Coming soon!");
     let pluginText = await gApp.fetchText(this.pluginUrl);
     let pluginJson = JSON.parse(pluginText);
     console.log("Fetched plugin: " + prettyJson(pluginText));
     if (pluginJson.type.toLowerCase() == "quickparse") {
+      // QuickParse plugin needs some work
 	    let configObj = pluginJson.data.config;		
       await updateFeedFromQuickParse(this.plugin, configObj, feed);
     } else if (pluginJson.type.toLowerCase() == "script") {
