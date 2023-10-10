@@ -2,9 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, Node } from './State.js'
 import NodeTreeItem from './NodeTreeItem.vue'
+import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import EditorPane from './EditorPane.vue'
-import { TextNode } from './widgets/TextNode.js'
-import TextWidget from './widgets/TextWidget.vue'
 import ModalSelector from './ModalSelector.vue'
 
 // See: https://vuejs.org/examples/#tree
@@ -14,15 +13,18 @@ const nodeTree = gApp.site.nodeTree;
 const treeViewRef = ref(null);
 const newNodeModal = ref(null);
 
-// TODO - make registry
 let newNodeOptions = [
 {
   name: "Group",
-  classCtor: Node,
+  classCtor: gNodeDataMap["Node"].nodeClass,
 },
 {
   name: "Text",
-  classCtor: TextNode,
+  classCtor: gNodeDataMap["TextNode"].nodeClass,
+},
+{
+  name: "Image",
+  classCtor: gNodeDataMap["ImageNode"].nodeClass,
 }
 ];
 

@@ -9,20 +9,32 @@ import { TextNode } from './TextNode.js'
 import TextWidget from './TextWidget.vue'
 import TextWidgetEditor from './TextWidgetEditor.vue'
 
+import { ImageNode } from './ImageNode.js'
+import ImageWidget from './ImageWidget.vue'
+import ImageWidgetEditor from './ImageWidgetEditor.vue'
+
 // Register all nodes types here
 export function registerNodeTypes() {
   console.log("Registering node types...");
   extendMap(gNodeDataMap, {
     "Node": {
+      uiName: "Node",
       nodeClass: Node,
       widget: NodeWidget,
-      editor: NodeWidgetEditor
+      editor: NodeWidgetEditor,
     },
     "TextNode": {
+      uiName: "Text",
       nodeClass: TextNode,
       widget: TextWidget,
-      editor: TextWidgetEditor
-    }
+      editor: TextWidgetEditor,
+    },
+    "ImageNode": {
+      uiName: "Image",
+      nodeClass: ImageNode,
+      widget: ImageWidget,
+      editor: ImageWidgetEditor,
+    },
   });
 }
 

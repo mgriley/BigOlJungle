@@ -53,6 +53,12 @@ class FileObj extends BaseObj {
     return await this.nativeHandle.getFile();
   }
 
+  async createObjectUrl() {
+    // Note: should release/revoke at an appropriate time, perhaps? Ignore for now.
+    let file = await this.getFile();
+    return URL.createObjectURL(file);
+  }
+
   async writeContents(contents) {
     // Note: contents may be a string, Blob, File (which is a kind of Blob), etc.
     const writable = await this.nativeHandle.createWritable();
@@ -141,6 +147,10 @@ class DirObj extends BaseObj {
 
   async removeChildRecursive(name) {
     await this.nativeHandle.removeEntry(name, {recursive: true});
+  }
+
+  findChild(fileName) {
+    // TODO
   }
 
   async findOrCreateDir(dirPath) {

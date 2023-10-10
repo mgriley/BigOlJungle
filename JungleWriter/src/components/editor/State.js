@@ -378,7 +378,7 @@ class Editor {
     this.siteIdCtr = 1;
 
     this.userStorage = new UserStorage();
-    this.fileStorage = new FileStorage();
+    this.fileStorage = reactive(new FileStorage());
   }
 
   writeToJson() {
