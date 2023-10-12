@@ -1,5 +1,5 @@
-import { reactive, ref } from 'vue'
-import { removeItem, prettyJson } from './Utils.js'
+import { reactive, ref, watchEffect, watch } from 'vue'
+import { removeItem, prettyJson, AsyncValue } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
@@ -280,6 +280,10 @@ class Site {
     this.isEditing = true;
 
     // TODO - store the id of the site that was editing last
+
+    // siteDir is the DirObj for the current site, for convenience.
+    // It is set from the Editor
+    this.siteDir = null;
   }
 
   writeToJson() {
@@ -314,6 +318,10 @@ class Site {
     let site = new Site(editor, siteId);
     site.readFromJson(siteData);
     return site;
+  }
+
+  getSiteDir() {
+    return this.siteDir;
   }
 
   exportSite() {
@@ -379,6 +387,29 @@ class Editor {
 
     this.userStorage = new UserStorage();
     this.fileStorage = reactive(new FileStorage());
+
+    // Note! Cannot move this to Site ctor because in site ctor `this` is the
+    // plain, non-reactive object version of site. Setting a prop on the non-reactive
+    // version of the object will not trigger updates properly.
+    let editor = this;
+    watch(() => {
+      return [editor.fileStorage.root, editor.siteRef.value];
+    }, async ([root, site], oldVal, onCleanup) => {
+      // TODO - use cleanupFunc arg?
+      console.log("Recomputing siteDir...");
+      if (!site) {
+        return;
+      }
+      if (!root) {
+        console.log("siteDir is null for now");
+        site.siteDir = null;
+        return;
+      }
+      // Note! This does not set the siteDir through the reactive proxy of `site`, so
+      // probs does not trigger things properly.
+      site.siteDir = await root.findOrCreateDir(`sites/${site.id}`);
+      console.log("New siteDir: " + (site.siteDir ? site.siteDir.getName() : null));
+    });
   }
 
   writeToJson() {

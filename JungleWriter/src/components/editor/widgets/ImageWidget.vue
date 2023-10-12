@@ -21,9 +21,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget ImageWidget" :style="node.getStyleObject()" ref="elementRef" @click="onClick">
-    <img :src="node.getSrcUrl()" alt="node.altText" />
-  </div>
+  <img class="Widget ImageWidget"
+       :style="node.getStyleObject()"
+       ref="elementRef" @click="onClick"
+       :src="node.getSrcUrl()" :alt="node.altText" />
 </template>
 
 <style scoped>
@@ -31,6 +32,7 @@ onMounted(() => {
 
 <style>
 .ImageWidget {
+  background-color: lightblue;
 }
 </style>
 

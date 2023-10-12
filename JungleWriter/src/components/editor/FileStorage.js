@@ -150,7 +150,19 @@ class DirObj extends BaseObj {
   }
 
   findChild(fileName) {
-    // TODO
+    let parts = fileName.split("/");
+    let curFile = this;
+    for (const part of parts) {
+      if (!curFile.isDir()) {
+        throw new Error("Unexpected file on dir path: " + fileName);
+      }
+      curFile = curFile.children[part];
+      if (!curFile) {
+        // File not found
+        return null;
+      }
+    }
+    return curFile;
   }
 
   async findOrCreateDir(dirPath) {
@@ -180,8 +192,8 @@ export class FileStorage {
   async reload() {
     // Read OPFS into this class
     let nativeRoot = await navigator.storage.getDirectory();
-    this.root = new DirObj(nativeRoot, null);
-    let dirStack = [{dirObj: this.root}];
+    let newRoot = new DirObj(nativeRoot, null);
+    let dirStack = [{dirObj: newRoot}];
     while (dirStack.length > 0) {
       let stackItem = dirStack.pop();
       let dirObj = stackItem.dirObj;
@@ -201,6 +213,7 @@ export class FileStorage {
         }
       }
     }
+    this.root = newRoot;
   }
 
   dump() {

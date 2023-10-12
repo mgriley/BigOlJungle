@@ -8,7 +8,6 @@ import FilePicker from './FilePicker.vue'
 // https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
 
 let fileStorage = gApp.fileStorage;
-let siteDir = ref(null);
 let selectedFile = ref(null);
 
 let uploadingText = ref("");
@@ -16,14 +15,14 @@ let uploadingText = ref("");
 async function reloadFiles() {
   console.log("Reloading files...")
   await fileStorage.reload();
-  siteDir.value = await fileStorage.root.findOrCreateDir(`sites/${gApp.site.id}`);
   console.log("Done reloading");
   fileStorage.dump();
 }
 
 async function onFilesPicked(files) {
   console.log("Some files picked: ", files);
-  if (!siteDir.value) {
+  let siteDir = gApp.site.getSiteDir();
+  if (!siteDir) {
     console.log("siteDir not ready yet.");
     return;
   }
@@ -32,10 +31,10 @@ async function onFilesPicked(files) {
   for (let i = 0; i < files.length; ++i) {
     let file = files[i];
     let fileName = file.name.split("/").pop();
-    let validFileName = siteDir.value.genValidFileName(fileName);
+    let validFileName = siteDir.genValidFileName(fileName);
     uploadingText.value = `Saving file ${i + 1}/${files.length}: ${file.name} as ${validFileName}`
-    let fileObj = await siteDir.value.createFile(validFileName);
-    await fileObj.writeContents(files[i]);
+    let fileObj = await siteDir.createFile(validFileName);
+    await fileObj.writeContents(file);
   }
   uploadingText.value = "";
   // TODO - show "Done upload" toast
@@ -61,6 +60,10 @@ async function deleteSelectedFile() {
   await reloadFiles();
 }
 
+async function downloadSelectedFile() {
+    
+}
+
 onMounted(async () => {
   await reloadFiles();  
 });
@@ -72,13 +75,19 @@ onMounted(async () => {
     <div class="Flex BtnRow">
       <button class="TertiaryButton" @click="reloadFiles">Reload</button>
       <FilePicker name="Upload" @onPicked="onFilesPicked" />
-      <button v-if="selectedFile" class="TertiaryButton DeleteBtn" @click="deleteSelectedFile">Delete File</button>
+      <template v-if="selectedFile">
+        <button class="TertiaryButton DeleteBtn" @click="deleteSelectedFile">Delete File</button>
+        <button class="TertiaryButton DownloadBtn" @click="downloadSelectedFile">Download File</button>
+      </template>
     </div>
     <!-- <p v-if="uploadingText">{{ uploadingText }}</p> -->
-    <div v-if="siteDir" class="FileView">
-      <div v-for="item in siteDir.getSortedChildren()" class="FileItem">
+    <div v-if="gApp.site.siteDir" class="FileView">
+      <div v-for="item in gApp.site.siteDir.getSortedChildren()" class="FileItem">
         <div :class="{IsSelected: isSelected(item)}" class="MockButton" @click="selectFile(item)">{{ item.getName() }}</div>
       </div>
+    </div>
+    <div v-else>
+      Files loading...
     </div>
   </EditorPane>
 </template>
