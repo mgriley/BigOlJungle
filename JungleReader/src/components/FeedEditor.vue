@@ -90,8 +90,6 @@ function getQuickHelp(pluginType) {
 
   <div class="FormFieldName">Share Link</div>
   <LinkSnippet :theLink="feedShareLink" />
-
-  <!-- <button @click="realFeed.changeStyleId()" class="SmallButton Block MarginTop FormFieldItem">Regen Style</button> -->
 </template>
 
 <style scoped>

@@ -19,80 +19,11 @@ function onFeedClicked(feed) {
   }
 }
 
-function getItemFromStyleId(list, styleId) {
-  return list[styleId % list.length];
-}
-
-const tileStyle = computed(() => {
-  // See: https://www.w3schools.com/colors/colors_names.asp
-  /*
-  let colors = [
-    'red',
-    'Tomato',
-    'Orange',
-    'DodgerBlue',
-    'SlateBlue',
-    'Violet',
-    'MediumSeaGreen',
-    'black',
-    'blue',
-    'Brown',
-    'CadetBlue',
-    'CornflowerBlue',
-    'Crimson',
-    'DarkOliveGreen',
-    'DarkRed',
-    'DarkOrange',
-    'DarkSlateGrey',
-    'ForestGreen',
-    'GoldenRod',
-    'IndianRed',
-    'MidnightBlue',
-    'OliveDrab',
-  ];
-  */
-  let colors = [
-    'IndianRed',
-    'CornflowerBlue',
-  ];
-  let bgColor = getItemFromStyleId(colors, props.feed.styleId);
-  return {
-    '--test-color': 'red',
-    '--bg-color': bgColor,
-    //'box-shadow': `4px 4px 8px ${bgColor}`,
-    // 'box-shadow': `0px 2px 12px 2px color-mix(in srgb, ${bgColor}, transparent 30%)`,
-    '--box-shadow': `8px 8px 8px color-mix(in srgb, ${bgColor}, transparent 30%)`,
-    // 'box-shadow': `4px 4px 0px var(--main-text)`,
-  }
-});
-
-const titleStyle = computed(() => {
-  let availableFonts = [
-    'Helvetica',
-    'Arial',
-    'Arial Black',
-    //'Impact',
-    'Verdana',
-    'Tahoma',
-    'Trebuchet MS',
-    'Gill Sans',
-    'Optima',
-  ];
-  /*
-  availableFonts += [
-    'Baskerville',
-  ];
-  */
-  return {
-    // 'font-family': getItemFromStyleId(availableFonts, props.feed.styleId),
-  };
-});
-
 </script>
 
 <template>
-  <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" :style="tileStyle" @click="onFeedClicked(feed)">
-    <div class="FeedTitle" :style="titleStyle">
+  <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" @click="onFeedClicked(feed)">
+    <div class="FeedTitle">
       {{ feed.name ? feed.name : "NoName" }}
       <vue-feather class="BookmarkIcon" v-if="feed.type == 'Bookmark'" type="external-link" size="22" />
     </div>

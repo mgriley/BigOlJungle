@@ -9,7 +9,6 @@ import { CustomPlugin } from './PluginLib.js'
 import { ContentCache } from './ContentCache.js'
 
 const kReaderVersionString = "0.0";
-const kMaxStyleId = 10*1000*1000*1000;
 
 // LocalStorage keys
 const kAppStateKey = "appState";
@@ -98,7 +97,6 @@ class Feed {
     this.name = "";
     this.parentGroup = null;
     this.links = []
-    this.styleId = getRandInt(kMaxStyleId);
 
     this.type = "RSS";
     // This is the feed URL/id
@@ -108,10 +106,6 @@ class Feed {
 
     this.isError = false;
     this.errorMsg = null;
-
-    // Some data for the plugin to store on the Feed.
-    // map: String -> String
-    this.pluginData = {};
 
     // Timestamp of most recent link item
     this.mostRecentLinkTime = 0;
@@ -142,14 +136,12 @@ class Feed {
     return {
       id: this.id,
       name: this.name,
-      styleId: this.styleId,
       type: this.type,
       url: this.url,
       options: optionsToJson(this.options),
       mainSiteUrl: this.mainSiteUrl,
       isError: this.isError,
       errorMsg: this.errorMsg,
-      pluginData: {...this.pluginData},
       mostRecentLinkTime: this.mostRecentLinkTime,
       lastReadTime: this.lastReadTime,
       lastReloadTime: this.lastReloadTime
@@ -160,9 +152,6 @@ class Feed {
     this.id = obj.id;
     this.name = obj.name;
     this.links = this.readLinksFromCache(contentCache);
-    if ('styleId' in obj) {
-      this.styleId = obj.styleId;
-    }
     this.type = obj.type;
     this.url = obj.url;
     this.options = jsonToOptions(obj.options);
@@ -171,7 +160,6 @@ class Feed {
     }
     this.isError = obj.isError;
     this.errorMsg = obj.errorMsg;
-    this.pluginData = obj.pluginData;
     if (obj.mostRecentLinkTime) {
       this.mostRecentLinkTime = obj.mostRecentLinkTime;
     }
@@ -196,18 +184,6 @@ class Feed {
       link.readFromJson(linkObj)
       return link
     });
-  }
-
-  changeStyleId() {
-    this.styleId = getRandInt(kMaxStyleId);
-  }
-
-  getPluginItem(key) {
-    return this.pluginData[key];
-  }
-
-  setPluginItem(key, value) {
-    this.pluginData[key] = value;
   }
 
   removeFromParent() {
@@ -427,8 +403,6 @@ class FeedGroup {
 class FeedReader {
   constructor() {
     this.groups = reactive([]);
-    this.selectedItem = ref(null);
-    this.selectedFeed = ref(null);
   }
 
   makeDefaultGroup() {
@@ -467,22 +441,6 @@ class FeedReader {
       }
     }
     return feeds;
-  }
-
-  getSelectedItem() {
-    return this.selectedItem.value;
-  }
-
-  setSelectedItem(newItem) {
-    this.selectedItem.value = newItem;
-  }
-
-  getSelectedFeed() {
-    return this.selectedFeed.value;
-  }
-
-  setSelectedFeed(feed) {
-    this.selectedFeed.value = feed;
   }
 
   addFeedGroup(feedGroup) {
@@ -541,6 +499,7 @@ class JungleReader {
     this.customPlugins = reactive([])
     this.pluginToEdit = ref(null);
 
+    // TODO - not yet implemented
     this.requiresSave = ref(null);
 
     // Map reqId -> {resolve, reject}
@@ -646,27 +605,6 @@ class JungleReader {
     }
     console.log("Done reload all");
   }
-
-  /*
-  updateFeeds() {
-    let feedTypeSet = new Set();
-    let allPlugins = [...this.feedPlugins, ...this.customPlugins];
-    for (const feedPlugin of allPlugins) {
-      if (!feedPlugin.getFeedType()) {
-        continue;
-      }
-      if (feedTypeSet.has(feedPlugin.getFeedType())) {
-        console.log("Encountered a second plugin that handles feeds of type: \"" + feedPlugin.getFeedType()
-          + "\". This is not supported. Only the first plugin will work.");
-      }
-      let feeds = this.feedReader.getFeedsOfType(feedPlugin.getFeedType());  
-      feeds = feeds.filter((feed) => feed.isVisible());
-      // TODO - handle the Promise?
-      feedPlugin.updateFeeds(feeds);
-      feedTypeSet.add(feedPlugin.getFeedType());
-    }
-  }
-  */
 
   getFeedPluginByType(pluginType) {
     let allPlugins = [...this.feedPlugins, ...this.customPlugins];
@@ -825,7 +763,6 @@ class JungleReader {
   }
 
   async fetchText(url, options) {
-    await waitMillis(3000);
     let urlString = (typeof url === 'string') ? url : url.toString();
     urlString = cleanUrl(urlString);
     if (!isValidUrl(urlString)) {
