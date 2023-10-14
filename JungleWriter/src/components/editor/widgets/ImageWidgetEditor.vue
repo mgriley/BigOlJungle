@@ -4,6 +4,7 @@ import FileNameInput from './FileNameInput.vue'
 import NumberInput from './NumberInput.vue'
 import BoolInput from './BoolInput.vue'
 import ColorInput from './ColorInput.vue'
+import SelectorInput from './SelectorInput.vue'
 
 const props = defineProps({
   editorData: Object
@@ -22,12 +23,25 @@ let srcName = computed({
   }
 })
 
+let preserveAspectRatio = computed({
+  get() {
+    return props.editorData.getPreserveAspectRatio();
+  },
+  set(newVal) {
+    props.editorData.setPreserveAspectRatio(newVal);
+  }
+})
+
 </script>
 
 <template>
   <div>
     <!-- <FileNameInput name="Img Source" :value="editorData.getSrcName()" @change="(newVal) => editorData.setSrcName(newVal)" /> -->
     <FileNameInput name="Img Source" v-model="srcName" />
+    <BoolInput v-model="preserveAspectRatio" name="Preserve Image Aspect Ratio" />
+    <NumberInput v-model="editorData.width" name="Width" min="1" />
+    <NumberInput v-if="!preserveAspectRatio" v-model="editorData.height" name="Height" min="1" />
+    <!-- <SelectorInput v-model="editorData.objectFit" name="Image Fit" :options="['cover', 'contain', 'fill', 'none']" /> -->
   </div>
 </template>
 

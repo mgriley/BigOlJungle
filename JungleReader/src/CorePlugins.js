@@ -18,7 +18,7 @@ class RSSFeed extends FeedPlugin {
     super("RSS");
     this.app = app;
     this.urlPlaceholderHelp = "Ex: https://www.someurl.com/feed.rss";
-    this.quickHelpDocs = "Add an RSS feed with its URL.";
+    this.quickHelpDocs = "Add a RSS feed with its URL.";
   }
 
   async updateFeeds(feeds) {
@@ -76,7 +76,7 @@ class MastodonFeed extends RSSFeed {
     super(app);
     this.name = "Mastodon";
     this.urlPlaceholderHelp = "Ex: https://mastodon.social/@someuser";
-    this.quickHelpDocs = "Follow a Mastodon feed.";
+    this.quickHelpDocs = "Follow a Mastodon feed. Enter the feed URL.";
   }
 
   transformUrlToRss(feedUrl) {
@@ -111,7 +111,7 @@ class YouTubeFeed extends RSSFeed {
     super(app);
     this.name = "YouTube";
     this.urlPlaceholderHelp = "Ex: https://www.youtube.com/@sora_sakurai_en";
-    this.quickHelpDocs = "Follow a YouTube channel. Enter a link to the channel";
+    this.quickHelpDocs = "Follow a YouTube channel. Enter the channel URL.";
   }
 
   async updateFeed(feed) {
@@ -161,7 +161,7 @@ class RedditFeed extends RSSFeed {
     super(app);
     this.name = "Reddit";
     this.urlPlaceholderHelp = "Ex: https://www.reddit.com/r/toronto/";
-    this.quickHelpDocs = "Follow a subreddit. Enter the link to the subreddit.";
+    this.quickHelpDocs = "Follow a subreddit or profile. Enter the subreddit or profile URL.";
   }
 
   transformUrlToRss(feedUrl) {
@@ -178,7 +178,7 @@ class Bookmark extends FeedPlugin {
     super("Bookmark");
     this.app = app;
     this.urlPlaceholderHelp = "Ex: https://www.somesite.com";
-    this.quickHelpDocs = "Add any website address. We cannot generate a full feed but will let you know if the page updated."
+    this.quickHelpDocs = "Add a simple bookmark to any site."
   }
 
   async updateFeeds(feeds) {

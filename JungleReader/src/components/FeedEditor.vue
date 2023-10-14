@@ -6,6 +6,7 @@ import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'
 import LinkSnippet from './LinkSnippet.vue'
+import InfoTooltip from './InfoTooltip.vue'
 
 const props = defineProps({
   feed: {
@@ -24,6 +25,7 @@ function changeGroup(newGroup) {
 }
 
 let showOptions = ref(false);
+let showQuickHelp = ref(false);
 
 let supportedFeedTypes = computed(() => {
   let types = []
@@ -55,6 +57,14 @@ function getUrlPlaceholder(feed) {
   return plugin.urlPlaceholderHelp;
 }
 
+function getQuickHelp(pluginType) {
+  let plugin = gApp.getFeedPluginByType(pluginType);
+  if (!plugin) {
+    return null;
+  }
+  return plugin.quickHelpDocs;
+}
+
 </script>
 
 <template>
@@ -65,7 +75,11 @@ function getUrlPlaceholder(feed) {
     <GroupSelector v-if="feed" :currentGroup="realFeed.parentGroup" @change="changeGroup"/>
   </div>
   <div class="FormFieldName">Feed Type</div>
-  <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
+  <div class="Flex FeedTypeBox">
+    <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
+    <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button>
+  </div>
+  <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(realFeed.type)}}</p>
   <!-- <p>{{ feed.type }}</p> -->
   <div class="FormFieldNameWithInfo">Feed URL</div>
   <div class="FormFieldInfo">{{ getUrlPlaceholder(realFeed) }}</div>
@@ -83,6 +97,15 @@ function getUrlPlaceholder(feed) {
 <style scoped>
 .FeedHeader {
   /* display: flex; */
+}
+
+.FeedTypeBox {
+  gap: 8px;
+}
+
+.QuickHelpText {
+  max-width: 400px;
+  line-height: 1.2;
 }
 
 .WideInput {

@@ -17,6 +17,7 @@ export class ImageNode extends Node {
     // Derived
     this.srcUrl = null;
 
+    this.preserveAspectRatio = true;
     this.width = 400;
     this.height = 400;
   }
@@ -26,6 +27,9 @@ export class ImageNode extends Node {
     extendMap(obj, {
       srcName: this.srcName,
       altText: this.altText,
+      preserveAspectRatio: this.preserveAspectRatio,
+      width: this.width,
+      height: this.height,
     });
     return obj;
   }
@@ -34,6 +38,9 @@ export class ImageNode extends Node {
     super.readFromJson(obj);
     this.srcName = obj.srcName;
     this.altText = obj.altText;
+    this.preserveAspectRatio = obj.preserveAspectRatio;
+    this.width = obj.width;
+    this.height = obj.height;
     this.reloadSrcUrl();
   }
 
@@ -48,6 +55,15 @@ export class ImageNode extends Node {
   setSrcName(newSrcName) {
     this.srcName = newSrcName;
     this.reloadSrcUrl();
+  }
+
+  getPreserveAspectRatio() {
+    return this.preserveAspectRatio;
+  }
+
+  setPreserveAspectRatio(newVal) {
+    // TODO - should really keep the current height when transitioning, but whatever
+    this.preserveAspectRatio = newVal;
   }
 
   async asyncReloadSrcUrl() {
@@ -79,8 +95,19 @@ export class ImageNode extends Node {
   getStyleObject() {
     let parentStyle = super.getStyleObject();
     let myStyle = {
-      width: `${this.width}px`,
-      height: `${this.height}px`,
+    };
+    if (this.preserveAspectRatio) {
+      myStyle = {
+        ...myStyle,
+        width: `${this.width}px`,
+        height: 'auto',
+      };
+    } else {
+      myStyle = {
+        ...myStyle,
+        width: `${this.width}px`,
+        height: `${this.height}px`,
+      };
     };
     return {
       ...parentStyle,
