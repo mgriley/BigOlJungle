@@ -225,4 +225,8 @@ onMounted(() => {
   font-size: var(--h4-size);
 }
 
+.DeleteButton {
+  margin-top: var(--space-l);
+}
+
 </style>

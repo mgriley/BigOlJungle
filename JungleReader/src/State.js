@@ -494,6 +494,8 @@ class JungleReader {
 
     this.appStartTime = new Date();
     this.autosaveTimer = null;
+    // Used to prevent saving state if the last load failed. Otherwise,
+    // we overwrite the user's saved config if there is an error.
     this.failedLastLoad = ref(false);
 
     // Map reqId -> {resolve, reject}
