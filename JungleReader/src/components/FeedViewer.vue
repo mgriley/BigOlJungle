@@ -3,12 +3,15 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import * as utils from '../Utils.js'
 import TreeIcon from './TreeIcon.vue'
+import BasicModal from 'Shared/BasicModal.vue'
+import FeedEditor from './FeedEditor.vue'
 
 const props = defineProps({
   feed: Object,
 })
 
 let lastReadTime = ref(0);
+let feedEditorModal = ref(null);
 
 function goBack() {
   gApp.router.go(-1);
@@ -17,6 +20,11 @@ function goBack() {
 function isLinkNew(link) {
   let pubTime = (new Date(link.pubDate)).getTime();
   return pubTime > lastReadTime.value;
+}
+
+function deleteFeed() {
+  props.feed.removeFromParent();
+  goBack();
 }
 
 onMounted(() => {
@@ -37,7 +45,16 @@ onMounted(() => {
             {{ feed.mainSiteUrl }}
           </a>
           <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
-          <button class="SmallButton ReloadButton" @click="feed.reload()">Reload now</button>
+          <div class="ButtonRow Flex">
+            <button class="ReloadButton SmallButton" @click="feed.reload()">
+              <vue-feather type="rotate-cw" stroke-width="1.5" />
+              Reload now
+            </button>
+            <button class="SmallButton" @click="feedEditorModal.showModal()">
+              <vue-feather type="edit" stroke-width="1.5" />
+              Edit feed
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -48,26 +65,36 @@ onMounted(() => {
     </div>
     <template v-if="!feed.isError">
       <div class="LinkList">
-        <div class="LinkElem" v-for="link in feed.links" :id="link.id">
-          <p class="LinkText">
-            <a :href="link.link" target="_blank" class="LinkText">
-              <!-- {{ link.getTrimmedStringDesc(150) }} -->
-              {{ link.getTrimmedStringDesc(150) }}
-            </a>
-          </p>
-          <div class="SubInfo">
-            <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
-            <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
+        <template v-if="feed.links.length > 0">
+          <div class="LinkElem" v-for="link in feed.links" :id="link.id">
+            <p class="LinkText">
+              <a :href="link.link" target="_blank" class="LinkText">
+                <!-- {{ link.getTrimmedStringDesc(150) }} -->
+                {{ link.getTrimmedStringDesc(150) }}
+              </a>
+            </p>
+            <div class="SubInfo">
+              <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
+              <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
+            </div>
+            <div v-if="isLinkNew(link)" class="NewIndicator">New</div>
           </div>
-          <div v-if="isLinkNew(link)" class="NewIndicator">New</div>
-        </div>
+        </template>
+        <template v-else>
+          <p class="NothingHereYet">Nothing here yet. Do a reload.</p>
+        </template>
       </div>
     </template>
     <template v-else>
       <div class="Link ErrorText">
+        <h4>Error reloading feed</h4>
         <p>{{ feed.errorMsg }}</p>
       </div>
     </template>
+    <BasicModal class="FeedEditorModal" ref="feedEditorModal" :showCancel="false" title="Edit Feed">
+      <FeedEditor :feed="feed" />
+      <button class="DeleteButton SmallButton" @click="deleteFeed">Delete Feed</button>
+    </BasicModal>
   </div>
 </template>
 
@@ -88,6 +115,18 @@ onMounted(() => {
 
 .FeedNameBox .Subtitle {
   margin-bottom: var(--space-xl);
+}
+
+.ButtonRow {
+  margin-top: 8px;
+  margin-bottom: 4px;
+  gap: 24px;
+}
+
+.ButtonRow button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .SubtitleText {
@@ -119,17 +158,11 @@ onMounted(() => {
   }
 }
 
-.ReloadButton {
-  margin: 0;
-  padding: 0;
-}
-
 .ErrorIndicator {
   color: red;
 }
 
 .ErrorText {
-  color: red;
 }
 
 .LinkElem {
@@ -186,6 +219,10 @@ onMounted(() => {
 
   color: var(--main-bg);
   font-weight: var(--bold-weight);
+}
+
+.NothingHereYet {
+  font-size: var(--h4-size);
 }
 
 </style>

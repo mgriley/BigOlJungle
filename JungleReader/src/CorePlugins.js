@@ -34,30 +34,40 @@ class RSSFeed extends FeedPlugin {
     })
   }
 
-  async updateFromRSS(feed, rssUrl, optParserOptions) {
-    optParserOptions = optParserOptions ?? {};
-    let plugin = this;
-    await gApp.fetchText(rssUrl).then((rssText) => {
-      // console.log("rssText: ", rssText);
-      let parser = new RSSParser(optParserOptions);
+  async parseRSS(parser, rssText) {
+    // Note: convert the callback-based RSS func to a promise
+    await new Promise((resolve, reject) => {
       parser.parseString(rssText, (err, res) => {
         if (err) {
-          let parseError = `Error parsing RSS feed. Url: "${rssUrl}", Error: ${err}`;
-          console.log(parseError);
-          feed.setError(parseError);
-          return;
+          return reject(err);
         }
-        plugin.transformRssResult(res)
-        feed.updateLinks(res);
+        return resolve(res);
       });
-    }).catch((err) => {
-      throw new Error(`Error on update from RSS: ${err}`);
     });
+  }
+
+  async updateFromRSS(feed, rssUrl, optParserOptions) {
+    optParserOptions = optParserOptions ?? {};
+    let rssText = await gApp.fetchText(rssUrl);
+    try {
+      let parser = new RSSParser(optParserOptions);
+      let res = await parser.parseString(rssText);
+      console.log("Got RSS res:\n", res);
+      this.transformRssResult(res)
+      feed.updateLinks(res);
+    } catch (err) {
+      // console.error("Error parsing RSS feed: ", error);
+      throw new Error(`Error parsing RSS feed at "${rssUrl}". Detailed Error: ${err}`);
+    }
   }
 
   async updateFeed(feed) {
     console.log("Updating feed: " + feed.name);
+    if (!feed.url) {
+      throw new Error("The feed URL is not set.");
+    }
     //const testUrl = "https://www.to-rss.xyz/wikipedia/current_events/"
+    console.log("Updating from RSS");
     await this.updateFromRSS(feed, this.transformUrlToRss(feed.url));
   }
 
@@ -117,24 +127,16 @@ class YouTubeFeed extends RSSFeed {
   async updateFeed(feed) {
     // We must extract the RSS link from the html of the link to the homepage
     console.log("Updating feed: " + feed.name + ", " + feed.url);
-
-    function errorOut(errorMsg) {
-      feed.setError(errorMsg);
-      console.log(errorMsg);
+    if (!feed.url) {
+      throw new Error("The feed URL is not set.");
     }
-
-    let plugin = this;
-    await gApp.fetchText(feed.url).then((htmlStr) => {
-      let rssLink = extractRssLinkFromHtml(htmlStr);
-      console.log("Extracted RSS link: " + rssLink);
-      return plugin.updateFromRSS(feed, rssLink, {
-        customFields: {
-          item: ['media:group'],
-        }
-      });
-    }).catch((error) => {
-      console.log(error);
-      errorOut(error.message);
+    let htmlStr = await gApp.fetchText(feed.url);
+    let rssLink = extractRssLinkFromHtml(htmlStr);
+    console.log("Extracted RSS link: " + rssLink);
+    await this.updateFromRSS(feed, rssLink, {
+      customFields: {
+        item: ['media:group'],
+      }
     });
   }
 

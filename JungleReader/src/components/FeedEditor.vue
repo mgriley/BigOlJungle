@@ -5,7 +5,7 @@ import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'
-import LinkSnippet from './LinkSnippet.vue'
+import CopyLinkButton from './CopyLinkButton.vue'
 import InfoTooltip from './InfoTooltip.vue'
 
 const props = defineProps({
@@ -86,10 +86,10 @@ function getQuickHelp(pluginType) {
   <input v-model="realFeed.url" class="Block BasicTextInput WideInput">
 
   <div class="FormFieldName">Custom Options</div>
-  <OptionsInput :options="realFeed.options" />
+  <OptionsInput class="" :options="realFeed.options" />
 
-  <div class="FormFieldName">Share Link</div>
-  <LinkSnippet :theLink="feedShareLink" />
+  <CopyLinkButton title="Get share link" class="ShareLink" :theLink="feedShareLink" />
+
 </template>
 
 <style scoped>
@@ -109,5 +109,10 @@ function getQuickHelp(pluginType) {
 .WideInput {
   width: 30ch;
   max-width: 100%;
+}
+
+.ShareLink {
+  margin-top: var(--space-s);
+  margin-bottom: var(--space-l);
 }
 </style>

@@ -104,8 +104,9 @@ class Feed {
     this.options = [];
     this.mainSiteUrl = "";
 
+    // Note: do not save/load the error. It should be set per-session from the reload.
     this.isError = false;
-    this.errorMsg = null;
+    this.errorMsg = "";
 
     // Timestamp of most recent link item
     this.mostRecentLinkTime = 0;
@@ -140,8 +141,6 @@ class Feed {
       url: this.url,
       options: optionsToJson(this.options),
       mainSiteUrl: this.mainSiteUrl,
-      isError: this.isError,
-      errorMsg: this.errorMsg,
       mostRecentLinkTime: this.mostRecentLinkTime,
       lastReadTime: this.lastReadTime,
       lastReloadTime: this.lastReloadTime
@@ -158,8 +157,6 @@ class Feed {
     if (obj.mainSiteUrl) {
       this.mainSiteUrl = obj.mainSiteUrl;
     }
-    this.isError = obj.isError;
-    this.errorMsg = obj.errorMsg;
     if (obj.mostRecentLinkTime) {
       this.mostRecentLinkTime = obj.mostRecentLinkTime;
     }
@@ -249,12 +246,6 @@ class Feed {
   */
   updateLinks(newLinksData) {
     console.log(`Updating feeds link for "${this.name}"`);
-    let existingLinks = {}
-    for (const link of this.links) {
-      existingLinks[link.stringId] = link;
-    }
-    // TODO - preserve existing links if possible
-
     // console.log(`NewLinksData for ${this.url}: ` + prettyJson(newLinksData));
     let mostRecentLinkTime = 0;
     this.links = []
@@ -288,6 +279,7 @@ class Feed {
   }
 
   setError(errorMsg) {
+    console.log("Setting feed error: " + errorMsg);
     this.isError = true;
     this.errorMsg = errorMsg;
   }

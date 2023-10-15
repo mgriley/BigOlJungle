@@ -21,7 +21,9 @@ function addOption() {
 
 <template>
 <template v-if="options.length == 0">
-  <button @click="addOption" class="SmallButton">Add</button>
+  <div>
+    <button @click="addOption" class="SmallButton Block">Add</button>
+  </div>
 </template>
 <template v-else>
   <div class="OptionsContainer">

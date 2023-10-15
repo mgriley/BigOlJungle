@@ -41,6 +41,18 @@ it gets clicked. Say if using for a button
   margin-top: var(--space-xs);
 }
 
+.MarginBotXL {
+  margin-bottom: var(--space-xl);
+}
+
+.MarginBotL {
+  margin-bottom: var(--space-l);
+}
+
+.MarginBotM {
+  margin-bottom: var(--space-m);
+}
+
 .MarginBotS {
   margin-bottom: var(--space-s);
 }
