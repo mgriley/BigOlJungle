@@ -255,7 +255,6 @@ async function runTestParse() {
           </template>
         </template>
       </div>
-      <p>Remember to "Save Changes" when you're done!</p>
     </div>
   </div>
   <BasicModal ref="itemSetterModal">

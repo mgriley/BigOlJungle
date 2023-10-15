@@ -11,7 +11,6 @@ import MoreInfoText from './MoreInfoText.vue'
 </script>
 
 <template>
-  <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
   <div class="TextPluginEditor" v-if="gApp.getPluginToEdit()">
     <button class="DoneButton BackButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
     <h1 class="PageHeader PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
@@ -49,10 +48,6 @@ import MoreInfoText from './MoreInfoText.vue'
 </template>
 
 <style scoped>
-.SaveButton {
-  float: right;
-}
-
 .TextPluginEditor {
   margin-bottom: 8px;
 }

@@ -9,6 +9,7 @@ import { CustomPlugin } from './PluginLib.js'
 import { ContentCache } from './ContentCache.js'
 
 const kReaderVersionString = "0.0";
+const kAutosaveIntervalSecs = 15;
 
 // LocalStorage keys
 const kAppStateKey = "appState";
@@ -491,7 +492,10 @@ class JungleReader {
     this.customPlugins = reactive([])
     this.pluginToEdit = ref(null);
 
-    // TODO - not yet implemented
+    this.appStartTime = new Date();
+    this.autosaveTimer = null;
+
+    // TODO - not yet implemented (maybe not required, either)
     this.requiresSave = ref(null);
 
     // Map reqId -> {resolve, reject}
@@ -557,6 +561,11 @@ class JungleReader {
     this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.JungleExt)
   }
 
+  getAppTimeSecs() {
+    let curTime = new Date();
+    return (curTime - this.appStartTime) / 1000.0;
+  }
+
   isDoneWelcome() {
     return this.doneWelcome.value;
   }
@@ -612,14 +621,17 @@ class JungleReader {
     return this.requiresSave.value;
   }
 
-  saveAll() {
-    console.log("Saving Reader");
+  saveAll(optTriggerToast) {
+    optTriggerToast = valOr(optTriggerToast, false);
+    console.log(`Saving app state (${Math.round(this.getAppTimeSecs())}s)`);
     let stateData = this.writeStateToJson();
     let jsonData = prettyJson(stateData);
-    console.log(jsonData);
+    // console.log(jsonData);
     localStorage.setItem(kAppStateKey, jsonData);
     this.cleanContentCache();
-    this.toast({message: 'Changes saved!', type: 'success'});
+    if (optTriggerToast) {
+      this.toast({message: 'Changes saved!', type: 'success'});
+    }
   }
 
   cleanContentCache() {
@@ -667,9 +679,38 @@ class JungleReader {
   readStateFromStorage() {
     let appState = localStorage.getItem(kAppStateKey);
     if (appState) {
-      console.log("Loading from existing data");
+      console.log(`Loading app state (${Math.round(this.getAppTimeSecs())}s)`);
       this.readStateFromJson(JSON.parse(appState));
     }
+  }
+
+  onEnterForeground() {
+    // Document entering foreground. Reload state
+    let app = this;
+    console.log("Entering foreground");
+    app.readStateFromStorage();
+
+    // Setup autosave timer
+    if (app.autosaveTimer) {
+      clearInterval(app.autosaveTimer);
+    }
+    app.autosaveTimer = setInterval(() => {
+      // This check shouldn't be needed, but keep in case onEnterBackground does not fire
+      if (document.visibilityState == 'visible') {
+        let curAppTime = Math.round(app.getAppTimeSecs());
+        console.log(`Autosaving... (${curAppTime}s)`);
+        app.saveAll();
+      }
+    }, kAutosaveIntervalSecs * 1000);
+  }
+
+  onEnterBackground() {
+    // Document went out of foreground. Save state
+    let app = this;
+    console.log("Exiting foreground");
+    app.saveAll();
+    clearInterval(app.autosaveTimer);
+    app.autosaveTimer = null;
   }
 
   run() {
@@ -678,17 +719,34 @@ class JungleReader {
     let doneWelcome = localStorage.getItem(kDoneWelcomeKey);
     this.doneWelcome.value = Boolean(doneWelcome);
 
-    // TODO - trigger error if failed to read this.
-    this.readStateFromStorage()
+    this.onEnterForeground();
+
+    // Auto-save strategy:
+    // We save on visibility exit and load on visibility enter.
+    // This handles having multiple JungleReader tabs open in the browser and
+    // switching between the.
+    // We also auto-save on a low interval (ex. every 1min) while visible in case for
+    // whatever reason the visibility hide event does not fire on page exit.
+    // See: https://www.igvita.com/2015/11/20/dont-lose-user-and-app-state-use-page-visibility/
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState == 'hidden') {
+        app.onEnterBackground();
+      } else if (document.visibilityState == 'visible') {
+        app.onEnterForeground();
+      }
+    });
+
+    // This is fired when the app storage is modified from another tab. Other tabs
+    // should not be autosaving, but there is an edge case when switching between two
+    // tabs, where onExit1 fires after onEnter1.
+    window.addEventListener('storage', (evt) => {
+      console.log("Storage modified from other domain (likely tab switch). Reloading");
+      app.readStateFromStorage();
+    });
 
     // Note: this is called when localStorage is modified from another document with this
     // domain (say, another tab)
-    window.addEventListener('storage', (evt) => {
-      if (evt.key == kAppStateKey) {
-        console.log("Updated storage from other page.");
-        app.readStateFromStorage();
-      }
-    });
+    // TODO
 
     // Handle messages from JungleExt
     window.addEventListener('message', (evt) => {

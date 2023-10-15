@@ -51,7 +51,6 @@ function onSetupDone() {
       <p>
       Scroll down and click "Add Feed". Name the feed "Creating Games", set the feed type to <b>YouTube</b>, and set
       the URL to <b>www.youtube.com/@sora_sakurai_en</b>. Click the new feed to see its content.
-      Click "Save Changes" to save your feed.
       </p>
     </div>
     <div class="HelpStep DoneStep">

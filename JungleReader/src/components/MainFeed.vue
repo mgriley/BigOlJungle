@@ -184,7 +184,6 @@ onMounted(() => {
 <template>
   <SetupHelp v-if="!gApp.isDoneWelcome()" />
   <div class="MainFeed">
-    <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <!--
     <div class="BackgroundImg">
       <img width="400px" height="400px" src="BigChameleon.svg" />  
@@ -273,10 +272,6 @@ onMounted(() => {
 <style scoped>
 .MainFeed {
   position: relative;
-}
-
-.SaveButton {
-  float: right;
 }
 
 .FeedGroups {

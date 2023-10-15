@@ -92,7 +92,6 @@ onMounted(() => {
 
 <template>
   <div class="SettingsContainer">
-    <button class="SaveButton" @click="gApp.saveAll()">Save Changes</button>
     <div class="Settings">
       <h1 class="PageHeader">Settings</h1>
       <div class="SettingsSection">
@@ -125,6 +124,7 @@ onMounted(() => {
         </div>
         <div class="SubSection">
           <h4>Dev Zone</h4>
+          <button @click="gApp.saveAll(true)" class="SmallButton Block">Manually save all</button>
           <button @click="addTestFeeds" class="SmallButton Block">Add test feeds</button>
           <button @click="testFetchText" class="SmallButton Block">Test Fetch</button>
           <button @click="dumpLocalStorage" class="SmallButton Block">Dump localStorage</button>
@@ -137,10 +137,6 @@ onMounted(() => {
 <style scoped>
 .SettingsContainer {
   position: relative;
-}
-
-.SaveButton {
-  float: right;
 }
 
 .SettingsSection {
