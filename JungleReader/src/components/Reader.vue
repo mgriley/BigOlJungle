@@ -24,6 +24,7 @@ function startExportConfig() {
 }
 
 function importConfig() {
+  console.log("Starting import");
   const uploadedFile = importFileInput.value.files[0];
   if (!uploadedFile) {
     console.log("No file uploaded");
@@ -32,19 +33,11 @@ function importConfig() {
 
   const reader = new FileReader();
   reader.addEventListener("load", (evt) => {
-    // TODO - handle more errors here.
     if (!reader.result || reader.result === "") {
       console.log("The read file is invalid");
       return;
     }
-    let success = gApp.importConfig(reader.result);  
-    if (!success) {
-      // TODO - show the error to the user
-      console.log("Import failed!");
-      return;
-    }
-    // TODO - trigger success toast
-    importConfigModal.value.closeModal();
+    gApp.importConfig(reader.result);  
   }, false);
 
   console.log("Reading file: " + uploadedFile.name);

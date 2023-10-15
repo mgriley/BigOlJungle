@@ -112,7 +112,6 @@ function getQuickHelp(pluginType) {
 }
 
 .ShareLink {
-  margin-top: var(--space-s);
-  margin-bottom: var(--space-l);
+  margin-top: var(--space-m);
 }
 </style>

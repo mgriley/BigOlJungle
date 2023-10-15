@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FetchMethod, FeedGroup, Feed } from '../State.js'
+import { gApp, FetchMethod, FeedGroup, Feed, kAppStateKey } from '../State.js'
 import { getTimeAgoStr } from '../Utils.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import BasicSelector from './BasicSelector.vue'
@@ -78,6 +78,12 @@ function dumpLocalStorage() {
   }
 }
 
+function doBadLoad() {
+  console.log("Performing bad store and load");
+  localStorage.setItem(kAppStateKey, `{"groups": 123132131}`);
+  gApp.readStateFromStorage();
+}
+
 onMounted(() => {
   if (navigator.storage && navigator.storage.persist) {
     navigator.storage.persisted().then((persistent) => {
@@ -120,7 +126,8 @@ onMounted(() => {
         </div>
         <div class="SubSection">
           <h4>Other</h4>
-          <button @click="gApp.setDoneWelcome(false)" class="SmallButton">Reset Welcome Page</button>
+          <button @click="gApp.setDoneWelcome(false)" class="SmallButton Block">Reset Welcome Page</button>
+          <button @click="gApp.fullyReset()" class="SmallButton Block">Fully reset app (DANGER)</button>
         </div>
         <div class="SubSection">
           <h4>Dev Zone</h4>
@@ -128,6 +135,7 @@ onMounted(() => {
           <button @click="addTestFeeds" class="SmallButton Block">Add test feeds</button>
           <button @click="testFetchText" class="SmallButton Block">Test Fetch</button>
           <button @click="dumpLocalStorage" class="SmallButton Block">Dump localStorage</button>
+          <button @click="doBadLoad" class="SmallButton Block">Do bad load (DANGER)</button>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FeedGroup, Feed } from '../State.js'
-import { valOr } from '../Utils.js'
+import { gApp, FeedGroup, Feed, kAppStateKey } from '../State.js'
+import { valOr, downloadTextFile } from '../Utils.js'
 import draggable from 'vuedraggable'
 import TextTreeIcon from './TextTreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
@@ -170,6 +170,14 @@ URL:  ${args.url}
 `
 }
 
+function exportCurrentConfig() {
+  let configStr = localStorage.getItem(kAppStateKey);
+  if (!configStr) {
+    return;
+  }
+  downloadTextFile(configStr, "JungleReaderConfig_Corrupt.txt");
+}
+
 onMounted(() => {
   let linkAction = gApp.consumeLinkAction();
   if (linkAction) {
@@ -212,6 +220,14 @@ onMounted(() => {
           <p><a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">Install for Firefox</a></p>
           <p><a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank">Install for Chrome</a></p>
         </div>
+        <div v-if="gApp.failedLastLoad.value" class="FailedLastLoad">
+          <p><u>Error</u> Your saved config failed to load. Please either wait for a fix, import a backup
+          config, or fully reset the reader from Settings. You can export your saved config now.
+          It may be able to be restored later.
+          </p>
+          <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
+        </div>
+        <p v-else-if="gApp.feedReader.groups.length == 0" class="NothingHereYet">Nothing here yet. Add a feed to get started.</p>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
           <template #item="{element}">
@@ -427,6 +443,19 @@ onMounted(() => {
 
 .FeedEditorModal {
   width: 500px;
+}
+
+.FailedLastLoad {
+  margin-top: var(--space-xl);
+}
+
+.ExportOldConfBtn {
+  margin-top: var(--space-m);
+}
+
+.NothingHereYet {
+  margin-top: var(--space-xl);
+  font-size: var(--h4-size);
 }
 
 </style>

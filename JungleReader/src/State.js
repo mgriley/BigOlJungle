@@ -12,8 +12,8 @@ const kReaderVersionString = "0.0";
 const kAutosaveIntervalSecs = 15;
 
 // LocalStorage keys
-const kAppStateKey = "appState";
-const kDoneWelcomeKey = "doneWelcome";
+export const kAppStateKey = "appState";
+export const kDoneWelcomeKey = "doneWelcome";
 
 var gApp = null;
 
@@ -494,9 +494,7 @@ class JungleReader {
 
     this.appStartTime = new Date();
     this.autosaveTimer = null;
-
-    // TODO - not yet implemented (maybe not required, either)
-    this.requiresSave = ref(null);
+    this.failedLastLoad = ref(false);
 
     // Map reqId -> {resolve, reject}
     this.extReqIdCtr = 1;
@@ -539,14 +537,14 @@ class JungleReader {
   }
 
   readStateFromJson(jsonObj) {
-    if ("groups" in jsonObj) {
-      let groups = jsonObj["groups"].map((groupObj) => {
-        let group = new FeedGroup(0);
-        group.readFromJson(groupObj, this.contentCache)
-        return group;
-      })
-      replaceArray(this.feedReader.groups, groups)
-    }
+    let groupsJson = valOr(jsonObj["groups"], [])
+    let groups = groupsJson.map((groupObj) => {
+      let group = new FeedGroup(0);
+      group.readFromJson(groupObj, this.contentCache)
+      return group;
+    })
+    replaceArray(this.feedReader.groups, groups)
+
     this.feedGroupIdCtr = jsonObj["feedGroupIdCtr"]
     this.feedIdCtr = jsonObj["feedIdCtr"]
     this.linkIdCtr = jsonObj["linkIdCtr"]
@@ -617,20 +615,29 @@ class JungleReader {
     return null;
   }
 
-  checkRequiresSave() {
-    return this.requiresSave.value;
-  }
-
   saveAll(optTriggerToast) {
+    if (this.failedLastLoad.value) {
+      console.warn("Refusing to save because it would override an old config.");
+      return;
+    }
     optTriggerToast = valOr(optTriggerToast, false);
     console.log(`Saving app state (${Math.round(this.getAppTimeSecs())}s)`);
     let stateData = this.writeStateToJson();
     let jsonData = prettyJson(stateData);
     // console.log(jsonData);
-    localStorage.setItem(kAppStateKey, jsonData);
-    this.cleanContentCache();
-    if (optTriggerToast) {
-      this.toast({message: 'Changes saved!', type: 'success'});
+    try {
+      localStorage.setItem(kAppStateKey, jsonData);
+      this.cleanContentCache();
+      if (optTriggerToast) {
+        this.toast({message: 'Changes saved!', type: 'success'});
+      }
+    } catch (err) {
+      console.error("Error on saveAll: " + err);
+      this.toast({
+        message: 'Failed to save app state! Please contact the developer. ' + err,
+        type: 'error',
+        duration: 0
+      });
     }
   }
 
@@ -668,8 +675,19 @@ class JungleReader {
     let prevConfig = this.writeStateToJson();
     try {
       this.readStateFromJson(JSON.parse(configStr));
+      this.failedLastLoad.value = false;
+      this.toast({
+        message: "Import successful",
+        type: 'success'
+      });
     } catch (error) {
       console.error("Error occurred on import config. Falling back to old config.", error);
+      this.toast({
+        message: `Error on importing config. Falling back to old config. Error: ${error}`,
+        type: 'error',
+        // Keep visible until dismissed
+        duration: 0,
+      });
       this.readStateFromJson(prevConfig);
       return false;
     }
@@ -678,9 +696,22 @@ class JungleReader {
 
   readStateFromStorage() {
     let appState = localStorage.getItem(kAppStateKey);
-    if (appState) {
-      console.log(`Loading app state (${Math.round(this.getAppTimeSecs())}s)`);
+    if (!appState) {
+      return;
+    }
+    console.log(`Loading app state (${Math.round(this.getAppTimeSecs())}s)`);
+    try {
       this.readStateFromJson(JSON.parse(appState));
+      this.failedLastLoad.value = false;
+    } catch (err) {
+      console.error("Error loading config: " + err);
+      this.toast({
+        message: 'Failed to load app state! Please contact the developer. You can'
+         + ' wait for a fix, import a backup, or reset the app from Settings. Error: ' + err,
+        type: 'error',
+        duration: 0
+      });
+      this.failedLastLoad.value = true;
     }
   }
 
@@ -744,10 +775,6 @@ class JungleReader {
       app.readStateFromStorage();
     });
 
-    // Note: this is called when localStorage is modified from another document with this
-    // domain (say, another tab)
-    // TODO
-
     // Handle messages from JungleExt
     window.addEventListener('message', (evt) => {
       app.handleWindowMessage(evt);
@@ -758,6 +785,19 @@ class JungleReader {
     if (this.fetchMethod.value == FetchMethod.JungleExt) {
       this.checkIfJungleExtPresent();
     }
+  }
+
+  fullyReset() {
+    console.warn("Doing full reset");
+    let keys = this.contentCache.getKeys();
+    for (const key of keys) {
+      console.log("Removing key: " + key);
+      this.contentCache.removeItem(key);
+    }
+    this.toast({
+      message: 'Reset successful. Please reload the page.',
+      type: 'success',
+    });
   }
 
   handleWindowMessage(evt) {
