@@ -206,8 +206,12 @@ onMounted(() => {
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
-        <div v-if="!gApp.isJungleExtPresent.value">
-          <h3>JungleExt is not installed! Problem</h3>
+        <div v-if="!gApp.isJungleExtPresent.value" class="TopAlert">
+          <p class="AlertText"><u>Alert</u> JungleExt is not installed. JungleReader requires the extension to work properly.
+          Please install then reload the page.
+          </p>
+          <p><a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">Install for Firefox</a></p>
+          <p><a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank">Install for Chrome</a></p>
         </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
@@ -282,6 +286,17 @@ onMounted(() => {
   overflow-y: auto;
   height: 100%;
   overflow: visible;
+}
+
+.TopAlert {
+  margin-top: var(--space-s);
+  padding: 16px;
+  background-color: var(--dark-color);
+  border-radius: 6px;
+}
+
+.TopAlert .AlertText {
+  color: var(--main-text);
 }
 
 .ButtonMenu {
