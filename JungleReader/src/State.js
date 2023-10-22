@@ -618,16 +618,17 @@ class JungleReader {
   }
 
   saveAll(optTriggerToast) {
+    optTriggerToast = valOr(optTriggerToast, false);
+
     if (this.failedLastLoad.value) {
       console.warn("Refusing to save because it would override an old config.");
       return;
     }
-    optTriggerToast = valOr(optTriggerToast, false);
-    console.log(`Saving app state (${Math.round(this.getAppTimeSecs())}s)`);
-    let stateData = this.writeStateToJson();
-    let jsonData = prettyJson(stateData);
-    console.log(jsonData);
     try {
+      console.log(`Saving app state (${Math.round(this.getAppTimeSecs())}s)`);
+      let stateData = this.writeStateToJson();
+      let jsonData = prettyJson(stateData);
+      //console.log(jsonData);
       localStorage.setItem(kAppStateKey, jsonData);
       this.cleanContentCache();
       if (optTriggerToast) {

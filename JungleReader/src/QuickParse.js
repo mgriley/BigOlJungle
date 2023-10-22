@@ -69,45 +69,55 @@ export class DomPath {
   }
 
   writeToJsonCompact() {
-    return this.pathItems.map((item) => {
-      if (item.deltaType == 'GoDown') {
-        return `C${item.nextChildNum}`;
-      } else if (item.deltaType == 'GoUp') {
-        return `P`;
-      } else if (item.deltaType == 'GoSibling') {
-        return `S${numWithSign(item.siblingDelta)}`;
-      }
-    }).join('/');
+    if (this.pathItems.length == 0) {
+      return null;
+    } else {
+      return this.pathItems.map((item) => {
+        if (item.deltaType == 'GoDown') {
+          return `C${item.nextChildNum}`;
+        } else if (item.deltaType == 'GoUp') {
+          return `P`;
+        } else if (item.deltaType == 'GoSibling') {
+          return `S${numWithSign(item.siblingDelta)}`;
+        }
+      }).join('/');
+    }
   }
 
   readFromJsonCompact(obj) {
-    this.pathItems = obj.split("/").map((item) => {
-      let commonArgs = {
-        name: "Elem",
-        type: "Elem",
-        nextName: "Elem",
-        nextType: "Elem",
-      }
-      if (item[0] == "C") {
-        return {
-          deltaType: "GoDown",
-          nextChildNum: parseInt(item.slice(1)),
-          ...commonArgs,
-        }
-      } else if (item[0] == "P") {
-        return {
-          deltaType: "GoUp",
+    if (!obj) {
+      this.pathItems = [];
+    } else {
+      this.pathItems = obj.split("/").map((item) => {
+        let commonArgs = {
           name: "Elem",
+          type: "Elem",
+          nextName: "Elem",
+          nextType: "Elem",
         }
-      } else if (item[0] == "S") {
-        return {
-          deltaType: "GoSibling",
-          siblingDelta: parseInt(item.slice(1)),
-          ...commonArgs,
+        if (item[0] == "C") {
+          return {
+            deltaType: "GoDown",
+            nextChildNum: parseInt(item.slice(1)),
+            ...commonArgs,
+          }
+        } else if (item[0] == "P") {
+          return {
+            deltaType: "GoUp",
+            name: "Elem",
+          }
+        } else if (item[0] == "S") {
+          return {
+            deltaType: "GoSibling",
+            siblingDelta: parseInt(item.slice(1)),
+            ...commonArgs,
+          }
+        } else {
+          throw new Error("Unrecognized path part: " + item[0]);
         }
-      }
-    });
-    console.log("PathItems: ", this.pathItems);
+      });
+    }
+    //console.log("PathItems: ", this.pathItems);
   }
 
   isEmpty() {
