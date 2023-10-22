@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, onUnmounted, reactive, computed } from 'vue'
 import { gApp } from '../State.js'
 import BasicSelector from '../BasicSelector.vue'
 
@@ -11,6 +11,9 @@ const props = defineProps({
   defaultValue: [String, Object],
 })
 const emit = defineEmits(['update:modelValue'])
+
+let fileOptions = ref(null);
+let changeEvtHandle = null;
 
 const value = computed({
   get() {
@@ -35,19 +38,26 @@ const optionalValue = computed({
   }
 })
 
-let fileOptions = computed(() => {
-  let siteDir = gApp.site.siteDir;
-  if (!siteDir) {
-    return [];
-  }
-  return siteDir.getSortedChildren().map((elem) => {
+async function updateFileOptions() {
+  console.log("FileNameInput updating options");
+  let children = await gApp.site.siteDir.getSortedChildren();
+  fileOptions.value = children.map((elem) => {
     return elem.getName();
   });
-});
+}
 
 function onValueChanged(newVal) {
   value.value = newVal;
 }
+
+onMounted(() => {
+  changeEvtHandle = gApp.fileStorage.onChangeEvt.addListener(updateFileOptions);
+  updateFileOptions();
+})
+
+onUnmounted(() => {
+  gApp.fileStorage.onChangeEvt.removeListener(changeEvtHandle);
+});
 
 </script>
 

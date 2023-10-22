@@ -22,6 +22,18 @@ export class ImageNode extends Node {
     this.height = 400;
   }
 
+  onCreate() {
+    let node = this;
+    function onChange() {
+      node.reloadSrcUrl();
+    }
+    this.fileChangeHandle = gApp.fileStorage.onChangeEvt.addListener(onChange);
+  }
+
+  onDestroy() {
+    gApp.fileStorage.onChangeEvt.removeListener(this.fileChangeHandle);
+  }
+
   writeToJson() {
     let obj = super.writeToJson();
     extendMap(obj, {
@@ -41,7 +53,6 @@ export class ImageNode extends Node {
     this.preserveAspectRatio = obj.preserveAspectRatio;
     this.width = obj.width;
     this.height = obj.height;
-    this.reloadSrcUrl();
   }
 
   getSrcUrl() {
@@ -74,7 +85,7 @@ export class ImageNode extends Node {
     if (!siteDir) {
       return;
     }
-    let fileObj = siteDir.findChild(this.srcName);
+    let fileObj = await siteDir.findChild(this.srcName);
     if (!fileObj) {
       this.srcUrl = "NotFound";
       return;

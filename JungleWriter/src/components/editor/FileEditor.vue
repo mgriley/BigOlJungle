@@ -7,31 +7,39 @@ import FilePicker from './FilePicker.vue'
 // Helperful guide:
 // https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
 
-let fileStorage = gApp.fileStorage;
+let fileRoot = gApp.fileStorage.root;
 let selectedFile = ref(null);
 
 let uploadingText = ref("");
 
+let fileTree = ref(null);
+
+function dumpFileTree() {
+  // TODO
+  console.log(fileTree.value);
+}
+
 async function reloadFiles() {
-  console.log("Reloading files...")
-  await fileStorage.reload();
+  console.log("FileEditor reloading site files...")
+  let siteDir = gApp.site.getSiteDir();
+  fileTree.value = await siteDir.getSortedChildren();
   console.log("Done reloading");
-  fileStorage.dump();
+  dumpFileTree();
+}
+
+function getSiteFiles() {
+  return fileTree.value;  
 }
 
 async function onFilesPicked(files) {
   console.log("Some files picked: ", files);
   let siteDir = gApp.site.getSiteDir();
-  if (!siteDir) {
-    console.log("siteDir not ready yet.");
-    return;
-  }
-  console.log("Writing files...");
+  console.log(`Writing ${files.length} files...`);
   uploadingText.value = "";
   for (let i = 0; i < files.length; ++i) {
     let file = files[i];
     let fileName = file.name.split("/").pop();
-    let validFileName = siteDir.genValidFileName(fileName);
+    let validFileName = await siteDir.genValidFileName(fileName);
     uploadingText.value = `Saving file ${i + 1}/${files.length}: ${file.name} as ${validFileName}`
     let fileObj = await siteDir.createFile(validFileName);
     await fileObj.writeContents(file);
@@ -39,6 +47,7 @@ async function onFilesPicked(files) {
   uploadingText.value = "";
   // TODO - show "Done upload" toast
   console.log("Done uploading");
+  // TODO - subscribe to the file system changes from the root node onMount
   await reloadFiles();
 }
 
@@ -82,7 +91,7 @@ onMounted(async () => {
     </div>
     <!-- <p v-if="uploadingText">{{ uploadingText }}</p> -->
     <div v-if="gApp.site.siteDir" class="FileView">
-      <div v-for="item in gApp.site.siteDir.getSortedChildren()" class="FileItem">
+      <div v-for="item in getSiteFiles()" class="FileItem">
         <div :class="{IsSelected: isSelected(item)}" class="MockButton" @click="selectFile(item)">{{ item.getName() }}</div>
       </div>
     </div>

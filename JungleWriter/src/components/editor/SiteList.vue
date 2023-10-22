@@ -1,10 +1,31 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { gApp } from './State.js'
+import BasicModal from 'Shared/BasicModal.vue'
+
+let createSiteModal = ref(null);
+let siteToAdd = ref(null);
+
+class SiteData {
+  constructor() {
+    this.name = "";
+  }
+};
 
 function addSite() {
+  siteToAdd.value = new SiteData();
+  createSiteModal.value.showModal();
+}
+
+function onCancelAddSite() {
+  siteToAdd.value = null;
+}
+
+async function onDoneAddSite() {
   console.log("Adding site");
-  gApp.createSite();
+  let site = await gApp.createSite();
+  gApp.changeSiteName(site.id, siteToAdd.value.name);
+  siteToAdd.value = null;
 }
 
 </script>
@@ -26,6 +47,15 @@ function addSite() {
         <button @click="gApp.userStorage.clearAll()" class="TertiaryButton">Clear storage</button>
       </div>
     </div>
+    <BasicModal class="CreateSiteModal" ref="createSiteModal" title="Create Site"
+      doneText="Create" @onCancel="onCancelAddSite" @onDone="onDoneAddSite">
+      <div v-if="siteToAdd">
+        <div class="FormFieldName">Name</div>
+        <div>
+          <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus>
+        </div>
+      </div>
+    </BasicModal>
   </div>
 </template>
 

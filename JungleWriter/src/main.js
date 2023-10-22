@@ -7,14 +7,19 @@ import App from './App.vue'
 import { initGlobalApp } from './components/editor/State.js'
 import { registerNodeTypes } from './components/editor/widgets/RegisterNodes.js'
 
-const app = createApp(App)
-app.component(VueFeather.name, VueFeather)
+async function loadApp() {
+  const app = createApp(App)
+  app.component(VueFeather.name, VueFeather)
 
-/*
-initGlobalReader(app.config.globalProperties.$toast,
-  app.config.globalProperties.$router)
-*/
-initGlobalApp()
-registerNodeTypes();
+  /*
+  initGlobalReader(app.config.globalProperties.$toast,
+    app.config.globalProperties.$router)
+  */
+  await initGlobalApp()
+  registerNodeTypes();
 
-app.mount('#app')
+  app.mount('#app')
+}
+
+loadApp();
+

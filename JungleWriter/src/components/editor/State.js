@@ -55,13 +55,27 @@ class Node {
     this.posY = obj.posY;
     this.allowsChildren = obj.allowsChildren;
     for (const childObj of obj.children) {
-      let childNode = new (gNodeDataMap[childObj.type].nodeClass)();
+      let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)());
+      childNode.onCreate();
       childNode.readFromJson(childObj);
       this.addChild(childNode);
     }
   }
 
+  onCreate() {
+    // Override in subclasses
+    // This is called after the ctor is called. The `this` here is the reactive proxy,
+    // so register watchers/listeners here. If registered in the regular ctor, `this` will
+    // not be reactive, so changes won't trigger updates.
+  }
+
+  onDestroy() {
+    // Override in subclasses
+    // Called before destroy()
+  }
+
   destroy() {
+    this.onDestroy();
     this.removeFromParent();
     delete gState.nodeLookupMap[this.id];
   }
@@ -270,7 +284,7 @@ class SiteSettings {
 
 
 class Site {
-  constructor(editor, id) {
+  constructor(editor, id, siteDir) {
     this.editor = editor;
     this.id = id;
     this.name = "";
@@ -283,7 +297,7 @@ class Site {
 
     // siteDir is the DirObj for the current site, for convenience.
     // It is set from the Editor
-    this.siteDir = null;
+    this.siteDir = siteDir;
   }
 
   writeToJson() {
@@ -310,12 +324,12 @@ class Site {
     console.log("Saved site:", prettyJson(obj));
   }
 
-  static load(editor, siteId) {
+  static load(editor, siteId, siteDir) {
     // TODO - handle errors
     console.log("Loading site with id: ", siteId);
     let siteData = editor.userStorage.getItem(`sites/${siteId}/data`);
     console.log("Site data:", prettyJson(siteData));
-    let site = new Site(editor, siteId);
+    let site = new Site(editor, siteId, siteDir);
     site.readFromJson(siteData);
     return site;
   }
@@ -387,29 +401,6 @@ class Editor {
 
     this.userStorage = new UserStorage();
     this.fileStorage = reactive(new FileStorage());
-
-    // Note! Cannot move this to Site ctor because in site ctor `this` is the
-    // plain, non-reactive object version of site. Setting a prop on the non-reactive
-    // version of the object will not trigger updates properly.
-    let editor = this;
-    watch(() => {
-      return [editor.fileStorage.root, editor.siteRef.value];
-    }, async ([root, site], oldVal, onCleanup) => {
-      // TODO - use cleanupFunc arg?
-      console.log("Recomputing siteDir...");
-      if (!site) {
-        return;
-      }
-      if (!root) {
-        console.log("siteDir is null for now");
-        site.siteDir = null;
-        return;
-      }
-      // Note! This does not set the siteDir through the reactive proxy of `site`, so
-      // probs does not trigger things properly.
-      site.siteDir = await root.findOrCreateDir(`sites/${site.id}`);
-      console.log("New siteDir: " + (site.siteDir ? site.siteDir.getName() : null));
-    });
   }
 
   writeToJson() {
@@ -438,7 +429,6 @@ class Editor {
 
   load() {
     // TODO - handle errors
-    console.log("Loading app...");
     let data = this.userStorage.getItem(`app/data`);
     if (data) {
       this.readFromJson(data);
@@ -449,13 +439,25 @@ class Editor {
     return this.siteRef.value;
   }
 
-  run() {
+  async start() {
     console.log("Starting JungleWriter...");
+
+    let fileRootDir = await navigator.storage.getDirectory();
+    await this.fileStorage.setRoot(fileRootDir);
+
+    console.log("Loading app...");
     this.load();
+
+    // Trigger this event to get the Nodes that depend on the FileStorage setup properly
+    //this.fileStorage.onChangeEvt.emit();
+
+    console.log("Started");
   }
 
-  createSite() {
-    let site = reactive(new Site(this, this.siteIdCtr++));
+  async createSite() {
+    let siteId = this.siteIdCtr++;
+    let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
+    let site = reactive(new Site(this, siteId, siteDir));
     this.sites.unshift({id: site.id, name: site.name, ptr: site});
     // Save the site now so that it populates the UserStorage with an entry
     site.save();
@@ -463,20 +465,34 @@ class Editor {
     return site;
   }
 
-  loadSiteWithId(siteId) {
+  async loadSiteWithId(siteId) {
     for (const site of this.sites) {
       if (site.id == siteId) {
         if (!site.ptr) {
-          site.ptr = reactive(Site.load(this, site.id));
+          let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
+          site.ptr = reactive(Site.load(this, site.id, siteDir));
         }
         return site.ptr;
       }
     }
     return null;
   }
+
+  changeSiteName(siteId, newName) {
+    for (const site of this.sites) {
+      if (site.id == siteId) {
+        site.name = newName;
+        return;
+      }
+    }
+    throw new Error("Site with that id not found");
+  }
   
-  selectSiteById(siteId) {
-    this.siteRef.value = this.loadSiteWithId(siteId);
+  async selectSiteById(siteId) {
+    let site = await this.loadSiteWithId(siteId);
+    this.siteRef.value = site;
+    // Emit a FS evt so that any FS-dependent nodes like ImageNode can setup
+    this.fileStorage.onChangeEvt.emit();
   }
 
   deselectSite() {
@@ -541,9 +557,9 @@ let kMenuItems = [
   },
 ];
 
-function initGlobalApp() {
+async function initGlobalApp() {
   gApp = new Editor();
-  gApp.run();
+  await gApp.start();
   return gApp;
 }
 

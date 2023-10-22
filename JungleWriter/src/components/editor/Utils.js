@@ -3,6 +3,38 @@ export * from 'Shared/SharedUtils.js'
 export * from './DragUtils.js'
 
 /*
+Helper class for registering/unregistered for events
+*/
+export class EventSource {
+  constructor() {
+    this.idCtr = 1;
+    this.listeners = [];
+  }
+
+  addListener(listenerFunc) {
+    let handle = this.idCtr++;
+    this.listeners.push({handle: handle, func: listenerFunc});
+    return handle;
+  }
+
+  removeListener(handle) {
+    for (let i = 0; i < this.listeners.length; ++i) {
+      if (this.listeners[i].handle == handle) {
+        this.listeners.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  emit(...evtArgs) {
+    let curListeners = [...this.listeners];
+    for (const listener of curListeners) {
+      listener.func(...evtArgs);
+    }
+  }
+};
+
+/*
 Helper class for a value that is produced by a Promise
 */
 export class AsyncValue {
