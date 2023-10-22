@@ -82,8 +82,7 @@ export function makeDraggable(elmnt) {
       lastX = curX;
       lastY = curY;
       elmnt.style.top = (elmnt.offsetTop + deltaY) + "px";
-      elmnt.style.left = (elmnt.offsetLeft + deltaX) + "px";
-    }
+      elmnt.style.left = (elmnt.offsetLeft + deltaX) + "px"; }
   });
 }
 
@@ -117,9 +116,10 @@ export function setupWidget(widgetElem, node) {
   };
   makeDraggableExt(widgetElem, {
     allowDrag: () => {
-      return node.isSelected();
+      return node.isSelected() && !node.interaction;
     },
     onStart: (startX, startY) => {
+      node.interaction = 'move';
       dragObj.origPosX = node.posX;
       dragObj.origPosY = node.posY;
     },
@@ -129,6 +129,9 @@ export function setupWidget(widgetElem, node) {
       node.posX = dragObj.origPosX + diffX;
       node.posY = dragObj.origPosY + diffY;
     },
+    onEnd: () => {
+      node.interaction = null;
+    }
   })
 }
 

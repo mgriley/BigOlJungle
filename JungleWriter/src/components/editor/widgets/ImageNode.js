@@ -105,8 +105,7 @@ export class ImageNode extends Node {
 
   getStyleObject() {
     let parentStyle = super.getStyleObject();
-    let myStyle = {
-    };
+    let myStyle = {};
     if (this.preserveAspectRatio) {
       myStyle = {
         ...myStyle,
@@ -122,6 +121,13 @@ export class ImageNode extends Node {
     };
     return {
       ...parentStyle,
+      ...myStyle
+    };
+  }
+
+  getImgStyleObject() {
+    let myStyle = {};
+    return {
       ...myStyle
     };
   }
