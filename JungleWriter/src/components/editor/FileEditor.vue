@@ -9,6 +9,7 @@ import FilePicker from './FilePicker.vue'
 
 let fileRoot = gApp.fileStorage.root;
 let selectedFile = ref(null);
+let thumbnailSrc = ref("");
 
 let uploadingText = ref("");
 
@@ -51,9 +52,10 @@ async function onFilesPicked(files) {
   await reloadFiles();
 }
 
-function selectFile(file) {
+async function selectFile(file) {
   console.log("Selecting file: " + file.getName());
   selectedFile.value = file;
+  thumbnailSrc.value = await file.createObjectUrl();
 }
 
 function isSelected(file) {
@@ -94,6 +96,9 @@ onMounted(async () => {
       <div v-for="item in getSiteFiles()" class="FileItem">
         <div :class="{IsSelected: isSelected(item)}" class="MockButton" @click="selectFile(item)">{{ item.getName() }}</div>
       </div>
+      <div class="Preview">
+        <img class="PreviewImg" :src="thumbnailSrc" alt="(Click an img file to preview)" />
+      </div>
     </div>
     <div v-else>
       Files loading...
@@ -119,6 +124,17 @@ onMounted(async () => {
 
 .FileItem .IsSelected {
   background-color: lightblue;
+}
+
+.Preview {
+  margin-top: var(--space-l);
+}
+
+.PreviewImg {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  object-position: top left;
 }
 
 </style>

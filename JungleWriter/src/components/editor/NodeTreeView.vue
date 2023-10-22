@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, reactive } from 'vue'
 import { gApp, Node } from './State.js'
 import NodeTreeItem from './NodeTreeItem.vue'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
