@@ -2,6 +2,7 @@ import {
   addElem, removeElem, hashString,
   optionsToJson, jsonToOptions, waitMillis,
   parseXml,
+  prettyJson,
   writeObjToJson, readObjFromJson,
   deepCopyObject, deepCopyArray,
   tryGetSibling, getSiblingNum,
@@ -52,14 +53,14 @@ export class DomPath {
     this.pathItems = pathItems;
   }
 
-  writeToJson(compact=false) {
+  writeToJson(compact=true) {
     if (compact) {
       return this.writeToJsonCompact();
     }
     return writeObjToJson(this.pathItems);
   }
 
-  readFromJson(obj, compact=false) {
+  readFromJson(obj, compact=true) {
     if (compact) {
       this.readFromJsonCompact(obj);
       return;
@@ -348,11 +349,11 @@ class ParseField {
     this.path = new DomPath(name);
   }
 
-  writeToJson(compact=false) {
+  writeToJson(compact=true) {
     return this.path.writeToJson(compact);
   }
 
-  readFromJson(obj, compact=false) {
+  readFromJson(obj, compact=true) {
     this.path.readFromJson(obj, compact);
   }
 }
@@ -387,7 +388,7 @@ export class QuickParser {
     ]
   }
 
-  writeToJson(compact=false) {
+  writeToJson(compact=true) {
     return {
       version: "1",
       testUrl: this.testUrl,
@@ -400,7 +401,7 @@ export class QuickParser {
     };
   }
 
-  readFromJson(obj, compact=false) {
+  readFromJson(obj, compact=true) {
     this.testUrl = obj.testUrl;
     if ("firstItemTitle" in obj) {
       this.firstItemTitle.readFromJson(obj.firstItemTitle, compact);
@@ -415,9 +416,7 @@ export class QuickParser {
   async updateFeed(feed) {
     let feedOutput = await this.parsePage(feed.url);
     if (!feedOutput) {
-      console.error(`Failed to update feed: ${feed.url}`);
-      feed.setError(`Failed to parse page. Please check the QuickParse config.`);
-      return;
+      throw new Error(`Failed to parse page. Please check the QuickParse config.`);
     }
     let feedItems = feedOutput.map((elem) => {
       // TODO - handle other date formats
@@ -429,7 +428,6 @@ export class QuickParser {
         extraDataString: elem.points,
       }
     });
-    // console.log(`Updating QP feed ${feed.name}:`, feedItems);
     feed.updateLinks({link: feed.url, items: feedItems});
   }
 
@@ -506,29 +504,21 @@ export class QuickParser {
   async parsePage(pageUrl) {
     let pageHtml = await gApp.fetchText(pageUrl);
     if (!pageHtml) {
-      // TODO - show an error toast
-      console.error("Failed to fetch content from the URL. Please check it.");
-      return null;
+      throw new Error("Failed to fetch content from the URL. Please check it.");
     }
     let jsonDoc = null;
     try {
       jsonDoc = parseXml(pageHtml, "text/html");
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error("Failed to parse HTML: " + error);
     }
     this.addHelperData(jsonDoc, null, 0);
-
-    let isValid = this.validateRequiredFields(jsonDoc);
-    if (!isValid) {
-      return null;
-    }
+    this.validateRequiredFields(jsonDoc);
 
     // Traverse the item list.
     let listRes = DomPath.detectLogicalList(this.firstItemTitle.path, this.secondItemTitle.path);
     if (listRes.error) {
-      console.error("Failed to detect the list of items. Error: ", listRes.error);
-      return null;
+      throw new Error("Failed to detect the list of items. Error: ", listRes.error);
     }
     let listInfo = listRes.value;
     /*
@@ -539,8 +529,7 @@ export class QuickParser {
 
     let listRootElem = DomPath.addPath(jsonDoc, listInfo.listRootPath);
     if (!listRootElem) {
-      console.error("List parsing failed. Failed to find the list root at: " + listInfo.listRootPath.toStr());
-      return null;
+      throw new Error("List parsing failed. Failed to find the list root at: " + listInfo.listRootPath.toStr());
     }
     // console.log("ListRootElem: ", listRootElem);
 
@@ -556,7 +545,7 @@ export class QuickParser {
       }
       let concreteItem = DomPath.addPath(jsonDoc, item.field.path);
       if (!concreteItem) {
-        console.error(`Failed to find item for field: ${item.field.name}. Please check it.`);
+        console.warn(`Failed to find item for field: ${item.field.name}. Please check it.`);
         item.enabled = false;
         continue;
       }
@@ -583,6 +572,7 @@ export class QuickParser {
         if (!item.enabled) {
           continue;
         }
+        // console.log("Applying optional item: " + item.field.name);
         this.applyOptionalItem(nextElem, item, obj);
       }
       output.push(obj);
@@ -592,26 +582,24 @@ export class QuickParser {
     return output;
   }
 
+  // Throws an error if the required fields cannot be found
   validateRequiredFields(jsonDoc) {
+    console.log("This: ", prettyJson(this.writeToJson()));
+    console.log("This: ", this.plugin);
     if (this.firstItemTitle.path.isEmpty()) {
-      console.log("Error: the First Item Title is mandatory");
-      return false;
+      throw new Error("Error: the First Item Title is mandatory");
     }
     if (this.secondItemTitle.path.isEmpty()) {
-      console.log("Error: this Second Item Title is mandatory");
-      return false;
+      throw new Error("Error: the Second Item Title is mandatory");
     }
     let firstItemAnchor = DomPath.addPath(jsonDoc, this.firstItemTitle.path);
     if (!firstItemAnchor) {
-      console.error("Failed to find node for firstItemTitle");
-      return false;
+      throw new Error("Failed to find node for firstItemTitle");
     }
     let secondItemAnchor = DomPath.addPath(jsonDoc, this.secondItemTitle.path);
     if (!secondItemAnchor) {
-      console.error("Failed to find node for secondItemTitle");
-      return false;
+      throw new Error("Failed to find node for secondItemTitle");
     }
-    return true;
   }
 
   applyOptionalItem(anchorElem, item, outputObj) {

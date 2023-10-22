@@ -626,7 +626,7 @@ class JungleReader {
     console.log(`Saving app state (${Math.round(this.getAppTimeSecs())}s)`);
     let stateData = this.writeStateToJson();
     let jsonData = prettyJson(stateData);
-    // console.log(jsonData);
+    console.log(jsonData);
     try {
       localStorage.setItem(kAppStateKey, jsonData);
       this.cleanContentCache();
