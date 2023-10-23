@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { reactive, computed, onMounted, onUnmounted } from 'vue'
 import { gApp } from './State.js'
 import NavBar from './NavBar.vue'
 import ShortcutBtns from './ShortcutBtns.vue'
@@ -25,6 +25,13 @@ let nodeList = computed(() => {
 });
 */
 
+let canvasBaseWidth = 800;
+
+let canvasStyleObj = reactive({
+  '--canvasWidth': canvasBaseWidth + 'px',
+  'transform': 'scale(1.0)',
+});
+
 let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
 })
@@ -46,6 +53,32 @@ let isEditing = computed(() => {
   return gApp.site.getIsEditing();
 });
 
+function clamp(x, a, b) {
+  return Math.max(a, Math.min(x, b));
+}
+
+function onPageResize() {
+  // Note: could impl debounce later.
+  // See: https://web.archive.org/web/20220714020647/https://bencentra.com/code/2015/02/27/optimizing-window-resize.html
+
+  // Resize so that the canvas square is contained in the page/window area, as large as possible
+  let margin = 32;
+  let newWidth = window.innerWidth - margin * 2;
+  let newHeight = window.innerHeight - margin * 2;
+  let scaleAmt = Math.min(newWidth / canvasBaseWidth, newHeight / canvasBaseWidth);
+  scaleAmt = clamp(scaleAmt, 0, 1);
+  canvasStyleObj['transform'] = `scale(${scaleAmt})`;
+}
+
+onMounted(() => {
+  window.addEventListener("resize", onPageResize);
+  onPageResize();
+})
+
+onUnmounted(() => {
+  window.removeEventListener("resize", onPageResize);
+})
+
 </script>
 
 <template>  
@@ -58,8 +91,10 @@ let isEditing = computed(() => {
     <SettingsEditor v-if="isEditing" />
     <FileEditor v-if="isEditing" />
 
-    <div class="AnchorDiv">
-      <NodeWidget :node="rootNode" />
+    <div class="CanvasArea" :style="canvasStyleObj">
+      <div class="AnchorDiv">
+        <NodeWidget :node="rootNode" />
+      </div>
     </div>
   </main>
 </template>
@@ -68,6 +103,19 @@ let isEditing = computed(() => {
 
 main {
   height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.CanvasArea {
+  /* TODO */
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--canvasWidth);
+  height: var(--canvasWidth);
+  border-radius: 4px;
 }
 
 .AnchorDiv {
