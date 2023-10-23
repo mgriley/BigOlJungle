@@ -53,7 +53,7 @@ let rssTemplate = `<?xml version="1.0" encoding="UTF-8" ?>
     <p class="CodeBlock">{{ rssTemplate }}</p>
     <p>More info on RSS: <a href="https://www.w3schools.com/xml/xml_rss.asp">https://www.w3schools.com/xml/xml_rss.asp</a></p>
     <p>
-    Once you have your RSS feed, you can create a "read.zajungle.com/#/addfeed/..." link that, once clicked, will take the user to their JungleReader page
+    Once you have your RSS feed, you can create a "www.zajungle.com/#/addfeed/..." link that, once clicked, will take the user to their JungleReader page
     and prompt to add the feed. To generate this link, use the Button Generator form below.
     </p>
     <h4>Other Options</h4>

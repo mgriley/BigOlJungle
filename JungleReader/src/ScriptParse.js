@@ -4,6 +4,7 @@ import { addElem, removeElem, hashString,
     writeObjToJson, readObjFromJson, valOr } from './Utils.js'
 import * as InterpreterUtils from './InterpreterUtils.js'
 import { gApp } from './State.js'
+//import * as babel from "@babel/core";
 
 const kDefaultCustomCode = (`
 
@@ -29,6 +30,10 @@ class ScriptRunner {
   }
 
   async run() {
+    // TODO - defer this.
+    // Transpile ES6 to ES5. The interpreter only supports ES5
+    //let compiledCode = babel.transformSync(code, {'presets': ['es2015']}).code;
+
     let interpreterInputs = {
       plugin: this.plugin,
       feed: this.feed,

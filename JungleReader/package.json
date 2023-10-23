@@ -13,6 +13,7 @@
     "browserslist": "npx browserslist"
   },
   "dependencies": {
+    "@babel/standalone": "^7.23.2",
     "feather-icons": "^4.29.0",
     "prismjs": "^1.29.0",
     "rss-parser": "^3.13.0",

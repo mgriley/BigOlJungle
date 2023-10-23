@@ -153,7 +153,8 @@ async function runTestParse() {
               {{ sigToStr(func.sig) }}
             </p>
             <p class="FuncDesc">{{ func.desc }}</p>
-            <p class="FuncEx"><u>Ex</u> {{ func.ex }}</p>
+            <p v-if="func.ex" class="FuncEx"><u>Ex</u> {{ func.ex }}</p>
+            <p v-if="func.blockDesc" class="FuncBlockDesc">{{ func.blockDesc }}</p>
           </div>
         </div>
       </div>
@@ -249,6 +250,11 @@ async function runTestParse() {
 .FuncEx {
   margin-top: var(--space-xs);
   font-family: monospace;
+  white-space: pre;
+}
+
+.FuncBlockDesc {
+  margin-top: var(--space-xs);
   white-space: pre;
 }
 
