@@ -6,7 +6,7 @@
 import { ref, onMounted, reactive, computed } from 'vue'
 import { gNodeDataMap } from './NodeDataMap.js'
 import { gApp } from '../State.js'
-import { setupWidget } from '../Utils.js'
+import { setupWidgetDrag } from '../Utils.js'
 
 const props = defineProps({
   node: Object
@@ -15,7 +15,7 @@ const props = defineProps({
 let elementRef = ref(null);
 
 onMounted(() => {
-  setupWidget(elementRef.value, props.node);
+  setupWidgetDrag(elementRef.value, props.node);
 })
 
 let styleObject = computed(() => {

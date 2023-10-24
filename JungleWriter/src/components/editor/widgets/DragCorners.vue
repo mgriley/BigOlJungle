@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { gApp } from '../State.js'
-import { setupWidget, makeDraggableExt } from '../Utils.js'
+import { makeDraggableExt } from '../Utils.js'
 import { ImageNode } from './ImageNode.js'
 
 const props = defineProps({
@@ -40,9 +40,9 @@ function setupDragCorner(widgetElem, node, dirX, dirY) {
 }
 
 onMounted(() => {
-  //setupDragCorner(dragCornerTL.value, props.node, -1, 1);
-  //setupDragCorner(dragCornerTR.value, props.node, 1, 1);
-  setupDragCorner(dragCornerBR.value, props.node, 1, -1);
+  //setupDragCorner(dragCornerTL.value, props.node, -1, -1);
+  //setupDragCorner(dragCornerTR.value, props.node, 1, -1);
+  setupDragCorner(dragCornerBR.value, props.node, 1, 1);
   //setupDragCorner(dragCornerBL.value, props.node, -1, 1);
 })
 

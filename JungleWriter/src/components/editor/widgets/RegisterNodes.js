@@ -13,6 +13,10 @@ import { ImageNode } from './ImageNode.js'
 import ImageWidget from './ImageWidget.vue'
 import ImageWidgetEditor from './ImageWidgetEditor.vue'
 
+import { RectNode } from './RectNode.js'
+import RectWidget from './RectWidget.vue'
+import RectWidgetEditor from './RectWidgetEditor.vue'
+
 // Register all nodes types here
 export function registerNodeTypes() {
   console.log("Registering node types...");
@@ -34,6 +38,12 @@ export function registerNodeTypes() {
       nodeClass: ImageNode,
       widget: ImageWidget,
       editor: ImageWidgetEditor,
+    },
+    "RectNode": {
+      uiName: "Rect",
+      nodeClass: RectNode,
+      widget: RectWidget,
+      editor: RectWidgetEditor,
     },
   });
 }

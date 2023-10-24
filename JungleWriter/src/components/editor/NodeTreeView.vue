@@ -25,7 +25,11 @@ let newNodeOptions = [
 {
   name: "Image",
   classCtor: gNodeDataMap["ImageNode"].nodeClass,
-}
+},
+{
+  name: "Rect",
+  classCtor: gNodeDataMap["RectNode"].nodeClass,
+},
 ];
 
 function makeNewNode(clickEvt) {

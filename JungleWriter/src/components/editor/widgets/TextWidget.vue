@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { gApp } from '../State.js'
-import { setupWidget } from '../Utils.js'
+import { setupWidgetDrag } from '../Utils.js'
 import { TextNode } from './TextNode.js'
 
 const props = defineProps({
@@ -15,7 +15,7 @@ function onClick() {
 let elementRef = ref(null);
 
 onMounted(() => {
-  setupWidget(elementRef.value, props.node);
+  setupWidgetDrag(elementRef.value, props.node);
 })
 
 </script>

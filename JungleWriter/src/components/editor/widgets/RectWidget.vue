@@ -24,12 +24,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget ImageWidget" ref="elementRef"
-    :style="node.getStyleObject()">
-    <img class="" :style="node.getImgStyleObject()"
-         ref="imgRef"
-         @click="onClick"
-         :src="node.getSrcUrl()" :alt="node.altText" />
+  <div class="Widget RectWidget" ref="elementRef"
+    :style="node.getStyleObject()" @click="onClick">
     <DragCorners v-if="node.selected" :node="node" />
   </div>
 </template>
@@ -38,16 +34,8 @@ onMounted(() => {
 </style>
 
 <style>
-.ImageWidget {
+.RectWidget {
   background-color: lightblue;
-  position: relative;
-}
-
-.ImageWidget img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  overflow: hidden;
 }
 
 </style>

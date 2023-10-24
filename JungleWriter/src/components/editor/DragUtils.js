@@ -109,7 +109,7 @@ export function removeHoverListener(elem, listenerObj) {
   elem.removeEventListener("mouseout", listenerObj.onEnd);
 }
 
-export function setupWidget(widgetElem, node) {
+export function setupWidgetDrag(widgetElem, node) {
   var dragObj = {
     origPosX: null,
     origPosY: null,
