@@ -1,6 +1,7 @@
 import { reactive, ref, watchEffect, watch, nextTick } from 'vue'
 import { gApp, Node } from '../State.js'
 import { extendMap } from '../Utils.js'
+import { BackgroundInfo } from './BackgroundInfo.js'
 import { BorderInfo } from './BorderInfo.js'
 
 export class RectNode extends Node {
@@ -14,6 +15,7 @@ export class RectNode extends Node {
 
     this.width = 400;
     this.height = 400;
+    this.background = new BackgroundInfo();
     this.border = new BorderInfo();
   }
 
@@ -22,6 +24,7 @@ export class RectNode extends Node {
     extendMap(obj, {
       width: this.width,
       height: this.height,
+      background: this.background.writeToJson(),
       border: this.border.writeToJson(),
     });
     return obj;
@@ -31,6 +34,7 @@ export class RectNode extends Node {
     super.readFromJson(obj);
     this.width = obj.width;
     this.height = obj.height;
+    this.background.readFromJson(obj.background);
     this.border.readFromJson(obj.border);
   }
 
@@ -39,6 +43,7 @@ export class RectNode extends Node {
     let myStyle = {
       width: `${this.width}px`,
       height: `${this.height}px`,
+      ...this.background.getStyleObject(),
       ...this.border.getStyleObject(),
     };
     return {

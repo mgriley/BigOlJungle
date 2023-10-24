@@ -46,7 +46,7 @@ function setupDragBall(elmnt) {
     onUpdate: (startX, startY, curX, curY) => {
       let diffX = curX - startX;
       let diffY = curY - startY;
-      let newVal = Math.max(1, Math.floor(startVal - diffY/5.0));
+      let newVal = Math.max(props.min, Math.floor(startVal - diffY/5.0));
       /*console.log("New value: " + newVal);*/
       value.value = newVal;
     },

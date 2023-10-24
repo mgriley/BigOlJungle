@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
 import NumberInput from './NumberInput.vue'
 import ColorInput from './ColorInput.vue'
+import BasicSelector from '../BasicSelector.vue'
 
 const props = defineProps({
   modelValue: [String, Number, Object],
@@ -19,31 +20,16 @@ const value = computed({
   }
 })
 
-const isEnabled = computed({
-  get() {
-    return props.modelValue.style !== 'none';
-  },
-  set(newVal) {
-    if (newVal) {
-      props.modelValue.style = 'solid';
-    } else {
-      props.modelValue.style = 'none';
-    }
-  }
-})
-
 </script>
 
 <template>
-  <div class="BorderInput StdInput">
+  <div class="BackgroundInput StdInput">
     <div class="Header">
       <div class="InputLabel" v-if="name">{{name}}</div>
-      <input class="OptionalToggle" v-model="isEnabled" type="checkbox" name="optionalToggle"/>
     </div>
-    <div v-if="isEnabled">
-      <NumberInput v-model="value.width" name="Width" min="0" />
+    <BasicSelector :value="value.style" :options="['solid']" @change="(newStyle) => value.style = newStyle" />
+    <div v-if="value.style == 'solid'">
       <ColorInput v-model="value.color" name="Color" />
-      <NumberInput v-model="value.radius" name="Radius" min="0" />
     </div>
   </div>
 </template>
