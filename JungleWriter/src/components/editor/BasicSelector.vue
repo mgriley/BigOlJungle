@@ -47,6 +47,7 @@ function onChange(changeEvt) {
 
 <template>
   <div class="BasicSelector">
+    <p>{{ curValue }}</p>
     <select :value="curValue" @change="onChange">
       <!-- <option disabled value="">Please Select</option> -->
       <!-- <option disabled value="">Current: {{curValue}}</option> -->

@@ -3,6 +3,7 @@ import { gApp, Node } from '../State.js'
 import { extendMap } from '../Utils.js'
 import { BackgroundInfo } from './BackgroundInfo.js'
 import { BorderInfo } from './BorderInfo.js'
+import { FilterInfo } from './FilterInfo.js'
 
 export class RectNode extends Node {
   static sUiShortName = "R";
@@ -17,6 +18,8 @@ export class RectNode extends Node {
     this.height = 400;
     this.background = new BackgroundInfo();
     this.border = new BorderInfo();
+    this.filter = new FilterInfo();
+    this.backdropFilter = new FilterInfo();
   }
 
   writeToJson() {
@@ -26,6 +29,8 @@ export class RectNode extends Node {
       height: this.height,
       background: this.background.writeToJson(),
       border: this.border.writeToJson(),
+      filter: this.filter.writeToJson(),
+      backdropFilter: this.backdropFilter.writeToJson(),
     });
     return obj;
   }
@@ -36,6 +41,12 @@ export class RectNode extends Node {
     this.height = obj.height;
     this.background.readFromJson(obj.background);
     this.border.readFromJson(obj.border);
+    if ('filter' in obj) {
+      this.filter.readFromJson(obj.filter);
+    }
+    if ('backdropFilter' in obj) {
+      this.backdropFilter.readFromJson(obj.backdropFilter);
+    }
   }
 
   getStyleObject() {
@@ -45,6 +56,9 @@ export class RectNode extends Node {
       height: `${this.height}px`,
       ...this.background.getStyleObject(),
       ...this.border.getStyleObject(),
+      ...this.filter.getStyleObject('filter'),
+      ...this.backdropFilter.getStyleObject('backdrop-filter'),
+      opacity: 0.5,
     };
     return {
       ...parentStyle,

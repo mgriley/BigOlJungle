@@ -27,8 +27,8 @@ const value = computed({
     <div class="Header">
       <div class="InputLabel" v-if="name">{{name}}</div>
     </div>
-    <BasicSelector :value="value.style" :options="['solid']" @change="(newStyle) => value.style = newStyle" />
-    <div v-if="value.style == 'solid'">
+    <BasicSelector :value="value.type" :options="['solid']" @change="(newType) => value.type = newType" />
+    <div v-if="value.type == 'solid'">
       <ColorInput v-model="value.color" name="Color" />
     </div>
   </div>

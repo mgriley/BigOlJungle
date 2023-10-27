@@ -22,7 +22,7 @@ export class BackgroundInfo {
 
   getStyleObject() {
     let obj = {};
-    if (this.style == 'solid') {
+    if (this.type == 'solid') {
       extendMap(obj, {
         'background-color': this.color,
       })

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
+import NumberInput from './NumberInput.vue'
 
 const props = defineProps({
   modelValue: [String, Number, Object],
@@ -42,6 +43,7 @@ const optionalValue = computed({
     <div class="Parent">
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="BasicTextInput InputChild" type="color" v-model="value">
+      <!-- <NumberInput v-model="value.width" name="Width" min="0" /> -->
     </div>
   </div>
 </template>
