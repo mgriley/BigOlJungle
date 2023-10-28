@@ -78,7 +78,7 @@ onMounted(() => {
       <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
         <div class="HeroDiv">
           <p class="AppTitle" @click="goToHome">Jungle<br>Reader</p>
-          <img class="HeroImg" src="BigChameleon.png" />
+          <img class="HeroImg" src="../assets/BigChameleon.png" />
         </div>
         <div class="SideMenu">
           <div class="Section">
@@ -143,11 +143,13 @@ onMounted(() => {
   top: 0;
   left: 0;
 
+  /* color: var(--nice-red); */
+
   font-family: 'Gill Sans';
   font-size: 28px;
   /* font-size: 44px; */
   /* font-weight: 900; */
-  color: var(--header-text);
+  /* color: var(--header-text); */
   font-weight: 800;
   line-height: 0.8;
   letter-spacing: -2px;

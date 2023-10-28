@@ -8,7 +8,7 @@ import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 import { ContentCache } from './ContentCache.js'
 
-const kReaderVersionString = "0.0";
+const kReaderVersionString = "1.0";
 const kAutosaveIntervalSecs = 15;
 
 // LocalStorage keys

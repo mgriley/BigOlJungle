@@ -38,33 +38,27 @@ onMounted(() => {
   <div class="FeedViewer">
     <button class="BackButton" @click="goBack">Back to Home</button>
     <div class="HeaderBox">
-      <div class="FeedNameBox">
-        <h1 class="FeedName">{{ feed.name }}</h1>
-        <div class="Subtitle">
-          <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
-            {{ feed.mainSiteUrl }}
-          </a>
-          <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
-          <div class="ButtonRow Flex">
-            <button class="ReloadButton SmallButton" @click="feed.reload()">
-              <vue-feather type="rotate-cw" stroke-width="1.5" />
-              Reload now
-            </button>
-            <button class="SmallButton" @click="feedEditorModal.showModal()">
-              <vue-feather type="edit" stroke-width="1.5" />
-              Edit feed
-            </button>
-          </div>
+      <h1 class="FeedName">{{ feed.name }}</h1>
+      <div class="Subtitle">
+        <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
+          {{ feed.mainSiteUrl }}
+        </a>
+        <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
+        <div class="ButtonRow Flex">
+          <button class="ReloadButton SmallButton" @click="feed.reload()">
+            <vue-feather type="rotate-cw" stroke-width="1.5" />
+            Reload now
+          </button>
+          <button class="SmallButton" @click="feedEditorModal.showModal()">
+            <vue-feather type="edit" stroke-width="1.5" />
+            Edit feed
+          </button>
         </div>
       </div>
     </div>
-    <Transition name="fadeInReload">
-      <div v-if="feed.isReloading()" class="ReloadIndicator">
-        <h4>
-        Reloading...
-        </h4>
-      </div>
-    </Transition>
+    <div v-if="feed.isReloading()" class="ReloadIndicator">
+      <h4>Reloading...</h4>
+    </div>
     <template v-if="!feed.isError">
       <div class="LinkList">
         <template v-if="feed.links.length > 0">
@@ -106,16 +100,12 @@ onMounted(() => {
   max-width: 720px;
 }
 
-.FeedNameBox {
-  margin-bottom: 16px;
-}
-
 .FeedName {
   line-height: 1;
   margin-bottom: var(--space-s);
 }
 
-.FeedNameBox .Subtitle {
+.HeaderBox {
   margin-bottom: var(--space-xl);
 }
 
@@ -147,18 +137,8 @@ onMounted(() => {
 }
 
 .ReloadIndicator {
-  margin-bottom: var(--space-m);
+  margin-bottom: var(--space-xs);
   /* animation: createBox .5s; */
-}
-
-.fadeInReload-enter-active,
-.fadeInReload-leave-active {
-  transition: opacity 0.2s;
-}
-
-.fadeInReload-enter-from,
-.fadeInReload-leave-to {
-  opacity: 0;
 }
 
 @keyframes createBox {
@@ -216,10 +196,6 @@ onMounted(() => {
 
 .BackButton {
   float: right;
-}
-
-.HeaderBox {
-  margin-bottom: var(--space-l);
 }
 
 .NewIndicator {
