@@ -58,11 +58,13 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div v-if="feed.isReloading()" class="ReloadIndicator">
-      <h4>
-      Reloading...
-      </h4>
-    </div>
+    <Transition name="fadeInReload">
+      <div v-if="feed.isReloading()" class="ReloadIndicator">
+        <h4>
+        Reloading...
+        </h4>
+      </div>
+    </Transition>
     <template v-if="!feed.isError">
       <div class="LinkList">
         <template v-if="feed.links.length > 0">
@@ -149,6 +151,16 @@ onMounted(() => {
   /* animation: createBox .5s; */
 }
 
+.fadeInReload-enter-active,
+.fadeInReload-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fadeInReload-enter-from,
+.fadeInReload-leave-to {
+  opacity: 0;
+}
+
 @keyframes createBox {
   from {
     transform: scale(0);
@@ -163,6 +175,10 @@ onMounted(() => {
 }
 
 .ErrorText {
+}
+
+.LinkList {
+  transition: all 1 ease;  
 }
 
 .LinkElem {
