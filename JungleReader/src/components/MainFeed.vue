@@ -199,15 +199,15 @@ onMounted(() => {
     !-->
     <div class="ButtonMenu">
       <button class="MenuBtn PrimaryButton" @click="addFeed()">
-        <vue-feather type="rss" />
+        <vue-feather type="rss" class="Icon" />
         Add Feed
       </button>
       <button class="MenuBtn PrimaryButton" @click="addFeedGroup()">
-        <vue-feather type="grid" />
+        <vue-feather type="grid" class="Icon" />
         Add Group
       </button>
       <button class="MenuBtn PrimaryButton BigReloadBtn" @click="onClickBigReload()">
-        <vue-feather type="rotate-cw" />
+        <vue-feather type="rotate-cw" class="Icon" />
         Big Reload
       </button>
     </div>
@@ -325,6 +325,10 @@ onMounted(() => {
   gap: 8px;
 }
 
+.MenuBtn .Icon {
+  /*color: var(--nice-red);*/
+}
+
 .BigReloadBtn {
   margin-left: var(--space-m);
 }    
@@ -366,6 +370,7 @@ onMounted(() => {
   font-size: 40px;
   /* font-size: var(--h3-size); */
   /* text-overflow: ellipsis; */
+  text-decoration: var(--brand-underline);
 }
 
 /*

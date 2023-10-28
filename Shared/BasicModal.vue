@@ -127,6 +127,7 @@ dialog::backdrop {
 
 .BasicModal .Title {
   margin-bottom: var(--space-xs);
+  text-decoration: var(--brand-underline);
 }
 
 .Body {

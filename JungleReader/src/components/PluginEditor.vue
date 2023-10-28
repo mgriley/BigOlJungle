@@ -150,6 +150,7 @@ function requiresWhitelist(pluginType) {
 .PluginDetails {
   padding: var(--space-s);
   border-radius: var(--border-radius-med);
+  border: 1px solid var(--light-color);
   background-color: var(--popup-bg);
 }
 

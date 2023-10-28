@@ -37,12 +37,23 @@
   --primary-color-l: 90%;
 
   --primary-color: hsl(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l));
-  --darkest-color: hsl(var(--primary-color-h), 8%, 12%);
-  --dark-color: hsl(var(--primary-color-h), 8%, 18%);
-  --medium-color: hsl(var(--primary-color-h), 8%, 30%);
+  /* --darkest-color: hsl(var(--primary-color-h), 8%, 12%); */
+  --darkest-color: hsl(var(--primary-color-h), 0%, 8%);
+  /* --dark-color: hsl(var(--primary-color-h), 8%, 18%); */
+  /* --medium-color: hsl(var(--primary-color-h), 8%, 30%); */
+  --dark-color: hsl(var(--primary-color-h), 8%, 12%);
+  --med-dark-color: hsl(var(--primary-color-h), 8%, 18%);
+  --medium-color: hsl(var(--primary-color-h), 8%, 25%);
   --light-color: hsl(var(--primary-color-h), 6%, 65%);
   --lightest-color: hsl(var(--primary-color-h), 4%, 80%);
   --white-color: hsl(0, 0%, 100%);
+
+  --nice-red: rgb(215, 46, 36);
+  --bright-red: rgb(245, 49, 0);
+  /* --brand-color-b: hsla(182, 100%, 55%, 1); */
+  --brand-color: var(--nice-red);
+
+  --brand-underline: underline solid var(--nice-red) 4px;
 
   --header-text: var(--white-color);
   /* --main-text: var(--lightest-color); */
@@ -51,13 +62,12 @@
   --main-bg: var(--darkest-color);
   --popup-text: var(--main-text);
   --popup-bg: var(--dark-color);
+  /* --popup-bg: var(--darkest-color); */
   --input-text: var(--main-text);
   --input-bg: var(--medium-color);
   --mute-text: var(--light-color);
   --very-mute-text: var(--medium-color);
   --link-hover-bg: rgba(127, 127, 127, 0.4);
-  --nice-red: rgb(215, 46, 36);
-  --bright-red: rgb(245, 49, 0);
   --text-button-hover: var(--nice-red);
 
   --space-zero: 0px;
@@ -85,6 +95,8 @@
   --border-radius-small: 4px;
   --border-radius-med: 6px;
   --border-radius-large: 8px;
+
+  --header-font-family: cursive;
 
   /* --feed-tile-width: 180px; */
   /* --feed-tile-height: 140px; */

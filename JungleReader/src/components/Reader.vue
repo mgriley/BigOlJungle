@@ -82,23 +82,23 @@ onMounted(() => {
         </div>
         <div class="SideMenu">
           <div class="Section">
-            <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" />Home</router-link>
-            <router-link to="/explore" class="MainLink"><vue-feather type="compass" />Explore</router-link>
+            <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" class="Icon"/>Home</router-link>
+            <router-link to="/explore" class="MainLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
           </div>
           <div class="Section">
-            <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" />Plugins</router-link>
-            <router-link to="/settings" class="MainLink"><vue-feather type="settings" />Settings</router-link>
+            <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
+            <router-link to="/settings" class="MainLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
           </div>
           <div class="Section">
-            <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" />Import Config</a>
-            <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" />Download Config</a>
+            <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Import Config</a>
+            <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Download Config</a>
           </div>
           <div class="Section">
-            <router-link to="/about" class="MainLink"><vue-feather type="info" />About</router-link>
-            <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" />Add Support</router-link>
-            <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" />Privacy Policy</router-link>
-            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
-            <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
+            <router-link to="/about" class="MainLink"><vue-feather type="info" class="Icon" />About</router-link>
+            <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
+            <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
+            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
+            <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
           </div>
           <div class="Section">
             <p class="VersionNum">Version {{ kReaderVersionString }}</p>
@@ -129,6 +129,12 @@ onMounted(() => {
 .HeroDiv {
   position: relative;
   margin-bottom: var(--space-l);
+
+  /*
+  background-color: var(--nice-red);
+  padding: 8px;
+  border-radius: 8px;
+  */
 }
 
 .HeroImg {
@@ -143,22 +149,18 @@ onMounted(() => {
   top: 0;
   left: 0;
 
+  color: var(--header-text);
   /* color: var(--nice-red); */
 
   font-family: 'Gill Sans';
-  font-size: 28px;
+  font-size: 32px;
   /* font-size: 44px; */
   /* font-weight: 900; */
-  /* color: var(--header-text); */
   font-weight: 800;
   line-height: 0.8;
   letter-spacing: -2px;
   padding-bottom: 2px;
   cursor: pointer;
-  /* border-bottom: 8px solid var(--main-text); */
-  /* background-color: var(--main-text); */
-  /* color: var(--main-bg); */
-  /* padding: 10px; */
 }
 
 .toplevel {
@@ -180,6 +182,9 @@ onMounted(() => {
   /*background-color: #20bf6b;*/
   padding: var(--space-m);
   overflow-x: visible;
+
+  /* border-left: 1px solid var(--secondary-text); */
+  /* border-right: 1px solid var(--secondary-text); */
 }
 
 .Sidebar {
@@ -208,10 +213,16 @@ onMounted(() => {
   font-size: var(--p-size);
   text-decoration: none;
   padding: var(--space-xxs);
+
+  border-radius: 4px;
 }
 
 .SideMenu .Section:not(:last-child) {
   margin-bottom: var(--space-l);
+}
+
+.MainLink .Icon {
+  /* color: var(--brand-color); */
 }
 
 .SidebarBtnBar {
@@ -312,7 +323,8 @@ Also collapse the menu.
 
 .router-link-active {
   background-color: var(--link-hover-bg);
-  /* border-bottom: 1px solid black; */
+  /* background-color: var(--nice-red); */
+  /* border-bottom: 2px solid var(--nice-red); */
 }
 
 .ImportBox {

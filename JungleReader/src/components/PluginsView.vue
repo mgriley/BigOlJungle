@@ -13,7 +13,7 @@ import MoreInfoText from './MoreInfoText.vue'
 <template>
   <div class="TextPluginEditor" v-if="gApp.getPluginToEdit()">
     <button class="DoneButton BackButton" @click="gApp.setPluginToEdit(null)">Back to Plugins</button>  
-    <h1 class="PageHeader PluginName">{{ gApp.getPluginToEdit().feedType }}</h1>
+    <h1 class="PageHeader PluginName">{{ gApp.getPluginToEdit().feedType || "NoName" }}</h1>
     <div v-if="gApp.getPluginToEdit().pluginType == CustomPluginType.Text">
       <ScriptEditor class="ScriptEditor" :plugin="gApp.getPluginToEdit()" />
     </div>
@@ -70,7 +70,7 @@ import MoreInfoText from './MoreInfoText.vue'
 
 .WorkInProgress {
   padding: 16px;
-  background-color: var(--dark-color);
+  background-color: var(--med-dark-color);
   border-radius: 6px;
   align-items: center;
   gap: 8px;

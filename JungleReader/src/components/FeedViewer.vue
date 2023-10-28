@@ -73,7 +73,10 @@ onMounted(() => {
               <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
               <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
             </div>
-            <div v-if="isLinkNew(link)" class="NewIndicator">New</div>
+            <div v-if="isLinkNew(link)" class="NewIndicator">
+              New
+              <vue-feather type="activity" size="20" stroke-width="3" />
+            </div>
           </div>
         </template>
         <template v-else>
@@ -103,6 +106,7 @@ onMounted(() => {
 .FeedName {
   line-height: 1;
   margin-bottom: var(--space-s);
+  text-decoration: var(--brand-underline);
 }
 
 .HeaderBox {
@@ -202,6 +206,12 @@ onMounted(() => {
   position: absolute;
   top: -16px;
   right: -14px;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 4px;
+
   background-color: var(--nice-red);
   padding: 2px 8px;
   font-size: calc(var(--smaller-size) * 0.95);

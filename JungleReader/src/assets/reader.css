@@ -2,6 +2,7 @@
 
 .PageHeader {
   margin-bottom: var(--space-m);
+  text-decoration: var(--brand-underline);
 }
 
 .FormFieldName {

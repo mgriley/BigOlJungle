@@ -34,6 +34,7 @@ p {
 }
 
 h1, h2, h3, h4 {
+  /* font-family: var(--header-font-family); */
   font-weight: var(--bold-weight);
   color: var(--header-text);
 }

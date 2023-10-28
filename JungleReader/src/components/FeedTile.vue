@@ -56,8 +56,10 @@ function onFeedClicked(feed) {
   /* overflow: hidden; */
   z-index: 0;
 
+  background-color: var(--main-bg);
   border-radius: var(--border-radius-small);
   border: 1px solid var(--main-text);
+  /* border-color: var(--brand-color); */
 }
 
 .FeedTile:hover {
