@@ -76,28 +76,29 @@ onMounted(() => {
         </button>
       </div>
       <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
-        <p class="AppTitle" @click="goToHome">
-          Jungle<br>Reader
-        </p>
+        <div class="HeroDiv">
+          <p class="AppTitle" @click="goToHome">Jungle<br>Reader</p>
+          <img class="HeroImg" src="BigChameleon.png" />
+        </div>
         <div class="SideMenu">
           <div class="Section">
-            <router-link to="/" id="HomeLink">Home</router-link>
-            <router-link to="/explore">Explore</router-link>
+            <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" />Home</router-link>
+            <router-link to="/explore" class="MainLink"><vue-feather type="compass" />Explore</router-link>
           </div>
           <div class="Section">
-            <router-link to="/plugins">Plugins</router-link>
-            <router-link to="/settings">Settings</router-link>
+            <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" />Plugins</router-link>
+            <router-link to="/settings" class="MainLink"><vue-feather type="settings" />Settings</router-link>
           </div>
           <div class="Section">
-            <a href="#" @click.prevent="startImportConfig()">Import Config</a>
-            <a href="#" @click.prevent="startExportConfig()">Export Config</a>
+            <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" />Import Config</a>
+            <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" />Download Config</a>
           </div>
           <div class="Section">
-            <router-link to="/about">About</router-link>
-            <router-link to="/addsupport">Add Support</router-link>
-            <router-link to="/privacypolicy">Privacy Policy</router-link>
-            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Report Bug <vue-feather type="external-link" size="16" /></a>
-            <a href="https://github.com/mgriley/BigOlJungle" target="_blank">GitHub <vue-feather type="external-link" size="16" /></a>
+            <router-link to="/about" class="MainLink"><vue-feather type="info" />About</router-link>
+            <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" />Add Support</router-link>
+            <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" />Privacy Policy</router-link>
+            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
+            <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
           </div>
           <div class="Section">
             <p class="VersionNum">Version {{ kReaderVersionString }}</p>
@@ -116,7 +117,7 @@ onMounted(() => {
       <input ref="importFileInput" type="file" id="input" />
     </div>
   </BasicModal>
-  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
+  <BasicModal class="ExportModal" ref="exportConfigModal" title="Download Config" doneText="Download" @onDone="gApp.exportConfig()">
     <p>
     This will download your current config, which includes your feeds, groups,
     plugins, settings, and other data.
@@ -125,13 +126,29 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.HeroDiv {
+  position: relative;
+  margin-bottom: var(--space-l);
+}
+
+.HeroImg {
+  width: 300px;
+  height: auto;
+  transform: rotate(-22deg);
+  filter: invert(100%);
+}
+
 .AppTitle {
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+
   font-family: 'Gill Sans';
-  font-size: 44px;
+  font-size: 28px;
+  /* font-size: 44px; */
   /* font-weight: 900; */
   color: var(--header-text);
   font-weight: 800;
-  margin-bottom: var(--space-xl);
   line-height: 0.8;
   letter-spacing: -2px;
   padding-bottom: 2px;
@@ -175,13 +192,20 @@ onMounted(() => {
 }
 
 .SideMenu a {
-  display: block;
+  /* margin-bottom: var(--space-xs); */
+  /* color: var(--secondary-text); */
+}
+
+.MainLink {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 8px;
+
   font-weight: var(--bold-weight);
   font-size: var(--p-size);
   text-decoration: none;
   padding: var(--space-xxs);
-  /* margin-bottom: var(--space-xs); */
-  /* color: var(--secondary-text); */
 }
 
 .SideMenu .Section:not(:last-child) {
