@@ -1,10 +1,14 @@
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, isDomainInWhitelist,
-    writeObjToJson, readObjFromJson, valOr } from './Utils.js'
+    writeObjToJson, readObjFromJson, valOr,
+    secsSinceDate } from './Utils.js'
 import * as InterpreterUtils from './InterpreterUtils.js'
 import { gApp } from './State.js'
 //import * as babel from "@babel/core";
+
+const kMaxScriptTimeSecs = 3;
+const kMaxScriptMemoryBytes = 50*1000*1000;
 
 const kDefaultCustomCode = (`
 
@@ -21,6 +25,37 @@ function updateFeed(feedUrl, customOptions) {
 }
 
 `)
+
+// Taken from JS-Interpreter docs.
+// See Security section: https://neil.fraser.name/software/JS-Interpreter/docs.html
+// Measures the rough value in bytes of the given JS value
+function estimateMemoryBytes(value) {
+  const measured = new Set();
+  let notMeasured = [value];
+  let bytes = 0;
+
+  while (notMeasured.length) {
+    const val = notMeasured.pop();
+    bytes += 8;  // Rough estimate of overhead per value.
+
+    const type = typeof val;
+    if (type === 'string' && !measured.has(val)) {
+      // Assume that the native JS environment has a string table
+      // and that each string is only counted once.
+      bytes += val.length * 2;
+      measured.add(val);
+    } else if (type === 'object' && val !== null && !measured.has(val)) {
+      for (const key in val) {
+        notMeasured.push(key);
+        notMeasured.push(val[key]);
+      }
+      measured.add(val);
+    } else {
+      // Non compound type. We already did bytes += 8, so fine
+    }
+  }
+  return bytes;
+}
 
 class ScriptRunner {
   constructor(plugin, scriptText, feed) {
@@ -53,24 +88,36 @@ class ScriptRunner {
     interpreter.appendCode("var _finalResult = updateFeed(feedUrl, customOptions);");
 
     console.log(`Starting update for FeedType "${this.plugin.feedType}", URL: "${this.feed.url}"`);
-    while (true) {
-      let moreCode = interpreter.run()
-      if (moreCode) {
-        // We hit an async function. The interpret `run` will return true until the
-        // async function results are ready.
-        if (interpreterInputs.pendingPromises.length > 0) {
-          // Wait until all dependent promises we must wait for complete
-          await Promise.allSettled(interpreterInputs.pendingPromises);
-          interpreterInputs.pendingPromises = [];
-        } else {
-          console.error("Interpreter blocking but no pending promises.");
-          await waitMillis(100);
-        }
-      } else {
-        // Done.
+    let startTime = new Date();
+    let peakMemBytes = 0;
+    let didFinish = false;
+    while (secsSinceDate(startTime) < kMaxScriptTimeSecs) {
+      let moreCode = interpreter.step()
+      if (!moreCode) {
+        // Done
+        didFinish = true;
         break;
       }
+      // Wait for any pendingPromises to finish before continuing
+      if (interpreterInputs.pendingPromises.length > 0) {
+        // Wait until all dependent promises we must wait for complete
+        await Promise.allSettled(interpreterInputs.pendingPromises);
+        interpreterInputs.pendingPromises = [];
+      }
+      let curMemBytes = estimateMemoryBytes(interpreter.getStateStack());
+      peakMemBytes = Math.max(curMemBytes, peakMemBytes);
+      if (curMemBytes > kMaxScriptMemoryBytes) {
+        throw new Error(`Script exceeded the memory limit of ${kMaxScriptMemoryBytes.toLocaleString()}B`);
+      }
     }
+    if (!didFinish) {
+      throw new Error(`Script timed out after ${kMaxScriptTimeSecs}s`);
+    }
+    let scriptTime = secsSinceDate(startTime);
+    let peakMemKB = Math.round(peakMemBytes / 1000);
+    //let maxMemKB = Math.round(kMaxScriptMemoryBytes / 1000);
+    console.log(`Script done. Time: ${scriptTime}s ` +
+      `PeakMem: ${peakMemKB}KB`);
 
     let result = InterpreterUtils.getValue(interpreter, "_finalResult");
     console.log(`Done script for FeedType "${this.plugin.feedType}", URL: "${this.feed.url}". ` +
