@@ -89,10 +89,8 @@ function onFeedClicked(feed) {
 }
 
 .FeedTile.HasUnread {
-  /*
   border-color: var(--nice-red);
-  border-width: 2px;
-  */
+  border-width: 4px;
 }
 
 .Details {
@@ -112,6 +110,10 @@ function onFeedClicked(feed) {
 .UpdateDaysAgo {
   font-size: calc(var(--small-size) * 0.9);
   color: var(--main-text);
+}
+
+.FeedTile.HasUnread .UpdateDaysAgo {
+  font-weight: bold;
 }
 
 .EditButton {
@@ -152,8 +154,10 @@ function onFeedClicked(feed) {
   margin-top: auto;
   padding: 4px 8px;
   font-size: var(--small-size);
+  /* color: var(--main-text); */
+  /* background-color: var(--medium-color); */
   color: var(--main-text);
-  background-color: var(--medium-color);
+  background-color: var(--brand-color);
   border-radius: 2px;
 }
 

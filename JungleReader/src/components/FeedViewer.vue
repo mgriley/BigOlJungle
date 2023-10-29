@@ -62,22 +62,25 @@ onMounted(() => {
     <template v-if="!feed.isError">
       <div class="LinkList">
         <template v-if="feed.links.length > 0">
-          <div class="LinkElem" v-for="link in feed.links" :id="link.id">
-            <p class="LinkText">
-              <a :href="link.link" target="_blank" class="LinkText">
-                <!-- {{ link.getTrimmedStringDesc(150) }} -->
-                {{ link.getTrimmedStringDesc(150) }}
-              </a>
-            </p>
-            <div class="SubInfo">
-              <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
-              <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
+          <template v-for="link in feed.links" :id="link.id">
+            <div class="LinkElem" :class="{IsNew: isLinkNew(link)}">
+              <p class="LinkTitle">Glorb</p>
+              <p class="LinkText">
+                <a :href="link.link" target="_blank" class="LinkText">
+                  <!-- {{ link.getTrimmedStringDesc(150) }} -->
+                  {{ link.getTrimmedStringDesc(150) }}
+                </a>
+              </p>
+              <div class="SubInfo">
+                <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
+                <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
+              </div>
+              <div v-if="isLinkNew(link)" class="NewIndicator">
+                New
+                <vue-feather type="activity" size="20" stroke-width="3" />
+              </div>
             </div>
-            <div v-if="isLinkNew(link)" class="NewIndicator">
-              New
-              <vue-feather type="activity" size="20" stroke-width="3" />
-            </div>
-          </div>
+          </template>
         </template>
         <template v-else>
           <p class="NothingHereYet">Nothing here yet. Do a reload.</p>
@@ -167,15 +170,32 @@ onMounted(() => {
 
 .LinkElem {
   position: relative;
-  border: 1px solid var(--main-text);
-  border-radius: var(--border-radius-small);
-  /* padding: 8px 12px; */
+
+  /*border: 1px solid var(--main-text);*/
+  border: 1px solid var(--light-color);
+  border-radius: var(--border-radius-med);
+
+  /* border-top: 1px solid var(--main-text); */
+  /* border-bottom: 1px solid var(--main-text); */
+
   padding: var(--space-s);
   margin-bottom: var(--space-m);
 }
 
+.LinkElem.IsNew {
+  border: 4px solid var(--nice-red);
+}
+
+.LinkTitle {
+  display: none;
+  font-size: 20px;
+  font-weight: var(--bold-weight);
+  color: var(--main-text);
+}
+
 .LinkText {
   text-decoration: none;
+  /* font-size: 20px; */
 }
 
 .LinkElem .SubInfo {
@@ -185,6 +205,10 @@ onMounted(() => {
   font-weight: var(--bold-weight);
   font-style: italic;
   margin-top: var(--space-xs);
+}
+
+.LinkElem.IsNew .SubInfo {
+  font-size: var(--p-size);
 }
 
 .ExtraString {

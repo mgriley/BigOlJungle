@@ -77,7 +77,7 @@ onMounted(() => {
       </div>
       <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
         <div class="HeroDiv">
-          <p class="AppTitle" @click="goToHome">Jungle<br>Reader</p>
+          <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
           <img class="HeroImg" src="../assets/BigChameleon.png" />
         </div>
         <div class="SideMenu">
@@ -161,6 +161,10 @@ onMounted(() => {
   letter-spacing: -2px;
   padding-bottom: 2px;
   cursor: pointer;
+}
+
+.AppTitle .LastLine {
+  /* text-decoration: var(--brand-underline); */
 }
 
 .toplevel {
