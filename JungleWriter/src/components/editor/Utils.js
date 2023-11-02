@@ -1,4 +1,6 @@
 import { reactive, ref } from 'vue'
+import * as shared from 'Shared/SharedUtils.js'
+
 export * from 'Shared/SharedUtils.js'
 export * from './DragUtils.js'
 
@@ -65,7 +67,7 @@ export class AsyncValue {
 }
 
 export function removeItem(array, elem) {
-  return removeElem(array, elem);
+  return shared.removeElem(array, elem);
 }
 
 export function readFromStorage(objToUpdate, userStorage, storageKey) {

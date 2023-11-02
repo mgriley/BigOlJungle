@@ -9,12 +9,24 @@ const props = defineProps({
   node: Object
 })
 
-function onClick() {
-  gApp.site.selectNode(props.node);
-}
-
 let elementRef = ref(null);
 let imgRef = ref(null);
+
+function onClick() {
+  if (gApp.site.isEditing) {
+    gApp.site.selectNode(props.node);
+  }
+}
+
+function onLinkClicked(evt) {
+  if (gApp.site.isEditing) {
+    evt.preventDefault();
+  }
+}
+
+let isImgLink = computed(() => {
+  return props.node.linkUrl !== "";
+});
 
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
@@ -25,11 +37,13 @@ onMounted(() => {
 
 <template>
   <div class="Widget ImageWidget" ref="elementRef"
-    :style="node.getStyleObject()">
-    <img class="" :style="node.getImgStyleObject()"
-         ref="imgRef"
-         @click="onClick"
-         :src="node.getSrcUrl()" :alt="node.altText" />
+    :style="node.getStyleObject()" @click="onClick">
+    <a :class="{DisabledLink: !isImgLink}" :href="node.linkUrl"
+      target="_blank" @click="onLinkClicked">
+      <img class="" :style="node.getImgStyleObject()"
+           ref="imgRef"
+           :src="node.getSrcUrl()" :alt="node.altText" />
+    </a>
     <DragCorners v-if="node.selected" :node="node" />
   </div>
 </template>
@@ -48,6 +62,10 @@ onMounted(() => {
   height: 100%;
   object-fit: cover;
   overflow: hidden;
+}
+
+.DisabledLink {
+  pointer-events: none;
 }
 
 </style>

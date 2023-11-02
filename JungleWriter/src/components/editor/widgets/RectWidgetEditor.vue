@@ -7,7 +7,7 @@ import ColorInput from './ColorInput.vue'
 import SelectorInput from './SelectorInput.vue'
 import BackgroundInput from './BackgroundInput.vue'
 import BorderInput from './BorderInput.vue'
-import FilterInput from './FilterInput.vue'
+//import FilterInput from './FilterInput.vue'
 
 const props = defineProps({
   editorData: Object
@@ -21,8 +21,8 @@ const props = defineProps({
     <NumberInput v-model="editorData.height" name="Height" min="1" />
     <BackgroundInput v-model="editorData.background" name="Background" />
     <BorderInput v-model="editorData.border" name="Border" />
-    <FilterInput v-model="editorData.filter" name="Filter" />
-    <FilterInput v-model="editorData.backdropFilter" name="Backdrop-Filter" />
+    <!-- <FilterInput v-model="editorData.filter" name="Filter" /> -->
+    <!-- <FilterInput v-model="editorData.backdropFilter" name="Backdrop-Filter" /> -->
   </div>
 </template>
 

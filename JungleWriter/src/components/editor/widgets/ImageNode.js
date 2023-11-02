@@ -20,6 +20,8 @@ export class ImageNode extends Node {
     this.preserveAspectRatio = true;
     this.width = 400;
     this.height = 400;
+
+    this.linkUrl = "";
   }
 
   onCreate() {
@@ -42,6 +44,7 @@ export class ImageNode extends Node {
       preserveAspectRatio: this.preserveAspectRatio,
       width: this.width,
       height: this.height,
+      linkUrl: this.linkUrl,
     });
     return obj;
   }
@@ -53,6 +56,7 @@ export class ImageNode extends Node {
     this.preserveAspectRatio = obj.preserveAspectRatio;
     this.width = obj.width;
     this.height = obj.height;
+    this.linkUrl = obj.linkUrl;
   }
 
   getSrcUrl() {

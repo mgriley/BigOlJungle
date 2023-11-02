@@ -8,11 +8,19 @@ const props = defineProps({
   node: Object
 })
 
+let elementRef = ref(null);
+
 function onClick() {
-  gApp.site.selectNode(props.node);
+  if (gApp.site.isEditing) {
+    gApp.site.selectNode(props.node);
+  }
 }
 
-let elementRef = ref(null);
+function onLinkClicked(evt) {
+  if (gApp.site.isEditing) {
+    evt.preventDefault();
+  }
+}
 
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
@@ -21,7 +29,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget TextWidget" :style="node.getStyleObject()" ref="elementRef" @click="onClick">{{ node.text }}</div>
+  <div class="Widget TextWidget" :style="node.getStyleObject()"
+      ref="elementRef" @click="onClick">
+    <template v-if="node.linkUrl === ''">
+      {{ node.text }}
+    </template>
+    <template v-else>
+      <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
+    </template>
+  </div>
 </template>
 
 <style scoped>
@@ -31,5 +47,6 @@ onMounted(() => {
 .TextWidget {
   white-space: pre;
 }
+
 </style>
 

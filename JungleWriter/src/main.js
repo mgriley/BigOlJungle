@@ -7,15 +7,29 @@ import App from './App.vue'
 import { initGlobalApp } from './components/editor/State.js'
 import { registerNodeTypes } from './components/editor/widgets/RegisterNodes.js'
 
+import HomeEditor from './components/editor/HomeEditor.vue'
+import FeedEditor from './components/editor/FeedEditor.vue'
+
 async function loadApp() {
+  const routes = [
+    {
+      path: '/', name: 'home', component: HomeEditor,
+    },
+    {
+      path: '/feed', name: 'feed', component: FeedEditor,
+    },
+  ]
+
+  const router = createRouter({
+    history: createWebHashHistory(),
+    routes: routes,
+  });
+
   const app = createApp(App)
+  app.use(router);
   app.component(VueFeather.name, VueFeather)
 
-  /*
-  initGlobalReader(app.config.globalProperties.$toast,
-    app.config.globalProperties.$router)
-  */
-  await initGlobalApp()
+  await initGlobalApp(app.config.globalProperties.$router)
   registerNodeTypes();
 
   app.mount('#app')

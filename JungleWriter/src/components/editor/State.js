@@ -391,7 +391,9 @@ class Site {
 };
 
 class Editor {
-  constructor() {
+  constructor(router) {
+    this.router = router;
+
     // Note: list of {id, name, ptr} per site.
     // When the site is edited, the full site object is loaded.
     this.sites = reactive([]);
@@ -523,6 +525,14 @@ function goToSites() {
   gApp.deselectSite();
 }
 
+function goToHomeEditor() {
+  gApp.router.push({name: "home"});
+}
+
+function goToFeedEditor() {
+  gApp.router.push({name: "feed"});
+}
+
 let kMenuItems = [
   {
     name: "Main Menu",
@@ -555,10 +565,18 @@ let kMenuItems = [
   {
     name: "Settings"
   },
+  {
+    name: "HomeEditor",
+    action: goToHomeEditor,
+  },
+  {
+    name: "FeedEditor",
+    action: goToFeedEditor,
+  }
 ];
 
-async function initGlobalApp() {
-  gApp = new Editor();
+async function initGlobalApp(router) {
+  gApp = new Editor(router);
   await gApp.start();
   return gApp;
 }

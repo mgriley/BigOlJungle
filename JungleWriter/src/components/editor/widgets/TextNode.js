@@ -21,6 +21,8 @@ export class TextNode extends State.Node {
     this.letterSpacing = null;
     this.textAlign = 'left';
     this.maxWidth = null;
+
+    this.linkUrl = "";
   }
 
   writeToJson() {
@@ -37,6 +39,7 @@ export class TextNode extends State.Node {
       letterSpacing: this.letterSpacing,
       textAlign: this.textAlign,
       maxWidth: this.maxWidth,
+      linkUrl: this.linkUrl,
     });
     return obj;
   }
@@ -54,6 +57,7 @@ export class TextNode extends State.Node {
     this.letterSpacing = obj.letterSpacing;
     this.textAlign = obj.textAlign;
     this.maxWidth = obj.maxWidth;
+    this.linkUrl = obj.linkUrl;
   }
 
   getStyleObject() {
