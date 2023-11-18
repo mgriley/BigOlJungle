@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "marked": "^10.0.0",
     "vue": "^3.2.47",
     "vue-feather": "^2.0.0",
     "vue-router": "^4.2.5",

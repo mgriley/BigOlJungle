@@ -4,6 +4,8 @@ import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 
+import { marked } from 'marked';
+
 var gApp = null;
 
 var gState = {
@@ -266,6 +268,64 @@ class NodeTree {
   }
 };
 
+export class Post {
+  constructor() {
+    /*
+    this.body = "";
+    this.imgSrc = null;
+    */
+    this.date = new Date();
+    this.markdown = "";
+    this.renderedMarkdown = "";
+  }
+
+  writeToJson() {
+    return {
+      //body: this.body,
+      //imgSrc: this.imgSrc,
+      date: this.date.getTime(),
+      markdown: this.markdown,
+      renderedMarkdown: this.renderedMarkdown,
+    };
+  }
+
+  readFromJson(obj) {
+    /*
+    this.body = obj.body;
+    this.imgSrc = obj.imgSrc;
+    */
+    this.date = new Date(obj.date);
+    this.markdown = obj.markdown || "";
+    this.renderedMarkdown = obj.renderedMarkdown || "";
+  }
+
+  renderMarkdown() {
+    this.renderedMarkdown = marked.parse(this.markdown);
+  }
+}
+
+class PostsFeed {
+  constructor() {
+    this.posts = [];
+  }
+
+  writeToJson() {
+    return {
+      posts: this.posts.map((post) => {
+        return post.writeToJson();
+      })
+    }
+  }
+
+  readFromJson(obj) {
+    this.posts = obj.posts.map((postObj) => {
+      let post = new Post();
+      post.readFromJson(postObj);
+      return post;
+    });
+  }
+}
+
 class SiteSettings {
   constructor() {
     this.backgroundColor = "rgb(255, 255, 255)";
@@ -292,6 +352,7 @@ class Site {
     this.selectedEntity = null;
     this.settings = new SiteSettings();
     this.isEditing = true;
+    this.postsFeed = new PostsFeed();
 
     // TODO - store the id of the site that was editing last
 
@@ -306,6 +367,7 @@ class Site {
       name: this.name,
       nodeTree: this.nodeTree.writeToJson(),
       settings: this.settings.writeToJson(),
+      postsFeed: this.postsFeed.writeToJson(),
     };
     return obj;
   }
@@ -315,6 +377,9 @@ class Site {
     this.name = obj.name;
     this.nodeTree.readFromJson(obj.nodeTree);
     this.settings.readFromJson(obj.settings);
+    if ('postsFeed' in obj) {
+      this.postsFeed.readFromJson(obj.postsFeed);
+    }
   }
 
   save() {

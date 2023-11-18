@@ -4,6 +4,57 @@ import * as shared from 'Shared/SharedUtils.js'
 export * from 'Shared/SharedUtils.js'
 export * from './DragUtils.js'
 
+class SerField {
+  constructor(fieldName, writeFunc, readFunc, defaultValFunc) {
+    this.fieldName = fieldName;
+    this.writeFunc = writeFunc;
+    this.readFunc = readFunc;
+    this.defaultValFunc = defaultValFunc;
+  }
+
+  // TODO - add helper static methods
+}
+
+// TODO - not used right now. May use later. May clean things up.
+class Serializer {
+  constructor(fields) {
+    this.fields = fields;
+  }
+
+  writeToJson(obj) {
+    let jsonObj = {};
+    for (const field of this.fields) {
+      jsonObj[field.fieldName] = field.writeFunc(obj[field.fieldName]);
+    }
+    return jsonObj;
+  }
+
+  readFromJson(targetObj, jsonObj) {
+    for (const field of this.fields) {
+      if (field.fieldName in jsonObj) {
+        field.readFunc(targetObj[field.fieldName], jsonObj[field.fieldName]);
+      } else {
+        targetObj[field.fieldName] = field.defaultValFunc();
+      }
+    }
+  }
+}
+
+/*
+class SampleClass {
+  constructor() {
+    this.border = new Border();
+
+    this.serializer = new Serializer([
+      SerField.basic('lol', null),
+      SerField.list('border', [], () => {
+        return new Post();
+      }),
+    ])
+  }
+}
+*/
+
 /*
 Helper class for registering/unregistered for events
 */

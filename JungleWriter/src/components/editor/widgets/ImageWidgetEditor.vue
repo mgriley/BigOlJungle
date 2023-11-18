@@ -42,7 +42,7 @@ let preserveAspectRatio = computed({
     <BoolInput v-model="preserveAspectRatio" name="Preserve Image Aspect Ratio" />
     <NumberInput v-model="editorData.width" name="Width" min="1" />
     <NumberInput v-if="!preserveAspectRatio" v-model="editorData.height" name="Height" min="1" />
-    <TextInput v-model="editorData.linkUrl" name="Link URL" />
+    <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
     <!-- <SelectorInput v-model="editorData.objectFit" name="Image Fit" :options="['cover', 'contain', 'fill', 'none']" /> -->
   </div>
 </template>

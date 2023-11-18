@@ -27,7 +27,7 @@ const props = defineProps({
   <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" min="0" :isOptional="true" :defaultValue="1"/>
   <NumberInput v-model="editorData.maxWidth" name="Max Width" min="0" :isOptional="true" :defaultValue="200" />
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
-  <TextInput v-model="editorData.linkUrl" name="Link URL" />
+  <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
   <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
 </template>
 
