@@ -4,7 +4,7 @@ import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 
-import { marked } from 'marked';
+import { Marked } from 'marked';
 
 var gApp = null;
 
@@ -274,6 +274,7 @@ export class Post {
     this.body = "";
     this.imgSrc = null;
     */
+    this.title = "";
     this.date = new Date();
     this.markdown = "";
     this.renderedMarkdown = "";
@@ -283,6 +284,7 @@ export class Post {
     return {
       //body: this.body,
       //imgSrc: this.imgSrc,
+      title: this.title,
       date: this.date.getTime(),
       markdown: this.markdown,
       renderedMarkdown: this.renderedMarkdown,
@@ -294,12 +296,42 @@ export class Post {
     this.body = obj.body;
     this.imgSrc = obj.imgSrc;
     */
+    this.title = obj.title || "";
     this.date = new Date(obj.date);
     this.markdown = obj.markdown || "";
     this.renderedMarkdown = obj.renderedMarkdown || "";
   }
 
-  renderMarkdown() {
+  async renderMarkdown() {
+    // We have to replace the img srcs with the blob URLs of the img files, for
+    // any such imgs.
+    // TODO Sort of gross how we recreate the BlobURLs here every time, but fine for now.
+    let siteDir = gApp.site.siteDir;
+    let blobUrlMap = {};
+    let fileObjs = await siteDir.getSortedChildren();
+    for (const fileObj of fileObjs) {
+      if (fileObj.isFile()) {
+        blobUrlMap[fileObj.getName()] = await fileObj.createObjectUrl();
+      }
+    }
+    console.log("BlobUrlMap: " + prettyJson(blobUrlMap));
+
+    const renderer = {
+      image(href, title, text) {
+        console.log("Processing img: " + href);
+        if (href in blobUrlMap) {
+          let newHref = blobUrlMap[href];
+          console.log("Fixing up to: " + newHref);
+          return `<img src="${newHref}" alt="${text}" title="${title}"></img>`
+        } else {
+          // Fallback to default renderer
+          return false;
+        }
+      }
+    };
+    let marked = new Marked({
+      renderer: renderer
+    });
     this.renderedMarkdown = marked.parse(this.markdown);
   }
 }
@@ -353,6 +385,7 @@ class Site {
     this.settings = new SiteSettings();
     this.isEditing = true;
     this.postsFeed = new PostsFeed();
+    this.filesPageConfig = "";
 
     // TODO - store the id of the site that was editing last
 
@@ -368,6 +401,7 @@ class Site {
       nodeTree: this.nodeTree.writeToJson(),
       settings: this.settings.writeToJson(),
       postsFeed: this.postsFeed.writeToJson(),
+      filesPageConfig: this.filesPageConfig,
     };
     return obj;
   }
@@ -380,6 +414,7 @@ class Site {
     if ('postsFeed' in obj) {
       this.postsFeed.readFromJson(obj.postsFeed);
     }
+    this.filesPageConfig = obj.filesPageConfig || "";
   }
 
   save() {
