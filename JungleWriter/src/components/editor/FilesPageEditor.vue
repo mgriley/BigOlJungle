@@ -3,6 +3,7 @@ import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { gApp, Post } from './State.js'
 import { addElem, removeElem } from './Utils.js'
 import FileEditor from './FileEditor.vue'
+import FilesPageItem from './FilesPageItem.vue'
 
 let feed = gApp.site.postsFeed;
 
@@ -12,18 +13,51 @@ let isEditing = computed(() => {
 
 let isEditingConfig = ref(false);
 
+let filesDict = ref({});
+
+let debugFilesDict = {
+  name: "Root",
+  isOpen: true,
+  children: [
+    {
+      name: "A",
+      isOpen: false,
+      children: [],
+    },
+    {
+      name: "B",
+      isOpen: false,
+      children: [],
+    },
+    {
+      name: "SubFolder",
+      isOpen: false,
+      children: [
+        {
+          name: "C",
+          isOpen: false,
+          children: [],
+        }
+      ]
+    }
+  ]
+};
+
+async function updateFilesDict() {
+  filesDict.value = {};
+
+  // TODO - convert the filesPageConfig to filesDict here
+
+  filesDict.value = {};
+}
+
 function doneEditing(post) {
   selectedPost.value = null;
   post.renderMarkdown();
 }
 
 onMounted(() => {
-  // TODO
-  /*
-  for (const post of feed.posts) {
-    post.renderMarkdown();
-  }
-  */
+  updateFilesDict();
 })
 
 onUnmounted(() => {
@@ -41,8 +75,8 @@ onUnmounted(() => {
         <textarea class="ConfigTextArea" v-model="gApp.site.filesPageConfig"></textarea>
       </div>
       <div v-else>
-        <p>{{ gApp.site.filesPageConfig }}</p>
         <button @click="isEditingConfig = true">Edit</button>
+        <FilesPageItem :item="filesDict" />
       </div>
     </div>
   </div>
