@@ -305,17 +305,7 @@ export class Post {
   async renderMarkdown() {
     // We have to replace the img srcs with the blob URLs of the img files, for
     // any such imgs.
-    // TODO Sort of gross how we recreate the BlobURLs here every time, but fine for now.
-    let siteDir = gApp.site.siteDir;
-    let blobUrlMap = {};
-    let fileObjs = await siteDir.getSortedChildren();
-    for (const fileObj of fileObjs) {
-      if (fileObj.isFile()) {
-        blobUrlMap[fileObj.getName()] = await fileObj.createObjectUrl();
-      }
-    }
-    console.log("BlobUrlMap: " + prettyJson(blobUrlMap));
-
+    let blobUrlMap = await gApp.site.getBlobUrlMap();
     const renderer = {
       image(href, title, text) {
         console.log("Processing img: " + href);
@@ -454,6 +444,19 @@ class Site {
 
   setIsEditing(newVal) {
     this.isEditing = newVal;
+  }
+
+  async getBlobUrlMap() {
+    // TODO - should probs cache these, but fine for now
+    let blobUrlMap = {};
+    let fileObjs = await this.siteDir.getSortedChildren();
+    for (const fileObj of fileObjs) {
+      if (fileObj.isFile()) {
+        blobUrlMap[fileObj.getName()] = await fileObj.createObjectUrl();
+      }
+    }
+    console.log("BlobUrlMap: " + prettyJson(blobUrlMap));
+    return blobUrlMap;
   }
 
   getSelectedNode() {
