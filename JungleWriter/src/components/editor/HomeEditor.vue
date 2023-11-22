@@ -7,10 +7,13 @@ import FileEditor from './FileEditor.vue'
 import NodeTreeView from './NodeTreeView.vue'
 import NodeWidget from './widgets/NodeWidget.vue'
 
-let canvasBaseWidth = 800;
+let canvasBaseWidth = 600;
+// let canvasAspectRatio = 9.0 / 16.0;
+let canvasAspectRatio = 3.0 / 4.0;
 
 let canvasStyleObj = reactive({
   '--canvasWidth': canvasBaseWidth + 'px',
+  '--canvasHeight': canvasBaseWidth / canvasAspectRatio + 'px',
   'transform': 'scale(1.0)',
 });
 
@@ -44,10 +47,11 @@ function onPageResize() {
   // See: https://web.archive.org/web/20220714020647/https://bencentra.com/code/2015/02/27/optimizing-window-resize.html
 
   // Resize so that the canvas square is contained in the page/window area, as large as possible
-  let margin = 32;
+  let margin = 64;
   let newWidth = window.innerWidth - margin * 2;
   let newHeight = window.innerHeight - margin * 2;
-  let scaleAmt = Math.min(newWidth / canvasBaseWidth, newHeight / canvasBaseWidth);
+  let scaleAmt = Math.min(
+    newWidth / canvasBaseWidth, newHeight / (canvasBaseWidth / canvasAspectRatio));
   scaleAmt = clamp(scaleAmt, 0, 1);
   canvasStyleObj['transform'] = `scale(${scaleAmt})`;
 }
@@ -95,7 +99,7 @@ main {
   margin-left: auto;
   margin-right: auto;
   width: var(--canvasWidth);
-  height: var(--canvasWidth);
+  height: var(--canvasHeight);
   border-radius: 4px;
 }
 

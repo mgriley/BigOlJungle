@@ -53,7 +53,7 @@ onMounted(() => {
 
 <style>
 .ImageWidget {
-  background-color: lightblue;
+  /* background-color: lightblue; */
   position: relative;
 }
 

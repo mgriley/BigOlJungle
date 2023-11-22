@@ -17,6 +17,10 @@ import { RectNode } from './RectNode.js'
 import RectWidget from './RectWidget.vue'
 import RectWidgetEditor from './RectWidgetEditor.vue'
 
+import { LinksNode } from './LinksNode.js'
+import LinksWidget from './LinksWidget.vue'
+import LinksWidgetEditor from './LinksWidgetEditor.vue'
+
 // Register all nodes types here
 export function registerNodeTypes() {
   console.log("Registering node types...");
@@ -44,6 +48,12 @@ export function registerNodeTypes() {
       nodeClass: RectNode,
       widget: RectWidget,
       editor: RectWidgetEditor,
+    },
+    "LinksNode": {
+      uiName: "Links",
+      nodeClass: LinksNode,
+      widget: LinksWidget,
+      editor: LinksWidgetEditor,
     },
   });
 }
