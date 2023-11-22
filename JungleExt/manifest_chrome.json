@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "JungleExt",
-  "version": "1.6",
+  "version": "1.7",
   "description": "The official companion extension for JungleReader (www.zajungle.com). This extension allows JungleReader to fetch pages.",
   "homepage_url": "https://github.com/mgriley/BigOlJungle/tree/master/JungleExt",
   "icons": {

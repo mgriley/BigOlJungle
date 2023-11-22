@@ -10,9 +10,10 @@ const props = defineProps({
 })
 
 // Note: this is annoying to get right, don't bother. User can upload a zip if they want.
+/*
 function downloadFolder() {
-  // Download the full folder as a zip
 }
+*/
 
 </script>
 
