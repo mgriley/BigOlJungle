@@ -1,11 +1,17 @@
 <script setup>
-/*import HelloWorld from './components/HelloWorld.vue'*/
-/*import TheWelcome from './components/TheWelcome.vue'*/
-import JungleEditor from './components/editor/JungleEditor.vue'
+import { computed } from 'vue'
+import { gApp } from './components/editor/State.js'
+import SiteEditor from './components/editor/SiteEditor.vue'
+import SiteList from './components/editor/SiteList.vue'
 </script>
 
 <template>
-  <JungleEditor />
+  <template v-if="gApp.site">
+    <SiteEditor />
+  </template>
+  <template v-else>
+    <SiteList />
+  </template>
 </template>
 
 <style scoped>

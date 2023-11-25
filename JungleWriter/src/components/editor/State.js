@@ -506,6 +506,11 @@ class Editor {
 
     this.userStorage = new UserStorage();
     this.fileStorage = reactive(new FileStorage());
+
+    // TODO - debug
+    router.afterEach((to, from) => {
+      console.log(`Route change: ${from} -> ${to}`);
+    });
   }
 
   writeToJson() {
@@ -629,11 +634,18 @@ function goToSites() {
 }
 
 function goToHomeEditor() {
+  console.log("Going to home");
   gApp.router.push({name: "home"});
 }
 
 function goToFeedEditor() {
+  console.log("Going to feed");
   gApp.router.push({name: "feed"});
+}
+
+function goToBlogEditor() {
+  console.log("Going to blog");
+  gApp.router.push({name: "blog"});
 }
 
 let kMenuItems = [
@@ -675,7 +687,11 @@ let kMenuItems = [
   {
     name: "FeedEditor",
     action: goToFeedEditor,
-  }
+  },
+  {
+    name: "BlogEditor",
+    action: goToBlogEditor,
+  },
 ];
 
 async function initGlobalApp(router) {

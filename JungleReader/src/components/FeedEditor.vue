@@ -77,10 +77,9 @@ function getQuickHelp(pluginType) {
   <div class="FormFieldName">Feed Type</div>
   <div class="Flex FeedTypeBox">
     <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
-    <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button>
+    <!-- <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button> -->
   </div>
-  <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(realFeed.type)}}</p>
-  <!-- <p>{{ feed.type }}</p> -->
+  <!-- <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(realFeed.type)}}</p> -->
   <div class="FormFieldNameWithInfo">Feed URL</div>
   <div class="FormFieldInfo">{{ getUrlPlaceholder(realFeed) }}</div>
   <input v-model="realFeed.url" class="Block BasicTextInput WideInput">

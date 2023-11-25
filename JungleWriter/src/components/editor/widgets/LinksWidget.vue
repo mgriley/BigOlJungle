@@ -17,11 +17,10 @@ function onClick() {
 }
 
 function onLinkClicked(evt, dstPage) {
-  if (gApp.site.isEditing) {
-    evt.preventDefault();
-    return;
+  evt.preventDefault();
+  if (!gApp.site.isEditing) {
+    gApp.router.push({name: dstPage})
   }
-  gApp.router.push({name: dstPage})
 }
 
 onMounted(() => {

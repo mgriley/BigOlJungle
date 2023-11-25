@@ -1,7 +1,7 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import VueFeather from 'vue-feather';
 import App from './App.vue'
 import { initGlobalApp } from './components/editor/State.js'
@@ -29,7 +29,7 @@ async function loadApp() {
   ]
 
   const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: routes,
   });
 
@@ -37,7 +37,7 @@ async function loadApp() {
   app.use(router);
   app.component(VueFeather.name, VueFeather)
 
-  await initGlobalApp(app.config.globalProperties.$router)
+  const editor = await initGlobalApp(app.config.globalProperties.$router)
   registerNodeTypes();
 
   app.mount('#app')
