@@ -10,9 +10,15 @@
       </p>
       <p>
       It's made to help you keep up with the sites you like,
-      whatever they may be.
-
-      Out of the box, it supports RSS, Mastodon, YouTube, and more. It has a flexible plugin system designed to let devs
+      whatever they may be. It supports RSS, Mastodon, YouTube, and more.
+      </p>
+      <p>
+      One of the goals of the reader is to help readers be intentful with their time.
+      You'll only see exactly what you've followed. Skim what's new, follow a link or two,
+      then get outside :)
+      </p>
+      <p>
+      It has a flexible plugin system designed to let devs
       add support for almost any other site or data source.
       </p>
       <p>
@@ -27,7 +33,7 @@
       <h4>More</h4>
       <p>
       I develop this site in my spare time, hope you like it! I have more 
-      open-source web projects planned (JungleWriter, JungleServer, JungleWire, JungleMask, ...), so stay tuned.
+      open-source web projects planned (JungleWriter, JungleNode, ...), so stay tuned.
       </p>
       <div class="ExtraWidgets">
         <ul>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { gApp, FeedGroup, Feed, kAppStateKey } from '../State.js'
 import { valOr, downloadTextFile } from '../Utils.js'
 import draggable from 'vuedraggable'
@@ -182,13 +182,22 @@ function exportCurrentConfig() {
   downloadTextFile(configStr, "JungleReaderConfig_Corrupt.txt");
 }
 
-onMounted(() => {
+function checkForLinkAction() {
+  console.log("Checking for link action...");
   let linkAction = gApp.consumeLinkAction();
   if (linkAction) {
     if (linkAction.name == "addfeed") {
       promptAddFeedFromLink(linkAction.args);
     }
   }
+}
+
+watch(gApp.linkAction, (newVal) => {
+  checkForLinkAction();
+})
+
+onMounted(() => {
+  checkForLinkAction();
 })
 
 </script>

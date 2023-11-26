@@ -3,6 +3,13 @@ import { gApp, FeedGroup, Feed } from '../State.js'
 
 let exploreData = [
   {
+    group: 'Dev Feeds',
+    type: 'RSS',
+    feeds: [
+      {name: 'JungleReader Development (TODO)', desc: '', url: 'TODO'},
+    ]
+  },
+  {
     group: 'Mastodon Feeds',
     type: 'Mastodon',
     feeds: [
@@ -67,6 +74,7 @@ let exploreData = [
     group: "YouTube Channels",
     type: 'YouTube',
     feeds: [
+      {name: 'Creating Games', desc: '', url: 'https://www.youtube.com/@sora_sakurai_en'},
       {name: 'Veritasium', desc: 'Veritasium', url: 'https://www.youtube.com/channel/UCHnyfMqiRRG1u-2MsSQLbXA'},
       {name: 'National Geographic', desc: 'National Geographic', url: 'https://www.youtube.com/channel/UCpVm7bg6pXKo1Pr6k5kxG9A'},
       {name: 'Numberphile', desc: 'Numberphile', url: 'https://www.youtube.com/channel/UCoxcjq-8xIDTYp3uz647V5A'},

@@ -13,7 +13,7 @@
   JungleReader (which includes www.zajungle.com and the JungleExt browser extension) does not collect any personal data. 
   All of your data (such as what sites you follow) is stored locally on your computer in your browser's local storage.
   In the future, we may let users optionally backup their data to a cloud drive of their choice,
-  such as Google Drive. JungleReader is currently hosted with CloudFlare Pages.
+  such as Google Drive.
   </p>
 
 	<h4>Consent</h4>

@@ -16,8 +16,7 @@ function onSetupDone() {
     <h1 class="PageHeader">Welcome!</h1>
     <div class="HelpStep">
       <p>
-      JungleReader is a free and open-source web reader. It's made to help you keep up with the sites you like.
-      Out of the box, it supports RSS, Mastodon, YouTube, Reddit, and more. Let's get started!
+      JungleReader is a free and open-source web reader. Follow RSS feeds, Mastodon feeds, YouTube channels, Reddit feeds, and more. Let's get started!
       </p>
       <p class="MobileWarning">
       It looks like you're on mobile. JungleReader only supports desktop, so please come back later on desktop :)
@@ -27,7 +26,7 @@ function onSetupDone() {
       <h3>Step 1: Install the browser extension</h3>
       <p>
       You'll need the JungleExt browser extension. This extension lets JungleReader fetch pages
-      to read from other websites.
+      to read from other websites. Reload the page once installed.
       </p>
       <div class="ExtButtonDiv Flex">
         <div>
@@ -40,17 +39,19 @@ function onSetupDone() {
         </div>
       </div>
       <MoreInfoText text="Why do I need this extension?">
-        JungleReader works by fetching webpages and feeds from other websites and showing their contents here. The JungleExt browser extension handles this.
+        JungleReader works by fetching webpages and feeds from other websites and showing them here, in one place. The JungleExt browser extension handles this.
         When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
-        any other website you may choose. The extension does not do anything beyond handling simple web requests. If you'd like to inspect the code, you can view 
+        any other website you may choose (which is all it does). If you'd like to inspect the code, you can view 
         it on GitHub or install the extension as a zip (instructions on GitHub).
       </MoreInfoText>
     </div>
     <div class="HelpStep">
       <h3>Step 2: Add a feed</h3>
       <p>
-      Scroll down and click "Add Feed". Name the feed "Creating Games", set the feed type to <b>YouTube</b>, and set
-      the URL to <b>www.youtube.com/@sora_sakurai_en</b>. Click the new feed to see its content.
+      Click the link below to add a feed for the YouTube channel "Masahiro Sakurai on Creating Games", about game development.
+      </p>
+      <p>
+      <a href="http://localhost:5173/#/addfeed?name=CreatingGames&type=YouTube&url=https%3A%2F%2Fwww.youtube.com%2F%40sora_sakurai_en" @click="check">Masahiro Sakurai on Creating Games</a>
       </p>
     </div>
     <div class="HelpStep DoneStep">

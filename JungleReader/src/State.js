@@ -515,13 +515,13 @@ class JungleReader {
     });
 
     // Register handler for action routes
-    this.linkAction = null;
+    this.linkAction = ref(null);
     let app = this;
     this.router.beforeEach((to, from) => {
       // Handle urls that are just supposed to trigger actions
       if (to.name == 'addfeed') {
         console.log("Got 'addfeed' route with query: ", to.query);
-        app.linkAction = {name: 'addfeed', args: to.query};
+        app.linkAction.value = {name: 'addfeed', args: to.query};
         return {name: 'mainfeed'};
       }
     });
@@ -578,8 +578,8 @@ class JungleReader {
   }
 
   consumeLinkAction() {
-    let action = this.linkAction;
-    this.linkAction = null;
+    let action = this.linkAction.value;
+    this.linkAction.value = null;
     return action;
   }
 
