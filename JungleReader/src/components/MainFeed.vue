@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { gApp, FeedGroup, Feed, kAppStateKey } from '../State.js'
 import { valOr, downloadTextFile } from '../Utils.js'
 import draggable from 'vuedraggable'
@@ -7,7 +7,6 @@ import TextTreeIcon from './TextTreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
-//import FeedItem from './FeedItem.vue'
 import FeedTile from './FeedTile.vue'
 import SetupHelp from './SetupHelp.vue'
 
@@ -20,8 +19,11 @@ let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
 let addFromLinkModal = ref(null);
 
-let groupToEdit = ref(null);
-let feedToEdit = ref(null);
+let dummyGroup = reactive(new FeedGroup(0));
+let groupToEdit = ref(dummyGroup);
+
+let dummyFeed = reactive(new Feed(0));
+let feedToEdit = ref(dummyFeed);
 
 let linkedFeed = ref({});
 
@@ -39,6 +41,7 @@ function deleteGroup(group) {
 function deleteGroupToEdit() {
   deleteGroup(groupToEdit.value);
   groupEditorModal.value.closeModal();
+  groupToEdit.value = dummyGroup;
 }
 
 function addFeed(optArgs) {
@@ -82,13 +85,13 @@ function onDoneAddGroup() {
 function onCancelAddFeed() {
   // console.log("Canceled add feed");
   deleteFeed(feedToEdit.value);
-  feedToEdit.value = null;
+  feedToEdit.value = dummyFeed;
 }
 
 function onCancelAddGroup() {
   // console.log("Canceled add group");
   deleteGroup(groupToEdit.value);  
-  groupToEdit.value = null;
+  groupToEdit.value = dummyGroup;
 }
 
 function onClickBigReload() {
@@ -115,6 +118,7 @@ function deleteFeed(feed) {
 function deleteFeedToEdit() {
   deleteFeed(feedToEdit.value);
   feedEditorModal.value.closeModal();
+  feedToEdit.value = dummyFeed;
 }
 
 function editGroup(group, clickEvt) {

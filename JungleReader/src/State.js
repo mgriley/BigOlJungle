@@ -29,7 +29,7 @@ class Link {
   }
 
   static create() {
-    return new Link(gApp.linkIdCtr++);
+    return reactive(new Link(gApp.linkIdCtr++));
   }
 
   writeToJson() {
@@ -121,7 +121,7 @@ class Feed {
   }
 
   static create() {
-    return new Feed(gApp.feedIdCtr++);
+    return reactive(new Feed(gApp.feedIdCtr++));
   }
 
   static makeShareLink(name, type, url) {
@@ -255,15 +255,17 @@ class Feed {
       newLink.title = linkData.title;
       newLink.description = linkData.description;
       newLink.link = linkData.link;
-      newLink.pubDate = linkData.pubDate;
+      newLink.pubDate = linkData.pubDate || null;
       if (linkData.extraDataString) {
         newLink.extraDataString = linkData.extraDataString;
       }
       this.links.push(newLink);
 
-      let pubTime = (new Date(newLink.pubDate)).getTime();
-      if (mostRecentLinkTime == 0 || pubTime > mostRecentLinkTime) {
-        mostRecentLinkTime = pubTime;
+      if (newLink.pubDate) {
+        let pubTime = (new Date(newLink.pubDate)).getTime();
+        if (mostRecentLinkTime == 0 || pubTime > mostRecentLinkTime) {
+          mostRecentLinkTime = pubTime;
+        }
       }
     }
     this.mostRecentLinkTime = mostRecentLinkTime;
@@ -348,7 +350,7 @@ class FeedGroup {
   }
 
   static create() {
-    return new FeedGroup(gApp.feedGroupIdCtr++);
+    return reactive(new FeedGroup(gApp.feedGroupIdCtr++));
   }
 
   writeToJson(contentCache) {

@@ -73,7 +73,7 @@ onMounted(() => {
               </p>
               <div class="SubInfo">
                 <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
-                <span class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
+                <span v-if="link.pubDate" class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
               </div>
               <div v-if="isLinkNew(link)" class="NewIndicator">
                 New

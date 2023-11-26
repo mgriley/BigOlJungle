@@ -14,12 +14,6 @@ const props = defineProps({
   }
 });
 
-const dummyFeed = new Feed(0);
-
-const realFeed = computed(() => {
-  return props.feed ? props.feed : dummyFeed;
-})
-
 function changeGroup(newGroup) {
   props.feed.moveToGroup(newGroup);  
 }
@@ -45,8 +39,7 @@ function onChangeFeedType(feed, newType) {
 }
 
 const feedShareLink = computed(() => {
-  let feed = props.feed ? props.feed : dummyFeed
-  return Feed.makeShareLink(feed.name, feed.type, feed.url);
+  return Feed.makeShareLink(props.feed.name, props.feed.type, props.feed.url);
 })
 
 function getUrlPlaceholder(feed) {
@@ -70,22 +63,22 @@ function getQuickHelp(pluginType) {
 <template>
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
-    <input v-model="realFeed.name" class="Block BasicTextInput WideInput" autofocus>
+    <input v-model="feed.name" class="Block BasicTextInput WideInput" autofocus>
     <div class="FormFieldName">Group</div>
-    <GroupSelector v-if="feed" :currentGroup="realFeed.parentGroup" @change="changeGroup"/>
+    <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>
   </div>
   <div class="FormFieldName">Feed Type</div>
   <div class="Flex FeedTypeBox">
-    <BasicSelector :value="realFeed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(realFeed, newVal)"/>
+    <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
     <!-- <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button> -->
   </div>
-  <!-- <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(realFeed.type)}}</p> -->
+  <!-- <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(feed.type)}}</p> -->
   <div class="FormFieldNameWithInfo">Feed URL</div>
-  <div class="FormFieldInfo">{{ getUrlPlaceholder(realFeed) }}</div>
-  <input v-model="realFeed.url" class="Block BasicTextInput WideInput">
+  <div class="FormFieldInfo">{{ getUrlPlaceholder(feed) }}</div>
+  <input v-model="feed.url" class="Block BasicTextInput WideInput">
 
   <div class="FormFieldName">Custom Options</div>
-  <OptionsInput class="" :options="realFeed.options" />
+  <OptionsInput class="" :options="feed.options" />
 
   <CopyLinkButton title="Get share link" class="ShareLink" :theLink="feedShareLink" />
 

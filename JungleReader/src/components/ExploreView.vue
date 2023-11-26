@@ -3,17 +3,74 @@ import { gApp, FeedGroup, Feed } from '../State.js'
 
 let exploreData = [
   {
-    group: "Random",
+    group: 'Mastodon Feeds',
+    type: 'Mastodon',
     feeds: [
-      {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
-      {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
+      {name: 'XKCD Bot', desc: 'Posts XKCD comics', url: 'https://mastodon.xyz/@xkcd'},
+      {name: 'Astronomy Picture of the Day', desc: 'Posts astronomy pics', url: 'https://botsin.space/@APoD'},
+      {name: 'FediFollows', desc: 'Posts fediverse accounts to follow', url: 'https://mastodon.online/@FediFollows@social.growyourown.services'},
+      {name: 'FediTips', desc: 'Mastodon/Fediverse tips', url: 'https://mstdn.social/@feditips'},
+      {name: 'Mastodon Art Curator', desc: 'Mastodon art related posts/curation', url: 'https://mastodon.art/@Curator'},
+      {name: 'Mozilla', desc: 'Mozilla account', url: 'https://mastodon.social/@mozilla@mozilla.social'},
+      {name: 'EFF', desc: 'Electronic Frontier Foundation', url: 'https://mastodon.social/@eff'},
+      {name: 'Terence Tao', desc: 'Mathematics', url: 'https://mathstodon.xyz/@tao'},
+      {name: 'The Linux Experiment', desc: 'Linux tips, reviews, etc.', url: 'https://mastodon.social/@thelinuxEXP'},
     ]
   },
   {
-    group: "News",
+    group: "RSS Feeds",
+    type: 'RSS',
     feeds: [
-      {name: 'TerenceTaoTest', type: 'Mastodon', url: 'https://mathstodon.xyz/@tao'},
+      {name: 'BBC Top Stories', desc: 'BBC top stories', url: 'http://feeds.bbci.co.uk/news/rss.xml'},
+      {name: 'BBC World News', desc: 'BBC World News', url: 'http://feeds.bbci.co.uk/news/world/rss.xml'},
+      {name: 'CNN Top Stories', desc: 'CNN Top Stories', url: 'http://rss.cnn.com/rss/cnn_topstories.rss'},
+      {name: 'CNN World News', desc: 'CNN World News', url: 'http://rss.cnn.com/rss/cnn_world.rss'},
+      {name: 'CNN US News', desc: 'CNN US News', url: 'http://rss.cnn.com/rss/cnn_us.rss'},
+      {name: 'NYT World News', desc: "New York Times World News", url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml'},
+      {name: 'NYT US News', desc: 'New York Times US News', url: 'https://rss.nytimes.com/services/xml/rss/nyt/US.xml'},
+      {name: 'HN Front Page', desc: 'HN posts as they enter the front page, from https://hnrss.github.io/#firehose-feeds', url: 'https://hnrss.org/frontpage'},
+      {name: 'The Verge', desc: 'All Verge posts', url: 'https://www.theverge.com/rss/index.xml'},
+      {name: 'Ars Technica', desc: 'All Ars Technica posts', url: 'https://feeds.arstechnica.com/arstechnica/index'},
+      {name: 'TechCrunch', desc: 'TechCrunch', url: 'https://techcrunch.com/feed/'},
+      {name: 'Wired Top Stories', desc: 'Wired Top Stories', url: 'https://www.wired.com/feed/rss'},
+      {name: 'BillBoard', desc: 'BillBoard, music news', url: 'https://www.billboard.com/feed/'},
+      {name: 'Wikipedia Featured Article', desc: 'Wikipedia featured article', url: 'https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=featured'},
+      {name: 'Wikipedia Picture of the Day', desc: 'Wikipedia pic of the day', url: 'https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=potd'},
+      {name: 'Saturday Morning Breakfast Cereal', desc: 'SMBC web comic', url: 'https://www.smbc-comics.com/comic/rss'},
+      {name: "Vitalik Buterin's Blog", desc: "Vitalik Buterin's blog", url: 'https://vitalik.ca/feed.xml'},
+      {name: "Seth Godin's Blog", desc: 'Seth Godin, marketing', url: 'http://feeds.feedburner.com/typepad/sethsmainblog'},
+      {name: 'HighScalability', desc: 'highscalability.com feed', url: 'http://feeds.feedburner.com/HighScalability'},
+      {name: 'MacRumors', desc: 'MacRumors', url: 'https://feeds.macrumors.com/MacRumors-All'},
+      {name: 'Nature', desc: 'Nature journal feed', url: 'https://www.nature.com/nature.rss'},
+      {name: 'Krebs on Security', desc: 'Krebs on Security', url: 'https://krebsonsecurity.com/feed/'},
+      {name: 'Schneier on Security', desc: 'Schneier on Security', url: 'https://www.schneier.com/feed/atom'},
+      {name: 'Signal V. Noise', desc: 'Signal V. Noise (tech blog by makers of BaseCamp)', url: 'https://m.signalvnoise.com/feed/'},
+      {name: 'TEDTalks', desc: 'TEDTalks', url: 'http://feeds.feedburner.com/tedtalks_video'},
+      {name: 'TILvids PeerTube', desc: 'Assorted educational content', url: 'https://tilvids.com/feeds/videos.xml?videoChannelId=87'},
     ]
+  },
+  {
+    group: "Reddit Feeds",
+    type: 'Reddit',
+    feeds: [
+      {name: 'r/Technology', desc: 'Technology', url: 'https://www.reddit.com/r/technology'},
+      {name: 'r/WorldNews', desc: 'World News', url: 'https://www.reddit.com/r/worldnews/'},
+      {name: 'r/Games', desc: 'Games', url: 'https://www.reddit.com/r/Games/'},
+      {name: 'r/AskCulinary', desc: 'Games', url: 'https://www.reddit.com/r/AskCulinary/'},
+      {name: 'r/AskScience', desc: 'Ask science', url: 'https://www.reddit.com/r/askscience/'},
+      {name: 'r/AskHistorians', desc: 'Ask historians', url: 'https://www.reddit.com/r/askhistorians'},
+      {name: 'r/EatCheapAndHealthy', desc: 'Eat cheap and healthly', url: 'https://www.reddit.com/r/EatCheapAndHealthy/'},
+      {name: 'r/Fitness', desc: 'Fitness', url: 'https://www.reddit.com/r/fitness'},
+    ]
+  },
+  {
+    group: "YouTube Channels",
+    type: 'YouTube',
+    feeds: [
+      {name: 'Veritasium', desc: 'Veritasium', url: 'https://www.youtube.com/channel/UCHnyfMqiRRG1u-2MsSQLbXA'},
+      {name: 'National Geographic', desc: 'National Geographic', url: 'https://www.youtube.com/channel/UCpVm7bg6pXKo1Pr6k5kxG9A'},
+      {name: 'Numberphile', desc: 'Numberphile', url: 'https://www.youtube.com/channel/UCoxcjq-8xIDTYp3uz647V5A'},
+    ],
   }
 ]
 </script>
@@ -25,12 +82,26 @@ let exploreData = [
     Here are some feeds you can add to get started. Click to add.
     To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
     </p> 
-    <div v-for="group in exploreData" class="Group">
-      <h3>{{ group.group }}</h3>
+    <div class="Groups">
+      <div v-for="group in exploreData" class="Group">
+        <h3>{{ group.group }}</h3>
+        <ul>
+          <li v-for="feed in group.feeds">
+            <button class="SmallButton Block" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: group.type, url: feed.url}})">{{ feed.name }}</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="OtherTips">
+      <h4>Other Tips:</h4>
       <ul>
-        <li v-for="feed in group.feeds">
-          <button class="SmallButton Block" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: feed.type, url: feed.url}})">{{ feed.name }}</button>
-        </li>
+        <li>PeerTube supports RSS feeds.</li>
+        <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
+        <li>See <a href="https://hnrss.github.io/" target="_blank">https://hnrss.github.io/</a> for various HN RSS feeds.</li>
+        <li>See <a href="https://www.cnn.com/services/rss/" target="_blank">https://www.cnn.com/services/rss/</a> for different CNN feeds.</li>
+        <li>See <a href="https://www.nytimes.com/rss" target="_blank">https://www.nytimes.com/rss</a> for different NYT feeds.</li>
+        <li>See <a href="https://github.com/PrejudiceNeutrino/YouTube_Channels" target="_blank">https://github.com/PrejudiceNeutrino/YouTube_Channels</a> for lists of educational YouTube channels.</li>
+        <li>See <a href="https://info.arxiv.org/help/rss.html" target="_blank">https://info.arxiv.org/help/rss.html</a> to setup feeds for arxiv.org</li>
       </ul>
     </div>
   </div>
@@ -39,6 +110,10 @@ let exploreData = [
 <style scoped>
 .Info {
   margin-bottom: var(--space-m);
+}
+
+.Groups {
+  margin-bottom: var(--space-xl);
 }
 
 .Group {
