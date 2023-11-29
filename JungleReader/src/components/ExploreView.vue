@@ -33,9 +33,12 @@ let exploreData = [
       {name: 'CNN Top Stories', desc: 'CNN Top Stories', url: 'http://rss.cnn.com/rss/cnn_topstories.rss'},
       {name: 'CNN World News', desc: 'CNN World News', url: 'http://rss.cnn.com/rss/cnn_world.rss'},
       {name: 'CNN US News', desc: 'CNN US News', url: 'http://rss.cnn.com/rss/cnn_us.rss'},
+      {name: 'The Guardian, Top Stories', url: 'theguardian.com/rss'},
+      {name: 'The Guardian, World News', url: 'theguardian.com/world/rss'},
       {name: 'NYT World News', desc: "New York Times World News", url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml'},
       {name: 'NYT US News', desc: 'New York Times US News', url: 'https://rss.nytimes.com/services/xml/rss/nyt/US.xml'},
       {name: 'HN Front Page', desc: 'HN posts as they enter the front page, from https://hnrss.github.io/#firehose-feeds', url: 'https://hnrss.org/frontpage'},
+      {name: "BearBlog Discovery Feed", desc: '', url: 'https://bearblog.dev/discover/feed/'},
       {name: 'The Verge', desc: 'All Verge posts', url: 'https://www.theverge.com/rss/index.xml'},
       {name: 'Ars Technica', desc: 'All Ars Technica posts', url: 'https://feeds.arstechnica.com/arstechnica/index'},
       {name: 'TechCrunch', desc: 'TechCrunch', url: 'https://techcrunch.com/feed/'},
@@ -44,8 +47,6 @@ let exploreData = [
       {name: 'Wikipedia Featured Article', desc: 'Wikipedia featured article', url: 'https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=featured'},
       {name: 'Wikipedia Picture of the Day', desc: 'Wikipedia pic of the day', url: 'https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=potd'},
       {name: 'Saturday Morning Breakfast Cereal', desc: 'SMBC web comic', url: 'https://www.smbc-comics.com/comic/rss'},
-      {name: "Vitalik Buterin's Blog", desc: "Vitalik Buterin's blog", url: 'https://vitalik.ca/feed.xml'},
-      {name: "Seth Godin's Blog", desc: 'Seth Godin, marketing', url: 'http://feeds.feedburner.com/typepad/sethsmainblog'},
       {name: 'HighScalability', desc: 'highscalability.com feed', url: 'http://feeds.feedburner.com/HighScalability'},
       {name: 'MacRumors', desc: 'MacRumors', url: 'https://feeds.macrumors.com/MacRumors-All'},
       {name: 'Nature', desc: 'Nature journal feed', url: 'https://www.nature.com/nature.rss'},
@@ -54,6 +55,20 @@ let exploreData = [
       {name: 'Signal V. Noise', desc: 'Signal V. Noise (tech blog by makers of BaseCamp)', url: 'https://m.signalvnoise.com/feed/'},
       {name: 'TEDTalks', desc: 'TEDTalks', url: 'http://feeds.feedburner.com/tedtalks_video'},
       {name: 'TILvids PeerTube', desc: 'Assorted educational content', url: 'https://tilvids.com/feeds/videos.xml?videoChannelId=87'},
+    ]
+  },
+  {
+    group: "People",
+    type: 'RSS',
+    feeds: [
+      {name: "Vitalik Buterin's Blog", desc: "Vitalik Buterin's blog", url: 'https://vitalik.ca/feed.xml'},
+      {name: "Seth Godin (Marketing)", desc: 'Seth Godin, marketing', url: 'http://feeds.feedburner.com/typepad/sethsmainblog'},
+      {name: "Julia Evans (Programming)", desc: '', url: 'https://jvns.ca/atom.xml'},
+      {name: "Armin Ronacher (Programming)", url: 'https://lucumr.pocoo.org/feed.atom'},
+      {name: 'Chris Wellons (Programming)', url: 'https://nullprogram.com/feed/'},
+      {name: "Eric Radman (Programming)", url: 'http://eradman.com/'},
+      {name: "Hugo Tunius (Programming)", url: "https://hugotunius.se/"},
+      {name: "Noam Chomsky", desc: '', url: 'http://chomsky.info/feed/'},
     ]
   },
   {
@@ -103,13 +118,17 @@ let exploreData = [
     <div class="OtherTips">
       <h4>Other Tips:</h4>
       <ul>
-        <li>PeerTube supports RSS feeds.</li>
+        <li>Many podcasts have RSS feeds.</li>
+        <li>Sijmen Mulder has a list of good text-based websites <a href="https://sjmulder.nl/en/textonly.html">here</a></li>
         <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
         <li>See <a href="https://hnrss.github.io/" target="_blank">https://hnrss.github.io/</a> for various HN RSS feeds.</li>
         <li>See <a href="https://www.cnn.com/services/rss/" target="_blank">https://www.cnn.com/services/rss/</a> for different CNN feeds.</li>
         <li>See <a href="https://www.nytimes.com/rss" target="_blank">https://www.nytimes.com/rss</a> for different NYT feeds.</li>
         <li>See <a href="https://github.com/PrejudiceNeutrino/YouTube_Channels" target="_blank">https://github.com/PrejudiceNeutrino/YouTube_Channels</a> for lists of educational YouTube channels.</li>
         <li>See <a href="https://info.arxiv.org/help/rss.html" target="_blank">https://info.arxiv.org/help/rss.html</a> to setup feeds for arxiv.org</li>
+        <li>PeerTube supports RSS feeds.</li>
+        <li>See neocities for some interesting websites/blogs. Not all support RSS.</li>
+        <li>If you know any other good websites/blogs to add, please use the Report Bug/Feedback form.</li>
       </ul>
     </div>
   </div>

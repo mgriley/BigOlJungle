@@ -42,13 +42,13 @@ Some users may want to install the extension as a zip, for security or testing r
 Here's how:
 
 Firefox:
-- Download the jungleext-firefox-... zip from public/ , and unzip.
+- Download the jungleext-firefox-... zip from JungleExt/artifacts/ , and unzip.
 - In a new tab, type "about:debugging" in the address bar.
 - Click the "This Firefox" link.
 - Click the "Load Temporary Add-on" link and select the addon folder.
 
 Chrome:
-- Download the jungleext-chrome-... zip from public/, and unzip.
+- Download the jungleext-chrome-... zip from JungleExt/artifacts/, and unzip.
 - Go to "chrome://extensions" in the address bar.
 - Turn on Developer Mode
 - Click "Load unpacked" and select the extension folder

@@ -4,6 +4,7 @@ import { addElem, removeElem, hashString, prettyJson, countToHumanStr,
 import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 import { gApp } from './State.js'
+import { parseRsst } from './RssText.js'
 // import Parser from 'rss-parser'
 
 function addRssSuffix(link) {
@@ -50,8 +51,14 @@ class RSSFeed extends FeedPlugin {
     optParserOptions = optParserOptions ?? {};
     let rssText = await gApp.fetchText(rssUrl);
     try {
-      let parser = new RSSParser(optParserOptions);
-      let res = await parser.parseString(rssText);
+      let res = null;
+      if (rssUrl.endsWith(".rsst")) {
+        // Handle special rsst file format
+        res = parseRsst(rssText);
+      } else {
+        let parser = new RSSParser(optParserOptions);
+        res = await parser.parseString(rssText);
+      }
       console.log("Got RSS res:\n", res);
       this.transformRssResult(res)
       feed.updateLinks(res);
@@ -68,7 +75,8 @@ class RSSFeed extends FeedPlugin {
     }
     //const testUrl = "https://www.to-rss.xyz/wikipedia/current_events/"
     console.log("Updating from RSS");
-    await this.updateFromRSS(feed, this.transformUrlToRss(feed.url));
+    let transformedUrl = this.transformUrlToRss(feed.url);
+    await this.updateFromRSS(feed, transformedUrl);
   }
 
   // May override in subclass
