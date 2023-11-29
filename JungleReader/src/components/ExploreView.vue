@@ -50,8 +50,6 @@ let exploreData = [
       {name: 'HighScalability', desc: 'highscalability.com feed', url: 'http://feeds.feedburner.com/HighScalability'},
       {name: 'MacRumors', desc: 'MacRumors', url: 'https://feeds.macrumors.com/MacRumors-All'},
       {name: 'Nature', desc: 'Nature journal feed', url: 'https://www.nature.com/nature.rss'},
-      {name: 'Krebs on Security', desc: 'Krebs on Security', url: 'https://krebsonsecurity.com/feed/'},
-      {name: 'Schneier on Security', desc: 'Schneier on Security', url: 'https://www.schneier.com/feed/atom'},
       {name: 'Signal V. Noise', desc: 'Signal V. Noise (tech blog by makers of BaseCamp)', url: 'https://m.signalvnoise.com/feed/'},
       {name: 'TEDTalks', desc: 'TEDTalks', url: 'http://feeds.feedburner.com/tedtalks_video'},
       {name: 'TILvids PeerTube', desc: 'Assorted educational content', url: 'https://tilvids.com/feeds/videos.xml?videoChannelId=87'},
@@ -61,13 +59,16 @@ let exploreData = [
     group: "People",
     type: 'RSS',
     feeds: [
-      {name: "Vitalik Buterin's Blog", desc: "Vitalik Buterin's blog", url: 'https://vitalik.ca/feed.xml'},
-      {name: "Seth Godin (Marketing)", desc: 'Seth Godin, marketing', url: 'http://feeds.feedburner.com/typepad/sethsmainblog'},
       {name: "Julia Evans (Programming)", desc: '', url: 'https://jvns.ca/atom.xml'},
       {name: "Armin Ronacher (Programming)", url: 'https://lucumr.pocoo.org/feed.atom'},
       {name: 'Chris Wellons (Programming)', url: 'https://nullprogram.com/feed/'},
       {name: "Eric Radman (Programming)", url: 'http://eradman.com/'},
       {name: "Hugo Tunius (Programming)", url: "https://hugotunius.se/"},
+      {name: "Vitalik Buterin (Ethereum)", desc: "Vitalik Buterin's blog", url: 'https://vitalik.ca/feed.xml'},
+      {name: 'Astral Codex Ten', desc: '', url: 'https://www.astralcodexten.com/feed'},
+      {name: 'Krebs on Security', desc: 'Krebs on Security', url: 'https://krebsonsecurity.com/feed/'},
+      {name: 'Schneier on Security', desc: 'Schneier on Security', url: 'https://www.schneier.com/feed/atom'},
+      {name: "Seth Godin (Marketing)", desc: 'Seth Godin, marketing', url: 'http://feeds.feedburner.com/typepad/sethsmainblog'},
       {name: "Noam Chomsky", desc: '', url: 'http://chomsky.info/feed/'},
     ]
   },
@@ -102,7 +103,7 @@ let exploreData = [
   <div class="ExploreView">
     <h1 class="PageHeader">Explore</h1>
     <p class="Info">
-    Here are some feeds you can add to get started. Click to add.
+    Here is a small sample of feeds you use to get started. Click to add.
     To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
     </p> 
     <div class="Groups">
@@ -118,7 +119,7 @@ let exploreData = [
     <div class="OtherTips">
       <h4>Other Tips:</h4>
       <ul>
-        <li>Many podcasts have RSS feeds.</li>
+        <li>Most podcasts have RSS feeds.</li>
         <li>Sijmen Mulder has a list of good text-based websites <a href="https://sjmulder.nl/en/textonly.html">here</a></li>
         <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
         <li>See <a href="https://hnrss.github.io/" target="_blank">https://hnrss.github.io/</a> for various HN RSS feeds.</li>
@@ -126,6 +127,7 @@ let exploreData = [
         <li>See <a href="https://www.nytimes.com/rss" target="_blank">https://www.nytimes.com/rss</a> for different NYT feeds.</li>
         <li>See <a href="https://github.com/PrejudiceNeutrino/YouTube_Channels" target="_blank">https://github.com/PrejudiceNeutrino/YouTube_Channels</a> for lists of educational YouTube channels.</li>
         <li>See <a href="https://info.arxiv.org/help/rss.html" target="_blank">https://info.arxiv.org/help/rss.html</a> to setup feeds for arxiv.org</li>
+        <li>Substack blogs have RSS feeds at "www.someblog.com/feed"</li>
         <li>PeerTube supports RSS feeds.</li>
         <li>See neocities for some interesting websites/blogs. Not all support RSS.</li>
         <li>If you know any other good websites/blogs to add, please use the Report Bug/Feedback form.</li>
