@@ -9,6 +9,11 @@ function onSetupDone() {
   // gApp.toast({message: 'Setup Done!'});
 }
 
+function addFeed(args) {
+  gApp.feedReader.addFeed(args);
+  gApp.toast({message: 'Added!', type: 'success'});  
+}
+
 </script>
 
 <template>
@@ -48,11 +53,9 @@ function onSetupDone() {
     <div class="HelpStep">
       <h3>Step 2: Add a feed</h3>
       <p>
-      Click the link below to add a feed for the YouTube channel "Masahiro Sakurai on Creating Games", about game development.
+      Here's an example feed to add, for the YouTube channel "Masahiro Sakurai on Creating Games":
       </p>
-      <p>
-      <a href="http://localhost:5173/#/addfeed?name=CreatingGames&type=YouTube&url=https%3A%2F%2Fwww.youtube.com%2F%40sora_sakurai_en" @click="check">Masahiro Sakurai on Creating Games</a>
-      </p>
+      <button class="SmallButton Block" @click="addFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Add Creating Games Feed</button>
     </div>
     <div class="HelpStep DoneStep">
       <h3>You're done!</h3>

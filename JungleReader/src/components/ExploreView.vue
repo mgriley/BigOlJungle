@@ -97,6 +97,12 @@ let exploreData = [
     ],
   }
 ]
+
+function addFeed(name, type, url) {
+  gApp.feedReader.addFeed({name: name, type: type, url: url});
+  gApp.toast({message: 'Added!', type: 'success'});  
+}
+
 </script>
 
 <template>
@@ -111,7 +117,7 @@ let exploreData = [
         <h3>{{ group.group }}</h3>
         <ul>
           <li v-for="feed in group.feeds">
-            <button class="SmallButton Block" @click="$router.replace({path: '/addfeed', query: {name: feed.name, type: group.type, url: feed.url}})">{{ feed.name }}</button>
+            <button class="SmallButton Block" @click="addFeed(feed.name, group.type, feed.url)">{{ feed.name }}</button>
           </li>
         </ul>
       </div>

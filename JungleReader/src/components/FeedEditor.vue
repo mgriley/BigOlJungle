@@ -64,18 +64,19 @@ function getQuickHelp(pluginType) {
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
     <input v-model="feed.name" class="Block BasicTextInput WideInput" autofocus>
-    <div class="FormFieldName">Group</div>
-    <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>
   </div>
   <div class="FormFieldName">Feed Type</div>
   <div class="Flex FeedTypeBox">
     <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
-    <!-- <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button> -->
+    <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button>
   </div>
-  <!-- <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(feed.type)}}</p> -->
+  <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(feed.type)}}</p>
   <div class="FormFieldNameWithInfo">Feed URL</div>
   <div class="FormFieldInfo">{{ getUrlPlaceholder(feed) }}</div>
   <input v-model="feed.url" class="Block BasicTextInput WideInput">
+
+  <div class="FormFieldName">Group</div>
+  <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>
 
   <div class="FormFieldName">Custom Options</div>
   <OptionsInput class="" :options="feed.options" />

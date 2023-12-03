@@ -46,28 +46,7 @@ function deleteGroupToEdit() {
 
 function addFeed(optArgs) {
   optArgs = optArgs || {};
-
-  let parentGroup = null;
-  if (optArgs.group) {
-    parentGroup = optArgs.group;  
-  } else {
-    if (gApp.feedReader.groups.length == 0) {
-      gApp.feedReader.makeDefaultGroup();
-    }
-    parentGroup = gApp.feedReader.groups[0];
-  }
-
-  let feed = Feed.create();
-  if (optArgs.name) {
-    feed.name = optArgs.name;
-  }
-  if (optArgs.type) {
-    feed.type = optArgs.type;
-  }
-  if (optArgs.url) {
-    feed.url = optArgs.url;
-  }
-  parentGroup.addFeed(feed);
+  let feed = gApp.feedReader.addFeed(optArgs);
   if (valOr(optArgs.editWhenDone, true)) {
     feedToEdit.value = feed;
     feedCreatorModal.value.showModal();

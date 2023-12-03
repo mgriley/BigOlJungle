@@ -196,6 +196,23 @@ class Bookmark extends FeedPlugin {
   }
 }
 
+/*
+Watcher feeds have special handling in the reader. When the feed is reloaded, it will fetch the page
+and check for any changes since the last fetch. This way you can detect when there is anything new there.
+*/
+class PageWatch extends FeedPlugin {
+  constructor(app) {
+    super("PageWatch");
+    this.app = app;
+    this.urlPlaceholderHelp = "Ex: https://www.somesite.com/blog";
+    this.quickHelpDocs = "Watch any static webpage for changes.";
+  }
+
+  async updateFeeds(feeds) {
+    // No-op
+  }
+};
+
 export function registerCorePlugin(app) {
   let feedPlugins = [
     new RSSFeed(app),

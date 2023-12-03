@@ -400,6 +400,33 @@ class FeedReader {
     this.groups = reactive([]);
   }
 
+  addFeed(optArgs) {
+    optArgs = optArgs || {};
+
+    let parentGroup = null;
+    if (optArgs.group) {
+      parentGroup = optArgs.group;  
+    } else {
+      if (this.groups.length == 0) {
+        this.makeDefaultGroup();
+      }
+      parentGroup = this.groups[0];
+    }
+
+    let feed = Feed.create();
+    if (optArgs.name) {
+      feed.name = optArgs.name;
+    }
+    if (optArgs.type) {
+      feed.type = optArgs.type;
+    }
+    if (optArgs.url) {
+      feed.url = optArgs.url;
+    }
+    parentGroup.addFeed(feed);
+    return feed;
+  }
+
   makeDefaultGroup() {
     let group = FeedGroup.create();
     group.name = "Main";
