@@ -189,6 +189,7 @@ onMounted(() => {
       <img width="400px" height="400px" src="BigChameleon.svg" />  
     </div>
     !-->
+    <!-- <h1 class="PageHeader">Home</h1> -->
     <div class="ButtonMenu">
       <button class="MenuBtn PrimaryButton" @click="addFeed()">
         <vue-feather type="rss" class="Icon" />
@@ -341,11 +342,12 @@ onMounted(() => {
 }
 
 .FeedList {
-  padding: var(--space-s) 0 var(--space-l) var(--space-zero);
+  padding: var(--space-xs) 0 var(--space-l) var(--space-zero);
   display: flex;
   flex-flow: row wrap;
   overflow: visible;
-  gap: var(--space-m) var(--space-m);
+  /* gap: var(--space-m) var(--space-m); */
+  gap: var(--space-s) var(--space-s);
 }
 
 .FeedList.Closed {
@@ -362,7 +364,7 @@ onMounted(() => {
   font-size: 40px;
   /* font-size: var(--h3-size); */
   /* text-overflow: ellipsis; */
-  text-decoration: var(--brand-underline);
+  /* text-decoration: var(--brand-underline); */
 }
 
 /*

@@ -35,6 +35,7 @@ p {
 
 h1, h2, h3, h4 {
   /* font-family: var(--header-font-family); */
+  font-family: sans-serif;
   font-weight: var(--bold-weight);
   color: var(--header-text);
 }
@@ -73,6 +74,7 @@ a {
 
 a:hover, a:active {
   background-color: var(--link-hover-bg);
+  /* text-decoration: underline; */
 }
 
 /* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */

@@ -43,7 +43,7 @@ onMounted(() => {
         <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
           {{ feed.mainSiteUrl }}
         </a>
-        <div v-if="feed.lastReloadTime" class="SubtitleText MarginBotXS">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
+        <div v-if="feed.lastReloadTime" class="SubtitleText">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
         <div class="ButtonRow Flex">
           <button class="ReloadButton SmallButton" @click="feed.reload()">
             <vue-feather type="rotate-cw" stroke-width="1.5" />
@@ -113,7 +113,7 @@ onMounted(() => {
 }
 
 .HeaderBox {
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-l);
 }
 
 .ButtonRow {
@@ -123,6 +123,7 @@ onMounted(() => {
 }
 
 .ButtonRow button {
+  margin-top: 0;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -166,20 +167,19 @@ onMounted(() => {
 
 .LinkList {
   transition: all 1 ease;  
+  border: var(--pane-border);
+  border-radius: var(--pane-border-radius);
 }
 
 .LinkElem {
   position: relative;
-
-  /*border: 1px solid var(--main-text);*/
-  border: 1px solid var(--light-color);
-  border-radius: var(--border-radius-med);
-
-  /* border-top: 1px solid var(--main-text); */
-  /* border-bottom: 1px solid var(--main-text); */
-
+  border-bottom: var(--pane-border);
   padding: var(--space-s);
-  margin-bottom: var(--space-m);
+  /*margin-bottom: var(--space-xs);*/
+}
+
+.LinkElem:last-child {
+  border-bottom: none;
 }
 
 .LinkElem.IsNew {

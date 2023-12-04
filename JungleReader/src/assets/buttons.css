@@ -15,6 +15,7 @@ button {
   border: 1px solid var(--main-text);
   border-radius: var(--button-border-radius);
   cursor: pointer;
+  font-family: monospace;
   font-weight: 600;
   /* font-weight: var(--bold-weight); */
   font-size: var(--p-size);

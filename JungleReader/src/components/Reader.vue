@@ -66,42 +66,44 @@ onMounted(() => {
 <template>
   <div class="toplevel">
     <div class="Sidebar">
-      <div class="SidebarBtnBar Flex">
-        <button class="SidebarBtn" @click="toggleMobileMenu">
-          JungleReader
-          <!-- <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather> -->
-        </button>
-        <button class="SidebarMenuBtn" @click="toggleMobileMenu">
-          <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
-        </button>
-      </div>
-      <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
-        <div class="HeroDiv">
-          <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
-          <img class="HeroImg" src="../assets/BigChameleon.png" />
+      <div class="InnerSidebar">
+        <div class="SidebarBtnBar Flex">
+          <button class="SidebarBtn" @click="toggleMobileMenu">
+            JungleReader
+            <!-- <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather> -->
+          </button>
+          <button class="SidebarMenuBtn" @click="toggleMobileMenu">
+            <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
+          </button>
         </div>
-        <div class="SideMenu">
-          <div class="Section">
-            <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" class="Icon"/>Home</router-link>
-            <router-link to="/explore" class="MainLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
+        <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
+          <div class="HeroDiv">
+            <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
+            <!-- <img class="HeroImg" src="../assets/BigChameleon.png" /> -->
           </div>
-          <div class="Section">
-            <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
-            <router-link to="/settings" class="MainLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
-          </div>
-          <div class="Section">
-            <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Import Config</a>
-            <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Download Config</a>
-          </div>
-          <div class="Section">
-            <router-link to="/about" class="MainLink"><vue-feather type="info" class="Icon" />About</router-link>
-            <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
-            <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
-            <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
-            <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
-          </div>
-          <div class="Section">
-            <p class="VersionNum">Version {{ kReaderVersionString }}</p>
+          <div class="SideMenu">
+            <div class="Section">
+              <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" class="Icon"/>Home</router-link>
+              <router-link to="/explore" class="MainLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
+            </div>
+            <div class="Section">
+              <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
+              <router-link to="/settings" class="MainLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
+            </div>
+            <div class="Section">
+              <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Import Config</a>
+              <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Download Config</a>
+            </div>
+            <div class="Section">
+              <router-link to="/about" class="MainLink"><vue-feather type="info" class="Icon" />About</router-link>
+              <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
+              <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
+              <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
+              <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
+            </div>
+            <div class="Section VersionSection">
+              <p class="VersionNum">Version {{ kReaderVersionString }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -154,9 +156,8 @@ onMounted(() => {
 
   font-family: 'Gill Sans';
   font-size: 32px;
-  /* font-size: 44px; */
-  /* font-weight: 900; */
   font-weight: 800;
+
   line-height: 0.8;
   letter-spacing: -2px;
   padding-bottom: 2px;
@@ -164,7 +165,6 @@ onMounted(() => {
 }
 
 .AppTitle .LastLine {
-  /* text-decoration: var(--brand-underline); */
 }
 
 .toplevel {
@@ -172,18 +172,21 @@ onMounted(() => {
   margin: auto;
   display: grid;
   padding: var(--space-m) var(--space-xs);
-  grid-template-columns: 1fr 3fr;
-  /* gap: var(--space-s); */
+  /* grid-template-columns: 1fr 3fr; */
+  grid-template-columns: auto 3fr;
   grid-template-areas: 
     "sidebar content"
 }
 
 .main {
+  margin-left: 16px;
+  background-color: var(--main-bg);
+  border: var(--pane-border);
+  border-radius: var(--pane-border-radius);
   /* max-width: 100%; */
   /* Aim for 40-80ch max-width */
   max-width: 840px;
   grid-area: content;
-  /*background-color: #20bf6b;*/
   padding: var(--space-m);
   overflow-x: visible;
 
@@ -193,9 +196,16 @@ onMounted(() => {
 
 .Sidebar {
   grid-area: sidebar;
-  padding: var(--space-m) var(--space-m) 0px var(--space-m);
   /* margin-left: var(--space-m); */
-  /*background-color: #45aaf2;*/
+}
+
+.InnerSidebar {
+  background-color: var(--main-bg);
+  /* padding: var(--space-m) var(--space-m) var(--space-xs) var(--space-m); */
+  padding: var(--space-m) var(--space-l) var(--space-m) var(--space-m);
+  border: var(--pane-border);
+  border-radius: var(--pane-border-radius);
+  /* min-height: 800px; */
 }
 
 .SidebarContent {
@@ -218,11 +228,11 @@ onMounted(() => {
   text-decoration: none;
   padding: var(--space-xxs);
 
-  border-radius: 4px;
+  /* border-radius: 4px; */
 }
 
 .SideMenu .Section:not(:last-child) {
-  margin-bottom: var(--space-l);
+  margin-bottom: var(--space-s);
 }
 
 .MainLink .Icon {
@@ -316,6 +326,9 @@ Also collapse the menu.
   }
 }
 
+.VersionSection {
+  margin-top: var(--space-xl);
+}
 
 .VersionNum {
   color: var(--mute-text);
@@ -326,6 +339,7 @@ Also collapse the menu.
 }
 
 .router-link-active {
+  /* text-decoration: underline; */
   background-color: var(--link-hover-bg);
   /* background-color: var(--nice-red); */
   /* border-bottom: 2px solid var(--nice-red); */
