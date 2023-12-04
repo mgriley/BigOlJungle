@@ -174,16 +174,17 @@ onMounted(() => {
 .LinkElem {
   position: relative;
   border-bottom: var(--pane-border);
+  /* padding: var(--space-s); */
   padding: var(--space-s);
   /*margin-bottom: var(--space-xs);*/
 }
 
-.LinkElem:last-child {
-  border-bottom: none;
+.LinkElem.IsNew {
+  border-left: 4px solid var(--nice-red);
 }
 
-.LinkElem.IsNew {
-  border: 4px solid var(--nice-red);
+.LinkElem:last-child {
+  border-bottom: none;
 }
 
 .LinkTitle {
@@ -203,7 +204,6 @@ onMounted(() => {
   /*color: var(--mute-text);*/
   font-size: var(--small-size);
   font-weight: var(--bold-weight);
-  font-style: italic;
   margin-top: var(--space-xs);
 }
 

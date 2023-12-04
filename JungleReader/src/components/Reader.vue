@@ -173,6 +173,7 @@ onMounted(() => {
   display: grid;
   padding: var(--space-m) var(--space-xs);
   /* grid-template-columns: 1fr 3fr; */
+  /* backdrop-filter: grayscale(50%) blur(2px); */
   grid-template-columns: auto 3fr;
   grid-template-areas: 
     "sidebar content"

@@ -63,6 +63,7 @@ function onFeedClicked(feed) {
 }
 
 .FeedTile:hover {
+  /* transform: scale(1.2) translateY(-5px); */
   transform: scale(1.2) translateY(-5px);
   box-shadow: none;
   z-index: 1;

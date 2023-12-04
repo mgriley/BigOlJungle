@@ -147,9 +147,13 @@ body {
   max-width: 100vw;
   min-height: 100vh;
   color: var(--main-text);
+
   /* background: var(--main-bg); */
   /* background: brown; */
   background: DarkBlue;
+  background-image: url(JungleBg.png);
+  background-size: 30%;
+
   transition: color 0.5s, background-color 0.5s;
   /* font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
