@@ -22,6 +22,11 @@ export class FeedPlugin {
   async updateFeeds(feeds) {
     // Impl in subclass
   }
+
+  isBookmarkType() {
+    // Override in subclasses
+    return false;
+  }
 }
 
 export const CustomPluginType = {

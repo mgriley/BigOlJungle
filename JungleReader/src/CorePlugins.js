@@ -191,6 +191,10 @@ class Bookmark extends FeedPlugin {
     this.quickHelpDocs = "Add a simple bookmark to any site."
   }
 
+  isBookmarkType() {
+    return true;
+  }
+
   async updateFeeds(feeds) {
     // No-op
   }
@@ -200,16 +204,20 @@ class Bookmark extends FeedPlugin {
 Watcher feeds have special handling in the reader. When the feed is reloaded, it will fetch the page
 and check for any changes since the last fetch. This way you can detect when there is anything new there.
 */
-class PageWatch extends FeedPlugin {
+class Watcher extends FeedPlugin {
   constructor(app) {
-    super("PageWatch");
+    super("Watcher");
     this.app = app;
     this.urlPlaceholderHelp = "Ex: https://www.somesite.com/blog";
     this.quickHelpDocs = "Watch any static webpage for changes.";
   }
 
+  isBookmarkType() {
+    return true;
+  }
+
   async updateFeeds(feeds) {
-    // No-op
+    // TODO - take the current hash. Read/write from a Link extraData type thing (or the prev link)
   }
 };
 
@@ -220,6 +228,7 @@ export function registerCorePlugin(app) {
     new YouTubeFeed(app),
     new RedditFeed(app),
     new Bookmark(app),
+    //new Watcher(app),
   ];
   extendArray(app.feedPlugins, feedPlugins);
 }
