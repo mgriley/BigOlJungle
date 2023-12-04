@@ -150,7 +150,7 @@ body {
 
   /* background: var(--main-bg); */
   /* background: brown; */
-  background: DarkBlue;
+  background: var(--main-bg);
   background-image: url(JungleBg.png);
   background-size: 30%;
 
