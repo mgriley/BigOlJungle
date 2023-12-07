@@ -64,52 +64,54 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="toplevel">
-    <div class="Sidebar">
-      <div class="InnerSidebar">
-        <div class="SidebarBtnBar Flex">
-          <button class="SidebarBtn" @click="toggleMobileMenu">
-            JungleReader
-            <!-- <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather> -->
-          </button>
-          <button class="SidebarMenuBtn" @click="toggleMobileMenu">
-            <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
-          </button>
-        </div>
-        <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
-          <div class="HeroDiv">
-            <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
-            <!-- <img class="HeroImg" src="../assets/BigChameleon.png" /> -->
+  <div class="BodyOverlay">
+    <div class="toplevel">
+      <div class="Sidebar">
+        <div class="InnerSidebar">
+          <div class="SidebarBtnBar Flex">
+            <button class="SidebarBtn" @click="toggleMobileMenu">
+              JungleReader
+              <!-- <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather> -->
+            </button>
+            <button class="SidebarMenuBtn" @click="toggleMobileMenu">
+              <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
+            </button>
           </div>
-          <div class="SideMenu">
-            <div class="Section">
-              <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" class="Icon"/>Home</router-link>
-              <router-link to="/explore" class="MainLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
+          <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
+            <div class="HeroDiv">
+              <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
+              <!-- <img class="HeroImg" src="../assets/BigChameleon.png" /> -->
             </div>
-            <div class="Section">
-              <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
-              <router-link to="/settings" class="MainLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
-            </div>
-            <div class="Section">
-              <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Import Config</a>
-              <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Download Config</a>
-            </div>
-            <div class="Section">
-              <router-link to="/about" class="MainLink"><vue-feather type="info" class="Icon" />About</router-link>
-              <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
-              <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
-              <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
-              <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
-            </div>
-            <div class="Section VersionSection">
-              <p class="VersionNum">Version {{ kReaderVersionString }}</p>
+            <div class="SideMenu">
+              <div class="Section">
+                <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" class="Icon"/>Home</router-link>
+                <router-link to="/explore" class="MainLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
+              </div>
+              <div class="Section">
+                <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
+                <router-link to="/settings" class="MainLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
+              </div>
+              <div class="Section">
+                <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Import Config</a>
+                <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Download Config</a>
+              </div>
+              <div class="Section">
+                <router-link to="/about" class="MainLink"><vue-feather type="info" class="Icon" />About</router-link>
+                <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
+                <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
+                <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
+                <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
+              </div>
+              <div class="Section VersionSection">
+                <p class="VersionNum">Version {{ kReaderVersionString }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="main">
-      <router-view></router-view>
+      <div class="main">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
   <BasicModal ref="importConfigModal" title="Import Config" doneText="Import" @onDone="importConfig">
@@ -167,13 +169,17 @@ onMounted(() => {
 .AppTitle .LastLine {
 }
 
+.BodyOverlay {
+  backdrop-filter: grayscale(50%);
+  /*backdrop-filter: invert(70%) brightness(20%);*/
+}
+
 .toplevel {
   max-width: 1280px;
   margin: auto;
   display: grid;
   padding: var(--space-m) var(--space-xs);
   /* grid-template-columns: 1fr 3fr; */
-  /* backdrop-filter: grayscale(50%) blur(2px); */
   grid-template-columns: auto 3fr;
   grid-template-areas: 
     "sidebar content"
@@ -186,7 +192,7 @@ onMounted(() => {
   border-radius: var(--pane-border-radius);
   /* max-width: 100%; */
   /* Aim for 40-80ch max-width */
-  max-width: 840px;
+  max-width: 760px;
   grid-area: content;
   padding: var(--space-m);
   overflow-x: visible;
@@ -229,7 +235,7 @@ onMounted(() => {
   text-decoration: none;
   padding: var(--space-xxs);
 
-  /* border-radius: 4px; */
+  border-radius: 0px;
 }
 
 .SideMenu .Section:not(:last-child) {
@@ -340,10 +346,8 @@ Also collapse the menu.
 }
 
 .router-link-active {
-  /* text-decoration: underline; */
-  background-color: var(--link-hover-bg);
-  /* background-color: var(--nice-red); */
-  /* border-bottom: 2px solid var(--nice-red); */
+  color: var(--main-bg);
+  background-color: var(--main-text);
 }
 
 .ImportBox {

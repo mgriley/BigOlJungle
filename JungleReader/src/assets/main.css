@@ -69,11 +69,13 @@ b {
 
 a {
   color: var(--main-text);
-  transition: 0.2s;
+  /* transition: 0.2s; */
 }
 
 a:hover, a:active {
-  background-color: var(--link-hover-bg);
+  color: var(--main-bg);
+  background-color: var(--main-text);
+  /* background-color: var(--link-hover-bg); */
   /* text-decoration: underline; */
 }
 

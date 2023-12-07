@@ -316,14 +316,20 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+
+  text-transform: uppercase;
+  /* border-radius: 4px; */
+  border: none;
+  padding: 4px;
+  /* font-size: 24px; */
 }
 
 .MenuBtn .Icon {
-  /*color: var(--nice-red);*/
+  /* color: var(--nice-red); */
 }
 
 .BigReloadBtn {
-  margin-left: var(--space-m);
+  /* margin-left: var(--space-m); */
 }    
 
 .InnerReloadBtn {
@@ -333,7 +339,7 @@ onMounted(() => {
 }
 
 .GroupList {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-l);
   overflow: visible;
 }
 

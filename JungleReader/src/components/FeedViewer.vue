@@ -65,7 +65,7 @@ onMounted(() => {
           <template v-for="link in feed.links" :id="link.id">
             <div class="LinkElem" :class="{IsNew: isLinkNew(link)}">
               <p class="LinkTitle">Glorb</p>
-              <p class="LinkText">
+              <p class="">
                 <a :href="link.link" target="_blank" class="LinkText">
                   <!-- {{ link.getTrimmedStringDesc(150) }} -->
                   {{ link.getTrimmedStringDesc(150) }}
@@ -103,7 +103,6 @@ onMounted(() => {
 <style scoped>
 .FeedViewer {
   position: relative;
-  max-width: 720px;
 }
 
 .FeedName {
@@ -195,6 +194,7 @@ onMounted(() => {
 }
 
 .LinkText {
+  display: block;
   text-decoration: none;
   /* font-size: 20px; */
 }

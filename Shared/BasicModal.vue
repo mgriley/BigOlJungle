@@ -93,10 +93,9 @@ dialog::backdrop {
 .BasicModal {
   color: var(--popup-text);
   background-color: var(--popup-bg);
-  border: 1px solid var(--main-text);
-  /*border: none;*/
-  border-radius: var(--border-radius-large);
-  padding: var(--space-m);
+  border: var(--popup-border);
+  border-radius: var(--popup-border-radius);
+  padding: var(--space-s);
   min-width: 160px;
   max-width: 90%;
   margin-left: auto;
