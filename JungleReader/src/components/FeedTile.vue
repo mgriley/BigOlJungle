@@ -155,9 +155,9 @@ function onFeedClicked(feed) {
   margin-top: auto;
   padding: 4px 8px;
   font-size: var(--small-size);
-  /* color: var(--main-text); */
-  /* background-color: var(--medium-color); */
-  color: var(--main-text);
+  color: var(--main-bg);
+  font-weight: var(--bold-weight);
+  text-transform: uppercase;
   background-color: var(--brand-color);
   border-radius: 2px;
 }

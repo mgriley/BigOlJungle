@@ -7,7 +7,7 @@
 
 .FormFieldName {
   margin-top: var(--space-s);
-  margin-bottom: var(--space-xxs);
+  margin-bottom: 2px;
 }
 
 .FormFieldName:first-child {

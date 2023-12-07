@@ -65,14 +65,15 @@ function getQuickHelp(pluginType) {
     <div class="FormFieldName">Name</div>
     <input v-model="feed.name" class="Block BasicTextInput WideInput" autofocus>
   </div>
-  <div class="FormFieldName">Feed Type</div>
+  <div class="FormFieldName">Type</div>
   <div class="Flex FeedTypeBox">
     <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
-    <button class="SmallButton" @click="showQuickHelp = !showQuickHelp">Info</button>
+    <button class="SmallButton InfoButton" @click="showQuickHelp = !showQuickHelp">Info</button>
   </div>
   <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(feed.type)}}</p>
-  <div class="FormFieldNameWithInfo">Feed URL</div>
+  <div class="FormFieldNameWithInfo">URL</div>
   <div class="FormFieldInfo">{{ getUrlPlaceholder(feed) }}</div>
+  <!-- <BasicSelector class="MarginBotXXS" :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/> -->
   <input v-model="feed.url" class="Block BasicTextInput WideInput">
 
   <div class="FormFieldName">Group</div>
@@ -94,6 +95,11 @@ function getQuickHelp(pluginType) {
   gap: 8px;
 }
 
+.InfoButton {
+  font-weight: normal;
+  color: var(--mute-text);
+}
+
 .QuickHelpText {
   max-width: 400px;
   line-height: 1.2;
@@ -105,6 +111,7 @@ function getQuickHelp(pluginType) {
 }
 
 .ShareLink {
-  margin-top: var(--space-m);
+  margin-top: var(--space-s);
 }
+
 </style>

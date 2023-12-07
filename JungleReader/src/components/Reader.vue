@@ -79,7 +79,7 @@ onMounted(() => {
           </div>
           <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
             <div class="HeroDiv">
-              <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
+              <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span><span class="Dot"></span></p>
               <!-- <img class="HeroImg" src="../assets/BigChameleon.png" /> -->
             </div>
             <div class="SideMenu">
@@ -134,6 +134,8 @@ onMounted(() => {
   position: relative;
   margin-bottom: var(--space-l);
 
+  display: flex;
+  gap: 16px;
   /*
   background-color: var(--nice-red);
   padding: 8px;
@@ -142,8 +144,9 @@ onMounted(() => {
 }
 
 .HeroImg {
-  width: 300px;
+  width: 100px;
   height: auto;
+  color: red;
   transform: rotate(-22deg);
   filter: invert(100%);
 }
@@ -167,6 +170,10 @@ onMounted(() => {
 }
 
 .AppTitle .LastLine {
+}
+
+.AppTitle .Dot {
+  color: red;
 }
 
 .BodyOverlay {
