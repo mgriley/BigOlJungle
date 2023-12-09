@@ -215,7 +215,6 @@ let asciiBg = `
 .AsciiBg {
   font-family: 'Courier New';
   z-index: -10;
-  //position: fixed;
   white-space: pre;
 }
 
@@ -233,7 +232,6 @@ let asciiBg = `
 .main {
   margin-left: 16px;
   background-color: var(--main-bg);
-  //background-color: rgba(0, 0, 0, 0.9);
   border: var(--pane-border);
   border-radius: var(--pane-border-radius);
   /* max-width: 100%; */
