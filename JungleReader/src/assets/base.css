@@ -118,7 +118,8 @@ body {
   color: var(--main-text);
 
   background: var(--main-bg);
-  background-image: url(ChalkLandscape.jpg);
+  /* background-image: url(ChalkLandscape.jpg); */
+  background-image: url(CityBg.jpg);
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
