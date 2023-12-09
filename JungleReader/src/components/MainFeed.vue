@@ -367,7 +367,7 @@ onMounted(() => {
 
 .GroupName {
   margin-right: var(--space-m);
-  font-size: 40px;
+  font-size: 28px;
   /* font-size: var(--h3-size); */
   /* text-overflow: ellipsis; */
   /* text-decoration: var(--brand-underline); */

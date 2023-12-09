@@ -61,10 +61,35 @@ onMounted(() => {
   });
 });
 
+let asciiBg = `
+    ___  ___  ___  ________   ________  ___       _______       
+   |\  \|\  \|\  \|\   ___  \|\   ____\|\  \     |\  ___ \      
+   \ \  \ \  \\\  \ \  \\ \  \ \  \___|\ \  \    \ \   __/|     
+ __ \ \  \ \  \\\  \ \  \\ \  \ \  \  __\ \  \    \ \  \_|/__   
+|\  \\_\  \ \  \\\  \ \  \\ \  \ \  \|\  \ \  \____\ \  \_|\ \  
+\ \________\ \_______\ \__\\ \__\ \_______\ \_______\ \_______\ 
+ \|________|\|_______|\|__| \|__|\|_______|\|_______|\|_______| 
+                                                                
+                                                                
+                                                                
+ ________  _______   ________  ________  _______   ________     
+|\   __  \|\  ___ \ |\   __  \|\   ___ \|\  ___ \ |\   __  \    
+\ \  \|\  \ \   __/|\ \  \|\  \ \  \_|\ \ \   __/|\ \  \|\  \   
+ \ \   _  _\ \  \_|/_\ \   __  \ \  \ \\ \ \  \_|/_\ \   _  _\  
+  \ \  \\  \\ \  \_|\ \ \  \ \  \ \  \_\\ \ \  \_|\ \ \  \\  \| 
+   \ \__\\ _\\ \_______\ \__\ \__\ \_______\ \_______\ \__\\ _\ 
+    \|__|\|__|\|_______|\|__|\|__|\|_______|\|_______|\|__|\|__|
+                                                                
+                                                                
+                                                                
+
+`
+
 </script>
 
 <template>
   <div class="BodyOverlay">
+    <!-- <div class="AsciiBg">{{asciiBg}}</div> -->
     <div class="toplevel">
       <div class="Sidebar">
         <div class="InnerSidebar">
@@ -79,7 +104,7 @@ onMounted(() => {
           </div>
           <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
             <div class="HeroDiv">
-              <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span><span class="Dot"></span></p>
+              <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
               <!-- <img class="HeroImg" src="../assets/BigChameleon.png" /> -->
             </div>
             <div class="SideMenu">
@@ -159,12 +184,21 @@ onMounted(() => {
   color: var(--header-text);
   /* color: var(--nice-red); */
 
+  border-bottom: 8px solid var(--nice-red);
+
+  font-family: sans-serif;
+  font-size: var(--p-size);
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: bold;
+  /*
   font-family: 'Gill Sans';
   font-size: 32px;
   font-weight: 800;
-
   line-height: 0.8;
   letter-spacing: -2px;
+  */
+
   padding-bottom: 2px;
   cursor: pointer;
 }
@@ -177,8 +211,15 @@ onMounted(() => {
 }
 
 .BodyOverlay {
-  backdrop-filter: grayscale(50%);
-  /*backdrop-filter: invert(70%) brightness(20%);*/
+  /*backdrop-filter: grayscale(50%);*/
+  backdrop-filter: hue-rotate(60deg);
+}
+
+.AsciiBg {
+  font-family: 'Courier New';
+  z-index: -10;
+  //position: fixed;
+  white-space: pre;
 }
 
 .toplevel {
@@ -195,6 +236,7 @@ onMounted(() => {
 .main {
   margin-left: 16px;
   background-color: var(--main-bg);
+  //background-color: rgba(0, 0, 0, 0.9);
   border: var(--pane-border);
   border-radius: var(--pane-border-radius);
   /* max-width: 100%; */

@@ -172,4 +172,19 @@ function onFeedClicked(feed) {
 }
 */
 
+.UnreadIcon {
+  --width: 24px;
+  position: absolute;
+  z-index: 1;
+  width: var(--width);
+  height: var(--width);
+  top: calc(var(--width) * -0.5);
+  right: calc(var(--width) * -0.5);
+  background-color: var(--nice-red); 
+  /* border-radius: calc(var(--width) / 2); */
+
+  border: 4px solid var(--main-bg);
+  border-radius: 6px;
+}
+
 </style>

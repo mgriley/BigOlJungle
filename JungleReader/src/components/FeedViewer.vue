@@ -179,7 +179,7 @@ onMounted(() => {
 }
 
 .LinkElem.IsNew {
-  border-left: 4px solid var(--nice-red);
+  border-left: 6px solid var(--nice-red);
 }
 
 .LinkElem:last-child {
