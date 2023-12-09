@@ -56,9 +56,11 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div v-if="feed.isReloading()" class="ReloadIndicator">
-      <h4>Reloading...</h4>
-    </div>
+    <Transition name="Reload">
+      <div v-if="feed.isReloading()" class="ReloadIndicator">
+        <h4>Reloading...</h4>
+      </div>
+    </Transition>
     <template v-if="!feed.isError">
       <div class="LinkList">
         <template v-if="feed.links.length > 0">
@@ -254,5 +256,25 @@ onMounted(() => {
 .DeleteButton {
   margin-top: var(--space-l);
 }
+
+.Reload-enter-active,
+.Reload-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.Reload-enter-from {
+  opacity: 1;
+}
+
+.Reload-leave-to {
+  opacity: 0;
+}
+
+/*
+.Reload-enter-from,
+.Reload-leave-to {
+  opacity: 0;
+}
+*/
 
 </style>

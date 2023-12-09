@@ -105,7 +105,7 @@ let asciiBg = `
           <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
             <div class="HeroDiv">
               <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
-              <!-- <img class="HeroImg" src="../assets/BigChameleon.png" /> -->
+              <!-- <img class="HeroImg" src="../assets/NounCham.svg" /> -->
             </div>
             <div class="SideMenu">
               <div class="Section">
@@ -169,21 +169,25 @@ let asciiBg = `
 }
 
 .HeroImg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  filter: invert(100%) brightness(95%);
+  /*
   width: 100px;
   height: auto;
   color: red;
   transform: rotate(-22deg);
   filter: invert(100%);
+  */
 }
 
 .AppTitle {
-  /* position: absolute; */
-  top: 0;
-  left: 0;
-
   color: var(--header-text);
   /* color: var(--nice-red); */
 
+  padding-bottom: 2px;
   border-bottom: 8px solid var(--nice-red);
 
   font-family: sans-serif;
@@ -191,15 +195,7 @@ let asciiBg = `
   line-height: 1;
   text-transform: uppercase;
   font-weight: bold;
-  /*
-  font-family: 'Gill Sans';
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -2px;
-  */
 
-  padding-bottom: 2px;
   cursor: pointer;
 }
 

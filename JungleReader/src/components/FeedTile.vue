@@ -91,7 +91,7 @@ function onFeedClicked(feed) {
 
 .FeedTile.HasUnread {
   border-color: var(--nice-red);
-  border-width: 4px;
+  border-width: 3px;
 }
 
 .Details {
@@ -173,7 +173,7 @@ function onFeedClicked(feed) {
 */
 
 .UnreadIcon {
-  --width: 24px;
+  --width: 22px;
   position: absolute;
   z-index: 1;
   width: var(--width);
