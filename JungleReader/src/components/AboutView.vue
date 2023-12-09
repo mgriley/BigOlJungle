@@ -38,10 +38,10 @@
       <div class="ExtraWidgets">
         <ul>
           <li><p><a class="LinkButton" href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Leave feedback, report bugs, or request features</a></p></li>
-          <li><p><a class="LinkButton" href="https://dashboard.mailerlite.com/forms/572243/97615844706617024/share" target="_blank">Subscribe to Development Newsletter</a></p></li>
-          <li><p><a class="LinkButton" href="https://github.com/sponsors/mgriley" target="_blank">Sponsor on GitHub</a></p></li>
         </ul>
       </div>
+      <h4>Sponsor on GitHub</h4>
+      <iframe src="https://github.com/sponsors/mgriley/button" title="Sponsor mgriley" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
     </div>
     <div class="MoreInfo">
     </div>
@@ -56,6 +56,7 @@
 .Emphasis {
   font-weight: bold;
   font-size: var(--h4-size);
+  color: white;
 }
 
 .MoreInfo {
@@ -75,7 +76,8 @@
 }
 
 .ExtraWidgets {
-  margin-top: var(--space-l);
+  margin-top: var(--space-m);
+  margin-bottom: var(--space-m);
 }
 
 </style>

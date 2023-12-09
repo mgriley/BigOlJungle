@@ -27,7 +27,9 @@ let supportedFeedTypes = computed(() => {
     types.push(plugin.name);
   }
   for (const plugin of gApp.customPlugins) {
-    types.push(plugin.feedType);
+    if (plugin.feedType) {
+      types.push(plugin.feedType);
+    }
   }
   return types;
 })

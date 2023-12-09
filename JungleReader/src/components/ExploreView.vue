@@ -6,7 +6,7 @@ let exploreData = [
     group: 'Dev Feeds',
     type: 'RSS',
     feeds: [
-      {name: 'JungleReader Development (TODO)', desc: '', url: 'TODO'},
+      {name: 'JungleReader Development', desc: '', url: 'https://www.zajungle.com/devfeed.rsst'},
     ]
   },
   {
