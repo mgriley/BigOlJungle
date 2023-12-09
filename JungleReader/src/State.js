@@ -72,7 +72,7 @@ class Link {
   getStringDesc() {
     // Note: only one of title or description is required in RSS
     if (this.title && this.description) {
-      return this.title + ": " + this.description;
+      return this.title + ". " + this.description;
     } else if (this.title) {
       return this.title;
     } else if (this.description) {

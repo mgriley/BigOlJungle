@@ -19,7 +19,7 @@ export function jsonToOptions(json) {
 }
 
 export function cleanUrl(link) {
-  // Att https if no scheme was given
+  // Add https if no scheme was given
   return (link.indexOf('://') === -1) ? 'https://' + link : link;
 }
 

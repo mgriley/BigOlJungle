@@ -66,7 +66,7 @@ onMounted(() => {
         <template v-if="feed.links.length > 0">
           <template v-for="link in feed.links" :id="link.id">
             <div class="LinkElem" :class="{IsNew: isLinkNew(link)}">
-              <p class="LinkTitle">Glorb</p>
+              <p class="LinkTitle">TODO</p>
               <p class="">
                 <a :href="link.link" target="_blank" class="LinkText">
                   <!-- {{ link.getTrimmedStringDesc(150) }} -->

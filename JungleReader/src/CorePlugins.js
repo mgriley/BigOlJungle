@@ -217,7 +217,48 @@ class Watcher extends FeedPlugin {
   }
 
   async updateFeeds(feeds) {
-    // TODO - take the current hash. Read/write from a Link extraData type thing (or the prev link)
+    for (const feed of feeds) {
+      await this.updateFeed(feed);
+    }
+  }
+
+  async updateFeed(feed) {
+    console.log("Updating feed: " + feed.name + ", " + feed.url);
+    if (!feed.url) {
+      throw new Error("The feed URL is not set.");
+    }
+    // Take the hash of the current content and check for changes against the hash from last time
+    let contentStr = await gApp.fetchText(feed.url);
+    let contentHash = hashString(contentStr).toString(16);
+
+    // Check for no change
+    if (feed.links.length > 0 &&
+      feed.links[0].description == `Content Hash: ${contentHash}`) {
+      // No change detected
+      return;
+    }
+
+    // Add a 'Change detected' post to the feed
+    let newLinksData = {
+      link: cleanUrl(feed.url),
+      items: []
+    };
+    newLinksData.items.push({
+      title: 'Change detected',
+      description: `Content Hash: ${contentHash}`,
+      link: cleanUrl(feed.url),
+      pubDate: new Date(),
+    });
+    for (let i = 0; i < Math.min(10, feed.links.length); ++i) {
+      let link = feed.links[i];
+      newLinksData.items.push({
+        title: link.title,
+        description: link.description,
+        link: link.link,
+        pubDate: link.pubDate,
+      });
+    }
+    feed.updateLinks(newLinksData);
   }
 };
 
@@ -228,7 +269,7 @@ export function registerCorePlugin(app) {
     new YouTubeFeed(app),
     new RedditFeed(app),
     new Bookmark(app),
-    //new Watcher(app),
+    new Watcher(app),
   ];
   extendArray(app.feedPlugins, feedPlugins);
 }

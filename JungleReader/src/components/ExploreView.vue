@@ -125,6 +125,14 @@ function addFeed(name, type, url) {
     <div class="OtherTips">
       <h4>Other Tips:</h4>
       <ul>
+        <li>
+          If a website doesn't support RSS but you'd like to follow it, here are some options:
+          <ul>
+            <li>Use the builtin Bookmark plugin to make a bookmark to it.</li>
+            <li>Use the builtin Watcher plugin to watch a static page (like a blog homepage) for changes.</li>
+            <li>Create a custom script plugin through the Plugins tab.</li>
+          </ul>
+        </li>
         <li>Most podcasts have RSS feeds.</li>
         <li>Sijmen Mulder has a list of good text-based websites <a href="https://sjmulder.nl/en/textonly.html">here</a></li>
         <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
