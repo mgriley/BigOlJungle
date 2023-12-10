@@ -30,8 +30,7 @@ import MoreInfoText from './MoreInfoText.vue'
       </p>
       <div class="WorkInProgress MarginBotS Flex">
         <p>
-        <u>Alert</u> Plugins are a work in progress. You can try them, but some things may
-        not work yet!
+        <u>Alert</u> Plugins are a work in progress. Please report any bugs or feature suggestions!
         </p>
       </div>
       <MoreInfoText text="More info on plugins">
