@@ -5,7 +5,6 @@ import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 import { gApp } from './State.js'
 import { parseRsst } from './RssText.js'
-// import Parser from 'rss-parser'
 
 function addRssSuffix(link) {
   if (!link.endsWith(".rss")) {
