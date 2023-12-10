@@ -230,6 +230,7 @@ onMounted(() => {
           </ul>
           <p>From here:</p>
           <ul class="FromHereList">
+            <li><p>Do a "Big Reload" to see updates for all your feeds.</p></li>
             <li><p>Add more feeds. See the <router-link to="/explore">Explore</router-link> page for ideas.</p></li>
             <li><p>If you're a developer, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
           </ul>
