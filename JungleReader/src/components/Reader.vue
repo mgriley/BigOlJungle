@@ -210,6 +210,7 @@ let asciiBg = `
   /*backdrop-filter: grayscale(50%);*/
   /*backdrop-filter: hue-rotate(60deg) brightness(100%);*/
   backdrop-filter: brightness(400%);
+  min-height: 100vh;
 }
 
 .AsciiBg {

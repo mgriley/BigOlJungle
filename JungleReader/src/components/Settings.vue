@@ -9,6 +9,8 @@ let persistentStorageOn = ref(false);
 
 let supportedFetchMethods = [FetchMethod.JungleExt, FetchMethod.DevProxy]
 
+let devZoneOpen = ref(false);
+
 /*
 See:
 https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist
@@ -125,17 +127,16 @@ onMounted(() => {
           <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
         </div>
         <div class="SubSection">
-          <h4>Other</h4>
-          <button @click="gApp.setDoneWelcome(false)" class="SmallButton Block">Reset Welcome Page</button>
-          <button @click="gApp.fullyReset()" class="SmallButton Block">Fully reset app (DANGER)</button>
-        </div>
-        <div class="SubSection">
-          <h4>Dev Zone</h4>
-          <button @click="gApp.saveAll(true)" class="SmallButton Block">Manually save all</button>
-          <button @click="addTestFeeds" class="SmallButton Block">Add test feeds</button>
-          <button @click="testFetchText" class="SmallButton Block">Test Fetch</button>
-          <button @click="dumpLocalStorage" class="SmallButton Block">Dump localStorage</button>
-          <button @click="doBadLoad" class="SmallButton Block">Do bad load (DANGER)</button>
+          <h4 class="MockButton" @click="devZoneOpen = !devZoneOpen">Dev Zone{{ devZoneOpen ? "" : "..."}}</h4>
+          <template v-if="devZoneOpen">
+            <button @click="gApp.resetWelcomePages()" class="SmallButton Block">Reset Welcome Page</button>
+            <button @click="gApp.saveAll(true)" class="SmallButton Block">Manually save all</button>
+            <button @click="addTestFeeds" class="SmallButton Block">Add test feeds</button>
+            <button @click="testFetchText" class="SmallButton Block">Test Fetch</button>
+            <button @click="dumpLocalStorage" class="SmallButton Block">Dump localStorage</button>
+            <button @click="gApp.fullyReset()" class="SmallButton Block">Fully reset app (DANGER)</button>
+            <button @click="doBadLoad" class="SmallButton Block">Do bad load (DANGER)</button>
+          </template>
         </div>
       </div>
     </div>

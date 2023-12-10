@@ -13,7 +13,6 @@ const kAutosaveIntervalSecs = 15;
 
 // LocalStorage keys
 export const kAppStateKey = "appState";
-export const kDoneWelcomeKey = "doneWelcome";
 
 var gApp = null;
 
@@ -535,6 +534,8 @@ class JungleReader {
     this.fetchMethod = ref(FetchMethod.JungleExt)
 
     this.doneWelcome = ref(false);
+    this.doneFeedSetup = ref(false);
+
     this.buttonGenerator = reactive({
       name: "",
       type: "",
@@ -563,6 +564,8 @@ class JungleReader {
       groups: this.feedReader.groups.map((group) => group.writeToJson(this.contentCache)),
       customPlugins: this.customPlugins.map((plugin) => plugin.writeToJson()),
       fetchMethod: this.fetchMethod.value,
+      doneWelcome: this.doneWelcome.value,
+      doneFeedSetup: this.doneFeedSetup.value,
     }
     return jsonObj;
   }
@@ -588,6 +591,8 @@ class JungleReader {
       }))
     }
     this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.JungleExt)
+    this.doneWelcome.value = Boolean(jsonObj["doneWelcome"])
+    this.doneFeedSetup.value = Boolean(jsonObj["doneFeedSetup"])
   }
 
   getAppTimeSecs() {
@@ -601,7 +606,19 @@ class JungleReader {
 
   setDoneWelcome(newVal) {
     this.doneWelcome.value = newVal;
-    localStorage.setItem(kDoneWelcomeKey, this.doneWelcome.value);
+  }
+
+  isDoneFeedSetup() {
+    return this.doneFeedSetup.value;
+  }
+
+  setDoneFeedSetup(newVal) {
+    this.doneFeedSetup.value = newVal;
+  }
+
+  resetWelcomePages() {
+    this.doneWelcome.value = false;
+    this.doneFeedSetup.value = false;
   }
 
   consumeLinkAction() {
@@ -778,9 +795,6 @@ class JungleReader {
 
   run() {
     let app = this;
-
-    let doneWelcome = localStorage.getItem(kDoneWelcomeKey);
-    this.doneWelcome.value = Boolean(doneWelcome);
 
     this.onEnterForeground();
 

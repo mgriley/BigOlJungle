@@ -5,8 +5,6 @@ import MoreInfoText from './MoreInfoText.vue'
 
 function onSetupDone() {
   gApp.setDoneWelcome(true);
-  // window.scrollTo(0, 0);
-  // gApp.toast({message: 'Setup Done!'});
 }
 
 function addFeed(args) {
@@ -31,43 +29,26 @@ function addFeed(args) {
       <h3>Step 1: Install the browser extension</h3>
       <p>
       You'll need the JungleExt browser extension. This extension lets JungleReader fetch pages
-      to read from other websites. Reload the page once installed.
+      to read from other websites.
       </p>
-      <div class="ExtButtonDiv Flex">
-        <div>
-          <a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank"><img src="../assets/FirefoxInstallExtBtn.png"/></a>
-          <p>Install for Firefox</p>
-        </div>
-        <div>
-          <a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank"><img src="../assets/ChromeInstallExtBtn.png" /></a>
-          <p>Install for Chrome</p>
-        </div>
+      <div class="ExtButtonDiv">
+        <a class="ExtLink" href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">
+          <vue-feather type="download" stroke-width="2" />
+          Install for Firefox
+        </a>
+        <a class="ExtLink" href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank">
+          <vue-feather type="download" stroke-width="2" />
+          Install for Chrome
+        </a>
       </div>
-      <MoreInfoText text="Why do I need this extension?">
+      <MoreInfoText class="WhyNeed" text="Why do I need this extension?">
         JungleReader works by fetching webpages and feeds from other websites and showing them here, in one place. The JungleExt browser extension handles this.
         When you install JungleExt, it will ask for permission to access all your site data. JungleExt requires this permission so that it can make web requests to
         any other website you may choose (which is all it does). If you'd like to inspect the code, you can view 
-        it on GitHub or install the extension as a zip (instructions on GitHub).
+        it on GitHub.
       </MoreInfoText>
-    </div>
-    <div class="HelpStep">
-      <h3>Step 2: Add a feed</h3>
-      <p>
-      Here's an example feed to add, for the YouTube channel "Masahiro Sakurai on Creating Games":
-      </p>
-      <button class="SmallButton Block" @click="addFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Add Creating Games Feed</button>
-    </div>
-    <div class="HelpStep DoneStep">
-      <h3>You're done!</h3>
-      <p class="FromHereText">
-      From here:
-      </p>
-      <ol class="NextStepsList">
-        <li><p>Add feeds for each site you'd like to follow</p></li>
-        <li><p>Check out the <router-link to="/explore">"Explore"</router-link> tab for suggestions</p></li>
-        <li><p>If you're a developer, check out the Plugins page</p></li>
-      </ol>
-      <button class="DoneBtn PrimaryButton" @click="onSetupDone">Done!</button>
+      <p>After installing: <b>reload</b> the page, then start reading:</p>
+      <button class="DoneBtn PrimaryButton" @click="onSetupDone">Start Reading!</button>
     </div>
   </div>
 </template>
@@ -75,8 +56,6 @@ function addFeed(args) {
 <style scoped>
 .SetupHelp {
   padding-bottom: 40px;
-  border-bottom: 1px solid var(--mute-text);
-  margin-bottom: 40px;
   overflow-wrap: break-word;
 }
 
@@ -103,7 +82,6 @@ ol {
 }
 
 .DoneBtn {
-  margin-top: 56px;
 }
 
 .MobileWarning {
@@ -120,7 +98,31 @@ ol {
 }
 
 .ExtButtonDiv {
-  gap: var(--space-l);
+  gap: var(--space-s);
+  margin-bottom: var(--space-xs);
+  display: flex;
+}
+
+.WhyNeed {
+  margin-bottom: var(--space-l);
+}
+
+.ExtLink {
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: var(--main-text);
+  color: var(--main-bg);
+  padding: 16px;
+  border-radius: 2px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ExtLink:hover {
+  background-color: var(--nice-red);
 }
 
 .HelpStep {

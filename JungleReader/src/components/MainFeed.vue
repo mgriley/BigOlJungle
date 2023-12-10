@@ -44,6 +44,11 @@ function deleteGroupToEdit() {
   groupToEdit.value = dummyGroup;
 }
 
+function addHelpFeed(args) {
+  gApp.feedReader.addFeed(args);
+  gApp.toast({message: 'Added!', type: 'success'});  
+}
+
 function addFeed(optArgs) {
   optArgs = optArgs || {};
   let feed = gApp.feedReader.addFeed(optArgs);
@@ -183,13 +188,7 @@ onMounted(() => {
 
 <template>
   <SetupHelp v-if="!gApp.isDoneWelcome()" />
-  <div class="MainFeed">
-    <!--
-    <div class="BackgroundImg">
-      <img width="400px" height="400px" src="BigChameleon.svg" />  
-    </div>
-    !-->
-    <!-- <h1 class="PageHeader">Home</h1> -->
+  <div v-else class="MainFeed">
     <div class="ButtonMenu">
       <button class="MenuBtn PrimaryButton" @click="addFeed()">
         <vue-feather type="rss" class="Icon" />
@@ -220,7 +219,22 @@ onMounted(() => {
           </p>
           <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
         </div>
-        <p v-else-if="gApp.feedReader.groups.length == 0" class="NothingHereYet">Nothing here yet. Add a feed to get started.</p>
+        <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText">
+          <p>
+          Looks like you're new :) Add some sample feeds to get started:
+          </p>
+          <ul class="SampleFeeds">
+            <li><button class="SmallButton Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button></li>
+            <li><button class="SmallButton Block" @click="addHelpFeed({name: 'XKCD Bot', type: 'Mastodon', url: 'https://mastodon.xyz/@xkcd'})">XKCD Bot (Mastodon)</button></li>
+            <li><button class="SmallButton Block" @click="addHelpFeed({name: 'r/AskHistorians', type: 'Reddit', url: 'https://www.reddit.com/r/askhistorians'})">r/AskHistorians (Reddit)</button></li>
+          </ul>
+          <p>From here:</p>
+          <ul class="FromHereList">
+            <li><p>Add more feeds. See the <router-link to="/explore">Explore</router-link> page for ideas.</p></li>
+            <li><p>If you're a developer, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
+          </ul>
+          <button class="DoneBtn" @click="gApp.setDoneFeedSetup(true)">Done</button>
+        </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
           <template #item="{element}">
@@ -328,10 +342,6 @@ onMounted(() => {
   /* color: var(--nice-red); */
 }
 
-.BigReloadBtn {
-  /* margin-left: var(--space-m); */
-}    
-
 .InnerReloadBtn {
   display: flex;
   align-items: center;
@@ -368,16 +378,7 @@ onMounted(() => {
 .GroupName {
   margin-right: var(--space-m);
   font-size: 28px;
-  /* font-size: var(--h3-size); */
-  /* text-overflow: ellipsis; */
-  /* text-decoration: var(--brand-underline); */
 }
-
-/*
-.GroupName.Closed {
-  color: var(--mute-text);
-}
-*/
 
 .ExpandEllipse {
   color: var(--nice-red);
@@ -458,9 +459,22 @@ onMounted(() => {
   margin-top: var(--space-m);
 }
 
-.NothingHereYet {
-  margin-top: var(--space-xl);
+.HelpText {
+  margin-top: var(--space-m);
   font-size: var(--h4-size);
+
+  padding: 16px;
+  background-color: var(--dark-color);
+  border: 1px solid var(--main-text);
+  border-radius: 6px;
+}
+
+.SampleFeeds {
+  margin-bottom: 16px;
+}
+
+.FromHereList {
+  margin-bottom: 16px;
 }
 
 </style>
