@@ -205,7 +205,7 @@ onMounted(() => {
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
-        <div v-if="!gApp.isJungleExtPresent.value" class="TopAlert">
+        <div v-if="!gApp.isJungleExtPresent.value" class="TopAlert AlertPane">
           <p class="AlertText"><u>Alert</u> JungleExt is not installed. JungleReader requires the extension to work properly.
           Please install then reload the page.
           </p>
@@ -219,7 +219,7 @@ onMounted(() => {
           </p>
           <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
         </div>
-        <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText">
+        <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
           <p>
           Looks like you're new :) Add some sample feeds to get started:
           </p>
@@ -309,9 +309,6 @@ onMounted(() => {
 
 .TopAlert {
   margin-top: var(--space-s);
-  padding: 16px;
-  background-color: var(--dark-color);
-  border-radius: 6px;
 }
 
 .TopAlert .AlertText {
@@ -463,11 +460,6 @@ onMounted(() => {
 .HelpText {
   margin-top: var(--space-m);
   font-size: var(--h4-size);
-
-  padding: 16px;
-  background-color: var(--dark-color);
-  border: 1px solid var(--main-text);
-  border-radius: 6px;
 }
 
 .SampleFeeds {

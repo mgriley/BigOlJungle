@@ -42,7 +42,7 @@ function changeBigButtonSize(newVal) {
 <template>
 <div class="ButtonGenerator">
   <div class="Fields">
-    <h3><i>Enter:</i></h3>
+    <h4>Enter:</h4>
     <div class="FormFieldName">Feed Name</div>
     <input v-model="buttonGenerator.name" placeholder="My Feed" class="Block WideInput BasicTextInput" autofocus>
     <div class="FormFieldName">Feed Type</div>
@@ -51,17 +51,14 @@ function changeBigButtonSize(newVal) {
     <input v-model="buttonGenerator.url" placeholder="https://www.mysite.com" class="Block WideInput BasicTextInput" autofocus>
   </div>
   <div class="Output">
-    <h3><i>Output:</i></h3>
-    <div class="FormFieldName">Link</div>
-    <LinkSnippet :theLink="feedLink" />
-    <div class="FormFieldName">HTML Big Button Link (as shown)</div>
-    <div class="BtnPreview" v-html="bigImgButton"></div>
-    <BasicSelector :value="bigImgButtonSize" :options="bigImgButtonSizes" @change="changeBigButtonSize" />
-		<LinkSnippet :theLink="bigImgButton" />
-    <div class="FormFieldName">HTML Small Button Link (as shown)</div>
-    <div class="BtnPreview" v-html="smallImgButton"></div>
-    <BasicSelector :value="smallImgButtonSize" :options="smallImgButtonSizes" @change="changeSmallButtonSize" />
-    <LinkSnippet :theLink="smallImgButton" />
+    <h4>Output:</h4>
+    <div class="FormFieldName">Add-Feed Link</div>
+    <LinkSnippet :theLink="feedLink" class="MarginBotS"/>
+    <p>You can download the JungleReader logo SVG and have it link to your 'AddFeed' link, like this:</p>
+    <div class="BtnPreview MarginBotS" v-html="smallImgButton"></div>
+    <p>
+      <a href="https://www.zajungle.com/small_follow_button.svg" download="jr_logo">Download logo SVG</a>
+    </p>
   </div>
 </div>
 </template>

@@ -18,8 +18,8 @@ function addFeed(args) {
   <div class="SetupHelp">
     <h1 class="PageHeader">Welcome!</h1>
     <div class="HelpStep">
-      <p>
-      JungleReader is a free and open-source web reader. Follow RSS feeds, Mastodon feeds, YouTube channels, Reddit feeds, and more. Let's get started!
+      <p class="EmphasisText">
+      JungleReader is a free and open-source web reader. Follow RSS feeds, Mastodon feeds, YouTube channels, Reddit pages, and more. Let's get started!
       </p>
       <p class="MobileWarning">
       It looks like you're on mobile. JungleReader only supports desktop, so please come back later on desktop :)
@@ -47,7 +47,7 @@ function addFeed(args) {
         any other website you may choose (which is all it does). If you'd like to inspect the code, you can view 
         it on GitHub.
       </MoreInfoText>
-      <p>After installing: <b>reload</b> the page, then start reading:</p>
+      <p>After installing, reload the page, then start reading:</p>
       <button class="DoneBtn PrimaryButton" @click="onSetupDone">Start Reading!</button>
     </div>
   </div>

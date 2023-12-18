@@ -25,6 +25,8 @@ class Link {
     this.description = "";
     this.pubDate = null;
     this.extraDataString = null;
+    // Note: do not serialize. Default to collapsed
+    this.textExpanded = false;
   }
 
   static create() {
@@ -57,10 +59,14 @@ class Link {
     return this.url;
   }
 
+  textLenExceeds(maxLen) {
+    return this.getStringDesc().length > maxLen;
+  }
+
   getTrimmedStringDesc(maxLen) {
     maxLen = valOr(maxLen, 200)
     let desc = this.getStringDesc()
-    if (desc.length > maxLen) {
+    if (!this.textExpanded && desc.length > maxLen) {
       let ellipse = "...";
       desc = desc.substring(0, maxLen - ellipse.length);
       desc += ellipse;
@@ -71,7 +77,7 @@ class Link {
   getStringDesc() {
     // Note: only one of title or description is required in RSS
     if (this.title && this.description) {
-      return this.title + ". " + this.description;
+      return this.title + "\n" + this.description;
     } else if (this.title) {
       return this.title;
     } else if (this.description) {

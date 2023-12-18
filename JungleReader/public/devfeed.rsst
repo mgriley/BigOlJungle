@@ -1,12 +1,11 @@
 Name: MyFeed
 Version: 1
 
-Title: Welcome!
+Title: Welcome to JungleReader!
 Link: https://www.zajungle.com
 Date: 2023-12-09
 
-Welcome to JungleReader! Thanks for subscribing to the development feed! I'll post development/feature
-updates here. Here is a rough reature roadmap:
+Thanks for subscribing to the development feed. I'll post development/feature updates here. Here is a rough feature roadmap:
 
 - JungleWriter web page creator
 - JungleNode

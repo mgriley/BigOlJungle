@@ -43,6 +43,17 @@
   margin-top: var(--space-xs);
 }
 
+.EmphasisText {
+  color: var(--main-text);
+}
+
+.AlertPane {
+  padding: 16px;
+  background-color: var(--dark-color);
+  border: 1px solid var(--main-text);
+  border-radius: 6px;
+}
+
 .CodeBlock {
   /*background-color: var(--input-bg);*/
   padding: var(--space-s);

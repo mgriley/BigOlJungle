@@ -28,6 +28,19 @@
       <p>
       To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
       </p>
+      <p>
+      To follow along with development, you can follow the JungleReader development feed from the Explore view.
+      </p>
+      <p>
+      Rough Roadmap:
+      <ul>
+        <li>V1 JungleWriter (simple in-browser site generator tool)</li>
+        <li>V1 JungleNode (self-hosted server-side tool)</li>
+        <li>JungleReader mobile apps</li>
+        <li>JungleReader desktop app</li>
+        <li>JungleReader cleanup+improvements (esp. plugin system)</li>
+      </ul>
+      </p>
     </div>
     <div class="MoreInfo">
       <h4>More</h4>

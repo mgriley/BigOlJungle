@@ -10,6 +10,7 @@ const props = defineProps({
   feed: Object,
 })
 
+let maxLinkContentLen = 150;
 let lastReadTime = ref(0);
 let feedEditorModal = ref(null);
 
@@ -66,13 +67,14 @@ onMounted(() => {
         <template v-if="feed.links.length > 0">
           <template v-for="link in feed.links" :id="link.id">
             <div class="LinkElem" :class="{IsNew: isLinkNew(link)}">
-              <p class="LinkTitle">TODO</p>
-              <p class="">
-                <a :href="link.link" target="_blank" class="LinkText">
-                  <!-- {{ link.getTrimmedStringDesc(150) }} -->
-                  {{ link.getTrimmedStringDesc(150) }}
-                </a>
-              </p>
+              <div class="LinkContentBox">
+                <!-- <p class="LinkText"> -->
+                  <a :href="link.link" target="_blank" class="LinkText">
+                    {{ link.getTrimmedStringDesc(maxLinkContentLen) }}
+                  </a>
+                <!-- </p> -->
+                <button v-if="link.textLenExceeds(maxLinkContentLen)" class="SmallButton ShowMoreBtn" @click="link.textExpanded = !link.textExpanded">{{ link.textExpanded ? 'Show less' : 'Show more'}}</button>
+              </div>
               <div class="SubInfo">
                 <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
                 <span v-if="link.pubDate" class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
@@ -188,6 +190,9 @@ onMounted(() => {
   border-bottom: none;
 }
 
+.LinkContentBox {
+}
+
 .LinkTitle {
   display: none;
   font-size: 20px;
@@ -198,11 +203,19 @@ onMounted(() => {
 .LinkText {
   display: block;
   text-decoration: none;
+  white-space: pre-wrap;
   /* font-size: 20px; */
+}
+
+.LinkText:hover, .LinkText:active {
+  background-color: inherit;
+  color: inherit;
+  text-decoration: underline;
 }
 
 .LinkElem .SubInfo {
   display: flex;
+  align-items: baseline;
   /*color: var(--mute-text);*/
   font-size: var(--small-size);
   font-weight: var(--bold-weight);
@@ -211,6 +224,15 @@ onMounted(() => {
 
 .LinkElem.IsNew .SubInfo {
   font-size: var(--p-size);
+}
+
+.ShowMoreBtn {
+  font-size: var(--small-size);
+  color: var(--white-color);
+}
+
+.ShowMoreBtn:hover,.ShowMoreBtn:active {
+  color: var(--main-bg);
 }
 
 .ExtraString {

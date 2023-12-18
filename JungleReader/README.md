@@ -53,6 +53,11 @@ Chrome:
 - Turn on Developer Mode
 - Click "Load unpacked" and select the extension folder
 
+## How to generate the webp images
+
+Install the cwebp cmd-line tool. Make sure the input is a png, not jpg.
+
+Run: cwebp -q 80 someimg.png -o someimg.webp
 
 ## Articles/Info
 
@@ -64,4 +69,3 @@ Articles on how to setup the domain properly in namecheap and Cloudflare Pages:
 
 Small chameleon svg (CC0 license):
 https://www.svgrepo.com/svg/170979/chameleon
-

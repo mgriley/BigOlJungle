@@ -33,7 +33,7 @@ async function handleProxyRequest(request) {
   let apiUrl = new URL(apiUrlStr);
   let apiRequest = new Request(apiUrl, request);
   apiRequest.headers.set("Origin", apiUrl.origin);
-  let response = await fetch(apiRequest);
+  let response = await fetch(apiRequest, {redirect: 'follow'});
 
   // Handle a single redirect
   if (!response.ok && (300 <= response.status && response.status < 399)) {
