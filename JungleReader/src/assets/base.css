@@ -139,6 +139,10 @@ body {
 }
 
 @media (max-width: 768px) {
+  body {
+    /* background-image: none; */
+  }
+
   /*
   This is a fix for the body scrolling behind the modal, on mobile.
   See: https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened

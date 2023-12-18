@@ -330,7 +330,7 @@ Also collapse the menu.
 @media (max-width: 768px) {
   .toplevel {
     max-width: 100%;
-    padding: 24px 24px;
+    padding: var(--space-s) var(--space-s);
     grid-template-columns: 100%;
     grid-template-areas:
       "sidebar"
@@ -341,7 +341,8 @@ Also collapse the menu.
   }
 
   .main {
-    padding: 0;
+    margin-left: 0;
+    padding: var(--space-s);
   }
 
   .Sidebar {
@@ -349,6 +350,10 @@ Also collapse the menu.
     margin-left: 0;
     margin-bottom: 16px;
     padding: 0;
+  }
+
+  .InnerSidebar {
+    padding: var(--space-s);
   }
 
   .SidebarBtnBar {

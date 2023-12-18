@@ -204,6 +204,7 @@ onMounted(() => {
   display: block;
   text-decoration: none;
   white-space: pre-wrap;
+  line-height: 1.5;
   /* font-size: 20px; */
 }
 
