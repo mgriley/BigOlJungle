@@ -118,12 +118,6 @@ body {
   color: var(--main-text);
 
   background: var(--main-bg);
-  background-image: url(CityBg.jpg);
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-position: top;
-
   /* background: brown; */
   /* background: var(--main-bg); */
   /* background-image: url(JungleBgV2.jpg); */
