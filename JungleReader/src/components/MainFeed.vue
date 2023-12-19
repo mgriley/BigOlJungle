@@ -221,7 +221,7 @@ onMounted(() => {
         </div>
         <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
           <p>
-          Looks like you're new :) Add some sample feeds to get started:
+          This is your feeds page. Add these sample feeds to get started:
           </p>
           <ul class="SampleFeeds">
             <li><button class="SmallButton Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button></li>
@@ -230,8 +230,8 @@ onMounted(() => {
           </ul>
           <p>From here:</p>
           <ul class="FromHereList">
-            <li><p>Do a "Big Reload" to see updates for all your feeds.</p></li>
-            <li><p>Add more feeds. See the <router-link to="/explore">Explore</router-link> page for ideas.</p></li>
+            <li><p>See the <router-link to="/explore">Explore</router-link> page for more feeds to add.</p></li>
+            <li><p>Click "Reload All" to update all your feeds.</p></li>
             <li><p>If you're a developer, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
           </ul>
           <button class="DoneBtn" @click="gApp.setDoneFeedSetup(true)">Done</button>
@@ -241,7 +241,7 @@ onMounted(() => {
           <template #item="{element}">
             <div class="FeedGroupItem">
               <div class="GroupControls">
-                <h2 class="TextButton GroupName" :class="{Closed: !element.expanded}"
+                <h2 class="TextButton GroupName PlainHeader" :class="{Closed: !element.expanded}"
                   @click="toggleExpandGroup(element)">
                   {{ element.name ? element.name : "NoName" }}{{ element.expanded ? "" : "..." }}
                 </h2>
@@ -337,7 +337,7 @@ onMounted(() => {
 }
 
 .MenuBtn .Icon {
-  /* color: var(--nice-red); */
+  color: var(--brand-color-b);
 }
 
 .InnerReloadBtn {

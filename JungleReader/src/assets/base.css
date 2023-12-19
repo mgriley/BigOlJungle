@@ -7,20 +7,31 @@
   --primary-color-l: 90%;
 
   --primary-color: hsl(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l));
-  --darkest-color: hsl(var(--primary-color-h), 0%, 8%);
-  --dark-color: hsl(var(--primary-color-h), 0%, 12%);
+  --darkest-color: hsl(var(--primary-color-h), 0%, 2%);
+  --dark-color: hsl(var(--primary-color-h), 0%, 8%);
   --med-dark-color: hsl(var(--primary-color-h), 0%, 18%);
   --medium-color: hsl(var(--primary-color-h), 0%, 22%);
   --light-color: hsl(var(--primary-color-h), 0%, 65%);
   --lightest-color: hsl(var(--primary-color-h), 0%, 90%);
   --white-color: hsl(0, 0%, 100%);
 
-  --nice-red: rgb(215, 46, 36);
+  /* --nice-red: rgb(215, 46, 36); */
   --bright-red: rgb(245, 49, 0);
+  --nice-red: var(--bright-red);
   /* --brand-color-b: hsla(182, 100%, 55%, 1); */
-  --brand-color: var(--nice-red);
+  /* --brand-color: var(--nice-red); */
 
-  --brand-underline: underline solid var(--nice-red) 4px;
+  /* Good ones: cyan */
+  --brand-color-purple: fuchsia;
+  --brand-color-yellow: yellow;
+  --brand-color-green: green;
+  --brand-color-cyan: cyan;
+
+  --brand-color: var(--brand-color-purple);
+  --brand-color-a: var(--brand-color);
+  --brand-color-b: var(--brand-color-yellow);
+  --brand-color-c: var(--brand-color-green);
+  --brand-underline: underline solid var(--brand-color-yellow) 4px;
 
   --header-text: var(--white-color);
   /* --main-text: var(--lightest-color); */
@@ -47,12 +58,13 @@
 
   /* --p-size: 1rem; */
   --p-size: 20px;
-  --h4-size: calc(var(--p-size)*1.25);
-  --h3-size: calc(var(--h4-size)*1.25);
-  --h2-size: calc(var(--h3-size)*1.25);
-  --h1-size: calc(var(--h2-size)*1.25);
-  --small-size: calc(var(--p-size)*0.90);
-  --smaller-size: calc(var(--small-size)*0.90);
+  --h4-size: 24px;
+  --h3-size: 32px;
+  --h2-size: 36px;
+  /* --h1-size: 48px; */
+  --h1-size: 72px;
+  --small-size: 18px;
+  --smaller-size: 16px;
 
   --main-line-height: 1.6;
 
@@ -68,7 +80,8 @@
   --border-radius-med: 6px;
   --border-radius-large: 8px;
 
-  --header-font-family: cursive;
+  --header-font: sans-serif;
+  --title-font: var(--header-font);
 
   /* --feed-tile-width: 180px; */
   /* --feed-tile-height: 140px; */

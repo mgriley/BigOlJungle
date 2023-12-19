@@ -107,13 +107,13 @@ onMounted(() => {
         <p>JungleReader stores your config in your browser's storage. To make sure the browser doesn't
           automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
           your site data/cache will delete this data, so please back up your config sometimes.</p>
-        <h4 class="MutedHeader MarginTop">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</h4>
+        <p class="MutedHeader MarginTop">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</p>
         <button v-if="!persistentStorageOn" @click="enablePersistentStorage">{{ persistentStorageOn ? "Disable" : "Enable" }}</button>
       </div>
       <div class="SettingsSection">
         <h3>Cloud Sync</h3>
         <p>Connect your Google Drive account to backup and sync the reader between devices.</p>
-        <h4 class="MutedHeader">(Coming Soon!)</h4>
+        <p class="MutedHeader">(Coming Soon!)</p>
       </div>
       <div class="SettingsSection">
         <h3>Advanced</h3>
@@ -166,6 +166,7 @@ onMounted(() => {
 }
 
 .MutedHeader {
+  font-weight: bold;
   color: var(--secondary-text);
 }
 </style>

@@ -123,7 +123,7 @@ function addFeed(name, type, url) {
       </div>
     </div>
     <div class="OtherTips">
-      <h4>Other Tips:</h4>
+      <h3>Other Tips:</h3>
       <ul>
         <li>
           If a website doesn't support RSS but you'd like to follow it, here are some options:

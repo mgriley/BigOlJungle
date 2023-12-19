@@ -8,8 +8,12 @@
 */
 
 .PageHeader {
-  margin-bottom: var(--space-m);
+  margin-bottom: var(--space-s);
   text-decoration: var(--brand-underline);
+}
+
+.PlainHeader {
+  text-decoration: none;
 }
 
 .FormFieldName {

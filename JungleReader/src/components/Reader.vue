@@ -83,6 +83,7 @@ onMounted(() => {
               <div class="HeroDiv">
                 <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
                 <!-- <img class="HeroImg" src="../assets/NounCham.svg" /> -->
+                <p class="AppSubTitle">Read the jungle</p>
               </div>
               <div class="SideMenu">
                 <div class="Section">
@@ -134,47 +135,31 @@ onMounted(() => {
 
 <style scoped>
 .HeroDiv {
-  position: relative;
   margin-bottom: var(--space-l);
-
-  display: flex;
-  gap: 16px;
-  /*
-  background-color: var(--nice-red);
-  padding: 8px;
-  border-radius: 8px;
-  */
-}
-
-.HeroImg {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  filter: invert(100%) brightness(95%);
-  /*
-  width: 100px;
-  height: auto;
-  color: red;
-  transform: rotate(-22deg);
-  filter: invert(100%);
-  */
+  /* display: flex; */
 }
 
 .AppTitle {
   color: var(--header-text);
   /* color: var(--nice-red); */
 
-  padding-bottom: 2px;
-  border-bottom: 8px solid var(--nice-red);
+  /* padding-bottom: 2px; */
+  /* border-bottom: 4px solid var(--brand-color); */
 
-  font-family: sans-serif;
-  font-size: var(--p-size);
+  font-family: var(--title-font);
+  /* font-size: var(--p-size); */
+  font-size: var(--h3-size);
   line-height: 1;
   text-transform: uppercase;
   font-weight: bold;
 
   cursor: pointer;
+}
+
+.AppSubTitle {
+  color: var(--brand-color-purple);
+  font-size: var(--smaller-size);
+  font-style: italic;
 }
 
 .AppTitle .LastLine {
@@ -277,7 +262,7 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
 }
 
 .MainLink .Icon {
-  /* color: var(--brand-color); */
+  color: var(--brand-color-b);
 }
 
 .SidebarBtnBar {
@@ -379,6 +364,7 @@ Also collapse the menu.
 .VersionNum {
   color: var(--mute-text);
   font-style: italic;
+  font-size: var(--small-size);
 }
 
 #HomeLink {

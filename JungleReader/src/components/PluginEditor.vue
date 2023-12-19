@@ -45,7 +45,7 @@ function requiresWhitelist(pluginType) {
     <div class="PluginList">
       <div v-for="plugin in gApp.customPlugins" class="Plugin">
         <div class="NameBox Flex">
-          <h4 class="NameHeader Block MockButton" :class="{Disabled: !plugin.isEnabled}" @click="plugin.expandedInUi = !plugin.expandedInUi">
+          <h4 class="NameHeader Block MockButton PlainHeader" :class="{Disabled: !plugin.isEnabled}" @click="plugin.expandedInUi = !plugin.expandedInUi">
           {{ plugin.feedType ? plugin.feedType : "NoName" }}{{ plugin.expandedInUi ? "" : "..." }}
           </h4>
           <ToggleSwitch label="Enabled" v-model="plugin.isEnabled" />

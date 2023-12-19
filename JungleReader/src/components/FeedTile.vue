@@ -58,8 +58,8 @@ function onFeedClicked(feed) {
 
   background-color: var(--main-bg);
   border-radius: var(--border-radius-small);
-  border: 1px solid var(--main-text);
-  /* border-color: var(--brand-color); */
+  /* border: 1px solid var(--main-text); */
+  border: 1px solid var(--brand-color-b);
 }
 
 .FeedTile:hover {
@@ -158,7 +158,7 @@ function onFeedClicked(feed) {
   color: var(--main-bg);
   font-weight: var(--bold-weight);
   text-transform: uppercase;
-  background-color: var(--brand-color);
+  background-color: var(--brand-color-b);
   border-radius: 2px;
 }
 

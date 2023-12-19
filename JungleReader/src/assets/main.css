@@ -34,10 +34,11 @@ p {
 }
 
 h1, h2, h3, h4 {
-  /* font-family: var(--header-font-family); */
-  font-family: sans-serif;
+  font-family: var(--header-font), sans-serif;
   font-weight: var(--bold-weight);
   color: var(--header-text);
+
+  text-decoration: underline solid var(--brand-color-cyan) 2px;
 }
 
 h1 {
