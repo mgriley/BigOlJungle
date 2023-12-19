@@ -13,8 +13,7 @@
       whatever they may be. It supports RSS, Mastodon, YouTube, and more.
       </p>
       <p>
-      One of the goals of the reader is to help readers be intentful with their time.
-      You'll only see exactly what you've followed. Skim what's new, follow a link or two,
+      You'll only see exactly what you've followed. Quickly skim what's new, follow a link or two,
       then get outside :)
       </p>
       <p>
@@ -43,7 +42,7 @@
       </p>
     </div>
     <div class="MoreInfo">
-      <h4>More</h4>
+      <h3>More</h3>
       <p>
       I develop this site in my spare time, hope you like it! I have more 
       open-source web projects planned (JungleWriter, JungleNode, ...), so stay tuned.
@@ -53,7 +52,8 @@
           <li><p><a class="LinkButton" href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank">Leave feedback, report bugs, or request features</a></p></li>
         </ul>
       </div>
-      <h4>Sponsor on GitHub</h4>
+      <h3>Sponsor on GitHub</h3>
+      <p class="MarginBotXS">Like like JungleReader? Sponsor development on GitHub:</p>
       <iframe src="https://github.com/sponsors/mgriley/button" title="Sponsor mgriley" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
     </div>
     <div class="MoreInfo">

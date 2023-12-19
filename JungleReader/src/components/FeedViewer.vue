@@ -47,11 +47,11 @@ onMounted(() => {
         <div v-if="feed.lastReloadTime" class="SubtitleText">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
         <div class="ButtonRow Flex">
           <button class="ReloadButton SmallButton" @click="feed.reload()">
-            <vue-feather type="rotate-cw" stroke-width="1.5" />
+            <vue-feather type="rotate-cw" stroke-width="1.5" class="Icon"/>
             Reload now
           </button>
           <button class="SmallButton" @click="feedEditorModal.showModal()">
-            <vue-feather type="edit" stroke-width="1.5" />
+            <vue-feather type="edit" stroke-width="1.5" class="Icon"/>
             Edit feed
           </button>
         </div>
@@ -112,7 +112,8 @@ onMounted(() => {
 .FeedName {
   line-height: 1;
   margin-bottom: var(--space-s);
-  text-decoration: var(--brand-underline);
+  text-decoration: underline solid var(--brand-color-purple) 6px;
+  /* text-decoration: none; */
 }
 
 .HeaderBox {
@@ -130,6 +131,10 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.ButtonRow .Icon {
+  color: var(--brand-color-yellow);
 }
 
 .SubtitleText {
@@ -170,20 +175,21 @@ onMounted(() => {
 
 .LinkList {
   transition: all 1 ease;  
-  border: var(--pane-border);
+  border: var(--link-list-border);
   border-radius: var(--pane-border-radius);
 }
 
 .LinkElem {
   position: relative;
-  border-bottom: var(--pane-border);
+  border-bottom: var(--link-list-border);
   /* padding: var(--space-s); */
   padding: var(--space-s);
   /*margin-bottom: var(--space-xs);*/
 }
 
 .LinkElem.IsNew {
-  border-left: 6px solid var(--nice-red);
+  border-left: 8px solid var(--nice-red);
+  /*border-left: 8px solid var(--brand-color-yellow);*/
 }
 
 .LinkElem:last-child {
@@ -274,6 +280,7 @@ onMounted(() => {
 
 .NothingHereYet {
   font-size: var(--h4-size);
+  padding: 8px;
 }
 
 .DeleteButton {

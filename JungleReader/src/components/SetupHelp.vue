@@ -47,8 +47,14 @@ function addFeed(args) {
         any other website you may choose (which is all it does). If you'd like to inspect the code, you can view 
         it on GitHub.
       </MoreInfoText>
-      <p>After installing, reload the page, then start reading:</p>
-      <button class="DoneBtn PrimaryButton" @click="onSetupDone">Start Reading!</button>
+    </div>
+    <div class="HelpStep">
+      <h3>Step 2: Reload the page</h3>
+      <p>This gives the extension a chance to load.</p>
+    </div>
+    <div class="HelpStep">
+      <h3>Step 3: Start Reading</h3>
+      <button class="DoneBtn PrimaryButton StartReadingBtn" @click="onSetupDone">Start Reading!</button>
     </div>
   </div>
 </template>
@@ -104,7 +110,6 @@ ol {
 }
 
 .WhyNeed {
-  margin-bottom: var(--space-l);
 }
 
 .ExtLink {
@@ -122,11 +127,11 @@ ol {
 }
 
 .ExtLink:hover {
-  background-color: var(--nice-red);
+  background-color: var(--brand-color-purple);
 }
 
 .HelpStep {
-  margin-bottom: var(--space-l);
+  margin-bottom: var(--space-m);
 }
 
 .HelpStep:last-child {
@@ -143,6 +148,10 @@ ol {
 
 .NextStepsList p {
   margin-bottom: 0;  
+}
+
+.StartReadingBtn {
+  margin-top: var(--space-xs);
 }
 
 </style>

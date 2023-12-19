@@ -83,6 +83,9 @@
   --header-font: sans-serif;
   --title-font: var(--header-font);
 
+  /* --link-list-border: 1px solid var(--brand-color-yellow); */
+  --link-list-border: 1px solid var(--brand-color-yellow);
+
   /* --feed-tile-width: 180px; */
   /* --feed-tile-height: 140px; */
   --feed-tile-width: 160px;
