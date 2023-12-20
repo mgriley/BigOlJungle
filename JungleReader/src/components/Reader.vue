@@ -87,23 +87,23 @@ onMounted(() => {
               </div>
               <div class="SideMenu">
                 <div class="Section">
-                  <router-link to="/" id="HomeLink" class="MainLink"><vue-feather type="home" class="Icon"/>Home</router-link>
-                  <router-link to="/explore" class="MainLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
+                  <router-link to="/" id="HomeLink" class="MainLink MenuLink"><vue-feather type="home" class="Icon"/>Home</router-link>
+                  <router-link to="/explore" class="MainLink MenuLink"><vue-feather type="compass" class="Icon"/>Explore</router-link>
                 </div>
                 <div class="Section">
-                  <router-link to="/plugins" class="MainLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
-                  <router-link to="/settings" class="MainLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
+                  <router-link to="/plugins" class="MainLink MenuLink"><vue-feather type="plus-square" class="Icon"/>Plugins</router-link>
+                  <router-link to="/settings" class="MainLink MenuLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
                 </div>
                 <div class="Section">
-                  <a href="#" @click.prevent="startImportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Import Config</a>
-                  <a href="#" @click.prevent="startExportConfig()" class="MainLink"><vue-feather type="download" class="Icon"/>Download Config</a>
+                  <a href="#" @click.prevent="startImportConfig()" class="MainLink MenuLink"><vue-feather type="download" class="Icon"/>Import Config</a>
+                  <a href="#" @click.prevent="startExportConfig()" class="MainLink MenuLink"><vue-feather type="download" class="Icon"/>Download Config</a>
                 </div>
                 <div class="Section">
-                  <router-link to="/about" class="MainLink"><vue-feather type="info" class="Icon" />About</router-link>
-                  <router-link to="/addsupport" class="MainLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
-                  <router-link to="/privacypolicy" class="MainLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
-                  <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
-                  <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
+                  <router-link to="/about" class="MainLink MenuLink"><vue-feather type="info" class="Icon" />About</router-link>
+                  <router-link to="/addsupport" class="MainLink MenuLink"><vue-feather type="plus" class="Icon" />Add Support</router-link>
+                  <router-link to="/privacypolicy" class="MainLink MenuLink"><vue-feather type="shield" class="Icon" />Privacy Policy</router-link>
+                  <a href="https://forms.gle/HqavrHa7jQs4aRbd8" target="_blank" class="MainLink MenuLink"><vue-feather type="send" class="Icon" />Report Bug <!--<vue-feather type="external-link" size="16" />!--></a>
+                  <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="MainLink MenuLink"><vue-feather type="github" class="Icon" />GitHub <!--<vue-feather type="external-link" size="16" />!--></a>
                 </div>
                 <div class="Section VersionSection">
                   <p class="VersionNum">Version {{ kReaderVersionString }}</p>
@@ -369,6 +369,9 @@ Also collapse the menu.
 .router-link-active {
   color: var(--main-bg);
   background-color: var(--main-text);
+  /*
+  border-bottom: 1px solid red;
+  */
 }
 
 .router-link-active .Icon {

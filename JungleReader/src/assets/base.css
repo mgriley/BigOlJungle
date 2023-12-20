@@ -48,7 +48,9 @@
   --mute-text: var(--light-color);
   --very-mute-text: var(--medium-color);
   --text-button-hover: var(--brand-color-purple);
-  --button-icon-inverse: var(--main-bg);
+  /* --button-icon-inverse: var(--main-bg); */
+  /* --button-icon-inverse: RebeccaPurple; */
+  --button-icon-inverse: DeepPink;
 
   --space-zero: 0px;
   --space-xxs: 4px;

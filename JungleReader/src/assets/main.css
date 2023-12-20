@@ -70,13 +70,11 @@ b {
 
 a {
   color: var(--main-text);
-  /* transition: 0.2s; */
 }
 
 a:hover, a:active {
   color: var(--main-bg);
   background-color: var(--main-text);
-  /* border-bottom: 1px solid red; */
 }
 
 a .Icon {
@@ -84,8 +82,20 @@ a .Icon {
 }
 
 a:hover .Icon, a:active .Icon {
-  color: var(--main-bg);
+  color: var(--button-icon-inverse);
 }
+
+/*
+.MenuLink {
+  border-bottom: 1px solid transparent;
+}
+
+.MenuLink:hover, .MenuLink:active {
+  color: inherit;
+  background-color: inherit;
+  border-bottom: 1px solid red;
+}
+*/
 
 /* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
 /* See: https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width */
