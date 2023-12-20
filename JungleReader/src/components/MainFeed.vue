@@ -234,7 +234,7 @@ onMounted(() => {
             <li><p>Click "Reload All" to update all your feeds.</p></li>
             <li><p>If you're a developer, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
           </ul>
-          <button class="DoneBtn" @click="gApp.setDoneFeedSetup(true)">Done</button>
+          <button class="DoneBtn" @click="gApp.setDoneFeedSetup(true)">Done Setup</button>
         </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
@@ -451,6 +451,9 @@ onMounted(() => {
 .HelpText {
   margin-top: var(--space-m);
   font-size: var(--h4-size);
+
+  border-color: var(--brand-color-yellow);
+  background-color: var(--main-bg);
 }
 
 .SampleFeeds {

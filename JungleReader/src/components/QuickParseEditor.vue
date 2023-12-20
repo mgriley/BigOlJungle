@@ -180,22 +180,19 @@ async function runTestParse() {
       <MoreInfoText class="Tutorial" text="How does this work?" >
         <p>
         Make a <b>QuickParse</b> plugin to parse simple feed or post-based webpages.
-        You'll need some basic knowledge of HTML.
+        You'll need basic knowledge of HTML.
         </p>
         <p>
-        To create the plugin, just follow the steps below. You will enter a representative page you'd like to parse, annotate it, then
-        check that the output is expected. Once done, the QuickParse plugin will know how to create feeds from any pages that follow the
-        same format.
+        Follow the steps below. Enter the page you'd like to parse, annotate it, then check the output. Once done,
+        the plugin will know how to parse pages with that format.
         </p>
         <p>
-        <b>Sharing your plugin:</b> You can do "Copy config" then tells others to "Paste Config".
-        You can also do "Copy config" then host the file online, like at https://www.yoursite.com/myplugin.json. Other users
-        can add your plugin by creating a "URL" plugin with that URL.
+        <b>Sharing your plugin:</b> Do a "Export Config" then host your plugin online, like at https://www.yoursite.com/myplugin.json. Other users
+        can add it by creating a "URL" plugin with your URL.
         </p>
         <p>
-        <b>Also Note:</b> if the website you're reading has a complex structure, QuickParse may not work for you. In that case, 
-        try a "Script" plugin instead. If the website changes its HTML, your feeds will show errors and
-        you'll have to come back here to update the annotations.
+        <b>Also Note:</b> if the website you're reading has a complex structure or dynamically loads content, QuickParse may not work.
+        Try a "Script" plugin instead.
         </p>
       </MoreInfoText>
     </div>

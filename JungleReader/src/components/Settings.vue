@@ -105,8 +105,7 @@ onMounted(() => {
       <div class="SettingsSection">
         <h3>Persistent Storage</h3>
         <p>JungleReader stores your config in your browser's storage. To make sure the browser doesn't
-          automatically delete it to clear up space, turn on "persist". Even with this on, manually clearing
-          your site data/cache will delete this data, so please back up your config sometimes.</p>
+          automatically delete it to clear up space, turn on "persist".</p>
         <p class="MutedHeader MarginTop">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</p>
         <button v-if="!persistentStorageOn" @click="enablePersistentStorage">{{ persistentStorageOn ? "Disable" : "Enable" }}</button>
       </div>
@@ -120,8 +119,8 @@ onMounted(() => {
         <div class="SubSection">
           <h4>Fetch Method</h4>
           <p class="FetchDesc">
-          By default, JungleReader will try to use JungleExt to make external web requests. 
-          Soon, you'll be able to use a custom CORS proxy, instead, if you want. The DevProxy
+          By default, JungleReader uses JungleExt to make external web requests. 
+          Soon, you'll be able to use a custom CORS proxy, instead, if you prefer. The DevProxy
           proxies requests to ToucanProxy running on localhost:8787.
           </p>
           <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />

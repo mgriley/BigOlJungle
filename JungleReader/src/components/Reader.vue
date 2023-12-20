@@ -125,7 +125,7 @@ onMounted(() => {
       <input ref="importFileInput" type="file" id="input" />
     </div>
   </BasicModal>
-  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Download" @onDone="gApp.exportConfig()">
+  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
     <p>
     This will download your current config, which includes your feeds, groups,
     plugins, settings, and other data.

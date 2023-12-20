@@ -44,7 +44,7 @@ onMounted(() => {
   <div class="FeedViewer">
     <button class="BackButton" @click="goBack">Back to Home</button>
     <div class="HeaderBox">
-      <h1 class="FeedName">{{ feed.name }}</h1>
+      <h1 class="FeedName">{{ feed.name || "NoName" }}</h1>
       <div class="Subtitle">
         <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
           {{ feed.mainSiteUrl }}

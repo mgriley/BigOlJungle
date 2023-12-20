@@ -105,6 +105,14 @@ async function runTestParse() {
   isTestRunning.value = false;  
 }
 
+function funcId(groupIndex, funcIndex) {
+  return `func${groupIndex}_${funcIndex}`
+}
+
+function scrollTo(elemId) {
+  document.getElementById(elemId).scrollIntoView();
+}
+
 </script>
 
 <template>
@@ -137,19 +145,32 @@ async function runTestParse() {
         the script locally in a minimal Javascript sandbox.
         </p>
         <p>
-        The sandbox does not have access to many functions, and only supports ES5 (so no `let/const`, arrow functions, etc.).
-        This is a work in progress.
+        The sandbox does not have access to many functions, and only supports ES5 (so no `let/const`, arrow functions, etc.), to
+        keep things simple.
         </p>
         <p>
-        Sharing your plugin: Do "Export Script" to get your Script plugin as a JSON file. Host this file somewhere.
-        Instruct users to create a Plugin with type "URL", and specify your file URL.
+        Sharing your plugin: Do "Export Script" to get your Script plugin as a JSON file. Host this file somewhere online,
+        like at www.yoursite.com/yourplugin.json.
+        Instruct users to create a "URL" Plugin for it.
+        </p>
+        <p>
+        Script plugins are a work in progress. Follow the JungleReader Development feed (see Explore page) for updates.
         </p>
       </MoreInfoText>
       <div class="DocsContainer">
-        <div v-for="group in docs.functionDocs" class="GroupDoc">
+        <div class="TableOfContents">
+          <h4>Overview</h4>
+          <div v-for="(group, groupIndex) in docs.functionDocs">
+            <div v-for="(func, funcIndex) in group.funcs">
+              <p class="FuncSig MockButton" @click="scrollTo(funcId(groupIndex, funcIndex))">{{ sigToStr(func.sig) }}</p>
+            </div>
+          </div>
+        </div>
+        <h4 id="DetailsSection">Details</h4>
+        <div v-for="(group, groupIndex) in docs.functionDocs" class="GroupDoc">
           <!-- <h4>{{ group.name }}</h4> -->
-          <div v-for="func in group.funcs" class="FuncDoc">
-            <p class="FuncSig">
+          <div v-for="(func, funcIndex) in group.funcs" class="FuncDoc">
+            <p :id="funcId(groupIndex, funcIndex)" class="FuncSig">
               {{ sigToStr(func.sig) }}
             </p>
             <p class="FuncDesc">{{ func.desc }}</p>
@@ -258,5 +279,13 @@ async function runTestParse() {
   white-space: pre;
 }
 
+.TableOfContents {
+  margin-bottom: var(--space-l);
+}
+
+.TableOfContents .FuncSig {
+  font-weight: normal;
+  margin-bottom: 4px;
+}
 
 </style>

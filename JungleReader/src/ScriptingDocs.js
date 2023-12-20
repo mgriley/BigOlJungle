@@ -127,7 +127,7 @@ var text = fetchText("https://someapi.com/users", {
     name: "MoreInfo",
     funcs: [
       {
-        sig: "More:",
+        sig: "More...",
         blockDesc: `The interpreter also supports the following JS APIs:
 - Array
 - String

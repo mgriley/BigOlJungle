@@ -54,38 +54,34 @@ This is a third sample post.
   <div class="AddSupport">
     <h1 class="PageHeader">Add Support</h1>
     <p class="EmphasisText"><b>Want to add JungleReader support to your own website (or someone else's)? Follow this guide.</b></p>
+    <h3>Option 1 - Add a RSS Feed (Recommended)</h3>
     <p>
-    The best way to make your site readable on JungleReader is to add a RSS feed. A RSS feed is
-    a simple HTML-like file that lists the posts on your website and gives links to them. 
-    You simply make this
-    file available at your website, like at "https://www.yoursite.com/feed.rss". JungleReader and many other
-    RSS apps use this link to add the feed.
+    A RSS feed is a simple file that lists the posts on your website. You write (or generate) this file
+    then add it to your site, like at "https://www.yoursite.com/feed.rss". Use this url to make a 'Follow on JungleReader' link, at
+    the bottom of this page.
     </p>
     <p>
-    If you made your website using a website-builder/generator tool like WordPress, Wix, Hugo, Jekyll, etc.
-    then typically there will be a plugin available to automatically generate the feed.
-    </p>
-    <p>
-    If no plugin is available, you can hand-write or generate the RSS file yourself. The format is pretty simple. JungleReader can also
-    follow feed.rsst (RSS txt) files, which is a simplified RSS format we cooked up. Here are some templates to get started:
+    Typically you'll want to generate the RSS file using your website-builder tool (most have RSS plugins), but you can also write one yourself if desperate.
     </p>
     <p>Sample RSS file:</p>
     <p class="CodeBlock">{{ rssTemplate }}</p>
     <p>More info on RSS: <a href="https://www.w3schools.com/xml/xml_rss.asp">https://www.w3schools.com/xml/xml_rss.asp</a></p>
+    <h3>Option 2 - Add a RSST Feed</h3>
+    <p>
+    If the idea of generating the RSS file or writing it yourself seems daunting, don't worry. JungleReader supports
+    a simpler format called RSST (RSS Text) which we cooked up. It is designed to be easily written and read by humans and computers.
+    Write this file, add it to your site, then make a 'Follow on JungleReader' link below.
+    </p>
     <p>Sample RSST file:</p>
     <p class="CodeBlock">{{ rsstTemplate }}</p>
+    <h3>Option 3 - Make a Custom Plugin</h3>
     <p>
-    Once you have your RSS feed, you can create a "www.zajungle.com/#/addfeed/..." link that, once clicked, will take the user to their JungleReader page
-    and prompt to add the feed. To generate this link, use the Button Generator form below.
-    </p>
-    <h4>Other Options</h4>
-    <p>
-    Another option is to write and host a custom plugin for your site. Basically, a custom plugin is a small script that knows how to take the HTML page of a site and generate a feed.
-    To write one, check out the Plugins tab.
+    You can write and host a custom JungleReader plugin for your site. A custom plugin is a small script that knows how to take the HTML page of a site and generate a feed from it.
+    See the Plugins tab to get started.
     </p>
     <div class="GenSection">
-      <h3>Generate "Follow on JungleReader" Button</h3>
-      <p>Want a "Follow on JungleReader" button for your own website or feed? You can generate one here.</p>
+      <h3>Get your "Follow on JungleReader" link</h3>
+      <p>Want a "Follow on JungleReader" link/button for your website? You can generate one here.</p>
       <ButtonGenerator />
     </div>
   </div>

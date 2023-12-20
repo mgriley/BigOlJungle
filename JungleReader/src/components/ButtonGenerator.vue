@@ -6,8 +6,8 @@ import BasicSelector from './BasicSelector.vue'
 
 let buttonGenerator = gApp.buttonGenerator
 
-let smallImgButtonSize = ref('48px');
-let smallImgButtonSizes = ['48px', '64px', '80px', '96px'];
+let smallImgButtonSize = ref('32px');
+let smallImgButtonSizes = ['32px', '48px', '64px', '80px', '96px'];
 let bigImgButtonSize = ref('256px');
 let bigImgButtonSizes = ['200px', '256px', '512px'];
 
@@ -24,7 +24,8 @@ let bigImgButton = computed(() => {
 
 let smallImgButton = computed(() => {
   let width = smallImgButtonSize.value;
-  let imgSrc = window.location.origin + "/small_follow_button.svg"
+  // let imgSrc = window.location.origin + "/small_follow_button.svg"
+  let imgSrc = window.location.origin + "/Favicon.png"
   let html = `<a class="JRSmallLink" href="${feedLink.value}" target="_blank"><img class="JRSmallImg" src="${imgSrc}" width="${width}" alt="Small JungleReader link" /></a>`
   return html
 })
@@ -51,13 +52,13 @@ function changeBigButtonSize(newVal) {
     <input v-model="buttonGenerator.url" placeholder="https://www.mysite.com" class="Block WideInput BasicTextInput" autofocus>
   </div>
   <div class="Output">
-    <h4>Output:</h4>
+    <h4>Your link and button:</h4>
     <div class="FormFieldName">Add-Feed Link</div>
     <LinkSnippet :theLink="feedLink" class="MarginBotS"/>
-    <p>You can download the JungleReader logo SVG and have it link to your 'AddFeed' link, like this:</p>
+    <p>You can download the JungleReader logo and have it link to your 'AddFeed' link, like this:</p>
     <div class="BtnPreview MarginBotS" v-html="smallImgButton"></div>
     <p>
-      <a href="https://www.zajungle.com/small_follow_button.svg" download="jr_logo">Download logo SVG</a>
+      <a href="Favicon.png" download="jr_logo">Download logo</a>
     </p>
   </div>
 </div>
@@ -77,10 +78,13 @@ function changeBigButtonSize(newVal) {
 }
 
 .BtnPreview {
+  margin-top: var(--space-xs);
+  /*
   display: inline-block;
   padding: 4px;
   border: 2px dashed var(--main-bg);
   background-color: white;
+  */
 }
 
 </style>
