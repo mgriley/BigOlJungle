@@ -45,6 +45,7 @@ const value = computed({
 .Checkbox {
   width: 18px;
   height: 18px;
+  /* accent-color: var(--brand-color-yellow); */
 }
 
 </style>

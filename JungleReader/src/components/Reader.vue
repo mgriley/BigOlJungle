@@ -95,8 +95,8 @@ onMounted(() => {
                   <router-link to="/settings" class="MainLink MenuLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
                 </div>
                 <div class="Section">
+                  <a href="#" @click.prevent="startExportConfig()" class="MainLink MenuLink"><vue-feather type="upload" class="Icon"/>Export Config</a>
                   <a href="#" @click.prevent="startImportConfig()" class="MainLink MenuLink"><vue-feather type="download" class="Icon"/>Import Config</a>
-                  <a href="#" @click.prevent="startExportConfig()" class="MainLink MenuLink"><vue-feather type="download" class="Icon"/>Download Config</a>
                 </div>
                 <div class="Section">
                   <router-link to="/about" class="MainLink MenuLink"><vue-feather type="info" class="Icon" />About</router-link>
@@ -125,7 +125,7 @@ onMounted(() => {
       <input ref="importFileInput" type="file" id="input" />
     </div>
   </BasicModal>
-  <BasicModal class="ExportModal" ref="exportConfigModal" title="Download Config" doneText="Download" @onDone="gApp.exportConfig()">
+  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Download" @onDone="gApp.exportConfig()">
     <p>
     This will download your current config, which includes your feeds, groups,
     plugins, settings, and other data.

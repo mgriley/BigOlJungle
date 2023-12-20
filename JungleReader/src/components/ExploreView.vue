@@ -109,7 +109,7 @@ function addFeed(name, type, url) {
   <div class="ExploreView">
     <h1 class="PageHeader">Explore</h1>
     <p class="Info">
-    Here is a small sample of feeds you can use to get started. Click to add.
+    Here is a small sample of feeds you can use to get started.
     To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
     </p> 
     <div class="Groups">
