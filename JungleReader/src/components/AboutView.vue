@@ -36,7 +36,6 @@
         <li>V1 JungleWriter (simple in-browser site generator tool)</li>
         <li>V1 JungleNode (self-hosted server-side tool)</li>
         <li>JungleReader mobile apps</li>
-        <li>JungleReader desktop app</li>
         <li>JungleReader cleanup+improvements (esp. plugin system)</li>
       </ul>
       </p>
