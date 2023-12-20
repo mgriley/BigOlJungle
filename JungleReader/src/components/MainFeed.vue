@@ -456,6 +456,10 @@ onMounted(() => {
   background-color: var(--main-bg);
 }
 
+.HelpText p {
+  color: var(--main-text);
+}
+
 .SampleFeeds {
   margin-bottom: 16px;
 }
