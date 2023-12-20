@@ -9,20 +9,19 @@ let props = defineProps({
   }
 })
 
-let showMoreInfo = ref(false);
-
 </script>
 
 <template>
-  <div>
-    <button class="SmallButton" @click="showMoreInfo = !showMoreInfo">{{ text }}{{ (showEllipse && !showMoreInfo) ? "..." : "" }}</button>
-    <template v-if="showMoreInfo">
-      <p class="DisclosureBody">
-        <slot>Default text</slot>
-      </p>
-    </template>
-  </div>
+  <details>
+    <summary class="Summary">{{ text }}</summary>
+    <p class="DisclosureBody">
+      <slot>Default text</slot>
+    </p>
+  </details>
 </template>
 
 <style scoped>
+.Summary {
+  color: var(--mute-text);
+}
 </style>

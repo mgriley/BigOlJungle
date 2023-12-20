@@ -5,7 +5,6 @@ import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
 import GroupSelector from './GroupSelector.vue'
 import BasicSelector from './BasicSelector.vue'
-import CopyLinkButton from './CopyLinkButton.vue'
 import InfoTooltip from './InfoTooltip.vue'
 
 const props = defineProps({
@@ -19,7 +18,7 @@ function changeGroup(newGroup) {
 }
 
 let showOptions = ref(false);
-let showQuickHelp = ref(false);
+let showQuickHelp = ref(true);
 
 let supportedFeedTypes = computed(() => {
   let types = []
@@ -39,10 +38,6 @@ function onChangeFeedType(feed, newType) {
   feed.type = newType;
   // console.log("Feed type: " + feed.type);
 }
-
-const feedShareLink = computed(() => {
-  return Feed.makeShareLink(props.feed.name, props.feed.type, props.feed.url);
-})
 
 function getUrlPlaceholder(feed) {
   let plugin = gApp.getFeedPluginByType(feed.type);
@@ -65,26 +60,29 @@ function getQuickHelp(pluginType) {
 <template>
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
-    <input v-model="feed.name" class="Block BasicTextInput WideInput" autofocus>
+    <input v-model="feed.name" class="Block BasicTextInput" autofocus placeholder="Enter name">
   </div>
   <div class="FormFieldName">Type</div>
   <div class="Flex FeedTypeBox">
     <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
-    <button class="SmallButton InfoButton" @click="showQuickHelp = !showQuickHelp">Info</button>
+    <!-- <button class="SmallButton InfoButton" @click="showQuickHelp = !showQuickHelp">Info</button> -->
   </div>
   <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(feed.type)}}</p>
-  <div class="FormFieldNameWithInfo">URL</div>
-  <div class="FormFieldInfo">{{ getUrlPlaceholder(feed) }}</div>
+  <div class="FormFieldName">URL</div>
   <!-- <BasicSelector class="MarginBotXXS" :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/> -->
-  <input v-model="feed.url" class="Block BasicTextInput WideInput">
+  <input v-model="feed.url" class="Block BasicTextInput WideInput" placeholder="Enter URL">
+  <div class="FormFieldInfoUnder">{{ getUrlPlaceholder(feed) }}</div>
 
-  <div class="FormFieldName">Group</div>
-  <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>
+  <details class="Settings FormFieldName">
+    <summary>Settings</summary>
+    <div class="SettingsBody">
+      <div class="FormFieldName">Group</div>
+      <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>
 
-  <div class="FormFieldName">Custom Options</div>
-  <OptionsInput class="" :options="feed.options" />
-
-  <CopyLinkButton title="Get share link" class="ShareLink" :theLink="feedShareLink" />
+      <div class="FormFieldName">Custom Options</div>
+      <OptionsInput class="" :options="feed.options" />
+    </div>
+  </details>
 
 </template>
 
@@ -105,6 +103,8 @@ function getQuickHelp(pluginType) {
 .QuickHelpText {
   max-width: 400px;
   line-height: 1.2;
+  margin-top: 4px;
+  font-size: var(--small-size);
 }
 
 .WideInput {
@@ -112,8 +112,13 @@ function getQuickHelp(pluginType) {
   max-width: 100%;
 }
 
-.ShareLink {
-  margin-top: var(--space-s);
+.Settings {
+  margin-top: var(--space-m);
+  margin-bottom: 4px;
+}
+
+.SettingsBody {
+  margin-top: var(--space-xs);
 }
 
 </style>

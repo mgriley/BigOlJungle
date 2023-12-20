@@ -190,15 +190,15 @@ onMounted(() => {
   <SetupHelp v-if="!gApp.isDoneWelcome()" />
   <div v-else class="MainFeed">
     <div class="ButtonMenu">
-      <button class="MenuBtn PrimaryButton" @click="addFeed()">
+      <button class="MenuBtn" @click="addFeed()">
         <vue-feather type="rss" class="Icon" />
         Add Feed
       </button>
-      <button class="MenuBtn PrimaryButton" @click="addFeedGroup()">
+      <button class="MenuBtn" @click="addFeedGroup()">
         <vue-feather type="grid" class="Icon" />
         Add Group
       </button>
-      <button class="MenuBtn PrimaryButton BigReloadBtn" @click="onClickBigReload()">
+      <button class="MenuBtn BigReloadBtn" @click="onClickBigReload()">
         <vue-feather type="rotate-cw" class="Icon" />
         Big Reload
       </button>
@@ -336,10 +336,6 @@ onMounted(() => {
   /* font-size: 24px; */
 }
 
-.MenuBtn .Icon {
-  color: var(--brand-color-b);
-}
-
 .InnerReloadBtn {
   display: flex;
   align-items: center;
@@ -378,10 +374,6 @@ onMounted(() => {
   font-size: 28px;
 }
 
-.ExpandEllipse {
-  color: var(--nice-red);
-}
-
 .GroupControls {
   display: flex;
   align-items: baseline;
@@ -392,7 +384,6 @@ onMounted(() => {
 .GroupControls .Collapse {
   font-weight: 600;
   margin-right: 8px;
-  /*color: var(--nice-red);*/
 }
 
 .SettingsButton {
@@ -419,7 +410,7 @@ onMounted(() => {
 }
 
 .DeleteButton {
-  margin-top: var(--space-l);
+  margin-top: var(--space-m);
 }
 
 .AddLinkedFeedInfo {

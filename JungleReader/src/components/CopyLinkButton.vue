@@ -36,7 +36,7 @@ let btnText = computed(() => {
 
 <template>
   <button class="CopyButton SmallButton" @click="copyText">
-    <vue-feather type="link" stroke-width="2"/>
+    <vue-feather type="link" stroke-width="2.0" class="Icon" />
     {{ btnText }}
   </button>
 </template>
@@ -44,8 +44,13 @@ let btnText = computed(() => {
 <style scoped>
 .CopyButton {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   align-items: center;
+}
+
+
+.Icon {
+  color: var(--brand-color-yellow);
 }
 
 </style>

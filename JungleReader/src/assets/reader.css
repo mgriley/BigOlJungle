@@ -1,5 +1,10 @@
 @import './base.css';
 
+:root {
+  --space-form-field: var(--space-s);
+  --form-font-size: var(--p-size);
+}
+
 /*
 @font-face {
   font-family: OldLondon;
@@ -9,7 +14,7 @@
 
 .PageHeader {
   margin-bottom: var(--space-s);
-  text-decoration: var(--brand-underline);
+  text-decoration: var(--brand-underline-title);
 }
 
 .PlainHeader {
@@ -17,8 +22,9 @@
 }
 
 .FormFieldName {
-  margin-top: var(--space-s);
+  margin-top: var(--space-form-field);
   margin-bottom: 2px;
+  font-size: var(--form-font-size);
 }
 
 .FormFieldName:first-child {
@@ -26,7 +32,8 @@
 }
 
 .FormFieldNameWithInfo {
-  margin-top: var(--space-s);
+  margin-top: var(--space-form-field);
+  font-size: var(--form-font-size);
 }
 
 .FormFieldNameWithInfo:first-child {
@@ -35,7 +42,13 @@
 
 .FormFieldInfo {
   margin-bottom: var(--space-xxs);
-  font-size: var(--small-size);
+  font-size: var(--smaller-size);
+  color: var(--mute-text);
+}
+
+.FormFieldInfoUnder {
+  margin-top: var(--space-xxs);
+  font-size: var(--smaller-size);
   color: var(--mute-text);
 }
 

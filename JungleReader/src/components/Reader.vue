@@ -261,10 +261,6 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   margin-bottom: var(--space-s);
 }
 
-.MainLink .Icon {
-  color: var(--brand-color-b);
-}
-
 .SidebarBtnBar {
   display: none;
 }
@@ -373,6 +369,10 @@ Also collapse the menu.
 .router-link-active {
   color: var(--main-bg);
   background-color: var(--main-text);
+}
+
+.router-link-active .Icon {
+  color: var(--button-icon-inverse);
 }
 
 .ImportBox {

@@ -90,7 +90,7 @@ function onFeedClicked(feed) {
 }
 
 .FeedTile.HasUnread {
-  border-color: var(--nice-red);
+  border-color: var(--attn-color);
   border-width: 3px;
 }
 
@@ -136,12 +136,10 @@ function onFeedClicked(feed) {
   /* background-color: var(--main-text); */
   /* color: var(--darkest-color); */
 
-  /* border: 1px solid var(--main-text); */
   /* border-radius: var(--border-radius-small); */
 }
 
 .EditButton:hover {
-  /* color: var(--nice-red); */
 }
 
 .FeedTile:hover .EditButton {
@@ -180,7 +178,7 @@ function onFeedClicked(feed) {
   height: var(--width);
   top: calc(var(--width) * -0.5);
   right: calc(var(--width) * -0.5);
-  background-color: var(--nice-red); 
+  background-color: var(--attn-color); 
   /* border-radius: calc(var(--width) / 2); */
 
   border: 4px solid var(--main-bg);

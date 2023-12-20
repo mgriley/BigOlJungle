@@ -26,6 +26,14 @@ button:hover, button:active {
   color: var(--main-bg);
 }
 
+button .Icon {
+  color: var(--brand-color-yellow);
+}
+
+button:hover .Icon, button:active .Icon {
+  color: var(--button-icon-inverse);
+}
+
 /* No need for a different PrimaryButton for now */
 /*
 .PrimaryButton {

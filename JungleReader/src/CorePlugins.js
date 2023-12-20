@@ -17,8 +17,8 @@ class RSSFeed extends FeedPlugin {
   constructor(app) {
     super("RSS");
     this.app = app;
-    this.urlPlaceholderHelp = "Ex: https://www.someurl.com/feed.rss";
-    this.quickHelpDocs = "Add a RSS feed with its URL.";
+    this.urlPlaceholderHelp = "Ex: www.someurl.com/feed.rss";
+    this.quickHelpDocs = "Follow a RSS feed.";
   }
 
   async updateFeeds(feeds) {
@@ -93,7 +93,7 @@ class MastodonFeed extends RSSFeed {
     super(app);
     this.name = "Mastodon";
     this.urlPlaceholderHelp = "Ex: https://mastodon.social/@someuser";
-    this.quickHelpDocs = "Follow a Mastodon feed. Enter the feed URL.";
+    this.quickHelpDocs = "Follow a Mastodon page.";
   }
 
   transformUrlToRss(feedUrl) {
@@ -127,8 +127,8 @@ class YouTubeFeed extends RSSFeed {
   constructor(app) {
     super(app);
     this.name = "YouTube";
-    this.urlPlaceholderHelp = "Ex: https://www.youtube.com/@sora_sakurai_en";
-    this.quickHelpDocs = "Follow a YouTube channel. Enter the channel URL.";
+    this.urlPlaceholderHelp = "Ex: www.youtube.com/@sora_sakurai_en";
+    this.quickHelpDocs = "Follow a YouTube channel.";
   }
 
   async updateFeed(feed) {
@@ -169,8 +169,8 @@ class RedditFeed extends RSSFeed {
   constructor(app) {
     super(app);
     this.name = "Reddit";
-    this.urlPlaceholderHelp = "Ex: https://www.reddit.com/r/toronto/";
-    this.quickHelpDocs = "Follow a subreddit or profile. Enter the subreddit or profile URL.";
+    this.urlPlaceholderHelp = "Ex: www.reddit.com/r/toronto/";
+    this.quickHelpDocs = "Follow a Reddit page (subreddit or profile).";
   }
 
   transformUrlToRss(feedUrl) {
@@ -186,7 +186,7 @@ class Bookmark extends FeedPlugin {
   constructor(app) {
     super("Bookmark");
     this.app = app;
-    this.urlPlaceholderHelp = "Ex: https://www.somesite.com";
+    this.urlPlaceholderHelp = "Ex: www.somesite.com";
     this.quickHelpDocs = "Add a simple bookmark to any site."
   }
 
@@ -207,7 +207,7 @@ class Watcher extends FeedPlugin {
   constructor(app) {
     super("Watcher");
     this.app = app;
-    this.urlPlaceholderHelp = "Ex: https://www.somesite.com/blog";
+    this.urlPlaceholderHelp = "Ex: www.somesite.com/blog";
     this.quickHelpDocs = "Watch any static webpage for changes.";
   }
 

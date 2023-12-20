@@ -31,7 +31,10 @@
   --brand-color-a: var(--brand-color);
   --brand-color-b: var(--brand-color-yellow);
   --brand-color-c: var(--brand-color-green);
-  --brand-underline: underline solid var(--brand-color-yellow) 4px;
+  --brand-underline-title: underline solid var(--brand-color-purple) 4px;
+  --brand-underline-headers: underline solid var(--brand-color-yellow) 2px;
+  --brand-underline: var(--brand-underline-title);
+  --attn-color: var(--brand-color-purple);
 
   --header-text: var(--white-color);
   /* --main-text: var(--lightest-color); */
@@ -44,8 +47,8 @@
   --input-bg: var(--medium-color);
   --mute-text: var(--light-color);
   --very-mute-text: var(--medium-color);
-  --link-hover-bg: rgba(127, 127, 127, 0.4);
-  --text-button-hover: var(--nice-red);
+  --text-button-hover: var(--brand-color-purple);
+  --button-icon-inverse: var(--main-bg);
 
   --space-zero: 0px;
   --space-xxs: 4px;
@@ -76,6 +79,7 @@
   --popup-border: 1px solid grey;
   --popup-border-radius: 4px;
 
+  --border-radius-smaller: 2px;
   --border-radius-small: 4px;
   --border-radius-med: 6px;
   --border-radius-large: 8px;

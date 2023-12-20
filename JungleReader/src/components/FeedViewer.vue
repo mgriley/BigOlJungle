@@ -5,6 +5,7 @@ import * as utils from '../Utils.js'
 import TreeIcon from './TreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import FeedEditor from './FeedEditor.vue'
+import CopyLinkButton from './CopyLinkButton.vue'
 
 const props = defineProps({
   feed: Object,
@@ -27,6 +28,10 @@ function deleteFeed() {
   props.feed.removeFromParent();
   goBack();
 }
+
+const feedShareLink = computed(() => {
+  return Feed.makeShareLink(props.feed.name, props.feed.type, props.feed.url);
+})
 
 onMounted(() => {
   lastReadTime.value = props.feed.lastReadTime;
@@ -54,6 +59,7 @@ onMounted(() => {
             <vue-feather type="edit" stroke-width="1.5" class="Icon"/>
             Edit feed
           </button>
+          <CopyLinkButton title="Share link" class="ShareLink" :theLink="feedShareLink" />
         </div>
       </div>
     </div>
@@ -123,7 +129,7 @@ onMounted(() => {
 .ButtonRow {
   margin-top: 8px;
   margin-bottom: 4px;
-  gap: 24px;
+  gap: 18px;
 }
 
 .ButtonRow button {
@@ -131,10 +137,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.ButtonRow .Icon {
-  color: var(--brand-color-yellow);
 }
 
 .SubtitleText {
@@ -188,7 +190,7 @@ onMounted(() => {
 }
 
 .LinkElem.IsNew {
-  border-left: 8px solid var(--nice-red);
+  border-left: 8px solid var(--attn-color);
   /*border-left: 8px solid var(--brand-color-yellow);*/
 }
 
@@ -267,7 +269,7 @@ onMounted(() => {
   align-items: center;
   gap: 4px;
 
-  background-color: var(--nice-red);
+  background-color: var(--attn-color);
   padding: 2px 8px;
   font-size: calc(var(--smaller-size) * 0.95);
 
