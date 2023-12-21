@@ -150,7 +150,7 @@ onMounted(() => {
   /* font-size: var(--p-size); */
   font-size: var(--h3-size);
   line-height: 1;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-weight: bold;
 
   cursor: pointer;

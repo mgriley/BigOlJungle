@@ -15,6 +15,10 @@
 .PageHeader {
   margin-bottom: var(--space-s);
   text-decoration: var(--brand-underline-title);
+  /* text-decoration: none; */
+  /* color: Fuchsia; */
+  /* font-family: monospace; */
+  /* text-transform: uppercase; */
 }
 
 .PlainHeader {
