@@ -19,9 +19,10 @@ function addFeed(args) {
     <h1 class="PageHeader">Welcome!</h1>
     <div class="HelpStep">
       <p class="EmphasisText">
-      <!-- JungleReader is a free and open-source web reader. Follow <b>RSS</b>, <b>Mastodon</b>, <b>YouTube</b>, and <b>Reddit</b> all in one place. Let's get started! -->
-      JungleReader is a free and open-source web reader. Follow <b>RSS</b>, <b>Mastodon</b>, <b>YouTube</b>, <b>Reddit</b>, and <b>that one random blog</b> all in one place. Let's get started!
+      JungleReader is a free and open-source feed reader. Follow <b>RSS</b>, <b>Mastodon</b>, <b>YouTube</b>, <b>Reddit</b>, and <b>that one random blog</b> all in one place. Let's get started!
       </p>
+      <p id="DemoGifText">Demo of the reader in action:</p>
+      <img class="DemoGif" src="../assets/JungleReaderGifV2.gif" alt="JungleReader demo" />
       <p class="MobileWarning AlertPane">
         JungleReader does not support mobile yet. Please come back on your desktop browser later :)
       </p>
@@ -70,9 +71,14 @@ function addFeed(args) {
   margin-bottom: 24px;
 }
 
-.Emphasis {
-  font-weight: bold;
-  font-size: var(--h4-size);
+.DemoGif {
+  border: 1px solid var(--brand-color-yellow);
+}
+
+#DemoGifText {
+  font-style: italic;
+  margin-bottom: var(--space-xs);
+  /* color: var(--muted-text); */
 }
 
 .UnderlineLink {
