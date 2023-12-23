@@ -921,6 +921,11 @@ class JungleReader {
     }
   }
 
+  async fetchTextFromTab(url, options) {
+    let response = await this.makeExtRequest({type: "LaunchTab", data: {url: url, options: options}});
+    console.log("Got response: ", response);
+  }
+
   async checkIfJungleExtPresent() {
     try {
       // Wait for the extension to load, briefly

@@ -5,7 +5,7 @@
   "main": "background.js",
   "scripts": {
     "lint": "web-ext lint",
-    "dev": "web-ext lint && web-ext run",
+    "dev": "web-ext lint && web-ext run --verbose",
     "build-firefox": "web-ext lint && ./PackageUtil.py --platform firefox",
     "build-firefox-webext": "web-ext lint && web-ext build --overwrite-dest --artifacts-dir firefox-artifacts",
     "build-chrome": "./PackageUtil.py --platform chrome",

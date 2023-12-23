@@ -211,10 +211,6 @@ class Watcher extends FeedPlugin {
     this.quickHelpDocs = "Watch any static webpage for changes.";
   }
 
-  isBookmarkType() {
-    return true;
-  }
-
   async updateFeeds(feeds) {
     for (const feed of feeds) {
       await this.updateFeed(feed);
@@ -261,6 +257,26 @@ class Watcher extends FeedPlugin {
   }
 };
 
+class TabParse extends FeedPlugin {
+  constructor(app) {
+    super("TabParse");
+    this.app = app;
+    this.urlPlaceholderHelp = "TODO";
+    this.quickHelpDocs = "TODO";
+  }
+
+  async updateFeeds(feeds) {
+    for (const feed of feeds) {
+      await this.updateFeed(feed);
+    }
+  }
+
+  async updateFeed(feed) {
+    let testUrl = 'https://www.threads.net/@selenagomez?hl=en';
+    let resp = await gApp.fetchTextFromTab(testUrl);
+  }
+}
+
 export function registerCorePlugin(app) {
   let feedPlugins = [
     new RSSFeed(app),
@@ -269,6 +285,7 @@ export function registerCorePlugin(app) {
     new RedditFeed(app),
     new Bookmark(app),
     new Watcher(app),
+    new TabParse(app),
   ];
   extendArray(app.feedPlugins, feedPlugins);
 }

@@ -5,6 +5,7 @@ import sys
 import argparse
 import copy
 import json
+from pathlib import Path
 
 kExtFiles = [
   'README.md',
@@ -31,6 +32,12 @@ def createZip(inputFiles, outputFile):
       elif type(entry) is dict:
         theZip.write(entry['infile'], entry['outfile'])
 
+def unpackZip(zipPath):
+  with zipfile.ZipFile(zipPath, "r") as zipRef:
+    dirPath = Path(zipPath).with_suffix('')
+    print("Unzipping to {}".format(dirPath)) 
+    zipRef.extractall(dirPath)
+
 def main():
   parser = argparse.ArgumentParser(
       prog="PackageUtil",
@@ -52,6 +59,7 @@ def main():
   zipName = "artifacts/jungleext-{}-{}.zip".format(args.platform, extVersion)
   print("Creating zip: {}".format(zipName))
   createZip(extFiles, zipName)
+  unpackZip(zipName)
   print("Done!")
 
   return 0
