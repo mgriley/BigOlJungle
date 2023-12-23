@@ -1,9 +1,10 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, hashString, prettyJson, countToHumanStr,
-  isValidUrl, cleanUrl, } from './Utils.js'
+  isValidUrl, cleanUrl, convertXmlJsToMap } from './Utils.js'
 import { FeedPlugin } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 import { gApp } from './State.js'
+import { RssParser } from './RssParser.js'
 import { parseRsst } from './RssText.js'
 
 function addRssSuffix(link) {
@@ -55,10 +56,10 @@ class RSSFeed extends FeedPlugin {
         // Handle special rsst file format
         res = parseRsst(rssText);
       } else {
-        let parser = new RSSParser(optParserOptions);
-        res = await parser.parseString(rssText);
+        let parser = new RssParser(optParserOptions);
+        res = parser.parseString(rssText);
       }
-      console.log("Got RSS res:\n", res);
+      console.log("Got RSS res:", prettyJson(res));
       this.transformRssResult(res)
       feed.updateLinks(res);
     } catch (err) {
@@ -100,16 +101,6 @@ class MastodonFeed extends RSSFeed {
     // See: https://mastodon.social/@brownpau/100523448408374430
     return addRssSuffix(feedUrl);
   }
-
-  transformRssResult(rssRes) {
-    for (const item of rssRes.items) {
-      if (!item.title && !item.description) {
-        if (item.contentSnippet) {
-          item.description = item.contentSnippet;
-        }
-      }
-    }
-  }
 }
 
 function extractRssLinkFromHtml(htmlStr) {
@@ -140,19 +131,17 @@ class YouTubeFeed extends RSSFeed {
     let htmlStr = await gApp.fetchText(feed.url);
     let rssLink = extractRssLinkFromHtml(htmlStr);
     console.log("Extracted RSS link: " + rssLink);
-    await this.updateFromRSS(feed, rssLink, {
-      customFields: {
-        item: ['media:group'],
-      }
-    });
+    await this.updateFromRSS(feed, rssLink);
   }
 
   transformRssResult(rssRes) {
     // console.log("RSS Res: " + prettyJson(rssRes));
     // We turn the number of views into an extraDataString
     for (const item of rssRes.items) {
-      let viewsStr = (item?.["media:group"]?.["media:community"]?.[0]?.
-        ["media:statistics"]?.[0]?.["$"]?.["views"]);
+      let itemData = convertXmlJsToMap(item.rawObj);
+      console.log("YouTube item data: ", prettyJson(itemData));
+      let viewsStr = (itemData?.["media:group"]?.["media:community"]?.
+        ["media:statistics"]?.["_attrs"]?.["views"]);
       if (viewsStr) {
         item.extraDataString = `${countToHumanStr(parseInt(viewsStr))} views`;
       } else {

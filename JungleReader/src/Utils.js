@@ -75,6 +75,63 @@ export function parseXml(xml, mimeType) {
   return parseNode(dom);
 }
 
+// Helpers for interacting with the xml-js object returned from parseXml:
+// {
+
+export function getChild(obj, childName) {
+  for (const child of obj.children) {
+    if (child.name == childName) {
+      return child;
+    }
+  }
+  return null;
+}
+
+export function getChildren(obj, childName) {
+  let children = [];
+  for (const child of obj.children) {
+    if (child.name == childName) {
+      children.push(child);
+    }
+  }
+  return children;
+}
+
+function isTextNode(obj) {
+  return obj.children.length == 1 &&
+    (obj.children[0].type == 'text' || obj.children[0].type == "cdata");
+}
+
+export function getText(obj, childName) {
+  // Extracts the text from a child tag like '<sometag>This is the text</sometag>'
+  let child = getChild(obj, childName);
+  if (!child) {
+    return null;
+  }
+  if (isTextNode(child)) {
+    return child.children[0].value;
+  }
+  return null;
+}
+
+export function convertXmlJsToMap(xmlJs) {
+  let result = {
+    _attrs: xmlJs.attrs,
+  };
+  for (const child of xmlJs.children) {
+    let childObj = null;
+    if (isTextNode(child)) {
+      childObj = child.children[0].value;
+    } else {
+      childObj = convertXmlJsToMap(child);
+    }
+    result[child.name] = childObj;
+  }
+  return result;
+}
+
+// }
+
 // Document Element to pretty string
 export function prettifyElement(elem) {
   return elem.outerHTML;
