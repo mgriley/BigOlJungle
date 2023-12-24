@@ -139,7 +139,6 @@ class YouTubeFeed extends RSSFeed {
     // We turn the number of views into an extraDataString
     for (const item of rssRes.items) {
       let itemData = convertXmlJsToMap(item.rawObj);
-      console.log("YouTube item data: ", prettyJson(itemData));
       let viewsStr = (itemData?.["media:group"]?.["media:community"]?.
         ["media:statistics"]?.["_attrs"]?.["views"]);
       if (viewsStr) {

@@ -49,7 +49,7 @@ export class RssParser {
   _getAtomFeedLink(obj) {
     let links = getChildren(obj, "link");
     for (const link of links) {
-      if (link.attrs["rel"] == "alternate") {
+      if (!link.attrs["rel"] || link.attrs["rel"] == "alternate") {
         return link.attrs["href"];
       }
     }
