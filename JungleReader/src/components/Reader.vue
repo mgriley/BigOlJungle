@@ -81,9 +81,9 @@ onMounted(() => {
             </div>
             <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
               <div class="HeroDiv Flex">
-                <div class="HeroIcon">
+                <!-- <div class="HeroIcon"> -->
                   <!-- <vue-feather class="InnerIcon" size="64" type="rss" /> -->
-                </div>
+                <!-- </div> -->
                 <div>
                   <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
                   <!-- <img class="HeroImg" src="../assets/NounCham.svg" /> -->
@@ -181,7 +181,10 @@ onMounted(() => {
 
 .AppSubTitle {
   /* display: none; */
+
   /* color: var(--brand-color-purple); */
+  color: fuchsia;
+
   font-size: var(--smaller-size);
   /* font-style: italic; */
 }
@@ -200,11 +203,11 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
 .FixedBgImg {
   position: fixed;
   z-index: -1;
-  background-image: url(../assets/CityBgModded.jpg);
+  //background-image: url(../assets/CityBgModded.jpg);
 
   //background-color: var(--brand-color-yellow);
-  //background-color: #e900c6;
-  //background-image: linear-gradient(160deg, #e900c6 0%, #edff00 100%);
+  background-color: #e900c6;
+  background-image: linear-gradient(160deg, #e900c6 0%, #edff00 100%);
 
   background-size: cover;
   /* background-attachment: fixed; */
