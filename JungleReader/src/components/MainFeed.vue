@@ -220,8 +220,9 @@ onMounted(() => {
           <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
         </div>
         <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
+          <h2 class="MarginBotS">Setup your feed:</h2>
           <p>
-          This is your feeds page. Add these sample feeds to get started:
+          This is your feeds page. Add these sample feeds:
           </p>
           <ul class="SampleFeeds">
             <li><button class="SmallButton Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button></li>
@@ -230,9 +231,9 @@ onMounted(() => {
           </ul>
           <p>From here:</p>
           <ul class="FromHereList">
-            <li><p>See the <router-link to="/explore">Explore</router-link> page for more feeds to add.</p></li>
+            <li><p>Visit the <router-link to="/explore">Explore</router-link> page for more feeds to add.</p></li>
             <li><p>Click "Reload All" to update all your feeds.</p></li>
-            <li><p>If you're a developer, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
+            <li><p>If you're a dev, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
           </ul>
           <button class="DoneBtn" @click="gApp.setDoneFeedSetup(true)">Done Setup</button>
         </div>
@@ -371,7 +372,7 @@ onMounted(() => {
 
 .GroupName {
   margin-right: var(--space-m);
-  font-size: 28px;
+  font-size: 32px;
 }
 
 .GroupControls {

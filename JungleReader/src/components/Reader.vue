@@ -80,10 +80,15 @@ onMounted(() => {
               </button>
             </div>
             <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
-              <div class="HeroDiv">
-                <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
-                <!-- <img class="HeroImg" src="../assets/NounCham.svg" /> -->
-                <p class="AppSubTitle">Read the jungle</p>
+              <div class="HeroDiv Flex">
+                <div class="HeroIcon">
+                  <!-- <vue-feather class="InnerIcon" size="64" type="rss" /> -->
+                </div>
+                <div>
+                  <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
+                  <!-- <img class="HeroImg" src="../assets/NounCham.svg" /> -->
+                  <p class="AppSubTitle">Read the jungle</p>
+                </div>
               </div>
               <div class="SideMenu">
                 <div class="Section">
@@ -137,19 +142,37 @@ onMounted(() => {
 .HeroDiv {
   margin-bottom: var(--space-l);
   /* display: flex; */
+
+  /* background-color: var(--brand-color-yellow); */
+  /* padding-left: 8px; */
+
+  /* margin-left: 46px; */
+
+  gap: 12px;
+}
+
+.HeroIcon {
+  background-color: var(--brand-color-yellow);
+  width: 60px;
+  /* width: 24px; */
+  height: auto;
+}
+
+.HeroIcon .InnerIcon {
+  color: black;
 }
 
 .AppTitle {
   color: var(--header-text);
-  /* color: var(--nice-red); */
 
   /* padding-bottom: 2px; */
   /* border-bottom: 4px solid var(--brand-color); */
 
   font-family: var(--title-font);
   /* font-size: var(--p-size); */
-  font-size: var(--h3-size);
-  line-height: 1;
+  font-size: 48px;
+  /* font-size: var(--h3-size); */
+  line-height: 0.9;
   /* text-transform: uppercase; */
   font-weight: bold;
 
@@ -157,9 +180,10 @@ onMounted(() => {
 }
 
 .AppSubTitle {
-  color: var(--brand-color-purple);
+  /* display: none; */
+  /* color: var(--brand-color-purple); */
   font-size: var(--smaller-size);
-  font-style: italic;
+  /* font-style: italic; */
 }
 
 .AppTitle .LastLine {
@@ -177,6 +201,11 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   position: fixed;
   z-index: -1;
   background-image: url(../assets/CityBgModded.jpg);
+
+  //background-color: var(--brand-color-yellow);
+  //background-color: #e900c6;
+  //background-image: linear-gradient(160deg, #e900c6 0%, #edff00 100%);
+
   background-size: cover;
   /* background-attachment: fixed; */
   /* background-repeat: no-repeat; */
@@ -213,7 +242,8 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   /* Aim for 40-80ch max-width */
   max-width: 760px;
   grid-area: content;
-  padding: var(--space-m);
+  /*padding: var(--space-m);*/
+  padding: var(--space-s) var(--space-m);
   overflow-x: visible;
 
   /* border-left: 1px solid var(--secondary-text); */
@@ -228,7 +258,7 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
 .InnerSidebar {
   background-color: var(--main-bg);
   /* padding: var(--space-m) var(--space-m) var(--space-xs) var(--space-m); */
-  padding: var(--space-m) var(--space-l) var(--space-m) var(--space-m);
+  padding: var(--space-s) var(--space-l) var(--space-s) var(--space-m);
   border: var(--pane-border);
   border-radius: var(--pane-border-radius);
   /* min-height: 800px; */
@@ -359,7 +389,7 @@ Also collapse the menu.
 
 .VersionNum {
   color: var(--mute-text);
-  font-style: italic;
+  /* font-style: italic; */
   font-size: var(--small-size);
 }
 

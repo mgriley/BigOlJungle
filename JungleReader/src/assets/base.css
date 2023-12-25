@@ -1,3 +1,7 @@
+@font-face {
+  font-family: BebasNeue;
+  src: url(BebasNeue-Regular.ttf);
+}
 
 :root {
   /* Dark theme */
@@ -23,6 +27,7 @@
 
   /* Good ones: cyan */
   --brand-color-purple: fuchsia;
+  /* --brand-color-purple: DeepPink; */
   --brand-color-yellow: yellow;
   --brand-color-green: green;
   --brand-color-cyan: cyan;
@@ -31,7 +36,8 @@
   --brand-color-a: var(--brand-color);
   --brand-color-b: var(--brand-color-yellow);
   --brand-color-c: var(--brand-color-green);
-  --brand-underline-title: underline solid var(--brand-color-purple) 4px;
+  /* --brand-underline-title: underline solid var(--brand-color-purple) 4px; */
+  --brand-underline-title: underline solid DeepPink 4px;
   --brand-underline-headers: underline solid var(--brand-color-yellow) 2px;
   --brand-underline: var(--brand-underline-title);
   --attn-color: var(--brand-color-purple);
@@ -75,7 +81,8 @@
 
   --bold-weight: 700;
 
-  --pane-border: 1px solid grey;
+  /* --pane-border: 1px solid grey; */
+  --pane-border: 1px solid var(--medium-color);
   --pane-border-radius: 4px;
 
   --popup-border: 1px solid grey;
@@ -86,8 +93,11 @@
   --border-radius-med: 6px;
   --border-radius-large: 8px;
 
+  /* --header-font: sans-serif; */
+  /* --title-font: var(--header-font); */
   --header-font: sans-serif;
-  --title-font: var(--header-font);
+  --title-font: BebasNeue, sans-serif;
+  --popup-title-font: var(--title-font);
 
   /* --link-list-border: 1px solid var(--brand-color-yellow); */
   --link-list-border: 1px solid var(--brand-color-yellow);

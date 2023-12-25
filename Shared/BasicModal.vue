@@ -69,7 +69,7 @@ Ends up being very finnicky.
     <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
     <!-- <div v-if="isOpen"> -->
       <div class="InnerModal">
-        <h3 v-if="title" class="Title">{{ title }}</h3>
+        <h2 v-if="title" class="Title">{{ title }}</h2>
         <div class="Body">
           <slot>Default Body</slot>
         </div>
@@ -95,7 +95,7 @@ dialog::backdrop {
   background-color: var(--popup-bg);
   border: var(--popup-border);
   border-radius: var(--popup-border-radius);
-  padding: var(--space-s);
+  padding: var(--space-s) var(--space-m);
   min-width: 160px;
   max-width: 90%;
   margin-left: auto;
@@ -127,6 +127,8 @@ dialog::backdrop {
 .BasicModal .Title {
   margin-bottom: var(--space-xs);
   text-decoration: var(--brand-underline);
+  font-family: var(--popup-title-font);
+  font-size: 42px;
 }
 
 .Body {

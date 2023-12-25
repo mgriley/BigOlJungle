@@ -44,7 +44,7 @@ h1, h2, h3, h4 {
 h1 {
   font-size: var(--h1-size);
   line-height: 1.1;
-  letter-spacing: -2px;
+  /* letter-spacing: 0px; */
 }
 
 h2 {

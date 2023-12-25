@@ -15,10 +15,14 @@
 .PageHeader {
   margin-bottom: var(--space-s);
   text-decoration: var(--brand-underline-title);
+  /* text-decoration: underline solid var(--main-text) 4px; */
+  /* text-underline-offset: 12px; */
+
   /* text-decoration: none; */
   /* color: Fuchsia; */
   /* font-family: monospace; */
   /* text-transform: uppercase; */
+  font-family: var(--title-font);
 }
 
 .PlainHeader {
@@ -69,7 +73,7 @@
 }
 
 .AlertPane {
-  padding: 16px;
+  padding: var(--space-s) var(--space-m);
   background-color: var(--dark-color);
   border: 1px solid var(--main-text);
   border-radius: 6px;
