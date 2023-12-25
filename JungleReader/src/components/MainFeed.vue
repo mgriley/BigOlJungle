@@ -415,7 +415,6 @@ onMounted(() => {
 }
 
 .AddLinkedFeedInfo {
-  font-family: monospace;
   font-size: var(--p-size);
 }
 

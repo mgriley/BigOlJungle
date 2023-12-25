@@ -3,6 +3,13 @@
   src: url(BebasNeue-Regular.ttf);
 }
 
+/*
+@font-face {
+  font-family: SpaceMono;
+  src: url(SpaceMono/SpaceMono-Regular.ttf);
+}
+*/
+
 :root {
   /* Dark theme */
   color-scheme: dark;
@@ -95,6 +102,7 @@
 
   /* --header-font: sans-serif; */
   /* --title-font: var(--header-font); */
+  --main-font: monospace;
   --header-font: sans-serif;
   --title-font: BebasNeue, sans-serif;
   --popup-title-font: var(--title-font);
@@ -157,7 +165,7 @@ body {
   /* transition: color 0.5s, background-color 0.5s; */
   /* font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
-  font-family: monospace;
+  font-family: var(--main-font);
   font-size: var(--p-size);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
