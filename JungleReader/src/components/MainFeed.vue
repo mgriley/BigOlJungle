@@ -222,7 +222,7 @@ onMounted(() => {
         <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
           <h2 class="MarginBotS">Setup your feed:</h2>
           <p>
-          This is your feeds page. Add these sample feeds:
+          This is your feeds page. Click to add these feeds:
           </p>
           <ul class="SampleFeeds">
             <li><button class="SmallButton Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button></li>

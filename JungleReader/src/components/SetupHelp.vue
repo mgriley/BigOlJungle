@@ -22,7 +22,10 @@ function addFeed(args) {
       JungleReader is a free and open-source feed reader. Follow <b>RSS</b>, <b>Mastodon</b>, <b>YouTube</b>, <b>Reddit</b>, and <b>that one random blog</b> all in one place. Let's get started!
       </p>
       <p id="DemoGifText">Demo of the reader in action:</p>
-      <img class="DemoGif" src="../assets/JungleReaderGifV2.gif" alt="JungleReader demo" />
+      <video class="DemoGif" autoplay loop muted="true" width="640" height="418">
+        <source src="../assets/JungleReaderGifV2.mp4" type="video/mp4" />
+      </video>
+      <!-- <img class="DemoGif" src="../assets/JungleReaderGifV2.mp4" alt="JungleReader demo" /> -->
       <p class="MobileWarning AlertPane">
         JungleReader does not support mobile yet. Please come back on your desktop browser later :)
       </p>
