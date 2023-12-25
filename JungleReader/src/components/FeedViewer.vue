@@ -183,14 +183,21 @@ onMounted(() => {
 .LinkElem {
   position: relative;
   border-bottom: var(--link-list-border);
+  /*
+  border-top: var(--link-list-border);
+  border-left: var(--link-list-border);
+  border-right: var(--link-list-border);
+  */
+
   /* padding: var(--space-s); */
-  padding: var(--space-s);
+  padding: var(--space-s) var(--space-s);
   /*margin-bottom: var(--space-xs);*/
 }
 
 .LinkElem.IsNew {
   border-left: 8px solid var(--attn-color);
-  /*border-left: 8px solid var(--brand-color-yellow);*/
+  //box-shadow: -10px 0px 10px 1px #aaaaaa;
+  //box-shadow: inset 6px 0px var(--attn-color);
 }
 
 .LinkElem:last-child {
