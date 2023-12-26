@@ -204,7 +204,6 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   position: fixed;
   z-index: -1;
   background-image: url(../assets/CityBgModded.jpg);
-  //background-image: url(../assets/Sunrise.jpg);
   //background-color: orange;
   //background-color: #696969;
 
