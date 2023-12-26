@@ -33,6 +33,10 @@ function onSelectedOption(option) {
   closeModal();
 }
 
+function getOptionStyle(option) {
+  return option.style || {};  
+}
+
 defineExpose({
   showModal, closeModal, toggleModal
 })
@@ -57,71 +61,43 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="show" class="ModalSelector modal-mask">
+  <div v-if="show" class="ModalSelector">
     <div class="modal-container">
-      <a v-for="option in options" href="#" @click="onSelectedOption(option)">{{ option.name }}</a>
-      <a class="CancelOption" href="#" @click="closeModal">Cancel</a>
+      <div class="Option TextButton" v-for="option in options" :style="getOptionStyle(option)" @click="onSelectedOption(option)">{{ option.name }}</div>
+      <div class="Option TextButton CancelOption" @click="closeModal">Cancel</div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.modal-mask {
-/*
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-*/
-}
-
 .modal-container {
   position: absolute;
   z-index: 200;
-  background-color: #f1f1f1;
+  background-color: var(--popup-bg);
+  border: 1px solid var(--medium-color);
   min-width: 160px;
-  /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
 
   /*width: 200px;*/
   margin: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
 
-/*
-.modal-container {
-  width: 300px;
-  margin: auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-}
-*/
-
-.modal-container a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
+.Option {
+  padding: var(--space-xxs) var(--space-xs) var(--space-xxs) var(--space-xs);
   display: block;
+  font-weight: normal;
 }
 
-.CancelOption {
-  background-color: lightblue;  
+.Option a {
+  text-decoration: none;
 }
 
-.modal-container a:hover {
+.Option:hover {
   background-color: #ddd;
 }
 
-/*
-.modal-default-button {
-  float: right;
+.CancelOption {
+  background-color: var(--medium-color);  
 }
-*/
 
 </style>

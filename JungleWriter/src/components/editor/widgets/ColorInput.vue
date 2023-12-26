@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
-import { ColorPicker } from 'vue-accessible-color-picker'
+// import { ColorPicker } from 'vue-accessible-color-picker'
 
 const props = defineProps({
   modelValue: [String, Number, Object],
@@ -12,22 +12,10 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-let dialog = ref(null);
-
-function showModal() {
-  dialog.value.showModal();
-}
-
-function closeModal() {
-  dialog.value.close();
-}
+let showDialog = ref(false);
 
 function toggleModal() {
-  if (!dialog.value.open) {
-    showModal();
-  } else {
-    closeModal();
-  }
+  showDialog.value = !showDialog.value;
 }
 
 const value = computed({
@@ -64,17 +52,27 @@ function onUpdateColor(evt) {
     <div class="InputLabel" v-if="name">{{name}}</div>
     <div class="Parent">
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
-      <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div>
-      <!-- <input class="BasicTextInput InputChild" type="color" v-model="value"> -->
+      <input class="BasicTextInput InputChild" type="color" v-model="value">
+      <!-- <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div> -->
     </div>
   </div>
-  <dialog class="ColorDialog" ref="dialog" @close="" @cancel="">
+  <!--
+  <div v-if="showDialog" class="ColorDialog">
     <ColorPicker :color="value" @color-change="onUpdateColor" />
-  </dialog>
+  </div>
+  !-->
 </template>
 
 <style>
 @import url('vue-accessible-color-picker/styles');
+
+/* See: https://github.com/kleinfreund/vue-accessible-color-picker#usage */
+:root {
+  /* --vacp-color-background-input: red; */
+  --vacp-color-background: var(--popup-bg);
+  --vacp-color-border: white;
+  --vacp-width-border: 1px;
+}
 </style>
 
 <style scoped>
@@ -97,6 +95,11 @@ function onUpdateColor(evt) {
 }
 
 .ColorDialog {
+  position: absolute;
+  z-index: 9;
+  background-color: var(--popup-bg);
+  /* min-width: 300px; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.33);
 }
 
 </style>
