@@ -57,12 +57,12 @@ function onPageResize() {
 }
 
 onMounted(() => {
-  window.addEventListener("resize", onPageResize);
-  onPageResize();
+  //window.addEventListener("resize", onPageResize);
+  //onPageResize();
 })
 
 onUnmounted(() => {
-  window.removeEventListener("resize", onPageResize);
+  //window.removeEventListener("resize", onPageResize);
 })
 
 </script>

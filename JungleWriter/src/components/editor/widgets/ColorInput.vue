@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
-import NumberInput from './NumberInput.vue'
+import { ColorPicker } from 'vue-accessible-color-picker'
 
 const props = defineProps({
   modelValue: [String, Number, Object],
@@ -11,6 +11,24 @@ const props = defineProps({
   defaultValue: [String, Number, Object],
 })
 const emit = defineEmits(['update:modelValue'])
+
+let dialog = ref(null);
+
+function showModal() {
+  dialog.value.showModal();
+}
+
+function closeModal() {
+  dialog.value.close();
+}
+
+function toggleModal() {
+  if (!dialog.value.open) {
+    showModal();
+  } else {
+    closeModal();
+  }
+}
 
 const value = computed({
   get() {
@@ -35,6 +53,10 @@ const optionalValue = computed({
   }
 })
 
+function onUpdateColor(evt) {
+  value.value = evt.cssColor;
+}
+
 </script>
 
 <template>
@@ -42,11 +64,18 @@ const optionalValue = computed({
     <div class="InputLabel" v-if="name">{{name}}</div>
     <div class="Parent">
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
-      <input class="BasicTextInput InputChild" type="color" v-model="value">
-      <!-- <NumberInput v-model="value.width" name="Width" min="0" /> -->
+      <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div>
+      <!-- <input class="BasicTextInput InputChild" type="color" v-model="value"> -->
     </div>
   </div>
+  <dialog class="ColorDialog" ref="dialog" @close="" @cancel="">
+    <ColorPicker :color="value" @color-change="onUpdateColor" />
+  </dialog>
 </template>
+
+<style>
+@import url('vue-accessible-color-picker/styles');
+</style>
 
 <style scoped>
 .Parent {
@@ -60,6 +89,14 @@ const optionalValue = computed({
 .InputChild {
   /*display: inline-block;*/
   flex: 1;
+}
+
+.CurColorBox {
+  width: var(--space-m);
+  height: var(--space-s);
+}
+
+.ColorDialog {
 }
 
 </style>

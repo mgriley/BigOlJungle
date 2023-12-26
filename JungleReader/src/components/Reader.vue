@@ -170,9 +170,9 @@ onMounted(() => {
 
   font-family: var(--title-font);
   /* font-size: var(--p-size); */
-  font-size: 48px;
+  font-size: 36px;
   /* font-size: var(--h3-size); */
-  line-height: 0.9;
+  line-height: 1.0;
   /* text-transform: uppercase; */
   font-weight: bold;
 
@@ -182,8 +182,8 @@ onMounted(() => {
 .AppSubTitle {
   /* display: none; */
 
-  /* color: var(--brand-color-purple); */
-  color: fuchsia;
+  color: var(--brand-color-purple);
+  /* color: fuchsia; */
 
   font-size: var(--smaller-size);
   /* font-style: italic; */
@@ -204,6 +204,9 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   position: fixed;
   z-index: -1;
   background-image: url(../assets/CityBgModded.jpg);
+  //background-image: url(../assets/Sunrise.jpg);
+  //background-color: orange;
+  //background-color: #696969;
 
   //background-color: #e900c6;
   //background-image: linear-gradient(160deg, #e900c6 0%, #edff00 100%);

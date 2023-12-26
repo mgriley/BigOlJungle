@@ -104,7 +104,8 @@
   /* --title-font: var(--header-font); */
   --main-font: monospace;
   --header-font: sans-serif;
-  --title-font: BebasNeue, sans-serif;
+  /*--title-font: BebasNeue, sans-serif;*/
+  --title-font: sans-serif;
   --popup-title-font: var(--title-font);
 
   /* --link-list-border: 1px solid var(--brand-color-yellow); */
