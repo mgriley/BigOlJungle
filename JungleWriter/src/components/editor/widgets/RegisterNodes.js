@@ -21,6 +21,10 @@ import { LinksNode } from './LinksNode.js'
 import LinksWidget from './LinksWidget.vue'
 import LinksWidgetEditor from './LinksWidgetEditor.vue'
 
+import { OmniNode } from './OmniNode.js'
+import OmniWidget from './OmniWidget.vue'
+import OmniWidgetEditor from './OmniWidgetEditor.vue'
+
 // Register all nodes types here
 export function registerNodeTypes() {
   console.log("Registering node types...");
@@ -54,6 +58,12 @@ export function registerNodeTypes() {
       nodeClass: LinksNode,
       widget: LinksWidget,
       editor: LinksWidgetEditor,
+    },
+    "OmniNode": {
+      uiName: "Omni",
+      nodeClass: OmniNode,
+      widget: OmniWidget,
+      editor: OmniWidgetEditor,
     },
   });
 }

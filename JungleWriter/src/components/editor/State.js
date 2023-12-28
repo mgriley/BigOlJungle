@@ -302,6 +302,16 @@ export class Post {
     this.renderedMarkdown = obj.renderedMarkdown || "";
   }
 
+  dateString() {
+    const options = {
+      weekday: 'short',
+      //year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+    return this.date.toLocaleDateString(undefined, options);
+  }
+
   async renderMarkdown() {
     // We have to replace the img srcs with the blob URLs of the img files, for
     // any such imgs.
@@ -375,7 +385,10 @@ class Site {
     this.settings = new SiteSettings();
     this.isEditing = true;
     this.postsFeed = new PostsFeed();
+    this.blogFeed = new PostsFeed();
+    this.galleryFeed = new PostsFeed();
     this.filesPageConfig = "";
+    this.resolvedFilesDict = {};
 
     // TODO - store the id of the site that was editing last
 
@@ -391,6 +404,8 @@ class Site {
       nodeTree: this.nodeTree.writeToJson(),
       settings: this.settings.writeToJson(),
       postsFeed: this.postsFeed.writeToJson(),
+      blogFeed: this.blogFeed.writeToJson(),
+      galleryFeed: this.galleryFeed.writeToJson(),
       filesPageConfig: this.filesPageConfig,
     };
     return obj;
@@ -403,6 +418,12 @@ class Site {
     this.settings.readFromJson(obj.settings);
     if ('postsFeed' in obj) {
       this.postsFeed.readFromJson(obj.postsFeed);
+    }
+    if ('blogFeed' in obj) {
+      this.blogFeed.readFromJson(obj.blogFeed);
+    }
+    if ('galleryFeed' in obj) {
+      this.galleryFeed.readFromJson(obj.galleryFeed);
     }
     this.filesPageConfig = obj.filesPageConfig || "";
   }
@@ -633,19 +654,29 @@ function goToSites() {
   gApp.deselectSite();
 }
 
-function goToHomeEditor() {
+export function goToHomeEditor() {
   console.log("Going to home");
   gApp.router.push({name: "home"});
 }
 
-function goToFeedEditor() {
+export function goToFeedEditor() {
   console.log("Going to feed");
   gApp.router.push({name: "feed"});
 }
 
-function goToBlogEditor() {
+export function goToBlogEditor() {
   console.log("Going to blog");
   gApp.router.push({name: "blog"});
+}
+
+export function goToFilesEditor() {
+  console.log("Going to files");
+  gApp.router.push({name: "files"})
+}
+
+export function goToGalleryEditor() {
+  console.log("Going to gallery");
+  gApp.router.push({name: "gallery"})
 }
 
 let kMenuItems = [

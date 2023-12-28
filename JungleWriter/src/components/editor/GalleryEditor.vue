@@ -5,9 +5,15 @@ import { addElem, removeElem } from './Utils.js'
 import FileEditor from './FileEditor.vue'
 import TextInput from './widgets/TextInput.vue'
 
+// Note: currently unused.
+
+/*
 const props = defineProps({
-  feed: Object,
+  gallery: Object,
 })
+*/
+
+let gallery = gApp.site.gallery;
 
 let selectedPost = ref(null);
 
@@ -45,9 +51,11 @@ function doneEditing(post) {
 
 onMounted(() => {
   // Re-render all posts so that imgs show up properly
+  /*
   for (const post of props.feed.posts) {
     post.renderMarkdown();
   }
+  */
 })
 
 onUnmounted(() => {
@@ -63,7 +71,7 @@ onUnmounted(() => {
       <div class="ButtonRow">
         <button class="SmallButton" @click="newPost">New Post</button>
       </div>
-      <div class="Post" v-for="post in feed.posts">
+      <div class="Post" v-for="post in gallery.posts">
         <template v-if="selectedPost !== post">
           <div class="PostHeaderBox">
             <h4>{{post.title || 'Untitled' }}</h4>

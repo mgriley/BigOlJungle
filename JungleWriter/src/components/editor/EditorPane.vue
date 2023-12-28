@@ -23,8 +23,8 @@ onMounted(() => {
   settings.posX = props.startX + 'px';
   settings.posY = props.startY + 'px';
   readFromStorage(settings, gApp.userStorage, `app/workspace/panes/${props.paneId}`);
-  paneRef.value.style.left = settings.posX;
-  paneRef.value.style.top = settings.posY;
+  paneRef.value.style.left = Math.max(settings.posX, 0);
+  paneRef.value.style.top = Math.max(settings.posY, 0);
   makeDraggable(paneRef.value);
 
   intervalId = setInterval(() => {

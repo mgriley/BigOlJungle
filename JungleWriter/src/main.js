@@ -10,7 +10,6 @@ import { registerNodeTypes } from './components/editor/widgets/RegisterNodes.js'
 import HomeEditor from './components/editor/HomeEditor.vue'
 import FeedEditor from './components/editor/FeedEditor.vue'
 import FilesPageEditor from './components/editor/FilesPageEditor.vue'
-import BlogEditor from './components/editor/BlogEditor.vue'
 
 async function loadApp() {
   const routes = [
@@ -18,15 +17,9 @@ async function loadApp() {
       path: '/', name: 'home', component: HomeEditor,
     },
     {
-      path: '/feed', name: 'feed', component: FeedEditor,
-    },
-    {
       path: '/files', name: 'files', component: FilesPageEditor,
     },
-    {
-      path: '/blog', name: 'blog', component: BlogEditor,
-    }
-  ]
+  ];
 
   const router = createRouter({
     history: createWebHistory(),
@@ -39,6 +32,31 @@ async function loadApp() {
 
   const editor = await initGlobalApp(app.config.globalProperties.$router)
   registerNodeTypes();
+
+  router.addRoute({
+    path: '/feed', name: 'feed', component: FeedEditor,
+    props: (route) => {
+      return {
+        feed: editor.site.postsFeed
+      }
+    }
+  });
+  router.addRoute({
+    path: '/blog', name: 'blog', component: FeedEditor,
+    props: (route) => {
+      return {
+        feed: editor.site.blogFeed
+      }
+    }
+  });
+  router.addRoute({
+    path: '/gallery', name: 'gallery', component: FeedEditor,
+    props: (route) => {
+      return {
+        feed: editor.site.galleryFeed
+      }
+    }
+  })
 
   app.mount('#app')
 }

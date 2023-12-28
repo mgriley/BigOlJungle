@@ -12,7 +12,6 @@ let isEditing = computed(() => {
 });
 
 let isEditingConfig = ref(false);
-let filesDict = ref({});
 
 let debugFilesDict = {
   name: "Root",
@@ -85,7 +84,7 @@ function addEntryToDict(filesDict, destPath, fileUrl, fullPath) {
 }
 
 async function updateFilesDict() {
-  filesDict.value = {
+  gApp.site.resolvedFilesDict = {
     name: "Files",
     isOpen: true,
     children: [],
@@ -110,7 +109,7 @@ async function updateFilesDict() {
     if (blobUrls[fileName] === undefined) {
       throw new Error(`Unknown filename "${fileName}" in file entry "${fileLine}"`);
     }
-    addEntryToDict(filesDict.value, destPath, blobUrls[fileName], destPath);
+    addEntryToDict(gApp.site.resolvedFilesDict, destPath, blobUrls[fileName], destPath);
   }
 }
 
@@ -143,7 +142,7 @@ onUnmounted(() => {
         <div class="EditBar">
           <button class="SmallButton" @click="isEditingConfig = true">Edit</button>
         </div>
-        <FilesPageItem :item="filesDict" :isRoot="true" />
+        <FilesPageItem :item="gApp.site.resolvedFilesDict" :isRoot="true" />
       </div>
     </div>
   </div>

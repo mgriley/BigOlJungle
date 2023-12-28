@@ -31,9 +31,13 @@ let newNodeOptions = [
   classCtor: gNodeDataMap["RectNode"].nodeClass,
 },
 {
+  name: "Omni",
+  classCtor: gNodeDataMap["OmniNode"].nodeClass,
+},
+{
   name: "Links",
   classCtor: gNodeDataMap["LinksNode"].nodeClass,
-}
+},
 ];
 
 function makeNewNode(clickEvt) {
