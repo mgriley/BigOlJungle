@@ -64,6 +64,7 @@ onMounted(() => {
 }
 
 .TabButton {
+  color: var(--main-text);
 }
 
 .TabButton.IsActive {
