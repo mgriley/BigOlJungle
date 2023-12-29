@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { gApp, Node } from './State.js'
-import EditorPane from './EditorPane.vue'
 import FilePicker from './FilePicker.vue'
 
 // Helperful guide:
@@ -82,7 +81,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <EditorPane paneTitle="Files" paneId="Files" :startX="600" :startY="100">
+  <div>
     <div class="Flex BtnRow">
       <button class="TertiaryButton" @click="reloadFiles">Reload</button>
       <FilePicker name="Upload" @onPicked="onFilesPicked" />
@@ -103,7 +102,7 @@ onMounted(async () => {
     <div v-else>
       Files loading...
     </div>
-  </EditorPane>
+  </div>
 </template>
 
 <style scoped>

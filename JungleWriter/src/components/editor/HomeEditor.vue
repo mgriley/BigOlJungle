@@ -1,10 +1,6 @@
 <script setup>
 import { reactive, computed, onMounted, onUnmounted } from 'vue'
 import { gApp } from './State.js'
-import PropEditor from './PropEditor.vue'
-import SettingsEditor from './SettingsEditor.vue'
-import FileEditor from './FileEditor.vue'
-import NodeTreeView from './NodeTreeView.vue'
 import NodeWidget from './widgets/NodeWidget.vue'
 
 let canvasBaseWidth = 600;
@@ -71,10 +67,6 @@ onUnmounted(() => {
   <router-view></router-view>
   <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
     <!--<h1>Hello World!</h1>-->
-    <NodeTreeView v-if="isEditing" />
-    <PropEditor v-if="isEditing" />
-    <SettingsEditor v-if="isEditing" />
-    <FileEditor v-if="isEditing" />
 
     <div class="CanvasArea" :style="canvasStyleObj">
       <div class="AnchorDiv">

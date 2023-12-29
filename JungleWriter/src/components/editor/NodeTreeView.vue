@@ -3,7 +3,6 @@ import { ref, onMounted, computed, reactive } from 'vue'
 import { gApp, Node } from './State.js'
 import NodeTreeItem from './NodeTreeItem.vue'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
-import EditorPane from './EditorPane.vue'
 import ModalSelector from './ModalSelector.vue'
 
 // See: https://vuejs.org/examples/#tree
@@ -111,7 +110,7 @@ let nodeList = computed(() => {
 </script>
 
 <template>
-  <EditorPane paneTitle="Nodes" paneId="NodeTree" :startX="99" :startY="100">
+  <div>
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode">New</button>
       <button class="TertiaryButton" @click="cloneNode">Clone</button>
@@ -125,7 +124,7 @@ let nodeList = computed(() => {
         <NodeTreeItem class="item" :node="childNode.node" :depth="childNode.depth"></NodeTreeItem>
       </template>
     </div>
-  </EditorPane>
+  </div>
 </template>
 
 <style scoped>

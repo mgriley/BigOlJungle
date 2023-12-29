@@ -2,7 +2,6 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, Node } from './State.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
-import EditorPane from './EditorPane.vue'
 
 let propEditor = computed(() => {
   return gApp.site.getPropEditor();
@@ -29,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <EditorPane paneTitle="Properties" paneId="PropEditor" :startX="800" :startY="100">
+  <div>
     <template v-if="propEditor">
       <p class="MarginBotXS">Type: {{ propEditor.type }}</p>
       <component v-if="gNodeDataMap[propEditor.type].editor" :is="gNodeDataMap[propEditor.type].editor" :editorData="propEditor"></component>
@@ -37,7 +36,7 @@ onMounted(() => {
     <template v-else>
       <p>None</p>
     </template>
-  </EditorPane>
+  </div>
 </template>
 
 <style>

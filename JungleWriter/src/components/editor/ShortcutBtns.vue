@@ -21,10 +21,10 @@ function togglePreview() {
 
 <style scoped>
 .ShortcutBtns {
-  z-index: 10;
+  z-index: 2000;
   position: absolute;
   right: 16px;
-  top: 16px;
+  bottom: 16px;
   display: flex;
   flex-flow: row nowrap;
   gap: 2px;
