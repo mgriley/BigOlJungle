@@ -37,7 +37,7 @@ let isEditing = computed(() => {
         <p v-for="tab in sidebarTabs" @click="sidebarTab = tab.comp"
           class="TabButton TextButton" :class="{IsActive: sidebarTab == tab.comp}">{{tab.name}}</p>
       </div>
-      <div>
+      <div class="EditorPane">
         <component :is="sidebarTab"></component>
       </div>
     </div>
@@ -59,6 +59,9 @@ let isEditing = computed(() => {
   z-index: 1000;
   border-left: 1px solid var(--light-color);
   padding: var(--space-s) var(--space-m);
+
+  display: flex;
+  flex-direction: column;
 }
 
 .SidebarButtons {
@@ -77,4 +80,12 @@ let isEditing = computed(() => {
   color: var(--main-text);
   color: orange;
 }
+
+.EditorPane {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  height: 100%;
+  padding-right: 16px;
+}
+
 </style>

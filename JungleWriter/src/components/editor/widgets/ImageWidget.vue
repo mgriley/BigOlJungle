@@ -67,6 +67,5 @@ onMounted(() => {
 .DisabledLink {
   pointer-events: none;
 }
-
 </style>
 

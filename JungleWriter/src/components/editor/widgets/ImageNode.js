@@ -11,15 +11,15 @@ export class ImageNode extends Node {
     this.type = "ImageNode";
     this.allowsChildren = false;
 
-    this.srcName = "IMG_8175.HEIC";
+    this.srcName = "";
     this.altText = "Alt text goes here";
 
     // Derived
     this.srcUrl = null;
 
     this.preserveAspectRatio = true;
-    this.width = 400;
-    this.height = 400;
+    this.width = 300;
+    this.height = 300;
 
     this.linkUrl = "";
   }
