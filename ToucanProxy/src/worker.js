@@ -33,6 +33,8 @@ async function handleProxyRequest(request) {
   let apiUrl = new URL(apiUrlStr);
   let apiRequest = new Request(apiUrl, request);
   apiRequest.headers.set("Origin", apiUrl.origin);
+	// TODO - do not follow too many redirects
+	// TODO - prevent infinite loops
   let response = await fetch(apiRequest, {redirect: 'follow'});
 
   // Handle a single redirect
