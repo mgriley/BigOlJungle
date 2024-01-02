@@ -44,7 +44,7 @@ function onStartChooseImg() {
 
 <template>
   <div>
-    <button @click="onStartChooseImg">{{ srcName }}</button>
+    <button @click="onStartChooseImg">File: {{ srcName || 'None' }}</button>
     <ImageChooserModal ref="imgChooser" v-model="srcName" />
     <BoolInput v-model="preserveAspectRatio" name="Preserve Image Aspect Ratio" />
     <NumberInput v-model="editorData.width" name="Width" min="1" />
