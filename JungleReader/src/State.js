@@ -10,6 +10,8 @@ import { ContentCache } from './ContentCache.js'
 
 const kReaderVersionString = "1.0";
 const kAutosaveIntervalSecs = 15;
+const kToucanProxyUrl = "https://toucan-proxy.mgriley97.workers.dev/corsproxy";
+const kDevProxyUrl = "http://127.0.0.1:8787/corsproxy";
 
 // LocalStorage keys
 export const kAppStateKey = "appState";
@@ -501,9 +503,10 @@ class ProxyInfo {
 */
 
 let FetchMethod = {
+  ToucanProxy: 'ToucanProxy',
   JungleExt: 'JungleExt',
+  DevProxy: 'DevProxy',
   Proxy: 'Proxy',
-  DevProxy: 'DevProxy'
 };
 
 class JungleReader {
@@ -537,7 +540,7 @@ class JungleReader {
     this.pendingExtRequests = {};
     this.isJungleExtPresent = ref(true);
 
-    this.fetchMethod = ref(FetchMethod.JungleExt)
+    this.fetchMethod = ref(FetchMethod.ToucanProxy)
 
     this.doneWelcome = ref(false);
     this.doneFeedSetup = ref(false);
@@ -596,7 +599,7 @@ class JungleReader {
         return plugin;
       }))
     }
-    this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.JungleExt)
+    this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.ToucanProxy)
     this.doneWelcome.value = Boolean(jsonObj["doneWelcome"])
     this.doneFeedSetup.value = Boolean(jsonObj["doneFeedSetup"])
   }
@@ -885,18 +888,14 @@ class JungleReader {
     return this.makeExtRequest({type: "fetch", data: {url: urlString, options: options}});
   }
 
-  getDevProxyUrl() {
-    return "http://127.0.0.1:8787/corsproxy/";
-  }
-
-  makeDevProxyUrl(targetUrl) {
-    const url = new URL("http://127.0.0.1:8787/corsproxy/");
+  makeProxyUrl(proxyUrl, targetUrl) {
+    const url = new URL(proxyUrl);
     url.searchParams.set("apiurl", cleanUrl(targetUrl));
     return url;
   }
 
-  async fetchTextWithDevProxy(urlString, options) {
-    let response = await fetch(this.makeDevProxyUrl(urlString));
+  async fetchTextWithProxy(urlString, proxyUrl, options) {
+    let response = await fetch(this.makeProxyUrl(proxyUrl, urlString));
     if (!response.ok) {
       throw new Error(`Response error: ${response.statusCode} ${response.statusText}`);
     }
@@ -910,12 +909,14 @@ class JungleReader {
     if (!isValidUrl(urlString)) {
       throw new Error(`Tried to fetch from invalid URL: "${urlString}"`);
     }
-    if (this.fetchMethod.value == FetchMethod.JungleExt) {
+    if (this.fetchMethod.value == FetchMethod.ToucanProxy) {
+      return this.fetchTextWithProxy(urlString, kToucanProxyUrl, options);
+    } else if (this.fetchMethod.value == FetchMethod.JungleExt) {
       return this.fetchTextWithExt(urlString, options);
     } else if (this.fetchMethod.value == FetchMethod.Proxy) {
       throw new Error("Not yet impl. Coming soon");
     } else if (this.fetchMethod.value == FetchMethod.DevProxy) {
-      return this.fetchTextWithDevProxy(urlString, options);
+      return this.fetchTextWithProxy(urlString, kDevProxyUrl, options);
     } else {
       console.error(`Unknown fetchMethod: "${this.fetchMethod.value}"`);
     }
@@ -933,6 +934,11 @@ class JungleReader {
       console.error("JungleExt does not seem to be installed. Please install.");
       this.isJungleExtPresent.value = false;
     }
+  }
+
+  isJungleExtMissing() {
+    return this.fetchMethod.value == FetchMethod.JungleExt &&
+      !this.isJungleExtPresent.value;
   }
 
   // Send a request to the JungleExt WebExtension

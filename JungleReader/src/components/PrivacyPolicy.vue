@@ -10,10 +10,9 @@
 
   <h4>General</h4>
   <p>
-  JungleReader (which includes www.zajungle.com and the JungleExt browser extension) does not collect any personal data. 
-  All of your data (such as what sites you follow) is stored locally on your computer in your browser's local storage.
-  In the future, we may let users optionally backup their data to a cloud drive of their choice,
-  such as Google Drive.
+  JungleReader (which includes www.zajungle.com, ToucanProxy, and the optional JungleExt browser extension) does not collect any personal data. 
+  All of your reader data (such as what sites you follow) is stored locally on your computer in your browser's local storage. By default, external web
+  requests are made by proxying them through our ToucanProxy server, which does not collect personal data.
   </p>
 
 	<h4>Consent</h4>

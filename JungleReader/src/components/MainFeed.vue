@@ -3,12 +3,10 @@ import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { gApp, FeedGroup, Feed, kAppStateKey } from '../State.js'
 import { valOr, downloadTextFile } from '../Utils.js'
 import draggable from 'vuedraggable'
-import TextTreeIcon from './TextTreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 import FeedTile from './FeedTile.vue'
-import SetupHelp from './SetupHelp.vue'
 
 const props = defineProps({
 })
@@ -176,6 +174,11 @@ function checkForLinkAction() {
   }
 }
 
+function onDoneSetup() {
+  gApp.setDoneFeedSetup(true);
+  gApp.toast({message: 'Setup complete!', type: 'success'});  
+}
+
 watch(gApp.linkAction, (newVal) => {
   checkForLinkAction();
 })
@@ -187,8 +190,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <SetupHelp v-if="!gApp.isDoneWelcome()" />
-  <div v-else class="MainFeed">
+  <div class="MainFeed">
     <div class="ButtonMenu">
       <button class="MenuBtn" @click="addFeed()">
         <vue-feather type="rss" class="Icon" />
@@ -205,8 +207,8 @@ onMounted(() => {
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
-        <div v-if="!gApp.isJungleExtPresent.value" class="TopAlert AlertPane">
-          <p class="AlertText"><u>Alert</u> JungleExt is not installed. JungleReader requires the extension to work properly.
+        <div v-if="gApp.isJungleExtMissing()" class="TopAlert AlertPane">
+          <p class="AlertText"><u>Alert</u> You are using the JungleExt fetch method but JungleExt is not installed.
           Please install then reload the page.
           </p>
           <p><a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">Install for Firefox</a></p>
@@ -220,22 +222,31 @@ onMounted(() => {
           <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
         </div>
         <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
-          <h2 class="MarginBotS">Setup your feed:</h2>
-          <p>
-          This is your feeds page. Click to add these feeds:
+          <h1 class="PageHeader MarginBotS">Welcome!</h1>
+          <p class="IntroHelp EmphasisText MarginBotS">
+          JungleReader is a free and open-source feed reader. Follow <b>RSS</b>, <b>Mastodon</b>, <b>YouTube</b>, <b>Reddit</b>, and <b>that one random blog</b> all in one place.
           </p>
-          <ul class="SampleFeeds">
-            <li><button class="SmallButton Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button></li>
-            <li><button class="SmallButton Block" @click="addHelpFeed({name: 'XKCD Bot', type: 'Mastodon', url: 'https://mastodon.xyz/@xkcd'})">XKCD Bot (Mastodon)</button></li>
-            <li><button class="SmallButton Block" @click="addHelpFeed({name: 'r/AskHistorians', type: 'Reddit', url: 'https://www.reddit.com/r/askhistorians'})">r/AskHistorians (Reddit)</button></li>
-          </ul>
-          <p>From here:</p>
-          <ul class="FromHereList">
-            <li><p>Visit the <router-link to="/explore">Explore</router-link> page for more feeds to add.</p></li>
-            <li><p>Click "Reload All" to update all your feeds.</p></li>
-            <li><p>If you're a dev, check out the <router-link to="/plugins">Plugins</router-link> page.</p></li>
-          </ul>
-          <button class="DoneBtn" @click="gApp.setDoneFeedSetup(true)">Done Setup</button>
+          <div class="MarginBotM">
+            <h3>Quickstart:</h3>
+            <p class="MarginBotXS">
+            Let's setup your feeds page. Click to add these feeds:
+            </p>
+            <div class="SampleFeeds">
+              <button class="MarginBotXS Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button>
+              <button class="MarginBotXS Block" @click="addHelpFeed({name: 'XKCD Bot', type: 'Mastodon', url: 'https://mastodon.xyz/@xkcd'})">XKCD Bot (Mastodon)</button>
+              <button class="MarginBotXS Block" @click="addHelpFeed({name: 'r/AskHistorians', type: 'Reddit', url: 'https://www.reddit.com/r/askhistorians'})">r/AskHistorians (Reddit)</button>
+            </div>
+          </div>
+          <div class="MarginBotM">
+            <h3>Guide:</h3>
+            <ol class="FromHereList">
+              <li><p>Click <b>ADD FEED</b> to add more feeds.</p></li>
+              <li><p>Click <b>ADD GROUP</b> to make feed groups.</p></li>
+              <li><p>Click <b>RELOAD ALL</b> to update all your feeds.</p></li>
+              <li><p>Visit the <b><router-link to="/explore">Explore</router-link></b> page to find interesting feeds.</p></li>
+            </ol>
+          </div>
+          <button class="DoneBtn" @click="onDoneSetup()">Done Setup</button>
         </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
@@ -450,8 +461,8 @@ onMounted(() => {
 
 .HelpText {
   margin-top: var(--space-m);
-  font-size: var(--h4-size);
 
+  //border-color: var(--brand-color-yellow);
   border-color: var(--brand-color-yellow);
   background-color: var(--main-bg);
 }
@@ -466,6 +477,10 @@ onMounted(() => {
 
 .FromHereList {
   margin-bottom: 16px;
+}
+
+.IntroHelp {
+  font-size: 20px;
 }
 
 </style>

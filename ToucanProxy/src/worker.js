@@ -11,16 +11,28 @@
 // See: https://developers.cloudflare.com/workers/examples/cors-header-proxy/
 
 /*
-TODO: Lock down however possible here. Only allow origin to ToucanReader URL, in prod mode.
+TODO:
+Lock down however possible here. Only allow origin to ToucanReader URL, in prod mode.
 Configure with env-var for that.
 Prevent: localhost, special addresses, to self, etc.
 See what cors-anywhere does about forwarding Authentication.
 */
 
 // The endpoint you want the CORS reverse proxy to be on
-const PROXY_ENDPOINT = "/corsproxy/";
+const PROXY_ENDPOINT = "/corsproxy";
+// We set this on requests that we send from here, and abort the request if we
+// get a request with it set (to prevent infinite recursion)
+const TOUCAN_PROXY_HEADER = "X-Toucan-Proxy";
 
 async function handleProxyRequest(request) {
+	if (request.headers.has(TOUCAN_PROXY_HEADER)) {
+    console.log("Error - Got a request with " + TOUCAN_PROXY_HEADER + " set.");
+		return new Response(null, {
+			status: 400,
+			statusText: "ToucanProxy does not allow requests to itself",
+		});
+	}
+
   const reqUrl = new URL(request.url);
   let apiUrlStr = reqUrl.searchParams.get("apiurl");
   if (apiUrlStr === null) {
@@ -33,11 +45,13 @@ async function handleProxyRequest(request) {
   let apiUrl = new URL(apiUrlStr);
   let apiRequest = new Request(apiUrl, request);
   apiRequest.headers.set("Origin", apiUrl.origin);
-	// TODO - do not follow too many redirects
-	// TODO - prevent infinite loops
+	apiRequest.headers.set(TOUCAN_PROXY_HEADER, "true");
+
+	// Note: maybe limit to some max number of redirects later. Fine for now.
   let response = await fetch(apiRequest, {redirect: 'follow'});
 
   // Handle a single redirect
+	/*
   if (!response.ok && (300 <= response.status && response.status < 399)) {
     //console.log("Response url: " + response.url);
     // let newUrl = response.headers.get("Location");
@@ -45,6 +59,7 @@ async function handleProxyRequest(request) {
     console.log("Handling redirect. Orig url: " + apiUrlStr + " New url: " + newUrl);
     response = await fetch(newUrl, request);
   }
+	*/
   if (!response.ok) {
     console.log("Response error: " + response.statusText);
     return new Response(null, {
@@ -117,7 +132,7 @@ function makeBasicHtmlResponse(request) {
 
 async function handleRequest(request) {
   const url = new URL(request.url);
-  if (url.pathname.startsWith(PROXY_ENDPOINT)) {
+  if (url.pathname == PROXY_ENDPOINT) {
     if (request.method === "OPTIONS") {
       // Handle CORS preflight requests
       console.log("Handling preflight req");

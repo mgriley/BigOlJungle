@@ -7,7 +7,11 @@ import BasicSelector from './BasicSelector.vue'
 
 let persistentStorageOn = ref(false);
 
-let supportedFetchMethods = [FetchMethod.JungleExt, FetchMethod.DevProxy]
+let supportedFetchMethods = [
+  FetchMethod.ToucanProxy,
+  FetchMethod.JungleExt,
+  FetchMethod.DevProxy
+]
 
 let devZoneOpen = ref(false);
 
@@ -119,9 +123,10 @@ onMounted(() => {
         <div class="SubSection">
           <h4>Fetch Method</h4>
           <p class="FetchDesc">
-          By default, JungleReader uses JungleExt to make external web requests. 
-          Soon, you'll be able to use a custom CORS proxy, instead, if you prefer. The DevProxy
-          proxies requests to ToucanProxy running on localhost:8787.
+          By default, JungleReader proxies requests through our CORS proxy called ToucanProxy. 
+          It does not collect data.
+          If you prefer, you can also use a custom CORS proxy (coming soon!) or download the JungleExt browser extension.
+          The DevProxy proxies requests to ToucanProxy running on localhost:8787.
           </p>
           <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
         </div>
