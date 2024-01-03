@@ -431,6 +431,9 @@ class FeedReader {
       feed.url = optArgs.url;
     }
     parentGroup.addFeed(feed);
+    if (!optArgs.doNotReload) {
+      feed.reload();
+    }
     return feed;
   }
 

@@ -203,14 +203,16 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
 .FixedBgImg {
   position: fixed;
   z-index: -1;
-  background-image: url(../assets/CityBgModded.jpg);
+
   //background-color: orange;
   //background-color: #696969;
 
   //background-color: #e900c6;
   //background-image: linear-gradient(160deg, #e900c6 0%, #edff00 100%);
 
-  //background-image: linear-gradient(160deg, #e900c622 0%, #edff0022 100%), url(../assets/CityBgModded.jpg);
+  //background-image: url(../assets/CityBgModded.jpg);
+  //background-image: url(../assets/daniel-o-dowd-jungle-unsplash-modded.jpg);
+  background-image: url(../assets/yoal-desurmont-jungle-unsplash.jpg);
 
   background-size: cover;
   /* background-attachment: fixed; */

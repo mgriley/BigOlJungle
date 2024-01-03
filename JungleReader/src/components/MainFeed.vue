@@ -47,17 +47,18 @@ function addHelpFeed(args) {
   gApp.toast({message: 'Added!', type: 'success'});  
 }
 
-function addFeed(optArgs) {
+function startAddFeed(optArgs) {
   optArgs = optArgs || {};
+  // We defer reloading until we finish adding the feed
+  optArgs.doNotReload = false;
   let feed = gApp.feedReader.addFeed(optArgs);
-  if (valOr(optArgs.editWhenDone, true)) {
-    feedToEdit.value = feed;
-    feedCreatorModal.value.showModal();
-  }
+  feedToEdit.value = feed;
+  feedCreatorModal.value.showModal();
 }
 
 function onDoneAddFeed() {
   // gApp.toast({message: 'Added feed', type: 'success'});  
+  feedToEdit.value.reload();
 }
 
 function onDoneAddGroup() {
@@ -88,9 +89,8 @@ function promptAddFeedFromLink(query) {
 function addFeedFromLink() {
   let args = {
     ...linkedFeed.value,
-    editWhenDone: false
   };
-  addFeed(args);
+  gApp.feedReader.addFeed(args);
 }
 
 function deleteFeed(feed) {
@@ -192,7 +192,7 @@ onMounted(() => {
 <template>
   <div class="MainFeed">
     <div class="ButtonMenu">
-      <button class="MenuBtn" @click="addFeed()">
+      <button class="MenuBtn" @click="startAddFeed()">
         <vue-feather type="rss" class="Icon" />
         Add Feed
       </button>
@@ -271,7 +271,7 @@ onMounted(() => {
                 </template>
                 <template #footer>
                   <div v-if="element.expanded && element.isEmpty()" class="EmptyGroupIndicator">
-                    <p>This group is empty. <button class="SmallButton" @click="addFeed({group: element})">Add a feed</button></p>
+                    <p>This group is empty. <button class="SmallButton" @click="startAddFeed({group: element})">Add a feed</button></p>
                   </div>
                 </template>
               </draggable>

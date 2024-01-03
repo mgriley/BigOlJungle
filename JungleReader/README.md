@@ -67,5 +67,12 @@ Articles on how to setup the domain properly in namecheap and Cloudflare Pages:
 
 ## Assets
 
+Jungle background image:
+
+Photo by Yoal Desurmont on Unsplash.
+
+Previously:
+Photo by Daniel o'dowd on Unsplash.
+
 Small chameleon svg (CC0 license):
 https://www.svgrepo.com/svg/170979/chameleon

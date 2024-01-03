@@ -1,6 +1,12 @@
 Name: MyFeed
 Version: 1
 
+Title: Update
+Link: https://www.zajungle.com
+Date: 2024-01-02
+
+Dev update: Whenever I would show the app to friends, they would read the part about requiring the browser extension and give a nervous "uhhhh...". I can't blame them, there are many sketchy browser extensions out there. The browser extension permission system isn't great, either, which is why most non-trivial extensions have to request for "All your data from all sites" with a scary popup. I decided to host a CORS proxy on CloudFlare workers, so JungleReader no longer requires the extension. By default, new users will use the proxy (called ToucanProxy). If you originally signed up using the extension, you can keep using it or switch to using "ToucanProxy" in the settings.
+
 Title: Welcome to JungleReader!
 Link: https://www.zajungle.com
 Date: 2023-12-09
