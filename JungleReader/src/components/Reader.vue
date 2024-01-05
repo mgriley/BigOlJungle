@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { gApp, FeedGroup, Feed, getTimeAgoStr, kReaderVersionString } from '../State.js'
 import BasicModal from 'Shared/BasicModal.vue'
+import BasicSelector from './BasicSelector.vue'
 
 /*
 See:
@@ -12,8 +13,10 @@ https://codepen.io/flaviocopes/pen/JZWOEK
 
 let importConfigModal = ref(null);
 let importFileInput = ref(null);
+let importType = ref('config');
 
 let exportConfigModal = ref(null);
+let exportType = ref('config');
 
 function startImportConfig() {
   importConfigModal.value.showModal();
@@ -37,7 +40,7 @@ function importConfig() {
       console.log("The read file is invalid");
       return;
     }
-    gApp.importConfig(reader.result);  
+    gApp.importFile(reader.result, importType.value);  
   }, false);
 
   console.log("Reading file: " + uploadedFile.name);
@@ -100,8 +103,8 @@ onMounted(() => {
                   <router-link to="/settings" class="MainLink MenuLink"><vue-feather type="settings" class="Icon"/>Settings</router-link>
                 </div>
                 <div class="Section">
-                  <a href="#" @click.prevent="startExportConfig()" class="MainLink MenuLink"><vue-feather type="upload" class="Icon"/>Export Config</a>
-                  <a href="#" @click.prevent="startImportConfig()" class="MainLink MenuLink"><vue-feather type="download" class="Icon"/>Import Config</a>
+                  <a href="#" @click.prevent="startExportConfig()" class="MainLink MenuLink"><vue-feather type="upload" class="Icon"/>Export Data</a>
+                  <a href="#" @click.prevent="startImportConfig()" class="MainLink MenuLink"><vue-feather type="download" class="Icon"/>Import Data</a>
                 </div>
                 <div class="Section">
                   <router-link to="/about" class="MainLink MenuLink"><vue-feather type="info" class="Icon" />About</router-link>
@@ -123,18 +126,44 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  <BasicModal ref="importConfigModal" title="Import Config" doneText="Import" @onDone="importConfig">
-    <p>When you import a config, it will override your current config.</p>
-    <p>You may want to export your current config first.</p>
+  <BasicModal ref="importConfigModal" title="Import Data" doneText="Import" @onDone="importConfig" class="ImportModal">
+    <div class="MarginBotM">
+      <p>What would you like to import?</p>
+      <div class="Flex ImportOptions">
+        <button class="SmallButton ImportButton" :class="{IsSelected: importType == 'config'}" @click="importType = 'config'">JungleReader Config</button>
+        <button class="SmallButton ImportButton" :class="{IsSelected: importType == 'opml'}" @click="importType = 'opml'">OPML File</button>
+      </div>
+    </div>
+    <p>Details:</p>
+    <div v-if="importType == 'config'">
+      <p>When you import a JungleReader config, it will fully overwrite your current config (feeds, settings, etc.).</p>
+      <p>You may want to export your current config first.</p>
+    </div>
+    <div v-else-if="importType == 'opml'">
+      <p>Importing an OPML file will add all the OPML feeds to your feeds page.</p>
+    </div>
     <div class="ImportBox">
       <input ref="importFileInput" type="file" id="input" />
     </div>
   </BasicModal>
-  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Config" doneText="Export" @onDone="gApp.exportConfig()">
-    <p>
-    This will download your current config, which includes your feeds, groups,
-    plugins, settings, and other data.
-    </p>
+  <BasicModal class="ExportModal" ref="exportConfigModal" title="Export Data" doneText="Export" @onDone="gApp.exportData(exportType)">
+    <div class="MarginBotM">
+      <p>What would you like to export?</p>
+      <div class="Flex ImportOptions">
+        <button class="SmallButton ImportButton" :class="{IsSelected: exportType == 'config'}" @click="exportType = 'config'">JungleReader Config</button>
+        <button class="SmallButton ImportButton" :class="{IsSelected: exportType == 'opml'}" @click="exportType = 'opml'">OPML File</button>
+      </div>
+    </div>
+    <p>Details:</p>
+    <div v-if="exportType == 'config'">
+      <p>
+      This will download your current config, which includes your feeds, groups,
+      plugins, settings, and other data.
+      </p>
+    </div>
+    <div v-else-if="exportType == 'opml'">
+      <p>This will download all your feeds in OPML format.</p>
+    </div>
   </BasicModal>
 </template>
 
@@ -427,6 +456,19 @@ Also collapse the menu.
 
 .ExportModal {
   width: 600px;
+}
+
+.ImportModal {
+  width: 700px;
+}
+
+.ImportOptions {
+  gap: var(--space-m);
+}
+
+.ImportButton.IsSelected {
+  border-bottom: 2px solid var(--brand-color-yellow);
+  border-radius: 0;
 }
 
 </style>

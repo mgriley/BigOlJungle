@@ -3,7 +3,8 @@ import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
   cleanUrl, isValidUrl, valOr, waitMillis,
-  getTimeAgoStr, secsSinceDate, getRandInt } from './Utils.js'
+  getTimeAgoStr, secsSinceDate, getRandInt,
+  parseXml, getChild, getChildren, formatXML } from './Utils.js'
 import { registerCorePlugin } from './CorePlugins.js'
 import { CustomPlugin } from './PluginLib.js'
 import { ContentCache } from './ContentCache.js'
@@ -437,6 +438,16 @@ class FeedReader {
     return feed;
   }
 
+  addGroup(optArgs) {
+    optArgs = optArgs || {}
+    let group = FeedGroup.create();
+    if (optArgs.name) {
+      group.name = optArgs.name;
+    }
+    this.addFeedGroup(group);
+    return group;
+  }
+
   makeDefaultGroup() {
     let group = FeedGroup.create();
     group.name = "Main";
@@ -446,6 +457,15 @@ class FeedReader {
   getGroupWithId(groupId) {
     for (const group of this.groups) {
       if (group.id == groupId) {
+        return group;
+      }
+    }
+    return null;
+  }
+
+  getGroupWithName(groupName) {
+    for (const group of this.groups) {
+      if (group.name == groupName) {
         return group;
       }
     }
@@ -730,6 +750,53 @@ class JungleReader {
     downloadTextFile(jsonData, "JungleReaderConfig.txt");
   }
 
+  exportOpml() {
+    let makeOutline = (data) => {
+      if (data.type == "RSS") {
+        data.type = "rss";
+      }
+      return `<outline type="${data.type}" text="${data.name}" xmlUrl="${data.url}" />`
+    }
+    let makeOutlineGroup = (group) => {
+      let outlines = group.feeds.map((feed) => {
+        return makeOutline(feed);
+      }).join("\n");
+      return `
+        <outline text="${group.name}">
+          ${outlines}
+        </outline>
+        `
+    };
+    let makeOpml = (groups) => {
+      let body = groups.map((group) => {
+        return makeOutlineGroup(group);
+      }).join("\n");
+      return `<?xml version="1.0" encoding="utf-8"?>
+<opml version="1.0">
+  <head>
+    <dateCreated>Thu, 4 Jan 2024 20:54:02 +0000</dateCreated>
+    <title>JungleReader Feed Export</title>
+  </head>
+  <body>
+    ${body}
+  </body>
+</opml>`
+    };
+    console.log("Exporting as OPML")
+    let outputData = formatXML(makeOpml(this.feedReader.groups));
+    downloadTextFile(outputData, "JungleReaderOPML.txt");
+  }
+
+  exportData(exportType) {
+    if (exportType == 'config') {
+      this.exportConfig();
+    } else if (exportType == 'opml') {
+      this.exportOpml();
+    } else {
+      throw new Error("Unknown exportType: " + exportType);
+    }
+  }
+
   // Returns: true on success, false on failure
   importConfig(configStr) {
     console.log("Importing config");
@@ -753,6 +820,79 @@ class JungleReader {
       return false;
     }
     return true;
+  }
+
+  _parseOpmlOutlines(node, groupName) {
+    let outlines = getChildren(node, "outline");
+    let feeds = [];
+    for (const outline of outlines) {
+      if (outline.children.length > 0) {
+        let subGroup = null;
+        // Only allow setting the groupName if we aren't already in a group
+        if (!groupName && outline.attrs["text"]) {
+          subGroup = outline.attrs["text"];
+        }
+        feeds = feeds.concat(this._parseOpmlOutlines(outline, subGroup));
+      } else {
+        let url = outline.attrs["xmlUrl"];
+        let type = outline.attrs["type"] || "RSS";
+        if (type == "rss") {
+          type = "RSS";
+        }
+        let name = outline.attrs["text"] || url;
+        feeds.push({
+          name: name,
+          type: type,
+          url: url,
+          group: groupName,
+        });
+      }
+    }
+    return feeds;
+  }
+
+  importOpml(fileData) {
+    // See format here: https://ruk.ca/content/heres-my-opml
+    try {
+      let root = parseXml(fileData, 'text/xml');
+      let opml = getChild(root, "opml");
+      let body = getChild(opml, "body");
+      console.log("Body: ", body);
+      let feeds = this._parseOpmlOutlines(body, null);
+      console.log("Adding feeds from OPML:", feeds);
+      for (const feed of feeds) {
+        if (feed.group) {
+          let group = this.feedReader.getGroupWithName(feed.group);
+          if (!group) {
+            group = this.feedReader.addGroup({name: feed.group});
+          }
+          feed.group = group;
+        }
+        this.feedReader.addFeed(feed);
+      }
+      this.toast({
+        message: `Success! Imported ${feeds.length} feeds.`,
+        type: 'success'
+      });
+    } catch (error) {
+      console.error("Error occurred on import OPML.", error);
+      this.toast({
+        message: `Error on importing OPML. Error: ${error}`,
+        type: 'error',
+        // Keep visible until dismissed
+        duration: 0,
+      });
+    }
+  }
+
+  importFile(fileData, fileType) {
+    if (fileType == 'config') {
+      this.importConfig(fileData);
+    } else if (fileType == 'opml') {
+      this.importOpml(fileData);
+    } else {
+      throw new Error("Unknown importType: " + fileType);
+    }
   }
 
   readStateFromStorage() {

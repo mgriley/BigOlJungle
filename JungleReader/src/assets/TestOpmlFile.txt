@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opml version="1.0">
+  <head>
+    <dateCreated>Thu, 26 Apr 2018 20:54:02 +0000</dateCreated>
+    <title>Tiny Tiny RSS Feed Export</title>
+  </head>
+  <body>
+    <outline text="Friends">
+      <outline type="rss" text="Edward Hasbrouck" xmlUrl="https://hasbrouck.org/blog/index.xml" htmlUrl="https://hasbrouck.org/blog/"/>
+      <outline type="rss" text="Elmine Wijnia" xmlUrl="http://storymin.es/feed/" htmlUrl="http://storymin.es"/>
+      <outline type="rss" text="Olle Jonsson" xmlUrl="http://ollehost.dk/blog/feed/" htmlUrl="http://ollehost.dk/blog"/>
+      <outline type="rss" text="Parker Higgins" xmlUrl="https://parkerhiggins.net/feed/" htmlUrl="https://parkerhiggins.net"/>
+      <outline type="rss" text="Peter Bihr" xmlUrl="http://www.thewavingcat.com/feed/rss/" htmlUrl="http://www.thewavingcat.com"/>
+      <outline type="rss" text="Steven Garrity" xmlUrl="http://www.actsofvolition.com/feed" htmlUrl="http://www.actsofvolition.com/"/>
+      <outline type="rss" text="Ton Zijlstra" xmlUrl="https://www.zylstra.org/blog/feed/" htmlUrl="https://www.zylstra.org/blog"/>
+    </outline>
+  </body>
+</opml>

@@ -114,7 +114,8 @@ export function getText(obj, childName) {
   return null;
 }
 
-export function convertXmlJsToMap(xmlJs) {
+export function convertXmlJsToMap(xmlJs, opts) {
+  opts = opts || {}
   let result = {
     _attrs: xmlJs.attrs,
   };
@@ -123,12 +124,25 @@ export function convertXmlJsToMap(xmlJs) {
     if (isTextNode(child)) {
       childObj = child.children[0].value;
     } else {
-      childObj = convertXmlJsToMap(child);
+      childObj = convertXmlJsToMap(child, opts);
     }
     result[child.name] = childObj;
   }
   return result;
 }
+
+/*
+function jsNodeToXml(node, doc) {
+
+}
+
+export function convertJsToXml(jsObj) {
+  let xmlDoc = document.implementation.createDocument("", "", null);
+  let xmlNode = jsNodeToXml(jsObj);
+  xmlDoc.appendChild(xmlNode);
+  return conver;
+}
+*/
 
 // }
 

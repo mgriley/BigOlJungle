@@ -26,8 +26,7 @@ let feedToEdit = ref(dummyFeed);
 let linkedFeed = ref({});
 
 function addFeedGroup() {
-  let group = FeedGroup.create();
-  gApp.feedReader.addFeedGroup(group);
+  let group = gApp.feedReader.addGroup({});
   groupToEdit.value = group;
   groupCreatorModal.value.showModal();
 }
@@ -243,7 +242,13 @@ onMounted(() => {
               <li><p>Click <b>ADD FEED</b> to add more feeds.</p></li>
               <li><p>Click <b>ADD GROUP</b> to make feed groups.</p></li>
               <li><p>Click <b>RELOAD ALL</b> to update all your feeds.</p></li>
+            </ol>
+          </div>
+          <div class="MarginBotM">
+            <h3>Also:</h3>
+            <ol class="FromHereList">
               <li><p>Visit the <b><router-link to="/explore">Explore</router-link></b> page to find interesting feeds.</p></li>
+              <li><p>Coming from another reader? Go to <b>Import Data</b> in the sidebar to import feeds as <b>OPML</b>.</p></li>
             </ol>
           </div>
           <button class="DoneBtn" @click="onDoneSetup()">Done Setup</button>
