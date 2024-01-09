@@ -1,0 +1,16 @@
+{
+  "name": "JungleReader",
+  "short_name": "JungleReader",
+  "start_url": "https://www.zajungle.com",
+  "display": "standalone",
+  "background_color": "black",
+  "description": "A free and open-source feed-reader",
+  "icons": [
+    {
+      "src": "pwa_icons/icon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
+
