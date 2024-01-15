@@ -87,7 +87,7 @@ onMounted(() => {
                 <!-- <div class="HeroIcon"> -->
                   <!-- <vue-feather class="InnerIcon" size="64" type="rss" /> -->
                 <!-- </div> -->
-                <div>
+                <div class="AppTitleDiv">
                   <p class="AppTitle" @click="goToHome">Jungle<br><span class="LastLine">Reader</span></p>
                   <!-- <img class="HeroImg" src="../assets/NounCham.svg" /> -->
                   <p class="AppSubTitle">Read the jungle</p>
@@ -379,40 +379,53 @@ Also collapse the menu.
 
   .main {
     margin-left: 0;
-    padding: var(--space-s);
+    padding: var(--space-xs);
+    border: none;
+  }
+
+  .FixedBgImg {
+    background-image: none;
   }
 
   .Sidebar {
     /*border-bottom: 1px solid var(--mute-text);*/
     margin-left: 0;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-s);
     padding: 0;
   }
 
   .InnerSidebar {
-    padding: var(--space-s);
+    padding: var(--space-xs);
+    border: none;
   }
 
   .SidebarBtnBar {
     display: flex;
   }
 
-  .AppTitle {
+  .HeroDiv {
     display: none;
   }
 
   .SidebarContent {
     display: none;
-    padding-top: 20px;
+    padding-top: var(--space-s);
     background-color: var(--popup-bg);
   }
 
   .SidebarContent a {
-    padding-left: 8px;
+    //padding-left: 8px;
+  }
+
+  .MainLink {
+    //padding: var(--space-xs);
+    padding: 8px;
+    padding-left: var(--space-m);
+    //font-size: 22px;
   }
 
   .SidebarContent p {
-    padding-left: 8px;
+    padding-left: var(--space-m);
   }
 
   .SidebarContent.open {
@@ -421,7 +434,7 @@ Also collapse the menu.
 }
 
 .VersionSection {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-m);
 }
 
 .VersionNum {

@@ -19,6 +19,7 @@ button {
   font-weight: 600;
   /* font-weight: var(--bold-weight); */
   font-size: var(--p-size);
+  /* text-align: left; */
 }
 
 button:hover, button:active {

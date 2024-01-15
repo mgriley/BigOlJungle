@@ -178,6 +178,10 @@ function onDoneSetup() {
   gApp.toast({message: 'Setup complete!', type: 'success'});  
 }
 
+let draggableDisabled = computed(() => {
+  return false;
+})
+
 watch(gApp.linkAction, (newVal) => {
   checkForLinkAction();
 })
@@ -337,10 +341,6 @@ onMounted(() => {
   flex-flow: row;
 }
 
-.ButtonMenu button {
-  margin-right: var(--space-xs);
-}
-
 .MenuBtn {
   display: flex;
   align-items: center;
@@ -351,6 +351,7 @@ onMounted(() => {
   border: none;
   padding: 4px;
   /* font-size: 24px; */
+  margin-right: var(--space-xs);
 }
 
 .InnerReloadBtn {
@@ -486,6 +487,30 @@ onMounted(() => {
 
 .IntroHelp {
   font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .ButtonMenu {
+    /* flex-flow: column nowrap; */
+    gap: var(--space-xxs);
+  }
+
+  .MenuBtn {
+    font-size: 16px;
+    text-align: left;
+    gap: var(--space-xxs);
+    /* align-items: start; */
+    min-width: 0; 
+
+    flex-flow: column;
+    align-items: left;
+    border: 1px solid var(--brand-color-yellow);
+    padding: var(--space-xs);
+  }
+
+  .MenuBtn .Icon {
+    /* display: none; */
+  }
 }
 
 </style>

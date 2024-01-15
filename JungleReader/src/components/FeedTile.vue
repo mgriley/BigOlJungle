@@ -48,8 +48,8 @@ function onFeedClicked(feed) {
   position: relative;
   display: flex;
   flex-flow: column nowrap;
-  width: var(--feed-tile-width);
-  height: var(--feed-tile-height);
+  width: 160px;
+  height: 120px;
   padding: var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
@@ -183,6 +183,31 @@ function onFeedClicked(feed) {
 
   border: 4px solid var(--main-bg);
   border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .FeedTile {
+    width: 120px;
+    height: 100px;
+  }
+
+  .FeedTitle {
+    font-size: var(--small-size);
+    font-weight: var(--bold-weight);
+  }
+
+  .FeedTile.HasUnread {
+    border-color: var(--attn-color);
+    border-width: 2px;
+  }
+
+  .UnreadIcon {
+    --width: 20px;
+  }
+
+  .UpdateDaysAgo {
+    font-size: calc(var(--small-size) * 0.8);
+  }
 }
 
 </style>
