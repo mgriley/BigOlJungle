@@ -1,9 +1,11 @@
 import { reactive, ref } from 'vue'
+import * as ser from 'Shared/SerUtil.js'
 
 export var gApp = null;
 
 export class ImageGallery {
   constructor() {
+    // TODO
   }
 }
 
@@ -57,10 +59,44 @@ export class PostsList {
   }
 };
 
+export class Page {
+  constructor(editable) {
+    this.editable = editable;
+
+    this.title = "Your Page";
+    this.description = "Describe yourself and your work here."
+    this.statusUpdate = new Post();
+    this.paintings = new ImageGallery();
+    this.photos = new ImageGallery();
+    this.poems = new PostsList();
+
+    // TODO - outbound links (reccs)
+    // Link + description
+  }
+};
+
+export class Friend {
+  constructor() {
+    this.pageName = "";
+    this.chatMsgs = [];
+    this.lastSeenOnline = new Date();
+    this.lastVisited = new Date();
+
+    this.lastNewStatus = new Date();
+    // TODO - may need lastMsgTime, per user
+    this.isOnline = false;
+  }
+}
+
+export class FriendsList {
+  constructor() {
+    this.friends = [];
+  }
+};
+
 export class App {
   constructor() {
-    this.gallery = reactive(new ImageGallery());
-    this.poems = reactive(new PostsList());
+    this.userPage = reactive(new Page(true));
   }
 
   run() {

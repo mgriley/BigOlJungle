@@ -1,0 +1,75 @@
+/*
+Various CSS utils
+*/
+
+.Italic {
+  font-style: italic;
+}
+
+.Bold {
+  font-weight: var(--bold-weight);
+}
+
+/*
+For text you don't want to get highlighted when
+it gets clicked. Say if using for a button
+*/
+.NoSelect {
+  user-select: none;
+}
+
+.Block {
+  display: block;
+}
+
+.InlineBlock {
+  display: inline-block;
+}
+
+.Flex {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.MarginLeft {
+  margin-left: var(--space-s);
+}
+
+.MarginTop {
+  margin-top: var(--space-xs);
+}
+
+.MarginBotXL {
+  margin-bottom: var(--space-xl);
+}
+
+.MarginBotL {
+  margin-bottom: var(--space-l);
+}
+
+.MarginBotM {
+  margin-bottom: var(--space-m);
+}
+
+.MarginBotS {
+  margin-bottom: var(--space-s);
+}
+
+.MarginBotXS {
+  margin-bottom: var(--space-xs);
+}
+
+.MarginBotXXS {
+  margin-bottom: var(--space-xxs);
+}
+
+.DraggedChosenItem {
+  background-color: var(--color-link-hover);
+}
+
+.FeatherIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
