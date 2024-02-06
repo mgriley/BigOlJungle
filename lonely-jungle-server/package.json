@@ -1,0 +1,19 @@
+{
+  "name": "lonely-jungle-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "deploy": "gcloud app deploy",
+    "browse": "gcloud app browse",
+    "logs": "gcloud app logs tail -s default",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Riley",
+  "license": "AGPLv3",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

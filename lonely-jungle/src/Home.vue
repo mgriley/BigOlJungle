@@ -5,14 +5,10 @@ import Page from './Page.vue'
 </script>
 
 <template>
-  <div class="Sidebar">
-  </div>
   <div>
     <Page :page="gApp.userPage" />
   </div>
 </template>
 
 <style scoped>
-.Sidebar {
-}
 </style>

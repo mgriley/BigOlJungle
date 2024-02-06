@@ -76,8 +76,9 @@ export class Page {
 };
 
 export class Friend {
-  constructor() {
-    this.pageName = "";
+  constructor(username) {
+    this.username = username || "";
+
     this.chatMsgs = [];
     this.lastSeenOnline = new Date();
     this.lastVisited = new Date();
@@ -95,8 +96,19 @@ export class FriendsList {
 };
 
 export class App {
-  constructor() {
+  constructor(toaster, router) {
+    this.toaster = toaster;
+    this.router = router;
+
     this.userPage = reactive(new Page(true));
+    this.friendsList = reactive(new FriendsList());
+    this.friendsList.friends = [
+      new Friend("user-b"),
+    ]
+  }
+
+  goToPage(username) {
+    this.router.push({name: "page", params: {id: username}})
   }
 
   run() {
