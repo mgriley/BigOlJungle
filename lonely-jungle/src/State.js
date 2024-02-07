@@ -1,10 +1,13 @@
 import { reactive, ref } from 'vue'
 import { prettyJson, } from './Utils.js'
 import * as ser from 'Shared/SerUtil.js'
+import { AutosaveTimer } from 'Shared/AutosaveTimer.js'
 import { Peer } from 'peerjs'
 import { ReqMap, makePromiseObj, } from './ReqMap.js'
 
 export var gApp = null;
+
+let APP_STORAGE_KEY = "appState";
 
 let DEBUG_SERVER_HOST = "localhost";
 let DEBUG_SERVER_PORT = 8090;
@@ -137,6 +140,24 @@ export class App {
     this.userPage = ref(new Page(true));
     this.friendsList = ref(new FriendsList());
     this.pagesCache = ref({})
+
+    this.autosaveTimer = new AutosaveTimer(15, () => {
+      this.onAutosave();
+    })
+
+    this.reqIdCtr = 1;
+  }
+
+  writeUserToJson() {
+    return {
+      userPage: ser.writeToJson(this.userPage.value),
+      friendsList: ser.writeToJson(this.friendsList.value),
+    }
+  }
+
+  readUserFromJson(userData) {
+    ser.readUserFromJson(this.userPage.value, userData.userPage)
+    ser.readFromJson(this.friendsList.value, userData.friendsList)
   }
 
   initForUser(username) {
@@ -176,7 +197,6 @@ export class App {
     });
     this.connections = {};
     this.reqMap = new ReqMap();
-    this.reqIdCtr = 1;
 
     this.peer.on('open', (id) => {
       console.log("Peer opened. Connected to the peerjs server with id: " + id);
@@ -238,6 +258,7 @@ export class App {
 
   async loadUserPage(username) {
     if (username in this.pagesCache.value) {
+      console.log("Found in cache");
       return this.pagesCache.value[username];
     }
     // Load from the app server
@@ -245,7 +266,8 @@ export class App {
     console.log("Got pageRes: ", pageRes);
     let page = reactive(new Page(false));
     ser.readFromJson(page, pageRes.page)
-    this.pagesCache.value[username] = page;
+    // TODO - impl cache properly later
+    //this.pagesCache.value[username] = page;
     return page;
   }
 
@@ -272,6 +294,7 @@ export class App {
     conn.on('data', (data) => {
       console.log(`Got data from Conn ${conn.peer}: `, data);
       if (data.isResponse) {
+        // TODO - pass in the user and make sure matches, too.
         this.reqMap.registerResponse(data.reqId, data);
       } else {
         if (!('name' in data)) {
@@ -316,6 +339,89 @@ export class App {
 
     // TODO - load from storage, maybe
     this.initForUser(debugUser);
+
+    // Note: the visibilitychange handler function cannot be async
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState == 'hidden') {
+        this.onEnterBackground();
+      } else if (document.visibilityState == 'visible') {
+        this.onEnterForeground();
+      }
+    });
+    this.onEnterForeground();
+  }
+
+  onEnterForeground() {
+    console.log("onEnterForeground")
+    this.readStateFromStorage();
+    this.autosaveTimer.onEnterForeground();
+  }
+
+  onEnterBackground() {
+    console.log("onEnterBackground")
+    this.saveAll();
+    this.autosaveTimer.onEnterBackground();
+  }
+
+  readUserFromStorage(username) {
+    // TODO - left off here
+  }
+
+  readStateFromStorage() {
+  }
+
+  old_readStateFromStorage() {
+    let appState = localStorage.getItem(APP_STORAGE_KEY);
+    if (!appState) {
+      return;
+    }
+    console.log(`Loading app state`);
+    try {
+      ser.readFromJson(this, JSON.parse(appState))
+    } catch (err) {
+      console.error("Error loading config: " + err);
+      /*
+      this.toast({
+        message: 'Failed to load app state! Please contact the developer. You can'
+         + ' wait for a fix, import a backup, or reset the app from Settings. Error: ' + err,
+        type: 'error',
+        duration: 0
+      });
+      */
+    }
+  }
+
+  saveAll() {
+    try {
+      console.log(`Saving app state.`);
+
+      /*
+      let stateData = ser.writeToJson(this);
+      let jsonData = prettyJson(stateData);
+      //console.log(jsonData);
+      localStorage.setItem(APP_STORAGE_KEY, jsonData);
+      */
+
+      let userData = prettyJson(this.writeUserToJson());
+      console.log("User data: ", userData);
+      localStorage.setItem(this.username, userData)
+    } catch (err) {
+      console.error("Error on saveAll: " + err);
+      /*
+      this.toast({
+        message: 'Failed to save app state! Please contact the developer. ' + err,
+        type: 'error',
+        duration: 0
+      });
+      */
+    }
+  }
+
+  onAutosave() {
+    // TODO
+  }
+
+  writeToStorage() {
   }
 
   changeUser(username) {
