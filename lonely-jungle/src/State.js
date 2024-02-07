@@ -1,4 +1,5 @@
 import { reactive, ref } from 'vue'
+import { prettyJson, } from './Utils.js'
 import * as ser from 'Shared/SerUtil.js'
 import { Peer } from 'peerjs'
 import { ReqMap, makePromiseObj, } from './ReqMap.js'
@@ -11,6 +12,8 @@ let DEBUG_SERVER_PORT = 8090;
 export class ImageGallery {
   constructor() {
     // TODO
+
+    this.serFields = []
   }
 }
 
@@ -20,6 +23,12 @@ export class Post {
     this.date = new Date();
     this.body = "";
     // this.renderedMarkdown = "";
+
+    this.serFields = [
+      'title',
+      {name: 'date', type: 'Date'},
+      'body',
+    ]
   }
 
   dateString() {
@@ -61,6 +70,16 @@ export class Post {
 export class PostsList {
   constructor() {
     this.posts = []
+
+    this.serFields = [
+      {
+        name: 'posts',
+        type: 'ObjArray',
+        elemCtor: () => {
+          return new Post();
+        },
+      },
+    ]
   }
 };
 
@@ -77,15 +96,15 @@ export class Page {
 
     // TODO - outbound links (reccs)
     // Link + description
-  }
 
-  writeToJson() {
-    // TODO
-  }
-
-  readFromJson(jsonObj) {
-    this.title = jsonObj.title;
-    // TODO
+    this.serFields = [
+      'title',
+      'description',
+      'statusUpdate',
+      'paintings',
+      'photos',
+      'poems',
+    ]
   }
 };
 
@@ -209,6 +228,7 @@ export class App {
     try {
       await this.fetchFromPeer(username, {name: 'IsOnline'})
       isOnline = true;
+      console.log(`User ${username} confirmed online`);
     } catch (err) {
       console.log("Err. User not online. Specific error:", err);
       isOnline = false;
@@ -224,7 +244,7 @@ export class App {
     let pageRes = await this.fetchFromPeer(username, {name: 'GetPage'});
     console.log("Got pageRes: ", pageRes);
     let page = reactive(new Page(false));
-    page.readFromJson(pageRes.page);
+    ser.readFromJson(page, pageRes.page)
     this.pagesCache.value[username] = page;
     return page;
   }
@@ -254,8 +274,9 @@ export class App {
       if (data.isResponse) {
         this.reqMap.registerResponse(data.reqId, data);
       } else {
-        if (!(name in data)) {
+        if (!('name' in data)) {
           console.log("Unknown data, no name: ", data);
+          return;
         }
         if (data.name == "IsOnline") {
           conn.send({
@@ -264,13 +285,13 @@ export class App {
             isResponse: true,
           })
         } else if (data.name == "GetPage") {
+          let pageData = ser.writeToJson(this.userPage.value);
+          console.log("My page data: ", prettyJson(pageData));
           conn.send({
             name: data.name,
             reqId: data.reqId,
             isResponse: true,
-            page: {
-              title: `Hello from ${this.username}`
-            }
+            page: pageData,
           })
         } else {
           console.log("Unknown request name: " + data.name);
@@ -284,6 +305,14 @@ export class App {
   run() {
     // let debugUser = 'user-a';
     let debugUser = 'user-a';
+    console.log("Host: " + window.location.host);
+    if (window.location.host == "localhost:5175") {
+      debugUser = "user-a";
+    } else if (window.location.host == "localhost:5176") {
+      debugUser = "user-b";
+    } else if (window.location.host == "localhost:5177") {
+      debugUser = "user-c";
+    }
 
     // TODO - load from storage, maybe
     this.initForUser(debugUser);
