@@ -6,17 +6,17 @@ import { useRoute } from "vue-router"
 
 const route = useRoute();
 
+let isOnline = ref(false);
+let pageData = ref({});
+
 async function fetchData(pageId) {
-  /*
-  console.log("Setting curProj: " + newId);
-  await gApp.dataLoadedPromise;
-  let proj = await gApp.getProjectWithId(newId);
-  console.log("Found proj: " + proj.id);
-  gApp.curProj.value = proj;
-  */
-  // TODO Fetch the data from the peer or cache
-  // TODO - left off here
+  console.log("Check if user online: " + pageId);
+  isOnline.value = await gApp.checkIsOnline(pageId);
+  if (!isOnline.value) {
+    return;
+  }
   console.log("Fetching page id: " + pageId);
+  pageData.value = await gApp.loadUserPage(pageId);
 }
 
 watch(() => {
@@ -30,7 +30,12 @@ watch(() => {
 
 <template>
   <div>
-    <Page :page="gApp.userPage" />
+    <div v-if="isOnline">
+      <Page :page="pageData" />
+    </div>
+    <div v-else>
+      <p>{{ route.params.id }} is not online. Come back later to see their page!</p>
+    </div>
   </div>
 </template>
 

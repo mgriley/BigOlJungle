@@ -1,5 +1,8 @@
 const express = require('express');
+const { ExpressPeerServer } = require("peer");
 const app = express();
+
+app.enable("trust proxy");
 
 let users = [
   {
@@ -29,9 +32,27 @@ app.get("/search", async (req, res) => {
   res.json({users: users})
 });
 
-// Listen to the App Engine-specified port, or 8080 otherwise
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+// Listen to the App Engine-specified port, or 8090 otherwise.
+// Note: avoid 8080 on mac.
+const PORT = process.env.PORT || 8090;
+const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
+});
+
+const peerServer = ExpressPeerServer(server, {
+  // TODO - turn off for prod?
+  debug: true,
+});
+
+app.use("/peerjs", peerServer);
+
+peerServer.on("connection", (client) => {
+  console.log(`Client ${client.id} connected`, client);
+  // TODO - validate the client token here
+  if (client.token !== "mypassword") {
+    console.log("Invalid password. Disconnecting.")
+    client.socket.close();
+  }
+  console.log("Password valid");
 });
 

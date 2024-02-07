@@ -1,4 +1,7 @@
 runtime: nodejs18
 
-automatic_scaling:
-  max_instances: 1
+# Required for websocket support (which PeerJS requires)
+env: flex
+
+manual_scaling:
+  instances: 1
