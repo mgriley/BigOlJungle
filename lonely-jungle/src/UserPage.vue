@@ -7,7 +7,7 @@ import { useRoute } from "vue-router"
 const route = useRoute();
 
 let isOnline = ref(false);
-let pageData = ref({});
+let pageData = ref(null);
 
 async function fetchData(pageId) {
   console.log("Check if user online: " + pageId);
@@ -31,7 +31,7 @@ watch(() => {
 <template>
   <div>
     <div v-if="isOnline">
-      <Page :page="pageData" />
+      <Page :page="pageData.value" />
     </div>
     <div v-else>
       <p>{{ route.params.id }} is not online. Come back later to see their page!</p>

@@ -49,6 +49,7 @@ export class ReqMap {
         }
       }, shared.valOr(opts.timeout, 10*1000))
     })
+    return reqPromise;
   }
 
   registerResponse(reqId, res) {

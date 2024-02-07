@@ -9,6 +9,7 @@ function goToPage(username) {
 
 <template>
   <div class="Sidebar">
+    <p>Me: {{ gApp.username }}</p>
     <!-- Left off here -->
     <!-- <router-link to="/search">Search</router-link> -->
     <router-link to="/">Home</router-link>

@@ -78,6 +78,15 @@ export class Page {
     // TODO - outbound links (reccs)
     // Link + description
   }
+
+  writeToJson() {
+    // TODO
+  }
+
+  readFromJson(jsonObj) {
+    this.title = jsonObj.title;
+    // TODO
+  }
 };
 
 export class Friend {
@@ -133,6 +142,9 @@ export class App {
     }
     this.pagesCache.value = {};
 
+    if (this.peer) {
+      this.peer.destroy();
+    }
     this.peer = new Peer(this.username, {
       host: this.getServerHost(),
       port: this.getServerPort(),
@@ -209,7 +221,10 @@ export class App {
       return this.pagesCache.value[username];
     }
     // Load from the app server
-    let page = await this.fetchFromPeer(username, {name: 'page'});
+    let pageRes = await this.fetchFromPeer(username, {name: 'GetPage'});
+    console.log("Got pageRes: ", pageRes);
+    let page = reactive(new Page(false));
+    page.readFromJson(pageRes.page);
     this.pagesCache.value[username] = page;
     return page;
   }
@@ -224,7 +239,7 @@ export class App {
 
     conn.on('open', () => {
       console.log(`Conn ${conn.peer} open`);
-      this.connections.openPromise.resolve();
+      connInfo.openPromise.resolve();
     });
     conn.on('close', () => {
       console.log(`Conn ${conn.peer} closed`);
@@ -235,17 +250,43 @@ export class App {
       // TODO - delete entry?
     });
     conn.on('data', (data) => {
-      console.log(`Got data from Conn ${conn.peer}`);
-      this.reqMap.registerResponse(data.reqId, data);
+      console.log(`Got data from Conn ${conn.peer}: `, data);
+      if (data.isResponse) {
+        this.reqMap.registerResponse(data.reqId, data);
+      } else {
+        if (!(name in data)) {
+          console.log("Unknown data, no name: ", data);
+        }
+        if (data.name == "IsOnline") {
+          conn.send({
+            name: data.name,
+            reqId: data.reqId,
+            isResponse: true,
+          })
+        } else if (data.name == "GetPage") {
+          conn.send({
+            name: data.name,
+            reqId: data.reqId,
+            isResponse: true,
+            page: {
+              title: `Hello from ${this.username}`
+            }
+          })
+        } else {
+          console.log("Unknown request name: " + data.name);
+        }
+      }
     });
 
     return connInfo;
   }
 
   run() {
-    let defaultUser = 'user-a';
+    // let debugUser = 'user-a';
+    let debugUser = 'user-a';
+
     // TODO - load from storage, maybe
-    this.initForUser(defaultUser);
+    this.initForUser(debugUser);
   }
 
   changeUser(username) {

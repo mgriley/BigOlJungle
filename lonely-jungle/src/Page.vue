@@ -7,6 +7,9 @@ import TextInput from './TextInput.vue'
 const props = defineProps({
   page: Object,
 })
+
+console.log("Rendering page: ", props.page);
+
 </script>
 
 <template>
