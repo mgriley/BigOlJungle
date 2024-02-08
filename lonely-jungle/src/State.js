@@ -131,14 +131,45 @@ export class FriendsList {
   }
 };
 
+export class UserData {
+  constructor(username) {
+    this.username = username;
+    this.page = new Page(true);
+    this.friendsList = new FriendsList();
+
+    this.serFields = [
+      'page',
+      'friendsList',
+    ]
+  }
+
+  setupDebugData() {
+    // Debug data
+    if (this.username == 'user-a') {
+      this.friendsList.friends = [
+        new Friend("user-b"),
+        new Friend("user-c"),
+      ]
+    } else if (this.username == 'user-b') {
+      this.friendsList.friends = [
+        new Friend("user-a"),
+        new Friend("user-c"),
+      ]
+    } else if (this.username == 'user-c') {
+      this.friendsList.friends = [
+        new Friend("user-a"),
+        new Friend("user-c"),
+      ]
+    }
+  }
+};
+
 export class App {
   constructor(toaster, router) {
     this.toaster = toaster;
     this.router = router;
 
-    this.username = null;
-    this.userPage = ref(new Page(true));
-    this.friendsList = ref(new FriendsList());
+    this.userData = ref(new UserData("NoName"));
     this.pagesCache = ref({})
 
     this.autosaveTimer = new AutosaveTimer(15, () => {
@@ -148,44 +179,34 @@ export class App {
     this.reqIdCtr = 1;
   }
 
-  writeUserToJson() {
-    return {
-      userPage: ser.writeToJson(this.userPage.value),
-      friendsList: ser.writeToJson(this.friendsList.value),
-    }
+  getUser() {
+    return this.userData.value;
   }
 
-  readUserFromJson(userData) {
-    ser.readUserFromJson(this.userPage.value, userData.userPage)
-    ser.readFromJson(this.friendsList.value, userData.friendsList)
-  }
+  loadUser(username) {
+    // TODO - prevent overwriting the user's data on a bad load, here.
 
-  initForUser(username) {
-    this.username = username;
-    this.userPage.value = new Page(true);
-    this.friendsList.value = new FriendsList();
-    if (this.username == 'user-a') {
-      this.friendsList.value.friends = [
-        new Friend("user-b"),
-        new Friend("user-c"),
-      ]
-    } else if (this.username == 'user-b') {
-      this.friendsList.value.friends = [
-        new Friend("user-a"),
-        new Friend("user-c"),
-      ]
-    } else if (this.username == 'user-c') {
-      this.friendsList.value.friends = [
-        new Friend("user-a"),
-        new Friend("user-c"),
-      ]
+    console.log(`Loading user: ${username}`)
+    this.userData.value = new UserData(username);
+    let storedData = localStorage.getItem(username);
+    if (storedData) {
+      try {
+        ser.readFromJson(this.userData.value, JSON.parse(storedData));
+        console.log(`Loaded data for user ${this.userData.value.username}`);
+      } catch (err) {
+        console.error(`Failed to parse userData for ${username} to json:\n${userData}`);
+      }
+    } else {
+      console.log(`No stored data found for ${username}`);
     }
+    this.userData.value.setupDebugData();
+
     this.pagesCache.value = {};
 
     if (this.peer) {
       this.peer.destroy();
     }
-    this.peer = new Peer(this.username, {
+    this.peer = new Peer(this.userData.value.username, {
       host: this.getServerHost(),
       port: this.getServerPort(),
       path: '/peerjs',
@@ -308,7 +329,7 @@ export class App {
             isResponse: true,
           })
         } else if (data.name == "GetPage") {
-          let pageData = ser.writeToJson(this.userPage.value);
+          let pageData = ser.writeToJson(this.userData.value.page);
           console.log("My page data: ", prettyJson(pageData));
           conn.send({
             name: data.name,
@@ -326,20 +347,6 @@ export class App {
   }
 
   run() {
-    // let debugUser = 'user-a';
-    let debugUser = 'user-a';
-    console.log("Host: " + window.location.host);
-    if (window.location.host == "localhost:5175") {
-      debugUser = "user-a";
-    } else if (window.location.host == "localhost:5176") {
-      debugUser = "user-b";
-    } else if (window.location.host == "localhost:5177") {
-      debugUser = "user-c";
-    }
-
-    // TODO - load from storage, maybe
-    this.initForUser(debugUser);
-
     // Note: the visibilitychange handler function cannot be async
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState == 'hidden') {
@@ -363,11 +370,20 @@ export class App {
     this.autosaveTimer.onEnterBackground();
   }
 
-  readUserFromStorage(username) {
-    // TODO - left off here
-  }
-
   readStateFromStorage() {
+    // TODO - read curr username from storage
+    // let debugUser = 'user-a';
+    let debugUser = 'user-a';
+    console.log("Host: " + window.location.host);
+    if (window.location.host == "localhost:5175") {
+      debugUser = "user-a";
+    } else if (window.location.host == "localhost:5176") {
+      debugUser = "user-b";
+    } else if (window.location.host == "localhost:5177") {
+      debugUser = "user-c";
+    }
+
+    this.loadUser(debugUser);
   }
 
   old_readStateFromStorage() {
@@ -394,17 +410,17 @@ export class App {
   saveAll() {
     try {
       console.log(`Saving app state.`);
-
       /*
       let stateData = ser.writeToJson(this);
       let jsonData = prettyJson(stateData);
       //console.log(jsonData);
       localStorage.setItem(APP_STORAGE_KEY, jsonData);
       */
-
-      let userData = prettyJson(this.writeUserToJson());
-      console.log("User data: ", userData);
-      localStorage.setItem(this.username, userData)
+      let userData = prettyJson(ser.writeToJson(this.userData.value));
+      let storageKey = this.userData.value.username;
+      // console.log(`Saving user data to ${storageKey}: `, userData);
+      console.log(`Saving user data for ${this.userData.value.username} to ${storageKey}.`);
+      localStorage.setItem(storageKey, userData)
     } catch (err) {
       console.error("Error on saveAll: " + err);
       /*
@@ -418,15 +434,12 @@ export class App {
   }
 
   onAutosave() {
-    // TODO
-  }
-
-  writeToStorage() {
+    this.saveAll();
   }
 
   changeUser(username) {
     console.log("Changing user: " + username);
-    this.initForUser(username);
+    this.loadUser(username);
   }
 }
 

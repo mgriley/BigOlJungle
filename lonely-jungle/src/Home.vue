@@ -6,7 +6,7 @@ import Page from './Page.vue'
 
 <template>
   <div>
-    <Page :page="gApp.userPage.value" />
+    <Page :page="gApp.getUser().page" />
   </div>
 </template>
 

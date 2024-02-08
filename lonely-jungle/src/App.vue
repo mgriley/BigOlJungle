@@ -9,11 +9,11 @@ function goToPage(username) {
 
 <template>
   <div class="Sidebar">
-    <p>Me: {{ gApp.username }}</p>
+    <p>Me: {{ gApp.getUser().username }}</p>
     <!-- Left off here -->
     <!-- <router-link to="/search">Search</router-link> -->
     <router-link to="/">Home</router-link>
-    <div v-for="friend in gApp.friendsList.value.friends">
+    <div v-for="friend in gApp.getUser().friendsList.friends">
       <button @click="goToPage(friend.username)">{{ friend.username }} {{ friend.isOnline ? "(Online)" : "" }}</button>
     </div>
     <router-link to="/settings">Settings</router-link>
