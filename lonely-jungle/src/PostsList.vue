@@ -11,10 +11,6 @@ const props = defineProps({
 
 let selectedPost = ref(null);
 
-let isEditing = computed(() => {
-  return props.isEditable;
-});
-
 function newPost() {
   console.log("Adding post!");
   let post = reactive(new Post());
@@ -60,7 +56,7 @@ onUnmounted(() => {
 
 <template>
   <div class="PostsFeed">
-    <div class="ButtonRow">
+    <div v-if="isEditable" class="ButtonRow">
       <button class="SmallButton" @click="newPost">New Post</button>
     </div>
     <p>{{ postsList.posts.length }} posts</p>
@@ -69,7 +65,7 @@ onUnmounted(() => {
         <div class="PostHeaderBox">
           <h4>{{post.title || 'Untitled' }}</h4>
           <p>{{post.dateString()}}</p>
-          <button class="SmallButton" @click="editPost(post)">Edit</button>
+          <button v-if="isEditable" class="SmallButton" @click="editPost(post)">Edit</button>
         </div>
         <div class="PostBody" v-if="post.body" >{{ post.body }}</div>
         <!-- <div v-if="post.renderedMarkdown" v-html="post.renderedMarkdown"></div> -->

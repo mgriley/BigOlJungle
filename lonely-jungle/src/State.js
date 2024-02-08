@@ -228,6 +228,8 @@ export class App {
     this.peer.on("disconnected", () => {
       console.log("Peer disconnected from the signalling server.");
       // Note: could call reconnect here if needed
+      console.log("Attempting to reconnect");
+      this.peer.reconnect();
     });
     this.peer.on('connection', (conn) => {
       console.log("Peer received connection: " + conn.peer);
@@ -253,7 +255,9 @@ export class App {
   async fetchFromPeer(username, req) {
     let connInfo = this.connections[username];
     if (!connInfo) {
-      let conn = this.peer.connect(username);
+      let conn = this.peer.connect(username, {
+        reliable: true,
+      });
       connInfo = this.setupConn(conn);
       // Do not send messages until the connection is open
       await connInfo.openPromise.wait();
