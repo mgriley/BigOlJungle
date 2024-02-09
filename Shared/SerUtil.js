@@ -8,6 +8,14 @@ function hasProp(obj, propName) {
   return typeof obj == 'object' && obj.hasOwnProperty(propName);
 }
 
+export function arrayField(name, elemCtor) {
+  return {name: name, type: 'ObjArray', elemCtor: elemCtor}
+}
+
+export function dateField(name) {
+  return {name: name, type: 'Date'}
+}
+
 /*
 let kTypeMap = {
   'Date': {

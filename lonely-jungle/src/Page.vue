@@ -5,13 +5,19 @@ import PostsList from './PostsList.vue'
 import TextInput from './TextInput.vue'
 
 const props = defineProps({
+  username: String,
   page: Object,
 })
 
 let isEditable = props.page.editable;
+let isMe = isEditable;
 let editingProfile = ref(false);
 
 console.log("Rendering page: ", props.page);
+
+function openChat() {
+  gApp.getUser().chat.openChat(props.username);
+}
 
 </script>
 
@@ -44,6 +50,9 @@ console.log("Rendering page: ", props.page);
     <p>TODO</p>
     <h2>Poems</h2>
     <PostsList :postsList="page.poems" :isEditable="page.editable" />
+    <div v-if="!isMe">
+      <button @click="openChat">Send message</button>
+    </div>
   </div>
 </template>
 

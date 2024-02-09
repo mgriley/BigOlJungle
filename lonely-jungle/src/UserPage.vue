@@ -32,7 +32,7 @@ watch(() => {
 <template>
   <div>
     <div v-if="pageData">
-      <Page :page="pageData" />
+      <Page :username="route.params.id" :page="pageData" />
     </div>
     <div v-else>
       <p>{{ route.params.id }} is not online. Come back later to see their page!</p>

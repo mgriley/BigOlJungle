@@ -1,11 +1,12 @@
 import { reactive, ref } from 'vue'
-import { prettyJson, } from './Utils.js'
+import { prettyJson, valOr, } from './Utils.js'
 import * as ser from 'Shared/SerUtil.js'
 import { AutosaveTimer } from 'Shared/AutosaveTimer.js'
 import { Peer } from 'peerjs'
 import { ReqMap, makePromiseObj, } from './ReqMap.js'
 
 export var gApp = null;
+export var isDebugging = true;
 
 let APP_STORAGE_KEY = "appState";
 
@@ -111,23 +112,124 @@ export class Page {
   }
 };
 
+export class ChatMessage {
+  constructor() {
+    this.isMe = false;
+    this.body = "";
+    this.date = new Date();
+
+    this.serFields = [
+      'isMe',
+      'body',
+      ser.dateField('date'),
+    ]
+  }
+}
+
+export class UserChat {
+  constructor(username) {
+    this.username = valOr(username, "");
+    this.messages = []
+    this.nextMessage = "";
+
+    this.serFields = [
+      'username',
+      ser.arrayField('messages', () => { return new ChatMessage(); }),
+      'nextMessage',
+    ]
+  }
+
+  async sendMessage() {
+    if (!this.nextMessage) {
+      return;
+    }
+    try {
+      await gApp.fetchFromPeer(this.username, {
+        name: 'PostMsg',
+        msg: this.nextMessage,
+      })
+      let msg = new ChatMessage();
+      msg.isMe = true;
+      msg.body = this.nextMessage;
+      this.addMessage(msg);
+      this.nextMessage = "";
+    } catch (err) {
+      // TODO - alert user?
+      throw new Error("Failed to send msg");
+    }
+  }
+
+  addMessage(msg) {
+    // TODO - put in some rate limiting here
+    // TODO - notify new message?
+    console.log(`Adding message for chat ${this.username}: `, msg);
+    this.messages.push(msg);
+  }
+}
+
+export class Chat {
+  constructor() {
+    this.chats = [];
+    this.selectedChat = null;
+
+    this.serFields = [
+      ser.arrayField('chats', () => { return new UserChat(); }),
+    ]
+  }
+
+  getChatForUser(username) {
+    // Find or create
+    for (const chat of this.chats) {
+      if (chat.username == username) {
+        return chat;
+      }
+    }
+
+    let newChat = new UserChat();
+    newChat.username = username;
+    this.chats.push(newChat)
+    return newChat;
+  }
+
+  openChat(username) {
+    this.selectedChat = this.getChatForUser(username);
+  }
+};
+
 export class Friend {
   constructor(username) {
     this.username = username || "";
 
-    this.chatMsgs = [];
+    // TODO
+    /*
     this.lastSeenOnline = new Date();
     this.lastVisited = new Date();
-
     this.lastNewStatus = new Date();
     // TODO - may need lastMsgTime, per user
     this.isOnline = false;
+    */
+
+    this.serFields = [
+      'username',
+      // 'lastSeenOnline',
+      // 'lastVisited',
+      // 'lastNewStatus',
+      // 'isOnline',
+    ]
   }
 }
 
 export class FriendsList {
   constructor() {
     this.friends = [];
+
+    this.serFields = [
+      {
+        name: 'friends',
+        type: 'ObjArray', 
+        elemCtor: () => { return new Friend(); },
+      }
+    ]
   }
 };
 
@@ -135,10 +237,12 @@ export class UserData {
   constructor(username) {
     this.username = username;
     this.page = new Page(true);
+    this.chat = new Chat();
     this.friendsList = new FriendsList();
 
     this.serFields = [
       'page',
+      'chat',
       'friendsList',
     ]
   }
@@ -161,6 +265,11 @@ export class UserData {
         new Friend("user-c"),
       ]
     }
+  }
+
+  dumpState() {
+    let json = ser.writeToJson(this);
+    console.log("Data: ", prettyJson(json));
   }
 };
 
@@ -194,7 +303,7 @@ export class App {
         ser.readFromJson(this.userData.value, JSON.parse(storedData));
         console.log(`Loaded data for user ${this.userData.value.username}`);
       } catch (err) {
-        console.error(`Failed to parse userData for ${username} to json:\n${userData}`);
+        console.error(`Failed to parse userData for ${username}:\n${storedData}`);
       }
     } else {
       console.log(`No stored data found for ${username}`);
@@ -298,6 +407,7 @@ export class App {
 
   setupConn(conn) {
     console.log(`Setting up listeners for conn ${conn.peer}`)
+    let username = conn.peer;
     let connInfo = {
       conn: conn,
       openPromise: makePromiseObj({timeout: 5000}),
@@ -340,6 +450,22 @@ export class App {
             reqId: data.reqId,
             isResponse: true,
             page: pageData,
+          })
+        } else if (data.name == "PostMsg") {
+          // TODO - more validation
+          if (!(typeof data.msg == 'string')) {
+            throw new Error("Bad PostMsg: " + data);
+          }
+          let chatMsg = new ChatMessage();
+          chatMsg.body = data.msg;
+          let userChat = gApp.getUser().chat.getChatForUser(username);
+          userChat.addMessage(chatMsg);
+
+          // TODO - add to the chat
+          conn.send({
+            name: data.name,
+            reqId: data.reqId,
+            isResponse: true,
           })
         } else {
           console.log("Unknown request name: " + data.name);

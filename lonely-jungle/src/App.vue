@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
-import { gApp, } from './State.js'
+import { gApp, isDebugging, } from './State.js'
+import ChatWindow from './ChatWindow.vue'
 
 function goToPage(username) {
   gApp.goToPage(username)
@@ -24,6 +25,10 @@ function goToPage(username) {
   </div>
   <div>
     <router-view></router-view>
+    <ChatWindow />
+    <div v-if="isDebugging">
+      <button @click="gApp.getUser().dumpState()">Dump state</button>
+    </div>
   </div>
 </template>
 
