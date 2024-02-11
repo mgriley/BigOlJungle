@@ -8,9 +8,34 @@ const props = defineProps({
   page: Object,
 })
 
+let chatBody = ref(null);
+
 let chatState = computed(() => {
   return gApp.getUser().chat;
 })
+
+/*
+function onKeyPress(evt) {
+  console.log("Handling key press");
+  if (evt.code == 'Enter') {
+    chatState.value.selectedChat.sendMessage();
+    return false;
+  }
+  return true;
+}
+*/
+
+function sendMessage() {
+  chatState.value.selectedChat.sendMessage()
+  // Scroll to bottom of chat
+  // TODO - get this working
+  /*
+  chatBody.value.scroll({
+    top: chatBody.value.scrollHeight,
+    behavior: 'smooth'
+  });
+  */
+}
 
 </script>
 
@@ -23,7 +48,7 @@ let chatState = computed(() => {
           <button @click="chatState.openChat(chat.username)">{{ chat.username }}</button>
         </div>
       </div>
-      <div class="Body">
+      <div class="Body" ref="chatBody">
         <div v-if="chatState.selectedChat">
           <div class="Messages">
             <p>Chat with {{chatState.selectedChat.username}}:</p>
@@ -32,8 +57,10 @@ let chatState = computed(() => {
             </div>
           </div>
           <div class="TextEntry">
-            <textarea class="Block EntryBox" v-model="chatState.selectedChat.nextMessage"></textarea>
-            <button class="SendBtn" @click="chatState.selectedChat.sendMessage()">Send</button>
+            <textarea class="Block EntryBox" v-model="chatState.selectedChat.nextMessage"
+              @keyup.enter.exact="sendMessage">
+            </textarea>
+            <button class="SendBtn" @click="sendMessage">Send</button>
           </div>
         </div>
         <div v-else>
@@ -75,7 +102,7 @@ let chatState = computed(() => {
   border: 1px solid black;
   margin-bottom: var(--space-xxs);
   align-self: start;
-  max-width: 70%;
+  max-width: 80%;
 }
 
 .Message.IsMe {
@@ -90,7 +117,8 @@ let chatState = computed(() => {
 .TextEntry {
   margin-top: var(--space-s);
   width: 100%;
-  float: right;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .EntryBox {
@@ -99,6 +127,6 @@ let chatState = computed(() => {
 }
 
 .SendBtn {
-  float: right;
+  align-self: end;
 }
 </style>
