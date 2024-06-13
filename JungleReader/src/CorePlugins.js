@@ -59,7 +59,7 @@ class RSSFeed extends FeedPlugin {
         let parser = new RssParser(optParserOptions);
         res = parser.parseString(rssText);
       }
-      console.log("Got RSS res:", prettyJson(res));
+      // console.log("Got RSS res:", prettyJson(res));
       this.transformRssResult(res)
       feed.updateLinks(res);
     } catch (err) {
@@ -103,15 +103,21 @@ class MastodonFeed extends RSSFeed {
   }
 }
 
-function extractRssLinkFromHtml(htmlStr) {
-  //console.log("Found HTML: " + htmlStr);
+function extractRssInfoFromYouTubeHtml(htmlStr) {
+  console.log("Found HTML: " + htmlStr);
   let parser = new DOMParser();
 	let doc = parser.parseFromString(htmlStr, 'text/html');
+  let info = {};
   let linkTag = doc.querySelector("link[title='RSS']");
   if (linkTag === null) {
     throw new Error("Failed to find RSS link tag in the channel's HTML page.");
   }
-  return linkTag.getAttribute("href");
+  info.rssUrl = linkTag.getAttribute("href");
+  let imgTag = doc.querySelector("#img");
+  if (imgTag !== null) {
+    info.faviconUrl = imgTag.getAttribute("src");
+  }
+  return info;
 }
 
 class YouTubeFeed extends RSSFeed {
@@ -129,7 +135,12 @@ class YouTubeFeed extends RSSFeed {
       throw new Error("The feed URL is not set.");
     }
     let htmlStr = await gApp.fetchText(feed.url);
-    let rssLink = extractRssLinkFromHtml(htmlStr);
+    let rssInfo = extractRssInfoFromYouTubeHtml(htmlStr);
+    let rssLink = rssInfo.rssUrl;
+    console.log("Favicon url: " + rssInfo.faviconUrl);
+    if (rssInfo.faviconUrl) {
+      feed.faviconUrl = rssInfo.faviconUrl;
+    }
     console.log("Extracted RSS link: " + rssLink);
     await this.updateFromRSS(feed, rssLink);
   }
@@ -147,6 +158,11 @@ class YouTubeFeed extends RSSFeed {
         console.log("Failed to find 'views' count in YouTube RSS");
       }
     }
+  }
+
+  getFavicon(feed) {
+    // The one through duck-duck is low-quality, so override. Pref use the channel thumnail eventually.
+    return 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg'
   }
 }
 

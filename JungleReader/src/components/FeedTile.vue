@@ -23,9 +23,12 @@ function onFeedClicked(feed) {
 
 <template>
   <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" @click="onFeedClicked(feed)">
-    <div class="FeedTitle">
-      {{ feed.name ? feed.name : "NoName" }}
-      <vue-feather class="BookmarkIcon" v-if="feed.type == 'Bookmark'" type="external-link" size="22" />
+    <div class="">
+      <img class="Favicon" :src="feed.getFavicon()" />
+      <div class="FeedTitle">
+        {{ feed.name ? feed.name : "NoName" }}
+        <vue-feather class="BookmarkIcon" v-if="feed.type == 'Bookmark'" type="external-link" size="22" />
+      </div>
     </div>
     <template v-if="!feed.isReloading()">
       <div class="Details">
@@ -48,8 +51,11 @@ function onFeedClicked(feed) {
   position: relative;
   display: flex;
   flex-flow: column nowrap;
-  width: 160px;
-  height: 120px;
+  /* width: 160px; */
+  /* height: 120px; */
+  /* width: 180px; */
+  width: 170px;
+  height: 130px;
   padding: var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
@@ -69,10 +75,24 @@ function onFeedClicked(feed) {
   z-index: 1;
 }
 
+.Favicon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: var(--space-xxs);
+  /*
+  position: absolute;
+  right: var(--space-xs);
+  bottom: var(--space-xs);
+   */
+}
+
 .FeedTitle {
-  font-size: var(--p-size);
+  /* font-size: var(--p-size); */
+  font-size: var(--small-size);
   font-weight: var(--bold-weight);
-  line-height: 1;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: anywhere;

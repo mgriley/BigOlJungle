@@ -2,7 +2,7 @@ import { reactive, ref } from 'vue'
 import { addElem, removeElem, hashString,
     optionsToJson, jsonToOptions, waitMillis,
     parseXml, isDomainInWhitelist,
-    writeObjToJson, readObjFromJson } from './Utils.js'
+    writeObjToJson, readObjFromJson, cleanUrl, } from './Utils.js'
 import { QuickParser } from './QuickParse.js'
 import { ScriptParser } from './ScriptParse.js'
 import { RemoteParser } from './RemoteParse.js'
@@ -21,6 +21,34 @@ export class FeedPlugin {
 
   async updateFeeds(feeds) {
     // Impl in subclass
+  }
+
+  getFavicon(feed) {
+    // Override in subclass for more specific favicons
+    if (!feed.url) {
+      return '';
+    }
+    try {
+      let feedUrl = new URL(cleanUrl(feed.url));
+      /*
+      // Google way. the DuckDuck one is better
+      let faviconUrl = new URL('https://www.google.com/s3/favicons')
+      faviconUrl.searchParams.append('domain', feedUrl.hostname);
+      faviconUrl.searchParams.append('sz', 24);
+      return faviconUrl.href;
+      */
+      /*
+      // Note: not all websites follow this format
+      let faviconUrl = new URL(feedUrl.hostname + '/favicon.ico');
+      return faviconUrl.href;
+      */
+      let faviconUrl = new URL(`https://icons.duckduckgo.com/ip3/${feedUrl.hostname}.ico`);
+      return faviconUrl.href;
+    } catch (err) {
+      console.log(`Error parsing url: ${feed.url}:\n${err.message}`);
+      return null;
+    }
+    return null
   }
 
   isBookmarkType() {

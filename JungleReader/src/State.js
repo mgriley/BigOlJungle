@@ -14,6 +14,8 @@ const kAutosaveIntervalSecs = 15;
 const kToucanProxyUrl = "https://toucan-proxy.mgriley97.workers.dev/corsproxy";
 const kDevProxyUrl = "http://127.0.0.1:8787/corsproxy";
 
+const kPlaceholderFavicon = "https://www.zajungle.com/favicon.ico";
+
 // LocalStorage keys
 export const kAppStateKey = "appState";
 
@@ -236,6 +238,20 @@ class Feed {
     console.log(`Reloaded ${this.name}`)
     this.reloading = false;
     this.lastReloadTime = (new Date()).getTime();
+  }
+
+  getFavicon() {
+    if (this.faviconUrl) {
+      return this.faviconUrl;
+    }
+    let plugin = gApp.getFeedPluginByType(this.type);
+    if (!plugin) {
+      return kPlaceholderFavicon;
+    }
+    if (!plugin.getFavicon) {
+      return kPlaceholderFavicon;
+    }
+    return plugin.getFavicon(this) || kPlaceholderFavicon;
   }
 
   /**

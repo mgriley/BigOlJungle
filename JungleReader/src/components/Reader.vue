@@ -277,7 +277,8 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   border-radius: var(--pane-border-radius);
   /* max-width: 100%; */
   /* Aim for 40-80ch max-width */
-  max-width: 760px;
+  /* max-width: 760px; */
+  max-width: 800px;
   grid-area: content;
   /*padding: var(--space-m);*/
   padding: var(--space-s) var(--space-m);
