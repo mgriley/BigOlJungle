@@ -146,7 +146,7 @@ class YouTubeFeed extends RSSFeed {
   }
 
   transformRssResult(rssRes) {
-    // console.log("RSS Res: " + prettyJson(rssRes));
+    console.log("RSS Res: " + prettyJson(rssRes));
     // We turn the number of views into an extraDataString
     for (const item of rssRes.items) {
       let itemData = convertXmlJsToMap(item.rawObj);
@@ -156,6 +156,12 @@ class YouTubeFeed extends RSSFeed {
         item.extraDataString = `${countToHumanStr(parseInt(viewsStr))} views`;
       } else {
         console.log("Failed to find 'views' count in YouTube RSS");
+      }
+
+      let thumbnailUrl = (itemData?.["media:group"]?.["media:thumbnail"]?.
+        ["_attrs"]?.["url"]);
+      if (thumbnailUrl) {
+        item.thumbnailUrl = thumbnailUrl;
       }
     }
   }

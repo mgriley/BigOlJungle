@@ -29,6 +29,7 @@ class Link {
     this.link = "";
     this.description = "";
     this.pubDate = null;
+    this.thumbnailUrl = null;
     this.extraDataString = null;
     // Note: do not serialize. Default to collapsed
     this.textExpanded = false;
@@ -45,6 +46,7 @@ class Link {
       title: this.title,
       description: this.description,
       pubDate: this.pubDate,
+      thumbnailUrl: this.thumbnailUrl,
       extraDataString: this.extraDataString,
     }
   }
@@ -55,6 +57,9 @@ class Link {
     this.title = obj.title;
     this.description = obj.description;
     this.pubDate = obj.pubDate;
+    if (obj.thumbnailUrl) {
+      this.thumbnailUrl = obj.thumbnailUrl;
+    }
     if (obj.extraDataString) {
       this.extraDataString = obj.extraDataString;
     }
@@ -282,6 +287,9 @@ class Feed {
       newLink.pubDate = linkData.pubDate || null;
       if (linkData.extraDataString) {
         newLink.extraDataString = linkData.extraDataString;
+      }
+      if (linkData.thumbnailUrl) {
+        newLink.thumbnailUrl = linkData.thumbnailUrl;
       }
       this.links.push(newLink);
 

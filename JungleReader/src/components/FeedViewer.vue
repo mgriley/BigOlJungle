@@ -81,6 +81,7 @@ onMounted(() => {
                 <!-- </p> -->
                 <button v-if="link.textLenExceeds(maxLinkContentLen)" class="SmallButton ShowMoreBtn" @click="link.textExpanded = !link.textExpanded">{{ link.textExpanded ? 'Show less' : 'Show more'}}</button>
               </div>
+              <img v-if="link.thumbnailUrl" :src="link.thumbnailUrl" class="ThumbnailImage" />
               <div class="SubInfo">
                 <span v-if="link.extraDataString" class="ExtraString">{{ link.extraDataString }}</span>
                 <span v-if="link.pubDate" class="DaysAgo">{{ utils.getTimeAgoStr(new Date(link.pubDate)) }}</span>
@@ -293,6 +294,11 @@ onMounted(() => {
 
 .DeleteButton {
   margin-top: var(--space-l);
+}
+
+.ThumbnailImage {
+  width: 60%;
+  /* border: 1px solid rgba(255, 255, 255, 50%); */
 }
 
 .Reload-enter-active,

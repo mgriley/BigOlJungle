@@ -54,8 +54,10 @@ function onFeedClicked(feed) {
   /* width: 160px; */
   /* height: 120px; */
   /* width: 180px; */
-  width: 170px;
-  height: 130px;
+
+  /* width: 170px; */
+  width: 220px;
+  height: 120px;
   padding: var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
