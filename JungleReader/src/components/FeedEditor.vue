@@ -74,7 +74,7 @@ function getQuickHelp(pluginType) {
   <div class="FormFieldInfoUnder">{{ getUrlPlaceholder(feed) }}</div>
 
   <details class="Settings FormFieldName">
-    <summary>Settings</summary>
+    <summary>More Settings</summary>
     <div class="SettingsBody">
       <div class="FormFieldName">Group</div>
       <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>

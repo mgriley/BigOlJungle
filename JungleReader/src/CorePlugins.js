@@ -59,7 +59,7 @@ class RSSFeed extends FeedPlugin {
         let parser = new RssParser(optParserOptions);
         res = parser.parseString(rssText);
       }
-      // console.log("Got RSS res:", prettyJson(res));
+      console.log("Got RSS res:", prettyJson(res));
       this.transformRssResult(res)
       feed.updateLinks(res);
     } catch (err) {
@@ -100,6 +100,18 @@ class MastodonFeed extends RSSFeed {
   transformUrlToRss(feedUrl) {
     // See: https://mastodon.social/@brownpau/100523448408374430
     return addRssSuffix(feedUrl);
+  }
+
+  transformRssResult(rssRes) {
+    // console.log("RSS Res: " + prettyJson(rssRes));
+    // We turn the number of views into an extraDataString
+    for (const item of rssRes.items) {
+      let itemData = convertXmlJsToMap(item.rawObj);
+      let thumbnailUrl = (itemData?.["media:content"]?.["_attrs"]?.["url"]);
+      if (thumbnailUrl) {
+        item.thumbnailUrl = thumbnailUrl;
+      }
+    }
   }
 }
 

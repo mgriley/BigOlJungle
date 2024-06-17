@@ -46,9 +46,12 @@ onMounted(() => {
     <div class="HeaderBox">
       <h1 class="PageHeader FeedName">{{ feed.name || "NoName" }}</h1>
       <div class="Subtitle">
-        <a v-if="feed.mainSiteUrl" :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText MarginBotXS" target="_blank">
-          {{ feed.mainSiteUrl }}
-        </a>
+        <div v-if="feed.mainSiteUrl" class="MainSiteUrlDiv Flex MarginBotXS">
+          <!-- <img :src="feed.getFavicon()" class="MicroFavicon" /> -->
+          <a :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText" target="_blank">
+            {{ feed.mainSiteUrl }}
+          </a>
+        </div>
         <div v-if="feed.lastReloadTime" class="SubtitleText">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
         <div class="ButtonRow Flex">
           <button class="ReloadButton SmallButton" @click="feed.reload()">
@@ -294,6 +297,16 @@ onMounted(() => {
 
 .DeleteButton {
   margin-top: var(--space-l);
+}
+
+.MainSiteUrlDiv {
+  align-items: center;
+}
+
+.MicroFavicon {
+  margin-right: var(--space-xs);
+  width: 20px;
+  height: 20px;
 }
 
 .ThumbnailImage {

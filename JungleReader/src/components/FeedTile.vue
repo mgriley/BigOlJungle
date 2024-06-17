@@ -83,6 +83,7 @@ function onFeedClicked(feed) {
   object-fit: contain;
   display: block;
   margin-bottom: var(--space-xxs);
+  /* float: left; */
   /*
   position: absolute;
   right: var(--space-xs);
