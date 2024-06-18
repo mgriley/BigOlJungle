@@ -42,7 +42,10 @@ onMounted(() => {
 
 <template>
   <div class="FeedViewer">
-    <button class="BackButton" @click="goBack">Back to Home</button>
+    <button class="BackButton Flex" @click="goBack">
+      <vue-feather type="arrow-left" stroke-width="1" class="Icon BackButtonIcon"/>
+      Back
+    </button>
     <div class="HeaderBox">
       <h1 class="PageHeader FeedName">{{ feed.name || "NoName" }}</h1>
       <div class="Subtitle">
@@ -266,7 +269,13 @@ onMounted(() => {
 }
 
 .BackButton {
-  float: right;
+  /* float: right; */
+  margin-bottom: var(--space-m);
+  text-decoration: none;
+}
+
+.BackButtonIcon {
+  margin-right: var(--space-xxs);
 }
 
 .NewIndicator {

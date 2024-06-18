@@ -178,8 +178,14 @@ function onDoneSetup() {
   gApp.toast({message: 'Setup complete!', type: 'success'});  
 }
 
+function hasCoarseTouch() {
+  // Mobile devices have coarse touch, typically
+  return Boolean(window.matchMedia("(pointer: coarse)").matches);
+}
+
 let draggableDisabled = computed(() => {
-  return false;
+  // console.log("Has coarse touch: " + hasCoarseTouch());
+  return hasCoarseTouch();
 })
 
 watch(gApp.linkAction, (newVal) => {
@@ -258,7 +264,9 @@ onMounted(() => {
           <button class="DoneBtn" @click="onDoneSetup()">Done Setup</button>
         </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
-          group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem">
+          group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
+          :disabled="draggableDisabled"
+        >
           <template #item="{element}">
             <div class="FeedGroupItem">
               <div class="GroupControls">
@@ -272,7 +280,9 @@ onMounted(() => {
               <draggable class="FeedList" :list="element.feeds" group="element.expanded"
                 itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
                 @change="(evt) => onDragChange(evt, element)"
-                :class="{Closed: !element.expanded, OpenEmpty: element.expanded && element.isEmpty()}">
+                :class="{Closed: !element.expanded, OpenEmpty: element.expanded && element.isEmpty()}"
+                :disabled="draggableDisabled"
+              >
                 <template #item="{ element }">
                   <template v-if="element.isVisible()">
                     <FeedTile :feed="element" @editFeed="editFeed" />
