@@ -23,7 +23,7 @@ function onFeedClicked(feed) {
 
 <template>
   <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" @click="onFeedClicked(feed)">
-    <div class="">
+    <div class="TitleBar">
       <img class="Favicon" :src="feed.getFavicon()" />
       <div class="FeedTitle">
         {{ feed.name ? feed.name : "NoName" }}
@@ -210,8 +210,14 @@ function onFeedClicked(feed) {
 
 @media (max-width: 768px) {
   .FeedTile {
-    width: 120px;
-    height: 100px;
+    width: 100%;
+    height: 80px;
+  }
+
+  .TitleBar {
+    display: flex;
+    flex: row nowrap;
+    gap: var(--space-xs);
   }
 
   .FeedTitle {

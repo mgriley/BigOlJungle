@@ -503,23 +503,33 @@ onMounted(() => {
   .ButtonMenu {
     /* flex-flow: column nowrap; */
     gap: var(--space-xxs);
+    justify-content: space-between;
   }
 
   .MenuBtn {
-    font-size: 16px;
+    font-size: 12px;
     text-align: left;
-    gap: var(--space-xxs);
+    gap: var(--space-xs);
     /* align-items: start; */
     min-width: 0; 
 
+    width: 120px;
+
     flex-flow: column;
-    align-items: left;
-    border: 1px solid var(--brand-color-yellow);
-    padding: var(--space-xs);
+    /* border: 1px solid var(--brand-color-yellow); */
+    /* padding: var(--space-xs); */
   }
 
   .MenuBtn .Icon {
     /* display: none; */
+  }
+
+  .GroupName {
+    font-size: 28px;
+  }
+
+  .EditGroupButton {
+    font-size: var(--p-size);
   }
 }
 

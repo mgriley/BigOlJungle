@@ -73,13 +73,13 @@ onMounted(() => {
       <div class="toplevel">
         <div class="Sidebar">
           <div class="InnerSidebar">
-            <div class="SidebarBtnBar Flex">
-              <button class="SidebarBtn" @click="toggleMobileMenu">
+            <div class="SidebarBtnBar Flex AlignBaseline">
+              <p class="SidebarBtn" @click="goToHome">
                 JungleReader
                 <!-- <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather> -->
-              </button>
+              </p>
               <button class="SidebarMenuBtn" @click="toggleMobileMenu">
-                <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="24" stroke-width="3" stroke-linecap="butt"></vue-feather>
+                <vue-feather class="MenuIcon" id="SidebarMenuIcon" :type="menuOpen ? 'x' : 'menu'" size="20" stroke-width="2" stroke-linecap="butt"></vue-feather>
               </button>
             </div>
             <div class="SidebarContent" :class="{'open': menuOpen}" id="SidebarContent">
@@ -334,24 +334,19 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
 }
 
 .SidebarBtn {
-  border-radius: 0;
-  font-size: var(--p-size);
-  font-weight: 900;
+  color: var(--header-text);
+  font-family: var(--title-font);
+  font-size: 28px;
+  font-weight: bold;
   letter-spacing: -2px;
-  background-color: var(--main-text);
-  color: var(--main-bg);
+
+  cursor: pointer;
 }
 
 .SidebarMenuBtn {
   min-width: 0;
-  font-size: 1.5rem;
-  font-weight: 900;
-  border: none;
-  border-radius: 0;
-  background-color: var(--main-text);
-  color: var(--main-bg);
+  padding: var(--space-xs);
   margin-left: auto;
-
   display: flex;
   align-items: center;
 }
@@ -391,11 +386,12 @@ Also collapse the menu.
   .Sidebar {
     /*border-bottom: 1px solid var(--mute-text);*/
     margin-left: 0;
-    margin-bottom: var(--space-s);
+    /* margin-bottom: var(--space-xs); */
     padding: 0;
   }
 
   .InnerSidebar {
+    /* padding: 0 var(--space-xs); */
     padding: var(--space-xs);
     border: none;
   }

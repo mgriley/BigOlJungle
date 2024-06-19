@@ -33,6 +33,14 @@ it gets clicked. Say if using for a button
   flex-flow: row wrap;
 }
 
+.AlignBaseline {
+  align-items: baseline;
+}
+
+.AlignCenter {
+  align-items: center;
+}
+
 .MarginLeft {
   margin-left: var(--space-s);
 }

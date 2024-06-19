@@ -33,6 +33,10 @@ const feedShareLink = computed(() => {
   return Feed.makeShareLink(props.feed.name, props.feed.type, props.feed.url);
 })
 
+function goToSite(siteUrl) {
+  window.open(siteUrl, '_blank');
+}
+
 onMounted(() => {
   lastReadTime.value = props.feed.lastReadTime;
   props.feed.markAsRead();  
@@ -49,24 +53,23 @@ onMounted(() => {
     <div class="HeaderBox">
       <h1 class="PageHeader FeedName">{{ feed.name || "NoName" }}</h1>
       <div class="Subtitle">
-        <div v-if="feed.mainSiteUrl" class="MainSiteUrlDiv Flex MarginBotXS">
-          <!-- <img :src="feed.getFavicon()" class="MicroFavicon" /> -->
-          <a :href="feed.mainSiteUrl" class="LinkButton InlineBlock SubtitleText" target="_blank">
-            {{ feed.mainSiteUrl }}
-          </a>
-        </div>
-        <div v-if="feed.lastReloadTime" class="SubtitleText">Last Reloaded: {{ feed.lastReloadTimeStr() }}</div>
         <div class="ButtonRow Flex">
+          <!-- <img :src="feed.getFavicon()" class="MicroFavicon" /> -->
           <button class="ReloadButton SmallButton" @click="feed.reload()">
             <vue-feather type="rotate-cw" stroke-width="1.5" class="Icon"/>
-            Reload now
+            Reload
           </button>
           <button class="SmallButton" @click="feedEditorModal.showModal()">
             <vue-feather type="edit" stroke-width="1.5" class="Icon"/>
-            Edit feed
+            Edit
           </button>
-          <CopyLinkButton title="Share link" class="ShareLink" :theLink="feedShareLink" />
+          <CopyLinkButton title="Share" class="ShareLink" :theLink="feedShareLink" />
+          <button v-if="feed.mainSiteUrl" class="SmallButton" @click="goToSite(feed.mainSiteUrl)">
+            <vue-feather type="external-link" stroke-width="1.5" class="Icon"/>
+            Visit
+          </button>
         </div>
+        <div v-if="feed.lastReloadTime" class="SubtitleText">Reloaded {{ feed.lastReloadTimeStr() }}</div>
       </div>
     </div>
     <Transition name="Reload">
@@ -135,7 +138,7 @@ onMounted(() => {
 .ButtonRow {
   margin-top: 8px;
   margin-bottom: 4px;
-  gap: 18px;
+  gap: 4px 18px;
 }
 
 .ButtonRow button {
@@ -146,8 +149,10 @@ onMounted(() => {
 }
 
 .SubtitleText {
-  font-size: var(--small-size);
-  color: var(--secondary-text);
+  font-size: var(--smaller-size);
+  /* text-align: center; */
+  /* color: var(--secondary-text); */
+  color: lightgrey;
   /* font-weight: var(--bold-weight); */
   /* font-style: italic; */
 }
@@ -342,5 +347,25 @@ onMounted(() => {
   opacity: 0;
 }
 */
+
+@media (max-width: 768px) {
+  .FeedName {
+  }
+
+  .Subtitle {
+    padding: 0 8px;
+  }
+
+  .ButtonRow {
+    justify-content: space-between;
+    /* gap: var(--space-l); */
+  }
+
+  .ButtonRow button {
+    flex-flow: column;
+    gap: 8px;
+    font-size: 14px;
+  }
+}
 
 </style>
