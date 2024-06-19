@@ -64,18 +64,6 @@ h4 {
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  h1 {
-    font-size: var(--mobile-h1-size);
-  }
-  h2 {
-    font-size: var(--h3-size);
-  }
-  h3 {
-    font-size: var(--h4-size);
-  }
-}
-
 b {
   font-weight: var(--bold-weight);
 }

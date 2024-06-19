@@ -150,11 +150,7 @@ onMounted(() => {
 
 .SubtitleText {
   font-size: var(--smaller-size);
-  /* text-align: center; */
-  /* color: var(--secondary-text); */
   color: lightgrey;
-  /* font-weight: var(--bold-weight); */
-  /* font-style: italic; */
 }
 
 .ReloadInfo {
@@ -221,7 +217,7 @@ onMounted(() => {
 
 .LinkTitle {
   display: none;
-  font-size: 20px;
+  font-size: var(--p-size);
   font-weight: var(--bold-weight);
   color: var(--main-text);
 }
@@ -231,7 +227,6 @@ onMounted(() => {
   text-decoration: none;
   white-space: pre-wrap;
   line-height: 1.5;
-  /* font-size: 20px; */
 }
 
 @media (hover: hover) {
@@ -251,7 +246,6 @@ onMounted(() => {
 .LinkElem .SubInfo {
   display: flex;
   align-items: baseline;
-  /*color: var(--mute-text);*/
   font-size: var(--small-size);
   font-weight: var(--bold-weight);
   margin-top: var(--space-xs);
@@ -378,7 +372,7 @@ onMounted(() => {
   .ButtonRow button {
     flex-flow: column;
     gap: 8px;
-    font-size: 14px;
+    font-size: var(--smaller-size);
   }
 }
 

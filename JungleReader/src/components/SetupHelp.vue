@@ -123,7 +123,7 @@ ol {
 }
 
 .ExtLink {
-  font-size: 18px;
+  font-size: var(--small-size);
   text-decoration: none;
   font-weight: bold;
   background-color: var(--main-text);

@@ -81,10 +81,10 @@
   --h4-size: 24px;
   --h3-size: 32px;
   --h2-size: 36px;
-  --mobile-h1-size: 42px;
   --h1-size: 72px;
   --small-size: 18px;
   --smaller-size: 16px;
+  --extra-small: 14px;
 
   --main-line-height: 1.6;
 
@@ -123,21 +123,19 @@
   */
 }
 
-/*
-@media (prefers-color-scheme: dark) {
+@media (max-width: 768px) {
+  /* Update sizes for mobile */
   :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
+    --p-size: 18px;
+    --h4-size: 20px;
+    --h3-size: 22px;
+    --h2-size: 28px;
+    --h1-size: 42px;
+    --small-size: 16px;
+    --smaller-size: 14px;
+    --extra-small: 12px;
   }
 }
-*/
 
 *,
 *::before,

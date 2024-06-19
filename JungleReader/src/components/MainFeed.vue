@@ -359,10 +359,8 @@ onMounted(() => {
   gap: 8px;
 
   text-transform: uppercase;
-  /* border-radius: 4px; */
   border: none;
   padding: 4px;
-  /* font-size: 24px; */
   margin-right: var(--space-xs);
 }
 
@@ -401,7 +399,7 @@ onMounted(() => {
 
 .GroupName {
   margin-right: var(--space-s);
-  font-size: 32px;
+  font-size: var(--h3-size);
 }
 
 .GroupControls {
@@ -500,7 +498,7 @@ onMounted(() => {
 }
 
 .IntroHelp {
-  font-size: 20px;
+  font-size: var(--p-size);
 }
 
 @media (max-width: 768px) {
@@ -511,7 +509,7 @@ onMounted(() => {
   }
 
   .MenuBtn {
-    font-size: 12px;
+    font-size: var(--extra-small);
     text-align: left;
     gap: var(--space-xs);
     /* align-items: start; */
@@ -534,6 +532,9 @@ onMounted(() => {
 
   .EditGroupButton {
     font-size: var(--p-size);
+  }
+
+  .FeedList {
   }
 }
 
