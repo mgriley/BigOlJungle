@@ -274,7 +274,9 @@ onMounted(() => {
                   @click="toggleExpandGroup(element)">
                   {{ element.name ? element.name : "NoName" }}{{ element.expanded ? "" : "..." }}
                 </h2>
-                <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton EditGroupButton TextButton">edit</div>
+                <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton TextButton">
+                  <vue-feather type="settings" class="Icon" size="22px" />
+                </div>
               </div>
               <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
               <draggable class="FeedList" :list="element.feeds" group="element.expanded"
@@ -398,13 +400,13 @@ onMounted(() => {
 }
 
 .GroupName {
-  margin-right: var(--space-m);
+  margin-right: var(--space-s);
   font-size: 32px;
 }
 
 .GroupControls {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
@@ -422,15 +424,11 @@ onMounted(() => {
   margin-right: var(--space-s);
 }
 
-.EditGroupButton {
-  min-width: 48px;
-}
-
 .GroupControlButton {
   font-weight: normal;
   text-decoration: underline;
-  font-size: calc(var(--p-size));
-  color: var(--secondary-text);
+  font-size: var(--p-size);
+  color: var(--mute-text);
 }
 
 .GroupControlButton:hover, .GroupControlButton:active {
