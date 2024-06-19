@@ -1,6 +1,16 @@
 Name: MyFeed
 Version: 1
 
+Title: June Update
+Link: https://www.zajungle.com
+Date: 2024-06-18
+
+Dev update:
+- Added thumbnails for YouTube and Mastodon.
+- Improved mobile support
+
+About mobile: Right now, mobile support is pretty clunky. I have been slowly improving it.
+
 Title: Update
 Link: https://www.zajungle.com
 Date: 2024-01-02
