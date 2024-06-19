@@ -84,17 +84,21 @@ a {
   color: var(--main-text);
 }
 
-a:hover, a:active {
-  color: var(--main-bg);
-  background-color: var(--main-text);
+@media (hover: hover) {
+  a:hover, a:active {
+    color: var(--main-bg);
+    background-color: var(--main-text);
+  }
 }
 
 a .Icon {
   color: var(--brand-color-yellow);
 }
 
-a:hover .Icon, a:active .Icon {
-  color: var(--button-icon-inverse);
+@media (hover: hover) {
+  a:hover .Icon, a:active .Icon {
+    color: var(--button-icon-inverse);
+  }
 }
 
 /*

@@ -234,10 +234,12 @@ onMounted(() => {
   /* font-size: 20px; */
 }
 
-.LinkText:hover, .LinkText:active {
-  background-color: inherit;
-  color: inherit;
-  text-decoration: underline;
+@media (hover: hover) {
+  .LinkText:hover, .LinkText:active {
+    background-color: inherit;
+    color: inherit;
+    text-decoration: underline;
+  }
 }
 
 .LinkElem .SubInfo {
@@ -258,8 +260,10 @@ onMounted(() => {
   color: var(--white-color);
 }
 
-.ShowMoreBtn:hover,.ShowMoreBtn:active {
-  color: var(--main-bg);
+@media (hover: hover) {
+  .ShowMoreBtn:hover,.ShowMoreBtn:active {
+    color: var(--main-bg);
+  }
 }
 
 .ExtraString {

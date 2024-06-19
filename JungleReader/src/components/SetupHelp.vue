@@ -136,8 +136,10 @@ ol {
   gap: 8px;
 }
 
-.ExtLink:hover {
-  background-color: var(--brand-color-purple);
+@media (hover: hover) {
+  .ExtLink:hover {
+    background-color: var(--brand-color-purple);
+  }
 }
 
 .HelpStep {

@@ -431,8 +431,10 @@ onMounted(() => {
   color: var(--mute-text);
 }
 
-.GroupControlButton:hover, .GroupControlButton:active {
-  color: var(--text-button-hover);
+@media (hover: hover) {
+  .GroupControlButton:hover, .GroupControlButton:active {
+    color: var(--text-button-hover);
+  }
 }
 
 .DeleteButton {

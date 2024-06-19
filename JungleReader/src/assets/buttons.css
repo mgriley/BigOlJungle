@@ -22,17 +22,21 @@ button {
   /* text-align: left; */
 }
 
-button:hover, button:active {
-  background-color: var(--main-text);
-  color: var(--main-bg);
+@media (hover: hover) {
+  button:hover, button:active {
+    background-color: var(--main-text);
+    color: var(--main-bg);
+  }
 }
 
 button .Icon {
   color: var(--brand-color-yellow);
 }
 
-button:hover .Icon, button:active .Icon {
-  color: var(--button-icon-inverse);
+@media (hover: hover) {
+  button:hover .Icon, button:active .Icon {
+    color: var(--button-icon-inverse);
+  }
 }
 
 /* No need for a different PrimaryButton for now */
@@ -67,9 +71,11 @@ button:hover .Icon, button:active .Icon {
   min-width: 20px;
 }
 
-.SmallButton:hover, .SmallButton:active {
-  background-color: var(--main-text);
-  color: var(--main-bg);
+@media (hover: hover) {
+  .SmallButton:hover, .SmallButton:active {
+    background-color: var(--main-text);
+    color: var(--main-bg);
+  }
 }
 
 .DeleteButton {
@@ -78,7 +84,9 @@ button:hover .Icon, button:active .Icon {
   /* border: 1px solid var(--main-text); */
 }
 
-.DeleteButton:hover {
+@media (hover: hover) {
+  .DeleteButton:hover {
+  }
 }
 
 .LinkButton {
@@ -96,8 +104,10 @@ button:hover .Icon, button:active .Icon {
   font-weight: var(--bold-weight);
 }
 
-.TextButton:hover, .TextButton:active {
-  color: var(--text-button-hover);
+@media (hover: hover) {
+  .TextButton:hover, .TextButton:active {
+    color: var(--text-button-hover);
+  }
 }
 
 /*
@@ -109,7 +119,9 @@ Does not alter the other styles of the element.
   cursor: pointer;
 }
 
-.MockButton:hover, .MockButton:active {
-  color: var(--text-button-hover);
+@media (hover: hover) {
+  .MockButton:hover, .MockButton:active {
+    color: var(--text-button-hover);
+  }
 }
 

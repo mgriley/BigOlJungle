@@ -36,7 +36,9 @@ let props = defineProps({
   z-index: 1000;
 }
 
-.Tooltip:hover .TooltipText {
-  visibility: visible;
+@media (hover: hover) {
+  .Tooltip:hover .TooltipText {
+    visibility: visible;
+  }
 }
 </style>
