@@ -70,11 +70,14 @@ function onFeedClicked(feed) {
   border: 1px solid var(--brand-color-b);
 }
 
-.FeedTile:hover {
-  /* transform: scale(1.2) translateY(-5px); */
-  transform: scale(1.2) translateY(-5px);
-  box-shadow: none;
-  z-index: 1;
+
+@media (hover: hover) {
+  .FeedTile:hover {
+    /* transform: scale(1.2) translateY(-5px); */
+    transform: scale(1.2) translateY(-5px);
+    box-shadow: none;
+    z-index: 1;
+  }
 }
 
 .Favicon {
@@ -162,11 +165,10 @@ function onFeedClicked(feed) {
   /* border-radius: var(--border-radius-small); */
 }
 
-.EditButton:hover {
-}
-
-.FeedTile:hover .EditButton {
-  display: block;
+@media (hover: hover) {
+  .FeedTile:hover .EditButton {
+    display: block;
+  }
 }
 
 .ReloadIndicator {
