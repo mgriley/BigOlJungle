@@ -235,11 +235,17 @@ onMounted(() => {
 }
 
 @media (hover: hover) {
-  .LinkText:hover, .LinkText:active {
+  .LinkText:hover {
     background-color: inherit;
     color: inherit;
     text-decoration: underline;
   }
+}
+
+.LinkText:active {
+  background-color: inherit;
+  color: inherit;
+  text-decoration: underline;
 }
 
 .LinkElem .SubInfo {
@@ -261,9 +267,13 @@ onMounted(() => {
 }
 
 @media (hover: hover) {
-  .ShowMoreBtn:hover,.ShowMoreBtn:active {
+  .ShowMoreBtn:hover {
     color: var(--main-bg);
   }
+}
+
+.ShowMoreBtn:active {
+  color: var(--main-bg);
 }
 
 .ExtraString {

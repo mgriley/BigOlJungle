@@ -85,10 +85,15 @@ a {
 }
 
 @media (hover: hover) {
-  a:hover, a:active {
+  a:hover {
     color: var(--main-bg);
     background-color: var(--main-text);
   }
+}
+
+a:active {
+  color: var(--main-bg);
+  background-color: var(--main-text);
 }
 
 a .Icon {
@@ -96,22 +101,14 @@ a .Icon {
 }
 
 @media (hover: hover) {
-  a:hover .Icon, a:active .Icon {
+  a:hover .Icon {
     color: var(--button-icon-inverse);
   }
 }
 
-/*
-.MenuLink {
-  border-bottom: 1px solid transparent;
+a:active .Icon {
+  color: var(--button-icon-inverse);
 }
-
-.MenuLink:hover, .MenuLink:active {
-  color: inherit;
-  background-color: inherit;
-  border-bottom: 1px solid red;
-}
-*/
 
 /* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
 /* See: https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width */

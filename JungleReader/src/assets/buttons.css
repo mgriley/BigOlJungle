@@ -23,10 +23,15 @@ button {
 }
 
 @media (hover: hover) {
-  button:hover, button:active {
+  button:hover {
     background-color: var(--main-text);
     color: var(--main-bg);
   }
+}
+
+button:active {
+  background-color: var(--main-text);
+  color: var(--main-bg);
 }
 
 button .Icon {
@@ -34,9 +39,13 @@ button .Icon {
 }
 
 @media (hover: hover) {
-  button:hover .Icon, button:active .Icon {
+  button:hover .Icon {
     color: var(--button-icon-inverse);
   }
+}
+
+button:active .Icon {
+  color: var(--button-icon-inverse);
 }
 
 /* No need for a different PrimaryButton for now */
@@ -72,10 +81,15 @@ button .Icon {
 }
 
 @media (hover: hover) {
-  .SmallButton:hover, .SmallButton:active {
+  .SmallButton:hover {
     background-color: var(--main-text);
     color: var(--main-bg);
   }
+}
+
+.SmallButton:active {
+  background-color: var(--main-text);
+  color: var(--main-bg);
 }
 
 .DeleteButton {
@@ -105,9 +119,13 @@ button .Icon {
 }
 
 @media (hover: hover) {
-  .TextButton:hover, .TextButton:active {
+  .TextButton:hover {
     color: var(--text-button-hover);
   }
+}
+
+.TextButton:active {
+  color: var(--text-button-hover);
 }
 
 /*
@@ -120,8 +138,12 @@ Does not alter the other styles of the element.
 }
 
 @media (hover: hover) {
-  .MockButton:hover, .MockButton:active {
+  .MockButton:hover {
     color: var(--text-button-hover);
   }
+}
+
+.MockButton:active {
+  color: var(--text-button-hover);
 }
 
