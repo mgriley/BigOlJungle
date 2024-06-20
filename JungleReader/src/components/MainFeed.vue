@@ -232,6 +232,53 @@ onMounted(() => {
 
 <template>
   <div class="MainFeed">
+    <div v-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
+      <h1 class="PageHeader MarginBotXXS">Welcome!</h1>
+      <p class="IntroHelp MarginBotXS">
+        JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read what you like, and nothing more.
+      </p>
+      <div class="MarginBotXS">
+        <h4 class="MarginBotXS">Supports</h4>
+        <div class="SupportedTypes">
+          <div v-for="item in feedTypeIcons" class="SupportItem">
+            <div class="SupportIconDiv">
+              <i :class="item.icon" class="SupportIcon"></i>
+            </div>
+            <p class="SupportText">{{item.name}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="FeaturesDiv MarginBotS">
+        <h4 class="MarginBotXS">Features</h4>
+        <div class="FeatureItems">
+          <div class="FeatureItem">
+            <div>
+              <i class="bi-display FeatureIcon"></i>
+              <i class="bi-phone FeatureIcon"></i>
+            </div>
+            <p class="FeatureText">
+              Desktop+mobile webapp
+            </p>
+          </div>
+          <div class="FeatureItem">
+            <div>
+              <i class="bi-arrow-repeat FeatureIcon"></i>
+            </div>
+            <p class="FeatureText">Device sync (coming soon)</p>
+          </div>
+          <!--
+          <div class="FeatureItem">
+            <div>
+              <i class="bi-apple FeatureIcon"></i>
+              <i class="bi-android2 FeatureIcon"></i>
+            </div>
+            <p class="FeatureText">Native apps (coming soon)</p>
+          </div>
+          -->
+        </div>
+      </div>
+      <button class="DoneBtn" @click="onDoneSetup()">Got it!</button>
+    </div>
     <div class="ButtonMenu">
       <button class="MenuBtn" @click="startAddFeed()">
         <vue-feather type="rss" class="Icon" />
@@ -261,51 +308,6 @@ onMounted(() => {
           It may be able to be restored later.
           </p>
           <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
-        </div>
-        <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
-          <h1 class="PageHeader MarginBotS">Welcome!</h1>
-          <p class="IntroHelp EmphasisText MarginBotS">
-            JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read what you like, and nothing more.
-          </p>
-          <div class="MarginBotS">
-            <h4 class="MarginBotXS">Supports</h4>
-            <div class="SupportedTypes">
-              <div v-for="item in feedTypeIcons" class="SupportItem">
-                <div class="SupportIconDiv">
-                  <i :class="item.icon" class="SupportIcon"></i>
-                </div>
-                <p class="SupportText">{{item.name}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="FeaturesDiv MarginBotM">
-            <h4 class="MarginBotXS">Features</h4>
-            <div class="FeatureItems">
-              <div class="FeatureItem">
-                <div>
-                  <i class="bi-display FeatureIcon"></i>
-                  <i class="bi-phone FeatureIcon"></i>
-                </div>
-                <p class="FeatureText">
-                  Desktop+mobile webapp
-                </p>
-              </div>
-              <div class="FeatureItem">
-                <div>
-                  <i class="bi-arrow-repeat FeatureIcon"></i>
-                </div>
-                <p class="FeatureText">Device sync (coming soon)</p>
-              </div>
-              <div class="FeatureItem">
-                <div>
-                  <i class="bi-apple FeatureIcon"></i>
-                  <i class="bi-android2 FeatureIcon"></i>
-                </div>
-                <p class="FeatureText">Native apps (coming soon)</p>
-              </div>
-            </div>
-          </div>
-          <button class="DoneBtn" @click="onDoneSetup()">Got it!</button>
         </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
@@ -522,8 +524,7 @@ onMounted(() => {
 }
 
 .HelpText {
-  margin-top: var(--space-m);
-
+  margin-bottom: var(--space-m);
   //border-color: var(--brand-color-yellow);
   border-color: var(--brand-color-yellow);
   background-color: var(--main-bg);
@@ -542,7 +543,7 @@ onMounted(() => {
 }
 
 .IntroHelp {
-  font-size: var(--p-size);
+  font-size: var(--small-size);
 }
 
 @media (max-width: 768px) {
