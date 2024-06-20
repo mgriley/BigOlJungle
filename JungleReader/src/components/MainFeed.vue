@@ -290,8 +290,14 @@ onMounted(() => {
       </button>
       <button class="MenuBtn BigReloadBtn" @click="onClickBigReload()">
         <vue-feather type="rotate-cw" class="Icon" />
-        Reload All
+        Reload
       </button>
+      <!--
+      <button class="MenuBtn" @click="goToExplore()">
+        <vue-feather type="compass" class="Icon" />
+        Explore
+      </button>
+      -->
     </div>
     <div class="FeedGroups">
       <div class="LeftPane">
@@ -551,6 +557,7 @@ onMounted(() => {
     /* flex-flow: column nowrap; */
     gap: var(--space-xxs);
     justify-content: space-between;
+    /* margin-right: var(--space-xs); */
   }
 
   .MenuBtn {

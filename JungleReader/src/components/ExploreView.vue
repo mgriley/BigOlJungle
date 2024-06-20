@@ -109,8 +109,7 @@ function addFeed(name, type, url) {
   <div class="ExploreView">
     <h1 class="PageHeader">Explore</h1>
     <p class="Info">
-    Here is a small sample of feeds you can use to get started.
-    To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
+    Here are some feeds to get you started.
     </p> 
     <div class="Groups">
       <div v-for="group in exploreData" class="Group">
@@ -153,10 +152,11 @@ function addFeed(name, type, url) {
 <style scoped>
 .Info {
   margin-bottom: var(--space-m);
+  font-size: var(--small-size);
 }
 
 .Groups {
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-s);
 }
 
 .Group {

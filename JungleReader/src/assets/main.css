@@ -127,3 +127,6 @@ select {
   max-width: 30ch;
 }
 
+ul {
+  padding-left: 1.2em;
+}
