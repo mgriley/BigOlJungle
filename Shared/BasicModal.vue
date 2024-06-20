@@ -115,11 +115,12 @@ dialog::backdrop {
     position: fixed;
     top: 0;
     left: 0;
-    border: none;
-    border-radius: 0;
+    margin-top: var(--space-s);
+    /* border: none; */
+    /* border-radius: 0; */
     max-width: 100vw;
-    width: 100vw;
-    height: 100vh;
+    width: 90%;
+    /* height: 100vh; */
     overflow-y: scroll;
   }
 }
@@ -128,7 +129,7 @@ dialog::backdrop {
   margin-bottom: var(--space-xs);
   text-decoration: var(--brand-underline);
   font-family: var(--popup-title-font);
-  font-size: 42px;
+  font-size: var(--h2-size);
 }
 
 .Body {

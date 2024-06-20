@@ -105,6 +105,7 @@
   /* --header-font: sans-serif; */
   /* --title-font: var(--header-font); */
   --main-font: monospace;
+  /* --main-font: sans-serif; */
   --header-font: sans-serif;
   /*--title-font: BebasNeue, sans-serif;*/
   --title-font: sans-serif;
@@ -187,4 +188,5 @@ body {
     overflow: hidden;
   }
 }
+
 

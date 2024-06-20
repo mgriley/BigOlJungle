@@ -408,17 +408,16 @@ Also collapse the menu.
     display: none;
     padding-top: var(--space-s);
     background-color: var(--popup-bg);
+    border: 1px solid var(--brand-color-yellow);
+    border-radius: var(--border-radius-med);
   }
 
   .SidebarContent a {
-    //padding-left: 8px;
   }
 
   .MainLink {
-    //padding: var(--space-xs);
     padding: 8px;
     padding-left: var(--space-m);
-    //font-size: 22px;
   }
 
   .SidebarContent p {
