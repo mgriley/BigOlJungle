@@ -37,6 +37,10 @@ it gets clicked. Say if using for a button
   align-items: baseline;
 }
 
+.NoWrap {
+  flex-wrap: nowrap;
+}
+
 .AlignCenter {
   align-items: center;
 }

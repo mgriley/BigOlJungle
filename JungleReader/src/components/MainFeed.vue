@@ -25,6 +25,33 @@ let feedToEdit = ref(dummyFeed);
 
 let linkedFeed = ref({});
 
+let feedTypeIcons = [
+  {
+    name: 'RSS',
+    icon: 'bi-rss',
+  },
+  {
+    name: 'YouTube',
+    icon: 'bi-youtube',
+  },
+  {
+    name: 'Mastodon',
+    icon: 'bi-mastodon',
+  },
+  {
+    name: 'Reddit',
+    icon: 'bi-reddit',
+  },
+  {
+    name: 'Blogs',
+    icon: 'bi-globe'
+  },
+  {
+    name: 'Plugins',
+    icon: 'bi-plugin',
+  },
+]
+
 function addFeedGroup() {
   let group = gApp.feedReader.addGroup({});
   groupToEdit.value = group;
@@ -43,7 +70,7 @@ function deleteGroupToEdit() {
 
 function addHelpFeed(args) {
   gApp.feedReader.addFeed(args);
-  gApp.toast({message: 'Added!', type: 'success'});  
+  // gApp.toast({message: 'Added!', type: 'success'});  
 }
 
 function startAddFeed(optArgs) {
@@ -174,6 +201,11 @@ function checkForLinkAction() {
 }
 
 function onDoneSetup() {
+  // Add beginner feeds
+  addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})
+  addHelpFeed({name: 'XKCD Bot', type: 'Mastodon', url: 'https://mastodon.xyz/@xkcd'})
+  addHelpFeed({name: 'r/AskHistorians', type: 'Reddit', url: 'https://www.reddit.com/r/askhistorians'})
+
   gApp.setDoneFeedSetup(true);
   gApp.toast({message: 'Setup complete!', type: 'success'});  
 }
@@ -233,35 +265,47 @@ onMounted(() => {
         <div v-else-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
           <h1 class="PageHeader MarginBotS">Welcome!</h1>
           <p class="IntroHelp EmphasisText MarginBotS">
-          JungleReader is a free and open-source feed reader. Follow <b>RSS</b>, <b>Mastodon</b>, <b>YouTube</b>, <b>Reddit</b>, and <b>that one random blog</b> all in one place.
+            JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read what you like, and nothing more.
           </p>
-          <div class="MarginBotM">
-            <h3>Quickstart:</h3>
-            <p class="MarginBotXS">
-            Let's setup your feeds page. Click to add these feeds:
-            </p>
-            <div class="SampleFeeds">
-              <button class="MarginBotXS Block" @click="addHelpFeed({name: 'CreatingGames', type: 'YouTube', url: 'https://www.youtube.com/sora_sakurai_en'})">Masahiro Sakurai on Creating Games (YouTube)</button>
-              <button class="MarginBotXS Block" @click="addHelpFeed({name: 'XKCD Bot', type: 'Mastodon', url: 'https://mastodon.xyz/@xkcd'})">XKCD Bot (Mastodon)</button>
-              <button class="MarginBotXS Block" @click="addHelpFeed({name: 'r/AskHistorians', type: 'Reddit', url: 'https://www.reddit.com/r/askhistorians'})">r/AskHistorians (Reddit)</button>
+          <div class="MarginBotS">
+            <h4 class="MarginBotXS">Supports</h4>
+            <div class="SupportedTypes">
+              <div v-for="item in feedTypeIcons" class="SupportItem">
+                <div class="SupportIconDiv">
+                  <i :class="item.icon" class="SupportIcon"></i>
+                </div>
+                <p class="SupportText">{{item.name}}</p>
+              </div>
             </div>
           </div>
-          <div class="MarginBotM">
-            <h3>Guide:</h3>
-            <ol class="FromHereList">
-              <li><p>Click <b>ADD FEED</b> to add more feeds.</p></li>
-              <li><p>Click <b>ADD GROUP</b> to make feed groups.</p></li>
-              <li><p>Click <b>RELOAD ALL</b> to update all your feeds.</p></li>
-            </ol>
+          <div class="FeaturesDiv MarginBotM">
+            <h4 class="MarginBotXS">Features</h4>
+            <div class="FeatureItems">
+              <div class="FeatureItem">
+                <div>
+                  <i class="bi-display FeatureIcon"></i>
+                  <i class="bi-phone FeatureIcon"></i>
+                </div>
+                <p class="FeatureText">
+                  Desktop+mobile webapp
+                </p>
+              </div>
+              <div class="FeatureItem">
+                <div>
+                  <i class="bi-arrow-repeat FeatureIcon"></i>
+                </div>
+                <p class="FeatureText">Device sync (coming soon)</p>
+              </div>
+              <div class="FeatureItem">
+                <div>
+                  <i class="bi-apple FeatureIcon"></i>
+                  <i class="bi-android2 FeatureIcon"></i>
+                </div>
+                <p class="FeatureText">Native apps (coming soon)</p>
+              </div>
+            </div>
           </div>
-          <div class="MarginBotM">
-            <h3>Also:</h3>
-            <ol class="FromHereList">
-              <li><p>Visit the <b><router-link to="/explore">Explore</router-link></b> page to find interesting feeds.</p></li>
-              <li><p>Coming from another reader? Go to <b>Import Data</b> in the sidebar to import feeds as <b>OPML</b>.</p></li>
-            </ol>
-          </div>
-          <button class="DoneBtn" @click="onDoneSetup()">Done Setup</button>
+          <button class="DoneBtn" @click="onDoneSetup()">Got it!</button>
         </div>
         <draggable class="GroupList" :list="gApp.feedReader.groups"
           group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
@@ -537,5 +581,56 @@ onMounted(() => {
   .FeedList {
   }
 }
+
+.SupportedTypes {
+  max-width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-xs);
+  justify-content: space-between;
+}
+
+.SupportItem {
+  width: 70px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.SupportIconDiv {
+}
+
+.SupportIcon {
+  font-size: var(--h2-size);
+}
+
+.SupportText {
+  font-size: var(--smaller-size);
+}
+
+.FeatureItems {
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-xs) var(--space-s);
+}
+
+.FeatureItem {
+  width: 120px;
+  margin-bottom: var(--space-xxs);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.FeatureIcon {
+  font-size: var(--h2-size);
+  /* color: var(--brand-color-yellow); */
+}
+
+.FeatureText {
+  font-size: var(--smaller-size);
+  text-align: center;
+}
+
 
 </style>
