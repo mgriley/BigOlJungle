@@ -5,6 +5,7 @@ import { getTimeAgoStr } from '../Utils.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import BasicSelector from './BasicSelector.vue'
 
+let fetchMethodOpen = ref(false);
 let persistentStorageOn = ref(false);
 
 let supportedFetchMethods = [
@@ -107,28 +108,31 @@ onMounted(() => {
     <div class="Settings">
       <h1 class="PageHeader">Settings</h1>
       <div class="SettingsSection">
-        <h3>Persistent Storage</h3>
-        <p>JungleReader stores your config in your browser's storage. To make sure the browser doesn't
+        <h4>Persistent Storage</h4>
+        <p class="SmallText">JungleReader stores your config in your browser's storage. To make sure the browser doesn't
           automatically delete it to clear up space, turn on "persist".</p>
         <p class="MutedHeader MarginTop">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</p>
         <button v-if="!persistentStorageOn" @click="enablePersistentStorage">{{ persistentStorageOn ? "Disable" : "Enable" }}</button>
       </div>
       <div class="SettingsSection">
-        <h3>Cloud Sync</h3>
-        <p>Connect your Google Drive account to backup and sync the reader between devices.</p>
+        <h4>Cloud Sync</h4>
+        <p class="SmallText">Connect your Google Drive account to backup and sync the reader between devices.</p>
         <p class="MutedHeader">(Coming Soon!)</p>
       </div>
       <div class="SettingsSection">
-        <h3>Advanced</h3>
-        <div class="SubSection">
-          <h4>Fetch Method</h4>
-          <p class="FetchDesc">
-          By default, JungleReader proxies requests through our CORS proxy called ToucanProxy. 
-          It does not collect data.
-          If you prefer, you can also use a custom CORS proxy (coming soon!) or download the JungleExt browser extension.
-          The DevProxy proxies requests to ToucanProxy running on localhost:8787.
-          </p>
-          <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods" @change="(newVal) => gApp.fetchMethod.value = newVal" />
+        <h3 class="NoUnderline">Advanced</h3>
+        <div class="">
+          <h4 class="MockButton" @click="fetchMethodOpen = !fetchMethodOpen">Fetch Method{{ fetchMethodOpen ? '' : '...'}}</h4>
+          <div v-if="fetchMethodOpen">
+            <p class="FetchDesc SmallText">
+            By default, JungleReader proxies requests through our CORS proxy called ToucanProxy. 
+            It does not collect data.
+            If you prefer, you can also use a custom CORS proxy (coming soon!) or download the JungleExt browser extension.
+            The DevProxy proxies requests to ToucanProxy running on localhost:8787.
+            </p>
+            <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods"
+              @change="(newVal) => gApp.fetchMethod.value = newVal" class="MarginBotM" />
+          </div>
         </div>
         <div class="SubSection">
           <h4 class="MockButton" @click="devZoneOpen = !devZoneOpen">Dev Zone{{ devZoneOpen ? "" : "..."}}</h4>
@@ -153,12 +157,12 @@ onMounted(() => {
 }
 
 .SettingsSection {
-  margin-bottom: 32px;
+  margin-bottom: var(--space-m);
 }
 
 .SubSection {
   margin-top: 8px;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-s);
 }
 
 .FetchDesc {

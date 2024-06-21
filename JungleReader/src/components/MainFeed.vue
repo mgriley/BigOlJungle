@@ -7,6 +7,7 @@ import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 import FeedTile from './FeedTile.vue'
+import DeleteButton from './DeleteButton.vue'
 
 const props = defineProps({
 })
@@ -235,122 +236,124 @@ onMounted(() => {
     <div v-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
       <h1 class="PageHeader MarginBotXXS">Welcome!</h1>
       <p class="IntroHelp MarginBotXS">
-        JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read the jungle.
+        JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read what you like, and $%^* the rest.
       </p>
       <div class="MarginBotXS">
-        <h4 class="MarginBotXS">Supports</h4>
+        <h4 class="MarginBotXXS">Supports</h4>
         <div class="SupportedTypes">
           <div v-for="item in feedTypeIcons" class="SupportItem">
+            <!--
             <div class="SupportIconDiv">
               <i :class="item.icon" class="SupportIcon"></i>
             </div>
+            -->
             <p class="SupportText">{{item.name}}</p>
           </div>
         </div>
       </div>
       <div class="FeaturesDiv MarginBotS">
-        <h4 class="MarginBotXS">Features</h4>
+        <h4 class="MarginBotXXS">Features</h4>
         <div class="FeatureItems">
           <div class="FeatureItem">
+            <!--
             <div>
               <i class="bi-display FeatureIcon"></i>
               <i class="bi-phone FeatureIcon"></i>
             </div>
+            -->
             <p class="FeatureText">
-              Desktop+mobile webapp
+              Desktop & mobile webapp
             </p>
           </div>
           <div class="FeatureItem">
+            <!--
             <div>
               <i class="bi-arrow-repeat FeatureIcon"></i>
             </div>
+            -->
             <p class="FeatureText">Device sync (coming soon)</p>
           </div>
-          <!--
           <div class="FeatureItem">
-            <div>
-              <i class="bi-apple FeatureIcon"></i>
-              <i class="bi-android2 FeatureIcon"></i>
-            </div>
             <p class="FeatureText">Native apps (coming soon)</p>
           </div>
-          -->
         </div>
       </div>
       <button class="DoneBtn" @click="onDoneSetup()">Got it!</button>
     </div>
-    <div class="ButtonMenu">
-      <button class="MenuBtn" @click="startAddFeed()">
-        <vue-feather type="rss" class="Icon" />
-        Add Feed
-      </button>
-      <button class="MenuBtn" @click="addFeedGroup()">
-        <vue-feather type="grid" class="Icon" />
-        Add Group
-      </button>
-      <button class="MenuBtn BigReloadBtn" @click="onClickBigReload()">
-        <vue-feather type="rotate-cw" class="Icon" />
-        Reload
-      </button>
-      <!--
-      <button class="MenuBtn" @click="goToExplore()">
-        <vue-feather type="compass" class="Icon" />
-        Explore
-      </button>
-      -->
-    </div>
-    <div class="FeedGroups">
-      <div class="LeftPane">
-        <div v-if="gApp.isJungleExtMissing()" class="TopAlert AlertPane">
-          <p class="AlertText"><u>Alert</u> You are using the JungleExt fetch method but JungleExt is not installed.
-          Please install then reload the page.
-          </p>
-          <p><a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">Install for Firefox</a></p>
-          <p><a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank">Install for Chrome</a></p>
-        </div>
-        <div v-if="gApp.failedLastLoad.value" class="FailedLastLoad">
-          <p><u>Error</u> Your saved config failed to load. Please either wait for a fix, import a backup
-          config, or fully reset the reader from Settings. You can export your saved config now.
-          It may be able to be restored later.
-          </p>
-          <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
-        </div>
-        <draggable class="GroupList" :list="gApp.feedReader.groups"
-          group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
-          :disabled="draggableDisabled"
-        >
-          <template #item="{element}">
-            <div class="FeedGroupItem">
-              <div class="GroupControls">
-                <h2 class="TextButton GroupName PlainHeader" :class="{Closed: !element.expanded}"
-                  @click="toggleExpandGroup(element)">
-                  {{ element.name ? element.name : "NoName" }}{{ element.expanded ? "" : "..." }}
-                </h2>
-                <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton TextButton">
-                  <vue-feather type="settings" class="Icon" size="22px" />
-                </div>
-              </div>
-              <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
-              <draggable class="FeedList" :list="element.feeds" group="element.expanded"
-                itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
-                @change="(evt) => onDragChange(evt, element)"
-                :class="{Closed: !element.expanded, OpenEmpty: element.expanded && element.isEmpty()}"
-                :disabled="draggableDisabled"
-              >
-                <template #item="{ element }">
-                  <template v-if="element.isVisible()">
-                    <FeedTile :feed="element" @editFeed="editFeed" />
-                  </template>
-                </template>
-                <template #footer>
-                  <div v-if="element.expanded && element.isEmpty()" class="EmptyGroupIndicator">
-                    <p>This group is empty. <button class="SmallButton" @click="startAddFeed({group: element})">Add a feed</button></p>
+    <div v-else class="MainArea">
+      <div class="ButtonMenu">
+        <button class="MenuBtn" @click="startAddFeed()">
+          <vue-feather type="rss" class="Icon" />
+          Add Feed
+        </button>
+        <button class="MenuBtn" @click="addFeedGroup()">
+          <vue-feather type="grid" class="Icon" />
+          Add Group
+        </button>
+        <button class="MenuBtn BigReloadBtn" @click="onClickBigReload()">
+          <vue-feather type="rotate-cw" class="Icon" />
+          Reload
+        </button>
+        <!--
+        <button class="MenuBtn" @click="goToExplore()">
+          <vue-feather type="compass" class="Icon" />
+          Explore
+        </button>
+        -->
+      </div>
+      <div class="FeedGroups">
+        <div class="LeftPane">
+          <div v-if="gApp.isJungleExtMissing()" class="TopAlert AlertPane">
+            <p class="AlertText"><u>Alert</u> You are using the JungleExt fetch method but JungleExt is not installed.
+            Please install then reload the page.
+            </p>
+            <p><a href="https://addons.mozilla.org/en-US/firefox/addon/jungleext/" target="_blank">Install for Firefox</a></p>
+            <p><a href="https://chrome.google.com/webstore/detail/jungleext/ipkgbelgehmnlfhjjedlgkpiiaicadkn" target="_blank">Install for Chrome</a></p>
+          </div>
+          <div v-if="gApp.failedLastLoad.value" class="FailedLastLoad">
+            <p><u>Error</u> Your saved config failed to load. Please either wait for a fix, import a backup
+            config, or fully reset the reader from Settings. You can export your saved config now.
+            It may be able to be restored later.
+            </p>
+            <button class="SmallButton ExportOldConfBtn" @click="exportCurrentConfig">Export current config</button>
+          </div>
+          <draggable class="GroupList" :list="gApp.feedReader.groups"
+            group="groups" itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
+            :disabled="draggableDisabled"
+          >
+            <template #item="{element}">
+              <div class="FeedGroupItem">
+                <div class="GroupControls">
+                  <h2 class="TextButton GroupName PlainHeader" :class="{Closed: !element.expanded}"
+                    @click="toggleExpandGroup(element)">
+                    {{ element.name ? element.name : "NoName" }}{{ element.expanded ? "" : "..." }}
+                  </h2>
+                  <div @click="(evt) => editGroup(element, evt)" class="GroupControlButton TextButton">
+                    <vue-feather type="settings" class="Icon" size="22px" />
                   </div>
-                </template>
-              </draggable>
-            </div>
-          </template>
-        </draggable>
+                </div>
+                <!-- Note: we always want to render the draggable here to support dragging a feed to a collapsed group -->
+                <draggable class="FeedList" :list="element.feeds" group="element.expanded"
+                  itemKey="id" ghostClass="DraggedChosenItem" dragClass="DraggedChosenItem"
+                  @change="(evt) => onDragChange(evt, element)"
+                  :class="{Closed: !element.expanded, OpenEmpty: element.expanded && element.isEmpty()}"
+                  :disabled="draggableDisabled"
+                >
+                  <template #item="{ element }">
+                    <template v-if="element.isVisible()">
+                      <FeedTile :feed="element" @editFeed="editFeed" />
+                    </template>
+                  </template>
+                  <template #footer>
+                    <div v-if="element.expanded && element.isEmpty()" class="EmptyGroupIndicator">
+                      <p>This group is empty. <button class="SmallButton" @click="startAddFeed({group: element})">Add a feed</button></p>
+                    </div>
+                  </template>
+                </draggable>
+              </div>
+            </template>
+          </draggable>
+        </div>
       </div>
     </div>
   </div> 
@@ -364,11 +367,11 @@ onMounted(() => {
   </BasicModal>
   <BasicModal class="GroupEditorModal" ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
-    <button class="DeleteButton SmallButton" @click="deleteGroupToEdit">Delete Group</button>
+    <DeleteButton class="DeleteButton" @click="deleteGroupToEdit"/>
   </BasicModal>
   <BasicModal class="FeedEditorModal" ref="feedEditorModal" :showCancel="false" title="Edit Feed">
     <FeedEditor :feed="feedToEdit" />
-    <button class="DeleteButton SmallButton" @click="deleteFeedToEdit">Delete Feed</button>
+    <DeleteButton class="DeleteButton" @click="deleteFeedToEdit"/>
   </BasicModal>
   <BasicModal ref="addFromLinkModal" title="Add Feed" doneText="Yes" cancelText="No" @onDone="addFeedFromLink">
     <p>Add the following feed?</p>
@@ -594,12 +597,12 @@ onMounted(() => {
   max-width: 100%;
   display: flex;
   flex-flow: row wrap;
-  gap: var(--space-xs);
-  justify-content: space-between;
+  gap: var(--space-xs) var(--space-m);
+  /* justify-content: space-between; */
 }
 
 .SupportItem {
-  width: 70px;
+  max-width: 70px;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -614,20 +617,21 @@ onMounted(() => {
 
 .SupportText {
   font-size: var(--smaller-size);
+  /* padding: var(--space-xs); */
+  /* width: 80px; */
+  /* background-color: var(--light-color); */
+  text-align: center;
 }
 
 .FeatureItems {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   gap: var(--space-xs) var(--space-s);
 }
 
 .FeatureItem {
-  width: 120px;
+  max-width: 140px;
   margin-bottom: var(--space-xxs);
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
 }
 
 .FeatureIcon {

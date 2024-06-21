@@ -87,3 +87,15 @@ it gets clicked. Say if using for a button
   align-items: center;
 }
 
+.NoUnderline {
+  text-decoration: none;
+}
+
+.SmallText {
+  font-size: var(--small-size);
+}
+
+
+.SmallerText {
+  font-size: var(--smaller-size);
+}

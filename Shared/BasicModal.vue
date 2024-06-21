@@ -108,6 +108,7 @@ dialog::backdrop {
   /* Note - this invert looks oddly good */
   /* backdrop-filter: invert(80%); */
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 @media (max-width: 600px) {

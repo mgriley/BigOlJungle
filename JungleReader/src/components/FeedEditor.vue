@@ -73,8 +73,8 @@ function getQuickHelp(pluginType) {
   <input v-model="feed.url" class="Block BasicTextInput WideInput" placeholder="Enter URL">
   <div class="FormFieldInfoUnder">{{ getUrlPlaceholder(feed) }}</div>
 
-  <details class="Settings FormFieldName">
-    <summary>More Settings</summary>
+  <details class="Settings FormFieldName CursorPointer">
+    <summary class="CursorPointer">More Settings</summary>
     <div class="SettingsBody">
       <div class="FormFieldName">Group</div>
       <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>

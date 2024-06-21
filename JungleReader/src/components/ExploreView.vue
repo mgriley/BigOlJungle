@@ -116,7 +116,7 @@ function addFeed(name, type, url) {
         <h3>{{ group.group }}</h3>
         <ul>
           <li v-for="feed in group.feeds">
-            <button class="SmallButton Block" @click="addFeed(feed.name, group.type, feed.url)">{{ feed.name }}</button>
+            <button class="SmallButton Block AddBtn" @click="addFeed(feed.name, group.type, feed.url)">{{ feed.name }}</button>
           </li>
         </ul>
       </div>
@@ -124,14 +124,8 @@ function addFeed(name, type, url) {
     <div class="OtherTips">
       <h3>Other Tips:</h3>
       <ul>
-        <li>
-          If a website doesn't support RSS but you'd like to follow it, here are some options:
-          <ul>
-            <li>Use the builtin Bookmark plugin to make a bookmark to it.</li>
-            <li>Use the builtin Watcher plugin to watch a static page (like a blog homepage) for changes.</li>
-            <li>Create a custom script plugin through the Plugins tab.</li>
-          </ul>
-        </li>
+        <li>Use the Bookmark plugin to make a simple bookmark to a site.</li>
+        <li>Use the Watcher plugin to watch a page (like a blog homepage) for changes.</li>
         <li>Most podcasts have RSS feeds.</li>
         <li>Sijmen Mulder has a list of good text-based websites <a href="https://sjmulder.nl/en/textonly.html">here</a></li>
         <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
@@ -161,6 +155,10 @@ function addFeed(name, type, url) {
 
 .Group {
   margin-bottom: var(--space-s);
+}
+
+.AddBtn {
+  text-align: left;
 }
 
 </style>

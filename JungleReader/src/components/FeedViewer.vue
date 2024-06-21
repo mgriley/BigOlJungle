@@ -6,6 +6,7 @@ import TreeIcon from './TreeIcon.vue'
 import BasicModal from 'Shared/BasicModal.vue'
 import FeedEditor from './FeedEditor.vue'
 import CopyLinkButton from './CopyLinkButton.vue'
+import DeleteButton from './DeleteButton.vue'
 
 const props = defineProps({
   feed: Object,
@@ -115,7 +116,7 @@ onMounted(() => {
     </template>
     <BasicModal class="FeedEditorModal" ref="feedEditorModal" :showCancel="false" title="Edit Feed">
       <FeedEditor :feed="feed" />
-      <button class="DeleteButton SmallButton" @click="deleteFeed">Delete Feed</button>
+      <DeleteButton class="DeleteButton" @click="deleteFeed"/>
     </BasicModal>
   </div>
 </template>
