@@ -2,7 +2,7 @@
 
 :root {
   --space-form-field: var(--space-s);
-  --form-font-size: var(--p-size);
+  --form-font-size: var(--small-size);
 }
 
 /*

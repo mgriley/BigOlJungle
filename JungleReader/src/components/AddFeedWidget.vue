@@ -13,21 +13,22 @@ const props = defineProps({
   }
 });
 
+let stepNum = ref(1);
+let chosenFeedType = ref(null);
+let feedUrl = ref("");
+
 function changeGroup(newGroup) {
   props.feed.moveToGroup(newGroup);  
 }
 
-let showOptions = ref(false);
-let showQuickHelp = ref(true);
-
 let supportedFeedTypes = computed(() => {
   let types = []
   for (const plugin of gApp.feedPlugins) {
-    types.push(plugin.name);
+    types.push({name: plugin.name, icon: plugin.uiIcon || 'box'});
   }
   for (const plugin of gApp.customPlugins) {
     if (plugin.feedType) {
-      types.push(plugin.feedType);
+      types.push({name: plugin.feedType, icon: 'plugin'});
     }
   }
   return types;
@@ -55,9 +56,51 @@ function getQuickHelp(pluginType) {
   return plugin.quickHelpDocs;
 }
 
+function advanceStep() {
+  if (stepNum.value < 3) {
+    stepNum.value += 1;
+  } else {
+    // TODO - done
+  }
+}
+
+function chooseFeed(feedType) {
+  if (feedType !== chosenFeedType.value) {
+    feedUrl.value = "";
+  }
+  chosenFeedType.value = feedType;
+  stepNum.value += 1;
+}
+
 </script>
 
 <template>
+  <div>
+    <div class="MainArea MarginBotM">
+      <div v-if="stepNum == 1">
+        <p class="SmallText MarginBotS">What type of feed do you want to add?</p>
+        <div class="FeedTypeDiv">
+          <div v-for="type of supportedFeedTypes">
+            <p class="MockButton" @click="chooseFeed(type.name)"><i :class="['bi-' + type.icon, 'FeedTypeIcon']"></i>{{type.name}}</p>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="stepNum == 2">
+        <p class="SmallText MarginBotS">What is the feed name?</p>
+        <div class="FormFieldName">https://youtube.com/@{{feedUrl}}</div>
+        <input v-model="feedUrl" class="Block BasicTextInput" autofocus placeholder="">
+      </div>
+      <div v-else-if="stepNum == 3">
+        <p>Hello 3</p>
+      </div>
+    </div>
+    <div class="Flex ButtonRow">
+      <button v-if="stepNum > 1" class="SmallButton Flex AlignCenter BackBtn" @click="stepNum -= 1"><vue-feather class="Icon" type="arrow-left"/>Back</button>
+      <button v-if="stepNum > 1" class="SmallButton Flex AlignCenter" @click="advanceStep">Next<vue-feather class="Icon" type="arrow-right"/></button>
+    </div>
+  </div>
+  
+  <!--
   <div class="FeedHeader">
     <div class="FormFieldName">Name</div>
     <input v-model="feed.name" class="Block BasicTextInput" autofocus placeholder="Enter name">
@@ -65,11 +108,8 @@ function getQuickHelp(pluginType) {
   <div class="FormFieldName">Type</div>
   <div class="Flex FeedTypeBox">
     <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
-    <!-- <button class="SmallButton InfoButton" @click="showQuickHelp = !showQuickHelp">Info</button> -->
   </div>
-  <!-- <p v-if="showQuickHelp" class="QuickHelpText">{{getQuickHelp(feed.type)}}</p> -->
   <div class="FormFieldName">URL</div>
-  <!-- <BasicSelector class="MarginBotXXS" :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/> -->
   <input v-model="feed.url" class="Block BasicTextInput WideInput" placeholder="Enter URL">
   <div class="FormFieldInfoUnder">{{ getUrlPlaceholder(feed) }}</div>
 
@@ -83,6 +123,7 @@ function getQuickHelp(pluginType) {
       <OptionsInput class="" :options="feed.options" />
     </div>
   </details>
+  -->
 
 </template>
 
@@ -119,6 +160,24 @@ function getQuickHelp(pluginType) {
 
 .SettingsBody {
   margin-top: var(--space-xs);
+}
+
+.FeedTypeDiv {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: var(--space-xs);
+}
+
+.FeedTypeIcon {
+  margin-right: var(--space-xs);
+}
+
+.ButtonRow {
+  justify-content: center;
+}
+
+.BackBtn {
+  margin-right: auto;
 }
 
 </style>

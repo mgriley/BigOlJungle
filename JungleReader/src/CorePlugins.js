@@ -20,6 +20,7 @@ class RSSFeed extends FeedPlugin {
     this.app = app;
     this.urlPlaceholderHelp = "Ex: www.someurl.com/feed.rss";
     this.quickHelpDocs = "Follow a RSS feed.";
+    this.uiIcon = 'rss-fill'
   }
 
   async updateFeeds(feeds) {
@@ -95,6 +96,7 @@ class MastodonFeed extends RSSFeed {
     this.name = "Mastodon";
     this.urlPlaceholderHelp = "Ex: https://mastodon.social/@someuser";
     this.quickHelpDocs = "Follow a Mastodon page.";
+    this.uiIcon = 'mastodon'
   }
 
   transformUrlToRss(feedUrl) {
@@ -138,6 +140,7 @@ class YouTubeFeed extends RSSFeed {
     this.name = "YouTube";
     this.urlPlaceholderHelp = "Ex: www.youtube.com/@sora_sakurai_en";
     this.quickHelpDocs = "Follow a YouTube channel.";
+    this.uiIcon = 'youtube'
   }
 
   async updateFeed(feed) {
@@ -193,6 +196,7 @@ class RedditFeed extends RSSFeed {
     this.name = "Reddit";
     this.urlPlaceholderHelp = "Ex: www.reddit.com/r/toronto/";
     this.quickHelpDocs = "Follow a Reddit page (subreddit or profile).";
+    this.uiIcon = 'reddit'
   }
 
   transformUrlToRss(feedUrl) {
@@ -210,6 +214,7 @@ class Bookmark extends FeedPlugin {
     this.app = app;
     this.urlPlaceholderHelp = "Ex: www.somesite.com";
     this.quickHelpDocs = "Add a simple bookmark to any site."
+    this.uiIcon = 'bookmark-heart-fill'
   }
 
   isBookmarkType() {
@@ -231,6 +236,7 @@ class Watcher extends FeedPlugin {
     this.app = app;
     this.urlPlaceholderHelp = "Ex: www.somesite.com/blog";
     this.quickHelpDocs = "Watch any static webpage for changes.";
+    this.uiIcon = 'eye-fill'
   }
 
   isBookmarkType() {

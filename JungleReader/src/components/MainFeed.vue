@@ -6,6 +6,7 @@ import draggable from 'vuedraggable'
 import BasicModal from 'Shared/BasicModal.vue'
 import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
+import AddFeedWidget from './AddFeedWidget.vue'
 import FeedTile from './FeedTile.vue'
 import DeleteButton from './DeleteButton.vue'
 
@@ -362,8 +363,8 @@ onMounted(() => {
     <GroupEditor :group="groupToEdit" />
   </BasicModal>
   <BasicModal class="FeedCreatorModal" ref="feedCreatorModal" title="Add Feed"
-    doneText="Save" @onCancel="onCancelAddFeed" @onDone="onDoneAddFeed">
-    <FeedEditor :feed="feedToEdit" />
+    :showDone="false" @onCancel="onCancelAddFeed" @onDone="onDoneAddFeed">
+    <AddFeedWidget :feed="feedToEdit" />
   </BasicModal>
   <BasicModal class="GroupEditorModal" ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
@@ -373,7 +374,7 @@ onMounted(() => {
     <FeedEditor :feed="feedToEdit" />
     <DeleteButton class="DeleteButton" @click="deleteFeedToEdit"/>
   </BasicModal>
-  <BasicModal ref="addFromLinkModal" title="Add Feed" doneText="Yes" cancelText="No" @onDone="addFeedFromLink">
+  <BasicModal ref="addFromLinkModal" title="Add Feed" cancelText="No" @onDone="addFeedFromLink">
     <p>Add the following feed?</p>
     <div class="AddLinkedFeedInfo CodeBlock">
       {{ addLinkedFeedDesc(linkedFeed) }}
