@@ -57,7 +57,7 @@ function getQuickHelp(pluginType) {
 }
 
 function advanceStep() {
-  if (stepNum.value < 3) {
+  if (stepNum.value < 2) {
     stepNum.value += 1;
   } else {
     // TODO - done
@@ -90,13 +90,10 @@ function chooseFeed(feedType) {
         <div class="FormFieldName">https://youtube.com/@{{feedUrl}}</div>
         <input v-model="feedUrl" class="Block BasicTextInput" autofocus placeholder="">
       </div>
-      <div v-else-if="stepNum == 3">
-        <p>Hello 3</p>
-      </div>
     </div>
     <div class="Flex ButtonRow">
       <button v-if="stepNum > 1" class="SmallButton Flex AlignCenter BackBtn" @click="stepNum -= 1"><vue-feather class="Icon" type="arrow-left"/>Back</button>
-      <button v-if="stepNum > 1" class="SmallButton Flex AlignCenter" @click="advanceStep">Next<vue-feather class="Icon" type="arrow-right"/></button>
+      <button v-if="stepNum > 1" class="SmallButton Flex AlignCenter" @click="advanceStep">{{stepNum < 2 ? 'Next' : 'Done'}}<vue-feather class="Icon" type="arrow-right"/></button>
     </div>
   </div>
   
