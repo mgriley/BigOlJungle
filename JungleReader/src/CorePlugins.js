@@ -1,7 +1,7 @@
 import { reactive, ref } from 'vue'
 import { addElem, removeElem, hashString, prettyJson, countToHumanStr,
   isValidUrl, cleanUrl, convertXmlJsToMap } from './Utils.js'
-import { FeedPlugin } from './PluginLib.js'
+import { FeedPlugin, PluginUtils, } from './PluginLib.js'
 import { extendArray } from './Utils.js'
 import { gApp } from './State.js'
 import { RssParser } from './RssParser.js'
@@ -21,6 +21,12 @@ class RSSFeed extends FeedPlugin {
     this.urlPlaceholderHelp = "Ex: www.someurl.com/feed.rss";
     this.quickHelpDocs = "Follow a RSS feed.";
     this.uiIcon = 'rss-fill'
+
+    this.addFeedHelp = {
+      urlHelp: "Enter the feed url",
+      urlExample: "https://vitalik.ca/feed.xml",
+      urlCompleter: null,
+    };
   }
 
   async updateFeeds(feeds) {
@@ -97,6 +103,12 @@ class MastodonFeed extends RSSFeed {
     this.urlPlaceholderHelp = "Ex: https://mastodon.social/@someuser";
     this.quickHelpDocs = "Follow a Mastodon page.";
     this.uiIcon = 'mastodon'
+
+    this.addFeedHelp = {
+      urlHelp: "Enter the Mastodon url",
+      urlExample: "https://mathstodon.xyz/@tao",
+      urlCompleter: null,
+    };
   }
 
   transformUrlToRss(feedUrl) {
@@ -114,6 +126,10 @@ class MastodonFeed extends RSSFeed {
         item.thumbnailUrl = thumbnailUrl;
       }
     }
+  }
+
+  getAutoNameFromUrl(rawUrl) {
+    return PluginUtils.getAutoNameFromUrlPath(rawUrl);
   }
 }
 
@@ -141,6 +157,12 @@ class YouTubeFeed extends RSSFeed {
     this.urlPlaceholderHelp = "Ex: www.youtube.com/@sora_sakurai_en";
     this.quickHelpDocs = "Follow a YouTube channel.";
     this.uiIcon = 'youtube'
+
+    this.addFeedHelp = {
+      urlHelp: "Enter the channel name",
+      urlExample: "www.youtube.com/@sora_sakurai_en",
+      urlCompleter: "www.youtube.com/@",
+    };
   }
 
   async updateFeed(feed) {
@@ -181,6 +203,10 @@ class YouTubeFeed extends RSSFeed {
     }
   }
 
+  getAutoNameFromUrl(rawUrl) {
+    return PluginUtils.getAutoNameFromUrlPath(rawUrl);
+  }
+
   getFavicon(feed) {
     // The one through duck-duck is low-quality, so override. Pref use the channel thumnail eventually.
     return 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg'
@@ -197,10 +223,20 @@ class RedditFeed extends RSSFeed {
     this.urlPlaceholderHelp = "Ex: www.reddit.com/r/toronto/";
     this.quickHelpDocs = "Follow a Reddit page (subreddit or profile).";
     this.uiIcon = 'reddit'
+
+    this.addFeedHelp = {
+      urlHelp: "Enter the subreddit",
+      urlExample: "www.reddit.com/r/askhistorians",
+      urlCompleter: "www.reddit.com/r/",
+    };
   }
 
   transformUrlToRss(feedUrl) {
     return addRssSuffix(feedUrl);
+  }
+
+  getAutoNameFromUrl(rawUrl) {
+    return PluginUtils.getAutoNameFromUrlPath(rawUrl);
   }
 }
 
@@ -215,6 +251,12 @@ class Bookmark extends FeedPlugin {
     this.urlPlaceholderHelp = "Ex: www.somesite.com";
     this.quickHelpDocs = "Add a simple bookmark to any site."
     this.uiIcon = 'bookmark-heart-fill'
+
+    this.addFeedHelp = {
+      urlHelp: "Enter the url to bookmark",
+      urlExample: "www.someblog.com",
+      urlCompleter: "",
+    };
   }
 
   isBookmarkType() {
@@ -237,6 +279,12 @@ class Watcher extends FeedPlugin {
     this.urlPlaceholderHelp = "Ex: www.somesite.com/blog";
     this.quickHelpDocs = "Watch any static webpage for changes.";
     this.uiIcon = 'eye-fill'
+
+    this.addFeedHelp = {
+      urlHelp: "Enter the url to watch",
+      urlExample: "www.someblog.com/posts",
+      urlCompleter: "",
+    };
   }
 
   isBookmarkType() {

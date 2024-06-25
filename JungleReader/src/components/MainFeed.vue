@@ -364,7 +364,7 @@ onMounted(() => {
   </BasicModal>
   <BasicModal class="FeedCreatorModal" ref="feedCreatorModal" title="Add Feed"
     :showDone="false" @onCancel="onCancelAddFeed" @onDone="onDoneAddFeed">
-    <AddFeedWidget :feed="feedToEdit" />
+    <AddFeedWidget :feed="feedToEdit" @onDone="feedCreatorModal.closeModal()"/>
   </BasicModal>
   <BasicModal class="GroupEditorModal" ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>

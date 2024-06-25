@@ -77,6 +77,30 @@ it gets clicked. Say if using for a button
   margin-bottom: var(--space-xxs);
 }
 
+.MarginTopXL {
+  margin-top: var(--space-xl);
+}
+
+.MarginTopL {
+  margin-top: var(--space-l);
+}
+
+.MarginTopM {
+  margin-top: var(--space-m);
+}
+
+.MarginTopS {
+  margin-top: var(--space-s);
+}
+
+.MarginTopXS {
+  margin-top: var(--space-xs);
+}
+
+.MarginTopXXS {
+  margin-top: var(--space-xxs);
+}
+
 .DraggedChosenItem {
   background-color: var(--color-link-hover);
 }
@@ -99,3 +123,4 @@ it gets clicked. Say if using for a button
 .SmallerText {
   font-size: var(--smaller-size);
 }
+

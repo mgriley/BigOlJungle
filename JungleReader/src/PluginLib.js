@@ -7,12 +7,51 @@ import { QuickParser } from './QuickParse.js'
 import { ScriptParser } from './ScriptParse.js'
 import { RemoteParser } from './RemoteParse.js'
 
+export class PluginUtils {
+  static getAutoNameFromUrl(rawUrl) {
+    let autoName = rawUrl;
+    try {
+      let hostname = (new URL(cleanUrl(rawUrl))).hostname;
+      let parts = hostname.split(".");
+      // Remove TLD
+      parts.pop();
+      // Remove www, if there
+      if (parts[0] === 'www') {
+        parts.shift();
+      }
+      autoName = parts.join('.');
+    } catch (err) {
+      console.log(`Could not get auto name from url: ${rawUrl}. Err:\n${err}`);
+    }
+    return autoName;
+  }
+
+  static getAutoNameFromUrlPath(rawUrl) {
+    let autoName = rawUrl;
+    try {
+      autoName = (new URL(cleanUrl(rawUrl))).pathname;
+      if (autoName[0] == '/') {
+        autoName = autoName.substring(1);
+      }
+    } catch (err) {
+      console.log(`Could not get auto name from url: ${rawUrl}. Err:\n${err}`);
+    }
+    return autoName;
+  }
+}
+
 // Base-class of built-in FeedPlugins
 export class FeedPlugin {
   constructor(name) {
     this.name = name;
     this.urlPlaceholderHelp = "";
     this.quickHelpDocs = "";
+
+    this.addFeedHelp = {
+      urlHelp: "",
+      urlExample: "",
+      urlCompleter: null,
+    };
   }
 
   getFeedType() {
@@ -51,6 +90,12 @@ export class FeedPlugin {
     return null
   }
 
+  // Get the default feed name, from the user-given URL
+  // Note: should override in the subclasses
+  getAutoNameFromUrl(rawUrl) {
+    return PluginUtils.getAutoNameFromUrl(rawUrl);
+  }
+
   isBookmarkType() {
     // Override in subclasses
     return false;
@@ -77,6 +122,11 @@ export class CustomPlugin {
     this.domainWhitelist = []
     this.urlPlaceholderHelp = "Check the plugin docs for examples.";
     this.quickHelpDocs = "";
+    this.addFeedHelp = {
+      urlHelp: "",
+      urlExample: "",
+      urlCompleter: null,
+    };
 
     this.expandedInUi = true;
   }
@@ -139,6 +189,10 @@ export class CustomPlugin {
         feed.setError(`Error updating feed "${feed.name}": ${err.message}`);
       }
     }
+  }
+
+  getAutoNameFromUrl(rawUrl) {
+    return PluginUtils.getAutoNameFromUrl(rawUrl);
   }
 
   isUrlAllowed(feed, urlString) {

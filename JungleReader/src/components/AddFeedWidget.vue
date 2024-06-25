@@ -13,6 +13,8 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(['onDone'])
+
 let stepNum = ref(1);
 let chosenFeedType = ref(null);
 let feedUrl = ref("");
@@ -24,11 +26,16 @@ function changeGroup(newGroup) {
 let supportedFeedTypes = computed(() => {
   let types = []
   for (const plugin of gApp.feedPlugins) {
-    types.push({name: plugin.name, icon: plugin.uiIcon || 'box'});
+    types.push({name: plugin.name, icon: plugin.uiIcon || 'box', type: plugin});
   }
+  return types;
+})
+
+let customFeedTypes = computed(() => {
+  let types = []
   for (const plugin of gApp.customPlugins) {
     if (plugin.feedType) {
-      types.push({name: plugin.feedType, icon: 'plugin'});
+      types.push({name: plugin.feedType, icon: 'plugin', type: plugin});
     }
   }
   return types;
@@ -56,11 +63,21 @@ function getQuickHelp(pluginType) {
   return plugin.quickHelpDocs;
 }
 
+function finishFeed() {
+  let feed = props.feed;
+  feed.type = chosenFeedType.value.name;
+  let urlPrefix = chosenFeedType.value.addFeedHelp.urlCompleter || "";
+  feed.url = urlPrefix + feedUrl.value;
+  feed.name = chosenFeedType.value.getAutoNameFromUrl(feed.url);
+  gApp.toast({message: 'Added feed', type: 'success'})
+  emit('onDone');
+}
+
 function advanceStep() {
   if (stepNum.value < 2) {
     stepNum.value += 1;
   } else {
-    // TODO - done
+    finishFeed();
   }
 }
 
@@ -70,6 +87,7 @@ function chooseFeed(feedType) {
   }
   chosenFeedType.value = feedType;
   stepNum.value += 1;
+  console.log("FeedType: ", chosenFeedType.value)
 }
 
 </script>
@@ -79,16 +97,25 @@ function chooseFeed(feedType) {
     <div class="MainArea MarginBotM">
       <div v-if="stepNum == 1">
         <p class="SmallText MarginBotS">What type of feed do you want to add?</p>
-        <div class="FeedTypeDiv">
-          <div v-for="type of supportedFeedTypes">
-            <p class="MockButton" @click="chooseFeed(type.name)"><i :class="['bi-' + type.icon, 'FeedTypeIcon']"></i>{{type.name}}</p>
+        <div class="">
+          <div class="FeedTypeDiv MarginBotXS">
+            <div v-for="type of supportedFeedTypes">
+              <p class="MockButton" @click="chooseFeed(type.type)"><i :class="['bi-' + type.icon, 'FeedTypeIcon']"></i>{{type.name}}</p>
+            </div>
+          </div>
+          <div class="FeedTypeDiv">
+            <div v-for="type of customFeedTypes">
+              <p class="MockButton" @click="chooseFeed(type.type)"><i :class="['bi-' + type.icon, 'FeedTypeIcon']"></i>{{type.name}}</p>
+            </div>
           </div>
         </div>
       </div>
       <div v-else-if="stepNum == 2">
-        <p class="SmallText MarginBotS">What is the feed name?</p>
-        <div class="FormFieldName">https://youtube.com/@{{feedUrl}}</div>
-        <input v-model="feedUrl" class="Block BasicTextInput" autofocus placeholder="">
+        <!-- <p class="SmallText MarginBotS">{{chosenFeedType.name}}</p> -->
+        <p class="MarginTopS MarginBotXXS">{{chosenFeedType.addFeedHelp.urlHelp}}:</p>
+        <div v-if="chosenFeedType.addFeedHelp.urlCompleter" class="FormFieldName SmallerText">{{chosenFeedType.addFeedHelp.urlCompleter}}{{feedUrl}}</div>
+        <input v-model="feedUrl" class="Block BasicTextInput MarginBotM" autofocus placeholder="">
+        <p class="SmallerText">Ex. {{chosenFeedType.addFeedHelp.urlExample}}</p>
       </div>
     </div>
     <div class="Flex ButtonRow">
