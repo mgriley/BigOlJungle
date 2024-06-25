@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch, } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
@@ -8,9 +8,6 @@ import BasicSelector from './BasicSelector.vue'
 import InfoTooltip from './InfoTooltip.vue'
 
 const props = defineProps({
-  feed: {
-    type: Object,
-  }
 });
 
 const emit = defineEmits(['onDone'])
@@ -18,10 +15,6 @@ const emit = defineEmits(['onDone'])
 let stepNum = ref(1);
 let chosenFeedType = ref(null);
 let feedUrl = ref("");
-
-function changeGroup(newGroup) {
-  props.feed.moveToGroup(newGroup);  
-}
 
 let supportedFeedTypes = computed(() => {
   let types = []
@@ -41,34 +34,15 @@ let customFeedTypes = computed(() => {
   return types;
 })
 
-function onChangeFeedType(feed, newType) {
-  console.log("Cur type: " + feed.type + ". New feed type: " + newType);
-  feed.type = newType;
-  // console.log("Feed type: " + feed.type);
-}
-
-function getUrlPlaceholder(feed) {
-  let plugin = gApp.getFeedPluginByType(feed.type);
-  if (!plugin) {
-    return "No help available.";
-  }
-  return plugin.urlPlaceholderHelp;
-}
-
-function getQuickHelp(pluginType) {
-  let plugin = gApp.getFeedPluginByType(pluginType);
-  if (!plugin) {
-    return null;
-  }
-  return plugin.quickHelpDocs;
-}
-
 function finishFeed() {
-  let feed = props.feed;
-  feed.type = chosenFeedType.value.name;
   let urlPrefix = chosenFeedType.value.addFeedHelp.urlCompleter || "";
-  feed.url = urlPrefix + feedUrl.value;
-  feed.name = chosenFeedType.value.getAutoNameFromUrl(feed.url);
+  let url = urlPrefix + feedUrl.value;
+  let optArgs = {
+    type: chosenFeedType.value.name,
+    url: url,
+    name: chosenFeedType.value.getAutoNameFromUrl(url),
+  };
+  gApp.feedReader.addFeed(optArgs);
   gApp.toast({message: 'Added feed', type: 'success'})
   emit('onDone');
 }
@@ -89,6 +63,16 @@ function chooseFeed(feedType) {
   stepNum.value += 1;
   console.log("FeedType: ", chosenFeedType.value)
 }
+
+function reset() {
+  stepNum.value = 1;
+  chosenFeedType.value = null;
+  feedUrl.value = "";
+}
+
+defineExpose({
+  reset
+})
 
 </script>
 
@@ -123,32 +107,6 @@ function chooseFeed(feedType) {
       <button v-if="stepNum > 1" class="SmallButton Flex AlignCenter" @click="advanceStep">{{stepNum < 2 ? 'Next' : 'Done'}}<vue-feather class="Icon" type="arrow-right"/></button>
     </div>
   </div>
-  
-  <!--
-  <div class="FeedHeader">
-    <div class="FormFieldName">Name</div>
-    <input v-model="feed.name" class="Block BasicTextInput" autofocus placeholder="Enter name">
-  </div>
-  <div class="FormFieldName">Type</div>
-  <div class="Flex FeedTypeBox">
-    <BasicSelector :value="feed.type" :options="supportedFeedTypes" @change="(newVal) => onChangeFeedType(feed, newVal)"/>
-  </div>
-  <div class="FormFieldName">URL</div>
-  <input v-model="feed.url" class="Block BasicTextInput WideInput" placeholder="Enter URL">
-  <div class="FormFieldInfoUnder">{{ getUrlPlaceholder(feed) }}</div>
-
-  <details class="Settings FormFieldName CursorPointer">
-    <summary class="CursorPointer">More Settings</summary>
-    <div class="SettingsBody">
-      <div class="FormFieldName">Group</div>
-      <GroupSelector v-if="feed" :currentGroup="feed.parentGroup" @change="changeGroup"/>
-
-      <div class="FormFieldName">Custom Options</div>
-      <OptionsInput class="" :options="feed.options" />
-    </div>
-  </details>
-  -->
-
 </template>
 
 <style scoped>

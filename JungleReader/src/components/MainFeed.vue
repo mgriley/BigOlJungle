@@ -14,6 +14,7 @@ const props = defineProps({
 })
 
 let feedCreatorModal = ref(null);
+let addFeedWidget = ref(null);
 let groupCreatorModal = ref(null);
 let feedEditorModal = ref(null);
 let groupEditorModal = ref(null);
@@ -76,17 +77,12 @@ function addHelpFeed(args) {
 }
 
 function startAddFeed(optArgs) {
-  optArgs = optArgs || {};
-  // We defer reloading until we finish adding the feed
-  optArgs.doNotReload = false;
-  let feed = gApp.feedReader.addFeed(optArgs);
-  feedToEdit.value = feed;
+  addFeedWidget.value.reset();
   feedCreatorModal.value.showModal();
 }
 
 function onDoneAddFeed() {
   // gApp.toast({message: 'Added feed', type: 'success'});  
-  feedToEdit.value.reload();
 }
 
 function onDoneAddGroup() {
@@ -95,8 +91,6 @@ function onDoneAddGroup() {
 
 function onCancelAddFeed() {
   // console.log("Canceled add feed");
-  deleteFeed(feedToEdit.value);
-  feedToEdit.value = dummyFeed;
 }
 
 function onCancelAddGroup() {
@@ -364,7 +358,7 @@ onMounted(() => {
   </BasicModal>
   <BasicModal class="FeedCreatorModal" ref="feedCreatorModal" title="Add Feed"
     :showDone="false" @onCancel="onCancelAddFeed" @onDone="onDoneAddFeed">
-    <AddFeedWidget :feed="feedToEdit" @onDone="feedCreatorModal.closeModal()"/>
+    <AddFeedWidget ref="addFeedWidget" @onDone="feedCreatorModal.closeModal()"/>
   </BasicModal>
   <BasicModal class="GroupEditorModal" ref="groupEditorModal" :showCancel="false" title="Edit Group">
     <GroupEditor :group="groupToEdit"/>
