@@ -42,9 +42,13 @@ function finishFeed() {
     url: url,
     name: chosenFeedType.value.getAutoNameFromUrl(url),
   };
-  gApp.feedReader.addFeed(optArgs);
-  gApp.toast({message: 'Added feed', type: 'success'})
+  let feed = gApp.feedReader.addFeed(optArgs);
+  // gApp.toast({message: 'Added feed', type: 'success'})
   emit('onDone');
+
+  if (feed.type !== 'Bookmark') {
+    gApp.router.push({name: 'feed', params: {id: feed.id}})
+  }
 }
 
 function advanceStep() {

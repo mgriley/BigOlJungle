@@ -216,6 +216,10 @@ let draggableDisabled = computed(() => {
   return hasCoarseTouch();
 })
 
+function goToExplore() {
+  gApp.router.replace({path: "/explore"})  
+}
+
 watch(gApp.linkAction, (newVal) => {
   checkForLinkAction();
 })
@@ -276,7 +280,7 @@ onMounted(() => {
       <button class="DoneBtn" @click="onDoneSetup()">Got it!</button>
     </div>
     <div v-else class="MainArea">
-      <div class="ButtonMenu">
+      <div class="ButtonMenu MarginBotXS">
         <button class="MenuBtn" @click="startAddFeed()">
           <vue-feather type="rss" class="Icon" />
           Add Feed
@@ -291,10 +295,20 @@ onMounted(() => {
         </button>
         <!--
         <button class="MenuBtn" @click="goToExplore()">
-          <vue-feather type="compass" class="Icon" />
+          <vue-feather type="compass" class="IconB" />
           Explore
         </button>
         -->
+        <button class="ExploreBtnCommon MenuBtn ExploreBtnDesktop DesktopOnly" @click="goToExplore()">
+          <vue-feather type="zap" class="" />
+          Explore
+        </button>
+      </div>
+      <div class="ExploreDiv">
+        <button class="ExploreBtnCommon ExploreBtnMobile MobileOnly" @click="goToExplore()">
+          <vue-feather type="zap" class="" />
+          Explore
+        </button>
       </div>
       <div class="FeedGroups">
         <div class="LeftPane">
@@ -412,6 +426,40 @@ onMounted(() => {
   border: none;
   padding: 4px;
   margin-right: var(--space-xs);
+}
+
+.ExploreDiv {
+}
+
+.ExploreBtnCommon {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xxs);
+
+  /* text-align: left; */
+  background-color: var(--brand-color-yellow);
+  /* filter: invert(1); */
+  border-radius: var(--border-radius-large);
+  /* background-color: lightgrey; */
+  border: none;
+  color: var(--main-bg);
+  font-size: var(--small-size);
+}
+
+.ExploreBtnDesktop {
+  margin-left: var(--space-s);
+  width: 120px;
+  text-transform: none;
+}
+
+.ExploreBtnMobile {
+  padding: var(--space-s);
+  margin-top: 8px;
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
 }
 
 .InnerReloadBtn {
@@ -580,6 +628,10 @@ onMounted(() => {
     font-size: 28px;
   }
 
+  .GroupList {
+    margin-top: var(--space-m);
+  }
+
   .EditGroupButton {
     font-size: var(--p-size);
   }
@@ -639,5 +691,25 @@ onMounted(() => {
   text-align: center;
 }
 
+.IconB {
+  color: purple;
+}
+
+.MobileOnly {
+  display: none;
+}
+
+.DesktopOnly {
+}
+
+@media (max-width: 768px) {
+  .MobileOnly {
+    display: flex;
+  }
+
+  .DesktopOnly {
+    display: none;
+  }
+}
 
 </style>
