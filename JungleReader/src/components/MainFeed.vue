@@ -439,10 +439,8 @@ onMounted(() => {
   gap: var(--space-xxs);
 
   /* text-align: left; */
-  background-color: var(--brand-color-yellow);
-  /* filter: invert(1); */
   border-radius: var(--border-radius-large);
-  /* background-color: lightgrey; */
+  background-color: var(--brand-color-yellow);
   border: none;
   color: var(--main-bg);
   font-size: var(--small-size);
@@ -460,6 +458,7 @@ onMounted(() => {
   max-width: 400px;
   width: 100%;
   margin: auto;
+  border-radius: calc(1.5*var(--border-radius-large));
 }
 
 .InnerReloadBtn {
