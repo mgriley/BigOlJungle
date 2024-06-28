@@ -32,6 +32,6 @@ function showHelp() {
 <style scoped>
 .HelpButton {
   text-decoration: underline;
-  -webkit-text-decoration: underline;
+  -webkit-text-decoration-line: underline;
 }
 </style>

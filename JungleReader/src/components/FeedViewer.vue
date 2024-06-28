@@ -225,7 +225,7 @@ onMounted(() => {
 .LinkText {
   display: block;
   text-decoration: none;
-  -webkit-text-decoration: none;
+  -webkit-text-decoration-line: none;
   white-space: pre-wrap;
   line-height: 1.5;
 }
@@ -235,7 +235,7 @@ onMounted(() => {
     background-color: inherit;
     color: inherit;
     text-decoration: underline;
-    -webkit-text-decoration: underline;
+    -webkit-text-decoration-line: underline;
   }
 }
 
@@ -243,7 +243,7 @@ onMounted(() => {
   background-color: inherit;
   color: inherit;
   text-decoration: underline;
-  -webkit-text-decoration: underline;
+  -webkit-text-decoration-line: underline;
 }
 
 .LinkElem .SubInfo {
@@ -288,7 +288,7 @@ onMounted(() => {
   /* float: right; */
   margin-bottom: var(--space-m);
   text-decoration: none;
-  -webkit-text-decoration: none;
+  -webkit-text-decoration-line: none;
 }
 
 .BackButtonIcon {

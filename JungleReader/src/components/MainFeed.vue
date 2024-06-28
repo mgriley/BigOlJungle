@@ -523,7 +523,7 @@ onMounted(() => {
 .GroupControlButton {
   font-weight: normal;
   text-decoration: underline;
-  -webkit-text-decoration: underline;
+  -webkit-text-decoration-line: underline;
   font-size: var(--p-size);
   color: var(--mute-text);
 }
