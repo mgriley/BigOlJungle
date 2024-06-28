@@ -113,6 +113,7 @@ it gets clicked. Say if using for a button
 
 .NoUnderline {
   text-decoration: none;
+  -webkit-text-decoration: none;
 }
 
 .SmallText {

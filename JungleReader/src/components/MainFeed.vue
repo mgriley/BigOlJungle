@@ -453,12 +453,13 @@ onMounted(() => {
 }
 
 .ExploreBtnMobile {
-  padding: var(--space-s);
+  padding: var(--space-xs);
   margin-top: 8px;
   max-width: 400px;
   width: 100%;
   margin: auto;
-  border-radius: calc(1.5*var(--border-radius-large));
+  border-radius: 30px;
+  font-size: var(--smaller-size);
 }
 
 .InnerReloadBtn {
@@ -522,6 +523,7 @@ onMounted(() => {
 .GroupControlButton {
   font-weight: normal;
   text-decoration: underline;
+  -webkit-text-decoration: underline;
   font-size: var(--p-size);
   color: var(--mute-text);
 }

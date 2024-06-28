@@ -320,6 +320,7 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
   font-weight: var(--bold-weight);
   font-size: var(--p-size);
   text-decoration: none;
+  -webkit-text-decoration: none;
   padding: var(--space-xxs);
 
   border-radius: 0px;
