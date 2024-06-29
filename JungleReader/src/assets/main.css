@@ -120,7 +120,7 @@ input[type="text"], textarea {
 
 select {
   font-size: var(--p-size);
-  /* color: var(--main-text); */
+  color: var(--main-text);
   background-color: var(--input-bg);
   border: none;
   border-radius: var(--border-radius-smaller);

@@ -116,7 +116,8 @@ dialog::backdrop {
     position: fixed;
     top: 0;
     left: 0;
-    margin-top: var(--space-s);
+    margin-top: 10vh;
+    /* margin-top: calc(var(--space-s) + var(--safe-area-inset-top)); */
     /* border: none; */
     /* border-radius: 0; */
     max-width: 100vw;
@@ -128,8 +129,10 @@ dialog::backdrop {
 
 .BasicModal .Title {
   margin-bottom: var(--space-xs);
-  text-decoration: var(--brand-underline);
-  -webkit-text-decoration: var(--brand-underline);
+  text-decoration-line: underline;
+  text-decoration-color: DeepPink;
+  text-decoration-thickness: 4px;
+
   font-family: var(--popup-title-font);
   font-size: var(--h2-size);
 }

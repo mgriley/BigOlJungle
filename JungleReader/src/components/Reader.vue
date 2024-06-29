@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import { gApp, FeedGroup, Feed, getTimeAgoStr, kReaderVersionString } from '../State.js'
+import { gApp, JungleReader, FeedGroup, Feed, getTimeAgoStr, kReaderVersionString } from '../State.js'
 import BasicModal from 'Shared/BasicModal.vue'
 import BasicSelector from './BasicSelector.vue'
 
@@ -70,7 +70,7 @@ onMounted(() => {
   <div class="ContainerLayer">
     <div class="FixedBgImg"></div>
     <div class="BodyOverlay">
-      <div class="toplevel">
+      <div class="toplevel" :class="JungleReader.getPlatform()">
         <div class="Sidebar">
           <div class="InnerSidebar">
             <div class="SidebarBtnBar Flex AlignBaseline">
@@ -270,6 +270,10 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
     "sidebar content"
 }
 
+.toplevel.ios {
+  margin-top: calc(var(--space-m) + var(--safe-area-inset-top));
+}
+
 .main {
   margin-left: 16px;
   background-color: var(--main-bg);
@@ -392,6 +396,7 @@ Also collapse the menu.
 
   .InnerSidebar {
     /* padding: 0 var(--space-xs); */
+    position: relative;
     padding: var(--space-xs);
     border: none;
   }
@@ -406,10 +411,13 @@ Also collapse the menu.
 
   .SidebarContent {
     display: none;
+    float: right;
     padding-top: var(--space-s);
-    background-color: var(--popup-bg);
+    background-color: var(--main-bg);
     border: 1px solid var(--brand-color-yellow);
     border-radius: var(--border-radius-med);
+    z-index: 100;
+    box-shadow: 0px 0px 8px yellow;
   }
 
   .SidebarContent a {
@@ -425,7 +433,10 @@ Also collapse the menu.
   }
 
   .SidebarContent.open {
+    /* display: block; */
     display: block;
+    position: absolute;
+    right: 0;
   }
 }
 

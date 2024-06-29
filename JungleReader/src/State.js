@@ -1,4 +1,5 @@
 import { reactive, ref } from 'vue'
+import { Capacitor } from '@capacitor/core';
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
@@ -556,7 +557,7 @@ let FetchMethod = {
   Proxy: 'Proxy',
 };
 
-class JungleReader {
+export class JungleReader {
   constructor(toaster, router) {
     this.toaster = toaster;
     this.router = router;
@@ -649,6 +650,10 @@ class JungleReader {
     this.fetchMethod.value = valOr(jsonObj["fetchMethod"], FetchMethod.ToucanProxy)
     this.doneWelcome.value = Boolean(jsonObj["doneWelcome"])
     this.doneFeedSetup.value = Boolean(jsonObj["doneFeedSetup"])
+  }
+
+  static getPlatform() {
+    return Capacitor.getPlatform();
   }
 
   getAppTimeSecs() {
@@ -971,6 +976,8 @@ class JungleReader {
 
   run() {
     let app = this;
+
+    console.log("Platform: " + Capacitor.getPlatform());
 
     this.onEnterForeground();
 

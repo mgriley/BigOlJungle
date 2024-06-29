@@ -160,7 +160,7 @@ class YouTubeFeed extends RSSFeed {
 
     this.addFeedHelp = {
       urlHelp: "Enter the channel name",
-      urlExample: "www.youtube.com/@sora_sakurai_en",
+      urlExample: "veritasium",
       urlCompleter: "www.youtube.com/@",
     };
   }
@@ -226,7 +226,7 @@ class RedditFeed extends RSSFeed {
 
     this.addFeedHelp = {
       urlHelp: "Enter the subreddit",
-      urlExample: "www.reddit.com/r/askhistorians",
+      urlExample: "askhistorians",
       urlCompleter: "www.reddit.com/r/",
     };
   }
