@@ -3,7 +3,8 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp } from '../State.js'
 
 function goBack() {
-  gApp.router.go(-1);
+  console.log("Going back!");
+  gApp.router.replace('/');
 }
 </script>
 
