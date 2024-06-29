@@ -1,5 +1,8 @@
 <script setup>
+import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
+
+let showOtherTips = ref(false);
 
 let exploreData = [
   {
@@ -111,34 +114,46 @@ function addFeed(name, type, url) {
     <p class="Info">
     Here are some feeds to get you started.
     </p> 
-    <div class="Groups">
+    <div class="Groups MarginBotL">
+      <!--
       <div v-for="group in exploreData" class="Group">
-        <h3>{{ group.group }}</h3>
-        <ul>
-          <li v-for="feed in group.feeds">
-            <button class="SmallButton Block AddBtn" @click="addFeed(feed.name, group.type, feed.url)">{{ feed.name }}</button>
-          </li>
-        </ul>
+        <h3 class="MarginBotXXS PlainHeader">{{ group.group }}</h3>
+        <div class="GroupItems">
+          <button v-for="feed in group.feeds" class="GroupItem" @click="addFeed(feed.name, group.type, feed.url)">
+            {{feed.name}}
+          </button>
+        </div>
+      </div>
+      -->
+      <div v-for="group in exploreData" class="Group">
+        <h3 class="MarginBotXXS PlainHeader">{{ group.group }}</h3>
+        <div class="GroupItems">
+          <button v-for="feed in group.feeds" class="GroupItem" @click="addFeed(feed.name, group.type, feed.url)">
+            {{feed.name}}
+          </button>
+        </div>
       </div>
     </div>
     <div class="OtherTips">
-      <h3>Other Tips:</h3>
-      <ul>
-        <li>Use the Bookmark plugin to make a simple bookmark to a site.</li>
-        <li>Use the Watcher plugin to watch a page (like a blog homepage) for changes.</li>
-        <li>Most podcasts have RSS feeds.</li>
-        <li>Sijmen Mulder has a list of good text-based websites <a href="https://sjmulder.nl/en/textonly.html">here</a></li>
-        <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
-        <li>See <a href="https://hnrss.github.io/" target="_blank">https://hnrss.github.io/</a> for various HN RSS feeds.</li>
-        <li>See <a href="https://www.cnn.com/services/rss/" target="_blank">https://www.cnn.com/services/rss/</a> for different CNN feeds.</li>
-        <li>See <a href="https://www.nytimes.com/rss" target="_blank">https://www.nytimes.com/rss</a> for different NYT feeds.</li>
-        <li>See <a href="https://github.com/PrejudiceNeutrino/YouTube_Channels" target="_blank">https://github.com/PrejudiceNeutrino/YouTube_Channels</a> for lists of educational YouTube channels.</li>
-        <li>See <a href="https://info.arxiv.org/help/rss.html" target="_blank">https://info.arxiv.org/help/rss.html</a> to setup feeds for arxiv.org</li>
-        <li>Substack blogs have RSS feeds at "www.someblog.com/feed"</li>
-        <li>PeerTube supports RSS feeds.</li>
-        <li>See neocities for some interesting websites/blogs. Not all support RSS.</li>
-        <li>If you know any other good websites/blogs to add, please use the Report Bug/Feedback form.</li>
-      </ul>
+      <h3  @click="showOtherTips = !showOtherTips" class="MockButton PlainHeader">Other Tips{{showOtherTips ? '' : '...'}}</h3>
+      <div v-if="showOtherTips">
+        <ul>
+          <li>Use the Bookmark plugin to make a simple bookmark to a site.</li>
+          <li>Use the Watcher plugin to watch a page (like a blog homepage) for changes.</li>
+          <li>Most podcasts have RSS feeds.</li>
+          <li>Sijmen Mulder has a list of good text-based websites <a href="https://sjmulder.nl/en/textonly.html">here</a></li>
+          <li>See <a href="https://getstarted.social/" target="_blank">https://getstarted.social/</a> for Mastodon feed ideas.</li>
+          <li>See <a href="https://hnrss.github.io/" target="_blank">https://hnrss.github.io/</a> for various HN RSS feeds.</li>
+          <li>See <a href="https://www.cnn.com/services/rss/" target="_blank">https://www.cnn.com/services/rss/</a> for different CNN feeds.</li>
+          <li>See <a href="https://www.nytimes.com/rss" target="_blank">https://www.nytimes.com/rss</a> for different NYT feeds.</li>
+          <li>See <a href="https://github.com/PrejudiceNeutrino/YouTube_Channels" target="_blank">https://github.com/PrejudiceNeutrino/YouTube_Channels</a> for lists of educational YouTube channels.</li>
+          <li>See <a href="https://info.arxiv.org/help/rss.html" target="_blank">https://info.arxiv.org/help/rss.html</a> to setup feeds for arxiv.org</li>
+          <li>Substack blogs have RSS feeds at "www.someblog.com/feed"</li>
+          <li>PeerTube supports RSS feeds.</li>
+          <li>See neocities for some interesting websites/blogs. Not all support RSS.</li>
+          <li>If you know any other good websites/blogs to add, please use the Report Bug/Feedback form.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -150,12 +165,56 @@ function addFeed(name, type, url) {
 }
 
 .Groups {
-  margin-bottom: var(--space-s);
 }
 
 .Group {
   margin-bottom: var(--space-s);
 }
+
+.GroupItems {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+}
+
+.GroupItem {
+  border: none;
+  font-size: 12px;
+  border-radius: 0;
+  height: 40px;
+  outline: 1px solid DeepPink;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+.GroupItems {
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-xs);
+}
+ */
+
+/*
+.GroupItem {
+  border-radius: 8px;
+  background-color: DeepPink;
+  border: 2px solid yellow;
+  font-size: 12px;
+  width: 120px;
+  height: 60px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+*/
 
 .AddBtn {
   text-align: left;

@@ -103,6 +103,12 @@
   --border-radius-med: 6px;
   --border-radius-large: 8px;
 
+  --br-xs: 2px;
+  --br-s: 4px;
+  --br-m: 6px;
+  --br-l: 8px;
+  --br-xl: 12px;
+
   /* --header-font: sans-serif; */
   /* --title-font: var(--header-font); */
   --main-font: monospace;
