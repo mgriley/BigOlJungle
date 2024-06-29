@@ -129,6 +129,7 @@ dialog::backdrop {
 .BasicModal .Title {
   margin-bottom: var(--space-xs);
   text-decoration: var(--brand-underline);
+  -webkit-text-decoration: var(--brand-underline);
   font-family: var(--popup-title-font);
   font-size: var(--h2-size);
 }

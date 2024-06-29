@@ -14,8 +14,9 @@
 
 .PageHeader {
   margin-bottom: var(--space-s);
-  text-decoration: var(--brand-underline-title);
-  -webkit-text-decoration-line: var(--brand-underline-title);
+  text-decoration-line: underline;
+  text-decoration-color: DeepPink;
+  text-decoration-thickness: 4px;
 
   /* color: Fuchsia; */
   /* font-family: monospace; */
@@ -24,8 +25,7 @@
 }
 
 .PlainHeader {
-  text-decoration: none;
-  -webkit-text-decoration-line: none;
+  text-decoration-line: none;
 }
 
 .FormFieldName {

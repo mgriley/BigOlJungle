@@ -45,10 +45,11 @@
   --brand-color-a: var(--brand-color);
   --brand-color-b: var(--brand-color-yellow);
   --brand-color-c: var(--brand-color-green);
-  /* --brand-underline-title: underline solid var(--brand-color-purple) 4px; */
-  --brand-underline-title: underline solid DeepPink 4px;
-  --brand-underline-headers: underline solid var(--brand-color-yellow) 2px;
-  --brand-underline: var(--brand-underline-title);
+
+  /* Note: Safari/WebKit does not support this shorthand */
+  /* --brand-underline-title: underline solid DeepPink 4px; */
+  /* --brand-underline-headers: underline solid var(--brand-color-yellow) 2px; */
+
   --attn-color: var(--brand-color-purple);
 
   --header-text: var(--white-color);

@@ -39,8 +39,9 @@ h1, h2, h3, h4 {
   font-weight: var(--bold-weight);
   color: var(--header-text);
 
-  text-decoration: var(--brand-underline-headers);
-  -webkit-text-decoration-line: var(--brand-underline-headers);
+  text-decoration-line: underline; 
+  text-decoration-color: var(--brand-color-yellow);
+  text-decoration-thickness: 2px;
 }
 
 h1 {

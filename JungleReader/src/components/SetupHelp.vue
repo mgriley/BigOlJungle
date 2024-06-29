@@ -85,7 +85,7 @@ function addFeed(args) {
 }
 
 .UnderlineLink {
-  text-decoration: underline;
+  text-decoration-line: underline;
   font-weight: 500;
 }
 
@@ -124,7 +124,7 @@ ol {
 
 .ExtLink {
   font-size: var(--small-size);
-  text-decoration: none;
+  text-decoration-line: none;
   font-weight: bold;
   background-color: var(--main-text);
   color: var(--main-bg);

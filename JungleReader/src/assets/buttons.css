@@ -62,8 +62,7 @@ button:active .Icon {
 */
 
 .TertiaryButton, .SaveButton, .BackButton {
-  text-decoration: underline;
-  -webkit-text-decoration-line: underline;
+  text-decoration-line: underline;
   /* color: var(--secondary-text); */
   border: none;
   border-radius: var(--border-radius-small);
@@ -94,8 +93,7 @@ button:active .Icon {
 }
 
 .DeleteButton {
-  text-decoration: underline;
-  -webkit-text-decoration-line: underline;
+  text-decoration-line: underline;
   /* padding: 5px 10px; */
   /* border: 1px solid var(--main-text); */
 }
@@ -106,8 +104,7 @@ button:active .Icon {
 }
 
 .LinkButton {
-  text-decoration: underline;
-  -webkit-text-decoration-line: underline;
+  text-decoration-line: underline;
   font-weight: 600;
 }
 
