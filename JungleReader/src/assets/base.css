@@ -58,7 +58,8 @@
   --secondary-text: var(--lightest-color);
   --main-bg: var(--darkest-color);
   --popup-text: var(--main-text);
-  --popup-bg: var(--dark-color);
+  /* --popup-bg: var(--dark-color); */
+  --popup-bg: var(--darkest-color);
   --input-text: var(--main-text);
   --input-bg: var(--medium-color);
   --mute-text: var(--light-color);

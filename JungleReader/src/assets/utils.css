@@ -119,8 +119,15 @@ it gets clicked. Say if using for a button
   font-size: var(--small-size);
 }
 
-
 .SmallerText {
   font-size: var(--smaller-size);
+}
+
+.MuteText {
+  color: var(--mute-text);
+}
+
+.VeryMuteText {
+  color: var(--very-mute-text);
 }
 

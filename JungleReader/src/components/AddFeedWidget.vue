@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch, } from 'vue'
+import { ref, onMounted, computed, watch, nextTick, } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
 import CollapsingHeader from './CollapsingHeader.vue'
 import OptionsInput from './OptionsInput.vue'
@@ -15,6 +15,7 @@ const emit = defineEmits(['onDone'])
 let stepNum = ref(1);
 let chosenFeedType = ref(null);
 let feedUrl = ref("");
+let feedUrlInput = ref(null);
 
 let supportedFeedTypes = computed(() => {
   let types = []
@@ -65,6 +66,9 @@ function chooseFeed(feedType) {
   }
   chosenFeedType.value = feedType;
   stepNum.value += 1;
+  nextTick(() => {
+    feedUrlInput.value.focus();
+  });
   console.log("FeedType: ", chosenFeedType.value)
 }
 
@@ -87,12 +91,10 @@ defineExpose({
         <p class="SmallText MarginBotS">What type of feed do you want to add?</p>
         <div class="">
           <div class="FeedTypeDiv MarginBotXS">
-            <div v-for="type of supportedFeedTypes">
+            <div v-for="type of supportedFeedTypes" class="FeedTypeItem">
               <p class="MockButton" @click="chooseFeed(type.type)"><i :class="['bi-' + type.icon, 'FeedTypeIcon']"></i>{{type.name}}</p>
             </div>
-          </div>
-          <div class="FeedTypeDiv">
-            <div v-for="type of customFeedTypes">
+            <div v-for="type of customFeedTypes" class="FeedTypeItem">
               <p class="MockButton" @click="chooseFeed(type.type)"><i :class="['bi-' + type.icon, 'FeedTypeIcon']"></i>{{type.name}}</p>
             </div>
           </div>
@@ -100,10 +102,10 @@ defineExpose({
       </div>
       <div v-else-if="stepNum == 2">
         <!-- <p class="SmallText MarginBotS">{{chosenFeedType.name}}</p> -->
-        <p class="MarginTopS MarginBotXXS">{{chosenFeedType.addFeedHelp.urlHelp}}:</p>
+        <p class="MarginTopS MarginBotXXS SmallText">{{chosenFeedType.addFeedHelp.urlHelp}}:</p>
         <div v-if="chosenFeedType.addFeedHelp.urlCompleter" class="FormFieldName SmallerText">{{chosenFeedType.addFeedHelp.urlCompleter}}{{feedUrl}}</div>
-        <input v-model="feedUrl" class="Block BasicTextInput MarginBotM" autofocus placeholder="">
-        <p class="SmallerText">Ex. {{chosenFeedType.addFeedHelp.urlExample}}</p>
+        <input ref="feedUrlInput" v-model="feedUrl" class="Block BasicTextInput MarginBotM" autofocus placeholder="">
+        <p class="SmallerText MuteText">Ex. {{chosenFeedType.addFeedHelp.urlExample}}</p>
       </div>
     </div>
     <div class="Flex ButtonRow">
@@ -151,11 +153,23 @@ defineExpose({
 .FeedTypeDiv {
   display: grid;
   grid-template-columns: auto auto;
-  gap: var(--space-xs);
+  /* gap: var(--space-xs); */
+  gap: 1px;
+}
+
+.FeedTypeItem {
+  padding: var(--space-xs);
+  outline: 1px solid DeepPink;
+}
+
+.FeedTypeItem p {
+  font-size: var(--small-size);
+  text-align: center;
 }
 
 .FeedTypeIcon {
   margin-right: var(--space-xs);
+  color: yellow;
 }
 
 .ButtonRow {
