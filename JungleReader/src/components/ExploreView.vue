@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { gApp, FeedGroup, Feed } from '../State.js'
+import BackButton from './BackButton.vue'
 
 let showOtherTips = ref(false);
 
@@ -110,21 +111,12 @@ function addFeed(name, type, url) {
 
 <template>
   <div class="ExploreView">
+    <BackButton />
     <h1 class="PageHeader">Explore</h1>
     <p class="Info">
     Here are some feeds to get you started.
     </p> 
     <div class="Groups MarginBotL">
-      <!--
-      <div v-for="group in exploreData" class="Group">
-        <h3 class="MarginBotXXS PlainHeader">{{ group.group }}</h3>
-        <div class="GroupItems">
-          <button v-for="feed in group.feeds" class="GroupItem" @click="addFeed(feed.name, group.type, feed.url)">
-            {{feed.name}}
-          </button>
-        </div>
-      </div>
-      -->
       <div v-for="group in exploreData" class="Group">
         <h3 class="MarginBotXXS PlainHeader">{{ group.group }}</h3>
         <div class="GroupItems">
@@ -177,6 +169,12 @@ function addFeed(name, type, url) {
   gap: 1px;
 }
 
+@media (max-width: 768px) {
+  .GroupItems {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .GroupItem {
   border: none;
   font-size: 12px;
@@ -186,35 +184,6 @@ function addFeed(name, type, url) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/*
-.GroupItems {
-  display: flex;
-  flex-flow: row wrap;
-  gap: var(--space-xs);
-}
- */
-
-/*
-.GroupItem {
-  border-radius: 8px;
-  background-color: DeepPink;
-  border: 2px solid yellow;
-  font-size: 12px;
-  width: 120px;
-  height: 60px;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-
-  font-weight: bold;
-}
-*/
 
 .AddBtn {
   text-align: left;

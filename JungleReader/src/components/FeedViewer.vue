@@ -7,6 +7,7 @@ import BasicModal from 'Shared/BasicModal.vue'
 import FeedEditor from './FeedEditor.vue'
 import CopyLinkButton from './CopyLinkButton.vue'
 import DeleteButton from './DeleteButton.vue'
+import BackButton from './BackButton.vue'
 
 const props = defineProps({
   feed: Object,
@@ -47,10 +48,7 @@ onMounted(() => {
 
 <template>
   <div class="FeedViewer">
-    <button class="BackButton Flex" @click="goBack">
-      <vue-feather type="arrow-left" stroke-width="1" class="Icon BackButtonIcon"/>
-      Back
-    </button>
+    <BackButton />
     <div class="HeaderBox">
       <h1 class="PageHeader FeedName">{{ feed.name || "NoName" }}</h1>
       <div class="Subtitle">
@@ -279,16 +277,6 @@ onMounted(() => {
 
 .FeedButtons {
   display: flex;
-}
-
-.BackButton {
-  /* float: right; */
-  margin-bottom: var(--space-m);
-  text-decoration-line: none;
-}
-
-.BackButtonIcon {
-  margin-right: var(--space-xxs);
 }
 
 .NewIndicator {
