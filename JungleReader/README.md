@@ -1,6 +1,24 @@
 # JungleReader
 
-This template should help get you started developing with Vue 3 in Vite.
+This is the JungleReader web-reader. Read what you like, and %^&* the rest.
+
+# Dev Guide
+
+Dev server:
+```sh
+npm run dev
+```
+
+Deploy website:
+```sh
+npm run deploy
+```
+
+Deploy iOS:
+```sh
+npm run capsync # To sync changes to iOS/Android proj
+npm run capopen # To open the iOS proj
+```
 
 ## Recommended IDE Setup
 
