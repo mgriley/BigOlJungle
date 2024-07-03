@@ -8,6 +8,7 @@ import GroupEditor from './GroupEditor.vue'
 import FeedEditor from './FeedEditor.vue'
 import AddFeedWidget from './AddFeedWidget.vue'
 import FeedTile from './FeedTile.vue'
+import FeedTileV2 from './FeedTileV2.vue'
 import DeleteButton from './DeleteButton.vue'
 
 const props = defineProps({
@@ -350,7 +351,7 @@ onMounted(() => {
                 >
                   <template #item="{ element }">
                     <template v-if="element.isVisible()">
-                      <FeedTile :feed="element" @editFeed="editFeed" />
+                      <FeedTileV2 :feed="element" @editFeed="editFeed" />
                     </template>
                   </template>
                   <template #footer>
@@ -481,9 +482,13 @@ onMounted(() => {
   padding: var(--space-xs) 0 var(--space-l) var(--space-zero);
   display: flex;
   flex-flow: row wrap;
-  overflow: visible;
+  justify-content: space-around;
+  /* display: grid; */
+  /* grid-template-columns: repeat(3, 1fr); */
+
   /* gap: var(--space-m) var(--space-m); */
-  gap: var(--space-s) var(--space-s);
+  /* gap: var(--space-s) var(--space-s); */
+  gap: var(--space-s) var(--space-xs);
 }
 
 .FeedList.Closed {
