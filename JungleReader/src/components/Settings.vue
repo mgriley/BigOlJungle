@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, FetchMethod, FeedGroup, Feed, kAppStateKey } from '../State.js'
+import { JungleReader, gApp, FetchMethod, FeedGroup, Feed, kAppStateKey } from '../State.js'
 import { getTimeAgoStr } from '../Utils.js'
 import { CustomPlugin, CustomPluginType } from '../PluginLib.js'
 import BasicSelector from './BasicSelector.vue'
@@ -14,6 +14,7 @@ let supportedFetchMethods = [
   FetchMethod.DevProxy
 ]
 
+let enableDevZone = ref(false);
 let devZoneOpen = ref(false);
 
 /*
@@ -108,33 +109,38 @@ onMounted(() => {
     <div class="Settings">
       <h1 class="PageHeader">Settings</h1>
       <div class="SettingsSection">
-        <h4>Persistent Storage</h4>
-        <p class="SmallText">JungleReader stores your config in your browser's storage. To make sure the browser doesn't
-          automatically delete it to clear up space, turn on "persist".</p>
-        <p class="MutedHeader MarginTop">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</p>
-        <button v-if="!persistentStorageOn" @click="enablePersistentStorage">{{ persistentStorageOn ? "Disable" : "Enable" }}</button>
-      </div>
-      <div class="SettingsSection">
+        <h3 class="NoUnderline">Basic</h3>
         <h4>Cloud Sync</h4>
         <p class="SmallText">Connect your Google Drive account to backup and sync the reader between devices.</p>
         <p class="MutedHeader">(Coming Soon!)</p>
       </div>
-      <div class="SettingsSection">
+      <div v-if="JungleReader.getPlatform() == 'web'" class="SettingsSection">
         <h3 class="NoUnderline">Advanced</h3>
+        <div class="MarginBotXS">
+          <h4>Persistent Storage</h4>
+          <p class="SmallText">JungleReader stores your config in your browser's storage. To make sure the browser doesn't
+            automatically delete it to clear up space, turn on "persist".</p>
+          <p class="MutedHeader MarginTop">Persistent Storage: {{ persistentStorageOn ? "On" : "Off" }}</p>
+          <button v-if="!persistentStorageOn" @click="enablePersistentStorage">{{ persistentStorageOn ? "Disable" : "Enable" }}</button>
+        </div>
         <div class="">
           <h4 class="MockButton" @click="fetchMethodOpen = !fetchMethodOpen">Fetch Method{{ fetchMethodOpen ? '' : '...'}}</h4>
           <div v-if="fetchMethodOpen">
             <p class="FetchDesc SmallText">
-            By default, JungleReader proxies requests through our CORS proxy called ToucanProxy. 
+            By default, JungleReader proxies requests through our proxy server called ToucanProxy. 
             It does not collect data.
-            If you prefer, you can also use a custom CORS proxy (coming soon!) or download the JungleExt browser extension.
+            If you prefer, you can also use a custom proxy server (coming soon) or download the JungleExt browser extension (on the web version).
             The DevProxy proxies requests to ToucanProxy running on localhost:8787.
             </p>
             <BasicSelector :value="gApp.fetchMethod.value" :options="supportedFetchMethods"
               @change="(newVal) => gApp.fetchMethod.value = newVal" class="MarginBotM" />
           </div>
         </div>
-        <div class="SubSection">
+        <!-- Hidden btn to show the Dev zone -->
+        <div v-if="!enableDevZone" @click="enableDevZone = true" class="HiddenBtn">
+          HiddenBtn
+        </div>
+        <div v-if="enableDevZone" class="SubSection">
           <h4 class="MockButton" @click="devZoneOpen = !devZoneOpen">Dev Zone{{ devZoneOpen ? "" : "..."}}</h4>
           <template v-if="devZoneOpen">
             <button @click="gApp.resetWelcomePages()" class="SmallButton Block">Reset Welcome Page</button>
@@ -176,5 +182,10 @@ onMounted(() => {
 .MutedHeader {
   font-weight: bold;
   color: var(--secondary-text);
+}
+
+.HiddenBtn {
+  margin-top: 8px;
+  color: transparent;
 }
 </style>

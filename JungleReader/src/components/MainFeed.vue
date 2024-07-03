@@ -78,7 +78,7 @@ function addHelpFeed(args) {
 }
 
 function startAddFeed(optArgs) {
-  addFeedWidget.value.reset();
+  addFeedWidget.value.reset(optArgs);
   feedCreatorModal.value.showModal();
 }
 

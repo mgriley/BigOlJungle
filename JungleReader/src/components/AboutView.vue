@@ -10,7 +10,7 @@
       </p>
       <p>
       It's made to help you keep up with the sites you like,
-      whatever they may be. It supports RSS, Mastodon, YouTube, and more.
+      whatever they may be. It supports YouTube, Reddit, Mastodon, RSS, and more.
       </p>
       <p>
       You'll only see exactly what you've followed. Quickly skim what's new, follow a link or two,
@@ -21,8 +21,7 @@
       add support for almost any other site or data source.
       </p>
       <p>
-      Your data and reader config are stored locally in your browser. The data should stay
-      around even if you clear your browser's cookies / data, but make sure to export your config sometimes. Cloud backup & sync is coming soon.
+      Your data and reader config are stored locally in your browser or device. Cloud backup & sync is coming soon.
       </p>
       <p>
       To add JungleReader support to your own website, go to <router-link class="LinkButton" to="/addsupport">Add Support</router-link>.
@@ -43,7 +42,7 @@
     <div class="MoreInfo">
       <h3>More</h3>
       <p>
-      I develop this site in my spare time, hope you like it! I have more 
+      I develop JungleReader in my spare time, hope you like it! I have more 
       open-source web projects planned (JungleWriter, JungleNode, ...), so stay tuned.
       </p>
       <div class="ExtraWidgets">
@@ -52,7 +51,7 @@
         </ul>
       </div>
       <h3>Sponsor on GitHub</h3>
-      <p class="MarginBotXS">Like like JungleReader? Sponsor development on GitHub:</p>
+      <p class="MarginBotXS">Like JungleReader? Sponsor development on GitHub:</p>
       <iframe src="https://github.com/sponsors/mgriley/button" title="Sponsor mgriley" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
     </div>
     <div class="MoreInfo">

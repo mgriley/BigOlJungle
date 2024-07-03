@@ -16,6 +16,7 @@ let stepNum = ref(1);
 let chosenFeedType = ref(null);
 let feedUrl = ref("");
 let feedUrlInput = ref(null);
+let extraArgs = {};
 
 let supportedFeedTypes = computed(() => {
   let types = []
@@ -42,6 +43,7 @@ function finishFeed() {
     type: chosenFeedType.value.name,
     url: url,
     name: chosenFeedType.value.getAutoNameFromUrl(url),
+    ...extraArgs,
   };
   let feed = gApp.feedReader.addFeed(optArgs);
   // gApp.toast({message: 'Added feed', type: 'success'})
@@ -72,10 +74,11 @@ function chooseFeed(feedType) {
   console.log("FeedType: ", chosenFeedType.value)
 }
 
-function reset() {
+function reset(optArgs) {
   stepNum.value = 1;
   chosenFeedType.value = null;
   feedUrl.value = "";
+  extraArgs = optArgs || {};
 }
 
 defineExpose({
