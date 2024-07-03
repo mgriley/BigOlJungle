@@ -9,11 +9,23 @@ const props = defineProps({
 
 const emit = defineEmits(['editFeed'])
 
+function removePrefix(name, prefix) {
+  if (name.startsWith(prefix)) {
+    return name.slice(prefix.length);
+  }
+  return name;
+}
+
 function getLetterLogo(feed) {
   if (!feed.name) {
     return '?'
   }
-  return feed.name.substring(0, 1).toUpperCase();
+  let name = feed.name;
+  name = removePrefix(name, '/');
+  name = removePrefix(name, 'r/');
+  name = removePrefix(name, '@');
+  name = removePrefix(name, 'www.');
+  return name.substring(0, 1).toUpperCase();
   // return feed.name.substring(0, 1).toLowerCase();
 }
 
@@ -59,8 +71,9 @@ function onFeedClicked(feed) {
   display: flex;
   flex-flow: column nowrap;
 
-  width: 220px;
-  height: 120px;
+  width: 100px;
+  height: 80px;
+
   padding: 0 var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
@@ -125,12 +138,16 @@ function onFeedClicked(feed) {
   /* font-size: var(--p-size); */
   /* font-size: var(--small-size); */
   margin-top: auto;
-  font-size: var(--small-size);
+  /* font-size: var(--small-size); */
   font-weight: var(--bold-weight);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
+
+  font-size: var(--xs-size);
+  font-weight: normal;
+  letter-spacing: -1px;
 
   text-decoration-line: underline;
   text-decoration-color: DeepPink;
@@ -165,6 +182,10 @@ function onFeedClicked(feed) {
   font-size: var(--xxs-size);
   color: var(--main-text);
   text-align: center;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .FeedTile {
@@ -209,25 +230,6 @@ function onFeedClicked(feed) {
 }
 
 @media (max-width: 768px) {
-  .FeedTile {
-    width: 100px;
-    height: 80px;
-  }
-
-  .FeedTitle {
-    font-size: var(--xs-size);
-    font-weight: normal;
-    letter-spacing: -1px;
-  }
-
-  .FeedTile.HasUnread {
-    border-color: var(--attn-color);
-    border-width: 2px;
-  }
-
-  .UpdateDaysAgo {
-    font-size: var(--xxs-size);
-  }
 }
 
 </style>
