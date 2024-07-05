@@ -6,7 +6,8 @@ import App from './App.vue'
 import { initGlobalReader } from './State.js'
 
 import ToastPlugin from 'vue-toast-notification'
-import 'vue-toast-notification/dist/theme-default.css';
+// import 'vue-toast-notification/dist/theme-default.css';
+import './toast-theme.css';
 
 import VueFeather from 'vue-feather';
 
@@ -58,6 +59,10 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes: routes,
+  scrollBehavior(to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
 })
 
 const app = createApp(App)
