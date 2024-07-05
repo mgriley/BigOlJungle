@@ -42,7 +42,8 @@ function onFeedClicked(feed) {
 
 <template>
   <div class="FeedTile" :class="{Reloading: feed.isReloading(), HasUnread: feed.hasUnreadContent()}" @click="onFeedClicked(feed)">
-    <div class="BgImg">
+    <div class="BgImgV2">
+      <img class="Favicon" :src="feed.getFavicon()" />
       <p class="LogoLetter">{{getLetterLogo(feed)}}</p>
     </div>
     <div class="FeedTextContainer">
@@ -60,6 +61,9 @@ function onFeedClicked(feed) {
         <template v-else>
           <p class="ReloadingText">Reloading...</p>
         </template>
+        <div v-if="feed.hasUnreadContent()" class="UnreadIcon">
+          <!-- <p class="Asterisk"><vue-feather type="bell" size="16" /></p> -->
+        </div>
       </div>
     </div>
   </div>
@@ -71,19 +75,25 @@ function onFeedClicked(feed) {
   display: flex;
   flex-flow: column nowrap;
 
-  width: 100px;
-  height: 80px;
+  /* width: 120px; */
+  width: 140px;
+  height: 90px;
 
-  padding: 0 var(--space-xs);
+  /* padding: var(--space-xxs) var(--space-xs); */
+  padding: var(--space-xs) var(--space-xs);
   cursor: pointer;
   transition: all 0.1s ease;
   /* overflow: hidden; */
   z-index: 0;
 
   background-color: var(--main-bg);
-  border-radius: var(--border-radius-small);
+  /* border-radius: var(--border-radius-small); */
   /* border: 1px solid var(--main-text); */
-  border: 1px solid var(--brand-color-b);
+  /* border: 1px solid var(--brand-color-b); */
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* border: 1px solid grey; */
+  border-radius: 8px;
 }
 
 .BgImg {
@@ -96,9 +106,23 @@ function onFeedClicked(feed) {
   height: 100%;
 }
 
+.BgImgV2 {
+  position: relative;
+  display: flex;
+}
+
+.Favicon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+}
+
 .LogoLetter {
   margin: 0 auto;
-  font-size: 60px;
+  margin-bottom: -12px;
+  font-size: 48px;
   font-weight: bold;
   line-height: 1;
 
@@ -106,7 +130,7 @@ function onFeedClicked(feed) {
   /* opacity: 0.4; */
 
   color: transparent;
-  -webkit-text-stroke: 1px grey;
+  -webkit-text-stroke: 1px var(--brand-color-yellow);
   /* text-stroke: 1px grey; */
 
   /* font-family: 'Arial Black'; */
@@ -188,14 +212,8 @@ function onFeedClicked(feed) {
   white-space: nowrap;
 }
 
-.FeedTile {
-  border: none;
-  /* border: 1px solid rgba(255, 255, 255, 0.1); */
-  border-radius: 8px;
-}
-
 .FeedTile.HasUnread {
-  /* border: 1px solid DeepPink; */
+  border: 2px solid DeepPink;
 }
 
 .FeedTile.HasUnread .LogoLetter {
@@ -230,6 +248,22 @@ function onFeedClicked(feed) {
 }
 
 @media (max-width: 768px) {
+}
+
+.UnreadIcon {
+  display: none;
+  --width: 18px;
+  position: absolute;
+  z-index: 1;
+  width: var(--width);
+  height: var(--width);
+  top: calc(var(--width) * -0.5);
+  right: calc(var(--width) * -0.5);
+  background-color: DeepPink; 
+  /* border-radius: calc(var(--width) / 2); */
+
+  border: 4px solid var(--main-bg);
+  border-radius: 6px;
 }
 
 </style>

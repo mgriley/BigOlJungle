@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue'
 import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { addElem, removeElem, clearArray,
   replaceArray, curTimeSecs, prettyJson,
   optionsToJson, jsonToOptions, downloadTextFile,
@@ -772,11 +773,28 @@ export class JungleReader {
     }
   }
 
+  async downloadTextFile(data, filename) {
+    if (JungleReader.getPlatform() == 'web') {
+      downloadTextFile(data, filename);
+    } else {
+      await Filesystem.writeFile({
+        path: filename,
+        data: data,
+        directory: Directory.Documents,
+        encoding: Encoding.UTF8,
+      });
+      this.toast({
+        message: "Saved to Files",
+        type: 'success'
+      });
+    }
+  }
+
   exportConfig() {
     console.log("Exporting config")
     let stateData = this.writeStateToJson();
     let jsonData = prettyJson(stateData);
-    downloadTextFile(jsonData, "JungleReaderConfig.txt");
+    this.downloadTextFile(jsonData, "JungleReaderConfig.txt");
   }
 
   exportOpml() {
@@ -813,7 +831,7 @@ export class JungleReader {
     };
     console.log("Exporting as OPML")
     let outputData = formatXML(makeOpml(this.feedReader.groups));
-    downloadTextFile(outputData, "JungleReaderOPML.txt");
+    this.downloadTextFile(outputData, "JungleReaderOPML.txt");
   }
 
   exportData(exportType) {

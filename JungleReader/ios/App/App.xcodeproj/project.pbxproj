@@ -15,6 +15,7 @@
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
+		FBBD73A92C35F977004D6EA9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FBBD73A82C35F977004D6EA9 /* PrivacyInfo.xcprivacy */; };
 		FBCC288A2C30C5B200A6550A /* AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCC28892C30C5B200A6550A /* AppUITests.swift */; };
 		FBCC288C2C30C5B200A6550A /* AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCC288B2C30C5B200A6550A /* AppUITestsLaunchTests.swift */; };
 		FBCC28932C30C5EB00A6550A /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCC28922C30C5EB00A6550A /* SnapshotHelper.swift */; };
@@ -42,6 +43,7 @@
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
 		AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
+		FBBD73A82C35F977004D6EA9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		FBCC28872C30C5B200A6550A /* AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBCC28892C30C5B200A6550A /* AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUITests.swift; sourceTree = "<group>"; };
 		FBCC288B2C30C5B200A6550A /* AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 		504EC2FB1FED79650016851F = {
 			isa = PBXGroup;
 			children = (
+				FBBD73A82C35F977004D6EA9 /* PrivacyInfo.xcprivacy */,
 				504EC3061FED79650016851F /* App */,
 				FBCC28882C30C5B200A6550A /* AppUITests */,
 				504EC3051FED79650016851F /* Products */,
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */,
+				FBBD73A92C35F977004D6EA9 /* PrivacyInfo.xcprivacy in Resources */,
 				50B271D11FEDC1A000F3C39B /* public in Resources */,
 				504EC30F1FED79650016851F /* Assets.xcassets in Resources */,
 				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
