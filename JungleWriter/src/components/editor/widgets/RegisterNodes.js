@@ -17,13 +17,17 @@ import { RectNode } from './RectNode.js'
 import RectWidget from './RectWidget.vue'
 import RectWidgetEditor from './RectWidgetEditor.vue'
 
+/*
 import { LinksNode } from './LinksNode.js'
 import LinksWidget from './LinksWidget.vue'
 import LinksWidgetEditor from './LinksWidgetEditor.vue'
+*/
 
+/*
 import { OmniNode } from './OmniNode.js'
 import OmniWidget from './OmniWidget.vue'
 import OmniWidgetEditor from './OmniWidgetEditor.vue'
+*/
 
 // Register all nodes types here
 export function registerNodeTypes() {
@@ -53,18 +57,22 @@ export function registerNodeTypes() {
       widget: RectWidget,
       editor: RectWidgetEditor,
     },
+    /*
     "LinksNode": {
       uiName: "Links",
       nodeClass: LinksNode,
       widget: LinksWidget,
       editor: LinksWidgetEditor,
     },
+    */
+    /*
     "OmniNode": {
       uiName: "Omni",
       nodeClass: OmniNode,
       widget: OmniWidget,
       editor: OmniWidgetEditor,
     },
+    */
   });
 }
 

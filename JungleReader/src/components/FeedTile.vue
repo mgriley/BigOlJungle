@@ -210,7 +210,7 @@ function onFeedClicked(feed) {
   border-radius: 6px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .FeedTile {
     width: 100%;
     height: 80px;

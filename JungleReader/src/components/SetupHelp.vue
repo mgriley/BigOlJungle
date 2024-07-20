@@ -107,7 +107,7 @@ ol {
   padding: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .MobileWarning {
     display: block;
   }

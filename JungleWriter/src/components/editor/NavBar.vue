@@ -26,7 +26,7 @@ import { kMenuItems } from './State.js'
   top: 16px;
   left: 16px;
   display: inline-block;
-  z-index: 10;
+  z-index: 2000;
 }
 
 .MenuIcon {

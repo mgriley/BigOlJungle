@@ -603,7 +603,7 @@ onMounted(() => {
   font-size: var(--small-size);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .ButtonMenu {
     /* flex-flow: column nowrap; */
     gap: var(--space-xxs);
@@ -707,7 +707,7 @@ onMounted(() => {
 .DesktopOnly {
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .MobileOnly {
     display: flex;
   }

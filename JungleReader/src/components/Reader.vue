@@ -365,7 +365,7 @@ Note: this somewhat odd page structure is because chrome was having flicker issu
 Display a single column on mobile.
 Also collapse the menu.
 */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .toplevel {
     max-width: 100%;
     padding: var(--space-s) var(--space-s);

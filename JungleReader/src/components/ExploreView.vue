@@ -169,7 +169,7 @@ function addFeed(name, type, url) {
   gap: 1px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .GroupItems {
     grid-template-columns: repeat(3, 1fr);
   }

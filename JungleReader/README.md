@@ -20,6 +20,14 @@ npm run capsync # To sync changes to iOS/Android proj
 npm run capopen # To open the iOS proj
 ```
 
+Generate assets (splash and icon):
+npx capacitor-assets generate
+npm run capsync
+
+Generate screenshots:
+cd ios/App
+fastlane snapshot
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).

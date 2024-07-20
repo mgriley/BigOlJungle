@@ -140,7 +140,7 @@
   --safe-area-inset-left: env(safe-area-inset-left);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   /* Update sizes for mobile */
   :root {
     --p-size: 18px;
@@ -167,7 +167,7 @@ html {
   overflow-y: scroll;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   html {
     background: var(--darkest-color);
   }
@@ -194,7 +194,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   body {
     /* background-image: none; */
   }

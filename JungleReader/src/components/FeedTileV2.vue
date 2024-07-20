@@ -247,7 +247,7 @@ function onFeedClicked(feed) {
   border-radius: 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 }
 
 .UnreadIcon {
