@@ -1,6 +1,25 @@
 # JungleReader
 
-This is the JungleReader web-reader. Read what you like, and %^&* the rest.
+This is the JungleReader web-reader. Read what you like, and skip the rest.
+
+Available on web and iOS:
+- www.zajungle.com
+- Search "JungleReader" on iOS app store
+
+# About
+
+## Features
+- Supports: RSS, Mastodon, YouTube, and Reddit
+- Free + open-source under AGPL license.
+- All data stored locally
+- Follow blogs without RSS support
+- Custom plugin support: Write custom scripts to parse websites that don't support RSS. They run locally in a sandbox within the web-app.
+
+## Still needs:
+- Twitter support
+- Android app
+- Sync data to cloud storage
+- And so on
 
 # Dev Guide
 

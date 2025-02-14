@@ -236,7 +236,7 @@ onMounted(() => {
     <div v-if="!gApp.isDoneFeedSetup()" class="HelpText AlertPane">
       <h1 class="PageHeader MarginBotXXS">Welcome!</h1>
       <p class="IntroHelp MarginBotXS">
-        JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read what you like, and {{JungleReader.getPlatform() == 'web' ? '$%^*}' : 'duck'}} the rest.
+        JungleReader is a <b>free</b> and <b>open-source</b> feed reader. Read what you like, and {{JungleReader.getPlatform() == 'web' ? 'skip' : 'skip'}} the rest.
       </p>
       <div class="MarginBotXS">
         <h4 class="MarginBotXXS">Supports</h4>
