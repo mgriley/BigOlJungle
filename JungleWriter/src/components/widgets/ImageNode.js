@@ -1,6 +1,7 @@
 import { reactive, ref, watchEffect, watch, nextTick } from 'vue'
 import { gApp, Node } from '../State.js'
 import { extendMap, AsyncValue } from '../Utils.js'
+import { createElementString } from '../StaticSiteTemplates.js'
 
 export class ImageNode extends Node {
   static sUiShortName = "I";
@@ -137,7 +138,23 @@ export class ImageNode extends Node {
   }
 
   async generateStaticHtml(writer) {
-    return `<p>Not yet implemented</p>`;
+    let imgStyleObject = this.getImgStyleObject();
+    let imgHtml = createElementString(
+      'img', 
+      {
+        class: "",
+        src: this.srcName,
+        alt: this.altText
+      }, 
+      imgStyleObject
+    );
+    
+    return createElementString(
+      'div', 
+      {class: "Widget ImageWidget"}, 
+      this.getStyleObject(),
+      imgHtml
+    );
   }
 };
 
