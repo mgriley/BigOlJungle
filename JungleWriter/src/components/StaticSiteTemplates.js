@@ -26,14 +26,19 @@ export let StaticIndexHtml = `<!DOCTYPE html>
 export let StaticStylesCss = `
 `
 
+function camelToKebab(str) {
+  return str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+}
+
 export function stylesDictToInlineString(stylesDict) {
   /**
-   * Given a dict like {"color": "red", "font-size": "12px"},
+   * Given a dict like {"color": "red", "fontSize": "12px"},
    * make a string like 'color: red; font-size: 12px;'
    */
   let strings = [];
   for (let [key, value] of Object.entries(stylesDict)) {
-    strings.push(`${key}: ${value};`);
+    let kebabKey = camelToKebab(key);
+    strings.push(`${kebabKey}: ${value};`);
   }
   return strings.join(' ');
 }
