@@ -380,6 +380,7 @@ class Site {
     this.editor = editor;
     this.id = id;
     this.name = "";
+    this.version = "1";
     this.nodeTree = new NodeTree();
     this.selectedEntity = null;
     this.settings = new SiteSettings();
@@ -401,6 +402,7 @@ class Site {
     let obj = {
       id: this.id,
       name: this.name,
+      version: this.version,
       nodeTree: this.nodeTree.writeToJson(),
       settings: this.settings.writeToJson(),
       postsFeed: this.postsFeed.writeToJson(),
@@ -414,6 +416,9 @@ class Site {
   readFromJson(obj) {
     this.id = obj.id;
     this.name = obj.name;
+    if ('version' in obj) {
+      this.version = obj.version;
+    }
     this.nodeTree.readFromJson(obj.nodeTree);
     this.settings.readFromJson(obj.settings);
     if ('postsFeed' in obj) {
