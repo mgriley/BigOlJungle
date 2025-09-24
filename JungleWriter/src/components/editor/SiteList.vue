@@ -7,6 +7,7 @@ import DevView from './DevView.vue'
 let createSiteModal = ref(null);
 let siteToAdd = ref(null);
 let devModal = ref(null);
+let fileInput = ref(null);
 
 class SiteData {
   constructor() {
@@ -38,6 +39,27 @@ function onCloseDevView() {
   // Modal handles closing itself
 }
 
+function importSite() {
+  fileInput.value.click();
+}
+
+async function onFileSelected(event) {
+  const file = event.target.files[0];
+  if (file && file.type === 'application/zip') {
+    try {
+      await gApp.importSite(file);
+      console.log('Site imported successfully');
+    } catch (error) {
+      console.error('Failed to import site:', error);
+      alert('Failed to import site. Please check the console for details.');
+    }
+  } else {
+    alert('Please select a valid ZIP file.');
+  }
+  // Reset the file input
+  event.target.value = '';
+}
+
 </script>
 
 <template>
@@ -46,6 +68,7 @@ function onCloseDevView() {
       <h1 class="PageHeader">Site List</h1>
       <div class="MarginBotS">
         <button @click="addSite">Add Site</button>
+        <button @click="importSite">Import</button>
         <button @click="showDevView" class="TertiaryButton">Developer Tools</button>
       </div>
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.selectSiteById(site.id)">
@@ -66,6 +89,13 @@ function onCloseDevView() {
       :showDone="false" cancelText="Close" @onCancel="onCloseDevView">
       <DevView />
     </BasicModal>
+    <input 
+      ref="fileInput" 
+      type="file" 
+      accept=".zip" 
+      @change="onFileSelected" 
+      style="display: none;"
+    />
   </div>
 </template>
 
