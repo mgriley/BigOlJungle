@@ -11,7 +11,6 @@ import HomeEditor from './components/editor/HomeEditor.vue'
 import FeedEditor from './components/editor/FeedEditor.vue'
 import FilesPageEditor from './components/editor/FilesPageEditor.vue'
 import DevView from './components/editor/DevView.vue'
-import SiteList from './components/editor/SiteList.vue'
 
 async function loadApp() {
   const routes = [
@@ -23,9 +22,6 @@ async function loadApp() {
     },
     {
       path: '/dev', name: 'dev', component: DevView,
-    },
-    {
-      path: '/sitelist', name: 'sitelist', component: SiteList,
     },
   ];
 

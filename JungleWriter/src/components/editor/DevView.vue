@@ -1,8 +1,8 @@
 <script setup>
 import { gApp } from './State.js'
 
-function goToSiteList() {
-  gApp.router.push({name: 'sitelist'});
+function goBack() {
+  gApp.router.back();
 }
 
 </script>
@@ -12,7 +12,7 @@ function goToSiteList() {
     <div class="DevView">
       <h1 class="PageHeader">Developer Tools</h1>
       <div class="MarginBotS">
-        <button @click="goToSiteList">Back to Site List</button>
+        <button @click="goBack">Back</button>
       </div>
       <div class="DevControls">
         <div>Debug Controls</div>
