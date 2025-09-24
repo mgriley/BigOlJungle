@@ -145,6 +145,11 @@ export function isValidUrl(urlString) {
 export function downloadTextFile(contents, filename) {
   // See: https://web.dev/patterns/files/save-a-file/
   const blob = new Blob([contents], { type: 'text/plain' });
+  downloadBlobFile(blob, filename);
+}
+
+export function downloadBlobFile(blob, filename) {
+  // See: https://web.dev/patterns/files/save-a-file/
   const blobURL = URL.createObjectURL(blob);
   // Create invisible link element and trigger
   const a = document.createElement('a');
