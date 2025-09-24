@@ -12,7 +12,7 @@ let rootNode = computed(() => {
 })
 
 function onClickBackground(evt) {
-  /*console.log("TargetId: "+evt.target.id);*/
+  console.log("Clicked background. TargetId: " + evt.target.id);
   if (evt.target.id == "Main") {
     gApp.site.deselectAll();
   }
