@@ -572,10 +572,12 @@ class Editor {
     console.log("Saved app:", prettyJson(obj));
   }
 
-  load() {
+  async load() {
     // TODO - handle errors
-    let data = this.userStorage.getItem(`app/data`);
-    if (data) {
+    let dataFile = await this.fileStorage.root.findChild("app_data.json");
+    if (dataFile) {
+      let jsonStr = await dataFile.readText();
+      let data = JSON.parse(jsonStr);
       this.readFromJson(data);
     }
   }
@@ -591,7 +593,7 @@ class Editor {
     this.fileStorage.setRoot(fileRootDir);
 
     console.log("Loading app...");
-    this.load();
+    await this.load();
 
     // Trigger this event to get the Nodes that depend on the FileStorage setup properly
     //this.fileStorage.onChangeEvt.emit();
