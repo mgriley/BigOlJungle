@@ -433,20 +433,29 @@ class Site {
     this.filesPageConfig = obj.filesPageConfig || "";
   }
 
-  save() {
+  async save() {
     // TODO - handle errors
     let obj = this.writeToJson();
-    this.editor.userStorage.setItem(`sites/${this.id}/data`, obj);
+    let jsonStr = prettyJson(obj);
+    let dataFile = await this.siteDir.findChild("data.json");
+    if (!dataFile) {
+      dataFile = await this.siteDir.createFile("data.json");
+    }
+    await dataFile.writeContents(jsonStr);
     console.log("Saved site:", prettyJson(obj));
   }
 
-  static load(editor, siteId, siteDir) {
+  static async load(editor, siteId, siteDir) {
     // TODO - handle errors
     console.log("Loading site with id: ", siteId);
-    let siteData = editor.userStorage.getItem(`sites/${siteId}/data`);
-    console.log("Site data:", prettyJson(siteData));
+    let dataFile = await siteDir.findChild("data.json");
     let site = new Site(editor, siteId, siteDir);
-    site.readFromJson(siteData);
+    if (dataFile) {
+      let jsonStr = await dataFile.readText();
+      let siteData = JSON.parse(jsonStr);
+      console.log("Site data:", prettyJson(siteData));
+      site.readFromJson(siteData);
+    }
     return site;
   }
 
@@ -606,7 +615,7 @@ class Editor {
       if (site.id == siteId) {
         if (!site.ptr) {
           let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
-          site.ptr = reactive(Site.load(this, site.id, siteDir));
+          site.ptr = reactive(await Site.load(this, site.id, siteDir));
         }
         return site.ptr;
       }
