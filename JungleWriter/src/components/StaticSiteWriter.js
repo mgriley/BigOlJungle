@@ -16,6 +16,7 @@ export class StaticSiteWriter {
     this.zip = new JSZip();
     this.cssBlocks = new Map();
     this.siteName = siteName;
+    this.addedFiles = new Set();
 
     this._addDefaultCss();
   }
@@ -40,11 +41,17 @@ export class StaticSiteWriter {
   }
 
   addTextFile(path, content) {
-    this.zip.file(`${this.siteName}/${path}`, content);
+    if (!this.addedFiles.has(path)) {
+      this.zip.file(`${this.siteName}/${path}`, content);
+      this.addedFiles.add(path);
+    }
   }
 
   addBlobFile(path, blob) {
-    this.zip.file(`${this.siteName}/${path}`, blob);
+    if (!this.addedFiles.has(path)) {
+      this.zip.file(`${this.siteName}/${path}`, blob);
+      this.addedFiles.add(path);
+    }
   }
 
   addStyleBlock(key, cssString) {
