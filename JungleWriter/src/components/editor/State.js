@@ -4,7 +4,7 @@ import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import { downloadTextFile, downloadBlobFile } from 'Shared/SharedUtils.js'
-import JSZip from 'jszip'
+import { StaticSiteWriter } from './StaticSiteWriter.js'
 
 import { Marked } from 'marked';
 
@@ -233,6 +233,16 @@ class Node {
     }
   }
 
+  generateStaticSite(writer) {
+    /**
+     * File HTML for this node to the proper place in the static site using
+     * the given StaticSiteWriter.
+     * 
+     * Override in subclasses as needed.
+     */
+
+  }
+
   // Same as Dfs variant but iterates in post-order because the last child
   // of any node is rendered on top of earlier children.
   /*
@@ -267,6 +277,10 @@ class NodeTree {
   readFromJson(obj) {
     // console.log("Reading NodeTree:", prettyJson(obj));
     this.root.readFromJson(obj.root);
+  }
+
+  async generateStaticSite(writer) {
+    return await this.root.generateStaticSite(writer);
   }
 };
 
@@ -473,6 +487,16 @@ class Site {
     } catch (error) {
       console.error('Failed to export site:', error);
     }
+  }
+
+  async generateStaticSite() {
+    /**
+     * Returns a zip blob of the static site.
+     */
+    let writer = new StaticSiteWriter();
+
+    let site = await this.nodeTree.generateStaticSite(writer);
+    return site;
   }
 
   deployZip() {
