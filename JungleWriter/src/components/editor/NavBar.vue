@@ -13,6 +13,14 @@ function onExportProjectFile() {
   }
 }
 
+function onGenerateStaticSite() {
+  if (gApp.site) {
+    gApp.site.generateStaticSite();
+  } else {
+    console.log("No site selected to generate static site");
+  }
+}
+
 function onNewFile() {
 }
 
@@ -83,6 +91,10 @@ const kMenuItems = [
   {
     name: "Export Project File",
     action: onExportProjectFile
+  },
+  {
+    name: "Generate Static Site",
+    action: onGenerateStaticSite
   },
   {
     name: "Settings"
