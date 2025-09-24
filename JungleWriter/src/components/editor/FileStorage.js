@@ -308,6 +308,44 @@ class DirObj extends BaseObj {
       }
     }
   }
+
+  async importZip(zipBlob) {
+    try {
+      const zip = new JSZip();
+      const zipContents = await zip.loadAsync(zipBlob);
+      
+      // Process each file in the zip
+      for (const [relativePath, zipEntry] of Object.entries(zipContents.files)) {
+        if (zipEntry.dir) {
+          // Create directory
+          await this.findOrCreateDir(relativePath);
+        } else {
+          // Create file
+          const pathParts = relativePath.split('/');
+          const fileName = pathParts.pop();
+          const dirPath = pathParts.join('/');
+          
+          let targetDir = this;
+          if (dirPath) {
+            targetDir = await this.findOrCreateDir(dirPath);
+          }
+          
+          // Get file content as blob
+          const fileBlob = await zipEntry.async('blob');
+          
+          // Create the file and write contents
+          const fileObj = await targetDir.createFile(fileName);
+          await fileObj.writeContents(fileBlob);
+        }
+      }
+      
+      this.emitChangeEvt();
+      console.log('Zip imported successfully');
+    } catch (error) {
+      console.error('Failed to import zip:', error);
+      throw error;
+    }
+  }
 };
 
 export class FileStorage {
