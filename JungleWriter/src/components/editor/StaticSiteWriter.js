@@ -20,16 +20,23 @@ export class StaticSiteWriter {
     this._addDefaultCss();
   }
 
+  _removeImportLines(cssString) {
+    return cssString
+      .split('\n')
+      .filter(line => !line.trim().startsWith('@import'))
+      .join('\n');
+  }
+
   _addDefaultCss() {
     /**
      * We add the default styles used in the editor to the site so that
      * what we see in the site matches the editor.
      */
-    this.addStyleBlock('base', baseCss);
-    this.addStyleBlock('utils', utilsCss);
-    this.addStyleBlock('buttons', buttonsCss);
-    this.addStyleBlock('writer', writerCss);
-    this.addStyleBlock('main', mainCss);
+    this.addStyleBlock('base', this._removeImportLines(baseCss));
+    this.addStyleBlock('utils', this._removeImportLines(utilsCss));
+    this.addStyleBlock('buttons', this._removeImportLines(buttonsCss));
+    this.addStyleBlock('writer', this._removeImportLines(writerCss));
+    this.addStyleBlock('main', this._removeImportLines(mainCss));
   }
 
   addTextFile(path, content) {
