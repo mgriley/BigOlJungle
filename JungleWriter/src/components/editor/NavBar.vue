@@ -5,6 +5,14 @@ function onDeploy() {
   console.log("Deploying!")
 }
 
+function onExportSite() {
+  if (gApp.site) {
+    gApp.site.exportSite();
+  } else {
+    console.log("No site selected to export");
+  }
+}
+
 function onNewFile() {
 }
 
@@ -71,6 +79,10 @@ const kMenuItems = [
   {
     name: "Deploy",
     action: onDeploy
+  },
+  {
+    name: "Export Site",
+    action: onExportSite
   },
   {
     name: "Settings"
