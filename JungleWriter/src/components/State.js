@@ -529,6 +529,10 @@ class Site {
     try {
       let writer = new StaticSiteWriter(this.name || 'site');
 
+      // Select everything to avoid style-related issues that
+      // change the style based on selection state.
+      this.deselectAll();
+
       let nodesHtml = await this.nodeTree.generateStaticHtml(writer);
       let indexHtmlStr = StaticIndexHtml;
       indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", writer.siteName);
