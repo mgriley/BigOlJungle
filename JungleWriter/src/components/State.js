@@ -8,6 +8,7 @@ import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
 } from './StaticSiteTemplates.js'
+import { ImageNode } from './widgets/ImageNode.js'
 
 import { Marked } from 'marked';
 
@@ -687,10 +688,66 @@ class Editor {
     console.log("Loading app...");
     await this.load();
 
+    // Set up paste event listener for images
+    this._setupPasteListener();
+
     // Trigger this event to get the Nodes that depend on the FileStorage setup properly
     //this.fileStorage.onChangeEvt.emit();
 
     console.log("Started");
+  }
+
+  _setupPasteListener() {
+    window.addEventListener('paste', async (event) => {
+      // Only handle paste if we have a site and are in editing mode
+      if (!this.site || !this.site.isEditing) {
+        return;
+      }
+
+      const clipboardItems = event.clipboardData?.items;
+      if (!clipboardItems) {
+        return;
+      }
+
+      for (const item of clipboardItems) {
+        if (item.type.startsWith('image/')) {
+          event.preventDefault();
+          
+          const file = item.getAsFile();
+          if (!file) {
+            continue;
+          }
+
+          try {
+            // Generate a unique filename
+            const timestamp = Date.now();
+            const extension = file.type.split('/')[1] || 'png';
+            const filename = `pasted_image_${timestamp}.${extension}`;
+
+            // Save the image file to the site directory
+            const imageFile = await this.site.siteDir.createFile(filename);
+            await imageFile.writeContents(file);
+
+            // Create a new ImageNode
+            const imageNode = reactive(new ImageNode());
+            imageNode.onCreate();
+            imageNode.srcName = filename;
+            imageNode.name = `Image (${filename})`;
+
+            // Add the node to the root of the node tree
+            this.site.nodeTree.root.addChild(imageNode);
+
+            // Select the newly created node
+            this.site.selectNode(imageNode);
+
+            console.log(`Created ImageNode for pasted image: ${filename}`);
+            break; // Only handle the first image
+          } catch (error) {
+            console.error('Failed to handle pasted image:', error);
+          }
+        }
+      }
+    });
   }
 
   async createSite() {
