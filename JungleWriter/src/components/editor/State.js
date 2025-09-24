@@ -15,11 +15,6 @@ var gState = {
   nodeLookupMap: {},
 };
 
-let kNodeStyleBlock = `/* Styles for Node */
-.Widget {
-}
-`
-
 class Node {
   static sUiShortName = "G";
 
@@ -245,12 +240,7 @@ class Node {
      * 
      * Override in subclasses as needed.
      */
-    let nodeStyles = `/* Styles for Node */
-    Widget {
-      position: absolute;
-    }
-  `
-    writer.addStyleBlock(, );
+    // TODO
   }
 
   // Same as Dfs variant but iterates in post-order because the last child

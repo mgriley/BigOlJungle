@@ -1,5 +1,11 @@
 import JSZip from 'jszip'
 
+import baseCss from '../../assets/base.css?raw'
+import utilsCss from '../../assets/utils.css?raw'
+import buttonsCss from '../../assets/buttons.css?raw'
+import writerCss from '../../assets/writer.css?raw'
+import mainCss from '../../assets/main.css?raw'
+
 /**
  * Writer for the static site export format.
  * 
@@ -9,6 +15,20 @@ export class StaticSiteWriter {
   constructor() {
     this.zip = new JSZip();
     this.cssBlocks = new Map();
+
+    this._addDefaultCss();
+  }
+
+  _addDefaultCss() {
+    /**
+     * We add the default styles used in the editor to the site so that
+     * what we see in the site matches the editor.
+     */
+    this.addStyleBlock('base', baseCss);
+    this.addStyleBlock('utils', utilsCss);
+    this.addStyleBlock('buttons', buttonsCss);
+    this.addStyleBlock('writer', writerCss);
+    this.addStyleBlock('main', mainCss);
   }
 
   addTextFile(path, content) {
@@ -21,7 +41,8 @@ export class StaticSiteWriter {
 
   addStyleBlock(key, cssString) {
     if (!this.cssBlocks.has(key)) {
-      this.cssBlocks.set(key, cssString);
+      let styleBlockString = `/* STYLE BLOCK - ${key} */\n\n` + cssString;
+      this.cssBlocks.set(key, styleBlockString);
     }
   }
 
