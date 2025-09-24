@@ -8,6 +8,7 @@ import JSZip from 'jszip'
 export class StaticSiteWriter {
   constructor() {
     this.zip = new JSZip();
+    this.cssBlocks = new Map();
   }
 
   addTextFile(path, content) {
@@ -18,7 +19,19 @@ export class StaticSiteWriter {
     this.zip.file(path, blob);
   }
 
+  addStyleBlock(key, cssString) {
+    if (!this.cssBlocks.has(key)) {
+      this.cssBlocks.set(key, cssString);
+    }
+  }
+
   async finalize() {
+    // Add the combined CSS file if there are any style blocks
+    if (this.cssBlocks.size > 0) {
+      const combinedCSS = Array.from(this.cssBlocks.values()).join('\n\n');
+      this.addTextFile('styles.css', combinedCSS);
+    }
+    
     return await this.zip.generateAsync({type: 'blob'});
   }
 }
