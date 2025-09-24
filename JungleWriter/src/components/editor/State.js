@@ -677,7 +677,14 @@ class Editor {
         try {
           const jsonStr = await dataFile.readText();
           const siteData = JSON.parse(jsonStr);
+          
+          // Store the original site ID before reading from JSON
+          const originalSiteId = site.id;
+          
           site.readFromJson(siteData);
+          
+          // Ensure the site keeps its new unique ID
+          site.id = originalSiteId;
           
           // Update the site name in the sites list
           for (const siteEntry of this.sites) {
