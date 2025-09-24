@@ -659,30 +659,6 @@ function goToSites() {
   gApp.deselectSite();
 }
 
-export function goToHomeEditor() {
-  console.log("Going to home");
-  gApp.router.push({name: "home"});
-}
-
-export function goToFeedEditor() {
-  console.log("Going to feed");
-  gApp.router.push({name: "feed"});
-}
-
-export function goToBlogEditor() {
-  console.log("Going to blog");
-  gApp.router.push({name: "blog"});
-}
-
-export function goToFilesEditor() {
-  console.log("Going to files");
-  gApp.router.push({name: "files"})
-}
-
-export function goToGalleryEditor() {
-  console.log("Going to gallery");
-  gApp.router.push({name: "gallery"})
-}
 
 async function initGlobalApp(router) {
   gApp = new Editor(router);

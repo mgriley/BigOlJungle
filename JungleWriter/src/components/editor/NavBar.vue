@@ -1,12 +1,5 @@
 <script setup>
-import { 
-  gApp,
-  goToHomeEditor, 
-  goToFeedEditor, 
-  goToBlogEditor, 
-  goToFilesEditor, 
-  goToGalleryEditor 
-} from './State.js'
+import { gApp } from './State.js'
 
 function onDeploy() {
   console.log("Deploying!")
@@ -23,6 +16,31 @@ function onSaveFile() {
 
 function goToSites() {
   gApp.deselectSite();
+}
+
+function goToHomeEditor() {
+  console.log("Going to home");
+  gApp.router.push({name: "home"});
+}
+
+function goToFeedEditor() {
+  console.log("Going to feed");
+  gApp.router.push({name: "feed"});
+}
+
+function goToBlogEditor() {
+  console.log("Going to blog");
+  gApp.router.push({name: "blog"});
+}
+
+function goToFilesEditor() {
+  console.log("Going to files");
+  gApp.router.push({name: "files"})
+}
+
+function goToGalleryEditor() {
+  console.log("Going to gallery");
+  gApp.router.push({name: "gallery"})
 }
 
 const kMenuItems = [
