@@ -3,6 +3,7 @@ import { removeItem, prettyJson, AsyncValue } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
+import { downloadTextFile } from 'Shared/SharedUtils.js'
 
 import { Marked } from 'marked';
 
@@ -463,7 +464,29 @@ class Site {
     return this.siteDir;
   }
 
-  exportSite() {
+  async export() {
+    try {
+      const zipBlob = await this.siteDir.exportToZip();
+      const zipUrl = URL.createObjectURL(zipBlob);
+      
+      // Create invisible link element and trigger download
+      const a = document.createElement('a');
+      a.href = zipUrl;
+      a.download = `${this.name || 'site'}_export.zip`;
+      a.style.display = 'none';
+      document.body.append(a);
+      a.click();
+
+      // Clean up
+      setTimeout(() => {
+        URL.revokeObjectURL(zipUrl);
+        a.remove();
+      }, 1000);
+      
+      console.log('Site exported successfully');
+    } catch (error) {
+      console.error('Failed to export site:', error);
+    }
   }
 
   deployZip() {
