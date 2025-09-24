@@ -493,10 +493,15 @@ class Site {
     /**
      * Returns a zip blob of the static site.
      */
-    let writer = new StaticSiteWriter();
-
-    let site = await this.nodeTree.generateStaticSite(writer);
-    return site;
+    try {
+      let writer = new StaticSiteWriter();
+      let site = await this.nodeTree.generateStaticSite(writer);
+      downloadBlobFile(site, `${this.name || 'site'}.zip`);
+      console.log("Generated static site");
+    } catch (error) {
+      console.error("Failed to generate static site:", error);
+      throw error;
+    }
   }
 
   deployZip() {
