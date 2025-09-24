@@ -44,9 +44,5 @@ onMounted(() => {
 </style>
 
 <style>
-.TextWidget {
-  white-space: pre;
-}
-
 </style>
 

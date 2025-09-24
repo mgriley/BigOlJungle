@@ -1,5 +1,6 @@
 import * as State from '../State.js'
 import { extendMap } from '../Utils.js'
+import { createElementString } from '../StaticSiteTemplates.js';
 
 export class TextNode extends State.Node {
   static sUiShortName = "T";
@@ -99,6 +100,9 @@ export class TextNode extends State.Node {
   }
 
   async generateStaticHtml(writer) {
-    return `<p>Not yet implemented</p>`;
+    return createElementString(
+      'div', {class: "Widget TextWidget"}, this.getStyleObject(),
+       this.text
+    );
   }
 };

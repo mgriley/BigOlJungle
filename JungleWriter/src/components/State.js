@@ -18,12 +18,6 @@ var gState = {
   nodeLookupMap: {},
 };
 
-let kNodeCss = `.NodeWidget {
-  width: 0;
-  height: 0;
-}
-`;
-
 class Node {
   static sUiShortName = "G";
 
@@ -253,7 +247,6 @@ class Node {
     let htmlString = createElementString(
       'div', {class: "Widget NodeWidget"}, this.getStyleObject(),
       childHtml);
-    writer.addStyleBlock('Node', kNodeCss); 
     return htmlString;
   }
 

@@ -52,20 +52,5 @@ onMounted(() => {
 </style>
 
 <style>
-.ImageWidget {
-  /* background-color: lightblue; */
-  position: relative;
-}
-
-.ImageWidget img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  overflow: hidden;
-}
-
-.DisabledLink {
-  pointer-events: none;
-}
 </style>
 

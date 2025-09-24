@@ -77,7 +77,6 @@ export class RectNode extends Node {
   async generateStaticHtml(writer) {
     let htmlString = createElementString(
       'div', {class: "Widget RectWidget"}, this.getStyleObject());
-    writer.addStyleBlock('RectNode', kRectNodeCss); 
     return htmlString;
   }
 };

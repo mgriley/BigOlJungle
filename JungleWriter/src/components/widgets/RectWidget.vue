@@ -34,9 +34,5 @@ onMounted(() => {
 </style>
 
 <style>
-.RectWidget {
-  background-color: lightblue;
-}
-
 </style>
 
