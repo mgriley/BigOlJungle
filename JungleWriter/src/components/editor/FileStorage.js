@@ -1,5 +1,6 @@
 
 import * as utils from './Utils.js'
+import JSZip from 'jszip'
 
 /*
 Some helper utils around the browser-native File Access APIs,
@@ -281,6 +282,31 @@ class DirObj extends BaseObj {
   async removeChildRecursive(name) {
     await this.nativeHandle.removeEntry(name, {recursive: true});
     this.emitChangeEvt();
+  }
+
+  async exportToZip() {
+    const zip = new JSZip();
+    await this._addToZip(zip, '');
+    return await zip.generateAsync({type: 'blob'});
+  }
+
+  async _addToZip(zip, basePath) {
+    const children = await this.getChildren();
+    
+    for (const [name, child] of Object.entries(children)) {
+      const childPath = basePath ? `${basePath}/${name}` : name;
+      
+      if (child.isFile()) {
+        try {
+          const file = await child.getFile();
+          zip.file(childPath, file);
+        } catch (error) {
+          console.warn(`Failed to add file ${childPath} to zip:`, error);
+        }
+      } else if (child.isDir()) {
+        await child._addToZip(zip, childPath);
+      }
+    }
   }
 };
 
