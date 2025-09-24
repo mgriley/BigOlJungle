@@ -1,5 +1,4 @@
 <script setup>
-import { kMenuItems } from './State.js'
 import { gApp } from './State.js'
 
 function togglePreview() {

@@ -579,7 +579,7 @@ class Editor {
     console.log("Starting JungleWriter...");
 
     let fileRootDir = await navigator.storage.getDirectory();
-    await this.fileStorage.setRoot(fileRootDir);
+    this.fileStorage.setRoot(fileRootDir);
 
     console.log("Loading app...");
     this.load();
@@ -641,24 +641,6 @@ class Editor {
   importSite() {
   }
 };
-
-function onDeploy() {
-  console.log("Deploying!")
-}
-
-function onNewFile() {
-}
-
-function onOpenFile() {
-}
-
-function onSaveFile() {
-}
-
-function goToSites() {
-  gApp.deselectSite();
-}
-
 
 async function initGlobalApp(router) {
   gApp = new Editor(router);
