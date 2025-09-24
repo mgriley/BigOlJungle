@@ -103,7 +103,7 @@ class DirObj extends BaseObj {
   async toDumpJson() {
     let children = await this.getChildren();
     let childJson = {};
-    for (const [key, child] of children) {
+    for (const [key, child] of Object.entries(children)) {
       childJson[key] = await child.toDumpJson();
     }
     return {
