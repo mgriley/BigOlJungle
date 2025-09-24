@@ -693,6 +693,9 @@ class Editor {
               break;
             }
           }
+
+          // Save the site after importing
+          await site.save();
         } catch (error) {
           console.warn('Failed to load site data from imported zip:', error);
         }
