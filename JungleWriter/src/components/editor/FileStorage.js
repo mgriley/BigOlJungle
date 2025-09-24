@@ -48,8 +48,32 @@ class FileObj extends BaseObj {
     this.emitter = emitter;
   }
 
-  toDumpJson() {
-    return this.getName();
+  async dumpToString(indent = 0) {
+    const spaces = '  '.repeat(indent);
+    let result = `${spaces}📄 ${this.getName()}`;
+    
+    // Try to determine if this is a text file and include contents
+    const name = this.getName().toLowerCase();
+    const textExtensions = ['.txt', '.json', '.js', '.vue', '.html', '.css', '.md', '.xml', '.csv'];
+    const isTextFile = textExtensions.some(ext => name.endsWith(ext));
+    
+    if (isTextFile) {
+      try {
+        const content = await this.readText();
+        const lines = content.split('\n');
+        result += ` (${lines.length} lines)\n`;
+        result += `${spaces}  Content:\n`;
+        lines.forEach((line, index) => {
+          result += `${spaces}    ${index + 1}: ${line}\n`;
+        });
+      } catch (error) {
+        result += ` (error reading: ${error.message})\n`;
+      }
+    } else {
+      result += '\n';
+    }
+    
+    return result;
   }
 
   emitChangeEvt() {
@@ -100,22 +124,25 @@ class DirObj extends BaseObj {
     this.emitter = emitter;
   }
 
-  async toDumpJson() {
-    let children = await this.getChildren();
-    let childJson = {};
-    for (const [key, child] of Object.entries(children)) {
-      childJson[key] = await child.toDumpJson();
+  async dumpToString(indent = 0) {
+    const spaces = '  '.repeat(indent);
+    let result = `${spaces}📁 ${this.getName()}/\n`;
+    
+    const children = await this.getChildren();
+    const sortedKeys = Object.keys(children).sort();
+    
+    for (const key of sortedKeys) {
+      const child = children[key];
+      result += await child.dumpToString(indent + 1);
     }
-    return {
-      name: this.getName(),
-      children: childJson,
-    }
+    
+    return result;
   }
 
   async dump() {
-    console.log("Dumping dir: " + this.getName());
-    let dumpJson = await this.toDumpJson();
-    console.log(utils.prettyJson(dumpJson));
+    console.log("Dumping file storage:");
+    const dumpString = await this.dumpToString();
+    console.log(dumpString);
   }
 
   emitChangeEvt() {
@@ -274,7 +301,11 @@ export class FileStorage {
   }
 
   async dump() {
-    await this.root.dump();
+    if (this.root) {
+      await this.root.dump();
+    } else {
+      console.log("FileStorage not initialized yet.");
+    }
   }
 }
 
