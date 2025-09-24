@@ -565,10 +565,15 @@ class Editor {
     this.siteIdCtr = obj.siteIdCtr;
   }
 
-  save() {
+  async save() {
     // TODO - handle errors
     let obj = this.writeToJson();
-    this.userStorage.setItem(`app/data`, obj);
+    let jsonStr = prettyJson(obj);
+    let dataFile = await this.fileStorage.root.findChild("app_data.json");
+    if (!dataFile) {
+      dataFile = await this.fileStorage.root.createFile("app_data.json");
+    }
+    await dataFile.writeContents(jsonStr);
     console.log("Saved app:", prettyJson(obj));
   }
 
