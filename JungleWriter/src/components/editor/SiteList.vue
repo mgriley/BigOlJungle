@@ -2,9 +2,11 @@
 import { ref, computed } from 'vue'
 import { gApp } from './State.js'
 import BasicModal from 'Shared/BasicModal.vue'
+import DevView from './DevView.vue'
 
 let createSiteModal = ref(null);
 let siteToAdd = ref(null);
+let devModal = ref(null);
 
 class SiteData {
   constructor() {
@@ -28,8 +30,12 @@ async function onDoneAddSite() {
   siteToAdd.value = null;
 }
 
-function goToDevView() {
-  gApp.router.push({name: 'dev'});
+function showDevView() {
+  devModal.value.showModal();
+}
+
+function onCloseDevView() {
+  // Modal handles closing itself
 }
 
 </script>
@@ -40,7 +46,7 @@ function goToDevView() {
       <h1 class="PageHeader">Site List</h1>
       <div class="MarginBotS">
         <button @click="addSite">Add Site</button>
-        <button @click="goToDevView" class="TertiaryButton">Developer Tools</button>
+        <button @click="showDevView" class="TertiaryButton">Developer Tools</button>
       </div>
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.selectSiteById(site.id)">
         <p class="SiteName">{{ site.name ? site.name : "NoName" }}</p>
@@ -55,6 +61,10 @@ function goToDevView() {
           <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus>
         </div>
       </div>
+    </BasicModal>
+    <BasicModal class="DevModal" ref="devModal" title="Developer Tools"
+      :showDone="false" cancelText="Close" @onCancel="onCloseDevView">
+      <DevView />
     </BasicModal>
   </div>
 </template>
