@@ -495,8 +495,9 @@ class Site {
      */
     try {
       let writer = new StaticSiteWriter();
-      let site = await this.nodeTree.generateStaticSite(writer);
-      downloadBlobFile(site, `${this.name || 'site'}.zip`);
+      await this.nodeTree.generateStaticSite(writer);
+      let siteBlob = await writer.finalize();
+      downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);
       console.log("Generated static site");
     } catch (error) {
       console.error("Failed to generate static site:", error);
