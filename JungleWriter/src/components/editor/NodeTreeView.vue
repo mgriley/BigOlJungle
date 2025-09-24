@@ -117,7 +117,7 @@ let nodeList = computed(() => {
   <div>
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode">New</button>
-      <button class="TertiaryButton" @click="cloneNode">Clone</button>
+      <!--<button class="TertiaryButton" @click="cloneNode">Clone</button>-->
       <button class="TertiaryButton" @click="moveNodeUp">MoveUp</button>
       <button class="TertiaryButton" @click="moveNodeDown">MoveDown</button>
       <button class="DeleteBtn TertiaryButton" @click="deleteNode">Delete</button>

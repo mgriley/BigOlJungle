@@ -5,6 +5,7 @@ import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import { downloadTextFile, downloadBlobFile } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
+import { StaticIndexHtml } from './StaticSiteTemplates.js'
 
 import { Marked } from 'marked';
 
@@ -88,7 +89,7 @@ class Node {
     return gState.nodeLookupMap[id];
   }
 
-  // TODO
+  // DEFER
   /*
   // Override in subclasses
   clone() {
@@ -233,14 +234,15 @@ class Node {
     }
   }
 
-  generateStaticSite(writer) {
+  async generateStaticHtml(writer) {
     /**
-     * File HTML for this node to the proper place in the static site using
+     * Write HTML for this node to the proper place in the static site using
      * the given StaticSiteWriter.
      * 
      * Override in subclasses as needed.
      */
     // TODO
+    return `<p>Hello world!</p>`;
   }
 
   // Same as Dfs variant but iterates in post-order because the last child
@@ -280,7 +282,11 @@ class NodeTree {
   }
 
   async generateStaticSite(writer) {
-    return await this.root.generateStaticSite(writer);
+    let staticHtml = await this.root.generateStaticHtml(writer);
+    let indexHtmlStr = StaticIndexHtml;
+    indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", writer.siteName);
+    indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", staticHtml);
+    writer.addTextFile("index.html", indexHtmlStr);
   }
 };
 
@@ -495,7 +501,9 @@ class Site {
      */
     try {
       let writer = new StaticSiteWriter(this.name || 'site');
+
       await this.nodeTree.generateStaticSite(writer);
+
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);
       console.log("Generated static site");
