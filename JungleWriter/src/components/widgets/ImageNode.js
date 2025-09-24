@@ -1,5 +1,6 @@
 import { reactive, ref, watchEffect, watch, nextTick } from 'vue'
-import { gApp, Node } from '../State.js'
+import { gApp } from '../State.js'
+import { Node } from '../Node.js'
 import { extendMap, AsyncValue } from '../Utils.js'
 import { createElementString } from '../StaticSiteTemplates.js'
 

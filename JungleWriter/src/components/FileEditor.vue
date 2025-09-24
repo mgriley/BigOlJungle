@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { gApp, Node } from './State.js'
+import { gApp, } from './State.js'
 import FilePicker from './FilePicker.vue'
 
 // Helperful guide:

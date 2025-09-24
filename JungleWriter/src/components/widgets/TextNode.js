@@ -1,8 +1,9 @@
 import * as State from '../State.js'
+import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { createElementString } from '../StaticSiteTemplates.js';
 
-export class TextNode extends State.Node {
+export class TextNode extends Node {
   static sUiShortName = "T";
 
   constructor() {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, reactive } from 'vue'
-import { gApp, Node } from './State.js'
+import { gApp, } from './State.js'
 import NodeTreeItem from './NodeTreeItem.vue'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import ModalSelector from './ModalSelector.vue'

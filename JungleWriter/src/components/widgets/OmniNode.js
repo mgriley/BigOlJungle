@@ -1,9 +1,10 @@
 import * as State from '../State.js'
+import  { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { BackgroundInfo } from './BackgroundInfo.js'
 import { BorderInfo } from './BorderInfo.js'
 
-export class OmniNode extends State.Node {
+export class OmniNode extends Node {
   static sUiShortName = "O";
 
   constructor() {

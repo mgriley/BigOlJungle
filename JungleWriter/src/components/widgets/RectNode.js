@@ -1,5 +1,6 @@
 import { reactive, ref, watchEffect, watch, nextTick } from 'vue'
-import { gApp, Node } from '../State.js'
+import { gApp, } from '../State.js'
+import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { BackgroundInfo } from './BackgroundInfo.js'
 import { BorderInfo } from './BorderInfo.js'

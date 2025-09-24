@@ -1,7 +1,8 @@
 import * as State from '../State.js'
+import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 
-export class LinksNode extends State.Node {
+export class LinksNode extends Node {
   static sUiShortName = "L";
 
   constructor() {

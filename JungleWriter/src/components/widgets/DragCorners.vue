@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
-import { gApp } from '../State.js'
 import { makeDraggableExt } from '../Utils.js'
-import { ImageNode } from './ImageNode.js'
 
 const props = defineProps({
   node: Object

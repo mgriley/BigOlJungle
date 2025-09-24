@@ -1,7 +1,7 @@
 import { gNodeDataMap } from './NodeDataMap.js'
 import { extendMap } from '../Utils.js'
 
-import { Node } from '../State.js'
+import { Node } from '../Node.js'
 import NodeWidget from './NodeWidget.vue'
 import NodeWidgetEditor from './NodeWidgetEditor.vue'
 

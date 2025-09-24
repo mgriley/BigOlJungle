@@ -1,5 +1,3 @@
-import { gApp, Node } from '../State.js'
-import { extendMap } from '../Utils.js'
 
 export class BorderInfo {
   constructor() {
