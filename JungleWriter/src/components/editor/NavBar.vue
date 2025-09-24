@@ -1,5 +1,75 @@
 <script setup>
-import { kMenuItems } from './State.js'
+import { 
+  gApp,
+  goToHomeEditor, 
+  goToFeedEditor, 
+  goToBlogEditor, 
+  goToFilesEditor, 
+  goToGalleryEditor 
+} from './State.js'
+
+function onDeploy() {
+  console.log("Deploying!")
+}
+
+function onNewFile() {
+}
+
+function onOpenFile() {
+}
+
+function onSaveFile() {
+}
+
+function goToSites() {
+  gApp.deselectSite();
+}
+
+const kMenuItems = [
+  {
+    name: "Main Menu",
+    action: goToSites
+  },
+  {
+    name: "File",
+    items: [
+      {
+        name: "New",
+        action: onNewFile,
+      },
+      {
+        name: "Open",
+        action: onOpenFile,
+      },
+      {
+        name: "Save",
+        action: onSaveFile,
+      }
+    ]
+  },
+  {
+    name: "Insert"
+  },
+  {
+    name: "Deploy",
+    action: onDeploy
+  },
+  {
+    name: "Settings"
+  },
+  {
+    name: "HomeEditor",
+    action: goToHomeEditor,
+  },
+  {
+    name: "FeedEditor",
+    action: goToFeedEditor,
+  },
+  {
+    name: "BlogEditor",
+    action: goToBlogEditor,
+  },
+];
 
 </script>
 

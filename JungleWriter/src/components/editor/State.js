@@ -684,52 +684,6 @@ export function goToGalleryEditor() {
   gApp.router.push({name: "gallery"})
 }
 
-let kMenuItems = [
-  {
-    name: "Main Menu",
-    action: goToSites
-  },
-  {
-    name: "File",
-    items: [
-      {
-        name: "New",
-        action: onNewFile,
-      },
-      {
-        name: "Open",
-        action: onOpenFile,
-      },
-      {
-        name: "Save",
-        action: onSaveFile,
-      }
-    ]
-  },
-  {
-    name: "Insert"
-  },
-  {
-    name: "Deploy",
-    action: onDeploy
-  },
-  {
-    name: "Settings"
-  },
-  {
-    name: "HomeEditor",
-    action: goToHomeEditor,
-  },
-  {
-    name: "FeedEditor",
-    action: goToFeedEditor,
-  },
-  {
-    name: "BlogEditor",
-    action: goToBlogEditor,
-  },
-];
-
 async function initGlobalApp(router) {
   gApp = new Editor(router);
   await gApp.start();
@@ -739,7 +693,6 @@ async function initGlobalApp(router) {
 export {
   gApp,
   initGlobalApp,
-  kMenuItems,
   Node
 };
 
