@@ -494,7 +494,7 @@ class Site {
      * Returns a zip blob of the static site.
      */
     try {
-      let writer = new StaticSiteWriter();
+      let writer = new StaticSiteWriter(this.name || 'site');
       await this.nodeTree.generateStaticSite(writer);
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);

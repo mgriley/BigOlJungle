@@ -12,9 +12,10 @@ import mainCss from '../../assets/main.css?raw'
  * Allows writing a static site to a zip file
  */
 export class StaticSiteWriter {
-  constructor() {
+  constructor(siteName = 'site') {
     this.zip = new JSZip();
     this.cssBlocks = new Map();
+    this.siteName = siteName;
 
     this._addDefaultCss();
   }
@@ -32,11 +33,11 @@ export class StaticSiteWriter {
   }
 
   addTextFile(path, content) {
-    this.zip.file(path, content);
+    this.zip.file(`${this.siteName}/${path}`, content);
   }
 
   addBlobFile(path, blob) {
-    this.zip.file(path, blob);
+    this.zip.file(`${this.siteName}/${path}`, blob);
   }
 
   addStyleBlock(key, cssString) {
