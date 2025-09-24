@@ -4,6 +4,7 @@ import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import { downloadTextFile, downloadBlobFile } from 'Shared/SharedUtils.js'
+import JSZip from 'jszip'
 
 import { Marked } from 'marked';
 
@@ -662,7 +663,41 @@ class Editor {
   openSite() {
   }
 
-  importSite() {
+  async importSite(zipBlob) {
+    try {
+      // Create a new site first
+      let site = await this.createSite();
+      
+      // Import the zip contents into the site directory
+      await site.siteDir.importZip(zipBlob);
+      
+      // Try to load the site data if it exists
+      const dataFile = await site.siteDir.findChild('data.json');
+      if (dataFile) {
+        try {
+          const jsonStr = await dataFile.readText();
+          const siteData = JSON.parse(jsonStr);
+          site.readFromJson(siteData);
+          
+          // Update the site name in the sites list
+          for (const siteEntry of this.sites) {
+            if (siteEntry.id === site.id) {
+              siteEntry.name = site.name;
+              break;
+            }
+          }
+        } catch (error) {
+          console.warn('Failed to load site data from imported zip:', error);
+        }
+      }
+      
+      await this.save();
+      console.log('Site imported successfully');
+      return site;
+    } catch (error) {
+      console.error('Failed to import site:', error);
+      throw error;
+    }
   }
 };
 
