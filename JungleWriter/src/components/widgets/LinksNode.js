@@ -78,4 +78,8 @@ export class LinksNode extends State.Node {
       ...myStyle
     };
   }
+
+  async generateStaticHtml(writer) {
+    return `<p>Not yet implemented</p>`;
+  }
 };

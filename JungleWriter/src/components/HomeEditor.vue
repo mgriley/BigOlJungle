@@ -3,15 +3,9 @@ import { reactive, computed, onMounted, onUnmounted } from 'vue'
 import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
 
-let canvasBaseWidth = 600;
-// let canvasAspectRatio = 9.0 / 16.0;
-let canvasAspectRatio = 3.0 / 4.0;
-
-let canvasStyleObj = reactive({
-  '--canvasWidth': canvasBaseWidth + 'px',
-  '--canvasHeight': canvasBaseWidth / canvasAspectRatio + 'px',
-  'transform': 'scale(1.0)',
-});
+let canvasStyleObj = computed(() => {
+  return gApp.site.getCanvasStyleObject();
+})
 
 let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
@@ -25,9 +19,7 @@ function onClickBackground(evt) {
 }
 
 function getMainStyleObject() {
-  return {
-    'background-color': gApp.site.getSettings().backgroundColor
-  };
+  return gApp.site.getMainStyleObject();
 }
 
 let isEditing = computed(() => {
@@ -38,6 +30,8 @@ function clamp(x, a, b) {
   return Math.max(a, Math.min(x, b));
 }
 
+// TODO - currently unused
+/*
 function onPageResize() {
   // Note: could impl debounce later.
   // See: https://web.archive.org/web/20220714020647/https://bencentra.com/code/2015/02/27/optimizing-window-resize.html
@@ -51,6 +45,7 @@ function onPageResize() {
   scaleAmt = clamp(scaleAmt, 0, 1);
   canvasStyleObj['transform'] = `scale(${scaleAmt})`;
 }
+*/
 
 onMounted(() => {
   //window.addEventListener("resize", onPageResize);
@@ -66,8 +61,6 @@ onUnmounted(() => {
 <template>  
   <router-view></router-view>
   <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
-    <!--<h1>Hello World!</h1>-->
-
     <div class="CanvasArea" :style="canvasStyleObj">
       <div class="AnchorDiv">
         <NodeWidget :node="rootNode" />
@@ -77,33 +70,4 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-
-main {
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.CanvasArea {
-  /* TODO */
-  background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  width: var(--canvasWidth);
-  height: var(--canvasHeight);
-  border-radius: 4px;
-}
-
-.AnchorDiv {
-  position: absolute;  
-  /*width: auto;*/
-  top: 50%;
-  left: 50%;
-  width: 0px;
-  height: 0px;
-  /*-webkit-transform: translate(-50%, -50%);*/
-  /*transform: translate(-50%, -50%);*/
-}
-
 </style>

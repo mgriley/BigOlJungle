@@ -97,4 +97,8 @@ export class TextNode extends State.Node {
       ...myStyle
     };
   }
+
+  async generateStaticHtml(writer) {
+    return `<p>Not yet implemented</p>`;
+  }
 };

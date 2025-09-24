@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue'
-import { gApp } from './components/editor/State.js'
-import SiteEditor from './components/editor/SiteEditor.vue'
-import SiteList from './components/editor/SiteList.vue'
+import { gApp } from './components/State.js'
+import SiteEditor from './components/SiteEditor.vue'
+import SiteList from './components/SiteList.vue'
 </script>
 
 <template>

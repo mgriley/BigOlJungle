@@ -135,5 +135,9 @@ export class ImageNode extends Node {
       ...myStyle
     };
   }
+
+  async generateStaticHtml(writer) {
+    return `<p>Not yet implemented</p>`;
+  }
 };
 

@@ -5,7 +5,9 @@ import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import { downloadTextFile, downloadBlobFile } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
-import { StaticIndexHtml } from './StaticSiteTemplates.js'
+import {
+  StaticIndexHtml, createElementString, stylesDictToInlineString
+} from './StaticSiteTemplates.js'
 
 import { Marked } from 'marked';
 
@@ -15,6 +17,12 @@ var gState = {
   nodeIdCtr: 1,
   nodeLookupMap: {},
 };
+
+let kNodeCss = `.NodeWidget {
+  width: 0;
+  height: 0;
+}
+`;
 
 class Node {
   static sUiShortName = "G";
@@ -241,8 +249,21 @@ class Node {
      * 
      * Override in subclasses as needed.
      */
-    // TODO
-    return `<p>Hello world!</p>`;
+    let childHtml = await this.getChildHtml(writer);
+    let htmlString = createElementString(
+      'div', {class: "Widget NodeWidget"}, this.getStyleObject(),
+      childHtml);
+    writer.addStyleBlock('Node', kNodeCss); 
+    return htmlString;
+  }
+
+  async getChildHtml(writer) {
+    let htmlStrings = [];
+    for (const child of this.children) {
+      let childHtml = await child.generateStaticHtml(writer);
+      htmlStrings.push(childHtml);
+    }
+    return htmlStrings.join('\n');
   }
 
   // Same as Dfs variant but iterates in post-order because the last child
@@ -281,12 +302,8 @@ class NodeTree {
     this.root.readFromJson(obj.root);
   }
 
-  async generateStaticSite(writer) {
-    let staticHtml = await this.root.generateStaticHtml(writer);
-    let indexHtmlStr = StaticIndexHtml;
-    indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", writer.siteName);
-    indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", staticHtml);
-    writer.addTextFile("index.html", indexHtmlStr);
+  async generateStaticHtml(writer) {
+    return await this.root.generateStaticHtml(writer);
   }
 };
 
@@ -455,6 +472,23 @@ class Site {
     this.filesPageConfig = obj.filesPageConfig || "";
   }
 
+  getMainStyleObject() {
+    return {
+      'background-color': this.settings.backgroundColor,
+    };
+  }
+
+  getCanvasStyleObject() {
+    let canvasBaseWidth = 600;
+    // let canvasAspectRatio = 9.0 / 16.0;
+    let canvasAspectRatio = 3.0 / 4.0;
+    return {
+      '--canvasWidth': canvasBaseWidth + 'px',
+      '--canvasHeight': canvasBaseWidth / canvasAspectRatio + 'px',
+      'transform': 'scale(1.0)',
+    }
+  }
+
   async save() {
     // TODO - handle errors
     let obj = this.writeToJson();
@@ -502,7 +536,15 @@ class Site {
     try {
       let writer = new StaticSiteWriter(this.name || 'site');
 
-      await this.nodeTree.generateStaticSite(writer);
+      let nodesHtml = await this.nodeTree.generateStaticHtml(writer);
+      let indexHtmlStr = StaticIndexHtml;
+      indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", writer.siteName);
+      indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
+        stylesDictToInlineString(this.getMainStyleObject()));
+      indexHtmlStr = indexHtmlStr.replace("{{CANVAS_STYLE_STRING}}",
+        stylesDictToInlineString(this.getCanvasStyleObject()));
+      indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
+      writer.addTextFile("index.html", indexHtmlStr);
 
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);

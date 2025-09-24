@@ -1,10 +1,10 @@
 import JSZip from 'jszip'
 
-import baseCss from '../../assets/base.css?raw'
-import utilsCss from '../../assets/utils.css?raw'
-import buttonsCss from '../../assets/buttons.css?raw'
-import writerCss from '../../assets/writer.css?raw'
-import mainCss from '../../assets/main.css?raw'
+import baseCss from '../assets/base.css?raw'
+import utilsCss from '../assets/utils.css?raw'
+import buttonsCss from '../assets/buttons.css?raw'
+import writerCss from '../assets/writer.css?raw'
+import mainCss from '../assets/main.css?raw'
 
 /**
  * Writer for the static site export format.

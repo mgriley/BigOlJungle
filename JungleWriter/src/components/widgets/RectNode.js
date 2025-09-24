@@ -4,6 +4,11 @@ import { extendMap } from '../Utils.js'
 import { BackgroundInfo } from './BackgroundInfo.js'
 import { BorderInfo } from './BorderInfo.js'
 import { FilterInfo } from './FilterInfo.js'
+import { createElementString } from '../StaticSiteTemplates.js'
+
+let kRectNodeCss = `.RectWidget {
+  background-color: lightblue;
+}`;
 
 export class RectNode extends Node {
   static sUiShortName = "R";
@@ -67,6 +72,13 @@ export class RectNode extends Node {
       ...parentStyle,
       ...myStyle
     };
+  }
+
+  async generateStaticHtml(writer) {
+    let htmlString = createElementString(
+      'div', {class: "Widget RectWidget"}, this.getStyleObject());
+    writer.addStyleBlock('RectNode', kRectNodeCss); 
+    return htmlString;
   }
 };
 

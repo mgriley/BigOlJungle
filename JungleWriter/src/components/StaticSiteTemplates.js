@@ -1,0 +1,48 @@
+
+export let StaticIndexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- TODO - favicons -->
+  <!--<link rel="icon" href="/favicon.svg" type="image/svg+xml">-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{SITE TITLE}}</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <main id="Main" style="{{MAIN_STYLE_STRING}}">
+      <div class="CanvasArea" style="{{CANVAS_STYLE_STRING}}">
+        <div class="AnchorDiv">
+          {{CONTENT}}
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+`;
+
+export let StaticStylesCss = `
+`
+
+export function stylesDictToInlineString(stylesDict) {
+  /**
+   * Given a dict like {"color": "red", "font-size": "12px"},
+   * make a string like 'color: red; font-size: 12px;'
+   */
+  let strings = [];
+  for (let [key, value] of Object.entries(stylesDict)) {
+    strings.push(`${key}: ${value};`);
+  }
+  return strings.join(' ');
+}
+
+export function createElementString(tag, attrs = {}, styles = {}, content = '') {
+  let stylesStr = stylesDictToInlineString(styles);
+  let allAttrs = { ...attrs, style: stylesStr };
+  let attrString = Object.entries(allAttrs)
+    .map(([key, value]) => ` ${key}="${value}"`)
+    .join('');
+  return `<${tag}${attrString}>${content}</${tag}>`;
+}
