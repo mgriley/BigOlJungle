@@ -604,7 +604,7 @@ class Editor {
     let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
     let site = reactive(new Site(this, siteId, siteDir));
     this.sites.unshift({id: site.id, name: site.name, ptr: site});
-    // Save the site now so that it populates the UserStorage with an entry
+    // Save the site now so that it populates the storage with an entry
     site.save();
     this.save();
     return site;
