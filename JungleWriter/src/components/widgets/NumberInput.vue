@@ -110,8 +110,7 @@ onMounted(() => {
   margin-right: 8px;
   margin-bottom: 0;
   white-space: nowrap;
-  width: 1.2ch;
-  flex-shrink: 0;
+  width: 1.5ch;
 }
 
 </style>
