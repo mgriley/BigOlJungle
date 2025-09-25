@@ -18,6 +18,40 @@ function onClickBackground(evt) {
   }
 }
 
+function onKeyDown(evt) {
+  // Only handle arrow keys when editing and a node is selected
+  if (!gApp.site.isEditing || !gApp.site.selectedEntity) {
+    return;
+  }
+
+  const moveAmount = 10; // pixels to move per keypress
+  let handled = false;
+
+  switch (evt.key) {
+    case 'ArrowLeft':
+      gApp.site.selectedEntity.posX -= moveAmount;
+      handled = true;
+      break;
+    case 'ArrowRight':
+      gApp.site.selectedEntity.posX += moveAmount;
+      handled = true;
+      break;
+    case 'ArrowUp':
+      gApp.site.selectedEntity.posY -= moveAmount;
+      handled = true;
+      break;
+    case 'ArrowDown':
+      gApp.site.selectedEntity.posY += moveAmount;
+      handled = true;
+      break;
+  }
+
+  if (handled) {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+}
+
 function getMainStyleObject() {
   return gApp.site.getMainStyleObject();
 }
@@ -50,10 +84,12 @@ function onPageResize() {
 onMounted(() => {
   //window.addEventListener("resize", onPageResize);
   //onPageResize();
+  window.addEventListener("keydown", onKeyDown);
 })
 
 onUnmounted(() => {
   //window.removeEventListener("resize", onPageResize);
+  window.removeEventListener("keydown", onKeyDown);
 })
 
 </script>
