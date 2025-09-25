@@ -1,3 +1,5 @@
+import { gApp } from './State.js'
+
 /*
 dragFuncs {
   // Returns whether or not to allow the drag. (Called before onStart)
@@ -122,6 +124,10 @@ export function setupWidgetDrag(widgetElem, node) {
       return !node.interaction;
     },
     onStart: (startX, startY) => {
+      // Import gApp to access site selection functionality
+      const { gApp } = require('./State.js');
+      gApp.site.selectNode(node);
+      
       node.interaction = 'move';
       dragObj.origPosX = node.posX;
       dragObj.origPosY = node.posY;
