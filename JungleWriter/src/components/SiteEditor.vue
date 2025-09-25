@@ -29,7 +29,7 @@ let isEditing = computed(() => {
 
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
-      <NavBar />
+      <NavBar class="mb-s" />
       <component :is="NodeTreeView"></component>
     </div>
     <div class="MainArea">

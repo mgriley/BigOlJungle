@@ -61,44 +61,24 @@ function goToGalleryEditor() {
 
 const kMenuItems = [
   {
-    name: "Main Menu",
+    name: "Back to sites",
     action: goToSites
   },
   {
-    name: "File",
-    items: [
-      {
-        name: "New",
-        action: onNewFile,
-      },
-      {
-        name: "Open",
-        action: onOpenFile,
-      },
-      {
-        name: "Save",
-        action: onSaveFile,
-      }
-    ]
+    name: "Save",
+    action: onSaveFile,
   },
-  {
-    name: "Insert"
-  },
+  /*
   {
     name: "Deploy",
     action: onDeploy
   },
+  */
   {
-    name: "Export Project File",
-    action: onExportProjectFile
-  },
-  {
-    name: "Generate Static Site",
+    name: "Generate site",
     action: onGenerateStaticSite
   },
-  {
-    name: "Settings"
-  },
+  /*
   {
     name: "HomeEditor",
     action: goToHomeEditor,
@@ -110,6 +90,11 @@ const kMenuItems = [
   {
     name: "BlogEditor",
     action: goToBlogEditor,
+  },
+  */
+  {
+    name: "Export project file",
+    action: onExportProjectFile
   },
 ];
 
