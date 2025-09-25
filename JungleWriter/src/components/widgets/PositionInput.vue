@@ -52,7 +52,6 @@ const height = computed({
 
 <template>
   <div class="PositionInput StdInput">
-    <div class="InputLabel">{{ includeSize ? 'Position and Size' : 'Position' }}</div>
     <div class="InputRow">
       <NumberInput 
         v-model="posX" 

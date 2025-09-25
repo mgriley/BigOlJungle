@@ -164,8 +164,14 @@ it gets clicked. Say if using for a button
 }
 
 .EditorInput {
-  font-size: var(--smaller-size);
-  padding: 2px 4px;
+  display: block;
+  padding: 4px 8px;
   min-height: auto;
+  /* margin: 5px 0; */
+  /* border: 1px solid var(--light-color); */
+  border: none;
+  border-radius: var(--border-radius-small);
+  font-size: var(--f-m);
+  background-color: var(--input-bg);
 }
 
