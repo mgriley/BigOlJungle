@@ -166,7 +166,7 @@ function setupDrag(itemElem, dragBtn) {
 </script>
 
 <template>
-  <div :class="{ bold: isFolder, ItemContainer: true }" :style="styleObject"
+  <div :class="{ bold: isFolder, ItemContainer: true }" class="NoSelect" :style="styleObject"
     @click="selectNode" ref="itemElem">
     <!--<span class="DepthSpan">{{depthText}}</span>-->
     <span v-if="depth > 0" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
