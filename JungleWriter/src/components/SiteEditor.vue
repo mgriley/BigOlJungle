@@ -26,6 +26,13 @@ let currentTabName = computed(() => {
   return sidebarTabs.find(tab => tab.comp === sidebarTab.value)?.name || 'Unknown';
 });
 
+let isDropdownOpen = ref(false);
+
+function selectTab(tab) {
+  sidebarTab.value = tab.comp;
+  isDropdownOpen.value = false;
+}
+
 </script>
 
 <template>  
@@ -43,14 +50,14 @@ let currentTabName = computed(() => {
     </div>
     <div v-if="isEditing" class="Sidebar SidebarRight">
       <div class="TabSelector">
-        <div class="TabDropdown">
-          <div class="TabDropdownButton">
+        <div class="TabDropdown" @mouseleave="isDropdownOpen = false">
+          <div class="TabDropdownButton" @mouseenter="isDropdownOpen = true">
             <span>{{ currentTabName }}</span>
             <i class="bi bi-chevron-down"></i>
           </div>
-          <div class="TabDropdownMenu">
+          <div class="TabDropdownMenu" :class="{IsOpen: isDropdownOpen}">
             <div v-for="tab in sidebarTabs" :key="tab.name"
-              @click="sidebarTab = tab.comp"
+              @click="selectTab(tab)"
               class="TabDropdownItem"
               :class="{IsActive: sidebarTab == tab.comp}">
               {{ tab.name }}
@@ -140,7 +147,7 @@ let currentTabName = computed(() => {
   transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
 }
 
-.TabDropdown:hover .TabDropdownMenu {
+.TabDropdownMenu.IsOpen {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
