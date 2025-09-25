@@ -5,7 +5,10 @@ import { makeDraggableExt } from '../Utils.js'
 const props = defineProps({
   modelValue: [String, Number, Object],
   name: String,
-  min: [Number, String],
+  min: {
+    type: Number,
+    default: null,
+  },
   isOptional: Boolean,
   // Used when toggling the `Optional` flag
   defaultValue: [String, Number, Object],
@@ -50,8 +53,13 @@ function setupDragBall(elmnt) {
     onUpdate: (startX, startY, curX, curY) => {
       let diffX = curX - startX;
       let diffY = curY - startY;
-      let minVal = Number(props.min) || 0;
-      let newVal = Math.max(minVal, Math.floor(startVal - diffY/5.0));
+      let newVal = null;
+      if (props.min !== null) {
+        let minVal = Number(props.min) || 0;
+        newVal = Math.max(minVal, Math.floor(startVal - diffY/5.0));
+      } else {
+        newVal = Math.floor(startVal - diffY/5.0);
+      }
       /*console.log("New value: " + newVal);*/
       value.value = newVal;
     },
