@@ -128,11 +128,11 @@ onUnmounted(() => {
 }
 
 .DropdownItem.IsActive {
-  background-color: var(--primary-color);
+  background-color: orangered;
   color: white;
 }
 
 .DropdownItem.IsActive:hover {
-  background-color: var(--primary-color);
+  background-color: orangered;
 }
 </style>
