@@ -133,12 +133,13 @@ const kMenuItems = [
 
 <style scoped>
 .NavBar {
+  /*
   position: absolute;
-  display: flex;
   top: 16px;
   left: 16px;
-  display: inline-block;
   z-index: 2000;
+  */
+  display: inline-block;
 }
 
 .MenuIcon {

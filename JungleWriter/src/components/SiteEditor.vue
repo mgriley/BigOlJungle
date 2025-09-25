@@ -25,14 +25,12 @@ let isEditing = computed(() => {
 </script>
 
 <template>  
-  <NavBar v-if="isEditing" />
   <ShortcutBtns />
 
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
-      <div class="EditorPane">
-        <component :is="NodeTreeView"></component>
-      </div>
+      <NavBar />
+      <component :is="NodeTreeView"></component>
     </div>
     <div class="MainArea">
       <router-view></router-view>
@@ -62,19 +60,20 @@ let isEditing = computed(() => {
 .Sidebar {
   background-color: var(--main-bg);
   z-index: 1000;
-  padding: var(--space-s) var(--space-m);
+  /*padding: var(--space-s) var(--space-m);*/
 
   display: flex;
   flex-direction: column;
 }
 
 .SidebarLeft {
-  padding-top: 60px;
   border-left: 1px solid var(--light-color);
+  padding: var(--space-s) var(--space-s);
 }
 
 .SidebarRight {
   border-left: 1px solid var(--light-color);
+  padding: var(--space-s) var(--space-s);
 }
 
 .SidebarButtons {
@@ -98,7 +97,7 @@ let isEditing = computed(() => {
   overflow-y: scroll;
   scrollbar-width: thin;
   height: 100%;
-  padding-right: 16px;
+  /*padding-right: 16px;*/
 }
 
 </style>
