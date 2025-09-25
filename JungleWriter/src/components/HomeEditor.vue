@@ -39,7 +39,7 @@ function onKeyDown(evt) {
   }
 
   const moveAmount = 1; // pixels to move per keypress
-  const resizeAmount = 5; // pixels to resize per keypress
+  const resizeAmount = 1; // pixels to resize per keypress
   let handled = false;
   const selectedNode = gApp.site.selectedEntity;
 
@@ -50,7 +50,7 @@ function onKeyDown(evt) {
       switch (evt.key) {
         case 'ArrowLeft':
           // Shift left edge in (decrease width)
-          selectedNode.width = Math.max(10, selectedNode.width - resizeAmount);
+          selectedNode.width = Math.max(1, selectedNode.width - resizeAmount);
           handled = true;
           break;
         case 'ArrowRight':
@@ -60,7 +60,7 @@ function onKeyDown(evt) {
           break;
         case 'ArrowUp':
           // Shift top edge in (decrease height)
-          selectedNode.height = Math.max(10, selectedNode.height - resizeAmount);
+          selectedNode.height = Math.max(1, selectedNode.height - resizeAmount);
           handled = true;
           break;
         case 'ArrowDown':

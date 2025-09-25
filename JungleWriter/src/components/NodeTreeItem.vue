@@ -57,7 +57,8 @@ let depthText = computed(() => {
   }
   /*return '\u251C' + '\u2500'.repeat(props.depth + 1) + ' ';*/
   /*return '|' + '–'.repeat(props.depth + 1) + ' ';*/
-  return '\u00A0'.repeat((props.depth - 1)*3) + '\u2517' + ' ';
+  /*return '\u00A0'.repeat((props.depth - 1)*3) + '\u2517' + ' ';*/
+  return '\u00A0'.repeat((props.depth - 2)*3);
 })
 
 let styleObject = computed(() => {
@@ -146,8 +147,9 @@ function setupDrag(itemElem, dragBtn) {
 <template>
   <div :class="{ bold: isFolder, ItemContainer: true }" :style="styleObject"
     @click="selectNode" ref="itemElem">
-    <span class="DepthSpan">{{depthText}}</span>
-    <span class="NodeTypeIcon"><sup>{{ node.constructor.sUiShortName }}</sup></span>
+    <!--<span class="DepthSpan">{{depthText}}</span>-->
+    <span v-if="depth > 1" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
+    <!--<span class="NodeTypeIcon"><sup>{{ node.constructor.sUiShortName }}</sup></span>-->
     <template v-if="!editingName">
       <span @dblclick="onDoubleClickName">
       {{ node.name }}
@@ -157,7 +159,7 @@ function setupDrag(itemElem, dragBtn) {
       <input v-model="node.name" ref="nameInput" @keyup="onNameEditKey" @blur="onEndEditName" size="12">
     </template>
     <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">[{{ isOpen ? '-' : '+' }}]</button>
-    <span class="DragBtn" ref="dragBtn">Drag</span>
+    <!--<span class="DragBtn" ref="dragBtn">Drag</span>-->
   </div>
 </template>
 
@@ -169,10 +171,10 @@ function setupDrag(itemElem, dragBtn) {
 }
 
 .ItemContainer {
-  padding: 0px 8px;
   /* background: white; */
   /*margin: 5px 5px;*/
-  border-top: 1px solid var(--secondary-text);
+
+  /*border-top: 1px solid var(--secondary-text);*/
 }
 
 .DragBtn {
@@ -193,6 +195,7 @@ function setupDrag(itemElem, dragBtn) {
 .DepthSpan {
   display: inline-block;
   white-space: pre;
+  color: rgba(255, 255, 255, 0.4);
 }
 </style>
 

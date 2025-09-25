@@ -10,6 +10,10 @@ dragFuncs {
 }
 */
 export function makeDraggableExt(element, dragFuncs) {
+  if (!element) {
+    console.warn("makeDraggableExt: No element!");
+    return;
+  }
   var startX = null;
   var startY = null;
   var curX = null;
@@ -94,6 +98,10 @@ export function makeDraggableExt(element, dragFuncs) {
 
 // See: https://www.w3schools.com/howto/howto_js_draggable.asp
 export function makeDraggable(elmnt) {
+  if (!elmnt) {
+    console.warn("makeDraggable: No element!");
+    return;
+  }
   let draggableElem = elmnt;
   // if present, the header is where you move the DIV from:
   let header = elmnt.querySelector(".EditorPaneHeader");
@@ -121,6 +129,10 @@ export function makeDraggable(elmnt) {
 // Returns an opaque `listener` object that you can
 // removeHoverListener with when want to remove.
 export function addHoverListener(elem, hoverFuncs) {
+  if (!elem) {
+    console.warn("addHoverListener: No element!");
+    return;
+  }
   let onHoverStart = (evt) => {
     if (hoverFuncs.onStart) {
       hoverFuncs.onStart(evt);
@@ -137,11 +149,19 @@ export function addHoverListener(elem, hoverFuncs) {
 }
 
 export function removeHoverListener(elem, listenerObj) {
+  if (!elem) {
+    console.warn("removeHoverListener: No element!");
+    return;
+  }
   elem.removeEventListener("mouseover", listenerObj.onStart);
   elem.removeEventListener("mouseout", listenerObj.onEnd);
 }
 
 export function setupWidgetDrag(widgetElem, node) {
+  if (!widgetElem) {
+    console.warn("setupWidgetDrag: No widgetElem!");
+    return;
+  }
   var dragObj = {
     origPosX: null,
     origPosY: null,
