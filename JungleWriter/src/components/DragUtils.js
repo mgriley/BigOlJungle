@@ -14,7 +14,6 @@ export function makeDraggableExt(element, dragFuncs) {
   var startY = null;
   var curX = null;
   var curY = null;
-  var isShiftPressed = false;
 
   let dragMouseDown = null;
   let elementDrag = null;
@@ -35,7 +34,6 @@ export function makeDraggableExt(element, dragFuncs) {
       startY = e.clientY;
       curX = startX;
       curY = startY;
-      isShiftPressed = e.shiftKey;
       document.addEventListener("mouseup", closeDragElement);
       document.addEventListener("mousemove", elementDrag);
       if (dragFuncs.onStart) {
@@ -53,7 +51,7 @@ export function makeDraggableExt(element, dragFuncs) {
     let newY = e.clientY;
     
     // If shift is pressed, constrain movement to horizontal or vertical
-    if (isShiftPressed) {
+    if (e.shiftKey) {
       let deltaX = Math.abs(newX - startX);
       let deltaY = Math.abs(newY - startY);
       
