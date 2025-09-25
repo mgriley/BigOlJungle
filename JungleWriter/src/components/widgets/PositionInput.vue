@@ -54,6 +54,7 @@ const posY = computed({
 
 .InputRow {
   display: flex;
+  flex-direction: column;
   gap: var(--space-xs);
 }
 
