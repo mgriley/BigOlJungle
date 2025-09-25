@@ -24,6 +24,16 @@ function onKeyDown(evt) {
     return;
   }
 
+  // Don't handle arrow keys if cursor is in a text input
+  const activeElement = document.activeElement;
+  if (activeElement && (
+    activeElement.tagName === 'INPUT' || 
+    activeElement.tagName === 'TEXTAREA' || 
+    activeElement.contentEditable === 'true'
+  )) {
+    return;
+  }
+
   const moveAmount = 10; // pixels to move per keypress
   let handled = false;
 
