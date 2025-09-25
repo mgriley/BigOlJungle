@@ -153,6 +153,12 @@ function resetDragState() {
   dragState.dropPosition = null;
 }
 
+function onDropEnd() {
+  // This handles the case where drag ends without a successful drop
+  console.log('Drag operation ended');
+  resetDragState();
+}
+
 /*
 let nodeList = computed(() => {
   return nodeTree.root.getChildrenDfs();
@@ -193,6 +199,7 @@ let nodeList = computed(() => {
           @dragStart="onDragStart"
           @dragOver="onDragOver"
           @dragEnd="onDragEnd"
+          @dropEnd="onDropEnd"
         ></NodeTreeItem>
       </template>
     </div>

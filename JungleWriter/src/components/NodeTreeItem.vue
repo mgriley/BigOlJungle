@@ -9,7 +9,7 @@ const props = defineProps({
   dragState: Object,
 })
 
-const emit = defineEmits(['dragEvent', 'dragStart', 'dragOver', 'dragEnd'])
+const emit = defineEmits(['dragEvent', 'dragStart', 'dragOver', 'dragEnd', 'dropEnd'])
 
 const isFolder = computed(() => {
   return props.node.children && props.node.children.length
@@ -148,6 +148,12 @@ function onDrop(evt) {
   emit('dragEnd');
 }
 
+function onDragEnd(evt) {
+  console.log('onDragEnd for node:', props.node.name);
+  // This fires when drag ends, regardless of whether drop occurred
+  emit('dropEnd');
+}
+
 onMounted(() => {
 });
 
@@ -173,6 +179,7 @@ onMounted(() => {
     @dragover="onDragOver"
     @dragleave="onDragLeave"
     @drop="onDrop"
+    @dragend="onDragEnd"
   >
     <!--<span class="DepthSpan">{{depthText}}</span>-->
     <span v-if="depth > 0" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
