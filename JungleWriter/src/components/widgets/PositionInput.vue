@@ -3,9 +3,9 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import NumberInput from './NumberInput.vue'
 
 const props = defineProps({
-  modelValue: {
+  node: {
     type: Object,
-    default: () => ({ width: 0, height: 0 })
+    required: true
   },
   name: String,
   min: {
@@ -13,32 +13,22 @@ const props = defineProps({
     default: 0
   }
 })
-const emit = defineEmits(['update:modelValue'])
 
-const value = computed({
+const posX = computed({
   get() {
-    return props.modelValue || { width: 0, height: 0 }
+    return props.node.posX
   },
-  set(value) {
-    emit('update:modelValue', value)
+  set(newPosX) {
+    props.node.posX = newPosX
   }
 })
 
-const width = computed({
+const posY = computed({
   get() {
-    return value.value.width
+    return props.node.posY
   },
-  set(newWidth) {
-    value.value = { ...value.value, width: newWidth }
-  }
-})
-
-const height = computed({
-  get() {
-    return value.value.height
-  },
-  set(newHeight) {
-    value.value = { ...value.value, height: newHeight }
+  set(newPosY) {
+    props.node.posY = newPosY
   }
 })
 </script>
@@ -48,14 +38,14 @@ const height = computed({
     <div class="InputLabel" v-if="name">{{ name }}</div>
     <div class="InputRow">
       <NumberInput 
-        v-model="width" 
-        name="W" 
+        v-model="posX" 
+        name="X" 
         :min="min"
         class="CompactInput"
       />
       <NumberInput 
-        v-model="height" 
-        name="H" 
+        v-model="posY" 
+        name="Y" 
         :min="min"
         class="CompactInput"
       />
