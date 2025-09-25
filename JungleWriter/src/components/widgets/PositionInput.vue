@@ -6,11 +6,6 @@ const props = defineProps({
   node: {
     type: Object,
     required: true
-  },
-  name: String,
-  min: {
-    type: Number,
-    default: 0
   }
 })
 
@@ -35,18 +30,15 @@ const posY = computed({
 
 <template>
   <div class="PositionInput StdInput">
-    <div class="InputLabel" v-if="name">{{ name }}</div>
     <div class="InputRow">
       <NumberInput 
         v-model="posX" 
         name="X" 
-        :min="min"
         class="CompactInput"
       />
       <NumberInput 
         v-model="posY" 
         name="Y" 
-        :min="min"
         class="CompactInput"
       />
     </div>
