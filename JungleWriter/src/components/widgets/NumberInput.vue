@@ -73,7 +73,7 @@ onMounted(() => {
     <div class="Parent">
       <div class="InputLabel LeftLabel" v-if="name && labelLeft">{{name}}</div>
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
-      <input class="BasicTextInput InputChild" type="number" v-model="value" min="min">
+      <input class="BasicTextInput InputChild EditorInput" type="number" v-model="value" min="min">
       <div class="DragBall InputChild" ref="dragBall">Drag</div>
     </div>
   </div>

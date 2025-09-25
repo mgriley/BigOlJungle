@@ -163,3 +163,9 @@ it gets clicked. Say if using for a button
   align-items: center;
 }
 
+.EditorInput {
+  font-size: var(--smaller-size);
+  padding: 2px 4px;
+  min-height: auto;
+}
+
