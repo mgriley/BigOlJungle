@@ -14,6 +14,7 @@ export function makeDraggableExt(element, dragFuncs) {
   var startY = null;
   var curX = null;
   var curY = null;
+  var constraintDirection = null; // 'horizontal', 'vertical', or null
 
   let dragMouseDown = null;
   let elementDrag = null;
@@ -34,6 +35,7 @@ export function makeDraggableExt(element, dragFuncs) {
       startY = e.clientY;
       curX = startX;
       curY = startY;
+      constraintDirection = null; // Reset constraint direction
       document.addEventListener("mouseup", closeDragElement);
       document.addEventListener("mousemove", elementDrag);
       if (dragFuncs.onStart) {
@@ -55,14 +57,20 @@ export function makeDraggableExt(element, dragFuncs) {
       let deltaX = Math.abs(newX - startX);
       let deltaY = Math.abs(newY - startY);
       
-      // Determine which axis has more movement and constrain to that axis
-      if (deltaX > deltaY) {
-        // Constrain to horizontal movement
+      // Only determine constraint direction if we haven't already and there's enough movement
+      if (!constraintDirection && (deltaX > 5 || deltaY > 5)) {
+        constraintDirection = deltaX > deltaY ? 'horizontal' : 'vertical';
+      }
+      
+      // Apply the constraint based on the determined direction
+      if (constraintDirection === 'horizontal') {
         newY = startY;
-      } else {
-        // Constrain to vertical movement
+      } else if (constraintDirection === 'vertical') {
         newX = startX;
       }
+    } else {
+      // Reset constraint direction when shift is released
+      constraintDirection = null;
     }
     
     curX = newX;
