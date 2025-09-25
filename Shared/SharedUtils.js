@@ -263,46 +263,4 @@ export function getRandInt(maxValExclusive) {
   return Math.floor(Math.random() * maxValExclusive);
 }
 
-// Node tree utility functions
-export function isDescendantOf(node, potentialAncestor) {
-  let current = node.parentNode;
-  while (current) {
-    if (current === potentialAncestor) {
-      return true;
-    }
-    current = current.parentNode;
-  }
-  return false;
-}
-
-export function removeFromParent(node) {
-  if (node.parentNode) {
-    const index = node.parentNode.children.indexOf(node);
-    if (index > -1) {
-      node.parentNode.children.splice(index, 1);
-      node.parentNode = null;
-    }
-  }
-}
-
-export function getIndexInParent(node) {
-  if (node.parentNode) {
-    return node.parentNode.children.indexOf(node);
-  }
-  return -1;
-}
-
-export function addChildAtIndex(parentNode, childNode, index = null) {
-  if (childNode.parentNode) {
-    removeFromParent(childNode);
-  }
-  
-  childNode.parentNode = parentNode;
-  
-  if (index === null || index >= parentNode.children.length) {
-    parentNode.children.push(childNode);
-  } else {
-    parentNode.children.splice(Math.max(0, index), 0, childNode);
-  }
-}
 

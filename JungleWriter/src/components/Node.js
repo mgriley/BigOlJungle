@@ -125,8 +125,19 @@ export class Node {
   removeFromParent() {
     if (this.parentNode !== null) {
       removeItem(this.parentNode.children, this);
-      this.parentNode = this;
+      this.parentNode = null;
     }
+  }
+
+  isDescendantOf(potentialAncestor) {
+    let current = this.parentNode;
+    while (current) {
+      if (current === potentialAncestor) {
+        return true;
+      }
+      current = current.parentNode;
+    }
+    return false;
   }
 
   getIndexInParent() {

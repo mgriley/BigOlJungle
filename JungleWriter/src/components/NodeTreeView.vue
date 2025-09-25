@@ -122,7 +122,7 @@ function onDragEnd() {
     const position = dragState.dropPosition;
     
     // Prevent dropping a node onto itself or its descendants
-    if (draggedNode === targetNode || targetNode.isDescendantOf(draggedNode)) {
+    if (draggedNode === targetNode || draggedNode.isDescendantOf(targetNode)) {
       console.log('Invalid drop: cannot drop node onto itself or its descendants');
       resetDragState();
       return;
