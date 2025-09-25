@@ -44,9 +44,9 @@ const isEnabled = computed({
       </div>
     </div>
     <div v-if="isEnabled">
-      <NumberInput v-model="value.width" name="Width" min="0" />
+      <NumberInput v-model="value.width" name="Width" min="0" :labelLeft="true" />
       <ColorInput v-model="value.color" name="Color" />
-      <NumberInput v-model="value.radius" name="Radius" min="0" />
+      <NumberInput v-model="value.radius" name="Radius" min="0" :labelLeft="true" />
     </div>
   </div>
 </template>
