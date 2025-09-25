@@ -306,7 +306,7 @@ class Site {
       this.selectedEntity.selected = false;
     }
     this.selectedEntity = node;
-    console.log("SelectedNode!");
+    console.log("Selected node: " + (node ? node.name : "null"));
     if (node) {
       node.selected = true;
     }
