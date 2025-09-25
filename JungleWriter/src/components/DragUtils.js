@@ -20,6 +20,7 @@ export function makeDraggableExt(element, dragFuncs) {
   dragMouseDown = (e) => {
     e = e || window.event;
     e.preventDefault();
+    e.stopPropagation();
 
     let allowDrag = true;
     if (dragFuncs.allowDrag) {
@@ -42,6 +43,7 @@ export function makeDraggableExt(element, dragFuncs) {
   elementDrag = (e) => {
     e = e || window.event;
     e.preventDefault();
+    e.stopPropagation();
     curX = e.clientX;
     curY = e.clientY;
     if (dragFuncs.onUpdate) {
