@@ -51,7 +51,7 @@ const height = computed({
 </script>
 
 <template>
-  <div class="PositionInput StdInput">
+  <div class="PositionInput">
     <div class="InputRow">
       <NumberInput 
         v-model="posX" 
@@ -87,8 +87,6 @@ const height = computed({
 
 <style scoped>
 .PositionInput {
-  margin-right: 16px;
-  margin-bottom: var(--space-xs);
 }
 
 .InputRow {

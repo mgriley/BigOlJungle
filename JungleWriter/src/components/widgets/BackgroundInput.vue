@@ -22,31 +22,12 @@ const value = computed({
 </script>
 
 <template>
-  <div class="BackgroundInput StdInput">
-    <div class="Header">
-      <div class="InputLabel EditorSubheading" v-if="name">{{name}}</div>
-    </div>
+  <div class="BackgroundInput">
+    <div class="EditorSubheading" v-if="name">{{name}}</div>
     <ColorInput v-model="value.color" name="Color" />
   </div>
 </template>
 
 <style scoped>
-.Header {
-  display: flex;
-  gap: 8px;
-}
-
-.OptionalToggle {
-  margin-right: 8px;
-}
-
-.StdInput {
-  margin-right: 16px;
-}
-
-.InputChild {
-  /*display: inline-block;*/
-  flex: 1;
-}
 
 </style>
