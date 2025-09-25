@@ -107,7 +107,6 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   background-color: blue;
-  border: 1px solid var(--light-color);
   border-radius: var(--border-radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
@@ -125,7 +124,7 @@ onUnmounted(() => {
 }
 
 .DropdownItem:hover {
-  background-color: var(--link-hover-bg);
+  background-color: darkblue;
 }
 
 .DropdownItem.IsActive {
