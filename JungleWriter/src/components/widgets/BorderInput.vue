@@ -22,9 +22,10 @@ const value = computed({
 
 const isEnabled = computed({
   get() {
-    return props.modelValue.style !== 'none';
+    return props.modelValue.enabled;
   },
   set(newVal) {
+    props.modelValue.enabled = newVal;
     if (newVal) {
       props.modelValue.style = 'solid';
     } else {
