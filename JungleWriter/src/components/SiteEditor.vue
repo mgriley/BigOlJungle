@@ -30,7 +30,9 @@ let isEditing = computed(() => {
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
       <NavBar class="mb-s" />
-      <component :is="NodeTreeView"></component>
+      <div class="EditorPane">
+        <component :is="NodeTreeView"></component>
+      </div>
     </div>
     <div class="MainArea">
       <router-view></router-view>
@@ -54,7 +56,7 @@ let isEditing = computed(() => {
 }
 
 .Toplevel.IsEditing {
-  grid-template-columns: 300px 1fr 300px;
+  grid-template-columns: 350px 1fr 350px;
 }
 
 .Sidebar {
@@ -94,7 +96,7 @@ let isEditing = computed(() => {
 }
 
 .EditorPane {
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
   height: 100%;
   /*padding-right: 16px;*/
