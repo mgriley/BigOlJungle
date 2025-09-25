@@ -174,7 +174,7 @@ function setupDrag(itemElem, dragBtn) {
     <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
       <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
     </button>
-    <i :class="nodeIcon" class="NodeIcon"></i>
+    <i v-else :class="nodeIcon" class="NodeIcon"></i>
     <template v-if="!editingName">
       <span @dblclick="onDoubleClickName">
       {{ node.name }}
