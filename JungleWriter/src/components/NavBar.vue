@@ -118,14 +118,14 @@ const kMenuItems = [
 <template>  
   <div class="NavBar">
     <div class="MenuIcon">
-      Menu
+      <i class="bi bi-list"></i> Menu
     </div>
     <div class="InnerMenu">
-      <div v-for="item in kMenuItems" class="MenuItem">
-        <div>
-          <a v-if="item.action" href="#" @click="item.action()">{{ item.name }}</a>
-          <a href="#" v-else>{{ item.name }}</a>
-        </div>
+      <div v-for="item in kMenuItems" :key="item.name" class="MenuItem">
+        <a v-if="item.action" href="#" @click.prevent="item.action()" class="MenuLink">
+          {{ item.name }}
+        </a>
+        <span v-else class="MenuLabel">{{ item.name }}</span>
       </div>
     </div>
   </div>
@@ -133,37 +133,74 @@ const kMenuItems = [
 
 <style scoped>
 .NavBar {
-  /*
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 2000;
-  */
+  position: relative;
   display: inline-block;
 }
 
 .MenuIcon {
-  border: 1px solid var(--main-text);
-  /* border-radius: var(--border-radius-med); */
-  display: inline-block;
-  padding: 6px;
-  background-color: var(--dark-color);
+  border: 1px solid var(--light-color);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-s);
+  background-color: var(--main-bg);
   color: var(--main-text);
   cursor: pointer;
-  /* font-size: var(--smaller-size); */
+  font-size: var(--text-size-sm);
+  transition: background-color 0.2s ease;
 }
 
-.NavBar .InnerMenu {
-  display: none;
-  background-color: blue;
-  padding: var(--space-xs) var(--space-xl) var(--space-s) var(--space-s);
+.MenuIcon:hover {
+  background-color: var(--link-hover-bg);
+}
+
+.InnerMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background-color: var(--main-bg);
+  border: 1px solid var(--light-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: var(--space-xs) 0;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
 }
 
 .NavBar:hover .InnerMenu {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .MenuItem {
+  padding: 0;
+}
+
+.MenuLink {
+  display: block;
+  padding: var(--space-xs) var(--space-s);
+  color: var(--main-text);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.MenuLink:hover {
+  background-color: var(--link-hover-bg);
+  color: var(--primary-color);
+}
+
+.MenuLabel {
+  display: block;
+  padding: var(--space-xs) var(--space-s);
+  color: var(--secondary-text);
+  font-weight: 500;
+  cursor: default;
 }
 
 </style>
