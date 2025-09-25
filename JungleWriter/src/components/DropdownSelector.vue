@@ -71,7 +71,7 @@ onUnmounted(() => {
         @click="selectItem(item)"
         class="DropdownItem"
         :class="{IsActive: currentItem === item}">
-        <i v-if="item.icon" :class="item.icon" class="ItemIcon"></i>
+        <i v-if="item.icon" :class="item.icon" class="ItemIcon mr-xs"></i>
         <span>{{ item.name }}</span>
       </div>
     </div>
