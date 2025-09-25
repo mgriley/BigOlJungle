@@ -134,6 +134,7 @@ function onDragOver(evt) {
 
 function onDragLeave(evt) {
   // Only clear drop target if we're actually leaving this element
+  console.log('onDragLeave for node:', props.node.name);
   if (!evt.currentTarget.contains(evt.relatedTarget)) {
     if (props.dragState?.dropTarget === props.node) {
       emit('dragOver', null, null);
@@ -142,6 +143,7 @@ function onDragLeave(evt) {
 }
 
 function onDrop(evt) {
+  console.log('onDrop for node:', props.node.name);
   evt.preventDefault();
   emit('dragEnd');
 }
