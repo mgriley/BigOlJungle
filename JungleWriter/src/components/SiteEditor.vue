@@ -11,7 +11,7 @@ import NodeTreeView from './NodeTreeView.vue'
 import FileEditor from './FileEditor.vue'
 
 let sidebarTabs = [
-  {name: 'PropEditor', icon: 'bi bi-sliders', comp: PropEditor},
+  {name: 'Editor', icon: 'bi bi-sliders', comp: PropEditor},
   {name: 'Settings', icon: 'bi bi-gear', comp: SettingsEditor},
   // {name: 'Nodes', comp: NodeTreeView},
   {name: 'Files', icon: 'bi bi-folder', comp: FileEditor},

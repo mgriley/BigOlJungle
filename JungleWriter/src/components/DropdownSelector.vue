@@ -64,7 +64,7 @@ onUnmounted(() => {
   <div class="DropdownSelector">
     <div class="DropdownButton" @click="toggleDropdown">
       <div class="ButtonContent">
-        <i v-if="currentItem?.icon" :class="currentItem.icon" class="ItemIcon"></i>
+        <i v-if="currentItem?.icon" :class="currentItem.icon" class="ItemIcon mr-xs"></i>
         <span>{{ currentItemName }}</span>
       </div>
       <i v-if="showIcon" :class="icon"></i>
