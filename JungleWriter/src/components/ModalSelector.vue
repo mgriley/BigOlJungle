@@ -6,6 +6,7 @@ const emit = defineEmits(['choose'])
 
 let show = ref(false);
 let lastShowTime = 0;
+let modalPosition = ref({ top: 0, left: 0 });
 
 function showModal(clickEvt) {
   show.value = true;
@@ -13,6 +14,13 @@ function showModal(clickEvt) {
 
   if (clickEvt) {
     clickEvt.triggeredShow = true;
+    
+    // Position the modal relative to the button that was clicked
+    const rect = clickEvt.target.getBoundingClientRect();
+    modalPosition.value = {
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX
+    };
   }
 }
 
@@ -62,7 +70,14 @@ onMounted(() => {
 
 <template>
   <div v-if="show" class="ModalSelector">
-    <div class="modal-container">
+    <div 
+      class="modal-container"
+      :style="{
+        position: 'fixed',
+        top: modalPosition.top + 'px',
+        left: modalPosition.left + 'px'
+      }"
+    >
       <div class="Option TextButton" v-for="option in options" :style="getOptionStyle(option)" @click="onSelectedOption(option)">
         <i v-if="option.icon" :class="option.icon" class="mr-xs"></i>
         <span>{{ option.name }}</span>
@@ -72,14 +87,23 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.ModalSelector {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
 .modal-container {
-  position: absolute;
-  z-index: 200;
+  z-index: 1001;
   background-color: blue;
   border-radius: var(--border-radius-sm);
   min-width: 160px;
-  margin: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
 }
 
 .Option {
