@@ -18,7 +18,7 @@ const props = defineProps({
 
 <template>
   <div>
-    <PositionInput :node="editorData" />
+    <PositionInput :node="editorData" :includeSize="true" />
     <BackgroundInput v-model="editorData.background" name="Background" />
     <BorderInput v-model="editorData.border" name="Border" />
     <!-- <FilterInput v-model="editorData.filter" name="Filter" /> -->
