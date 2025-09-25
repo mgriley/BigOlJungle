@@ -92,8 +92,6 @@ function selectTab(tab) {
 
 .TabSelector {
   margin-bottom: var(--space-m);
-  border-bottom: 1px solid var(--light-color);
-  padding-bottom: var(--space-s);
 }
 
 .EditorPane {
