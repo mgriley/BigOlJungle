@@ -30,7 +30,7 @@ onMounted(() => {
 <template>
   <div>
     <template v-if="propEditor">
-      <p class="MarginBotXS">Type: {{ propEditor.type }}</p>
+      <!--<p class="MarginBotXS">Type: {{ propEditor.type }}</p>-->
       <component v-if="gNodeDataMap[propEditor.type].editor" :is="gNodeDataMap[propEditor.type].editor" :editorData="propEditor"></component>
     </template>
     <template v-else>
