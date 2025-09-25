@@ -128,6 +128,31 @@ it gets clicked. Say if using for a button
 .my-xl { margin-top: var(--space-xl); margin-bottom: var(--space-xl); }
 .my-xxl { margin-top: var(--space-xxl); margin-bottom: var(--space-xxl); }
 
+/* Font size utility classes */
+.f-xxs { font-size: var(--f-xxs); }
+.f-2xs { font-size: var(--f-2xs); }
+.f-xs { font-size: var(--f-xs); }
+.f-s { font-size: var(--f-s); }
+.f-m { font-size: var(--f-m); }
+.f-l { font-size: var(--f-l); }
+.f-2l { font-size: var(--f-2l); }
+.f-xl { font-size: var(--f-xl); }
+.f-xxl { font-size: var(--f-xxl); }
+.f-2xl { font-size: var(--f-2xl); }
+.f-xxxl { font-size: var(--f-xxxl); }
+.f-3xl { font-size: var(--f-3xl); }
+.f-4xl { font-size: var(--f-4xl); }
+.f-5xl { font-size: var(--f-5xl); }
+
+/* Semantic font size utility classes */
+.f-p { font-size: var(--p-size); }
+.f-h4 { font-size: var(--h4-size); }
+.f-h3 { font-size: var(--h3-size); }
+.f-h2 { font-size: var(--h2-size); }
+.f-h1 { font-size: var(--h1-size); }
+.f-small { font-size: var(--small-size); }
+.f-smaller { font-size: var(--smaller-size); }
+
 .DraggedChosenItem {
   background-color: var(--color-link-hover);
 }
