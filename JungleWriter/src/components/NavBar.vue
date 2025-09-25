@@ -63,10 +63,12 @@ function goToGalleryEditor() {
 const kMenuItems = [
   {
     name: "Back to sites",
+    icon: "bi bi-arrow-left",
     action: goToSites
   },
   {
     name: "Save",
+    icon: "bi bi-floppy",
     action: onSaveFile,
   },
   /*
@@ -77,6 +79,7 @@ const kMenuItems = [
   */
   {
     name: "Generate site",
+    icon: "bi bi-globe",
     action: onGenerateStaticSite
   },
   /*
@@ -95,6 +98,7 @@ const kMenuItems = [
   */
   {
     name: "Export project file",
+    icon: "bi bi-download",
     action: onExportProjectFile
   },
 ];

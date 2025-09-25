@@ -71,7 +71,8 @@ onUnmounted(() => {
         @click="selectItem(item)"
         class="DropdownItem"
         :class="{IsActive: currentItem === item}">
-        {{ item.name }}
+        <i v-if="item.icon" :class="item.icon" class="ItemIcon"></i>
+        <span>{{ item.name }}</span>
       </div>
     </div>
   </div>
@@ -119,9 +120,17 @@ onUnmounted(() => {
 }
 
 .DropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
   padding: var(--space-xs) var(--space-s);
   cursor: pointer;
   font-size: var(--text-size-sm);
+}
+
+.ItemIcon {
+  width: 16px;
+  flex-shrink: 0;
 }
 
 .DropdownItem:hover {

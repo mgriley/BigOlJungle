@@ -11,10 +11,10 @@ import NodeTreeView from './NodeTreeView.vue'
 import FileEditor from './FileEditor.vue'
 
 let sidebarTabs = [
-  {name: 'PropEditor', comp: PropEditor},
-  {name: 'Settings', comp: SettingsEditor},
+  {name: 'PropEditor', icon: 'bi bi-sliders', comp: PropEditor},
+  {name: 'Settings', icon: 'bi bi-gear', comp: SettingsEditor},
   // {name: 'Nodes', comp: NodeTreeView},
-  {name: 'Files', comp: FileEditor},
+  {name: 'Files', icon: 'bi bi-folder', comp: FileEditor},
 ];
 
 let sidebarTab = shallowRef(sidebarTabs[0].comp);
