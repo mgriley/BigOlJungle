@@ -116,7 +116,8 @@ export function setupWidgetDrag(widgetElem, node) {
   };
   makeDraggableExt(widgetElem, {
     allowDrag: () => {
-      return node.isSelected() && !node.interaction;
+      //return node.isSelected() && !node.interaction;
+      return !node.interaction;
     },
     onStart: (startX, startY) => {
       node.interaction = 'move';

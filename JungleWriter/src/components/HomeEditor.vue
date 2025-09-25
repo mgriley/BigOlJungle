@@ -12,8 +12,8 @@ let rootNode = computed(() => {
 })
 
 function onClickBackground(evt) {
-  console.log("Clicked background. TargetId: " + evt.target.id);
-  if (evt.target.id == "Main") {
+  if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
+    console.log("Clicked background, deselecting. TargetId: ", evt.target.id);
     gApp.site.deselectAll();
   }
 }
@@ -61,7 +61,7 @@ onUnmounted(() => {
 <template>  
   <router-view></router-view>
   <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
-    <div class="CanvasArea" :style="canvasStyleObj">
+    <div id="CanvasArea" class="CanvasArea" :style="canvasStyleObj">
       <div class="AnchorDiv">
         <NodeWidget :node="rootNode" />
       </div>
