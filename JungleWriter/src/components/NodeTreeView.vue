@@ -74,7 +74,7 @@ function onChooseNewNode(nodeOption) {
       parentNode = selectedNode;
     } else {
       parentNode = selectedNode.parentNode;
-      insertIndex = selectedNode.getIndexInParent() + 1;
+      insertIndex = Math.max(0, selectedNode.getIndexInParent() - 1);
     }
   } else {
     parentNode = nodeTree.root;
@@ -105,6 +105,7 @@ let nodeList = computed(() => {
 let nodeList = computed(() => {
   let nodes = [];
   nodeTree.root.iterateChildrenDfs((node, depth) => {
+    console.log("Node in tree: " + node.name + " at depth " + depth);
     nodes.push({node: node, depth: depth});
     return node.openInNodeTree;
   });
@@ -118,9 +119,9 @@ let nodeList = computed(() => {
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode">New</button>
       <!--<button class="TertiaryButton" @click="cloneNode">Clone</button>-->
-      <button class="TertiaryButton" @click="moveNodeUp">MoveUp</button>
-      <button class="TertiaryButton" @click="moveNodeDown">MoveDown</button>
-      <button class="DeleteBtn TertiaryButton" @click="deleteNode">Delete</button>
+      <button class="TertiaryButton" @click="moveNodeUp"><i class="bi bi-arrow-up-square"></i></button>
+      <button class="TertiaryButton" @click="moveNodeDown"><i class="bi bi-arrow-down-square"></i></button>
+      <button class="DeleteBtn TertiaryButton" @click="deleteNode"><i class="bi bi-trash3"></i></button>
       <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
     <div class="TreeInner"> 

@@ -41,7 +41,7 @@ let styleObject = computed(() => {
 
 <template>
   <div class="Widget NodeWidget" ref="elementRef" :style="styleObject">
-    <template v-for="childNode in node.children" :key="childNode.id">
+    <template v-for="childNode in node.getChildrenInHtmlOrder()" :key="childNode.id">
       <component v-if="childNode.type !== null" :is="gNodeDataMap[childNode.type].widget" :node="childNode" />
     </template>
   </div>
