@@ -22,6 +22,10 @@ let isEditing = computed(() => {
   return gApp.site.getIsEditing();
 });
 
+let currentTabName = computed(() => {
+  return sidebarTabs.find(tab => tab.comp === sidebarTab.value)?.name || 'Unknown';
+});
+
 </script>
 
 <template>  
@@ -38,9 +42,21 @@ let isEditing = computed(() => {
       <router-view></router-view>
     </div>
     <div v-if="isEditing" class="Sidebar SidebarRight">
-      <div class="SidebarButtons Flex">
-        <p v-for="tab in sidebarTabs" @click="sidebarTab = tab.comp"
-          class="TabButton TextButton" :class="{IsActive: sidebarTab == tab.comp}">{{tab.name}}</p>
+      <div class="TabSelector">
+        <div class="TabDropdown">
+          <div class="TabDropdownButton">
+            <span>{{ currentTabName }}</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="TabDropdownMenu">
+            <div v-for="tab in sidebarTabs" :key="tab.name"
+              @click="sidebarTab = tab.comp"
+              class="TabDropdownItem"
+              :class="{IsActive: sidebarTab == tab.comp}">
+              {{ tab.name }}
+            </div>
+          </div>
+        </div>
       </div>
       <div class="EditorPane">
         <component :is="sidebarTab"></component>
@@ -78,21 +94,76 @@ let isEditing = computed(() => {
   padding: var(--space-s) var(--space-s);
 }
 
-.SidebarButtons {
-  gap: var(--space-s);
-  row-gap: 0;
-  border-bottom: 1px solid var(--main-text);
+.TabSelector {
   margin-bottom: var(--space-m);
+  border-bottom: 1px solid var(--light-color);
+  padding-bottom: var(--space-s);
 }
 
-.TabButton {
-  margin-top: 0;
-  margin-bottom: 0;
+.TabDropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
 }
 
-.TabButton.IsActive {
-  color: var(--main-text);
-  color: orange;
+.TabDropdownButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-s);
+  background-color: var(--main-bg);
+  border: 1px solid var(--light-color);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: var(--text-size-sm);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.TabDropdownButton:hover {
+  background-color: var(--link-hover-bg);
+  border-color: var(--primary-color);
+}
+
+.TabDropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--main-bg);
+  border: 1px solid var(--light-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.TabDropdown:hover .TabDropdownMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.TabDropdownItem {
+  padding: var(--space-xs) var(--space-s);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: var(--text-size-sm);
+}
+
+.TabDropdownItem:hover {
+  background-color: var(--link-hover-bg);
+}
+
+.TabDropdownItem.IsActive {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.TabDropdownItem.IsActive:hover {
+  background-color: var(--primary-color);
 }
 
 .EditorPane {
