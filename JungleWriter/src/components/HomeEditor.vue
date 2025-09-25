@@ -21,6 +21,7 @@ function onClickBackground(evt) {
 function onKeyDown(evt) {
   /**
    * Use arrow keys to move selected node when in editing mode.
+   * With shift held, use arrow keys to resize the selected node.
    */ 
   // Only handle arrow keys when editing and a node is selected
   if (!gApp.site.isEditing || !gApp.site.selectedEntity) {
@@ -38,25 +39,57 @@ function onKeyDown(evt) {
   }
 
   const moveAmount = 1; // pixels to move per keypress
+  const resizeAmount = 5; // pixels to resize per keypress
   let handled = false;
+  const selectedNode = gApp.site.selectedEntity;
 
-  switch (evt.key) {
-    case 'ArrowLeft':
-      gApp.site.selectedEntity.posX -= moveAmount;
-      handled = true;
-      break;
-    case 'ArrowRight':
-      gApp.site.selectedEntity.posX += moveAmount;
-      handled = true;
-      break;
-    case 'ArrowUp':
-      gApp.site.selectedEntity.posY -= moveAmount;
-      handled = true;
-      break;
-    case 'ArrowDown':
-      gApp.site.selectedEntity.posY += moveAmount;
-      handled = true;
-      break;
+  if (evt.shiftKey) {
+    // Shift + arrow keys: resize the element
+    // Only resize if the node has width/height properties
+    if (selectedNode.width !== undefined && selectedNode.height !== undefined) {
+      switch (evt.key) {
+        case 'ArrowLeft':
+          // Shift left edge in (decrease width)
+          selectedNode.width = Math.max(10, selectedNode.width - resizeAmount);
+          handled = true;
+          break;
+        case 'ArrowRight':
+          // Shift right edge out (increase width)
+          selectedNode.width += resizeAmount;
+          handled = true;
+          break;
+        case 'ArrowUp':
+          // Shift top edge in (decrease height)
+          selectedNode.height = Math.max(10, selectedNode.height - resizeAmount);
+          handled = true;
+          break;
+        case 'ArrowDown':
+          // Shift bottom edge out (increase height)
+          selectedNode.height += resizeAmount;
+          handled = true;
+          break;
+      }
+    }
+  } else {
+    // Regular arrow keys: move the element
+    switch (evt.key) {
+      case 'ArrowLeft':
+        selectedNode.posX -= moveAmount;
+        handled = true;
+        break;
+      case 'ArrowRight':
+        selectedNode.posX += moveAmount;
+        handled = true;
+        break;
+      case 'ArrowUp':
+        selectedNode.posY -= moveAmount;
+        handled = true;
+        break;
+      case 'ArrowDown':
+        selectedNode.posY += moveAmount;
+        handled = true;
+        break;
+    }
   }
 
   if (handled) {
