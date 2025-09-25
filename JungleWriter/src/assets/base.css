@@ -41,6 +41,28 @@
   --space-xl: 48px;
   --space-xxl: 80px;
 
+  /* Base font sizes */
+  --f-xxs: 12px;
+  --f-2xs: 12px;
+  --f-xs: 14px;
+  --f-s: 16px;
+  --f-m: 18px;
+  --f-l: 20px;
+  --f-2l: 24px;
+  --f-xl: 30px;
+  --f-xxl: 36px;
+  --f-2xl: 36px;
+  --f-xxxl: 48px;
+  --f-3xl: 48px;
+  --f-4xl: 60px;
+  --f-5xl: 72px;
+
+  --p-size: var(--f-m);
+  --h4-size: var(--f-l);
+  --h3-size: var(--f-2l);
+  --h2-size: var(--f-xl);
+  --h1-size: var(--f-xxl);
+
   /* --p-size: 1rem; */
   --p-size: 22px;
   --h4-size: calc(var(--p-size)*1.25);

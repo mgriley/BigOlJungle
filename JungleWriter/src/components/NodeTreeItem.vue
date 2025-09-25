@@ -58,7 +58,7 @@ let depthText = computed(() => {
   /*return '\u251C' + '\u2500'.repeat(props.depth + 1) + ' ';*/
   /*return '|' + '–'.repeat(props.depth + 1) + ' ';*/
   /*return '\u00A0'.repeat((props.depth - 1)*3) + '\u2517' + ' ';*/
-  return '\u00A0'.repeat((props.depth - 2)*3);
+  return '\u00A0'.repeat((props.depth - 1)*3);
 })
 
 let styleObject = computed(() => {
@@ -80,7 +80,7 @@ let nodeIcon = computed(() => {
     case 'ImageNode':
       return 'bi bi-image';
     case 'RectNode':
-      return 'bi bi-square';
+      return 'bi bi-app';
     case 'OmniNode':
       return 'bi bi-circle';
     case 'LinksNode':
@@ -169,17 +169,17 @@ function setupDrag(itemElem, dragBtn) {
   <div :class="{ bold: isFolder, ItemContainer: true }" :style="styleObject"
     @click="selectNode" ref="itemElem">
     <!--<span class="DepthSpan">{{depthText}}</span>-->
-    <span v-if="depth > 1" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
+    <span v-if="depth > 0" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
     <!--<span class="NodeTypeIcon"><sup>{{ node.constructor.sUiShortName }}</sup></span>-->
     <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
       <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
     </button>
     <i v-else :class="nodeIcon" class="NodeIcon"></i>
-    <template v-if="!editingName">
+    <p v-if="!editingName">
       <span @dblclick="onDoubleClickName">
       {{ node.name }}
       </span>
-    </template>
+    </p>
     <template v-else>
       <input v-model="node.name" ref="nameInput" @keyup="onNameEditKey" @blur="onEndEditName" size="12">
     </template>

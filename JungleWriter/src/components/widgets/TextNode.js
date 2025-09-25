@@ -12,7 +12,7 @@ export class TextNode extends Node {
     this.type = "TextNode";
     this.allowsChildren = false;
 
-    this.text = "Hello World!";
+    this.text = "Text";
     this.fontFamily = null;
     this.fontSize = 36;
     this.color = "var(--darkest-color)";
