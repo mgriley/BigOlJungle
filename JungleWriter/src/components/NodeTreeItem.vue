@@ -69,6 +69,27 @@ let styleObject = computed(() => {
   return obj;
 })
 
+let nodeIcon = computed(() => {
+  const nodeType = props.node.type || props.node.constructor.name;
+  
+  switch (nodeType) {
+    case 'Node':
+      return 'bi bi-folder2'; // Group/folder icon
+    case 'TextNode':
+      return 'bi bi-type';
+    case 'ImageNode':
+      return 'bi bi-image';
+    case 'RectNode':
+      return 'bi bi-square';
+    case 'OmniNode':
+      return 'bi bi-circle';
+    case 'LinksNode':
+      return 'bi bi-link-45deg';
+    default:
+      return 'bi bi-file-earmark'; // Default file icon
+  }
+})
+
 let itemElem = ref(null);
 let dragBtn = ref(null);
 
@@ -153,6 +174,7 @@ function setupDrag(itemElem, dragBtn) {
     <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
       <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
     </button>
+    <i :class="nodeIcon" class="NodeIcon"></i>
     <template v-if="!editingName">
       <span @dblclick="onDoubleClickName">
       {{ node.name }}
@@ -179,6 +201,12 @@ function setupDrag(itemElem, dragBtn) {
 
 .OpenBtn:hover {
   color: var(--main-text);
+}
+
+.NodeIcon {
+  margin-right: 4px;
+  color: var(--secondary-text);
+  font-size: 0.9em;
 }
 
 .ItemContainer {
