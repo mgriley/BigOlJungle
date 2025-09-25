@@ -30,7 +30,7 @@
   --bright-red: rgb(245, 49, 0);
   --text-button-hover: var(--nice-red);
 
-  --row-highlight-bg: lightblue;
+  --row-highlight-bg: blue;
 
   --space-zero: 0px;
   --space-xxs: 4px;

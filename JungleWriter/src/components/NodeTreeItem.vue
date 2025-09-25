@@ -175,7 +175,7 @@ function setupDrag(itemElem, dragBtn) {
       <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
     </button>
     <i v-else :class="nodeIcon" class="NodeIcon"></i>
-    <p v-if="!editingName">
+    <p v-if="!editingName" class="NodeName InlineBlock ml-xxs f-m">
       <span @dblclick="onDoubleClickName">
       {{ node.name }}
       </span>
@@ -238,6 +238,10 @@ function setupDrag(itemElem, dragBtn) {
   display: inline-block;
   white-space: pre;
   color: rgba(255, 255, 255, 0.4);
+}
+
+.NodeName {
+  color: var(--main-text);
 }
 </style>
 
