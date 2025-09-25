@@ -97,7 +97,7 @@ const kMenuItems = [
   },
   */
   {
-    name: "Export project file",
+    name: "Export project",
     icon: "bi bi-download",
     action: onExportProjectFile
   },

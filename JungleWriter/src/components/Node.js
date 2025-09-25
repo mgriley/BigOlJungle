@@ -268,7 +268,7 @@ export class Node {
 
   async getChildHtml(writer) {
     let htmlStrings = [];
-    for (const child of this.children) {
+    for (const child of this.getChildrenInHtmlOrder()) {
       let childHtml = await child.generateStaticHtml(writer);
       htmlStrings.push(childHtml);
     }
