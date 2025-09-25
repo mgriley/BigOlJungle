@@ -50,12 +50,12 @@ const posY = computed({
 <style scoped>
 .PositionInput {
   margin-right: 16px;
+  margin-bottom: var(--space-xs);
 }
 
 .InputRow {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
 }
 
 .CompactInput {
