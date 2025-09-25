@@ -3,6 +3,7 @@ import { ref, shallowRef, reactive, computed, onMounted, onUnmounted } from 'vue
 import { gApp } from './State.js'
 import NavBar from './NavBar.vue'
 import ShortcutBtns from './ShortcutBtns.vue'
+import DropdownSelector from './DropdownSelector.vue'
 
 import SettingsEditor from './SettingsEditor.vue'
 import PropEditor from './PropEditor.vue'
@@ -22,15 +23,12 @@ let isEditing = computed(() => {
   return gApp.site.getIsEditing();
 });
 
-let currentTabName = computed(() => {
-  return sidebarTabs.find(tab => tab.comp === sidebarTab.value)?.name || 'Unknown';
+let currentTab = computed(() => {
+  return sidebarTabs.find(tab => tab.comp === sidebarTab.value) || null;
 });
-
-let isDropdownOpen = ref(false);
 
 function selectTab(tab) {
   sidebarTab.value = tab.comp;
-  isDropdownOpen.value = false;
 }
 
 </script>
@@ -50,20 +48,11 @@ function selectTab(tab) {
     </div>
     <div v-if="isEditing" class="Sidebar SidebarRight">
       <div class="TabSelector">
-        <div class="TabDropdown" @mouseleave="isDropdownOpen = false">
-          <div class="TabDropdownButton" @mouseenter="isDropdownOpen = true">
-            <span>{{ currentTabName }}</span>
-            <i class="bi bi-chevron-down"></i>
-          </div>
-          <div class="TabDropdownMenu" :class="{IsOpen: isDropdownOpen}">
-            <div v-for="tab in sidebarTabs" :key="tab.name"
-              @click="selectTab(tab)"
-              class="TabDropdownItem"
-              :class="{IsActive: sidebarTab == tab.comp}">
-              {{ tab.name }}
-            </div>
-          </div>
-        </div>
+        <DropdownSelector 
+          :items="sidebarTabs"
+          :currentItem="currentTab"
+          @select="selectTab"
+        />
       </div>
       <div class="EditorPane">
         <component :is="sidebarTab"></component>
@@ -105,72 +94,6 @@ function selectTab(tab) {
   margin-bottom: var(--space-m);
   border-bottom: 1px solid var(--light-color);
   padding-bottom: var(--space-s);
-}
-
-.TabDropdown {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.TabDropdownButton {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-xs) var(--space-s);
-  background-color: var(--main-bg);
-  border: 1px solid var(--light-color);
-  border-radius: var(--border-radius-sm);
-  cursor: pointer;
-  font-size: var(--text-size-sm);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.TabDropdownButton:hover {
-  background-color: var(--link-hover-bg);
-  border-color: var(--primary-color);
-}
-
-.TabDropdownMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: var(--main-bg);
-  border: 1px solid var(--light-color);
-  border-radius: var(--border-radius-sm);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px);
-  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-}
-
-.TabDropdownMenu.IsOpen {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.TabDropdownItem {
-  padding: var(--space-xs) var(--space-s);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: var(--text-size-sm);
-}
-
-.TabDropdownItem:hover {
-  background-color: var(--link-hover-bg);
-}
-
-.TabDropdownItem.IsActive {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.TabDropdownItem.IsActive:hover {
-  background-color: var(--primary-color);
 }
 
 .EditorPane {
