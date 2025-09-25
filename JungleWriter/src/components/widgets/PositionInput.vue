@@ -6,6 +6,10 @@ const props = defineProps({
   node: {
     type: Object,
     required: true
+  },
+  includeSize: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -26,10 +30,29 @@ const posY = computed({
     props.node.posY = newPosY
   }
 })
+
+const width = computed({
+  get() {
+    return props.node.width
+  },
+  set(newWidth) {
+    props.node.width = newWidth
+  }
+})
+
+const height = computed({
+  get() {
+    return props.node.height
+  },
+  set(newHeight) {
+    props.node.height = newHeight
+  }
+})
 </script>
 
 <template>
   <div class="PositionInput StdInput">
+    <div class="InputLabel">{{ includeSize ? 'Position and Size' : 'Position' }}</div>
     <div class="InputRow">
       <NumberInput 
         v-model="posX" 
@@ -40,6 +63,20 @@ const posY = computed({
       <NumberInput 
         v-model="posY" 
         name="Y" 
+        class="CompactInput"
+        :labelLeft="true"
+      />
+      <NumberInput 
+        v-if="includeSize"
+        v-model="width" 
+        name="W" 
+        class="CompactInput"
+        :labelLeft="true"
+      />
+      <NumberInput 
+        v-if="includeSize"
+        v-model="height" 
+        name="H" 
         class="CompactInput"
         :labelLeft="true"
       />
