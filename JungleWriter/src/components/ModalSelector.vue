@@ -67,7 +67,6 @@ onMounted(() => {
         <i v-if="option.icon" :class="option.icon" class="mr-xs"></i>
         <span>{{ option.name }}</span>
       </div>
-      <div class="Option TextButton CancelOption" @click="closeModal">Cancel</div>
     </div>
   </div>
 </template>
