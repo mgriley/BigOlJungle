@@ -124,10 +124,7 @@ export function setupWidgetDrag(widgetElem, node) {
       return !node.interaction;
     },
     onStart: (startX, startY) => {
-      // Import gApp to access site selection functionality
-      const { gApp } = require('./State.js');
       gApp.site.selectNode(node);
-      
       node.interaction = 'move';
       dragObj.origPosX = node.posX;
       dragObj.origPosY = node.posY;
