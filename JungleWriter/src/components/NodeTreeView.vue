@@ -12,6 +12,14 @@ const nodeTree = gApp.site.nodeTree;
 const treeViewRef = ref(null);
 const newNodeModal = ref(null);
 
+// Drag and drop state
+const dragState = reactive({
+  isDragging: false,
+  draggedNode: null,
+  dropTarget: null,
+  dropPosition: null, // 'before', 'after', 'inside'
+});
+
 let newNodeOptions = [
 {
   name: "Group",
@@ -94,6 +102,61 @@ function moveNode(nodeA, nodeB) {
   nodeA.moveNode(nodeB);
 }
 
+function onDragStart(node) {
+  dragState.isDragging = true;
+  dragState.draggedNode = node;
+  console.log('Drag started for node:', node.name);
+}
+
+function onDragOver(targetNode, position) {
+  if (dragState.isDragging && dragState.draggedNode !== targetNode) {
+    dragState.dropTarget = targetNode;
+    dragState.dropPosition = position;
+  }
+}
+
+function onDragEnd() {
+  if (dragState.isDragging && dragState.dropTarget && dragState.draggedNode) {
+    const draggedNode = dragState.draggedNode;
+    const targetNode = dragState.dropTarget;
+    const position = dragState.dropPosition;
+    
+    // Prevent dropping a node onto itself or its descendants
+    if (draggedNode === targetNode || targetNode.isDescendantOf(draggedNode)) {
+      console.log('Invalid drop: cannot drop node onto itself or its descendants');
+      resetDragState();
+      return;
+    }
+    
+    // Remove the dragged node from its current parent
+    draggedNode.removeFromParent();
+    
+    // Insert the node at the new position
+    if (position === 'inside' && targetNode.allowsChildren) {
+      targetNode.addChild(draggedNode);
+    } else if (position === 'before') {
+      const parentNode = targetNode.parentNode;
+      const targetIndex = targetNode.getIndexInParent();
+      parentNode.addChildAtIndex(draggedNode, targetIndex);
+    } else if (position === 'after') {
+      const parentNode = targetNode.parentNode;
+      const targetIndex = targetNode.getIndexInParent();
+      parentNode.addChildAtIndex(draggedNode, targetIndex + 1);
+    }
+    
+    console.log(`Moved ${draggedNode.name} ${position} ${targetNode.name}`);
+  }
+  
+  resetDragState();
+}
+
+function resetDragState() {
+  dragState.isDragging = false;
+  dragState.draggedNode = null;
+  dragState.dropTarget = null;
+  dragState.dropPosition = null;
+}
+
 /*
 let nodeList = computed(() => {
   return nodeTree.root.getChildrenDfs();
@@ -126,7 +189,15 @@ let nodeList = computed(() => {
     </div>
     <div class="TreeInner"> 
       <template v-for="childNode in nodeList" :id="child.node.id">
-        <NodeTreeItem class="item" :node="childNode.node" :depth="childNode.depth"></NodeTreeItem>
+        <NodeTreeItem 
+          class="item" 
+          :node="childNode.node" 
+          :depth="childNode.depth"
+          :dragState="dragState"
+          @dragStart="onDragStart"
+          @dragOver="onDragOver"
+          @dragEnd="onDragEnd"
+        ></NodeTreeItem>
       </template>
     </div>
   </div>

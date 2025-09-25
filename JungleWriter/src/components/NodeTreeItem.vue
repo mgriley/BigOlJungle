@@ -6,9 +6,10 @@ import { makeDraggableExt, addHoverListener } from './Utils.js'
 const props = defineProps({
   node: Object,
   depth: Number,
+  dragState: Object,
 })
 
-const emit = defineEmits(['dragEvent'])
+const emit = defineEmits(['dragEvent', 'dragStart', 'dragOver', 'dragEnd'])
 
 const isFolder = computed(() => {
   return props.node.children && props.node.children.length
@@ -93,6 +94,57 @@ let nodeIcon = computed(() => {
 let itemElem = ref(null);
 let dragBtn = ref(null);
 
+const isDraggedOver = computed(() => {
+  return props.dragState?.dropTarget === props.node;
+});
+
+const isDragging = computed(() => {
+  return props.dragState?.draggedNode === props.node;
+});
+
+function onDragStart(evt) {
+  evt.dataTransfer.effectAllowed = 'move';
+  evt.dataTransfer.setData('text/plain', ''); // Required for Firefox
+  emit('dragStart', props.node);
+}
+
+function onDragOver(evt) {
+  if (props.dragState?.isDragging && props.dragState.draggedNode !== props.node) {
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'move';
+    
+    // Determine drop position based on mouse position within the element
+    const rect = evt.currentTarget.getBoundingClientRect();
+    const y = evt.clientY - rect.top;
+    const height = rect.height;
+    
+    let position;
+    if (props.node.allowsChildren && y > height * 0.3 && y < height * 0.7) {
+      position = 'inside';
+    } else if (y < height * 0.5) {
+      position = 'before';
+    } else {
+      position = 'after';
+    }
+    
+    emit('dragOver', props.node, position);
+  }
+}
+
+function onDragLeave(evt) {
+  // Only clear drop target if we're actually leaving this element
+  if (!evt.currentTarget.contains(evt.relatedTarget)) {
+    if (props.dragState?.dropTarget === props.node) {
+      emit('dragOver', null, null);
+    }
+  }
+}
+
+function onDrop(evt) {
+  evt.preventDefault();
+  emit('dragEnd');
+}
+
 onMounted(() => {
   setupDrag(itemElem.value, dragBtn.value);
 });
@@ -166,8 +218,23 @@ function setupDrag(itemElem, dragBtn) {
 </script>
 
 <template>
-  <div :class="{ bold: isFolder, ItemContainer: true }" class="NoSelect" :style="styleObject"
-    @click="selectNode" ref="itemElem">
+  <div 
+    :class="{ 
+      bold: isFolder, 
+      ItemContainer: true,
+      'drag-over': isDraggedOver,
+      'dragging': isDragging
+    }" 
+    class="NoSelect" 
+    :style="styleObject"
+    @click="selectNode" 
+    ref="itemElem"
+    draggable="true"
+    @dragstart="onDragStart"
+    @dragover="onDragOver"
+    @dragleave="onDragLeave"
+    @drop="onDrop"
+  >
     <!--<span class="DepthSpan">{{depthText}}</span>-->
     <span v-if="depth > 0" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
     <!--<span class="NodeTypeIcon"><sup>{{ node.constructor.sUiShortName }}</sup></span>-->
@@ -242,6 +309,19 @@ function setupDrag(itemElem, dragBtn) {
 
 .NodeName {
   color: var(--main-text);
+}
+
+.ItemContainer.drag-over {
+  background-color: var(--link-hover-bg);
+  border: 2px dashed var(--primary-color);
+}
+
+.ItemContainer.dragging {
+  opacity: 0.5;
+}
+
+.ItemContainer[draggable="true"] {
+  cursor: move;
 }
 </style>
 
