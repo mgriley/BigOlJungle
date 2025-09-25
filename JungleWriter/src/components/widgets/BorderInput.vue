@@ -35,9 +35,9 @@ const isEnabled = computed({
 </script>
 
 <template>
-  <div class="BorderInput StdInput">
+  <div class="BorderInput">
     <div class="Header">
-      <div class="InputLabel EditorSubheading" v-if="name">{{name}}</div>
+      <div class="EditorSubheading" v-if="name">{{name}}</div>
       <input class="OptionalToggle" v-model="isEnabled" type="checkbox" name="optionalToggle"/>
     </div>
     <div v-if="isEnabled">
