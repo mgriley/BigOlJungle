@@ -20,9 +20,14 @@ export class RectNode extends Node {
     this.type = "RectNode";
     this.allowsChildren = false;
 
-    this.width = 400;
-    this.height = 400;
+    // Default size and position
+    this.width = 200;
+    this.height = 200;
+    this.posX = -100;
+    this.posY = -100;
+
     this.background = new BackgroundInfo();
+    this.background.color = 'blue';
     this.border = new BorderInfo();
     //this.filter = new FilterInfo();
     //this.backdropFilter = new FilterInfo();

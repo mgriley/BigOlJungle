@@ -22,6 +22,7 @@ export class ImageNode extends Node {
     this.preserveAspectRatio = true;
     this.width = 300;
     this.height = 300;
+    this.posX = -150;
 
     this.linkUrl = "";
   }
