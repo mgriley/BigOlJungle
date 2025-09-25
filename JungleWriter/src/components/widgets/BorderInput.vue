@@ -38,8 +38,10 @@ const isEnabled = computed({
 <template>
   <div class="BorderInput">
     <div class="Header">
-      <div class="EditorSubheading" v-if="name">{{name}}</div>
-      <SectionToggle v-model="isEnabled" />
+      <div class="HeaderLeft" v-if="name">
+        <div class="EditorSubheading">{{name}}</div>
+        <SectionToggle v-model="isEnabled" />
+      </div>
     </div>
     <div v-if="isEnabled">
       <NumberInput v-model="value.width" name="Width" min="0" />
@@ -51,10 +53,13 @@ const isEnabled = computed({
 
 <style scoped>
 .Header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: var(--space-xs);
+}
+
+.HeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .StdInput {
