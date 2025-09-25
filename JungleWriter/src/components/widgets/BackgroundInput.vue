@@ -3,7 +3,6 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
 import NumberInput from './NumberInput.vue'
 import ColorInput from './ColorInput.vue'
-import BasicSelector from '../BasicSelector.vue'
 
 const props = defineProps({
   modelValue: [String, Number, Object],
@@ -27,10 +26,7 @@ const value = computed({
     <div class="Header">
       <div class="InputLabel" v-if="name">{{name}}</div>
     </div>
-    <BasicSelector :value="value.type" :options="['solid']" @change="(newType) => value.type = newType" />
-    <div v-if="value.type == 'solid'">
-      <ColorInput v-model="value.color" name="Color" />
-    </div>
+    <ColorInput v-model="value.color" name="Color" />
   </div>
 </template>
 
