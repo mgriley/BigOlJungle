@@ -1,6 +1,7 @@
 
 export class BorderInfo {
   constructor() {
+    this.enabled = false;
     this.width = 2;
     this.style = 'none';
     this.color = 'black';
@@ -9,6 +10,7 @@ export class BorderInfo {
 
   writeToJson() {
     return {
+      enabled: this.enabled,
       width: this.width,
       style: this.style,
       color: this.color,
@@ -17,6 +19,7 @@ export class BorderInfo {
   }
 
   readFromJson(obj) {
+    this.enabled = obj.enabled || false;
     this.width = obj.width;
     this.style = obj.style;
     this.color = obj.color;
@@ -24,6 +27,9 @@ export class BorderInfo {
   }
 
   getStyleObject() {
+    if (!this.enabled) {
+      return {};
+    }
     return {
       'border': `${this.width}px ${this.style} ${this.color}`,
       'border-radius': `${this.radius}px`,
