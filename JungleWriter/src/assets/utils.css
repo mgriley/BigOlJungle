@@ -57,6 +57,77 @@ it gets clicked. Say if using for a button
   margin-bottom: var(--space-xxs);
 }
 
+/* Margin utility classes */
+/* Margin Top */
+.mt-zero { margin-top: var(--space-zero); }
+.mt-xxs { margin-top: var(--space-xxs); }
+.mt-xs { margin-top: var(--space-xs); }
+.mt-s { margin-top: var(--space-s); }
+.mt-m { margin-top: var(--space-m); }
+.mt-l { margin-top: var(--space-l); }
+.mt-xl { margin-top: var(--space-xl); }
+.mt-xxl { margin-top: var(--space-xxl); }
+
+/* Margin Bottom */
+.mb-zero { margin-bottom: var(--space-zero); }
+.mb-xxs { margin-bottom: var(--space-xxs); }
+.mb-xs { margin-bottom: var(--space-xs); }
+.mb-s { margin-bottom: var(--space-s); }
+.mb-m { margin-bottom: var(--space-m); }
+.mb-l { margin-bottom: var(--space-l); }
+.mb-xl { margin-bottom: var(--space-xl); }
+.mb-xxl { margin-bottom: var(--space-xxl); }
+
+/* Margin Left */
+.ml-zero { margin-left: var(--space-zero); }
+.ml-xxs { margin-left: var(--space-xxs); }
+.ml-xs { margin-left: var(--space-xs); }
+.ml-s { margin-left: var(--space-s); }
+.ml-m { margin-left: var(--space-m); }
+.ml-l { margin-left: var(--space-l); }
+.ml-xl { margin-left: var(--space-xl); }
+.ml-xxl { margin-left: var(--space-xxl); }
+
+/* Margin Right */
+.mr-zero { margin-right: var(--space-zero); }
+.mr-xxs { margin-right: var(--space-xxs); }
+.mr-xs { margin-right: var(--space-xs); }
+.mr-s { margin-right: var(--space-s); }
+.mr-m { margin-right: var(--space-m); }
+.mr-l { margin-right: var(--space-l); }
+.mr-xl { margin-right: var(--space-xl); }
+.mr-xxl { margin-right: var(--space-xxl); }
+
+/* Margin All */
+.m-zero { margin: var(--space-zero); }
+.m-xxs { margin: var(--space-xxs); }
+.m-xs { margin: var(--space-xs); }
+.m-s { margin: var(--space-s); }
+.m-m { margin: var(--space-m); }
+.m-l { margin: var(--space-l); }
+.m-xl { margin: var(--space-xl); }
+.m-xxl { margin: var(--space-xxl); }
+
+/* Margin Horizontal (left and right) */
+.mx-zero { margin-left: var(--space-zero); margin-right: var(--space-zero); }
+.mx-xxs { margin-left: var(--space-xxs); margin-right: var(--space-xxs); }
+.mx-xs { margin-left: var(--space-xs); margin-right: var(--space-xs); }
+.mx-s { margin-left: var(--space-s); margin-right: var(--space-s); }
+.mx-m { margin-left: var(--space-m); margin-right: var(--space-m); }
+.mx-l { margin-left: var(--space-l); margin-right: var(--space-l); }
+.mx-xl { margin-left: var(--space-xl); margin-right: var(--space-xl); }
+.mx-xxl { margin-left: var(--space-xxl); margin-right: var(--space-xxl); }
+
+/* Margin Vertical (top and bottom) */
+.my-zero { margin-top: var(--space-zero); margin-bottom: var(--space-zero); }
+.my-xxs { margin-top: var(--space-xxs); margin-bottom: var(--space-xxs); }
+.my-xs { margin-top: var(--space-xs); margin-bottom: var(--space-xs); }
+.my-s { margin-top: var(--space-s); margin-bottom: var(--space-s); }
+.my-m { margin-top: var(--space-m); margin-bottom: var(--space-m); }
+.my-l { margin-top: var(--space-l); margin-bottom: var(--space-l); }
+.my-xl { margin-top: var(--space-xl); margin-bottom: var(--space-xl); }
+.my-xxl { margin-top: var(--space-xxl); margin-bottom: var(--space-xxl); }
+
 .DraggedChosenItem {
   background-color: var(--color-link-hover);
 }
