@@ -44,17 +44,19 @@ function setupDragBall(elmnt) {
 
   makeDraggableExt(elmnt, {
     onStart: () => {
-      startVal = value.value;
+      startVal = Number(value.value) || 0;
       document.body.style.cursor = 'move';
     },
     onUpdate: (startX, startY, curX, curY) => {
       let diffX = curX - startX;
       let diffY = curY - startY;
-      let newVal = Math.max(props.min, Math.floor(startVal - diffY/5.0));
+      let minVal = Number(props.min) || 0;
+      let newVal = Math.max(minVal, Math.floor(startVal - diffY/5.0));
       /*console.log("New value: " + newVal);*/
       value.value = newVal;
     },
     onEnd: () => {
+      document.body.style.cursor = '';
     }
   })
 }
