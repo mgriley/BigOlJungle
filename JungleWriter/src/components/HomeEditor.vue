@@ -19,6 +19,9 @@ function onClickBackground(evt) {
 }
 
 function onKeyDown(evt) {
+  /**
+   * Use arrow keys to move selected node when in editing mode.
+   */ 
   // Only handle arrow keys when editing and a node is selected
   if (!gApp.site.isEditing || !gApp.site.selectedEntity) {
     return;
@@ -34,7 +37,7 @@ function onKeyDown(evt) {
     return;
   }
 
-  const moveAmount = 10; // pixels to move per keypress
+  const moveAmount = 1; // pixels to move per keypress
   let handled = false;
 
   switch (evt.key) {
