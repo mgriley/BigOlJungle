@@ -118,17 +118,26 @@ function onDragEnd() {
     const position = dragState.dropPosition;
     
     // Prevent dropping a node onto itself or its descendants
-    if (draggedNode === targetNode || draggedNode.isDescendantOf(targetNode)) {
-      console.log('Invalid drop: cannot drop node onto itself or its descendants');
+    if (draggedNode === targetNode || targetNode.isDescendantOf(draggedNode)) {
+      console.log('Invalid drop: cannot drop node onto yourself or into yourself');
+      resetDragState();
+      return;
+    }
+
+    // If we drag onto the root node, just make it the first child in the list - likely
+    // what the user wants.
+    if (targetNode === nodeTree.root) {
+      draggedNode.removeFromParent();
+      nodeTree.root.addChild(draggedNode);
       resetDragState();
       return;
     }
     
     // Remove the dragged node from its current parent
     draggedNode.removeFromParent();
-    
-    // Insert the node at the new position
+    console.log(`Dropping ${draggedNode.name} ${position} ${targetNode.name}`);
     if (position === 'inside' && targetNode.allowsChildren) {
+      // Add as first child
       targetNode.addChild(draggedNode);
     } else if (position === 'before') {
       const parentNode = targetNode.parentNode;
@@ -139,8 +148,6 @@ function onDragEnd() {
       const targetIndex = targetNode.getIndexInParent();
       parentNode.addChildAtIndex(draggedNode, targetIndex + 1);
     }
-    
-    console.log(`Moved ${draggedNode.name} ${position} ${targetNode.name}`);
   }
   
   resetDragState();
@@ -170,7 +177,7 @@ let nodeList = computed(() => {
 let nodeList = computed(() => {
   let nodes = [];
   nodeTree.root.iterateChildrenDfs((node, depth) => {
-    console.log("Node in tree: " + node.name + " at depth " + depth);
+    //console.log("Node in tree: " + node.name + " at depth " + depth);
     nodes.push({node: node, depth: depth});
     return node.openInNodeTree;
   });
