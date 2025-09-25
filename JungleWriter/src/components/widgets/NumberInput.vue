@@ -9,6 +9,10 @@ const props = defineProps({
   isOptional: Boolean,
   // Used when toggling the `Optional` flag
   defaultValue: [String, Number, Object],
+  labelLeft: {
+    type: Boolean,
+    default: false
+  }
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -64,9 +68,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="NumberInput StdInput">
-    <div class="InputLabel" v-if="name">{{name}}</div>
+  <div class="NumberInput StdInput" :class="{ 'LabelLeft': labelLeft }">
+    <div class="InputLabel" v-if="name && !labelLeft">{{name}}</div>
     <div class="Parent">
+      <div class="InputLabel LeftLabel" v-if="name && labelLeft">{{name}}</div>
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="BasicTextInput InputChild" type="number" v-model="value" min="min">
       <div class="DragBall InputChild" ref="dragBall">Drag</div>
@@ -95,6 +100,16 @@ onMounted(() => {
 .InputChild {
   /*display: inline-block;*/
   flex: 1;
+}
+
+.LabelLeft .Parent {
+  align-items: center;
+}
+
+.LeftLabel {
+  margin-right: 8px;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 </style>

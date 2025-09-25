@@ -35,11 +35,13 @@ const posY = computed({
         v-model="posX" 
         name="X" 
         class="CompactInput"
+        :labelLeft="true"
       />
       <NumberInput 
         v-model="posY" 
         name="Y" 
         class="CompactInput"
+        :labelLeft="true"
       />
     </div>
   </div>
