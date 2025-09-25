@@ -95,6 +95,10 @@ const isDraggedOver = computed(() => {
   return props.dragState?.dropTarget === props.node;
 });
 
+const dragOverPosition = computed(() => {
+  return props.dragState?.dropPosition;
+});
+
 const isDragging = computed(() => {
   return props.dragState?.draggedNode === props.node;
 });
@@ -153,6 +157,9 @@ onMounted(() => {
       bold: isFolder, 
       ItemContainer: true,
       'drag-over': isDraggedOver,
+      'drag-over-before': isDraggedOver && dragOverPosition === 'before',
+      'drag-over-after': isDraggedOver && dragOverPosition === 'after',
+      'drag-over-inside': isDraggedOver && dragOverPosition === 'inside',
       'dragging': isDragging
     }" 
     class="NoSelect" 
@@ -241,9 +248,17 @@ onMounted(() => {
   color: var(--main-text);
 }
 
-.ItemContainer.drag-over {
+.ItemContainer.drag-over-before {
+  border-top: 3px solid #007bff;
+}
+
+.ItemContainer.drag-over-after {
+  border-bottom: 3px solid #007bff;
+}
+
+.ItemContainer.drag-over-inside {
+  border-left: 3px solid #007bff;
   background-color: var(--link-hover-bg);
-  border: 2px dashed var(--primary-color);
 }
 
 .ItemContainer.dragging {
