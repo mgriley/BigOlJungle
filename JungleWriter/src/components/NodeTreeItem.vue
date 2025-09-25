@@ -150,6 +150,9 @@ function setupDrag(itemElem, dragBtn) {
     <!--<span class="DepthSpan">{{depthText}}</span>-->
     <span v-if="depth > 1" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
     <!--<span class="NodeTypeIcon"><sup>{{ node.constructor.sUiShortName }}</sup></span>-->
+    <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
+      <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
+    </button>
     <template v-if="!editingName">
       <span @dblclick="onDoubleClickName">
       {{ node.name }}
@@ -158,9 +161,6 @@ function setupDrag(itemElem, dragBtn) {
     <template v-else>
       <input v-model="node.name" ref="nameInput" @keyup="onNameEditKey" @blur="onEndEditName" size="12">
     </template>
-    <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
-      <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
-    </button>
     <!--<span class="DragBtn" ref="dragBtn">Drag</span>-->
   </div>
 </template>
@@ -168,7 +168,6 @@ function setupDrag(itemElem, dragBtn) {
 <style scoped>
 .OpenBtn {
   display: inline-block;
-  margin-left: 8px;
   margin-right: 4px;
   background: none;
   border: none;
