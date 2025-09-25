@@ -204,9 +204,12 @@ function setupDrag(itemElem, dragBtn) {
 }
 
 .NodeIcon {
+  display: inline-block;
+  width: 20px;
   margin-right: 4px;
   color: var(--secondary-text);
   font-size: 0.9em;
+  text-align: center;
 }
 
 .ItemContainer {
