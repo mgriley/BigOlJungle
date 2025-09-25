@@ -158,7 +158,9 @@ function setupDrag(itemElem, dragBtn) {
     <template v-else>
       <input v-model="node.name" ref="nameInput" @keyup="onNameEditKey" @blur="onEndEditName" size="12">
     </template>
-    <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">[{{ isOpen ? '-' : '+' }}]</button>
+    <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
+      <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
+    </button>
     <!--<span class="DragBtn" ref="dragBtn">Drag</span>-->
   </div>
 </template>
@@ -168,6 +170,16 @@ function setupDrag(itemElem, dragBtn) {
   display: inline-block;
   margin-left: 8px;
   margin-right: 4px;
+  background: none;
+  border: none;
+  color: var(--secondary-text);
+  cursor: pointer;
+  padding: 2px;
+  font-size: 0.9em;
+}
+
+.OpenBtn:hover {
+  color: var(--main-text);
 }
 
 .ItemContainer {
