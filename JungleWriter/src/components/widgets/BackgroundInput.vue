@@ -24,7 +24,7 @@ const value = computed({
 <template>
   <div class="BackgroundInput StdInput">
     <div class="Header">
-      <div class="InputLabel" v-if="name">{{name}}</div>
+      <div class="InputLabel EditorSubheading" v-if="name">{{name}}</div>
     </div>
     <ColorInput v-model="value.color" name="Color" />
   </div>

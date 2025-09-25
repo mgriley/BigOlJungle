@@ -175,3 +175,10 @@ it gets clicked. Say if using for a button
   background-color: var(--input-bg);
 }
 
+.EditorSubheading {
+  font-size: var(--f-s);
+  font-weight: var(--bold-weight);
+  color: var(--header-text);
+  margin-bottom: var(--space-xxs);
+}
+
