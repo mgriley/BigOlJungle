@@ -23,18 +23,22 @@ const dragState = reactive({
 let newNodeOptions = [
 {
   name: "Group",
+  icon: "bi bi-collection",
   classCtor: gNodeDataMap["Node"].nodeClass,
 },
 {
   name: "Text",
+  icon: "bi bi-type",
   classCtor: gNodeDataMap["TextNode"].nodeClass,
 },
 {
   name: "Image",
+  icon: "bi bi-image",
   classCtor: gNodeDataMap["ImageNode"].nodeClass,
 },
 {
   name: "Rect",
+  icon: "bi bi-square",
   classCtor: gNodeDataMap["RectNode"].nodeClass,
 },
 /*

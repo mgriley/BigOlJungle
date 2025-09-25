@@ -63,7 +63,10 @@ onMounted(() => {
 <template>
   <div v-if="show" class="ModalSelector">
     <div class="modal-container">
-      <div class="Option TextButton" v-for="option in options" :style="getOptionStyle(option)" @click="onSelectedOption(option)">{{ option.name }}</div>
+      <div class="Option TextButton" v-for="option in options" :style="getOptionStyle(option)" @click="onSelectedOption(option)">
+        <i v-if="option.icon" :class="option.icon"></i>
+        <span>{{ option.name }}</span>
+      </div>
       <div class="Option TextButton CancelOption" @click="closeModal">Cancel</div>
     </div>
   </div>
@@ -73,19 +76,21 @@ onMounted(() => {
 .modal-container {
   position: absolute;
   z-index: 200;
-  background-color: var(--popup-bg);
-  border: 1px solid var(--medium-color);
+  background-color: blue;
+  border-radius: var(--border-radius-sm);
   min-width: 160px;
-
-  /*width: 200px;*/
   margin: auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .Option {
-  padding: var(--space-xxs) var(--space-xs) var(--space-xxs) var(--space-xs);
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-s);
   font-weight: normal;
+  color: white;
+  cursor: pointer;
 }
 
 .Option a {
@@ -93,7 +98,12 @@ onMounted(() => {
 }
 
 .Option:hover {
-  background-color: #ddd;
+  background-color: darkblue;
+}
+
+.Option i {
+  width: 16px;
+  flex-shrink: 0;
 }
 
 .CancelOption {
