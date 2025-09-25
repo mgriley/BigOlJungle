@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import { makeDraggableExt } from '../Utils.js'
 import NumberInput from './NumberInput.vue'
 import ColorInput from './ColorInput.vue'
+import SectionToggle from './SectionToggle.vue'
 
 const props = defineProps({
   modelValue: [String, Number, Object],
@@ -38,7 +39,7 @@ const isEnabled = computed({
   <div class="BorderInput">
     <div class="Header">
       <div class="EditorSubheading" v-if="name">{{name}}</div>
-      <input class="OptionalToggle" v-model="isEnabled" type="checkbox" name="optionalToggle"/>
+      <SectionToggle v-model="isEnabled" />
     </div>
     <div v-if="isEnabled">
       <NumberInput v-model="value.width" name="Width" min="0" />
@@ -51,11 +52,9 @@ const isEnabled = computed({
 <style scoped>
 .Header {
   display: flex;
-  gap: 8px;
-}
-
-.OptionalToggle {
-  margin-right: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xs);
 }
 
 .StdInput {
