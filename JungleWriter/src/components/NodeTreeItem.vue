@@ -56,9 +56,6 @@ let depthText = computed(() => {
   if (props.depth === 0) {
     return "";
   }
-  /*return '\u251C' + '\u2500'.repeat(props.depth + 1) + ' ';*/
-  /*return '|' + '–'.repeat(props.depth + 1) + ' ';*/
-  /*return '\u00A0'.repeat((props.depth - 1)*3) + '\u2517' + ' ';*/
   return '\u00A0'.repeat((props.depth - 1)*3);
 })
 
@@ -146,75 +143,8 @@ function onDrop(evt) {
 }
 
 onMounted(() => {
-  setupDrag(itemElem.value, dragBtn.value);
 });
 
-</script>
-
-<script>
-/*
-function getRelPosInElem(elem, mouseX, mouseY) {
-  // https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
-  let rect = elem.getBoundingClientRect();
-  return {x: (mouseX - rect.left)/rect.width, y: (mouseY - rect.top)/rect.height}
-}
-
-function isPosInElement(elem, mouseX, mouseY) {
-  let pos = getRelPosInElem(elem, mouseX, mouseY);
-  return (0 <= pos.x && pos.x <= 1) && (0 <= pos.y && pos.y <= 1);
-}
-
-function getCurHoveredNodeItem(mouseX, mouseY) {
-  // TODO
-  return null;
-}
-
-function updateMoveElemIndicator(mouseX, mouseY) {
-  let hoverData = getCurHoveredNodeItem(mouseX, mouseY);  
-  if (!hoverData) {
-    return;
-  }
-  if (hoveredElem !== null && hoveredElem !== 
-}
-*/
-
-// TODO - start with MoveUp and MoveDown buttons.
-// Important b/c simpler for some people.
-
-var nodeDragInProgress = false;
-
-function setupDrag(itemElem, dragBtn) {
-  // TODO - add a hover listener that displays the proper line.
-  // Need enter and exit hover handlers.
-
-  /*
-  addHoverListener(itemElem, {
-    onStart: (evt) => {
-    },
-    onUpdate: (evt) => {
-    },
-    onEnd: (evt) => {
-    }
-  });
-  */
-
-  makeDraggableExt(dragBtn, {
-    onStart: () => {
-      document.body.style.cursor = 'move';
-      nodeDragInProgress = true;
-      console.log("Drag started!");
-      /*emit("dragEvent", "onStart");*/
-    },
-    onUpdate: (startX, startY, curX, curY) => {
-      /*emit("dragEvent", "onUpdate", startX, startY, curX, curY);*/
-    },
-    onEnd: (startX, startY, endX, endY) => {
-      nodeDragInProgress = false;
-      document.body.style.cursor = "default";
-      /*emit("dragEvent", "onEnd", startX, startY, endX, endY);*/
-    }
-  })
-}
 </script>
 
 <template>

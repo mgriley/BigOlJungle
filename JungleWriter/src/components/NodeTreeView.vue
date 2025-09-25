@@ -98,10 +98,6 @@ function deleteNode() {
   gApp.site.deleteSelectedNodes();
 }
 
-function moveNode(nodeA, nodeB) {
-  nodeA.moveNode(nodeB);
-}
-
 function onDragStart(node) {
   dragState.isDragging = true;
   dragState.draggedNode = node;

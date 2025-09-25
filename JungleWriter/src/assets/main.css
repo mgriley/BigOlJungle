@@ -31,7 +31,7 @@ div {
 p {
   line-height: var(--main-line-height);
   font-size: var(--p-size);
-  color: var(--secondary-text);
+  color: var(--main-text);
 }
 
 h1, h2, h3, h4 {
