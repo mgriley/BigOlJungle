@@ -176,9 +176,9 @@ it gets clicked. Say if using for a button
 }
 
 .EditorSubheading {
-  font-size: var(--f-s);
+  font-size: var(--f-l);
   font-weight: var(--bold-weight);
-  color: var(--mute-text);
+  color: var(--secondary-text);
   margin-bottom: var(--space-xxs);
 }
 
