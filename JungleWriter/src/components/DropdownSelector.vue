@@ -63,7 +63,10 @@ onUnmounted(() => {
 <template>
   <div class="DropdownSelector">
     <div class="DropdownButton" @click="toggleDropdown">
-      <span>{{ currentItemName }}</span>
+      <div class="ButtonContent">
+        <i v-if="currentItem?.icon" :class="currentItem.icon" class="ItemIcon"></i>
+        <span>{{ currentItemName }}</span>
+      </div>
       <i v-if="showIcon" :class="icon"></i>
     </div>
     <div class="DropdownMenu" :class="{IsOpen: isDropdownOpen}" :style="{minWidth: minWidth}">
@@ -96,6 +99,12 @@ onUnmounted(() => {
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: var(--text-size-sm);
+}
+
+.ButtonContent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .DropdownButton:hover {
