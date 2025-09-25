@@ -148,8 +148,9 @@ export function setupWidgetDrag(widgetElem, node) {
   };
   makeDraggableExt(widgetElem, {
     allowDrag: () => {
-      //return node.isSelected() && !node.interaction;
-      return !node.interaction;
+      //return !node.interaction;
+      // Note - we want the node to be selected first so that we can do drag-to-create
+      return node.isSelected() && !node.interaction;
     },
     onStart: (startX, startY) => {
       gApp.site.selectNode(node);

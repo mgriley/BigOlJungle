@@ -117,11 +117,11 @@ let nodeList = computed(() => {
 <template>
   <div>
     <div class="ButtonPane">
-      <button class="TertiaryButton NewButton" @click="makeNewNode">New</button>
+      <button class="TertiaryButton NewButton" @click="makeNewNode"><i class="bi bi-plus-square"></i></button>
       <!--<button class="TertiaryButton" @click="cloneNode">Clone</button>-->
       <button class="TertiaryButton" @click="moveNodeUp"><i class="bi bi-arrow-up-square"></i></button>
       <button class="TertiaryButton" @click="moveNodeDown"><i class="bi bi-arrow-down-square"></i></button>
-      <button class="DeleteBtn TertiaryButton" @click="deleteNode"><i class="bi bi-trash3"></i></button>
+      <button id="DeleteLayerBtn" class="DeleteBtn TertiaryButton" @click="deleteNode"><i class="bi bi-trash3"></i></button>
       <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
     <div class="TreeInner"> 
@@ -134,21 +134,29 @@ let nodeList = computed(() => {
 
 <style scoped>
 .ButtonPane {
-  display: inline-block;
+  display: flex;
+  flex-flow: row nowrap;
   padding-bottom: var(--space-xxs);
+  width: 100%;
 }
 
 .ButtonPane button {
-  margin-right: var(--space-xxs);
+  margin-right: 2px;
 }
 
 .ButtonPane .NewButton {
-  margin-right: var(--space-m);
+  margin-right: var(--space-s);
 }
 
 .DeleteBtn {
   /*float: right;*/
 }
+
+#DeleteLayerBtn {
+  /*margin-left: var(--space-xs);*/
+  margin-left: auto;
+}
+
 </style>
 
 <style>
