@@ -50,6 +50,7 @@ main {
 .TextWidget {
   /* Preserve the user's whitespace but also wrap as needed */
   white-space: pre-wrap;
+  overflow: visible;
 }
 
 .ImageWidget {

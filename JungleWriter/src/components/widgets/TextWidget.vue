@@ -66,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget TextWidget" :style="node.getStyleObject()"
+  <div class="Widget TextWidget NoSelect" :style="node.getStyleObject()"
       ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
     <template v-if="!isEditing">
       <template v-if="node.linkUrl === ''">
@@ -105,7 +105,7 @@ onMounted(() => {
   text-align: inherit;
   white-space: pre-wrap;
   width: 100%;
-  height: 100%;
+  height: auto;
   padding: 0;
   margin: 0;
   resize: none;
