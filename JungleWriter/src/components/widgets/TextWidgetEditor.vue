@@ -60,7 +60,8 @@ const props = defineProps({
 .TextWidgetTextArea {
   margin-top: var(--space-s);
   width: 100%;
-  height: 400px;
+  height: 150px;
+  max-height: 200px;
   resize: none;
 }
 
