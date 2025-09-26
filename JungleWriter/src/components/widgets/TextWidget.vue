@@ -91,6 +91,8 @@ onMounted(() => {
         <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
       </template>
     </div>
+    <!-- Note: must do mousedown.stop here o/w widget drag screws -->
+    <!-- up the click-to-move-cursor functionality of the text-area -->
     <textarea v-else
       ref="inputRef"
       class="TextWidgetInput"
