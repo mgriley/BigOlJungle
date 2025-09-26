@@ -39,13 +39,21 @@ function showModal() {
   modal.value.showModal();
 }
 
+function isImageFile(fileName) {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
+  const lowerFileName = fileName.toLowerCase();
+  return imageExtensions.some(ext => lowerFileName.endsWith(ext));
+}
+
 async function updateFileOptions() {
   console.log("ImageChooser updating options");
   let children = await gApp.site.siteDir.getSortedChildren();
   let newFiles = [];
   for (const file of children) {
-    let url = await file.createObjectUrl();
-    newFiles.push({name: file.getName(), url: url})
+    if (file.isFile() && isImageFile(file.getName())) {
+      let url = await file.createObjectUrl();
+      newFiles.push({name: file.getName(), url: url})
+    }
   }
   files.value = newFiles;
 }
