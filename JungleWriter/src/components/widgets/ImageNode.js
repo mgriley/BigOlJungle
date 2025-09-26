@@ -7,8 +7,8 @@ import { createElementString } from '../StaticSiteTemplates.js'
 export class ImageNode extends Node {
   static sUiShortName = "I";
 
-  constructor(generateId) {
-    super(generateId);
+  constructor(id) {
+    super(id);
     this.name = "Image";
     this.type = "ImageNode";
     this.allowsChildren = false;

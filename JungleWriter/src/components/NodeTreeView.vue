@@ -87,8 +87,7 @@ function onChooseNewNode(nodeOption) {
     parentNode = nodeTree.root;
   }
 
-  let newNode = reactive(new (nodeOption.classCtor)(true));
-  newNode.onCreate();
+  let newNode = gApp.site.createNode(nodeOption.classCtor);
   parentNode.addChildAtIndex(newNode, insertIndex);
   gApp.site.selectNode(newNode);
 }

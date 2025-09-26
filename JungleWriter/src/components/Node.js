@@ -9,13 +9,8 @@ import { gApp } from './Globals.js'
 export class Node {
   static sUiShortName = "G";
 
-  constructor(generateId) {
-    if (generateId) {
-      this.id = gApp.site.getNextNodeId();
-    } else {
-      this.id = 0;
-    }
-    gApp.site.registerNode(this);
+  constructor(id) {
+    this.id = id !== undefined ? id : 0;
     this.type = "Node";
 
     this.name = "Group";
@@ -296,7 +291,8 @@ export class Node {
 
 export class NodeTree {
   constructor() {
-    this.root = new Node(true);
+    // Root node always has id=0
+    this.root = new Node(0);
     this.root.name = "Root";
   }
 

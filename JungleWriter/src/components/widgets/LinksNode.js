@@ -5,8 +5,8 @@ import { extendMap } from '../Utils.js'
 export class LinksNode extends Node {
   static sUiShortName = "L";
 
-  constructor(generateId) {
-    super(generateId);
+  constructor(id) {
+    super(id);
     this.name = "Links";
     this.type = "LinksNode";
     this.allowsChildren = false;
