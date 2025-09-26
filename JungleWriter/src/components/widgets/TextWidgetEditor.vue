@@ -13,19 +13,17 @@ const props = defineProps({
 })
 
 const textModal = ref(null)
-const modalText = ref('')
 
 function openTextModal() {
-  modalText.value = props.editorData.text
   textModal.value.showModal()
 }
 
 function saveModalText() {
-  props.editorData.text = modalText.value
+  // No need to save since we're using v-model directly
 }
 
 function cancelModalText() {
-  modalText.value = props.editorData.text
+  // No need to cancel since we're using v-model directly
 }
 
 </script>
@@ -80,7 +78,7 @@ function cancelModalText() {
   >
     <textarea 
       class="ModalTextArea" 
-      v-model="modalText"
+      v-model="editorData.text"
       placeholder="Enter your text content here..."
     ></textarea>
   </TextEntryModal>
