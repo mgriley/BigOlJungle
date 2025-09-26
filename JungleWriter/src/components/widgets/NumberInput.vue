@@ -15,6 +15,10 @@ const props = defineProps({
   labelLeft: {
     type: Boolean,
     default: false
+  },
+  labelWidth: {
+    type: String,
+    default: null
   }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -29,6 +33,9 @@ const value = computed({
 })
 
 const leftLabelWidth = computed(() => {
+  if (props.labelWidth) {
+    return props.labelWidth;
+  }
   if (props.labelLeft && props.name) {
     return `${props.name.length + 0.5}ch`;
   }

@@ -9,6 +9,10 @@ const props = defineProps({
   isOptional: Boolean,
   // Used when toggling the `Optional` flag
   defaultValue: [String, Number, Object],
+  labelWidth: {
+    type: String,
+    default: null
+  }
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -39,6 +43,10 @@ const optionalValue = computed({
       emit('update:modelValue', null);
     }
   }
+})
+
+const labelWidth = computed(() => {
+  return props.labelWidth || 'auto';
 })
 
 function onUpdateColor(evt) {
@@ -85,6 +93,7 @@ function onUpdateColor(evt) {
   margin-right: 8px;
   margin-bottom: 0;
   white-space: nowrap;
+  width: v-bind(labelWidth);
 }
 
 .OptionalToggle {
