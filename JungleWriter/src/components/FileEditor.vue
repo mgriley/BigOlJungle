@@ -44,7 +44,7 @@ async function onFilesPicked(files) {
     let file = files[i];
     let fileName = file.name.split("/").pop();
     let validFileName = await siteDir.genValidFileName(fileName);
-    uploadingText.value = `Saving file ${i + 1}/${files.length}: ${file.name} as ${validFileName}`
+    uploadingText.value = `Saving ${i + 1}/${files.length}...`
     let fileObj = await siteDir.createFile(validFileName);
     await fileObj.writeContents(file);
   }
@@ -102,7 +102,7 @@ onMounted(async () => {
         </button>
       </template>
     </div>
-    <!-- <p v-if="uploadingText">{{ uploadingText }}</p> -->
+    <p v-if="uploadingText">{{ uploadingText }}</p>
     <div v-if="gApp.site.siteDir" class="FileView">
       <div v-for="item in getSiteFiles()" class="FileItem">
         <div :class="{IsSelected: isSelected(item)}" class="MockButton" @click="selectFile(item)">{{ item.getName() }}</div>
@@ -139,8 +139,12 @@ onMounted(async () => {
   font-family: monospace;
 }
 
+.FileItem {
+  padding: 2px;
+}
+
 .FileItem .IsSelected {
-  background-color: blue;
+  border-bottom: 2px solid blue;
 }
 
 .Preview {

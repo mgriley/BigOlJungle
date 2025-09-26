@@ -45,7 +45,7 @@ function onStartChooseImg() {
 
 <template>
   <div>
-    <PositionInput :node="editorData" :includeSize="true" class="mb-s" />
+    <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
     <div class="mb-m">
       <button @click="onStartChooseImg" class="mb-xs">File: {{ srcName || 'None' }}</button>
       <BoolInput v-model="preserveAspectRatio" name="Preserve aspect ratio" />
