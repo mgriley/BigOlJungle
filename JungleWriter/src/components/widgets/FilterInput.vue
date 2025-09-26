@@ -47,7 +47,7 @@ function onChangeFilterType(filterValue, newType) {
         </div>
         <div v-if="filterValue.enabled" v-for="(descPart, index) of filterValue.desc.values">
           <div v-if="descPart.type == 'px' || descPart.type == 'percent' || descPart.type == 'angle'">
-            <NumberInput v-model="filterValue.values[index]" :name="descPart.name" min="0" />
+            <NumberInput v-model="filterValue.values[index]" :name="descPart.name" :min="0" />
           </div>
           <div v-else-if="descPart.type == 'color'">
             <ColorInput v-model="filterValue.values[index]" :name="descPart.name" />

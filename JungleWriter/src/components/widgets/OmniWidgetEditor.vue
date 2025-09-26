@@ -18,11 +18,11 @@ const props = defineProps({
 <template>
   <div>
     <FontInput v-model="editorData.fontFamily" name="Font Family" :isOptional="true" />
-    <NumberInput v-model="editorData.fontSize" name="Font Size" min="1" />
+    <NumberInput v-model="editorData.fontSize" name="Font Size" :min="1" />
     <ColorInput v-model="editorData.color" name="Color" :isOptional="true" />
 
-    <NumberInput v-model="editorData.width" name="Width" min="1" />
-    <NumberInput v-model="editorData.height" name="Height" min="1" />
+    <NumberInput v-model="editorData.width" name="Width" :min="1" />
+    <NumberInput v-model="editorData.height" name="Height" :min="1" />
     <BackgroundInput v-model="editorData.background" name="Background" />
     <BorderInput v-model="editorData.border" name="Border" />
   </div>
