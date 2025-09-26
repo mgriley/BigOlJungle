@@ -33,8 +33,11 @@ onMounted(() => {
 
 <template>
   <input ref="fileInputRef" type="file" style="display:none" multiple @change="onChange"/>
-  <button class="TertiaryButton" @click="startPicking">{{ name }}</button>
+  <button class="PickerBtn" @click="startPicking">{{ name }}</button>
 </template>
 
 <style scoped>
+.PickerBtn {
+  font-size: var(--f-m);
+}
 </style>

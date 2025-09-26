@@ -88,7 +88,7 @@ onMounted(async () => {
   <div>
     <div class="Flex BtnRow">
       <FilePicker name="Upload" @onPicked="onFilesPicked" />
-      <button class="TertiaryButton" @click="reloadFiles" title="Refresh">
+      <button class="TertiaryButton ReloadBtn" @click="reloadFiles" title="Refresh">
         <i class="bi bi-arrow-clockwise"></i>
       </button>
       <template v-if="selectedFile">
@@ -124,11 +124,14 @@ onMounted(async () => {
   border-bottom: 1px solid var(--secondary-text);
 }
 
+.ReloadBtn {
+  margin-left: auto;
+}
+
 .DownloadBtn {
 }
 
 .DeleteBtn {
-  margin-left: auto;
 }
 
 .FileView {
@@ -137,7 +140,7 @@ onMounted(async () => {
 }
 
 .FileItem .IsSelected {
-  background-color: lightblue;
+  background-color: blue;
 }
 
 .Preview {
