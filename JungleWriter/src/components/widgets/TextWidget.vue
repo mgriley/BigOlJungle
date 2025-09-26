@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, reactive, computed, nextTick } from 'vue'
 import { gApp } from '../State.js'
 import { setupWidgetDrag } from '../Utils.js'
 import { TextNode } from './TextNode.js'
@@ -10,6 +10,8 @@ const props = defineProps({
 })
 
 let elementRef = ref(null);
+let inputRef = ref(null);
+let isEditing = ref(false);
 
 function onClick() {
   if (gApp.site.isEditing) {
@@ -17,10 +19,43 @@ function onClick() {
   }
 }
 
+function onDoubleClick() {
+  if (gApp.site.isEditing) {
+    startEditing();
+  }
+}
+
 function onLinkClicked(evt) {
   if (gApp.site.isEditing) {
     evt.preventDefault();
   }
+}
+
+async function startEditing() {
+  isEditing.value = true;
+  await nextTick();
+  if (inputRef.value) {
+    inputRef.value.focus();
+    inputRef.value.select();
+  }
+}
+
+function stopEditing() {
+  isEditing.value = false;
+}
+
+function onInputKeydown(evt) {
+  if (evt.key === 'Enter' && !evt.shiftKey) {
+    evt.preventDefault();
+    stopEditing();
+  } else if (evt.key === 'Escape') {
+    evt.preventDefault();
+    stopEditing();
+  }
+}
+
+function onInputBlur() {
+  stopEditing();
 }
 
 onMounted(() => {
@@ -31,12 +66,39 @@ onMounted(() => {
 
 <template>
   <div class="Widget TextWidget" :style="node.getStyleObject()"
-      ref="elementRef" @click="onClick">
-    <template v-if="node.linkUrl === ''">
-      {{ node.text }}
+      ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
+    <template v-if="!isEditing">
+      <template v-if="node.linkUrl === ''">
+        {{ node.text }}
+      </template>
+      <template v-else>
+        <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
+      </template>
     </template>
     <template v-else>
-      <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
+      <input 
+        ref="inputRef"
+        v-model="node.text"
+        @keydown="onInputKeydown"
+        @blur="onInputBlur"
+        :style="{
+          background: 'transparent',
+          border: 'none',
+          outline: 'none',
+          fontSize: 'inherit',
+          fontFamily: 'inherit',
+          color: 'inherit',
+          fontWeight: 'inherit',
+          fontStyle: 'inherit',
+          textDecoration: 'inherit',
+          lineHeight: 'inherit',
+          letterSpacing: 'inherit',
+          textAlign: 'inherit',
+          width: '100%',
+          padding: '0',
+          margin: '0'
+        }"
+      />
     </template>
     <DragCorners v-if="node.selected" :node="node" />
   </div>
