@@ -91,9 +91,8 @@ defineExpose({
 
 <template>
   <BasicModal ref="modal" title="Choose an image:" @onCancel="handleCancel" class="Modal">
-    <div class="MarginBotS">
-      <p>Current file: {{ value }}</p>
-      <p>Uploaded images:</p>
+    <div class="mb-l">
+      <p class="mb-m">Current file: {{ value }}</p>
       <div class="ImgGrid MarginBotS">
         <div v-for="file of files" class="Preview" @click="value = file.name"
           :class="{IsChosen: file.name == modelValue}">
@@ -103,14 +102,7 @@ defineExpose({
       </div>
       <FilePicker name="Upload images" @onPicked="onFilesPicked" />
     </div>
-    <div class="MarginBotS">
-      <p>Free stock images (from Unsplash):</p>
-      <div>
-        <p>Todo</p>
-      </div>
-    </div>
-
-    <p>Note: you can find more free stock images on Unsplash.</p>
+    <p class="mute-text"><i class="bi bi-lightbulb mr-xxs"></i>Try sites like Unsplash for free stock images.</p>
   </BasicModal>
 </template>
 
@@ -144,5 +136,10 @@ defineExpose({
 
 .Modal {
   width: 800px;
+}
+
+.mute-text {
+  opacity: 0.7;
+  font-size: var(--f-s);
 }
 </style>

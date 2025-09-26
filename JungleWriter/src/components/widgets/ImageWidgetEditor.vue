@@ -47,7 +47,7 @@ function onStartChooseImg() {
   <div>
     <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
     <div class="mb-m">
-      <button @click="onStartChooseImg" class="mb-xs">File: {{ srcName || 'None' }}</button>
+      <button @click="onStartChooseImg" class="mb-xs"><i class="bi bi-image mr-xs"></i>{{ srcName || 'Choose image' }}</button>
       <BoolInput v-model="preserveAspectRatio" name="Preserve aspect ratio" />
     </div>
     <TextInput v-model="editorData.altText" name="Alt text" />
