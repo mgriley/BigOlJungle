@@ -101,28 +101,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="NumberInput StdInput" :class="{ 'LabelLeft': labelLeft }">
+  <div class="NumberInput" :class="{ 'LabelLeft': labelLeft }">
     <div class="InputLabel TopLabel" v-if="name && !labelLeft">{{name}}</div>
-    <div class="Parent">
+    <div class="Flex">
       <div class="InputLabel LeftLabel" v-if="name && labelLeft" :style="{ width: leftLabelWidth, minWidth: leftLabelWidth }">{{name}}</div>
       <input v-if="isOptional" class="EditorInput OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="EditorInput InputChild" type="number" v-model="value" :min="min" :step="increment">
-      <div class="DragBall InputChild" ref="dragBall" title="Drag up and down"><i class="bi bi-arrow-down-up ml-xs"></i></div>
+      <div class="DragBall" ref="dragBall" title="Drag up and down"><i class="bi bi-arrow-down-up ml-xs"></i></div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.Parent {
-  display: flex;
-}
-
 .OptionalToggle {
   margin-right: 8px;
-}
-
-.StdInput {
-  margin-right: 16px;
 }
 
 .TopLabel {
