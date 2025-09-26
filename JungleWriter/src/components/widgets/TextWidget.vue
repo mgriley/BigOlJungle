@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget TextWidget NoSelect" :style="node.getStyleObject()"
+  <div class="Widget TextWidget NoSelect" :class="{ 'editing': isEditing }" :style="node.getStyleObject()"
       ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
     <div v-if="!isEditing">
       <template v-if="node.linkUrl === ''">
@@ -124,6 +124,11 @@ onMounted(() => {
   resize: none;
   overflow: hidden;
   min-height: 1em;
+}
+
+.TextWidget.editing {
+  outline: 3px solid #007bff;
+  outline-offset: 2px;
 }
 </style>
 
