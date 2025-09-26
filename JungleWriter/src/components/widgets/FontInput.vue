@@ -91,8 +91,8 @@ function onPickFont(newFont) {
 
 <template>
   <div class="FontInput StdInput">
-    <div class="InputLabel" v-if="name">{{name}}</div>
     <div class="Parent">
+      <div class="InputLabel" v-if="name">{{name}}</div>
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <!-- <input class="BasicTextInput InputChild" type="text" v-model="value"> -->
       <button class="FontButton SmallButton" :style="{'font-family': value}" @click="startPickFont">{{ value || 'Default' }}</button>
@@ -104,6 +104,12 @@ function onPickFont(newFont) {
 <style scoped>
 .Parent {
   display: flex;
+  align-items: center;
+}
+
+.InputLabel {
+  margin-right: 8px;
+  min-width: fit-content;
 }
 
 .OptionalToggle {
