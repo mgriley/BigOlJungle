@@ -12,6 +12,10 @@ const props = defineProps({
   labelWidth: {
     type: String,
     default: null
+  },
+  showAlpha: {
+    type: Boolean,
+    default: false
   }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -24,10 +28,47 @@ function toggleModal() {
 
 const value = computed({
   get() {
+    if (props.showAlpha && typeof props.modelValue === 'string') {
+      // Extract hex color from rgba/hsla string if needed
+      const match = props.modelValue.match(/^#[0-9A-Fa-f]{6}/) || props.modelValue.match(/^#[0-9A-Fa-f]{3}/);
+      return match ? match[0] : props.modelValue;
+    }
     return props.modelValue
   },
   set(value) {
-    emit('update:modelValue', value)
+    if (props.showAlpha) {
+      // Combine color with current alpha
+      const alpha = alphaValue.value;
+      const rgbaColor = hexToRgba(value, alpha);
+      emit('update:modelValue', rgbaColor);
+    } else {
+      emit('update:modelValue', value);
+    }
+  }
+})
+
+const alphaValue = computed({
+  get() {
+    if (props.showAlpha && typeof props.modelValue === 'string') {
+      // Extract alpha from rgba string
+      const rgbaMatch = props.modelValue.match(/rgba?\([\d\s,]+,\s*([\d.]+)\)/);
+      if (rgbaMatch) {
+        return parseFloat(rgbaMatch[1]);
+      }
+      // Extract alpha from hsla string
+      const hslaMatch = props.modelValue.match(/hsla?\([\d\s,%]+,\s*([\d.]+)\)/);
+      if (hslaMatch) {
+        return parseFloat(hslaMatch[1]);
+      }
+    }
+    return 1.0; // Default to fully opaque
+  },
+  set(alpha) {
+    if (props.showAlpha) {
+      const color = value.value;
+      const rgbaColor = hexToRgba(color, alpha);
+      emit('update:modelValue', rgbaColor);
+    }
   }
 })
 
@@ -49,6 +90,14 @@ const labelWidth = computed(() => {
   return props.labelWidth || 'auto';
 })
 
+function hexToRgba(hex, alpha) {
+  // Convert hex to RGB
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 function onUpdateColor(evt) {
   value.value = evt.cssColor;
 }
@@ -61,6 +110,7 @@ function onUpdateColor(evt) {
       <div class="InputLabel LeftLabel" v-if="name" :style="{ width: labelWidth, minWidth: labelWidth }">{{name}}</div>
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="BasicTextInput InputChild" type="color" v-model="value">
+      <input v-if="showAlpha" class="BasicTextInput AlphaInput" type="range" min="0" max="1" step="0.01" v-model="alphaValue" title="Alpha">
       <!-- <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div> -->
     </div>
   </div>
@@ -102,6 +152,11 @@ function onUpdateColor(evt) {
 .InputChild {
   /*display: inline-block;*/
   flex: 1;
+}
+
+.AlphaInput {
+  flex: 0 0 60px;
+  margin-left: 8px;
 }
 
 .CurColorBox {
