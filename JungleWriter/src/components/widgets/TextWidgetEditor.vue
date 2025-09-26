@@ -155,6 +155,8 @@ function openTextModal() {
   font-family: inherit;
   font-size: var(--f-s);
   resize: none;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .ModalTextArea:focus {
