@@ -152,7 +152,7 @@ defineExpose({
       
       <!-- Resize handle -->
       <div class="ResizeHandle" @mousedown="startResize($event, 'bottom-right')">
-        <i class="bi bi-textarea-resize"></i>
+        <i class="bi bi-arrows-angle-expand"></i>
       </div>
     </div>
   </dialog>
@@ -248,14 +248,14 @@ defineExpose({
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   cursor: se-resize;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--light-color);
-  font-size: 12px;
+  font-size: 16px;
   z-index: 10;
 }
 
