@@ -223,8 +223,13 @@ defineExpose({
   justify-content: center;
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
   font-size: 14px;
   z-index: 20;
+  flex-shrink: 0;
 }
 
 .CloseButton:hover {
