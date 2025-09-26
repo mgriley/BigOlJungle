@@ -62,7 +62,7 @@ function openTextModal() {
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
   <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
-  <button class="EditTextButton" @click="openTextModal">Edit Text</button>
+  <button class="EditTextButton" @click="openTextModal">Open Editor</button>
 
   <TextEntryModal 
     ref="textModal"
