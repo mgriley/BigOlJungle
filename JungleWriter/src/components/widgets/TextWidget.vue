@@ -45,7 +45,7 @@ function stopEditing() {
 }
 
 function onInputKeydown(evt) {
-  if (evt.key === 'Enter' && !evt.shiftKey) {
+  if (evt.key === 'Enter' && evt.ctrlKey) {
     evt.preventDefault();
     stopEditing();
   } else if (evt.key === 'Escape') {
@@ -76,13 +76,13 @@ onMounted(() => {
       </template>
     </template>
     <template v-else>
-      <input 
+      <textarea 
         ref="inputRef"
         class="TextWidgetInput"
         v-model="node.text"
         @keydown="onInputKeydown"
         @blur="onInputBlur"
-      />
+      ></textarea>
     </template>
     <DragCorners v-if="node.selected" :node="node" />
   </div>
@@ -104,8 +104,11 @@ onMounted(() => {
   text-align: inherit;
   white-space: pre-wrap;
   width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
+  resize: none;
+  overflow: hidden;
 }
 </style>
 
