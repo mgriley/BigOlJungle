@@ -55,7 +55,7 @@ function onInputKeydown(evt) {
 }
 
 function onInputBlur() {
-  stopEditing();
+  //stopEditing();
 }
 
 onMounted(() => {
@@ -78,33 +78,35 @@ onMounted(() => {
     <template v-else>
       <input 
         ref="inputRef"
+        class="TextWidgetInput"
         v-model="node.text"
         @keydown="onInputKeydown"
         @blur="onInputBlur"
-        :style="{
-          background: 'transparent',
-          border: 'none',
-          outline: 'none',
-          fontSize: 'inherit',
-          fontFamily: 'inherit',
-          color: 'inherit',
-          fontWeight: 'inherit',
-          fontStyle: 'inherit',
-          textDecoration: 'inherit',
-          lineHeight: 'inherit',
-          letterSpacing: 'inherit',
-          textAlign: 'inherit',
-          width: '100%',
-          padding: '0',
-          margin: '0'
-        }"
       />
     </template>
     <DragCorners v-if="node.selected" :node="node" />
   </div>
 </template>
 
-<style scoped>
+<style>
+.TextWidgetInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  text-decoration: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  white-space: pre-wrap;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
 </style>
 
 <style>
