@@ -24,7 +24,7 @@ const value = computed({
 <template>
   <div class="BackgroundInput">
     <div class="EditorSubheading" v-if="name">{{name}}</div>
-    <ColorInput v-model="value.color" name="Color" />
+    <ColorInput :color="value.color" name="Color" />
   </div>
 </template>
 
