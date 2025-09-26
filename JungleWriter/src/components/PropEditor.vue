@@ -34,7 +34,7 @@ onMounted(() => {
       <component v-if="gNodeDataMap[propEditor.type].editor" :is="gNodeDataMap[propEditor.type].editor" :editorData="propEditor"></component>
     </template>
     <template v-else>
-      <p>None</p>
+      <p class="f-l">Click something to edit it.</p>
     </template>
   </div>
 </template>
