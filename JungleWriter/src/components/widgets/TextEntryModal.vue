@@ -138,16 +138,18 @@ defineExpose({
     <div class="InnerModal">
       <div class="Header">
         <div class="DragHandle" @mousedown="startDrag">
-          <i class="bi bi-grip-vertical"></i>
-          <span class="DragText">Drag to move</span>
+          <i class="bi bi-grip-horizontal"></i>
         </div>
-        <button class="CloseButton" @click="closeModal" title="Close">
-          <i class="bi bi-x"></i>
-        </button>
       </div>
       
       <div class="Body">
         <slot>Default Body</slot>
+      </div>
+      
+      <div class="Footer">
+        <button class="CloseButton" @click="closeModal" title="Close">
+          Close
+        </button>
       </div>
       
       <!-- Resize handle -->
@@ -189,14 +191,11 @@ defineExpose({
 
 .Header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--medium-color);
   margin-bottom: var(--space-s);
   padding: var(--space-xs);
-  background-color: var(--medium-color);
-  border-radius: var(--border-radius-s) var(--border-radius-s) 0 0;
-  margin: calc(-1 * var(--space-xs)) calc(-1 * var(--space-m)) var(--space-s) calc(-1 * var(--space-m));
 }
 
 .DragHandle {
@@ -204,49 +203,38 @@ defineExpose({
   padding: var(--space-xs);
   color: var(--light-color);
   user-select: none;
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-  background-color: var(--dark-color);
-  border-radius: var(--border-radius-s);
   transition: all 0.2s ease;
 }
 
 .DragHandle:hover {
   color: var(--primary-color);
-  background-color: var(--darkest-color);
 }
 
-.DragText {
-  font-size: var(--f-xs);
-  font-weight: 500;
+.Footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-s);
+  border-top: 1px solid var(--medium-color);
+  margin-top: var(--space-s);
 }
 
 .CloseButton {
-  background-color: var(--nice-red);
-  border: none;
-  color: white;
+  background-color: var(--input-bg);
+  border: 1px solid var(--medium-color);
+  color: var(--input-text);
   cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
-  max-width: 28px;
-  max-height: 28px;
-  font-size: 18px;
-  z-index: 20;
-  flex-shrink: 0;
+  border-radius: var(--border-radius-s);
+  padding: var(--space-xs) var(--space-s);
+  font-size: var(--f-s);
   transition: all 0.2s ease;
 }
 
 .CloseButton:hover {
-  background-color: var(--bright-red);
+  background-color: var(--medium-color);
+  border-color: var(--light-color);
 }
 
 .Body {
