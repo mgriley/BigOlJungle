@@ -36,7 +36,8 @@ async function startEditing() {
   await nextTick();
   if (inputRef.value) {
     inputRef.value.focus();
-    inputRef.value.select();
+    // Position cursor at the end instead of selecting all text
+    inputRef.value.setSelectionRange(inputRef.value.value.length, inputRef.value.value.length);
     autoResizeTextarea();
   }
 }
