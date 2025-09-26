@@ -18,31 +18,72 @@ const value = computed({
 <template>
   <div class="StdInput TextAlignParent">
     <div class="InputLabel">Align</div>
-    <div class="BtnRow">
-      <input type="radio" name="editList" id="left" value="left" v-model="value"/>
-      <label for="left">Left</label>
-
-      <input type="radio" name="editList" id="center" value="center" v-model="value"/>
-      <label for="center">Center</label>
-
-      <input type="radio" name="editList" id="right" value="right" v-model="value"/>
-      <label for="right">Right</label>
+    <div class="AlignButtons">
+      <button 
+        class="AlignToggle" 
+        :class="{ active: value === 'left' }"
+        @click="value = 'left'"
+        title="Align Left"
+      >
+        <i class="bi bi-text-left"></i>
+      </button>
+      <button 
+        class="AlignToggle" 
+        :class="{ active: value === 'center' }"
+        @click="value = 'center'"
+        title="Align Center"
+      >
+        <i class="bi bi-text-center"></i>
+      </button>
+      <button 
+        class="AlignToggle" 
+        :class="{ active: value === 'right' }"
+        @click="value = 'right'"
+        title="Align Right"
+      >
+        <i class="bi bi-text-right"></i>
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.TextAlignParent input {
-  margin-right: 4px;
+.TextAlignParent {
+  margin-bottom: var(--space-xs);
 }
 
-.TextAlignParent label {
-  margin-right: 8px;
+.InputLabel {
+  margin-bottom: var(--space-xxs);
 }
 
-.BtnRow {
+.AlignButtons {
   display: flex;
-  flex-flow: row wrap;
-  align-items: baseline;
+  gap: var(--space-xxs);
+}
+
+.AlignToggle {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius-s);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: var(--f-s);
+}
+
+.AlignToggle:hover {
+  background-color: var(--medium-color);
+  border-color: var(--light-color);
+}
+
+.AlignToggle.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--darkest-color);
 }
 </style>
