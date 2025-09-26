@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import { gApp } from '../State.js'
 import { setupWidgetDrag } from '../Utils.js'
 import { TextNode } from './TextNode.js'
+import DragCorners from './DragCorners.vue'
 
 const props = defineProps({
   node: Object
@@ -37,6 +38,7 @@ onMounted(() => {
     <template v-else>
       <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
     </template>
+    <DragCorners v-if="node.selected" :node="node" />
   </div>
 </template>
 
