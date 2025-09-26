@@ -193,13 +193,15 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   border-bottom: 1px solid var(--medium-color);
   margin-bottom: var(--space-s);
-  padding: var(--space-xs);
+  padding: var(--space-xxs);
 }
 
 .DragHandle {
   cursor: move;
+  width: 100%;
   padding: var(--space-xs);
   color: var(--light-color);
   user-select: none;
@@ -216,8 +218,6 @@ defineExpose({
 .Footer {
   display: flex;
   justify-content: center;
-  padding: var(--space-s);
-  border-top: 1px solid var(--medium-color);
   margin-top: var(--space-s);
 }
 
