@@ -118,6 +118,15 @@ function handleResize(event) {
   dialog.value.style.width = `${newWidth}px`;
   dialog.value.style.height = `${newHeight}px`;
   dialog.value.style.margin = '0';
+  
+  // Keep the dialog positioned from its left edge, not center
+  const rect = dialog.value.getBoundingClientRect();
+  if (!dialog.value.style.left) {
+    // If not already positioned, calculate current left position
+    const currentLeft = rect.left;
+    dialog.value.style.left = `${currentLeft}px`;
+    dialog.value.style.transform = 'none';
+  }
 }
 
 function stopResize() {
