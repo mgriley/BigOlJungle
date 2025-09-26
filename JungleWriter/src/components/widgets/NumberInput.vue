@@ -102,7 +102,7 @@ onMounted(() => {
 
 <template>
   <div class="NumberInput StdInput" :class="{ 'LabelLeft': labelLeft }">
-    <div class="InputLabel" v-if="name && !labelLeft">{{name}}</div>
+    <div class="InputLabel TopLabel" v-if="name && !labelLeft">{{name}}</div>
     <div class="Parent">
       <div class="InputLabel LeftLabel" v-if="name && labelLeft" :style="{ width: leftLabelWidth, minWidth: leftLabelWidth }">{{name}}</div>
       <input v-if="isOptional" class="EditorInput OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
@@ -123,6 +123,11 @@ onMounted(() => {
 
 .StdInput {
   margin-right: 16px;
+}
+
+.TopLabel {
+  font-size: var(--f-s);
+  margin-bottom: var(--space-xxs);
 }
 
 .DragBall {
