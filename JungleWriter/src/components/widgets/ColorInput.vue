@@ -104,7 +104,7 @@ function onUpdateColor(evt) {
 }
 
 .AlphaSlider {
-  flex: 0 0 80px;
+  flex: 0 0 60px;
   margin-left: 8px;
   height: 24px;
   background: linear-gradient(to right, 
