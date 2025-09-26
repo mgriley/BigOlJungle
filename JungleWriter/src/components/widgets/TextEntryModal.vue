@@ -138,13 +138,13 @@ defineExpose({
     <div class="InnerModal">
       <div class="Header">
         <div class="DragHandle" @mousedown="startDrag">
-          <i class="bi bi-grip-horizontal"></i>
+          <i class="bi bi-grip-vertical"></i>
+          <span class="DragText">Drag to move</span>
         </div>
+        <button class="CloseButton" @click="closeModal" title="Close">
+          <i class="bi bi-x"></i>
+        </button>
       </div>
-      
-      <button class="CloseButton" @click="closeModal" title="Close">
-        <i class="bi bi-x"></i>
-      </button>
       
       <div class="Body">
         <slot>Default Body</slot>
@@ -193,26 +193,38 @@ defineExpose({
   align-items: center;
   border-bottom: 1px solid var(--medium-color);
   margin-bottom: var(--space-s);
-  padding-bottom: var(--space-xxs);
+  padding: var(--space-xs);
+  background-color: var(--medium-color);
+  border-radius: var(--border-radius-s) var(--border-radius-s) 0 0;
+  margin: calc(-1 * var(--space-xs)) calc(-1 * var(--space-m)) var(--space-s) calc(-1 * var(--space-m));
 }
 
 .DragHandle {
   cursor: move;
-  padding: var(--space-xxs);
+  padding: var(--space-xs);
   color: var(--light-color);
   user-select: none;
   flex: 1;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background-color: var(--dark-color);
+  border-radius: var(--border-radius-s);
+  transition: all 0.2s ease;
 }
 
 .DragHandle:hover {
   color: var(--primary-color);
+  background-color: var(--darkest-color);
+}
+
+.DragText {
+  font-size: var(--f-xs);
+  font-weight: 500;
 }
 
 .CloseButton {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   background-color: var(--nice-red);
   border: none;
   color: white;
@@ -230,6 +242,7 @@ defineExpose({
   font-size: 18px;
   z-index: 20;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .CloseButton:hover {
