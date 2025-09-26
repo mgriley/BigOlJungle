@@ -6,9 +6,6 @@ import ModalSelector from '../ModalSelector.vue'
 const props = defineProps({
   modelValue: [String, Number, Object],
   name: String,
-  isOptional: Boolean,
-  // Used when toggling the `Optional` flag
-  defaultValue: [String, Number, Object],
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -20,20 +17,6 @@ const value = computed({
   },
   set(value) {
     emit('update:modelValue', value)
-  }
-})
-
-const optionalValue = computed({
-  get() {
-    return props.modelValue !== null;
-  },
-  set(value) {
-    if (value) {
-      //console.log("DefaultValue: "+props.defaultValue);
-      emit('update:modelValue', props.defaultValue);
-    } else {
-      emit('update:modelValue', null);
-    }
   }
 })
 
@@ -92,10 +75,9 @@ function onPickFont(newFont) {
 <template>
   <div class="FontInput StdInput">
     <div class="Parent">
-      <div class="InputLabel" v-if="name">{{name}}</div>
-      <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
+      <div class="InputLabel mr-s" v-if="name">{{name}}</div>
       <!-- <input class="BasicTextInput InputChild" type="text" v-model="value"> -->
-      <button class="FontButton SmallButton" :style="{'font-family': value}" @click="startPickFont">{{ value || 'Default' }}</button>
+      <button class="FontButton" :style="{'font-family': value}" @click="startPickFont">{{value}}</button>
       <ModalSelector ref="fontPickerModal" :options="fontOptions" @choose="onPickFont"/>
     </div>
   </div>
@@ -107,15 +89,6 @@ function onPickFont(newFont) {
   align-items: center;
 }
 
-.InputLabel {
-  margin-right: 8px;
-  min-width: fit-content;
-}
-
-.OptionalToggle {
-  margin-right: 8px;
-}
-
 .InputChild {
   /*display: inline-block;*/
   flex: 1;
@@ -123,6 +96,7 @@ function onPickFont(newFont) {
 
 .FontButton {
   font-weight: normal;
+  padding: 0 var(--space-xs);
 }
 
 #OptionA {
