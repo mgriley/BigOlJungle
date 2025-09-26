@@ -59,8 +59,8 @@ function openTextModal() {
     <TextAlignInput v-model="editorData.textAlign" />
   </div>
   <div class="mb-xs FlexRow">
-    <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15" :increment="0.1"/>
-    <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
+    <NumberInput id="LineHeightInput" v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15" :increment="0.1"/>
+    <NumberInput id="LetterSpacingInput" v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
   </div>
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
@@ -158,6 +158,15 @@ function openTextModal() {
 
 .FlexRow {
   display: flex;
-  gap: var(--space-xs);
+  gap: var(--space-xxs);
+  max-width: 100%;
+}
+
+#LineHeightInput {
+  /*width: 150px;*/
+}
+
+#LetterSpacingInput {
+  width: 150px;
 }
 </style>

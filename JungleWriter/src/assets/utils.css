@@ -33,6 +33,11 @@ it gets clicked. Say if using for a button
   flex-flow: row wrap;
 }
 
+.FlexRowNoWrap {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 .MarginLeft {
   margin-left: var(--space-s);
 }
@@ -165,11 +170,12 @@ it gets clicked. Say if using for a button
 
 .EditorInput {
   display: block;
+  flex: 1;
   padding: 4px 8px;
   min-height: auto;
+  width: 80px;
   min-width: 50px;
-  /* margin: 5px 0; */
-  /* border: 1px solid var(--light-color); */
+  /*max-width: 120px;*/
   border: none;
   border-radius: var(--border-radius-small);
   font-size: var(--f-m);
