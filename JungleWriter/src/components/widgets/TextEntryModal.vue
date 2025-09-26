@@ -21,6 +21,10 @@ const emit = defineEmits(['onCancel', 'onDone'])
 let dialog = ref(null);
 let isDragging = ref(false);
 let dragOffset = ref({ x: 0, y: 0 });
+let isResizing = ref(false);
+let resizeType = ref('');
+let initialSize = ref({ width: 0, height: 0 });
+let initialPos = ref({ x: 0, y: 0 });
 
 function showModal() {
   dialog.value.showModal();
@@ -82,6 +86,47 @@ function stopDrag() {
   document.removeEventListener('mouseup', stopDrag);
 }
 
+function startResize(event, type) {
+  isResizing.value = true;
+  resizeType.value = type;
+  
+  const rect = dialog.value.getBoundingClientRect();
+  initialSize.value = {
+    width: rect.width,
+    height: rect.height
+  };
+  initialPos.value = {
+    x: event.clientX,
+    y: event.clientY
+  };
+  
+  document.addEventListener('mousemove', handleResize);
+  document.addEventListener('mouseup', stopResize);
+  event.preventDefault();
+  event.stopPropagation();
+}
+
+function handleResize(event) {
+  if (!isResizing.value) return;
+  
+  const deltaX = event.clientX - initialPos.value.x;
+  const deltaY = event.clientY - initialPos.value.y;
+  
+  let newWidth = Math.max(300, initialSize.value.width + deltaX);
+  let newHeight = Math.max(200, initialSize.value.height + deltaY);
+  
+  dialog.value.style.width = `${newWidth}px`;
+  dialog.value.style.height = `${newHeight}px`;
+  dialog.value.style.margin = '0';
+}
+
+function stopResize() {
+  isResizing.value = false;
+  resizeType.value = '';
+  document.removeEventListener('mousemove', handleResize);
+  document.removeEventListener('mouseup', stopResize);
+}
+
 defineExpose({
   showModal, closeModal, toggleModal
 })
@@ -102,6 +147,11 @@ defineExpose({
       
       <div class="Body">
         <slot>Default Body</slot>
+      </div>
+      
+      <!-- Resize handle -->
+      <div class="ResizeHandle" @mousedown="startResize($event, 'bottom-right')">
+        <i class="bi bi-textarea-resize"></i>
       </div>
     </div>
   </dialog>
@@ -176,6 +226,26 @@ defineExpose({
 
 .Body {
   margin-bottom: 0;
+}
+
+.ResizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: se-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--light-color);
+  font-size: 12px;
+  z-index: 10;
+}
+
+.ResizeHandle:hover {
+  color: var(--primary-color);
+  background-color: var(--medium-color);
 }
 
 @media (max-width: 600px) {
