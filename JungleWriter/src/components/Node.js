@@ -4,7 +4,7 @@ import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
 } from './StaticSiteTemplates.js'
-import { gApp } from './globals.js'
+import { gApp } from './Globals.js'
 
 export class Node {
   static sUiShortName = "G";
