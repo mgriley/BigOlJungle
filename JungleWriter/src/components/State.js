@@ -11,6 +11,7 @@ import {
 
 import { NodeTree } from './Node.js'
 import { ImageNode } from './widgets/ImageNode.js'
+import { ColorInput } from './widgets/ColorInput.js'
 
 import { Marked } from 'marked';
 
@@ -108,17 +109,21 @@ class PostsFeed {
 
 class SiteSettings {
   constructor() {
-    this.backgroundColor = "rgb(255, 255, 255)";
+    this.backgroundColor = new ColorInput('#ffffff', 1.0);
   }
 
   writeToJson() {
     return {
-      backgroundColor: this.backgroundColor,
+      backgroundColor: this.backgroundColor.writeToJson(),
     }
   }
 
   readFromJson(obj) {
-    this.backgroundColor = obj.backgroundColor;
+    if (obj && obj.backgroundColor) {
+      this.backgroundColor.readFromJson(obj.backgroundColor);
+    } else {
+      this.backgroundColor = new ColorInput('#ffffff', 1.0);
+    }
   }
 }
 
@@ -183,7 +188,7 @@ class Site {
 
   getMainStyleObject() {
     return {
-      'background-color': this.settings.backgroundColor,
+      'background-color': this.settings.backgroundColor.getColorValue(),
     };
   }
 
