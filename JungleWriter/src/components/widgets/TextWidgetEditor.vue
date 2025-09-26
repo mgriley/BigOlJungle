@@ -18,13 +18,6 @@ function openTextModal() {
   textModal.value.showModal()
 }
 
-function saveModalText() {
-  // No need to save since we're using v-model directly
-}
-
-function cancelModalText() {
-  // No need to cancel since we're using v-model directly
-}
 
 </script>
 
@@ -72,9 +65,7 @@ function cancelModalText() {
   <button class="EditTextButton" @click="openTextModal">Edit Text</button>
 
   <TextEntryModal 
-    ref="textModal" 
-    @onDone="saveModalText"
-    @onCancel="cancelModalText"
+    ref="textModal"
   >
     <textarea 
       class="ModalTextArea" 

@@ -91,17 +91,17 @@ defineExpose({
 <template>
   <dialog class="TextEntryModal" ref="dialog" @close="" @cancel="handleNativeCancel">
     <div class="InnerModal">
-      <div class="DragHandle" @mousedown="startDrag">
-        <i class="bi bi-grip-horizontal"></i>
+      <div class="Header">
+        <div class="DragHandle" @mousedown="startDrag">
+          <i class="bi bi-grip-horizontal"></i>
+        </div>
+        <button class="CloseButton" @click="closeModal" title="Close">
+          <i class="bi bi-x"></i>
+        </button>
       </div>
       
       <div class="Body">
         <slot>Default Body</slot>
-      </div>
-      
-      <div class="Footer">
-        <button class="TertiaryButton" v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
-        <button v-if="showDone" @click="onDone">{{ doneText }}</button>
       </div>
     </div>
   </dialog>
@@ -132,28 +132,50 @@ defineExpose({
   padding: var(--space-s) var(--space-m);
 }
 
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--medium-color);
+  margin-bottom: var(--space-s);
+  padding-bottom: var(--space-xxs);
+}
+
 .DragHandle {
   cursor: move;
   padding: var(--space-xxs);
-  text-align: center;
   color: var(--light-color);
-  border-bottom: 1px solid var(--medium-color);
-  margin-bottom: var(--space-s);
   user-select: none;
+  flex: 1;
+  text-align: center;
 }
 
 .DragHandle:hover {
   color: var(--primary-color);
 }
 
-.Body {
-  margin-bottom: var(--space-l);
+.CloseButton {
+  background: none;
+  border: none;
+  color: var(--light-color);
+  cursor: pointer;
+  padding: var(--space-xxs);
+  border-radius: var(--border-radius-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: var(--f-s);
 }
 
-.Footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-s);
+.CloseButton:hover {
+  background-color: var(--medium-color);
+  color: var(--primary-color);
+}
+
+.Body {
+  margin-bottom: 0;
 }
 
 @media (max-width: 600px) {
