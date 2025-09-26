@@ -19,6 +19,10 @@ const props = defineProps({
   labelWidth: {
     type: String,
     default: null
+  },
+  increment: {
+    type: Number,
+    default: 1
   }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -65,11 +69,19 @@ function setupDragBall(elmnt) {
       let diffX = curX - startX;
       let diffY = curY - startY;
       let newVal = null;
+      let incrementAmount = (diffY / 5.0) * props.increment;
       if (props.min !== null) {
         let minVal = Number(props.min) || 0;
-        newVal = Math.max(minVal, Math.floor(startVal - diffY/5.0));
+        newVal = Math.max(minVal, startVal - incrementAmount);
       } else {
-        newVal = Math.floor(startVal - diffY/5.0);
+        newVal = startVal - incrementAmount;
+      }
+      // Round to appropriate precision based on increment
+      if (props.increment < 1) {
+        let decimalPlaces = Math.max(0, -Math.floor(Math.log10(props.increment)));
+        newVal = Math.round(newVal * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+      } else {
+        newVal = Math.round(newVal);
       }
       /*console.log("New value: " + newVal);*/
       value.value = newVal;
@@ -94,7 +106,7 @@ onMounted(() => {
     <div class="Parent">
       <div class="InputLabel LeftLabel" v-if="name && labelLeft" :style="{ width: leftLabelWidth, minWidth: leftLabelWidth }">{{name}}</div>
       <input v-if="isOptional" class="EditorInput OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
-      <input class="EditorInput InputChild" type="number" v-model="value" min="min">
+      <input class="EditorInput InputChild" type="number" v-model="value" :min="min" :step="increment">
       <div class="DragBall InputChild" ref="dragBall" title="Drag up and down"><i class="bi bi-arrow-down-up ml-xs"></i></div>
     </div>
   </div>
