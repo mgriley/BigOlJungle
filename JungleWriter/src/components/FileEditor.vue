@@ -88,10 +88,16 @@ onMounted(async () => {
   <div>
     <div class="Flex BtnRow">
       <FilePicker name="Upload" @onPicked="onFilesPicked" />
-      <button class="TertiaryButton" @click="reloadFiles">Refresh</button>
+      <button class="TertiaryButton" @click="reloadFiles" title="Refresh">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
       <template v-if="selectedFile">
-        <button class="TertiaryButton DeleteBtn" @click="deleteSelectedFile">Delete File</button>
-        <button class="TertiaryButton DownloadBtn" @click="downloadSelectedFile">Download File</button>
+        <button class="TertiaryButton DeleteBtn" @click="deleteSelectedFile" title="Delete File">
+          <i class="bi bi-trash"></i>
+        </button>
+        <button class="TertiaryButton DownloadBtn" @click="downloadSelectedFile" title="Download File">
+          <i class="bi bi-download"></i>
+        </button>
       </template>
     </div>
     <!-- <p v-if="uploadingText">{{ uploadingText }}</p> -->
