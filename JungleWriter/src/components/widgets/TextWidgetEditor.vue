@@ -6,10 +6,27 @@ import TextInput from './TextInput.vue'
 import TextAlignInput from './TextAlignInput.vue'
 import FontInput from './FontInput.vue'
 import ColorInput from './ColorInput.vue'
+import BasicModal from 'Shared/BasicModal.vue'
 
 const props = defineProps({
   editorData: Object
 })
+
+const textModal = ref(null)
+const modalText = ref('')
+
+function openTextModal() {
+  modalText.value = props.editorData.text
+  textModal.value.showModal()
+}
+
+function saveModalText() {
+  props.editorData.text = modalText.value
+}
+
+function cancelModalText() {
+  modalText.value = props.editorData.text
+}
 
 </script>
 
@@ -54,6 +71,20 @@ const props = defineProps({
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
   <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
+  <button class="EditTextButton" @click="openTextModal">Edit Text</button>
+
+  <BasicModal 
+    ref="textModal" 
+    title="Edit Text Content"
+    @onDone="saveModalText"
+    @onCancel="cancelModalText"
+  >
+    <textarea 
+      class="ModalTextArea" 
+      v-model="modalText"
+      placeholder="Enter your text content here..."
+    ></textarea>
+  </BasicModal>
 </template>
 
 <style scoped>
@@ -107,5 +138,39 @@ const props = defineProps({
   font-style: italic;
   font-family: serif;
   font-size: 18px;
+}
+
+.EditTextButton {
+  margin-top: var(--space-xs);
+  padding: var(--space-xs) var(--space-s);
+  background-color: var(--input-bg);
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius-s);
+  color: var(--input-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.EditTextButton:hover {
+  background-color: var(--medium-color);
+  border-color: var(--light-color);
+}
+
+.ModalTextArea {
+  width: 100%;
+  min-height: 300px;
+  padding: var(--space-xs);
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius-s);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  font-family: inherit;
+  font-size: var(--f-s);
+  resize: vertical;
+}
+
+.ModalTextArea:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
 }
 </style>
