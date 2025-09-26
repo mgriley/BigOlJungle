@@ -46,7 +46,7 @@ const isEnabled = computed({
     </div>
     <div v-if="isEnabled">
       <NumberInput v-model="value.width" name="Width" min="0" :labelLeft="true" labelWidth="64px" />
-      <ColorInput v-model="value.color" name="Color" labelWidth="64px" />
+      <ColorInput :color="value.color" name="Color" labelWidth="64px" />
       <NumberInput v-model="value.radius" name="Radius" min="0" :labelLeft="true" labelWidth="64px" />
     </div>
   </div>

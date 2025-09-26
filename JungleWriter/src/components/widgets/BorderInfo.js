@@ -1,10 +1,11 @@
+import { ColorInput } from './ColorInput.js'
 
 export class BorderInfo {
   constructor() {
     this.enabled = false;
     this.width = 2;
     this.style = 'none';
-    this.color = 'black';
+    this.color = new ColorInput('#000000', 1.0);
     this.radius = 0;
   }
 
@@ -13,7 +14,7 @@ export class BorderInfo {
       enabled: this.enabled,
       width: this.width,
       style: this.style,
-      color: this.color,
+      color: this.color.writeToJson(),
       radius: this.radius,
     }
   }
@@ -22,7 +23,11 @@ export class BorderInfo {
     this.enabled = obj.enabled || false;
     this.width = obj.width;
     this.style = obj.style;
-    this.color = obj.color;
+    if (obj && obj.color) {
+      this.color.readFromJson(obj.color);
+    } else {
+      this.color = new ColorInput('#000000', 1.0);
+    }
     this.radius = obj.radius;
   }
 
@@ -31,7 +36,7 @@ export class BorderInfo {
       return {};
     }
     return {
-      'border': `${this.width}px ${this.style} ${this.color}`,
+      'border': `${this.width}px ${this.style} ${this.color.getColorValue()}`,
       'border-radius': `${this.radius}px`,
     }
   }
