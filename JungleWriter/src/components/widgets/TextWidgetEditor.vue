@@ -60,7 +60,8 @@ const props = defineProps({
 .TextWidgetTextArea {
   margin-top: var(--space-s);
   width: 100%;
-  /* resize: vertical; */
+  height: 400px;
+  resize: none;
 }
 
 .FontStyleButtons {
