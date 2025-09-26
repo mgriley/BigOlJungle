@@ -5,7 +5,7 @@ import { ColorInput as ColorInputClass } from './ColorInput.js'
 // import { ColorPicker } from 'vue-accessible-color-picker'
 
 const props = defineProps({
-  modelValue: [String, Number, Object],
+  color: [String, Number, Object],
   name: String,
   isOptional: Boolean,
   // Used when toggling the `Optional` flag
@@ -19,7 +19,7 @@ const props = defineProps({
     default: true
   }
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:color'])
 
 let showDialog = ref(false);
 
@@ -29,38 +29,38 @@ function toggleModal() {
 
 const value = computed({
   get() {
-    return props.modelValue?.color || '#ffffff'
+    return props.color?.color || '#ffffff'
   },
   set(color) {
-    if (props.modelValue) {
-      props.modelValue.color = color;
-      emit('update:modelValue', props.modelValue);
+    if (props.color) {
+      props.color.color = color;
+      emit('update:color', props.color);
     }
   }
 })
 
 const alphaValue = computed({
   get() {
-    return props.modelValue?.alpha || 1.0
+    return props.color?.alpha || 1.0
   },
   set(alpha) {
-    if (props.modelValue) {
-      props.modelValue.alpha = alpha;
-      emit('update:modelValue', props.modelValue);
+    if (props.color) {
+      props.color.alpha = alpha;
+      emit('update:color', props.color);
     }
   }
 })
 
 const optionalValue = computed({
   get() {
-    return props.modelValue !== null;
+    return props.color !== null;
   },
   set(value) {
     if (value) {
       //console.log("DefaultValue: "+props.defaultValue);
-      emit('update:modelValue', props.defaultValue || new ColorInputClass());
+      emit('update:color', props.defaultValue || new ColorInputClass());
     } else {
-      emit('update:modelValue', null);
+      emit('update:color', null);
     }
   }
 })
