@@ -12,8 +12,14 @@ export class ColorInput {
   }
 
   readFromJson(obj) {
-    this.color = obj.color || '#ffffff';
-    this.alpha = obj.alpha !== undefined ? obj.alpha : 1.0;
+    // Handle legacy case where obj is a hex string
+    if (typeof obj === 'string') {
+      this.color = obj;
+      this.alpha = 1.0;
+    } else {
+      this.color = obj.color || '#ffffff';
+      this.alpha = obj.alpha !== undefined ? obj.alpha : 1.0;
+    }
   }
 
   getColorValue() {
