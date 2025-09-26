@@ -18,9 +18,30 @@ const props = defineProps({
   <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" />
   <ColorInput :color="editorData.color" name="Color" />
   <div class="FontStyleButtons">
-    <BoolInput class="Item" v-model="editorData.bold" name="Bold" />
-    <BoolInput class="Item" v-model="editorData.italic" name="Italic" />
-    <BoolInput class="Item" v-model="editorData.underline" name="Underline" />
+    <button 
+      class="StyleToggle" 
+      :class="{ active: editorData.bold }"
+      @click="editorData.bold = !editorData.bold"
+      title="Bold"
+    >
+      <strong>B</strong>
+    </button>
+    <button 
+      class="StyleToggle" 
+      :class="{ active: editorData.italic }"
+      @click="editorData.italic = !editorData.italic"
+      title="Italic"
+    >
+      <em>I</em>
+    </button>
+    <button 
+      class="StyleToggle" 
+      :class="{ active: editorData.underline }"
+      @click="editorData.underline = !editorData.underline"
+      title="Underline"
+    >
+      <span style="text-decoration: underline;">U</span>
+    </button>
   </div>
   <TextAlignInput v-model="editorData.textAlign" />
   <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="true" :defaultValue="1.25"/>
@@ -41,9 +62,42 @@ const props = defineProps({
 .FontStyleButtons {
   display: flex;
   flex-direction: row;
+  gap: var(--space-xxs);
+  margin-bottom: var(--space-xs);
 }
 
-.FontStyleButtons .Item {
-  margin-right: 10px;
+.StyleToggle {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius-s);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: var(--f-s);
+  font-weight: normal;
+}
+
+.StyleToggle:hover {
+  background-color: var(--medium-color);
+  border-color: var(--light-color);
+}
+
+.StyleToggle.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--darkest-color);
+}
+
+.StyleToggle strong {
+  font-weight: bold;
+}
+
+.StyleToggle em {
+  font-style: italic;
 }
 </style>
