@@ -140,10 +140,11 @@ defineExpose({
         <div class="DragHandle" @mousedown="startDrag">
           <i class="bi bi-grip-horizontal"></i>
         </div>
-        <button class="CloseButton" @click="closeModal" title="Close">
-          <i class="bi bi-x"></i>
-        </button>
       </div>
+      
+      <button class="CloseButton" @click="closeModal" title="Close">
+        <i class="bi bi-x"></i>
+      </button>
       
       <div class="Body">
         <slot>Default Body</slot>
@@ -209,23 +210,25 @@ defineExpose({
 }
 
 .CloseButton {
-  background: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: var(--nice-red);
   border: none;
-  color: var(--light-color);
+  color: white;
   cursor: pointer;
-  padding: var(--space-xxs);
-  border-radius: var(--border-radius-s);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  font-size: var(--f-s);
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  z-index: 20;
 }
 
 .CloseButton:hover {
-  background-color: var(--medium-color);
-  color: var(--primary-color);
+  background-color: var(--bright-red);
 }
 
 .Body {
