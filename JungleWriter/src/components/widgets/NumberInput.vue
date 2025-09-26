@@ -36,10 +36,7 @@ const leftLabelWidth = computed(() => {
   if (props.labelWidth) {
     return props.labelWidth;
   }
-  if (props.labelLeft && props.name) {
-    return `${props.name.length + 0.5}ch`;
-  }
-  return '1.5ch';
+  return `${props.name.length + 0.5}ch`;
 })
 
 const optionalValue = computed({
