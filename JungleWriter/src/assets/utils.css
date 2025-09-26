@@ -92,6 +92,7 @@ it gets clicked. Say if using for a button
 .ml-l { margin-left: var(--space-l); }
 .ml-xl { margin-left: var(--space-xl); }
 .ml-xxl { margin-left: var(--space-xxl); }
+.ml-auto { margin-left: auto; }
 
 /* Margin Right */
 .mr-zero { margin-right: var(--space-zero); }
@@ -102,6 +103,7 @@ it gets clicked. Say if using for a button
 .mr-l { margin-right: var(--space-l); }
 .mr-xl { margin-right: var(--space-xl); }
 .mr-xxl { margin-right: var(--space-xxl); }
+.mr-auto { margin-right: auto; }
 
 /* Margin All */
 .m-zero { margin: var(--space-zero); }

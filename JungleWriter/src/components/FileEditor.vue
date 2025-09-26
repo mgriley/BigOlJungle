@@ -92,11 +92,13 @@ onMounted(async () => {
         <i class="bi bi-arrow-clockwise"></i>
       </button>
       <template v-if="selectedFile">
-        <button class="TertiaryButton DeleteBtn" @click="deleteSelectedFile" title="Delete File">
-          <i class="bi bi-trash"></i>
-        </button>
+        <!--
         <button class="TertiaryButton DownloadBtn" @click="downloadSelectedFile" title="Download File">
           <i class="bi bi-download"></i>
+        </button>
+        -->
+        <button class="TertiaryButton DeleteBtn" @click="deleteSelectedFile" title="Delete File">
+          <i class="bi bi-trash"></i>
         </button>
       </template>
     </div>
@@ -120,6 +122,9 @@ onMounted(async () => {
   gap: 8px;
   padding-bottom: 4px;
   border-bottom: 1px solid var(--secondary-text);
+}
+
+.DownloadBtn {
 }
 
 .DeleteBtn {
