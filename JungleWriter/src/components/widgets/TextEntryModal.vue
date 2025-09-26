@@ -179,6 +179,8 @@ defineExpose({
   padding: 0;
   min-width: 400px;
   max-width: 90%;
+  width: 400px;
+  height: 400px;
   margin: 0;
   position: fixed;
   top: 20vh;

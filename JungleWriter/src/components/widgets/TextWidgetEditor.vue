@@ -129,19 +129,8 @@ function openTextModal() {
 }
 
 .EditTextButton {
-  margin-top: var(--space-xs);
-  padding: var(--space-xs) var(--space-s);
-  background-color: var(--input-bg);
-  border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-s);
-  color: var(--input-text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.EditTextButton:hover {
-  background-color: var(--medium-color);
-  border-color: var(--light-color);
+  margin-top: var(--space-xxs);
+  font-size: var(--f-m);
 }
 
 .ModalTextArea {
