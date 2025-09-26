@@ -45,13 +45,14 @@ function stopEditing() {
 }
 
 function onInputKeydown(evt) {
-  if (evt.key === 'Enter' && evt.ctrlKey) {
+  if (evt.key === 'Enter' && !evt.shiftKey) {
     evt.preventDefault();
     stopEditing();
   } else if (evt.key === 'Escape') {
     evt.preventDefault();
     stopEditing();
   }
+  // Shift+Enter will naturally insert a new line since we don't prevent it
 }
 
 function onInputBlur() {
