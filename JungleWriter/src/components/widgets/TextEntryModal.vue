@@ -180,7 +180,7 @@ defineExpose({
 }
 
 .InnerModal {
-  padding: var(--space-s) var(--space-m);
+  padding: var(--space-xs) var(--space-m) var(--space-m) var(--space-m);
   height: 100%;
   display: flex;
   flex-direction: column;
