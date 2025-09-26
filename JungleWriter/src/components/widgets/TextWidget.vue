@@ -57,7 +57,7 @@ function onInputKeydown(evt) {
 }
 
 function onInputBlur() {
-  //stopEditing();
+  stopEditing();
 }
 
 function autoResizeTextarea() {
@@ -103,9 +103,11 @@ onMounted(() => {
 </template>
 
 <style>
+/* Match to the outer div exactly so that text lines up */
 .TextWidgetInput {
   background: transparent;
   border: none;
+  border-radius: 0;
   outline: none;
   font-size: inherit;
   font-family: inherit;
@@ -127,9 +129,10 @@ onMounted(() => {
 }
 
 .TextWidget.editing {
-  outline: 3px solid #007bff;
+  outline: 3px solid blue !important;
   outline-offset: 2px;
 }
+
 </style>
 
 <style>
