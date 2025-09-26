@@ -19,7 +19,6 @@ const props = defineProps({
     default: true
   }
 })
-const emit = defineEmits(['update:color'])
 
 let showDialog = ref(false);
 
@@ -34,7 +33,6 @@ const value = computed({
   set(color) {
     if (props.color) {
       props.color.color = color;
-      emit('update:color', props.color);
     }
   }
 })
@@ -46,7 +44,6 @@ const alphaValue = computed({
   set(alpha) {
     if (props.color) {
       props.color.alpha = alpha;
-      emit('update:color', props.color);
     }
   }
 })
@@ -58,9 +55,11 @@ const optionalValue = computed({
   set(value) {
     if (value) {
       //console.log("DefaultValue: "+props.defaultValue);
-      emit('update:color', props.defaultValue || new ColorInputClass());
+      // Note: This would need to be handled by parent component
+      // since we can't emit events to change the prop reference
     } else {
-      emit('update:color', null);
+      // Note: This would need to be handled by parent component
+      // since we can't emit events to change the prop reference
     }
   }
 })
