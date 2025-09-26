@@ -2,6 +2,7 @@ import * as State from '../State.js'
 import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { createElementString } from '../StaticSiteTemplates.js';
+import { ColorInput } from './ColorInput.js';
 
 export class TextNode extends Node {
   static sUiShortName = "T";
@@ -15,7 +16,7 @@ export class TextNode extends Node {
     this.text = "Text";
     this.fontFamily = null;
     this.fontSize = 36;
-    this.color = "var(--darkest-color)";
+    this.color = new ColorInput('#000000', 1.0);
     this.bold = false;
     this.italic = false;
     this.underline = false;
@@ -33,7 +34,7 @@ export class TextNode extends Node {
       text: this.text,
       fontFamily: this.fontFamily,
       fontSize: this.fontSize,
-      color: this.color,
+      color: this.color.writeToJson(),
       bold: this.bold,
       italic: this.italic,
       underline: this.underline,
@@ -51,7 +52,11 @@ export class TextNode extends Node {
     this.text = obj.text;
     this.fontFamily = obj.fontFamily;
     this.fontSize = obj.fontSize;
-    this.color = obj.color;
+    if (obj && obj.color) {
+      this.color.readFromJson(obj.color);
+    } else {
+      this.color = new ColorInput('#000000', 1.0);
+    }
     this.bold = obj.bold;
     this.italic = obj.italic;
     this.underline = obj.underline;
@@ -72,7 +77,7 @@ export class TextNode extends Node {
       myStyle.fontFamily = this.fontFamily;
     }
     if (this.color) {
-      myStyle.color = this.color;
+      myStyle.color = this.color.getColorValue();
     }
     if (this.bold) {
       myStyle.fontWeight = "bold";
