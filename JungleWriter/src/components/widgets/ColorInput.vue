@@ -15,7 +15,7 @@ const props = defineProps({
   },
   showAlpha: {
     type: Boolean,
-    default: false
+    default: true
   }
 })
 const emit = defineEmits(['update:modelValue'])
