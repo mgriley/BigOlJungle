@@ -7,8 +7,8 @@ import { ColorInput } from './ColorInput.js';
 export class TextNode extends Node {
   static sUiShortName = "T";
 
-  constructor() {
-    super();
+  constructor(generateId) {
+    super(generateId);
     this.name = "Text";
     this.type = "TextNode";
     this.allowsChildren = false;

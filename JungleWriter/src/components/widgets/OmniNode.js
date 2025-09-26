@@ -7,8 +7,8 @@ import { BorderInfo } from './BorderInfo.js'
 export class OmniNode extends Node {
   static sUiShortName = "O";
 
-  constructor() {
-    super();
+  constructor(generateId) {
+    super(generateId);
     this.name = "Omni";
     this.type = "OmniNode";
     this.allowsChildren = false;

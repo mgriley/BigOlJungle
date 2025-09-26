@@ -81,18 +81,13 @@ function onChooseNewNode(nodeOption) {
   let parentNode = null;
   let insertIndex = null;
   let selectedNode = gApp.site.getSelectedNode();
-  if (selectedNode) {
-    if (selectedNode.allowsChildren) {
-      parentNode = selectedNode;
-    } else {
-      parentNode = selectedNode.parentNode;
-      insertIndex = Math.max(0, selectedNode.getIndexInParent() - 1);
-    }
+  if (selectedNode && selectedNode.allowsChildren) {
+    parentNode = selectedNode;
   } else {
     parentNode = nodeTree.root;
   }
 
-  let newNode = reactive(new (nodeOption.classCtor)());
+  let newNode = reactive(new (nodeOption.classCtor)(true));
   newNode.onCreate();
   parentNode.addChildAtIndex(newNode, insertIndex);
   gApp.site.selectNode(newNode);

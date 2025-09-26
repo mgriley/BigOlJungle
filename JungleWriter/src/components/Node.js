@@ -9,8 +9,12 @@ import { gApp } from './Globals.js'
 export class Node {
   static sUiShortName = "G";
 
-  constructor() {
-    this.id = gApp.site.getNextNodeId();
+  constructor(generateId) {
+    if (generateId) {
+      this.id = gApp.site.getNextNodeId();
+    } else {
+      this.id = 0;
+    }
     gApp.site.registerNode(this);
     this.type = "Node";
 
@@ -50,7 +54,7 @@ export class Node {
     this.posY = obj.posY;
     this.allowsChildren = obj.allowsChildren;
     for (const childObj of obj.children) {
-      let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)());
+      let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)(false));
       childNode.onCreate();
       childNode.readFromJson(childObj);
       this.addChildToBottom(childNode);
@@ -292,7 +296,7 @@ export class Node {
 
 export class NodeTree {
   constructor() {
-    this.root = new Node();
+    this.root = new Node(true);
     this.root.name = "Root";
   }
 

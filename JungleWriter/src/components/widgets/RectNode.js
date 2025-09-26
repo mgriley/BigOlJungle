@@ -14,8 +14,8 @@ let kRectNodeCss = `.RectWidget {
 export class RectNode extends Node {
   static sUiShortName = "R";
 
-  constructor() {
-    super();
+  constructor(generateId) {
+    super(generateId);
     this.name = "Rect";
     this.type = "RectNode";
     this.allowsChildren = false;
