@@ -27,7 +27,7 @@ export class RectNode extends Node {
     this.posY = -100;
 
     this.background = new BackgroundInfo();
-    this.background.color = 'blue';
+    this.background.color.setColorValue('rgba(0, 0, 255, 1.0)');
     this.border = new BorderInfo();
     //this.filter = new FilterInfo();
     //this.backdropFilter = new FilterInfo();
