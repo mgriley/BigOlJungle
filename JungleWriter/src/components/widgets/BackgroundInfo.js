@@ -18,7 +18,6 @@ export class BackgroundInfo {
   readFromJson(obj) {
     this.type = obj ? obj.type : 'solid';
     if (obj && obj.color) {
-      console.log("COLOR: ", this.color);
       this.color.readFromJson(obj.color);
     } else {
       this.color = new ColorInput('#ffffff', 1.0);
