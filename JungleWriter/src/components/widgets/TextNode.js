@@ -23,7 +23,7 @@ export class TextNode extends Node {
     this.lineHeight = 1.2;
     this.letterSpacing = 0;
     this.textAlign = 'left';
-    this.maxWidth = null;
+    this.width = 200;
 
     this.linkUrl = "";
   }
@@ -41,7 +41,7 @@ export class TextNode extends Node {
       lineHeight: this.lineHeight,
       letterSpacing: this.letterSpacing,
       textAlign: this.textAlign,
-      maxWidth: this.maxWidth,
+      width: this.width,
       linkUrl: this.linkUrl,
     });
     return obj;
@@ -67,7 +67,9 @@ export class TextNode extends Node {
     }
     this.letterSpacing = obj.letterSpacing || 0;
     this.textAlign = obj.textAlign;
-    this.maxWidth = obj.maxWidth;
+    if (obj.width !== null) {
+      this.width = Number(obj.width) || 200;
+    }
     this.linkUrl = obj.linkUrl;
   }
 
@@ -92,17 +94,9 @@ export class TextNode extends Node {
     if (this.underline) {
       myStyle.textDecoration = "underline";
     }
-    if (this.lineHeight !== null) {
-      myStyle.lineHeight = this.lineHeight;
-    }
-    if (this.letterSpacing !== null) {
-      myStyle.letterSpacing = this.letterSpacing + 'px';
-    }
-    if (this.maxWidth !== null) {
-      myStyle.maxWidth = this.maxWidth + 'px';
-      // TODO - not wrapping properly
-      myStyle.overflowWrap = "normal";
-    }
+    myStyle.lineHeight = this.lineHeight;
+    myStyle.letterSpacing = this.letterSpacing + 'px';
+    myStyle.width = this.width + 'px';
     return {
       ...parentStyle,
       ...myStyle

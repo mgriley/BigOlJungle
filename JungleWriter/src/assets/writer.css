@@ -48,7 +48,8 @@ main {
 }
 
 .TextWidget {
-  white-space: pre;
+  /* Preserve the user's whitespace but also wrap as needed */
+  white-space: pre-wrap;
 }
 
 .ImageWidget {
