@@ -99,5 +99,6 @@ const props = defineProps({
 
 .StyleToggle em {
   font-style: italic;
+  font-family: serif;
 }
 </style>
