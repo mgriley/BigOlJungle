@@ -49,7 +49,7 @@ const props = defineProps({
     <TextAlignInput v-model="editorData.textAlign" />
   </div>
   <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15" :increment="0.1"/>
-  <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0"/>
+  <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
   <NumberInput v-model="editorData.maxWidth" name="Max Width" :min="0" :isOptional="true" :defaultValue="200" />
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
