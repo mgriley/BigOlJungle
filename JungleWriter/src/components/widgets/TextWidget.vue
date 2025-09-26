@@ -75,7 +75,7 @@ function onInput() {
 }
 
 onMounted(() => {
-  setupWidgetDrag(elementRef.value, props.node);
+  //setupWidgetDrag(elementRef.value, props.node);
 })
 
 </script>
@@ -99,7 +99,7 @@ onMounted(() => {
       @blur="onInputBlur"
       @input="onInput"
     ></textarea>
-    <DragCorners v-if="node.selected" :node="node" />
+    <!--<DragCorners v-if="node.selected" :node="node" />-->
   </div>
 </template>
 
