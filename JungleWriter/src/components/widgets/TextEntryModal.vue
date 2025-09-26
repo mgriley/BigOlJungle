@@ -180,6 +180,7 @@ defineExpose({
 
 .InnerModal {
   padding: var(--space-s) var(--space-m);
+  height: 100%;
 }
 
 .Header {
@@ -226,6 +227,7 @@ defineExpose({
 
 .Body {
   margin-bottom: 0;
+  height: 100%;
 }
 
 .ResizeHandle {
