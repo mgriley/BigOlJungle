@@ -14,38 +14,42 @@ const props = defineProps({
 </script>
 
 <template>
-  <FontInput v-model="editorData.fontFamily" name="Font" />
-  <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" />
-  <ColorInput :color="editorData.color" name="Color" />
-  <div class="FontStyleButtons">
-    <button 
-      class="StyleToggle" 
-      :class="{ active: editorData.bold }"
-      @click="editorData.bold = !editorData.bold"
-      title="Bold"
-    >
-      <strong>B</strong>
-    </button>
-    <button 
-      class="StyleToggle" 
-      :class="{ active: editorData.italic }"
-      @click="editorData.italic = !editorData.italic"
-      title="Italic"
-    >
-      <em>I</em>
-    </button>
-    <button 
-      class="StyleToggle" 
-      :class="{ active: editorData.underline }"
-      @click="editorData.underline = !editorData.underline"
-      title="Underline"
-    >
-      <span style="text-decoration: underline;">U</span>
-    </button>
+  <div class="mb-m">
+    <FontInput v-model="editorData.fontFamily" name="Font" />
+    <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" />
+    <ColorInput :color="editorData.color" name="Color"/>
   </div>
-  <TextAlignInput v-model="editorData.textAlign" />
-  <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="true" :defaultValue="1.25"/>
-  <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :min="0" :isOptional="true" :defaultValue="1"/>
+  <div class="mb-m">
+    <div class="FontStyleButtons">
+      <button 
+        class="StyleToggle" 
+        :class="{ active: editorData.bold }"
+        @click="editorData.bold = !editorData.bold"
+        title="Bold"
+      >
+        <strong>B</strong>
+      </button>
+      <button 
+        class="StyleToggle" 
+        :class="{ active: editorData.italic }"
+        @click="editorData.italic = !editorData.italic"
+        title="Italic"
+      >
+        <em>I</em>
+      </button>
+      <button 
+        class="StyleToggle" 
+        :class="{ active: editorData.underline }"
+        @click="editorData.underline = !editorData.underline"
+        title="Underline"
+      >
+        <span style="text-decoration: underline;">U</span>
+      </button>
+    </div>
+    <TextAlignInput v-model="editorData.textAlign" />
+  </div>
+  <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15"/>
+  <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0"/>
   <NumberInput v-model="editorData.maxWidth" name="Max Width" :min="0" :isOptional="true" :defaultValue="200" />
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->

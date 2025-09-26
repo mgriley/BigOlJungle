@@ -20,8 +20,8 @@ export class TextNode extends Node {
     this.bold = false;
     this.italic = false;
     this.underline = false;
-    this.lineHeight = null;
-    this.letterSpacing = null;
+    this.lineHeight = 1.2;
+    this.letterSpacing = 0;
     this.textAlign = 'left';
     this.maxWidth = null;
 
@@ -62,8 +62,10 @@ export class TextNode extends Node {
     this.bold = obj.bold;
     this.italic = obj.italic;
     this.underline = obj.underline;
-    this.lineHeight = obj.lineHeight;
-    this.letterSpacing = obj.letterSpacing;
+    if (obj.lineHeight !== null) {
+      this.lineHeight = obj.lineHeight;
+    }
+    this.letterSpacing = obj.letterSpacing || 0;
     this.textAlign = obj.textAlign;
     this.maxWidth = obj.maxWidth;
     this.linkUrl = obj.linkUrl;

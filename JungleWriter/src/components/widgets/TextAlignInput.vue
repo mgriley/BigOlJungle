@@ -17,7 +17,6 @@ const value = computed({
 
 <template>
   <div class="StdInput TextAlignParent">
-    <div class="InputLabel">Align</div>
     <div class="AlignButtons">
       <button 
         class="AlignToggle" 
