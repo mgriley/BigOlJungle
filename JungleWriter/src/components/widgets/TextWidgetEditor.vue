@@ -146,7 +146,7 @@ function openTextModal() {
 
 .ModalTextArea {
   width: 100%;
-  min-height: 300px;
+  height: 100%;
   padding: var(--space-xs);
   border: 1px solid var(--medium-color);
   border-radius: var(--border-radius-s);
@@ -154,7 +154,7 @@ function openTextModal() {
   color: var(--input-text);
   font-family: inherit;
   font-size: var(--f-s);
-  resize: vertical;
+  resize: none;
 }
 
 .ModalTextArea:focus {
