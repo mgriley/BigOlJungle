@@ -14,8 +14,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <FontInput v-model="editorData.fontFamily" name="Font Family" :isOptional="true" />
-  <NumberInput v-model="editorData.fontSize" name="Font Size" :min="1" />
+  <FontInput v-model="editorData.fontFamily" name="Font" />
+  <NumberInput v-model="editorData.fontSize" name="Size" :min="1" />
   <ColorInput :color="editorData.color" name="Color" />
   <div class="FontStyleButtons">
     <BoolInput class="Item" v-model="editorData.bold" name="Bold" />

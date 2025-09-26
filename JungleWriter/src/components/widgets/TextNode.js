@@ -14,7 +14,7 @@ export class TextNode extends Node {
     this.allowsChildren = false;
 
     this.text = "Text";
-    this.fontFamily = null;
+    this.fontFamily = "sans-serif";
     this.fontSize = 36;
     this.color = new ColorInput('#000000', 1.0);
     this.bold = false;
@@ -50,9 +50,11 @@ export class TextNode extends Node {
   readFromJson(obj) {
     super.readFromJson(obj);
     this.text = obj.text;
-    this.fontFamily = obj.fontFamily;
+    if (obj.fontFamily) {
+      this.fontFamily = obj.fontFamily;
+    }
     this.fontSize = obj.fontSize;
-    if (obj && obj.color) {
+    if (obj.color) {
       this.color.readFromJson(obj.color);
     } else {
       this.color = new ColorInput('#000000', 1.0);
