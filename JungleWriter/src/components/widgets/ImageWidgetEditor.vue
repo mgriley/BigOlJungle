@@ -45,11 +45,14 @@ function onStartChooseImg() {
 
 <template>
   <div>
-    <button @click="onStartChooseImg">File: {{ srcName || 'None' }}</button>
+    <PositionInput :node="editorData" :includeSize="true" class="mb-s" />
+    <div class="mb-m">
+      <button @click="onStartChooseImg" class="mb-xs">File: {{ srcName || 'None' }}</button>
+      <BoolInput v-model="preserveAspectRatio" name="Preserve aspect ratio" />
+    </div>
+    <TextInput v-model="editorData.altText" name="Alt text" />
+
     <ImageChooserModal ref="imgChooser" v-model="srcName" />
-    <PositionInput :node="editorData" :includeSize="true" />
-    <BoolInput v-model="preserveAspectRatio" name="Preserve Image Aspect Ratio" />
-    <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
     <!-- <SelectorInput v-model="editorData.objectFit" name="Image Fit" :options="['cover', 'contain', 'fill', 'none']" /> -->
   </div>
 </template>

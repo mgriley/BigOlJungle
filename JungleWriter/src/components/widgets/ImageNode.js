@@ -14,7 +14,7 @@ export class ImageNode extends Node {
     this.allowsChildren = false;
 
     this.srcName = "";
-    this.altText = "Alt text goes here";
+    this.altText = "Image of a...";
 
     // Derived
     this.srcUrl = null;
