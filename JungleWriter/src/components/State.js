@@ -14,7 +14,7 @@ import { ImageNode } from './widgets/ImageNode.js'
 import { ColorInput } from './widgets/ColorInput.js'
 
 import { Marked } from 'marked';
-import { gApp, setGApp } from './globals.js';
+import { gApp, setGApp } from './Globals.js';
 
 export class Post {
   constructor() {
