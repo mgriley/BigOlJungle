@@ -115,6 +115,7 @@ onMounted(() => {
 <style scoped>
 .NumberInput {
   flex: 1;
+  margin-bottom: var(--space-xs);
 }
 
 .OptionalToggle {
