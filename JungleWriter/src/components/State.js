@@ -143,6 +143,10 @@ class Site {
     this.filesPageConfig = "";
     this.resolvedFilesDict = {};
 
+    // Node state management
+    this.nodeIdCtr = 1;
+    this.nodeLookupMap = {};
+
     // TODO - store the id of the site that was editing last
 
     // siteDir is the DirObj for the current site, for convenience.
@@ -161,6 +165,7 @@ class Site {
       blogFeed: this.blogFeed.writeToJson(),
       galleryFeed: this.galleryFeed.writeToJson(),
       filesPageConfig: this.filesPageConfig,
+      nodeIdCtr: this.nodeIdCtr,
     };
     return obj;
   }
@@ -170,6 +175,9 @@ class Site {
     this.name = obj.name;
     if ('version' in obj) {
       this.version = obj.version;
+    }
+    if ('nodeIdCtr' in obj) {
+      this.nodeIdCtr = obj.nodeIdCtr;
     }
     this.nodeTree.readFromJson(obj.nodeTree);
     this.settings.readFromJson(obj.settings);
@@ -332,6 +340,22 @@ class Site {
 
   getPropEditor() {
     return this.selectedEntity;
+  }
+
+  getNextNodeId() {
+    return this.nodeIdCtr++;
+  }
+
+  registerNode(node) {
+    this.nodeLookupMap[node.id] = node;
+  }
+
+  unregisterNode(nodeId) {
+    delete this.nodeLookupMap[nodeId];
+  }
+
+  getNodeById(id) {
+    return this.nodeLookupMap[id];
   }
 };
 

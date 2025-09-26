@@ -4,18 +4,14 @@ import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
 } from './StaticSiteTemplates.js'
-
-var gState = {
-  nodeIdCtr: 1,
-  nodeLookupMap: {},
-};
+import { gApp } from './globals.js'
 
 export class Node {
   static sUiShortName = "G";
 
   constructor() {
-    this.id = gState.nodeIdCtr++;
-    gState.nodeLookupMap[this.id] = this;
+    this.id = gApp.site.getNextNodeId();
+    gApp.site.registerNode(this);
     this.type = "Node";
 
     this.name = "Group";
@@ -76,11 +72,11 @@ export class Node {
   destroy() {
     this.onDestroy();
     this.removeFromParent();
-    delete gState.nodeLookupMap[this.id];
+    gApp.site.unregisterNode(this.id);
   }
 
   static getNodeById(id) {
-    return gState.nodeLookupMap[id];
+    return gApp.site.getNodeById(id);
   }
 
   // DEFER
