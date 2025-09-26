@@ -7,6 +7,7 @@ import TextAlignInput from './TextAlignInput.vue'
 import FontInput from './FontInput.vue'
 import ColorInput from './ColorInput.vue'
 import TextEntryModal from './TextEntryModal.vue'
+import PositionInput from './PositionInput.vue'
 
 const props = defineProps({
   editorData: Object
@@ -22,6 +23,7 @@ function openTextModal() {
 </script>
 
 <template>
+  <PositionInput :node="editorData" class="mb-m" />
   <div class="mb-m">
     <FontInput v-model="editorData.fontFamily" name="Font" />
     <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" />
