@@ -37,6 +37,7 @@ async function startEditing() {
   if (inputRef.value) {
     inputRef.value.focus();
     inputRef.value.select();
+    autoResizeTextarea();
   }
 }
 
@@ -57,6 +58,19 @@ function onInputKeydown(evt) {
 
 function onInputBlur() {
   //stopEditing();
+}
+
+function autoResizeTextarea() {
+  if (inputRef.value) {
+    // Reset height to auto to get the correct scrollHeight
+    inputRef.value.style.height = 'auto';
+    // Set height to scrollHeight to fit content
+    inputRef.value.style.height = inputRef.value.scrollHeight + 'px';
+  }
+}
+
+function onInput() {
+  autoResizeTextarea();
 }
 
 onMounted(() => {
@@ -82,6 +96,7 @@ onMounted(() => {
       v-model="node.text"
       @keydown="onInputKeydown"
       @blur="onInputBlur"
+      @input="onInput"
     ></textarea>
     <DragCorners v-if="node.selected" :node="node" />
   </div>
@@ -107,7 +122,8 @@ onMounted(() => {
   padding: 0;
   margin: 0;
   resize: none;
-  overflow: visible;
+  overflow: hidden;
+  min-height: 1em;
 }
 </style>
 
