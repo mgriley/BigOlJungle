@@ -14,8 +14,7 @@ import { ImageNode } from './widgets/ImageNode.js'
 import { ColorInput } from './widgets/ColorInput.js'
 
 import { Marked } from 'marked';
-
-var gApp = null;
+import { gApp, setGApp } from './globals.js';
 
 export class Post {
   constructor() {
@@ -567,9 +566,10 @@ class Editor {
 };
 
 async function initGlobalApp(router) {
-  gApp = new Editor(router);
-  await gApp.start();
-  return gApp;
+  const app = new Editor(router);
+  setGApp(app);
+  await app.start();
+  return app;
 }
 
 export {
