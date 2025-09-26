@@ -28,7 +28,11 @@ async function reloadFiles() {
 }
 
 function getSiteFiles() {
-  return fileTree.value;  
+  if (!fileTree.value) {
+    return [];
+  }
+  // Filter out data.json file
+  return fileTree.value.filter(file => file.getName() !== 'data.json');
 }
 
 async function onFilesPicked(files) {
