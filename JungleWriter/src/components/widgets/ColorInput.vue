@@ -60,8 +60,8 @@ function onUpdateColor(evt) {
   <div class="ColorInput StdInput">
     <div class="Parent">
       <div class="InputLabel LeftLabel" v-if="name" :style="{ width: labelWidth, minWidth: labelWidth }">{{name}}</div>
-      <input class="BasicTextInput InputChild" type="color" v-model="value">
-      <input v-if="showAlpha" class="BasicTextInput AlphaInput" type="range" min="0" max="1" step="0.01" v-model="alphaValue" title="Alpha">
+      <input class="BasicTextInput ColorPicker" type="color" v-model="value">
+      <input v-if="showAlpha" class="AlphaSlider" type="range" min="0" max="1" step="0.01" v-model="alphaValue" title="Alpha">
       <!-- <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div> -->
     </div>
   </div>
@@ -97,14 +97,43 @@ function onUpdateColor(evt) {
 }
 
 
-.InputChild {
+.ColorPicker {
   /*display: inline-block;*/
   flex: 1;
+  min-width: 60px;
 }
 
-.AlphaInput {
-  flex: 0 0 60px;
+.AlphaSlider {
+  flex: 0 0 80px;
   margin-left: 8px;
+  height: 24px;
+  background: linear-gradient(to right, 
+    rgba(0,0,0,0) 0%, 
+    rgba(0,0,0,1) 100%);
+  border-radius: var(--border-radius-small);
+  outline: none;
+  cursor: pointer;
+}
+
+.AlphaSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--white-color);
+  border: 2px solid var(--medium-color);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.AlphaSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--white-color);
+  border: 2px solid var(--medium-color);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .CurColorBox {
