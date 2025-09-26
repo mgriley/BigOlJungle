@@ -99,7 +99,7 @@ onMounted(() => {
       @blur="onInputBlur"
       @input="onInput"
     ></textarea>
-    <!--<DragCorners v-if="node.selected" :node="node" />-->
+    <DragCorners v-if="node.selected" :node="node" />
   </div>
 </template>
 
