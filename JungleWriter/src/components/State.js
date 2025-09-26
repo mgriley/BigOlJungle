@@ -142,6 +142,7 @@ class Site {
       let siteData = JSON.parse(jsonStr);
       console.log("Site data:", prettyJson(siteData));
       site.readFromJson(siteData);
+      site.fixupNodeIds();
     }
     return site;
   }
@@ -274,6 +275,35 @@ class Site {
 
   getNodeById(id) {
     return this.nodeLookupMap[id];
+  }
+
+  fixupNodeIds() {
+    // Clear the lookup map and rebuild it, fixing any duplicate IDs
+    this.nodeLookupMap = {};
+    const usedIds = new Set();
+    
+    // Iterate through all nodes in the tree
+    this.nodeTree.root.iterateChildrenDfs((node, depth) => {
+      // Check if this ID is already used
+      if (usedIds.has(node.id)) {
+        // Generate a new unique ID
+        node.id = this.getNextNodeId();
+        console.log(`Fixed duplicate node ID, assigned new ID: ${node.id}`);
+      }
+      
+      // Register the node in our lookup map
+      usedIds.add(node.id);
+      this.nodeLookupMap[node.id] = node;
+      
+      // Update nodeIdCtr to ensure future IDs don't conflict
+      if (node.id >= this.nodeIdCtr) {
+        this.nodeIdCtr = node.id + 1;
+      }
+      
+      return true; // Continue visiting children
+    });
+    
+    console.log(`Registered ${Object.keys(this.nodeLookupMap).length} nodes in lookup table`);
   }
 };
 

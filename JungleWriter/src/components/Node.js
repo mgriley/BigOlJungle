@@ -10,7 +10,7 @@ export class Node {
   static sUiShortName = "G";
 
   constructor(id) {
-    this.id = id !== undefined ? id : 0;
+    this.id = id !== undefined ? id : (gApp?.site ? gApp.site.getNextNodeId() : 0);
     this.type = "Node";
 
     this.name = "Group";
@@ -22,6 +22,11 @@ export class Node {
 
     this.posX = 0;
     this.posY = 0;
+
+    // Only register if we have a site and this isn't during JSON loading
+    if (gApp?.site && id === undefined) {
+      gApp.site.registerNode(this);
+    }
   }
 
   writeToJson() {
@@ -49,7 +54,8 @@ export class Node {
     this.posY = obj.posY;
     this.allowsChildren = obj.allowsChildren;
     for (const childObj of obj.children) {
-      let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)(false));
+      // Pass the ID from JSON to avoid auto-generation and registration
+      let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)(childObj.id));
       childNode.onCreate();
       childNode.readFromJson(childObj);
       this.addChildToBottom(childNode);
