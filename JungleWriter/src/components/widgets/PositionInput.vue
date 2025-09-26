@@ -66,7 +66,7 @@ const height = computed({
         :labelLeft="true"
       />
       <NumberInput 
-        v-if="includeSize"
+        v-if="includeSize && width !== undefined"
         v-model="width" 
         name="W" 
         class="CompactInput"
@@ -74,7 +74,7 @@ const height = computed({
         :min="1"
       />
       <NumberInput 
-        v-if="includeSize"
+        v-if="includeSize && height !== undefined"
         v-model="height" 
         name="H" 
         class="CompactInput"

@@ -23,13 +23,13 @@ function openTextModal() {
 </script>
 
 <template>
-  <PositionInput :node="editorData" class="mb-m" />
+  <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
   <div class="mb-m">
     <FontInput v-model="editorData.fontFamily" name="Font" />
     <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" />
     <ColorInput :color="editorData.color" name="Color"/>
   </div>
-  <div class="mb-m">
+  <div class="mb-s">
     <div class="FontStyleButtons">
       <button 
         class="StyleToggle" 
@@ -58,9 +58,10 @@ function openTextModal() {
     </div>
     <TextAlignInput v-model="editorData.textAlign" />
   </div>
-  <NumberInput v-model="editorData.width" name="Width" :min="1" :isOptional="false" />
-  <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15" :increment="0.1"/>
-  <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
+  <div class="mb-xs">
+    <NumberInput v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15" :increment="0.1"/>
+    <NumberInput v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
+  </div>
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
   <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
