@@ -108,7 +108,7 @@ onMounted(() => {
   padding: 0;
   margin: 0;
   resize: none;
-  overflow: hidden;
+  overflow: visible;
 }
 </style>
 
