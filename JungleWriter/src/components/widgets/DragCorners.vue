@@ -28,8 +28,12 @@ function setupDragCorner(widgetElem, node, dirX, dirY) {
     onUpdate: (startX, startY, curX, curY) => {
       let diffX = curX - startX;
       let diffY = curY - startY;
-      node.width = dragObj.origWidth + dirX * diffX;
-      node.height = dragObj.origHeight + dirY * diffY;
+      if (node.width !== undefined) {
+        node.width = dragObj.origWidth + dirX * diffX;
+      }
+      if (node.height !== undefined) {
+        node.height = dragObj.origHeight + dirY * diffY;
+      }
     },
     onEnd: () => {
       node.interaction = null;
