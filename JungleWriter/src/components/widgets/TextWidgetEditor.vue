@@ -6,7 +6,7 @@ import TextInput from './TextInput.vue'
 import TextAlignInput from './TextAlignInput.vue'
 import FontInput from './FontInput.vue'
 import ColorInput from './ColorInput.vue'
-import BasicModal from 'Shared/BasicModal.vue'
+import TextEntryModal from './TextEntryModal.vue'
 
 const props = defineProps({
   editorData: Object
@@ -73,9 +73,8 @@ function cancelModalText() {
   <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
   <button class="EditTextButton" @click="openTextModal">Edit Text</button>
 
-  <BasicModal 
+  <TextEntryModal 
     ref="textModal" 
-    title="Edit Text Content"
     @onDone="saveModalText"
     @onCancel="cancelModalText"
   >
@@ -84,7 +83,7 @@ function cancelModalText() {
       v-model="modalText"
       placeholder="Enter your text content here..."
     ></textarea>
-  </BasicModal>
+  </TextEntryModal>
 </template>
 
 <style scoped>
