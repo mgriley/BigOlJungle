@@ -99,8 +99,8 @@ onMounted(async () => {
       <div v-for="item in getSiteFiles()" class="FileItem">
         <div :class="{IsSelected: isSelected(item)}" class="MockButton" @click="selectFile(item)">{{ item.getName() }}</div>
       </div>
-      <div class="Preview">
-        <img class="PreviewImg" :src="thumbnailSrc" alt="(Click an img file to preview)" />
+      <div v-if="thumbnailSrc !== ''" class="Preview">
+        <img class="PreviewImg" :src="thumbnailSrc" alt="Image preview" />
       </div>
     </div>
     <div v-else>
