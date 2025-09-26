@@ -58,7 +58,7 @@ function onUpdateColor(evt) {
 <template>
   <div class="ColorInput StdInput">
     <div class="Parent">
-      <div class="InputLabel LeftLabel" v-if="name">{{name}}</div>
+      <div class="InputLabel LeftLabel" v-if="name" :style="{ width: labelWidth }">{{name}}</div>
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="BasicTextInput InputChild" type="color" v-model="value">
       <!-- <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div> -->
@@ -93,7 +93,6 @@ function onUpdateColor(evt) {
   margin-right: 8px;
   margin-bottom: 0;
   white-space: nowrap;
-  width: v-bind(labelWidth);
 }
 
 .OptionalToggle {
