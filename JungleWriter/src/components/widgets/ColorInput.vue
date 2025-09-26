@@ -7,9 +7,6 @@ import { ColorInput as ColorInputClass } from './ColorInput.js'
 const props = defineProps({
   color: [String, Number, Object],
   name: String,
-  isOptional: Boolean,
-  // Used when toggling the `Optional` flag
-  defaultValue: [String, Number, Object],
   labelWidth: {
     type: String,
     default: null
@@ -48,21 +45,6 @@ const alphaValue = computed({
   }
 })
 
-const optionalValue = computed({
-  get() {
-    return props.color !== null;
-  },
-  set(value) {
-    if (value) {
-      //console.log("DefaultValue: "+props.defaultValue);
-      // Note: This would need to be handled by parent component
-      // since we can't emit events to change the prop reference
-    } else {
-      // Note: This would need to be handled by parent component
-      // since we can't emit events to change the prop reference
-    }
-  }
-})
 
 const labelWidth = computed(() => {
   return props.labelWidth || 'auto';
@@ -78,7 +60,6 @@ function onUpdateColor(evt) {
   <div class="ColorInput StdInput">
     <div class="Parent">
       <div class="InputLabel LeftLabel" v-if="name" :style="{ width: labelWidth, minWidth: labelWidth }">{{name}}</div>
-      <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="BasicTextInput InputChild" type="color" v-model="value">
       <input v-if="showAlpha" class="BasicTextInput AlphaInput" type="range" min="0" max="1" step="0.01" v-model="alphaValue" title="Alpha">
       <!-- <div class="InputChild CurColorBox Flex" :style="{'background-color': value}" @click="toggleModal"></div> -->
@@ -115,9 +96,6 @@ function onUpdateColor(evt) {
   white-space: nowrap;
 }
 
-.OptionalToggle {
-  margin-right: 8px;
-}
 
 .InputChild {
   /*display: inline-block;*/
