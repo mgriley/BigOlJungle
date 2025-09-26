@@ -75,6 +75,11 @@ export class Node {
   }
 
   destroy() {
+    // Destroy all children first
+    for (const child of this.children) {
+      child.destroy();
+    }
+    // Then destroy this node
     this.onDestroy();
     this.removeFromParent();
     gApp.site.unregisterNode(this.id);
