@@ -100,7 +100,7 @@ defineExpose({
 <template>
   <BasicModal ref="modal" title="Choose an image:" @onCancel="handleCancel" class="Modal">
     <div class="mb-l">
-      <p class="mb-m">Current file: {{ value }}</p>
+      <p class="mb-m">Current file: {{ value || 'None' }}</p>
       <div class="ImgGrid MarginBotS">
         <div v-for="file of files" class="Preview" @click="value = file.name"
           :class="{IsChosen: file.name == modelValue}">
