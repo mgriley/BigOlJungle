@@ -68,23 +68,21 @@ onMounted(() => {
 <template>
   <div class="Widget TextWidget NoSelect" :style="node.getStyleObject()"
       ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
-    <template v-if="!isEditing">
+    <div v-if="!isEditing">
       <template v-if="node.linkUrl === ''">
         {{ node.text }}
       </template>
       <template v-else>
         <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
       </template>
-    </template>
-    <template v-else>
-      <textarea 
-        ref="inputRef"
-        class="TextWidgetInput"
-        v-model="node.text"
-        @keydown="onInputKeydown"
-        @blur="onInputBlur"
-      ></textarea>
-    </template>
+    </div>
+    <textarea v-else
+      ref="inputRef"
+      class="TextWidgetInput"
+      v-model="node.text"
+      @keydown="onInputKeydown"
+      @blur="onInputBlur"
+    ></textarea>
     <DragCorners v-if="node.selected" :node="node" />
   </div>
 </template>
