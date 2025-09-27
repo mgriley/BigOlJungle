@@ -21,6 +21,7 @@ function onClick() {
 }
 
 function onDoubleClick(evt) {
+  console.log("DOUBLE CLICKED");
   if (gApp.site.isEditing) {
     evt.preventDefault();
     evt.stopPropagation();
@@ -56,13 +57,14 @@ onMounted(() => {
 
 <template>
   <div class="Widget ImageWidget" ref="elementRef"
-    :style="node.getStyleObject()" @click="onClick">
+    :style="node.getStyleObject()" @click="onClick" @dblclick="onDoubleClick"
+    >
     <a :class="{DisabledLink: !isImgLink}" :href="node.linkUrl"
       target="_blank" @click="onLinkClicked">
       <img class="" :style="node.getImgStyleObject()"
-           ref="imgRef"
-           :src="node.getSrcUrl()" :alt="node.altText"
-           @dblclick="onDoubleClick" />
+        ref="imgRef"
+        :src="node.getSrcUrl()" :alt="node.altText"
+      />
     </a>
     <DragCorners v-if="node.selected" :node="node" />
     <ImageChooserModal ref="imgChooser" v-model="srcName" />

@@ -55,6 +55,7 @@ async function updateFileOptions() {
       newFiles.push({name: file.getName(), url: url})
     }
   }
+  console.log("NEW FILES: ", newFiles);
   files.value = newFiles;
 }
 
@@ -135,6 +136,7 @@ defineExpose({
 }
 
 .PreviewImg {
+  width: 125px;
   max-width: 125px;
   max-height: 125px;
   object-fit: contain;
