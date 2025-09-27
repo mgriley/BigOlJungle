@@ -48,6 +48,10 @@ let srcName = computed({
   }
 });
 
+let hasNoImage = computed(() => {
+  return !props.node.getSrcName() || props.node.getSrcName().trim() === '';
+});
+
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
   //setupWidgetDrag(imgRef.value, props.node);
@@ -58,13 +62,18 @@ onMounted(() => {
 <template>
   <div class="Widget ImageWidget" ref="elementRef"
     :style="node.getStyleObject()" @click="onClick" @dblclick="onDoubleClick"
+    :class="{ 'no-image': hasNoImage }"
     >
     <a :class="{DisabledLink: !isImgLink}" :href="node.linkUrl"
       target="_blank" @click="onLinkClicked">
-      <img class="" :style="node.getImgStyleObject()"
+      <img v-if="!hasNoImage" class="" :style="node.getImgStyleObject()"
         ref="imgRef"
         :src="node.getSrcUrl()" :alt="node.altText"
       />
+      <div v-else class="placeholder-content">
+        <i class="bi bi-image"></i>
+        <span>No image</span>
+      </div>
     </a>
     <DragCorners v-if="node.selected" :node="node" />
     <ImageChooserModal ref="imgChooser" v-model="srcName" />
@@ -72,6 +81,35 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.ImageWidget.no-image {
+  background-color: #007bff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ImageWidget.no-image a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  gap: 8px;
+}
+
+.placeholder-content i {
+  font-size: 24px;
+}
 </style>
 
 <style>
