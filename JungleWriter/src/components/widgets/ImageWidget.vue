@@ -71,8 +71,8 @@ onMounted(() => {
         :src="node.getSrcUrl()" :alt="node.altText"
       />
       <div v-else class="placeholder-content">
-        <i class="bi bi-image"></i>
-        <span>No image</span>
+        <i class="bi bi-image mr-xxs"></i>
+        Double-click me!
       </div>
     </a>
     <DragCorners v-if="node.selected" :node="node" />
@@ -82,7 +82,7 @@ onMounted(() => {
 
 <style scoped>
 .ImageWidget.no-image {
-  background-color: #007bff;
+  background-color: blue;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,17 +98,12 @@ onMounted(() => {
 }
 
 .placeholder-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: white;
-  font-size: 16px;
-  gap: 8px;
+  padding: var(--space-xs);
+  font-size: var(--f-l);
 }
 
 .placeholder-content i {
-  font-size: 24px;
 }
 </style>
 
