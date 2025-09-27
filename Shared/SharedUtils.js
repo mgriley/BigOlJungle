@@ -263,4 +263,11 @@ export function getRandInt(maxValExclusive) {
   return Math.floor(Math.random() * maxValExclusive);
 }
 
+export function trimText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.substring(0, maxLength) + '...';
+}
+
 
