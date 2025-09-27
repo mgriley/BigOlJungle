@@ -8,6 +8,7 @@ import ColorInput from './ColorInput.vue'
 import SelectorInput from './SelectorInput.vue'
 import ImageChooserModal from '../ImageChooserModal.vue'
 import PositionInput from './PositionInput.vue'
+import { trimText } from 'Shared/SharedUtils.js'
 
 const props = defineProps({
   editorData: Object
@@ -47,7 +48,7 @@ function onStartChooseImg() {
   <div>
     <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
     <div class="mb-m">
-      <button @click="onStartChooseImg" class="mb-xs"><i class="bi bi-image mr-xs"></i>{{ srcName || 'Choose image' }}</button>
+      <button @click="onStartChooseImg" class="mb-xs"><i class="bi bi-image mr-xs"></i>{{ srcName ? trimText(srcName, 20) : 'Choose image' }}</button>
       <BoolInput v-model="preserveAspectRatio" name="Preserve aspect ratio" />
     </div>
     <TextInput v-model="editorData.altText" name="Alt text" />
