@@ -4,6 +4,7 @@ import { gApp } from '../State.js'
 import { setupWidgetDrag, makeDraggableExt } from '../Utils.js'
 import { ImageNode } from './ImageNode.js'
 import DragCorners from './DragCorners.vue'
+import ImageChooserModal from '../ImageChooserModal.vue'
 
 const props = defineProps({
   node: Object
@@ -11,10 +12,19 @@ const props = defineProps({
 
 let elementRef = ref(null);
 let imgRef = ref(null);
+let imgChooser = ref(null);
 
 function onClick() {
   if (gApp.site.isEditing) {
     gApp.site.selectNode(props.node);
+  }
+}
+
+function onDoubleClick(evt) {
+  if (gApp.site.isEditing) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    imgChooser.value.showModal();
   }
 }
 
@@ -26,6 +36,15 @@ function onLinkClicked(evt) {
 
 let isImgLink = computed(() => {
   return props.node.linkUrl !== "";
+});
+
+let srcName = computed({
+  get() {
+    return props.node.getSrcName();
+  },
+  set(value) {
+    props.node.setSrcName(value);
+  }
 });
 
 onMounted(() => {
@@ -42,9 +61,11 @@ onMounted(() => {
       target="_blank" @click="onLinkClicked">
       <img class="" :style="node.getImgStyleObject()"
            ref="imgRef"
-           :src="node.getSrcUrl()" :alt="node.altText" />
+           :src="node.getSrcUrl()" :alt="node.altText"
+           @dblclick="onDoubleClick" />
     </a>
     <DragCorners v-if="node.selected" :node="node" />
+    <ImageChooserModal ref="imgChooser" v-model="srcName" />
   </div>
 </template>
 
