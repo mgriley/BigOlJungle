@@ -61,7 +61,9 @@ const value = computed({
 }
 
 .AlignToggle {
-  width: 32px;
+  /*width: 32px;*/
+  flex: 1;
+  min-width: 32px;
   height: 32px;
   border: 1px solid var(--medium-color);
   border-radius: var(--border-radius-s);

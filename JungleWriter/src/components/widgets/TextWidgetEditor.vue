@@ -64,8 +64,11 @@ function openTextModal() {
   </div>
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
   <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
-  <textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>
-  <button class="EditTextButton" @click="openTextModal">Open Editor</button>
+
+  <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
+  <div class="mt-s">
+    <button class="EditTextButton" @click="openTextModal"><i class="bi bi-chat-right-text mr-xs"></i>Edit text</button>
+  </div>
 
   <TextEntryModal 
     ref="textModal"
@@ -95,7 +98,8 @@ function openTextModal() {
 }
 
 .StyleToggle {
-  width: 32px;
+  flex: 1;
+  min-width: 32px;
   height: 32px;
   border: 1px solid var(--medium-color);
   border-radius: var(--border-radius-s);
@@ -132,8 +136,10 @@ function openTextModal() {
 }
 
 .EditTextButton {
+  width: 100%;
   margin-top: var(--space-xxs);
   font-size: var(--f-m);
+  padding: var(--space-xs) var(--space-m);
 }
 
 .ModalTextArea {

@@ -68,7 +68,7 @@ function selectTab(tab) {
 }
 
 .Toplevel.IsEditing {
-  grid-template-columns: 350px 1fr 350px;
+  grid-template-columns: 300px 1fr 300px;
 }
 
 .Sidebar {

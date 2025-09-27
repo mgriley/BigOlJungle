@@ -27,6 +27,7 @@ const value = computed({
   display: flex;
   flex-flow: row nowrap;
   align-items: baseline;
+  font-size: var(--f-m);
 }
 
 .BoolParent input {

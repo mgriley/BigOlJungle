@@ -17,7 +17,7 @@ button {
   cursor: pointer;
   font-weight: 600;
   /* font-weight: var(--bold-weight); */
-  font-size: var(--p-size);
+  font-size: var(--f-m);
 }
 
 button:hover, button:active {

@@ -38,10 +38,10 @@ const optionalValue = computed({
 
 <template>
   <div class="TextInput StdInput">
-    <div class="InputLabel" v-if="name">{{name}}</div>
+    <div class="f-s" v-if="name">{{name}}</div>
     <div class="Parent">
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
-      <input class="BasicTextInput InputChild" type="text" v-model="value">
+      <input class="EditorInput InputChild" type="text" v-model="value">
     </div>
   </div>
 </template>
