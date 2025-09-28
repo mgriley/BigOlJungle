@@ -64,6 +64,9 @@ class Site {
     this.filesPageConfig = "";
     this.resolvedFilesDict = {};
 
+    this.canvasWidth = null;
+    this.canvasHeight = null;
+
     // Node state management
     this.nodeIdCtr = 1;
     this.nodeLookupMap = {};
@@ -189,8 +192,6 @@ class Site {
       indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", writer.siteName);
       indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
         stylesDictToInlineString(this.getMainStyleObject()));
-      indexHtmlStr = indexHtmlStr.replace("{{CANVAS_STYLE_STRING}}",
-        stylesDictToInlineString(this.getCanvasStyleObject()));
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
       writer.addTextFile("index.html", indexHtmlStr);
 
