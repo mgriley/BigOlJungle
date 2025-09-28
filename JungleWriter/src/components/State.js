@@ -21,12 +21,16 @@ class SiteSettings {
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
     // NOTE - currently unused
     //this.foregroundColor = new ColorInput('#ffffff', 1.0);
+    this.canvasWidth = 4000;
+    this.canvasHeight = 4000;
   }
 
   writeToJson() {
     return {
       backgroundColor: this.backgroundColor.writeToJson(),
       //foregroundColor: this.foregroundColor.writeToJson(),
+      canvasWith: this.canvasWidth,
+      canvasHeight: this.canvasHeight,
     }
   }
 
@@ -36,7 +40,6 @@ class SiteSettings {
     } else {
       this.backgroundColor = new ColorInput('#ffffff', 1.0);
     }
-    
     /*
     if (obj && obj.foregroundColor) {
       this.foregroundColor.readFromJson(obj.foregroundColor);
@@ -44,11 +47,14 @@ class SiteSettings {
       this.foregroundColor = new ColorInput('#ffffff', 1.0);
     }
     */
+    if (obj && obj.canvasWidth) {
+      this.canvasWidth = obj.canvasWidth;
+    }
+    if (obj && obj.canvasHeight) {
+      this.canvasHeight = obj.canvasHeight;
+    }
   }
 }
-
-let kDefaultCanvasWidth = 1000;
-let kDefaultCanvasHeight = 1000;
 
 class Site {
   constructor(editor, id, siteDir) {
@@ -65,9 +71,6 @@ class Site {
     this.galleryFeed = new PostsFeed();
     this.filesPageConfig = "";
     this.resolvedFilesDict = {};
-
-    this.canvasWidth = null;
-    this.canvasHeight = null;
 
     // Node state management
     this.nodeIdCtr = 1;
@@ -132,8 +135,8 @@ class Site {
       'transform': 'scale(1.0)',
     }
     */
-    let canvasWidth = this.canvasWidth !== null ? this.canvasWidth : kDefaultCanvasWidth;
-    let canvasHeight = this.canvasHeight !== null ? this.canvasHeight : kDefaultCanvasHeight;
+    let canvasWidth = this.settings.canvasWidth;
+    let canvasHeight = this.settings.canvasHeight;
     return {
       'background-color': this.settings.backgroundColor.getColorValue(),
       '--canvasWidth': canvasWidth + 'px',
@@ -346,6 +349,7 @@ class Site {
      */
     const mainElement = document.querySelector('#Main');
     if (mainElement) {
+      console.log(`Scrolling main by (${offsetX}, ${offsetY})`);
       mainElement.scrollBy(offsetX, offsetY);
     } else {
       console.warn('Main element not found');
@@ -370,7 +374,8 @@ class Editor {
     // Set up interval timer to update canvas size
     this.canvasSizeTimer = new IntervalTimer(() => {
       if (this.site) {
-        this.site.updateCanvasSize();
+        // TODO
+        //this.site.updateCanvasSize();
       }
     }, 0.5); // 500ms
 

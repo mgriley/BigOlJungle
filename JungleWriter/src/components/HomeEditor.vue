@@ -8,7 +8,7 @@ let rootNode = computed(() => {
 })
 
 function onClickBackground(evt) {
-  if (evt.target.id == "Main") {
+  if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
     console.log("Clicked background, deselecting. TargetId: ", evt.target.id);
     gApp.site.deselectAll();
   }
@@ -31,27 +31,40 @@ function onKeyDown(evt) {
     return;
   }
 
-  const scrollAmount = 20; // pixels to scroll per keypress
+  const scrollAmount = 30; // pixels to scroll per keypress
   let handled = false;
 
   // Handle WASD keys for scrolling (always available)
+  let offsetX = 0;
+  let offsetY = 0;
   switch (evt.key.toLowerCase()) {
     case 'w':
-      gApp.site.scrollMainBy(0, -scrollAmount);
+      offsetY += -1.0;
       handled = true;
       break;
     case 'a':
-      gApp.site.scrollMainBy(-scrollAmount, 0);
+      offsetX += -1.0;
       handled = true;
       break;
     case 's':
-      gApp.site.scrollMainBy(0, scrollAmount);
+      offsetY += 1.0;
       handled = true;
       break;
     case 'd':
-      gApp.site.scrollMainBy(scrollAmount, 0);
+      offsetX += 1.0;
       handled = true;
       break;
+  }
+  if (offsetX !== 0 || offsetY !== 0) {
+    // Normalize diagonal movement
+    if (offsetX !== 0 && offsetY !== 0) {
+      const norm = Math.sqrt(2);
+      offsetX /= norm;
+      offsetY /= norm;
+    }
+    offsetX *= scrollAmount;
+    offsetY *= scrollAmount;
+    gApp.site.scrollMainBy(offsetX, offsetY);
   }
 
   // Only handle arrow keys when editing and a node is selected
@@ -121,7 +134,7 @@ function getMainStyleObject() {
 }
 
 let isEditing = computed(() => {
-  return gApp.site.getIsEditing();
+  return gApp.site?.getIsEditing();
 });
 
 function clamp(x, a, b) {
@@ -161,11 +174,26 @@ onUnmounted(() => {
 <template>  
   <router-view></router-view>
   <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
-    <div class="AnchorDiv">
-      <NodeWidget id="RootNode" :node="rootNode" />
+    <div id="CanvasArea">
+      <div class="AnchorDiv">
+        <NodeWidget id="RootNode" :node="rootNode" />
+      </div>
+      <div v-if="isEditing" class="DesignAreaGuide">
+      </div>
     </div>
   </main>
 </template>
 
 <style scoped>
+.DesignAreaGuide {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 800px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  border: 2px dashed white;
+  border-radius: var(--border-radius-large);
+  pointer-events: none;
+}
 </style>
