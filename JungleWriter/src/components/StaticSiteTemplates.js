@@ -12,10 +12,8 @@ export let StaticIndexHtml = `<!DOCTYPE html>
 <body>
   <div id="app">
     <main id="Main" style="{{MAIN_STYLE_STRING}}">
-      <div class="CanvasArea" style="{{CANVAS_STYLE_STRING}}">
-        <div class="AnchorDiv">
-          {{CONTENT}}
-        </div>
+      <div class="AnchorDiv">
+        {{CONTENT}}
       </div>
     </main>
   </div>

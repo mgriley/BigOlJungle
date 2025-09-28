@@ -10,6 +10,7 @@ let settings = gApp.site.getSettings();
 <template>
   <div>
     <ColorInput name="Background" :color="settings.backgroundColor" />
+    <!--<ColorInput name="Foreground" :color="settings.foregroundColor" />-->
   </div>
 </template>
 

@@ -3,20 +3,10 @@
 /* STYLES FROM HomeEditor.vue */
 
 main {
-  height: 100vh;
-  overflow: auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.CanvasArea {
-  background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 4px;
-  width: var(--canvasWidth);
-  height: var(--canvasHeight);
+  position: relative;
+  /* TODO */
+  height: 1000px;
+  overflow: hidden;
 }
 
 .AnchorDiv {

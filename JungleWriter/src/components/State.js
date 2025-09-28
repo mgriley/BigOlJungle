@@ -19,13 +19,14 @@ import { Post, PostsFeed } from './Post.js'
 class SiteSettings {
   constructor() {
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
-    this.foregroundColor = new ColorInput('#ffffff', 1.0);
+    // NOTE - currently unused
+    //this.foregroundColor = new ColorInput('#ffffff', 1.0);
   }
 
   writeToJson() {
     return {
       backgroundColor: this.backgroundColor.writeToJson(),
-      foregroundColor: this.foregroundColor.writeToJson(),
+      //foregroundColor: this.foregroundColor.writeToJson(),
     }
   }
 
@@ -36,11 +37,13 @@ class SiteSettings {
       this.backgroundColor = new ColorInput('#ffffff', 1.0);
     }
     
+    /*
     if (obj && obj.foregroundColor) {
       this.foregroundColor.readFromJson(obj.foregroundColor);
     } else {
       this.foregroundColor = new ColorInput('#ffffff', 1.0);
     }
+    */
   }
 }
 
@@ -112,20 +115,21 @@ class Site {
   }
 
   getMainStyleObject() {
-    return {
-      'background-color': this.settings.backgroundColor.getColorValue(),
-    };
-  }
-
-  getCanvasStyleObject() {
+    // TODO - fix this up
+    /*
     let canvasBaseWidth = 600;
     // let canvasAspectRatio = 9.0 / 16.0;
     let canvasAspectRatio = 3.0 / 4.0;
-    return {
+    let canvasStyleObj = {
+      //'background-color': this.settings.foregroundColor.getColorValue(),
       '--canvasWidth': canvasBaseWidth + 'px',
       '--canvasHeight': canvasBaseWidth / canvasAspectRatio + 'px',
       'transform': 'scale(1.0)',
     }
+    */
+    return {
+      'background-color': this.settings.backgroundColor.getColorValue(),
+    };
   }
 
   async save() {

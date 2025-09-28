@@ -8,7 +8,7 @@ let rootNode = computed(() => {
 })
 
 function onClickBackground(evt) {
-  if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
+  if (evt.target.id == "Main") {
     console.log("Clicked background, deselecting. TargetId: ", evt.target.id);
     gApp.site.deselectAll();
   }
@@ -98,10 +98,6 @@ function getMainStyleObject() {
   return gApp.site.getMainStyleObject();
 }
 
-let canvasStyleObj = computed(() => {
-  return gApp.site.getCanvasStyleObject();
-})
-
 let isEditing = computed(() => {
   return gApp.site.getIsEditing();
 });
@@ -143,10 +139,8 @@ onUnmounted(() => {
 <template>  
   <router-view></router-view>
   <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
-    <div id="CanvasArea" class="CanvasArea" :style="canvasStyleObj">
-      <div class="AnchorDiv">
-        <NodeWidget :node="rootNode" />
-      </div>
+    <div class="AnchorDiv">
+      <NodeWidget :node="rootNode" />
     </div>
   </main>
 </template>

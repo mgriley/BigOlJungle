@@ -90,6 +90,12 @@ function selectTab(tab) {
   padding: var(--space-s) var(--space-s);
 }
 
+.MainArea {
+  /* Do not allow the editor section to extend past the viewport height */
+  height: 100vh;
+  overflow: auto;
+}
+
 .TabSelector {
   margin-bottom: var(--space-m);
 }
