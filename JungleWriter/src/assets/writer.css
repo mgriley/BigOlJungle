@@ -6,8 +6,12 @@ main {
   position: relative;
   /* TODO */
   overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  /*
   width: var(--canvasWidth);
   height: var(--canvasHeight);
+  */
 }
 
 .AnchorDiv {

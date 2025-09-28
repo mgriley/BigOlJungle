@@ -326,7 +326,9 @@ class Site {
   }
 
   updateCanvasSize() {
+    console.log("Updating canvas size...");
     const boundingBox = Node.calculateBoundingBoxFromDOM();
+    console.log("Bounding box: ", boundingBox);
     if (boundingBox) {
       this.canvasWidth = boundingBox.width;
       this.canvasHeight = boundingBox.height;

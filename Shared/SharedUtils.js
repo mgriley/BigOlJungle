@@ -280,7 +280,8 @@ export class IntervalTimer {
     opts = valOr(opts, {});
     this.onlyWhenVisible = valOr(opts.onlyWhenVisible, false);
 
-    this._reset();
+    // Do not start the timer right away.
+    //this._reset();
   }
 
   start() {
