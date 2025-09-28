@@ -89,7 +89,7 @@ export class Node {
     return gApp.site.getNodeById(id);
   }
 
-  static calculateBoundingBoxFromDOM() {
+  static calculateBoundingBox() {
     /**
      * Calculates the total bounding box of the node tree by iterating through
      * the actual DOM elements, starting from the #RootNode selector.
