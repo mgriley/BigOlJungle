@@ -216,6 +216,13 @@ let isEditing = computed(() => {
   return gApp.site?.getIsEditing();
 });
 
+let mainCursor = computed(() => {
+  if (isEditing.value) {
+    return 'default';
+  }
+  return isDragging.value ? 'grabbing' : 'grab';
+});
+
 function clamp(x, a, b) {
   return Math.max(a, Math.min(x, b));
 }
@@ -267,7 +274,7 @@ onUnmounted(() => {
 
 <template>  
   <router-view></router-view>
-  <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
+  <main id="Main" @click="onClickBackground" :style="{...getMainStyleObject(), cursor: mainCursor}">
     <div id="CanvasArea">
       <div class="AnchorDiv">
         <NodeWidget id="RootNode" :node="rootNode" />
