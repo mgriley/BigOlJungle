@@ -354,17 +354,6 @@ class Site {
      */
     this.translateX -= offsetX;
     this.translateY -= offsetY;
-    /*
-    const mainElement = document.querySelector('#Main');
-    if (mainElement) {
-      let currentScrollX = mainElement.scrollLeft;
-      let currentScrollY = mainElement.scrollTop;
-      console.log(`Scrolling. Current: (${currentScrollX}, ${currentScrollY}) Delta: (${offsetX}, ${offsetY})`);
-      mainElement.scrollBy(offsetX, offsetY);
-    } else {
-      console.warn('Main element not found');
-    }
-    */
   }
 };
 
