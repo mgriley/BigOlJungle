@@ -121,7 +121,7 @@ function onKeyUp(evt) {
 }
 
 function startScrollAnimation() {
-  const scrollSpeed = 3; // pixels per frame
+  const scrollSpeed = 10; // pixels per frame
   
   function animate() {
     if (keysPressed.value.size === 0) {
