@@ -129,6 +129,19 @@ function onKeyDown(evt) {
   }
 }
 
+function onWheel(evt) {
+  /**
+   * Handle mouse wheel scrolling to manually control scroll behavior
+   */
+  evt.preventDefault();
+  
+  const scrollMultiplier = 1.0; // Adjust sensitivity as needed
+  const deltaX = evt.deltaX * scrollMultiplier;
+  const deltaY = evt.deltaY * scrollMultiplier;
+  
+  gApp.site.scrollMainBy(deltaX, deltaY);
+}
+
 function getMainStyleObject() {
   return gApp.site.getMainStyleObject();
 }
@@ -162,11 +175,13 @@ onMounted(() => {
   //window.addEventListener("resize", onPageResize);
   //onPageResize();
   window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("wheel", onWheel, { passive: false });
 })
 
 onUnmounted(() => {
   //window.removeEventListener("resize", onPageResize);
   window.removeEventListener("keydown", onKeyDown);
+  window.removeEventListener("wheel", onWheel);
 })
 
 </script>
