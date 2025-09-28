@@ -1,11 +1,15 @@
 <script setup>
-import { reactive, computed, onMounted, onUnmounted } from 'vue'
+import { reactive, computed, onMounted, onUnmounted, ref } from 'vue'
 import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
 
 let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
 })
+
+// Track which keys are currently pressed
+const keysPressed = ref(new Set());
+let scrollAnimationId = null;
 
 function onClickBackground(evt) {
   if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
@@ -31,40 +35,16 @@ function onKeyDown(evt) {
     return;
   }
 
-  const scrollAmount = 30; // pixels to scroll per keypress
   let handled = false;
+  const key = evt.key.toLowerCase();
 
   // Handle WASD keys for scrolling (always available)
-  let offsetX = 0;
-  let offsetY = 0;
-  switch (evt.key.toLowerCase()) {
-    case 'w':
-      offsetY += -1.0;
-      handled = true;
-      break;
-    case 'a':
-      offsetX += -1.0;
-      handled = true;
-      break;
-    case 's':
-      offsetY += 1.0;
-      handled = true;
-      break;
-    case 'd':
-      offsetX += 1.0;
-      handled = true;
-      break;
-  }
-  if (offsetX !== 0 || offsetY !== 0) {
-    // Normalize diagonal movement
-    if (offsetX !== 0 && offsetY !== 0) {
-      const norm = Math.sqrt(2);
-      offsetX /= norm;
-      offsetY /= norm;
+  if (['w', 'a', 's', 'd'].includes(key)) {
+    keysPressed.value.add(key);
+    if (!scrollAnimationId) {
+      startScrollAnimation();
     }
-    offsetX *= scrollAmount;
-    offsetY *= scrollAmount;
-    gApp.site.scrollMainBy(offsetX, offsetY);
+    handled = true;
   }
 
   // Only handle arrow keys when editing and a node is selected
@@ -129,6 +109,53 @@ function onKeyDown(evt) {
   }
 }
 
+function onKeyUp(evt) {
+  const key = evt.key.toLowerCase();
+  if (['w', 'a', 's', 'd'].includes(key)) {
+    keysPressed.value.delete(key);
+    if (keysPressed.value.size === 0 && scrollAnimationId) {
+      cancelAnimationFrame(scrollAnimationId);
+      scrollAnimationId = null;
+    }
+  }
+}
+
+function startScrollAnimation() {
+  const scrollSpeed = 3; // pixels per frame
+  
+  function animate() {
+    if (keysPressed.value.size === 0) {
+      scrollAnimationId = null;
+      return;
+    }
+
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Calculate movement based on pressed keys
+    if (keysPressed.value.has('w')) offsetY -= 1;
+    if (keysPressed.value.has('s')) offsetY += 1;
+    if (keysPressed.value.has('a')) offsetX -= 1;
+    if (keysPressed.value.has('d')) offsetX += 1;
+
+    // Normalize diagonal movement
+    if (offsetX !== 0 && offsetY !== 0) {
+      const norm = Math.sqrt(2);
+      offsetX /= norm;
+      offsetY /= norm;
+    }
+
+    // Apply scrolling
+    if (offsetX !== 0 || offsetY !== 0) {
+      gApp.site.scrollMainBy(offsetX * scrollSpeed, offsetY * scrollSpeed);
+    }
+
+    scrollAnimationId = requestAnimationFrame(animate);
+  }
+
+  scrollAnimationId = requestAnimationFrame(animate);
+}
+
 function onWheel(evt) {
   /**
    * Handle mouse wheel scrolling to manually control scroll behavior
@@ -175,13 +202,20 @@ onMounted(() => {
   //window.addEventListener("resize", onPageResize);
   //onPageResize();
   window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("keyup", onKeyUp);
   window.addEventListener("wheel", onWheel, { passive: false });
 })
 
 onUnmounted(() => {
   //window.removeEventListener("resize", onPageResize);
   window.removeEventListener("keydown", onKeyDown);
+  window.removeEventListener("keyup", onKeyUp);
   window.removeEventListener("wheel", onWheel);
+  
+  // Clean up animation frame if still running
+  if (scrollAnimationId) {
+    cancelAnimationFrame(scrollAnimationId);
+  }
 })
 
 </script>
