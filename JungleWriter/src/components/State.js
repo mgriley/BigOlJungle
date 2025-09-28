@@ -47,6 +47,8 @@ class SiteSettings {
   }
 }
 
+let kDefaultCanvasWidth = 1000;
+let kDefaultCanvasHeight = 1000;
 
 class Site {
   constructor(editor, id, siteDir) {
@@ -130,8 +132,12 @@ class Site {
       'transform': 'scale(1.0)',
     }
     */
+    let canvasWidth = this.canvasWidth !== null ? this.canvasWidth : kDefaultCanvasWidth;
+    let canvasHeight = this.canvasHeight !== null ? this.canvasHeight : kDefaultCanvasHeight;
     return {
       'background-color': this.settings.backgroundColor.getColorValue(),
+      '--canvasWidth': canvasWidth + 'px',
+      '--canvasHeight': canvasHeight + 'px',
     };
   }
 
@@ -325,8 +331,8 @@ class Site {
       this.canvasWidth = boundingBox.width;
       this.canvasHeight = boundingBox.height;
     } else {
-      this.canvasWidth = null;
-      this.canvasHeight = null;
+      this.canvasWidth = kDefaultCanvasWidth;
+      this.canvasHeight = kDefaultCanvasHeight;
     }
   }
 };

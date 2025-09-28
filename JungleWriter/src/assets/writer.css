@@ -5,8 +5,9 @@
 main {
   position: relative;
   /* TODO */
-  height: 1000px;
   overflow: hidden;
+  width: var(--canvasWidth);
+  height: var(--canvasHeight);
 }
 
 .AnchorDiv {
