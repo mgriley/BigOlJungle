@@ -337,6 +337,20 @@ class Site {
       this.canvasHeight = kDefaultCanvasHeight;
     }
   }
+
+  scrollMainBy(offsetX, offsetY) {
+    /**
+     * Scrolls the main element by the given offset in pixels.
+     * @param {number} offsetX - Horizontal scroll offset in pixels
+     * @param {number} offsetY - Vertical scroll offset in pixels
+     */
+    const mainElement = document.querySelector('#Main');
+    if (mainElement) {
+      mainElement.scrollBy(offsetX, offsetY);
+    } else {
+      console.warn('Main element not found');
+    }
+  }
 };
 
 class Editor {
