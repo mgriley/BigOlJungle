@@ -3,7 +3,7 @@ import { removeItem, prettyJson, AsyncValue } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
-import { downloadTextFile, downloadBlobFile } from 'Shared/SharedUtils.js'
+import { downloadTextFile, downloadBlobFile, IntervalTimer } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
@@ -351,6 +351,13 @@ class Editor {
     this.userStorage = new UserStorage();
     this.fileStorage = reactive(new FileStorage());
 
+    // Set up interval timer to update canvas size
+    this.canvasSizeTimer = new IntervalTimer(() => {
+      if (this.site) {
+        this.site.updateCanvasSize();
+      }
+    }, 0.5); // 500ms
+
     // TODO - debug
     router.afterEach((to, from) => {
       console.log(`Route change: ${from} -> ${to}`);
@@ -411,6 +418,9 @@ class Editor {
 
     // Set up paste event listener for images
     this._setupPasteListener();
+
+    // Start the canvas size update timer
+    this.canvasSizeTimer.start();
 
     // Trigger this event to get the Nodes that depend on the FileStorage setup properly
     //this.fileStorage.onChangeEvt.emit();
