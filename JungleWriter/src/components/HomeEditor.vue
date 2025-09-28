@@ -11,10 +11,49 @@ let rootNode = computed(() => {
 const keysPressed = ref(new Set());
 let scrollAnimationId = null;
 
+// Track drag state for scrolling
+const isDragging = ref(false);
+const dragStart = ref({ x: 0, y: 0 });
+const scrollStart = ref({ x: 0, y: 0 });
+
 function onClickBackground(evt) {
   if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
     console.log("Clicked background, deselecting. TargetId: ", evt.target.id);
     gApp.site.deselectAll();
+  }
+}
+
+function onMouseDown(evt) {
+  // Only handle drag scrolling when not editing and clicking on background
+  if (gApp.site.isEditing || (evt.target.id !== "Main" && evt.target.id !== "CanvasArea")) {
+    return;
+  }
+
+  isDragging.value = true;
+  dragStart.value = { x: evt.clientX, y: evt.clientY };
+  scrollStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
+  
+  evt.preventDefault();
+}
+
+function onMouseMove(evt) {
+  if (!isDragging.value) {
+    return;
+  }
+
+  const deltaX = evt.clientX - dragStart.value.x;
+  const deltaY = evt.clientY - dragStart.value.y;
+  
+  gApp.site.translateX = scrollStart.value.x + deltaX;
+  gApp.site.translateY = scrollStart.value.y + deltaY;
+  
+  evt.preventDefault();
+}
+
+function onMouseUp(evt) {
+  if (isDragging.value) {
+    isDragging.value = false;
+    evt.preventDefault();
   }
 }
 
@@ -204,6 +243,9 @@ onMounted(() => {
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
   window.addEventListener("wheel", onWheel, { passive: false });
+  window.addEventListener("mousedown", onMouseDown);
+  window.addEventListener("mousemove", onMouseMove);
+  window.addEventListener("mouseup", onMouseUp);
 })
 
 onUnmounted(() => {
@@ -211,6 +253,9 @@ onUnmounted(() => {
   window.removeEventListener("keydown", onKeyDown);
   window.removeEventListener("keyup", onKeyUp);
   window.removeEventListener("wheel", onWheel);
+  window.removeEventListener("mousedown", onMouseDown);
+  window.removeEventListener("mousemove", onMouseMove);
+  window.removeEventListener("mouseup", onMouseUp);
   
   // Clean up animation frame if still running
   if (scrollAnimationId) {
