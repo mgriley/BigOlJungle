@@ -19,11 +19,13 @@ import { Post, PostsFeed } from './Post.js'
 class SiteSettings {
   constructor() {
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
+    this.foregroundColor = new ColorInput('#ffffff', 1.0);
   }
 
   writeToJson() {
     return {
       backgroundColor: this.backgroundColor.writeToJson(),
+      foregroundColor: this.foregroundColor.writeToJson(),
     }
   }
 
@@ -32,6 +34,12 @@ class SiteSettings {
       this.backgroundColor.readFromJson(obj.backgroundColor);
     } else {
       this.backgroundColor = new ColorInput('#ffffff', 1.0);
+    }
+    
+    if (obj && obj.foregroundColor) {
+      this.foregroundColor.readFromJson(obj.foregroundColor);
+    } else {
+      this.foregroundColor = new ColorInput('#ffffff', 1.0);
     }
   }
 }
