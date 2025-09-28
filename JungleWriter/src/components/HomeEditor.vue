@@ -140,7 +140,7 @@ onUnmounted(() => {
   <router-view></router-view>
   <main id="Main" @click="onClickBackground" :style="getMainStyleObject()">
     <div class="AnchorDiv">
-      <NodeWidget :node="rootNode" />
+      <NodeWidget id="RootNode" :node="rootNode" />
     </div>
   </main>
 </template>
