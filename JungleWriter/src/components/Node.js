@@ -89,6 +89,64 @@ export class Node {
     return gApp.site.getNodeById(id);
   }
 
+  static calculateBoundingBoxFromDOM() {
+    /**
+     * Calculates the total bounding box of the node tree by iterating through
+     * the actual DOM elements, starting from the #RootNode selector.
+     * Returns an object with {minX, minY, maxX, maxY, width, height} or null if no elements found.
+     */
+    const rootElement = document.querySelector('#RootNode');
+    if (!rootElement) {
+      console.warn('Root node element not found in DOM');
+      return null;
+    }
+
+    // Find all widget elements within the root
+    const widgets = rootElement.querySelectorAll('.Widget');
+    if (widgets.length === 0) {
+      return null;
+    }
+
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    let hasValidBounds = false;
+
+    widgets.forEach(widget => {
+      const rect = widget.getBoundingClientRect();
+      const rootRect = rootElement.getBoundingClientRect();
+      
+      // Calculate position relative to the root element
+      const relativeX = rect.left - rootRect.left;
+      const relativeY = rect.top - rootRect.top;
+      const relativeRight = relativeX + rect.width;
+      const relativeBottom = relativeY + rect.height;
+
+      // Only consider elements with actual dimensions
+      if (rect.width > 0 || rect.height > 0) {
+        minX = Math.min(minX, relativeX);
+        minY = Math.min(minY, relativeY);
+        maxX = Math.max(maxX, relativeRight);
+        maxY = Math.max(maxY, relativeBottom);
+        hasValidBounds = true;
+      }
+    });
+
+    if (!hasValidBounds) {
+      return null;
+    }
+
+    return {
+      minX: minX,
+      minY: minY,
+      maxX: maxX,
+      maxY: maxY,
+      width: maxX - minX,
+      height: maxY - minY
+    };
+  }
+
   // DEFER
   /*
   // Override in subclasses
