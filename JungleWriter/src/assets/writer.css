@@ -18,8 +18,9 @@ main {
 
 #CanvasArea {
   position: relative;
-  width: var(--canvasWidth);
-  height: var(--canvasHeight);
+  transform: translate(var(--translateX, 0px), var(--translateY, 0px));
+  /*width: var(--canvasWidth);*/
+  /*height: var(--canvasHeight);*/
 }
 
 .AnchorDiv {

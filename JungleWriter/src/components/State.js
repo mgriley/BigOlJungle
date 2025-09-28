@@ -29,7 +29,7 @@ class SiteSettings {
     return {
       backgroundColor: this.backgroundColor.writeToJson(),
       //foregroundColor: this.foregroundColor.writeToJson(),
-      canvasWith: this.canvasWidth,
+      canvasWidth: this.canvasWidth,
       canvasHeight: this.canvasHeight,
     }
   }
@@ -71,6 +71,9 @@ class Site {
     this.galleryFeed = new PostsFeed();
     this.filesPageConfig = "";
     this.resolvedFilesDict = {};
+
+    this.translateX = 0;
+    this.translateY = 0;
 
     // Node state management
     this.nodeIdCtr = 1;
@@ -141,6 +144,8 @@ class Site {
       'background-color': this.settings.backgroundColor.getColorValue(),
       '--canvasWidth': canvasWidth + 'px',
       '--canvasHeight': canvasHeight + 'px',
+      '--translateX': this.translateX + 'px',
+      '--translateY': this.translateY + 'px',
     };
   }
 
@@ -347,13 +352,19 @@ class Site {
      * @param {number} offsetX - Horizontal scroll offset in pixels
      * @param {number} offsetY - Vertical scroll offset in pixels
      */
+    this.translateX -= offsetX;
+    this.translateY -= offsetY;
+    /*
     const mainElement = document.querySelector('#Main');
     if (mainElement) {
-      console.log(`Scrolling main by (${offsetX}, ${offsetY})`);
+      let currentScrollX = mainElement.scrollLeft;
+      let currentScrollY = mainElement.scrollTop;
+      console.log(`Scrolling. Current: (${currentScrollX}, ${currentScrollY}) Delta: (${offsetX}, ${offsetY})`);
       mainElement.scrollBy(offsetX, offsetY);
     } else {
       console.warn('Main element not found');
     }
+    */
   }
 };
 

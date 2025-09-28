@@ -180,6 +180,9 @@ onUnmounted(() => {
       </div>
       <div v-if="isEditing" class="DesignAreaGuide">
       </div>
+      <div v-if="isEditing" class="CenterIndicator">
+        <i class="bi bi-plus-lg"></i>
+      </div>
     </div>
   </main>
 </template>
@@ -194,6 +197,17 @@ onUnmounted(() => {
   transform: translate(-50%, -50%);
   border: 2px dashed white;
   border-radius: var(--border-radius-large);
+  pointer-events: none;
+}
+
+.CenterIndicator {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  color: var(--medium-color);
+  z-index: 1000;
   pointer-events: none;
 }
 </style>
