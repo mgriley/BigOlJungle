@@ -24,8 +24,8 @@ function onClickBackground(evt) {
 }
 
 function onMouseDown(evt) {
-  // Only handle drag scrolling when not editing and clicking on background
-  if (gApp.site.isEditing || (evt.target.id !== "Main" && evt.target.id !== "CanvasArea")) {
+  // Only handle drag scrolling when not editing
+  if (gApp.site.isEditing) {
     return;
   }
 
