@@ -18,13 +18,10 @@ function onKeyDown(evt) {
   /**
    * Use arrow keys to move selected node when in editing mode.
    * With shift held, use arrow keys to resize the selected node.
+   * Use WASD keys to scroll the main element.
    */ 
-  // Only handle arrow keys when editing and a node is selected
-  if (!gApp.site.isEditing || !gApp.site.selectedEntity) {
-    return;
-  }
-
-  // Don't handle arrow keys if cursor is in a text input
+  
+  // Don't handle keys if cursor is in a text input
   const activeElement = document.activeElement;
   if (activeElement && (
     activeElement.tagName === 'INPUT' || 
@@ -34,57 +31,82 @@ function onKeyDown(evt) {
     return;
   }
 
-  const moveAmount = 1; // pixels to move per keypress
-  const resizeAmount = 1; // pixels to resize per keypress
+  const scrollAmount = 20; // pixels to scroll per keypress
   let handled = false;
-  const selectedNode = gApp.site.selectedEntity;
 
-  if (evt.shiftKey) {
-    // Shift + arrow keys: resize the element
-    // Only resize if the node has width/height properties
-    if (selectedNode.width !== undefined && selectedNode.height !== undefined) {
+  // Handle WASD keys for scrolling (always available)
+  switch (evt.key.toLowerCase()) {
+    case 'w':
+      gApp.site.scrollMainBy(0, -scrollAmount);
+      handled = true;
+      break;
+    case 'a':
+      gApp.site.scrollMainBy(-scrollAmount, 0);
+      handled = true;
+      break;
+    case 's':
+      gApp.site.scrollMainBy(0, scrollAmount);
+      handled = true;
+      break;
+    case 'd':
+      gApp.site.scrollMainBy(scrollAmount, 0);
+      handled = true;
+      break;
+  }
+
+  // Only handle arrow keys when editing and a node is selected
+  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity) {
+    const moveAmount = 1; // pixels to move per keypress
+    const resizeAmount = 1; // pixels to resize per keypress
+    const selectedNode = gApp.site.selectedEntity;
+
+    if (evt.shiftKey) {
+      // Shift + arrow keys: resize the element
+      // Only resize if the node has width/height properties
+      if (selectedNode.width !== undefined && selectedNode.height !== undefined) {
+        switch (evt.key) {
+          case 'ArrowLeft':
+            // Shift left edge in (decrease width)
+            selectedNode.width = Math.max(1, selectedNode.width - resizeAmount);
+            handled = true;
+            break;
+          case 'ArrowRight':
+            // Shift right edge out (increase width)
+            selectedNode.width += resizeAmount;
+            handled = true;
+            break;
+          case 'ArrowUp':
+            // Shift top edge in (decrease height)
+            selectedNode.height = Math.max(1, selectedNode.height - resizeAmount);
+            handled = true;
+            break;
+          case 'ArrowDown':
+            // Shift bottom edge out (increase height)
+            selectedNode.height += resizeAmount;
+            handled = true;
+            break;
+        }
+      }
+    } else {
+      // Regular arrow keys: move the element
       switch (evt.key) {
         case 'ArrowLeft':
-          // Shift left edge in (decrease width)
-          selectedNode.width = Math.max(1, selectedNode.width - resizeAmount);
+          selectedNode.posX -= moveAmount;
           handled = true;
           break;
         case 'ArrowRight':
-          // Shift right edge out (increase width)
-          selectedNode.width += resizeAmount;
+          selectedNode.posX += moveAmount;
           handled = true;
           break;
         case 'ArrowUp':
-          // Shift top edge in (decrease height)
-          selectedNode.height = Math.max(1, selectedNode.height - resizeAmount);
+          selectedNode.posY -= moveAmount;
           handled = true;
           break;
         case 'ArrowDown':
-          // Shift bottom edge out (increase height)
-          selectedNode.height += resizeAmount;
+          selectedNode.posY += moveAmount;
           handled = true;
           break;
       }
-    }
-  } else {
-    // Regular arrow keys: move the element
-    switch (evt.key) {
-      case 'ArrowLeft':
-        selectedNode.posX -= moveAmount;
-        handled = true;
-        break;
-      case 'ArrowRight':
-        selectedNode.posX += moveAmount;
-        handled = true;
-        break;
-      case 'ArrowUp':
-        selectedNode.posY -= moveAmount;
-        handled = true;
-        break;
-      case 'ArrowDown':
-        selectedNode.posY += moveAmount;
-        handled = true;
-        break;
     }
   }
 
