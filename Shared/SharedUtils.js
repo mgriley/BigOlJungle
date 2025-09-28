@@ -271,3 +271,65 @@ export function trimText(text, maxLength) {
 }
 
 
+export class IntervalTimer {
+  constructor(targetFunc, intervalSecs, opts) {
+    this.targetFunc = targetFunc;
+    this.intervalSecs = intervalSecs;
+    this.timer = null;
+
+    opts = valOr(opts, {});
+    this.onlyWhenVisible = valOr(opts.onlyWhenVisible, false);
+
+    this._reset();
+  }
+
+  start() {
+    this._reset();
+  }
+
+  stop() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
+  runNow() {
+    this.targetFunc();
+    this._reset();
+  }
+
+  _reset() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    this.timer = setInterval(() => {
+      if (this.onlyWhenVisible && document.visibilityState !== 'visible') {
+        return;
+      }
+      this.targetFunc();
+    }, this.intervalSecs * 1000)
+  }
+}
+
+/**
+ * A class for managing a lock that prevents multiple async functions from running at the same time.
+ * Use for UI buttons, for ex.
+ */
+export class AsyncLock {
+  constructor() {
+    this.isRunning = false;
+  }
+
+  async run(task) {
+    if (this.isRunning) return; // Ignore if already running
+    this.isRunning = true;
+    try {
+      await task(); // Run the async function
+    } finally {
+      this.isRunning = false; // Reset lock after execution
+    }
+  }
+}
+
