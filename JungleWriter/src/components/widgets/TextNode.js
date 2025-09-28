@@ -13,7 +13,7 @@ export class TextNode extends Node {
     this.type = "TextNode";
     this.allowsChildren = false;
 
-    this.text = "Double-click me 🐍";
+    this.text = "";
     this.fontFamily = "sans-serif";
     this.fontSize = 36;
     this.color = new ColorInput('#000000', 1.0);

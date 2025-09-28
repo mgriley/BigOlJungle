@@ -85,7 +85,7 @@ onMounted(() => {
       ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
     <div v-if="!isEditing">
       <template v-if="node.linkUrl === ''">
-        {{ node.text }}
+        {{ node.text || "Double-click me 🐍"}}
       </template>
       <template v-else>
         <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
