@@ -9,7 +9,7 @@ import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
 } from './StaticSiteTemplates.js'
 
-import { NodeTree } from './Node.js'
+import { NodeTree, Node } from './Node.js'
 import { ImageNode } from './widgets/ImageNode.js'
 import { ColorInput } from './widgets/ColorInput.js'
 
@@ -317,6 +317,17 @@ class Site {
     });
     
     console.log(`Registered ${Object.keys(this.nodeLookupMap).length} nodes in lookup table`);
+  }
+
+  updateCanvasSize() {
+    const boundingBox = Node.calculateBoundingBoxFromDOM();
+    if (boundingBox) {
+      this.canvasWidth = boundingBox.width;
+      this.canvasHeight = boundingBox.height;
+    } else {
+      this.canvasWidth = null;
+      this.canvasHeight = null;
+    }
   }
 };
 
