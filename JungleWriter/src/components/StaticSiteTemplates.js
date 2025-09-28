@@ -8,6 +8,7 @@ export let StaticIndexHtml = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{SITE TITLE}}</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Site made with JungleWriter - https://www.junglewriter.com -->
 </head>
 <body>
   <div id="app">
