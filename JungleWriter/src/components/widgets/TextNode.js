@@ -13,7 +13,7 @@ export class TextNode extends Node {
     this.type = "TextNode";
     this.allowsChildren = false;
 
-    this.text = "Text";
+    this.text = "Double-click me 🐍";
     this.fontFamily = "sans-serif";
     this.fontSize = 36;
     this.color = new ColorInput('#000000', 1.0);
@@ -23,7 +23,7 @@ export class TextNode extends Node {
     this.lineHeight = 1.2;
     this.letterSpacing = 0;
     this.textAlign = 'left';
-    this.width = 200;
+    this.width = 350;
 
     this.linkUrl = "";
   }

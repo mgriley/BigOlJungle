@@ -423,7 +423,7 @@ class Editor {
             const imageNode = reactive(new ImageNode());
             imageNode.onCreate();
             imageNode.srcName = filename;
-            imageNode.name = `Image (${filename})`;
+            imageNode.name = `Image`;
 
             // Add the node to the root of the node tree
             this.site.nodeTree.root.addChild(imageNode);

@@ -3,10 +3,6 @@ import { reactive, computed, onMounted, onUnmounted } from 'vue'
 import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
 
-let canvasStyleObj = computed(() => {
-  return gApp.site.getCanvasStyleObject();
-})
-
 let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
 })
@@ -101,6 +97,10 @@ function onKeyDown(evt) {
 function getMainStyleObject() {
   return gApp.site.getMainStyleObject();
 }
+
+let canvasStyleObj = computed(() => {
+  return gApp.site.getCanvasStyleObject();
+})
 
 let isEditing = computed(() => {
   return gApp.site.getIsEditing();
