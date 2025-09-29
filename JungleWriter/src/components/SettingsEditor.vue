@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp, } from './State.js'
 import ColorInput from './widgets/ColorInput.vue'
 import TextInput from './widgets/TextInput.vue'
+import ImageInput from './widgets/ImageInput.vue'
 
 let settings = gApp.site.getSettings();
 
@@ -12,6 +13,9 @@ let settings = gApp.site.getSettings();
   <div>
     <div class="mb-s">
       <TextInput v-model="settings.siteName" name="Site Name" placeholder="Enter site title..." />
+    </div>
+    <div class="mb-s">
+      <ImageInput v-model="settings.faviconSrcName" name="Choose favicon" />
     </div>
     <ColorInput name="Background" :color="settings.backgroundColor" />
     <!--<ColorInput name="Foreground" :color="settings.foregroundColor" />-->
