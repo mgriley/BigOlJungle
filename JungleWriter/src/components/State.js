@@ -18,6 +18,7 @@ import { Post, PostsFeed } from './Post.js'
 
 class SiteSettings {
   constructor() {
+    this.siteTitle = "";
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
     // NOTE - currently unused
     //this.foregroundColor = new ColorInput('#ffffff', 1.0);
@@ -27,6 +28,7 @@ class SiteSettings {
 
   writeToJson() {
     return {
+      siteTitle: this.siteTitle,
       backgroundColor: this.backgroundColor.writeToJson(),
       //foregroundColor: this.foregroundColor.writeToJson(),
       canvasWidth: this.canvasWidth,
@@ -35,6 +37,7 @@ class SiteSettings {
   }
 
   readFromJson(obj) {
+    this.siteTitle = obj && obj.siteTitle ? obj.siteTitle : "";
     if (obj && obj.backgroundColor) {
       this.backgroundColor.readFromJson(obj.backgroundColor);
     } else {
