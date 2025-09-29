@@ -8,14 +8,14 @@ import App from './App.vue'
 import { initGlobalApp } from './components/State.js'
 import { registerNodeTypes } from './components/widgets/RegisterNodes.js'
 
-import HomeEditor from './components/HomeEditor.vue'
+import SceneEditor from './components/SceneEditor.vue'
 import FeedEditor from './components/FeedEditor.vue'
 import FilesPageEditor from './components/FilesPageEditor.vue'
 
 async function loadApp() {
   const routes = [
     {
-      path: '/', name: 'home', component: HomeEditor,
+      path: '/', name: 'home', component: SceneEditor,
     },
     {
       path: '/files', name: 'files', component: FilesPageEditor,

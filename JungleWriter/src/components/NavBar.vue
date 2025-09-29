@@ -35,7 +35,7 @@ function goToSites() {
   gApp.deselectSite();
 }
 
-function goToHomeEditor() {
+function goToSceneEditor() {
   console.log("Going to home");
   gApp.router.push({name: "home"});
 }
@@ -84,8 +84,8 @@ const kMenuItems = [
   },
   /*
   {
-    name: "HomeEditor",
-    action: goToHomeEditor,
+    name: "SceneEditor",
+    action: goToSceneEditor,
   },
   {
     name: "FeedEditor",

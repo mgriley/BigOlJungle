@@ -1,6 +1,6 @@
 @import './base.css';
 
-/* STYLES FROM HomeEditor.vue */
+/* STYLES FROM SceneEditor.vue */
 
 main {
   position: relative;
@@ -34,7 +34,7 @@ main {
   /*transform: translate(-50%, -50%);*/
 }
 
-/* END - STYLES FROM HomeEditor.vue */
+/* END - STYLES FROM SceneEditor.vue */
 
 /* WIDGETS CSS */
 
