@@ -54,14 +54,15 @@ export class StaticSiteWriter {
     }
   }
 
-  async addFileWithName(site, path) {
-    if (!path || this.addedFiles.has(path)) {
+  async addFileWithName(site, path, targetPath=null) {
+    if (!path) {
       return;
     }
     let fileObj = site.siteDir.findChild(path);
     if (fileObj && fileObj.isFile()) {
       let file = await fileObj.getFile();
-      this.addBlobFile(path, file);
+      let finalPath = targetPath || path;
+      this.addBlobFile(finalPath, file);
     }
   }
 

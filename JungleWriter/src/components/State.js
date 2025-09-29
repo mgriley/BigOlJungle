@@ -217,7 +217,7 @@ class Site {
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
       writer.addTextFile("index.html", indexHtmlStr);
 
-      writer.addFileWithName(this.settings.faviconSrcName);
+      writer.addFileWithName(this.settings.faviconSrcName, "favicon.png");
 
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);
