@@ -149,14 +149,14 @@ export class ImageNode extends Node {
     }
     let clone = gApp.site.createNode(ImageNode);
     clone.name = this.name;
-    clone.posX = this.posX + 20;
-    clone.posY = this.posY + 20;
-    clone.srcName = this.srcName;
+    clone.posX = this.posX;
+    clone.posY = this.posY;
     clone.altText = this.altText;
     clone.preserveAspectRatio = this.preserveAspectRatio;
     clone.width = this.width;
     clone.height = this.height;
     clone.linkUrl = this.linkUrl;
+    clone.setSrcName(this.srcName); // to trigger reload
     
     return clone;
   }

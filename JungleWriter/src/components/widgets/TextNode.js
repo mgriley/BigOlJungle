@@ -1,4 +1,5 @@
 import * as State from '../State.js'
+import { gApp } from '../Globals.js'
 import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { createElementString } from '../StaticSiteTemplates.js';
@@ -112,8 +113,8 @@ export class TextNode extends Node {
     }
     let clone = gApp.site.createNode(TextNode);
     clone.name = this.name;
-    clone.posX = this.posX + 20;
-    clone.posY = this.posY + 20;
+    clone.posX = this.posX;
+    clone.posY = this.posY;
     clone.text = this.text;
     clone.fontFamily = this.fontFamily;
     clone.fontSize = this.fontSize;

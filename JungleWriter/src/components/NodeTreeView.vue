@@ -228,6 +228,7 @@ let nodeList = computed(() => {
 
 .ButtonPane button {
   margin-right: 2px;
+  font-size: var(--f-l) !important;
 }
 
 .ButtonPane .NewButton {

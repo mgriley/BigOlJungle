@@ -95,6 +95,11 @@ export class Node {
     this.posY = newPos.y;
   }
 
+  moveBy(delta) {
+    this.posX += delta.x;
+    this.posY += delta.y;
+  }
+
   setCenterPos(newCenter) {
     let centerOffsetX = 0;
     let centerOffsetY = 0;
@@ -239,16 +244,17 @@ export class Node {
     }
     let clone = gApp.site.createNode(Node);
     clone.name = this.name;
-    clone.posX = this.posX + 20;
-    clone.posY = this.posY + 20;
+    clone.posX = this.posX;
+    clone.posY = this.posY;
     return clone;
   }
 
   clone() {
+    /* Recursively clone this node and all its children. */
     let clone = this._cloneSelf();
     for (const child of this.children) {
       let childClone = child.clone();
-      clone.addChild(childClone);
+      clone.addChildToBottom(childClone);
     }
     return clone;
   }
@@ -258,7 +264,9 @@ export class Node {
       throw new Error("Cannot clone the Root node");
     }
     let clone = this.clone();
-    this.addSiblingAfter(clone);
+    // Offset the clone a bit so that it is visible
+    clone.moveBy({x: 20, y: 20});
+    this.addSiblingBefore(clone);
     return clone;
   }
 
@@ -287,6 +295,14 @@ export class Node {
 
   addChildToBottom(childNode) {
     this.addChildAtIndex(childNode, this.children.length);
+  }
+
+  addSiblingBefore(siblingNode) {
+    if (!this.parentNode) {
+      throw new Error("Root node cannot have siblings");
+    }
+    let myIndex = this.getIndexInParent();
+    this.parentNode.addChildAtIndex(siblingNode, myIndex);
   }
 
   addSiblingAfter(siblingNode) {

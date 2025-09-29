@@ -89,8 +89,8 @@ export class RectNode extends Node {
     }
     let clone = gApp.site.createNode(RectNode);
     clone.name = this.name;
-    clone.posX = this.posX + 20;
-    clone.posY = this.posY + 20;
+    clone.posX = this.posX;
+    clone.posY = this.posY;
     clone.width = this.width;
     clone.height = this.height;
     
