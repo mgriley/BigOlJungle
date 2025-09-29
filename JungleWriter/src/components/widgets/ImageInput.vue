@@ -35,13 +35,33 @@ function onStartChooseImg() {
 
 <template>
   <div>
-    <button @click="onStartChooseImg" class="mb-xs">
+    <div v-if="name" class="InputLabel">{{ name }}</div>
+    <button @click="onStartChooseImg" class="ImageInputButton mb-xs">
       <i class="bi bi-image mr-xs"></i>
-      {{ value ? trimText(value, 20) : name }}
+      <span class="ButtonText">{{ value ? trimText(value, 20) : 'Choose image' }}</span>
     </button>
     <ImageChooserModal ref="imgChooser" v-model="value" :fileFilter="fileFilter" />
   </div>
 </template>
 
 <style scoped>
+.InputLabel {
+  font-size: var(--f-s);
+  margin-bottom: var(--space-xxs);
+}
+
+.ImageInputButton {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>
