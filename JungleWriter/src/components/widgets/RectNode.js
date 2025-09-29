@@ -80,6 +80,28 @@ export class RectNode extends Node {
     };
   }
 
+  _cloneSelf() {
+    if (!this.parentNode) {
+      throw new Error("Cannot clone the Root node");
+    }
+    let clone = gApp.site.createNode(RectNode);
+    clone.name = this.name;
+    clone.posX = this.posX + 20;
+    clone.posY = this.posY + 20;
+    clone.width = this.width;
+    clone.height = this.height;
+    
+    // Clone background
+    clone.background = new BackgroundInfo();
+    clone.background.readFromJson(this.background.writeToJson());
+    
+    // Clone border
+    clone.border = new BorderInfo();
+    clone.border.readFromJson(this.border.writeToJson());
+    
+    return clone;
+  }
+
   async generateStaticHtml(writer) {
     let htmlString = createElementString(
       'div', {class: "Widget RectWidget"}, this.getStyleObject());

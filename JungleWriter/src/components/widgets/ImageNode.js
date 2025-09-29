@@ -140,6 +140,24 @@ export class ImageNode extends Node {
     };
   }
 
+  _cloneSelf() {
+    if (!this.parentNode) {
+      throw new Error("Cannot clone the Root node");
+    }
+    let clone = gApp.site.createNode(ImageNode);
+    clone.name = this.name;
+    clone.posX = this.posX + 20;
+    clone.posY = this.posY + 20;
+    clone.srcName = this.srcName;
+    clone.altText = this.altText;
+    clone.preserveAspectRatio = this.preserveAspectRatio;
+    clone.width = this.width;
+    clone.height = this.height;
+    clone.linkUrl = this.linkUrl;
+    
+    return clone;
+  }
+
   async generateStaticHtml(writer) {
     await writer.addFileWithName(this.srcName);
 

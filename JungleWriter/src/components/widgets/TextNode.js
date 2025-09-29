@@ -103,6 +103,34 @@ export class TextNode extends Node {
     };
   }
 
+  _cloneSelf() {
+    if (!this.parentNode) {
+      throw new Error("Cannot clone the Root node");
+    }
+    let clone = gApp.site.createNode(TextNode);
+    clone.name = this.name;
+    clone.posX = this.posX + 20;
+    clone.posY = this.posY + 20;
+    clone.text = this.text;
+    clone.fontFamily = this.fontFamily;
+    clone.fontSize = this.fontSize;
+    
+    // Clone color
+    clone.color = new ColorInput();
+    clone.color.readFromJson(this.color.writeToJson());
+    
+    clone.bold = this.bold;
+    clone.italic = this.italic;
+    clone.underline = this.underline;
+    clone.lineHeight = this.lineHeight;
+    clone.letterSpacing = this.letterSpacing;
+    clone.textAlign = this.textAlign;
+    clone.width = this.width;
+    clone.linkUrl = this.linkUrl;
+    
+    return clone;
+  }
+
   async generateStaticHtml(writer) {
     return createElementString(
       'div', {class: "Widget TextWidget"}, this.getStyleObject(),
