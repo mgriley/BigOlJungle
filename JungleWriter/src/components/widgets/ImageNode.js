@@ -141,14 +141,7 @@ export class ImageNode extends Node {
   }
 
   async generateStaticHtml(writer) {
-    // Add the image file to the static site if it exists
-    if (this.srcName && gApp.site.siteDir) {
-      let fileObj = await gApp.site.siteDir.findChild(this.srcName);
-      if (fileObj && fileObj.isFile()) {
-        let file = await fileObj.getFile();
-        writer.addBlobFile(this.srcName, file);
-      }
-    }
+    await writer.addFileWithName(this.srcName);
 
     let imgStyleObject = this.getImgStyleObject();
     let imgHtml = createElementString(

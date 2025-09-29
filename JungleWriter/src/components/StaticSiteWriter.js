@@ -54,6 +54,17 @@ export class StaticSiteWriter {
     }
   }
 
+  async addFileWithName(site, path) {
+    if (!path || this.addedFiles.has(path)) {
+      return;
+    }
+    let fileObj = site.siteDir.findChild(path);
+    if (fileObj && fileObj.isFile()) {
+      let file = await fileObj.getFile();
+      this.addBlobFile(path, file);
+    }
+  }
+
   addStyleBlock(key, cssString) {
     if (!this.cssBlocks.has(key)) {
       let styleBlockString = `/* STYLE BLOCK - ${key} */\n\n` + cssString;

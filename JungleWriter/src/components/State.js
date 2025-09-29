@@ -18,7 +18,7 @@ import { Post, PostsFeed } from './Post.js'
 
 class SiteSettings {
   constructor() {
-    this.siteTitle = "";
+    this.siteName = "";
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
     // NOTE - currently unused
     //this.foregroundColor = new ColorInput('#ffffff', 1.0);
@@ -28,7 +28,7 @@ class SiteSettings {
 
   writeToJson() {
     return {
-      siteTitle: this.siteTitle,
+      siteName: this.siteName,
       backgroundColor: this.backgroundColor.writeToJson(),
       //foregroundColor: this.foregroundColor.writeToJson(),
       canvasWidth: this.canvasWidth,
@@ -37,7 +37,7 @@ class SiteSettings {
   }
 
   readFromJson(obj) {
-    this.siteTitle = obj && obj.siteTitle ? obj.siteTitle : "";
+    this.siteName = obj && obj.siteName ? obj.siteName : "";
     if (obj && obj.backgroundColor) {
       this.backgroundColor.readFromJson(obj.backgroundColor);
     } else {
@@ -199,7 +199,8 @@ class Site {
      * Returns a zip blob of the static site.
      */
     try {
-      let writer = new StaticSiteWriter(this.settings.siteName || 'site');
+      console.log(`Site name: ${this.settings.siteName}`);
+      let writer = new StaticSiteWriter(this.settings.siteName || 'My Site');
 
       // Select everything to avoid style-related issues that
       // change the style based on selection state.
@@ -212,6 +213,8 @@ class Site {
         stylesDictToInlineString(this.getMainStyleObject()));
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
       writer.addTextFile("index.html", indexHtmlStr);
+
+      writer.addFileWithName(this.settings.faviconSrcName);
 
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);

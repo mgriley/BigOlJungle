@@ -11,7 +11,7 @@ let settings = gApp.site.getSettings();
 <template>
   <div>
     <div class="mb-s">
-      <TextInput v-model="settings.siteTitle" name="Site Title" placeholder="Enter site title..." />
+      <TextInput v-model="settings.siteName" name="Site Name" placeholder="Enter site title..." />
     </div>
     <ColorInput name="Background" :color="settings.backgroundColor" />
     <!--<ColorInput name="Foreground" :color="settings.foregroundColor" />-->
