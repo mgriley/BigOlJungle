@@ -207,7 +207,7 @@ class Site {
 
       let nodesHtml = await this.nodeTree.generateStaticHtml(writer);
       let indexHtmlStr = StaticIndexHtml;
-      indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", writer.siteName);
+      indexHtmlStr = indexHtmlStr.replace("{{SITE TITLE}}", this.settings.siteTitle || writer.siteName);
       indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
         stylesDictToInlineString(this.getMainStyleObject()));
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
