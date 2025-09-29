@@ -41,7 +41,7 @@ let preserveAspectRatio = computed({
   <div>
     <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
     <div class="mb-m">
-      <ImageInput v-model="srcName" />
+      <ImageInput v-model="srcName" name="Image" />
       <BoolInput v-model="preserveAspectRatio" name="Preserve aspect ratio" />
     </div>
     <TextInput v-model="editorData.altText" name="Alt text" />

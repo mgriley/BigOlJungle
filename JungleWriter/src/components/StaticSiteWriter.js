@@ -12,7 +12,8 @@ import mainCss from '../assets/main.css?raw'
  * Allows writing a static site to a zip file
  */
 export class StaticSiteWriter {
-  constructor(siteName = 'site') {
+  constructor(site, siteName = 'site') {
+    this.site = site;
     this.zip = new JSZip();
     this.cssBlocks = new Map();
     this.siteName = siteName;
@@ -50,15 +51,17 @@ export class StaticSiteWriter {
   addBlobFile(path, blob) {
     if (!this.addedFiles.has(path)) {
       this.zip.file(`${this.siteName}/${path}`, blob);
+      console.log(`Added blob file at path: ${this.siteName}/${path}`);
       this.addedFiles.add(path);
     }
   }
 
-  async addFileWithName(site, path, targetPath=null) {
+  async addFileWithName(path, targetPath=null) {
     if (!path) {
       return;
     }
-    let fileObj = site.siteDir.findChild(path);
+    console.log(`Adding file ${path} => ${targetPath || path}`);
+    let fileObj = await this.site.siteDir.findChild(path);
     if (fileObj && fileObj.isFile()) {
       let file = await fileObj.getFile();
       let finalPath = targetPath || path;

@@ -203,25 +203,25 @@ class Site {
      */
     try {
       console.log(`Site name: ${this.settings.siteName}`);
-      let writer = new StaticSiteWriter(this.settings.siteName || 'My Site');
+      let writer = new StaticSiteWriter(this, this.settings.siteName || 'My Site');
 
       // Select everything to avoid style-related issues that
       // change the style based on selection state.
       this.deselectAll();
 
       let faviconExtension = this.settings.faviconSrcName.split('.').pop().toLowerCase();
-      let faviconHref = `/favicon.${faviconExtension}`;
+      let faviconFilename = `favicon.${faviconExtension}`;
 
       let nodesHtml = await this.nodeTree.generateStaticHtml(writer);
       let indexHtmlStr = StaticIndexHtml;
       indexHtmlStr = indexHtmlStr.replace("{{SITE_TITLE}}", writer.siteName);
-      indexHtmlStr = indexHtmlStr.replace("{{FAVICON_HREF}}", faviconHref);
+      indexHtmlStr = indexHtmlStr.replace("{{FAVICON_HREF}}", `/${faviconFilename}`);
       indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
         stylesDictToInlineString(this.getMainStyleObject()));
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
       writer.addTextFile("index.html", indexHtmlStr);
 
-      writer.addFileWithName(this.settings.faviconSrcName, faviconHref);
+      writer.addFileWithName(this.settings.faviconSrcName, faviconFilename);
 
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);

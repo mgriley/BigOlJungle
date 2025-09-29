@@ -38,7 +38,7 @@ function onStartChooseImg() {
     <div v-if="name" class="InputLabel">{{ name }}</div>
     <button @click="onStartChooseImg" class="ImageInputButton mb-xs">
       <i class="bi bi-image mr-xs"></i>
-      <span class="ButtonText">{{ value ? trimText(value, 20) : 'Choose image' }}</span>
+      <span class="ButtonText">{{ value ? value : 'Choose image' }}</span>
     </button>
     <ImageChooserModal ref="imgChooser" v-model="value" :fileFilter="fileFilter" />
   </div>
