@@ -7,7 +7,11 @@ import FilePicker from './FilePicker.vue'
 // See: https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#using_hidden_file_input_elements_using_the_click_method
 
 const props = defineProps({
-  modelValue: [String, Object]
+  modelValue: [String, Object],
+  fileFilter: {
+    type: String,
+    default: 'image' // 'image' or 'png'
+  }
 })
 const emit = defineEmits(['update:modelValue', 'onCancel', 'onDone'])
 
@@ -40,8 +44,14 @@ function showModal() {
 }
 
 function isImageFile(fileName) {
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
   const lowerFileName = fileName.toLowerCase();
+  
+  if (props.fileFilter === 'png') {
+    return lowerFileName.endsWith('.png');
+  }
+  
+  // Default to all image types
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
   return imageExtensions.some(ext => lowerFileName.endsWith(ext));
 }
 

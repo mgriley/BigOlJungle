@@ -8,6 +8,10 @@ const props = defineProps({
   name: {
     type: String,
     default: 'Choose image'
+  },
+  fileFilter: {
+    type: String,
+    default: 'image' // 'image' or 'png'
   }
 })
 
@@ -35,7 +39,7 @@ function onStartChooseImg() {
       <i class="bi bi-image mr-xs"></i>
       {{ value ? trimText(value, 20) : name }}
     </button>
-    <ImageChooserModal ref="imgChooser" v-model="value" />
+    <ImageChooserModal ref="imgChooser" v-model="value" :fileFilter="fileFilter" />
   </div>
 </template>
 
