@@ -334,3 +334,59 @@ export class AsyncLock {
   }
 }
 
+/**
+ * A 2D vector class with basic vector operations
+ */
+export class Vec2 {
+  constructor(x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
+  }
+
+  /**
+   * Add another vector to this vector and return a new Vec2
+   * @param {Vec2} other - The vector to add
+   * @returns {Vec2} A new vector with the sum
+   */
+  add(other) {
+    return new Vec2(this.x + other.x, this.y + other.y);
+  }
+
+  /**
+   * Multiply this vector by a scalar and return a new Vec2
+   * @param {number} scalar - The scalar to multiply by
+   * @returns {Vec2} A new vector with the scaled values
+   */
+  multiply(scalar) {
+    return new Vec2(this.x * scalar, this.y * scalar);
+  }
+
+  /**
+   * Get the length (magnitude) of this vector
+   * @returns {number} The length of the vector
+   */
+  length() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
+  /**
+   * Normalize this vector and return a new Vec2 with length 1
+   * @returns {Vec2} A new normalized vector, or (0,0) if the original vector has zero length
+   */
+  normalize() {
+    const len = this.length();
+    if (len === 0) {
+      return new Vec2(0, 0);
+    }
+    return new Vec2(this.x / len, this.y / len);
+  }
+
+  /**
+   * Create a copy of this vector
+   * @returns {Vec2} A new vector with the same x and y values
+   */
+  clone() {
+    return new Vec2(this.x, this.y);
+  }
+}
+
