@@ -94,6 +94,25 @@ export class Node {
     this.posY = y;
   }
 
+  getGlobalPos() {
+    /**
+     * Calculate the global position of this node by accumulating
+     * positions from all parent nodes up to the root.
+     * @returns {Object} An object with x and y properties representing global position
+     */
+    let globalX = this.posX;
+    let globalY = this.posY;
+    let currentNode = this.parentNode;
+    
+    while (currentNode !== null) {
+      globalX += currentNode.posX;
+      globalY += currentNode.posY;
+      currentNode = currentNode.parentNode;
+    }
+    
+    return {x: globalX, y: globalY};
+  }
+
   static getNodeById(id) {
     return gApp.site.getNodeById(id);
   }
