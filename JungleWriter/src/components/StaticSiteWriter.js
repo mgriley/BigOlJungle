@@ -51,7 +51,7 @@ export class StaticSiteWriter {
   addBlobFile(path, blob) {
     if (!this.addedFiles.has(path)) {
       this.zip.file(`${this.siteName}/${path}`, blob);
-      console.log(`Added blob file at path: ${this.siteName}/${path}`);
+      console.log(`Added file at path: ${this.siteName}/${path}. Blob: `, blob);
       this.addedFiles.add(path);
     }
   }
@@ -60,7 +60,6 @@ export class StaticSiteWriter {
     if (!path) {
       return;
     }
-    console.log(`Adding file ${path} => ${targetPath || path}`);
     let fileObj = await this.site.siteDir.findChild(path);
     if (fileObj && fileObj.isFile()) {
       let file = await fileObj.getFile();
