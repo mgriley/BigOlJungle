@@ -296,9 +296,10 @@ onUnmounted(() => {
   width: 800px;
   height: 600px;
   transform: translate(-50%, -50%);
-  border: 2px dashed white;
+  border: 2px dashed var(--design-guide-color);
   border-radius: var(--border-radius-large);
   pointer-events: none;
+  z-index: -1;
 }
 
 .CenterIndicator {
@@ -307,8 +308,8 @@ onUnmounted(() => {
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: 50px;
-  color: var(--medium-color);
-  z-index: 1000;
+  color: var(--design-guide-color);
   pointer-events: none;
+  z-index: -1;
 }
 </style>

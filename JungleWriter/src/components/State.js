@@ -142,10 +142,11 @@ class Site {
     let canvasHeight = this.settings.canvasHeight;
     return {
       'background-color': this.settings.backgroundColor.getColorValue(),
-      '--canvasWidth': canvasWidth + 'px',
-      '--canvasHeight': canvasHeight + 'px',
       '--translateX': this.translateX + 'px',
       '--translateY': this.translateY + 'px',
+      '--design-guide-color': 'white',
+      //'--canvasWidth': canvasWidth + 'px',
+      //'--canvasHeight': canvasHeight + 'px',
     };
   }
 

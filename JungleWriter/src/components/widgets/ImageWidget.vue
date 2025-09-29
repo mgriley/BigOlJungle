@@ -72,7 +72,7 @@ onMounted(() => {
       />
       <div v-else class="placeholder-content">
         <i class="bi bi-image mr-xxs"></i>
-        Double-click me 🐒
+        Double-click me
       </div>
     </a>
     <DragCorners v-if="node.selected" :node="node" />

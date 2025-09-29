@@ -23,6 +23,7 @@ export class ImageNode extends Node {
     this.width = 300;
     this.height = 300;
     this.posX = -150;
+    this.posY = 0;
 
     this.linkUrl = "";
   }
