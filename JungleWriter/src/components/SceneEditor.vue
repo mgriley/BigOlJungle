@@ -159,52 +159,6 @@ function onKeyDown(evt) {
   }
 }
 
-function onKeyUp(evt) {
-  const key = evt.key.toLowerCase();
-  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
-    keysPressed.value.delete(key);
-    if (keysPressed.value.size === 0 && scrollAnimationId) {
-      cancelAnimationFrame(scrollAnimationId);
-      scrollAnimationId = null;
-    }
-  }
-}
-
-function startScrollAnimation() {
-  const scrollSpeed = 10; // pixels per frame
-  
-  function animate() {
-    if (keysPressed.value.size === 0) {
-      scrollAnimationId = null;
-      return;
-    }
-
-    let offsetX = 0;
-    let offsetY = 0;
-
-    // Calculate movement based on pressed keys
-    if (keysPressed.value.has('w')) offsetY -= 1;
-    if (keysPressed.value.has('s')) offsetY += 1;
-    if (keysPressed.value.has('a')) offsetX -= 1;
-    if (keysPressed.value.has('d')) offsetX += 1;
-
-    // Normalize diagonal movement
-    if (offsetX !== 0 && offsetY !== 0) {
-      const norm = Math.sqrt(2);
-      offsetX /= norm;
-      offsetY /= norm;
-    }
-
-    // Apply scrolling
-    if (offsetX !== 0 || offsetY !== 0) {
-      gApp.site.scrollMainBy(offsetX * scrollSpeed, offsetY * scrollSpeed);
-    }
-
-    scrollAnimationId = requestAnimationFrame(animate);
-  }
-
-  scrollAnimationId = requestAnimationFrame(animate);
-}
 
 function onKeyUp(evt) {
   const key = evt.key.toLowerCase();
