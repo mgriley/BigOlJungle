@@ -364,6 +364,28 @@ class Site {
     return {x: this.translateX, y: this.translateY};
   }
 
+  getCenterPos() {
+    return {x: -this.translateX, y: -this.translateY};
+  }
+
+  getRootPos() {
+    // Returns the root position, which is relative to the canvas (0, 0) [getCenterPos()]
+    return this.nodeTree.root.getPos();
+  }
+
+  getCenterPosWrtRoot() {
+    let centerPos = this.getCenterPos();
+    let rootPos = this.getRootPos();
+    let targetPos = {
+      x: centerPos.x - rootPos.x,
+      y: centerPos.y - rootPos.y,
+    }
+    //console.log(`Center pos: ${centerPos.x}, ${centerPos.y}`);
+    //console.log(`Root pos: ${rootPos.x}, ${rootPos.y}`);
+    //console.log(`Target pos: ${targetPos.x}, ${targetPos.y}`);
+    return targetPos;
+  }
+
   scrollMainBy(offsetX, offsetY) {
     /**
      * Scrolls the main element by the given offset in pixels.

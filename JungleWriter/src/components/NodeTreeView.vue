@@ -92,6 +92,8 @@ function onChooseNewNode(nodeOption) {
 
   let newNode = gApp.site.createNode(nodeOption.classCtor);
   parentNode.addChildAtIndex(newNode, insertIndex);
+  let centerPos = gApp.site.getCenterPosWrtRoot();
+  newNode.setCenterPos(centerPos.x, centerPos.y);
   gApp.site.selectNode(newNode);
 }
 

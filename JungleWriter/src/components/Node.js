@@ -94,6 +94,19 @@ export class Node {
     this.posY = y;
   }
 
+  setCenterPos(x, y) {
+    let centerOffsetX = 0;
+    let centerOffsetY = 0;
+    if (this.width) {
+      centerOffsetX = this.width / 2;
+    }
+    if (this.height) {
+      centerOffsetY = this.height / 2;
+    }
+    this.posX = x - centerOffsetX;
+    this.posY = y - centerOffsetY;
+  }
+
   getGlobalPos() {
     /**
      * Calculate the global position of this node by accumulating
