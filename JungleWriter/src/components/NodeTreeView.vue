@@ -60,7 +60,11 @@ function makeNewNode(clickEvt) {
 }
 
 function cloneNode() {
-  // TODO
+  let selNode = gApp.site.getSelectedNode();
+  if (selNode && !selNode.isRoot()) {
+    let clonedNode = selNode.cloneAndAddAsSibling();
+    gApp.site.selectNode(clonedNode);
+  }
 }
 
 function moveNodeUp() {
@@ -191,7 +195,7 @@ let nodeList = computed(() => {
   <div class="NodeTreeView">
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode"><i class="bi bi-plus-square"></i></button>
-      <!--<button class="TertiaryButton" @click="cloneNode">Clone</button>-->
+      <button class="TertiaryButton" @click="cloneNode"><i class="bi bi-copy"></i></button>
       <button class="TertiaryButton" @click="moveNodeUp"><i class="bi bi-arrow-up-square"></i></button>
       <button class="TertiaryButton" @click="moveNodeDown"><i class="bi bi-arrow-down-square"></i></button>
       <button id="DeleteLayerBtn" class="DeleteBtn TertiaryButton" @click="deleteNode"><i class="bi bi-trash3"></i></button>
