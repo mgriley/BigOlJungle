@@ -86,6 +86,17 @@ function onKeyDown(evt) {
     handled = true;
   }
 
+  // Handle Ctrl/Cmd+D for duplicating selected node
+  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity && 
+      (evt.ctrlKey || evt.metaKey) && evt.key.toLowerCase() === 'd') {
+    const selectedNode = gApp.site.selectedEntity;
+    if (!selectedNode.isRoot()) {
+      let clonedNode = selectedNode.cloneAndAddAsSibling();
+      gApp.site.selectNode(clonedNode);
+      handled = true;
+    }
+  }
+
   // Only handle arrow keys when editing and a node is selected
   if (!handled && gApp.site.isEditing && gApp.site.selectedEntity) {
     const moveAmount = 1; // pixels to move per keypress
