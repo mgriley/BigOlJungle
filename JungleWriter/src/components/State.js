@@ -25,6 +25,7 @@ class SiteSettings {
     //this.foregroundColor = new ColorInput('#ffffff', 1.0);
     this.canvasWidth = 4000;
     this.canvasHeight = 4000;
+    this.enableWASDNavigation = false;
   }
 
   writeToJson() {
@@ -35,6 +36,7 @@ class SiteSettings {
       //foregroundColor: this.foregroundColor.writeToJson(),
       canvasWidth: this.canvasWidth,
       canvasHeight: this.canvasHeight,
+      enableWASDNavigation: this.enableWASDNavigation,
     }
   }
 
@@ -59,6 +61,7 @@ class SiteSettings {
     if (obj && obj.canvasHeight) {
       this.canvasHeight = obj.canvasHeight;
     }
+    this.enableWASDNavigation = obj && obj.enableWASDNavigation ? obj.enableWASDNavigation : false;
   }
 }
 
