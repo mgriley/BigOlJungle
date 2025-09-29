@@ -19,6 +19,7 @@ import { Post, PostsFeed } from './Post.js'
 class SiteSettings {
   constructor() {
     this.siteName = "";
+    this.faviconSrcName = "";
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
     // NOTE - currently unused
     //this.foregroundColor = new ColorInput('#ffffff', 1.0);
@@ -29,6 +30,7 @@ class SiteSettings {
   writeToJson() {
     return {
       siteName: this.siteName,
+      faviconSrcName: this.faviconSrcName,
       backgroundColor: this.backgroundColor.writeToJson(),
       //foregroundColor: this.foregroundColor.writeToJson(),
       canvasWidth: this.canvasWidth,
@@ -38,6 +40,7 @@ class SiteSettings {
 
   readFromJson(obj) {
     this.siteName = obj && obj.siteName ? obj.siteName : "";
+    this.faviconSrcName = obj && obj.faviconSrcName ? obj.faviconSrcName : "";
     if (obj && obj.backgroundColor) {
       this.backgroundColor.readFromJson(obj.backgroundColor);
     } else {
