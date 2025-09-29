@@ -11,7 +11,6 @@ export class OmniNode extends Node {
     super(id);
     this.name = "Omni";
     this.type = "OmniNode";
-    this.allowsChildren = false;
 
     this.width = 400;
     this.height = 400;
@@ -52,6 +51,10 @@ export class OmniNode extends Node {
     this.fontFamily = obj.fontFamily || this.fontFamily;
     this.fontSize = obj.fontSize || this.fontSize;
     this.color = obj.color || this.color;
+  }
+
+  getAllowsChildren() {
+    return false;
   }
 
   getStyleObject() {

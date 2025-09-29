@@ -120,7 +120,7 @@ function onDragOver(evt) {
     const height = rect.height;
     
     let position;
-    if (props.node.allowsChildren && y > height * 0.3 && y < height * 0.7) {
+    if (props.node.getAllowsChildren() && y > height * 0.3 && y < height * 0.7) {
       position = 'inside';
     } else if (y < height * 0.5) {
       position = 'before';

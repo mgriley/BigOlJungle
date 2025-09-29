@@ -9,7 +9,6 @@ export class LinksNode extends Node {
     super(id);
     this.name = "Links";
     this.type = "LinksNode";
-    this.allowsChildren = false;
 
     this.fontFamily = null;
     this.fontSize = 36;
@@ -48,6 +47,10 @@ export class LinksNode extends Node {
     this.underline = obj.underline;
     this.lineHeight = obj.lineHeight;
     this.textAlign = obj.textAlign;
+  }
+
+  getAllowsChildren() {
+    return false;
   }
 
   getStyleObject() {

@@ -82,7 +82,7 @@ function onChooseNewNode(nodeOption) {
   let insertIndex = null;
   /*
   let selectedNode = gApp.site.getSelectedNode();
-  if (selectedNode && selectedNode.allowsChildren) {
+  if (selectedNode && selectedNode.getAllowsChildren()) {
     parentNode = selectedNode;
   } else {
     parentNode = nodeTree.root;
@@ -137,7 +137,7 @@ function onDragEnd() {
     
     // Remove the dragged node from its current parent
     console.log(`Dropping ${draggedNode.name} ${position} ${targetNode.name}`);
-    if (position === 'inside' && targetNode.allowsChildren) {
+    if (position === 'inside' && targetNode.getAllowsChildren()) {
       // Add as first child
       draggedNode.moveToNode(targetNode);
     } else if (position === 'before') {

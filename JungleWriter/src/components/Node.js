@@ -16,7 +16,6 @@ export class Node {
     this.name = "Group";
     this.parentNode = null;
     this.children = [];
-    this.allowsChildren = true;
     this.selected = false;
     this.openInNodeTree = true;
 
@@ -37,7 +36,6 @@ export class Node {
       openInNodeTree: this.openInNodeTree,
       posX: this.posX,
       posY: this.posY,
-      allowsChildren: this.allowsChildren,
       children: this.children.map((c) => {
         return c.writeToJson();
       }),
@@ -52,7 +50,6 @@ export class Node {
     this.openInNodeTree = obj.openInNodeTree;
     this.posX = obj.posX;
     this.posY = obj.posY;
-    this.allowsChildren = obj.allowsChildren;
     for (const childObj of obj.children) {
       // Pass the ID from JSON to avoid auto-generation and registration
       let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)(childObj.id));
@@ -83,6 +80,10 @@ export class Node {
     this.onDestroy();
     this.removeFromParent();
     gApp.site.unregisterNode(this.id);
+  }
+
+  getAllowsChildren() {
+    return true;
   }
 
   getPos() {
@@ -271,7 +272,7 @@ export class Node {
 
   // Use index=null to insert at end.
   addChildAtIndex(childNode, index) {
-    if (!this.allowsChildren) {
+    if (!this.getAllowsChildren()) {
       throw new Error("Does not allow children");
     }
     childNode.removeFromParent();
@@ -328,7 +329,7 @@ export class Node {
   }
 
   moveToNode(newParentNode, index=null) {
-    if (!newParentNode.allowsChildren) {
+    if (!newParentNode.getAllowsChildren()) {
       throw new Error("New parent does not allow children");
     }
     if (this === newParentNode || newParentNode.isDescendantOf(this)) {

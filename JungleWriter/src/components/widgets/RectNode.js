@@ -18,7 +18,6 @@ export class RectNode extends Node {
     super(id);
     this.name = "Rect";
     this.type = "RectNode";
-    this.allowsChildren = false;
 
     // Default size and position
     this.width = 200;
@@ -62,6 +61,10 @@ export class RectNode extends Node {
       this.backdropFilter.readFromJson(obj.backdropFilter);
     }
     */
+  }
+
+  getAllowsChildren() {
+    return false;
   }
 
   getStyleObject() {

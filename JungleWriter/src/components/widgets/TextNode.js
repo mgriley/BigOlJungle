@@ -11,7 +11,6 @@ export class TextNode extends Node {
     super(id);
     this.name = "Text";
     this.type = "TextNode";
-    this.allowsChildren = false;
 
     this.text = "";
     this.fontFamily = "sans-serif";
@@ -71,6 +70,10 @@ export class TextNode extends Node {
       this.width = Number(obj.width) || 200;
     }
     this.linkUrl = obj.linkUrl;
+  }
+
+  getAllowsChildren() {
+    return false;
   }
 
   getStyleObject() {

@@ -11,7 +11,6 @@ export class ImageNode extends Node {
     super(id);
     this.name = "Image";
     this.type = "ImageNode";
-    this.allowsChildren = false;
 
     this.srcName = "";
     this.altText = "Image of a...";
@@ -38,6 +37,10 @@ export class ImageNode extends Node {
 
   onDestroy() {
     gApp.fileStorage.onChangeEvt.removeListener(this.fileChangeHandle);
+  }
+
+  getAllowsChildren() {
+    return false;
   }
 
   writeToJson() {
