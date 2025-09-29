@@ -3,7 +3,7 @@ export let StaticIndexHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" href="{{FAVICON_HREF}}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{SITE_TITLE}}</title>
   <link rel="stylesheet" href="styles.css">
