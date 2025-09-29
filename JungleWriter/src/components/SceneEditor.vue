@@ -11,10 +11,6 @@ let rootNode = computed(() => {
 const keysPressed = ref(new Set());
 let scrollAnimationId = null;
 
-// Track which keys are currently pressed
-const keysPressed = ref(new Set());
-let scrollAnimationId = null;
-
 // Track drag state for scrolling
 const isDragging = ref(false);
 const dragStart = ref({ x: 0, y: 0 });
@@ -81,8 +77,8 @@ function onKeyDown(evt) {
   let handled = false;
   const key = evt.key.toLowerCase();
 
-  // Handle WASD keys for scrolling (always available)
-  if (['w', 'a', 's', 'd'].includes(key)) {
+  // Handle WASD keys for scrolling (if feature flag is enabled)
+  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
     keysPressed.value.add(key);
     if (!scrollAnimationId) {
       startScrollAnimation();
@@ -212,7 +208,7 @@ function startScrollAnimation() {
 
 function onKeyUp(evt) {
   const key = evt.key.toLowerCase();
-  if (['w', 'a', 's', 'd'].includes(key)) {
+  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
     keysPressed.value.delete(key);
     if (keysPressed.value.size === 0 && scrollAnimationId) {
       cancelAnimationFrame(scrollAnimationId);
