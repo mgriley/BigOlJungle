@@ -89,12 +89,12 @@ export class Node {
     return {x: this.posX, y: this.posY};
   }
 
-  setPos(x, y) {
-    this.posX = x;
-    this.posY = y;
+  setPos(newPos) {
+    this.posX = newPos.x;
+    this.posY = newPos.y;
   }
 
-  setCenterPos(x, y) {
+  setCenterPos(newCenter) {
     let centerOffsetX = 0;
     let centerOffsetY = 0;
     if (this.width) {
@@ -103,8 +103,8 @@ export class Node {
     if (this.height) {
       centerOffsetY = this.height / 2;
     }
-    this.posX = x - centerOffsetX;
-    this.posY = y - centerOffsetY;
+    this.posX = newCenter.x - centerOffsetX;
+    this.posY = newCenter.y - centerOffsetY;
   }
 
   getGlobalPos() {
@@ -124,6 +124,23 @@ export class Node {
     }
     
     return {x: globalX, y: globalY};
+  }
+
+  setGlobalPos(globalPos) {
+    /**
+     * Set the position of this node such that its global position becomes (x, y).
+     * This adjusts the local position based on the positions of parent nodes.
+     * @param {number} x - The desired global x position
+     * @param {number} y - The desired global y position
+     */
+    if (!this.parentNode) {
+      this.posX = globalPos.x;
+      this.posY = globalPos.y;
+      return;
+    }
+    let localPos = this.parentNode.convertGlobalToLocalPos(globalPos);
+    this.posX = localPos.x;
+    this.posY = localPos.y;
   }
 
   convertLocalToGlobalPos(localPos) {
@@ -282,6 +299,21 @@ export class Node {
       throw new Error("Unexpected");
     }
     return index;
+  }
+
+  moveToNode(newParentNode, index=null) {
+    if (!newParentNode.allowsChildren) {
+      throw new Error("New parent does not allow children");
+    }
+    if (this === newParentNode || newParentNode.isDescendantOf(this)) {
+      throw new Error("Cannot move node to itself or its descendant");
+    }
+    // Note - we want to preserve global position so that nothing changes visually
+    // when the do the move (other than maybe z-order).
+    let originalGlobalPos = this.getGlobalPos();
+    this.removeFromParent();
+    newParentNode.addChildAtIndex(this, index);
+    this.setGlobalPos(originalGlobalPos);
   }
 
   // Moves this node so that it becomes the next sibling

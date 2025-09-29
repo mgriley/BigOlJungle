@@ -521,15 +521,10 @@ class Editor {
             await imageFile.writeContents(file);
 
             // Create a new ImageNode
-            const imageNode = reactive(new ImageNode());
-            imageNode.onCreate();
-            imageNode.srcName = filename;
-            imageNode.name = `Image`;
-
-            // Add the node to the root of the node tree
+            let imageNode = this.site.createNode(ImageNode);
+            imageNode.setCenterPos(this.site.getCenterPosWrtRoot());
+            imageNode.setSrcName(filename);
             this.site.nodeTree.root.addChild(imageNode);
-
-            // Select the newly created node
             this.site.selectNode(imageNode);
 
             console.log(`Created ImageNode for pasted image: ${filename}`);

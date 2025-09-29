@@ -93,7 +93,7 @@ function onChooseNewNode(nodeOption) {
   let newNode = gApp.site.createNode(nodeOption.classCtor);
   parentNode.addChildAtIndex(newNode, insertIndex);
   let centerPos = gApp.site.getCenterPosWrtRoot();
-  newNode.setCenterPos(centerPos.x, centerPos.y);
+  newNode.setCenterPos(centerPos);
   gApp.site.selectNode(newNode);
 }
 
@@ -120,7 +120,7 @@ function onDragEnd() {
     const targetNode = dragState.dropTarget;
     const position = dragState.dropPosition;
     
-    // Prevent dropping a node onto itself or its descendants
+    // Prevent dropping a node onto itself or into itself
     if (draggedNode === targetNode || targetNode.isDescendantOf(draggedNode)) {
       console.log('Invalid drop: cannot drop node onto yourself or into yourself');
       resetDragState();
@@ -130,26 +130,24 @@ function onDragEnd() {
     // If we drag onto the root node, just make it the first child in the list - likely
     // what the user wants.
     if (targetNode === nodeTree.root) {
-      draggedNode.removeFromParent();
-      nodeTree.root.addChild(draggedNode);
+      draggedNode.moveToNode(nodeTree.root);
       resetDragState();
       return;
     }
     
     // Remove the dragged node from its current parent
-    draggedNode.removeFromParent();
     console.log(`Dropping ${draggedNode.name} ${position} ${targetNode.name}`);
     if (position === 'inside' && targetNode.allowsChildren) {
       // Add as first child
-      targetNode.addChild(draggedNode);
+      draggedNode.moveToNode(targetNode);
     } else if (position === 'before') {
       const parentNode = targetNode.parentNode;
       const targetIndex = targetNode.getIndexInParent();
-      parentNode.addChildAtIndex(draggedNode, targetIndex);
+      draggedNode.moveToNode(parentNode, targetIndex);
     } else if (position === 'after') {
       const parentNode = targetNode.parentNode;
       const targetIndex = targetNode.getIndexInParent();
-      parentNode.addChildAtIndex(draggedNode, targetIndex + 1);
+      draggedNode.moveToNode(parentNode, targetIndex + 1);
     }
   }
   

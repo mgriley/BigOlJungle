@@ -65,7 +65,6 @@ async function updateFileOptions() {
       newFiles.push({name: file.getName(), url: url})
     }
   }
-  console.log("NEW FILES: ", newFiles);
   files.value = newFiles;
 }
 
