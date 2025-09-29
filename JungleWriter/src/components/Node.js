@@ -113,6 +113,32 @@ export class Node {
     return {x: globalX, y: globalY};
   }
 
+  convertLocalToGlobalPos(localPos) {
+    /**
+     * Convert a local position (relative to this node) to global coordinates.
+     * @param {Object} localPos - An object with x and y properties representing local position
+     * @returns {Object} An object with x and y properties representing global position
+     */
+    const nodeGlobalPos = this.getGlobalPos();
+    return {
+      x: nodeGlobalPos.x + localPos.x,
+      y: nodeGlobalPos.y + localPos.y
+    };
+  }
+
+  convertGlobalToLocalPos(globalPos) {
+    /**
+     * Convert a global position to local coordinates (relative to this node).
+     * @param {Object} globalPos - An object with x and y properties representing global position
+     * @returns {Object} An object with x and y properties representing local position
+     */
+    const nodeGlobalPos = this.getGlobalPos();
+    return {
+      x: globalPos.x - nodeGlobalPos.x,
+      y: globalPos.y - nodeGlobalPos.y
+    };
+  }
+
   static getNodeById(id) {
     return gApp.site.getNodeById(id);
   }
