@@ -85,6 +85,15 @@ export class Node {
     gApp.site.unregisterNode(this.id);
   }
 
+  getPos() {
+    return {x: this.posX, y: this.posY};
+  }
+
+  setPos(x, y) {
+    this.posX = x;
+    this.posY = y;
+  }
+
   static getNodeById(id) {
     return gApp.site.getNodeById(id);
   }

@@ -80,12 +80,15 @@ function moveNodeDown() {
 function onChooseNewNode(nodeOption) {
   let parentNode = null;
   let insertIndex = null;
+  /*
   let selectedNode = gApp.site.getSelectedNode();
   if (selectedNode && selectedNode.allowsChildren) {
     parentNode = selectedNode;
   } else {
     parentNode = nodeTree.root;
   }
+  */
+  parentNode = nodeTree.root;
 
   let newNode = gApp.site.createNode(nodeOption.classCtor);
   parentNode.addChildAtIndex(newNode, insertIndex);

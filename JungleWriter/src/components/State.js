@@ -360,6 +360,10 @@ class Site {
     }
   }
 
+  getScrollPos() {
+    return {x: this.translateX, y: this.translateY};
+  }
+
   scrollMainBy(offsetX, offsetY) {
     /**
      * Scrolls the main element by the given offset in pixels.

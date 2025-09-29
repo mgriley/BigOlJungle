@@ -87,12 +87,12 @@ export class ImageNode extends Node {
 
   async asyncReloadSrcUrl() {
     await nextTick();
+    if (!gApp.site || !gApp.site.siteDir) {
+      return;
+    }
     console.log("Reloading srcUrl...");
     this.srcUrl = "Loading";
     let siteDir = gApp.site.siteDir;
-    if (!siteDir) {
-      return;
-    }
     let fileObj = await siteDir.findChild(this.srcName);
     if (!fileObj) {
       this.srcUrl = "NotFound";
