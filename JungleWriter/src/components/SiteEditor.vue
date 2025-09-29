@@ -65,6 +65,7 @@ function selectTab(tab) {
 .Toplevel {
   display: grid;
   grid-template-columns: 1fr;
+  height: 100vh;
 }
 
 .Toplevel.IsEditing {
@@ -74,6 +75,7 @@ function selectTab(tab) {
 .Sidebar {
   background-color: var(--main-bg);
   z-index: 1000;
+  height: 100vh;
   /*padding: var(--space-s) var(--space-m);*/
 
   display: flex;
@@ -101,9 +103,8 @@ function selectTab(tab) {
 }
 
 .EditorPane {
-  overflow-y: auto;
-  scrollbar-width: thin;
   height: 100%;
+  overflow: hidden;
   /*padding-right: 16px;*/
 }
 

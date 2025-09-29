@@ -231,17 +231,35 @@ export class Node {
     };
   }
 
-  // DEFER
-  /*
-  // Override in subclasses
-  clone() {
-    let clone = new Node();
-    clone.name = this.name + "-Clone";
+  _cloneSelf() {
+    // Override this in subclasses
+    if (!this.parentNode) {
+      throw new Error("Cannot clone the Root node");
+    }
+    let clone = gApp.site.createNode(Node);
+    clone.name = this.name;
+    clone.posX = this.posX + 20;
+    clone.posY = this.posY + 20;
+    return clone;
   }
 
-  cloneSubtree() {
+  clone() {
+    let clone = this._cloneSelf();
+    for (const child of this.children) {
+      let childClone = child.clone();
+      clone.addChild(childClone);
+    }
+    return clone;
   }
-  */
+
+  cloneAndAddAsSibling() {
+    if (!this.parentNode) {
+      throw new Error("Cannot clone the Root node");
+    }
+    let clone = this.clone();
+    this.addSiblingAfter(clone);
+    return clone;
+  }
 
   isRoot() {
     return this.parentNode === null;
@@ -268,6 +286,14 @@ export class Node {
 
   addChildToBottom(childNode) {
     this.addChildAtIndex(childNode, this.children.length);
+  }
+
+  addSiblingAfter(siblingNode) {
+    if (!this.parentNode) {
+      throw new Error("Root node cannot have siblings");
+    }
+    let myIndex = this.getIndexInParent();
+    this.parentNode.addChildAtIndex(siblingNode, myIndex + 1);
   }
 
   removeFromParent() {

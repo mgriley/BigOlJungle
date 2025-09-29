@@ -188,7 +188,7 @@ let nodeList = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div class="NodeTreeView">
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode"><i class="bi bi-plus-square"></i></button>
       <!--<button class="TertiaryButton" @click="cloneNode">Clone</button>-->
@@ -242,7 +242,14 @@ let nodeList = computed(() => {
 </style>
 
 <style>
+.NodeTreeView {
+  height: 100%;
+}
+
 .TreeInner {
+  overflow: auto;
+  scrollbar-width: thin;
+  height: 100%;
 }
 
 .item {
