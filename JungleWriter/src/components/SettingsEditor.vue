@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { gApp, } from './State.js'
 import ColorInput from './widgets/ColorInput.vue'
+import TextInput from './widgets/TextInput.vue'
 
 let settings = gApp.site.getSettings();
 
@@ -9,6 +10,9 @@ let settings = gApp.site.getSettings();
 
 <template>
   <div>
+    <div class="mb-s">
+      <TextInput v-model="settings.siteTitle" name="Site Title" placeholder="Enter site title..." />
+    </div>
     <ColorInput name="Background" :color="settings.backgroundColor" />
     <!--<ColorInput name="Foreground" :color="settings.foregroundColor" />-->
   </div>

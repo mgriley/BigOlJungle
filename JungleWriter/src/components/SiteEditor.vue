@@ -4,7 +4,6 @@ import { gApp } from './State.js'
 import NavBar from './NavBar.vue'
 import ShortcutBtns from './ShortcutBtns.vue'
 import DropdownSelector from './DropdownSelector.vue'
-import TextInput from './widgets/TextInput.vue'
 
 import SettingsEditor from './SettingsEditor.vue'
 import PropEditor from './PropEditor.vue'
@@ -40,9 +39,6 @@ function selectTab(tab) {
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
       <NavBar class="mb-s" />
-      <div class="mb-s">
-        <TextInput v-model="gApp.site.settings.siteTitle" name="Site Title" placeholder="Enter site title..." />
-      </div>
       <div class="EditorPane">
         <component :is="NodeTreeView"></component>
       </div>
