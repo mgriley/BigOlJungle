@@ -14,9 +14,8 @@ function togglePreview() {
       Save
     </button>
     <button class="MenuIcon" @click="togglePreview">
-      <i v-if="gApp.site.getIsEditing()" class="bi bi-eye"></i>
-      <i v-else class="bi bi-pencil-square"></i>
-      {{ gApp.site.getIsEditing() ? 'Preview' : 'Edit' }}
+      <i class="bi bi-eye"></i>
+      {{ gApp.site.getIsEditing() ? 'Preview' : 'Done Preview' }}
     </button>
   </div>
 </template>
@@ -36,11 +35,12 @@ function togglePreview() {
   border: 1px solid var(--main-text);
   /* border-radius: var(--border-radius-med); */
   display: inline-block;
-  padding: 6px;
+  padding: var(--space-xs) var(--space-s);
   background-color: var(--dark-color);
   color: var(--main-text);
   cursor: pointer;
   font-size: var(--smaller-size);
+  min-width: 120px;
 
   display: flex;
   flex-flow: row nowrap;
