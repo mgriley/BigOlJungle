@@ -6,21 +6,25 @@ const nodeCreationOptions = [
   {
     name: "Group",
     icon: "bi bi-folder",
+    color: "#4CAF50",
     classCtor: gNodeDataMap["Node"].nodeClass,
   },
   {
     name: "Rect",
     icon: "bi bi-app",
+    color: "#2196F3",
     classCtor: gNodeDataMap["RectNode"].nodeClass,
   },
   {
     name: "Text",
     icon: "bi bi-type",
+    color: "#FF9800",
     classCtor: gNodeDataMap["TextNode"].nodeClass,
   },
   {
     name: "Image",
     icon: "bi bi-image",
+    color: "#9C27B0",
     classCtor: gNodeDataMap["ImageNode"].nodeClass,
   },
 ];
@@ -48,6 +52,7 @@ function createNode(nodeOption) {
         class="MenuButton"
         @click="createNode(option)"
         :title="`Create ${option.name}`"
+        :style="{ backgroundColor: option.color }"
       >
         <i :class="option.icon"></i>
       </button>
@@ -58,7 +63,7 @@ function createNode(nodeOption) {
 <style scoped>
 .TopMenu {
   position: fixed;
-  top: 16px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1500;
@@ -68,13 +73,12 @@ function createNode(nodeOption) {
 .MenuContainer {
   display: flex;
   flex-flow: row nowrap;
-  gap: 4px;
-  background-color: var(--popup-bg);
-  border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-m);
-  padding: 8px;
-  box-shadow: var(--box-shadow-front);
-  backdrop-filter: blur(8px);
+  gap: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 0 0 16px 16px;
+  padding: 12px 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
   pointer-events: auto;
 }
 
@@ -82,26 +86,25 @@ function createNode(nodeOption) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-s);
-  background-color: var(--dark-color);
-  color: var(--main-text);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  color: white;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
   transition: all 0.2s ease;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .MenuButton:hover {
-  background-color: var(--medium-color);
-  border-color: var(--light-color);
-  transform: translateY(-1px);
-  box-shadow: 0px 4px 8px hsl(0, 0%, 20%);
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
 }
 
 .MenuButton:active {
-  transform: translateY(0px);
-  box-shadow: none;
+  transform: translateY(0px) scale(1.05);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 </style>
