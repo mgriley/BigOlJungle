@@ -10,10 +10,13 @@ function togglePreview() {
 <template>  
   <div class="ShortcutBtns">
     <button class="MenuIcon mr-xxs" v-if="gApp.site.getIsEditing()" @click="gApp.site.save()">
+      <i class="bi bi-floppy"></i>
       Save
     </button>
     <button class="MenuIcon" @click="togglePreview">
-      Preview <vue-feather v-if="!gApp.site.getIsEditing()" type="x" class="XIcon" />
+      <i v-if="gApp.site.getIsEditing()" class="bi bi-eye"></i>
+      <i v-else class="bi bi-pencil-square"></i>
+      {{ gApp.site.getIsEditing() ? 'Preview' : 'Edit' }}
     </button>
   </div>
 </template>
@@ -45,8 +48,9 @@ function togglePreview() {
   justify-content: center;
 }
 
-.XIcon {
-  margin-left: 4px;
+.MenuIcon i {
+  margin-right: 6px;
+  font-size: 16px;
 }
 
 </style>
