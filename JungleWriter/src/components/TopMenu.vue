@@ -64,7 +64,7 @@ function createNode(nodeOption) {
 <style scoped>
 .TopMenu {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1500;
@@ -76,7 +76,7 @@ function createNode(nodeOption) {
   flex-flow: row nowrap;
   gap: 8px;
   background-color: var(--main-bg);
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px 8px 0 0;
   padding: var(--space-xs) var(--space-xs);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
