@@ -9,7 +9,7 @@ function togglePreview() {
 
 <template>  
   <div class="ShortcutBtns">
-    <button class="MenuIcon" v-if="gApp.site.getIsEditing()" @click="gApp.site.save()">
+    <button class="MenuIcon mr-xxs" v-if="gApp.site.getIsEditing()" @click="gApp.site.save()">
       Save
     </button>
     <button class="MenuIcon" @click="togglePreview">
@@ -26,7 +26,7 @@ function togglePreview() {
   bottom: 16px;
   display: flex;
   flex-flow: row nowrap;
-  gap: 2px;
+  gap: 4px;
 }
 
 .MenuIcon {
