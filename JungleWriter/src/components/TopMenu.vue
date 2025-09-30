@@ -49,12 +49,13 @@ function createNode(nodeOption) {
       <button 
         v-for="option in nodeCreationOptions" 
         :key="option.name"
-        class="MenuButton"
+        class="MenuButton xs"
         @click="createNode(option)"
         :title="`Create ${option.name}`"
         :style="{ backgroundColor: option.color }"
       >
-        <i :class="option.icon"></i>
+        <i :class="option.icon" class="mr-xxs"></i>
+        {{ option.name }}
       </button>
     </div>
   </div>
@@ -74,9 +75,9 @@ function createNode(nodeOption) {
   display: flex;
   flex-flow: row nowrap;
   gap: 8px;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 0 0 16px 16px;
-  padding: 12px 16px;
+  background-color: var(--main-bg);
+  border-radius: 0 0 8px 8px;
+  padding: var(--space-xs) var(--space-xs);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
   pointer-events: auto;
@@ -86,10 +87,10 @@ function createNode(nodeOption) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
+  min-width: 32px;
   height: 32px;
   border: none;
-  border-radius: 50%;
+  /*border-radius: 50%;*/
   color: white;
   cursor: pointer;
   font-size: 14px;
