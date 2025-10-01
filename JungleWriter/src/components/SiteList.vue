@@ -280,13 +280,14 @@ function getLastModifiedText(site) {
 .SiteInfo {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xxs);
+  gap: 0;
 }
 
 .SiteModified {
   font-size: var(--f-xs);
   color: var(--light-color);
   margin: 0;
+  margin-top: -4px;
 }
 
 .SiteActions {
