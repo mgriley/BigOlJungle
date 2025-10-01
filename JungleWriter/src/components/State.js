@@ -92,8 +92,6 @@ class Site {
     this.nodeIdCtr = 1;
     this.nodeLookupMap = {};
 
-    // TODO - store the id of the site that was editing last
-
     // siteDir is the DirObj for the current site, for convenience.
     // It is set from the Editor
     this.siteDir = siteDir;
@@ -173,30 +171,34 @@ class Site {
         return;
       }
       let jsonStr = prettyJson(obj);
-      let dataFile = await this.siteDir.findChild("data.json");
-      if (!dataFile) {
-        dataFile = await this.siteDir.createFile("data.json");
-      }
-      await dataFile.writeContents(jsonStr);
+      await this.siteSite.writeTextFile("data.json", jsonStr);
+      this._lastSavedHash = objectHash;
       console.log("Saved site:", prettyJson(obj));
     } catch (error) {
       console.error("Failed to save site:", error);
+      this.editor.toastError("Failed to save site. Please contact the developer.", {id: 'save-site-failed', details: error});
+      throw error;
     }
   }
 
   static async load(editor, siteId, siteDir) {
-    // TODO - handle errors
-    console.log("Loading site with id: ", siteId);
-    let dataFile = await siteDir.findChild("data.json");
-    let site = new Site(editor, siteId, siteDir);
-    if (dataFile) {
-      let jsonStr = await dataFile.readText();
-      let siteData = JSON.parse(jsonStr);
-      console.log("Site data:", prettyJson(siteData));
-      site.readFromJson(siteData);
-      site.fixupNodeIds();
+    try {
+      console.log("Loading site with id: ", siteId);
+      let dataFile = await siteDir.findChild("data.json");
+      let site = new Site(editor, siteId, siteDir);
+      if (dataFile) {
+        let jsonStr = await dataFile.readText();
+        let siteData = JSON.parse(jsonStr);
+        console.log("Site data:", prettyJson(siteData));
+        site.readFromJson(siteData);
+        site.fixupNodeIds();
+      }
+      return site;
+    } catch (error) {
+      console.error("Failed to load site:", error);
+      this.editor.toastError("Failed to load site. Please contact the developer.", {id: 'load-site-failed', details: error});
+      throw error;
     }
-    return site;
   }
 
   getSiteDir() {
@@ -208,8 +210,11 @@ class Site {
       const zipBlob = await this.siteDir.exportToZip();
       downloadBlobFile(zipBlob, `${this.name || 'site'}_export.zip`);
       console.log('Site exported successfully');
+      this.editor.toastSuccess('Success');
     } catch (error) {
       console.error('Failed to export site:', error);
+      this.editor.toastError('Failed to export site. Please contact the developer.', {id: 'export-site-failed', details: error});
+      throw error;
     }
   }
 
@@ -242,8 +247,10 @@ class Site {
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);
       console.log("Generated static site");
+      gApp.toastSuccess("Success");
     } catch (error) {
       console.error("Failed to generate static site:", error);
+      this.editor.toastError("Failed to generate site. Please contact the developer.", {id: 'generate-static-site-failed', details: error});
       throw error;
     }
   }
@@ -420,7 +427,7 @@ class Editor {
   constructor(router) {
     this.router = router;
 
-    // Note: list of {id, name, ptr} per site.
+    // Note: list of {id, name} per site.
     // When the site is edited, the full site object is loaded.
     this.sites = reactive([]);
     // The site currently being edited
@@ -451,15 +458,17 @@ class Editor {
   }
 
   writeToJson() {
+    // Write editor-write data here. Nothing here yet
     return {
       version: "1",
     }
   }
   
   readFromJson(obj) {
+    // Note - nothing here yet
   }
 
-  async loadAllSites() {
+  async reloadSites() {
     // Load the list of sites from storage
     try {
       const sitesDir = await this.fileStorage.root.findChild('sites');
@@ -470,46 +479,38 @@ class Editor {
 
       const siteChildren = await sitesDir.getChildren();
       const loadedSites = [];
-
       for (const [dirName, dirObj] of Object.entries(siteChildren)) {
         if (!dirObj.isDir()) {
-          continue; // Skip non-directory entries
+          continue;
         }
-
         // Try to parse the directory name as a site ID
         const siteId = parseInt(dirName);
         if (isNaN(siteId)) {
           console.warn(`Skipping invalid site directory: ${dirName}`);
           continue;
         }
-
         try {
-          // Check if data.json exists in this site directory
           const dataFile = await dirObj.findChild('data.json');
           if (!dataFile) {
             console.warn(`Site ${siteId} has no data.json, skipping`);
             continue;
           }
-
-          // Read the site data to get the name
           const jsonStr = await dataFile.readText();
           const siteData = JSON.parse(jsonStr);
-          
           const siteName = siteData.name || `Site ${siteId}`;
-          
+
           loadedSites.push({
             id: siteId,
             name: siteName,
-            ptr: null // Will be loaded when needed
           });
 
           // Update the site ID counter to avoid conflicts
           if (siteId >= this.siteIdCtr) {
             this.siteIdCtr = siteId + 1;
           }
-
         } catch (error) {
           console.warn(`Failed to load site ${siteId}:`, error);
+          this.toastError(`Failed to load site ${siteId}. Please contact the developer.`, {id: 'load-site-failed', details: error});
         }
       }
 
@@ -522,34 +523,47 @@ class Editor {
       console.log(`Loaded ${loadedSites.length} sites`);
     } catch (error) {
       console.error('Failed to load sites:', error);
+      this.toastError("Failed to load sites. Please contact the developer.", {id: 'load-sites-failed', details: error});
     }
   }
 
   async autosaveSite() {
     if (this.site) {
-      await this.site.saveSite();
+      try {
+        await this.site.saveSite();
+      } catch (error) {
+        console.error("Autosave failed");
+      }
     }
   }
 
-  async saveEditor() {
-    // TODO - handle errors
-    let obj = this.writeToJson();
-    let jsonStr = prettyJson(obj);
-    let dataFile = await this.fileStorage.root.findChild("app_data.json");
-    if (!dataFile) {
-      dataFile = await this.fileStorage.root.createFile("app_data.json");
+  async saveEditorData() {
+    try {
+      let obj = this.writeToJson();
+      let jsonStr = prettyJson(obj);
+      let dataFile = await this.fileStorage.root.findChild("app_data.json");
+      if (!dataFile) {
+        dataFile = await this.fileStorage.root.createFile("app_data.json");
+      }
+      await dataFile.writeContents(jsonStr);
+      console.log("Saved editor:", prettyJson(obj));
+    } catch (error) {
+      console.error("Failed to save editor:", error);
+      this.toastError("Failed to save app data. Please contact the developer.", {id: 'save-editor-failed', details: error});
     }
-    await dataFile.writeContents(jsonStr);
-    console.log("Saved app:", prettyJson(obj));
   }
 
-  async load() {
-    // TODO - handle errors
-    let dataFile = await this.fileStorage.root.findChild("app_data.json");
-    if (dataFile) {
-      let jsonStr = await dataFile.readText();
-      let data = JSON.parse(jsonStr);
-      this.readFromJson(data);
+  async loadEditorData() {
+    try {
+      let dataFile = await this.fileStorage.root.findChild("app_data.json");
+      if (dataFile) {
+        let jsonStr = await dataFile.readText();
+        let data = JSON.parse(jsonStr);
+        this.readFromJson(data);
+      }
+    } catch (error) {
+      console.error("Failed to load editor:", error);
+      this.toastError("Failed to load app data. Please contact the developer.", {id: 'load-editor-failed', details: error});
     }
   }
 
@@ -563,11 +577,11 @@ class Editor {
     let fileRootDir = await navigator.storage.getDirectory();
     this.fileStorage.setRoot(fileRootDir);
 
-    console.log("Loading app...");
-    await this.load();
+    console.log("Loading editor data...");
+    await this.loadEditorData();
     
     console.log("Loading all sites...");
-    await this.loadAllSites();
+    await this.reloadSites();
 
     // Set up paste event listener for images
     this._setupPasteListener();
@@ -631,51 +645,37 @@ class Editor {
   }
 
   async createSite(siteName) {
-    let siteId = this.siteIdCtr++;
-    let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
-    let site = reactive(new Site(this, siteId, siteDir));
-    site.name = siteName || 'Untitled Site';
-    this.sites.unshift({id: site.id, name: site.name, ptr: site});
-    // Save the site now so that it populates the storage with an entry
-    await site.saveSite();
-    return site;
+    try {
+      let siteId = this.siteIdCtr++;
+      let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
+      let site = reactive(new Site(this, siteId, siteDir));
+      site.name = siteName || 'Untitled Site';
+      this.sites.unshift({id: site.id, name: site.name});
+      // Save the site now so that it populates the storage with an entry
+      await site.saveSite();
+      return site;
+    } catch (error) {
+      console.error("Failed to create site:", error);
+      this.toastError("Failed to create site. Please contact the developer.", {id: 'create-site-failed', details: error});
+      throw error;
+    }
   }
 
-  async loadSiteWithId(siteId) {
-    for (const site of this.sites) {
-      if (site.id == siteId) {
-        if (!site.ptr) {
-          let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
-          site.ptr = reactive(await Site.load(this, site.id, siteDir));
-        }
-        return site.ptr;
-      }
+  async openSiteWithId(siteId) {
+    try {
+      let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
+      let site = reactive(await Site.load(this, siteId, siteDir));
+      this.siteRef.value = site;
+      // Emit a FS evt so that any FS-dependent nodes like ImageNode can setup
+      this.fileStorage.onChangeEvt.emit();
+    } catch (error) {
+      console.error(`Failed to open site with id ${siteId}:`, error);
+      this.toastError("Failed to open site. Please contact the developer.", {id: 'open-site-failed', details: error});
     }
-    return null;
-  }
-
-  changeSiteName(siteId, newName) {
-    for (const site of this.sites) {
-      if (site.id == siteId) {
-        site.name = newName;
-        return;
-      }
-    }
-    throw new Error("Site with that id not found");
-  }
-  
-  async selectSiteById(siteId) {
-    let site = await this.loadSiteWithId(siteId);
-    this.siteRef.value = site;
-    // Emit a FS evt so that any FS-dependent nodes like ImageNode can setup
-    this.fileStorage.onChangeEvt.emit();
   }
 
   deselectSite() {
     this.siteRef.value = null;
-  }
-
-  openSite() {
   }
 
   async importSite(zipBlob) {
@@ -692,37 +692,33 @@ class Editor {
         try {
           const jsonStr = await dataFile.readText();
           const siteData = JSON.parse(jsonStr);
-          
-          // Store the original site ID before reading from JSON
+          // Note - Ensure the site keeps its new unique ID
           const originalSiteId = site.id;
-          
           site.readFromJson(siteData);
-          
-          // Ensure the site keeps its new unique ID
           site.id = originalSiteId;
-          
-          // Update the site name in the sites list
-          for (const siteEntry of this.sites) {
-            if (siteEntry.id === site.id) {
-              siteEntry.name = site.name;
-              break;
-            }
-          }
-
-          // Save the site after importing
           await site.saveSite();
+          await this.reloadSites();
         } catch (error) {
-          console.warn('Failed to load site data from imported zip:', error);
+          // TODO - toast error here
+          console.error('Failed to load site data from imported zip:', error);
         }
       }
       
-      await this.saveEditor();
       console.log('Site imported successfully');
       return site;
     } catch (error) {
       console.error('Failed to import site:', error);
+      this.toastError('Failed to import site. Please contact the developer.', {id: 'import-site-failed', details: error});
       throw error;
     }
+  }
+
+  toastError(message, opts) {
+    // TODO
+  }
+
+  toastSuccess(message, opts) {
+    // TODO
   }
 };
 

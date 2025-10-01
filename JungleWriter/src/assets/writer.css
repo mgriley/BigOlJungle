@@ -134,13 +134,4 @@ main {
   overflow-x: scroll;
 }
 
-.v-toast__item {
-  /* padding: 100px; */
-  padding: 0;
-}
-
-.v-toast__text {
-  color: var(--main-text);
-}
-
 /* END - OTHER UTILS */

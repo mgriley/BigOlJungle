@@ -210,6 +210,18 @@ class DirObj extends BaseObj {
     return childObj;
   }
 
+  async writeTextFile(name, text) {
+    let file = await this.findChild(name);
+    if (!file) {
+      file = await this.createFile(name);
+    }
+    if (!file.isFile()) {
+      throw new Error("File at path .../" + name + " is not a file-kind.");
+    }
+    await file.writeContents(text);
+    return file;
+  }
+
   async genValidFileName(startingName) {
     // Note: startingName should not contain any slashes
     let children = await this.getChildren();
