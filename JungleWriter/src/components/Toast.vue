@@ -52,7 +52,8 @@ function toggleDetails(toast) {
 .ToastContainer {
   position: fixed;
   top: 20px;
-  right: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 10000;
   display: flex;
   flex-direction: column;
