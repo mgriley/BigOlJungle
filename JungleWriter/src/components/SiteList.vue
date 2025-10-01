@@ -176,7 +176,7 @@ onMounted(() => {
           <i class="bi bi-globe mr-s"></i>
           <div class="SiteInfo">
             <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
-            <p class="SiteModified">{{ getLastModifiedText(site) }}</p>
+            <!-- <p class="SiteModified">{{ getLastModifiedText(site) }}</p> -->
           </div>
         </div>
         <div class="SiteActions" @click.stop>
