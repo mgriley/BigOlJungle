@@ -70,7 +70,7 @@ function toggleDetails(toast) {
   border-radius: var(--border-radius);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  animation: slideUp 0.3s ease-out;
+  animation: slideUp 0.2s ease-out;
 }
 
 .Toast--success {

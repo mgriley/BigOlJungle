@@ -292,7 +292,6 @@ class Site {
       downloadBlobFile(zipBlob, `${this.name || 'site'}_export.zip`);
       console.log('Site exported successfully');
       //this.editor.toastSuccess('Success');
-      throw new Error('Intentional error to test toast'); // IGNORE
     } catch (error) {
       console.error('Failed to export site:', error);
       this.editor.toastError('Failed to export site. Please contact the developer.', {id: 'export-site-failed', details: error});
@@ -792,8 +791,7 @@ class Editor {
 
   toastSuccess(message, opts = {}) {
     console.log("Toast success: ", message, opts);
-    //gToastManager.toastSuccess(message, opts)
-    gToastManager.toastSuccess(message, {...opts, duration: 30000, details: 'LOL HI SOME DETAILS HERE'} )
+    gToastManager.toastSuccess(message, opts)
   }
 };
 
