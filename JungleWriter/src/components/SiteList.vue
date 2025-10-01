@@ -64,7 +64,8 @@ async function onFileSelected(event) {
 <template>
   <div class="Toplevel">
     <div class="SiteList">
-      <h1 class="Title mb-l">JungleWriter 🌴🐒</h1>
+      <h1 class="Title mb-xs">JungleWriter 🌴🐒</h1>
+      <p class="Subtitle mb-l">Build quirky websites now, with no coding experience. Free and open-source.</p>
       <div class="MarginBotS">
         <button @click="addSite" class="mr-xxs">New Site</button>
         <button @click="importSite" class="mr-xs">Import</button>
@@ -121,6 +122,16 @@ async function onFileSelected(event) {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.Subtitle {
+  text-align: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: var(--f-l);
+  color: var(--secondary-text);
+  font-weight: 400;
 }
 
 .SiteItem {
