@@ -289,7 +289,8 @@ async function onFileSelected(event) {
 }
 
 .GitHubLink {
-  color: rgba(255, 255, 255, 0.7);
+  /*color: rgba(255, 255, 255, 0.7);*/
+  color: white;
   font-size: var(--f-l);
   text-decoration: none;
   transition: all 0.2s ease;
