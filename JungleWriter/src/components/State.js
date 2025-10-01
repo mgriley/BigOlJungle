@@ -594,8 +594,8 @@ class Editor {
         }
       }
 
-      // Sort sites by ID (newest first)
-      loadedSites.sort((a, b) => b.id - a.id);
+      // Sort sites by last modified time (most recent first)
+      loadedSites.sort((a, b) => b.lastModifiedTime.getTime() - a.lastModifiedTime.getTime());
       
       // Replace the sites array with loaded sites
       this.sites.splice(0, this.sites.length, ...loadedSites);
