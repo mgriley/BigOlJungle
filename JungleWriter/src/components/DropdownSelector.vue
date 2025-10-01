@@ -31,6 +31,7 @@ const props = defineProps({
 const emit = defineEmits(['select'])
 
 const isDropdownOpen = ref(false)
+const dropdownPosition = ref({ top: 0, left: 0 })
 
 const currentItemName = computed(() => {
   return props.currentItem?.name || props.placeholder
@@ -41,7 +42,15 @@ function selectItem(item) {
   isDropdownOpen.value = false
 }
 
-function toggleDropdown() {
+function toggleDropdown(event) {
+  if (!isDropdownOpen.value) {
+    // Position the dropdown relative to the button
+    const rect = event.target.closest('.DropdownButton').getBoundingClientRect()
+    dropdownPosition.value = {
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX
+    }
+  }
   isDropdownOpen.value = !isDropdownOpen.value
 }
 
@@ -69,7 +78,11 @@ onUnmounted(() => {
       </div>
       <i v-if="showIcon" :class="icon"></i>
     </div>
-    <div class="DropdownMenu" :class="{IsOpen: isDropdownOpen}" :style="{minWidth: minWidth}">
+    <div class="DropdownMenu" :class="{IsOpen: isDropdownOpen}" :style="{
+      minWidth: minWidth,
+      top: dropdownPosition.top + 'px',
+      left: dropdownPosition.left + 'px'
+    }">
       <div v-for="item in items" :key="item.name"
         @click="selectItem(item)"
         class="DropdownItem"
@@ -113,10 +126,7 @@ onUnmounted(() => {
 }
 
 .DropdownMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
+  position: fixed;
   background-color: blue;
   border-radius: var(--border-radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
