@@ -847,6 +847,43 @@ class Editor {
     }
   }
 
+  async exportSite(siteId) {
+    try {
+      console.log("Exporting site with ID:", siteId);
+      
+      // Find the site in the sites array
+      const siteInfo = this.sites.find(s => s.id === siteId);
+      if (!siteInfo) {
+        throw new Error(`Site with ID ${siteId} not found`);
+      }
+      
+      // Get the site directory
+      const sitesDir = await this.fileStorage.root.findChild('sites');
+      if (!sitesDir) {
+        throw new Error('Sites directory not found');
+      }
+      
+      const siteDir = await sitesDir.findChild(`${siteId}`);
+      if (!siteDir) {
+        throw new Error(`Site directory for ID ${siteId} not found`);
+      }
+      
+      // Export the site directory as a zip
+      const zipBlob = await siteDir.exportToZip();
+      downloadBlobFile(zipBlob, `${siteInfo.name || 'site'}_export.zip`);
+      
+      console.log(`Exported site: ${siteInfo.name}`);
+      this.toastSuccess(`Exported site "${siteInfo.name}"`);
+    } catch (error) {
+      console.error('Failed to export site:', error);
+      this.toastError('Failed to export site. Please contact the developer.', {
+        id: 'export-site-failed',
+        details: error
+      });
+      throw error;
+    }
+  }
+
   async deleteSite(site) {
     const confirmed = confirm(`Are you sure you want to delete "${site.name || 'Untitled'}"? This action cannot be undone.`);
     if (confirmed) {
