@@ -3,7 +3,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import VueFeather from 'vue-feather';
 import App from './App.vue'
 import { initGlobalApp } from './components/State.js'
 import { registerNodeTypes } from './components/widgets/RegisterNodes.js'

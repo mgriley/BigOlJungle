@@ -1,8 +1,5 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
-import { makeDraggableExt } from '../Utils.js'
-import { ColorInput as ColorInputClass } from './ColorInput.js'
-// import { ColorPicker } from 'vue-accessible-color-picker'
 
 const props = defineProps({
   color: [String, Number, Object],
@@ -71,18 +68,6 @@ function onUpdateColor(evt) {
   </div>
   !-->
 </template>
-
-<style>
-@import url('vue-accessible-color-picker/styles');
-
-/* See: https://github.com/kleinfreund/vue-accessible-color-picker#usage */
-:root {
-  /* --vacp-color-background-input: red; */
-  --vacp-color-background: var(--popup-bg);
-  --vacp-color-border: white;
-  --vacp-width-border: 1px;
-}
-</style>
 
 <style scoped>
 .Parent {
