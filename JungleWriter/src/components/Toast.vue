@@ -19,7 +19,7 @@ function toggleDetails(toast) {
       :class="[`Toast--${toast.type}`]"
     >
       <div class="Toast__header">
-        <div class="Toast__icon">
+        <div class="Toast__icon mr-xs">
           <i v-if="toast.type === 'success'" class="bi bi-check-circle-fill"></i>
           <i v-else-if="toast.type === 'error'" class="bi bi-exclamation-triangle-fill"></i>
         </div>
