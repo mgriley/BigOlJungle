@@ -5,6 +5,7 @@ import BasicModal from 'Shared/BasicModal.vue'
 import DevView from './DevView.vue'
 import ModalSelector from './ModalSelector.vue'
 import DropdownSelector from './DropdownSelector.vue'
+import { getTimeAgoStr } from 'Shared/SharedUtils.js'
 
 let createSiteModal = ref(null);
 let siteToAdd = ref(null);
@@ -128,6 +129,21 @@ function onSiteDropdownChoice(site, option) {
   }
 }
 
+function getLastModifiedText(site) {
+  if (!site.lastModifiedTime) {
+    return "Last modified: unknown";
+  }
+  
+  const timeAgo = getTimeAgoStr(site.lastModifiedTime);
+  
+  // Handle the special case for "0 hrs ago"
+  if (timeAgo === "0 hrs ago") {
+    return "Last modified: just now";
+  }
+  
+  return `Last modified: ${timeAgo}`;
+}
+
 </script>
 
 <template>
@@ -154,7 +170,10 @@ function onSiteDropdownChoice(site, option) {
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex">
         <div class="SiteContent" @click="gApp.openSiteWithId(site.id)">
           <i class="bi bi-globe mr-s"></i>
-          <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
+          <div class="SiteInfo">
+            <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
+            <p class="SiteModified">{{ getLastModifiedText(site) }}</p>
+          </div>
         </div>
         <div class="SiteActions" @click.stop>
           <DropdownSelector
@@ -253,9 +272,21 @@ function onSiteDropdownChoice(site, option) {
 
 .SiteContent {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex: 1;
   cursor: pointer;
+}
+
+.SiteInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.SiteModified {
+  font-size: var(--f-xs);
+  color: var(--light-color);
+  margin: 0;
 }
 
 .SiteActions {
