@@ -66,10 +66,19 @@ async function onFileSelected(event) {
     <div class="SiteList">
       <h1 class="Title mb-s">JungleWriter 🌴🐒</h1>
       <p class="Subtitle mb-l">Build a website for your next project now. No coding experience required. Free and open-source.</p>
-      <div class="MarginBotS">
-        <button @click="addSite" class="mr-xxs">New Site</button>
-        <button @click="importSite" class="mr-xs">Import</button>
-        <button @click="showDevView" class="TertiaryButton">Developer Tools</button>
+      <div class="ButtonContainer MarginBotS">
+        <button @click="addSite" class="mr-xxs">
+          <i class="bi bi-plus-circle"></i>
+          New Site
+        </button>
+        <button @click="importSite" class="mr-xs">
+          <i class="bi bi-upload"></i>
+          Import
+        </button>
+        <button @click="showDevView" class="TertiaryButton">
+          <i class="bi bi-gear"></i>
+          Developer Tools
+        </button>
       </div>
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.openSiteWithId(site.id)">
         <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
