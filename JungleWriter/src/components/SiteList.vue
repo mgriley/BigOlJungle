@@ -152,8 +152,11 @@ async function onFileSelected(event) {
       />
       
       <div class="Footer">
-        <a href="https://github.com/junglewriter/junglewriter" target="_blank" class="GitHubLink">
+        <a href="https://github.com/junglewriter/junglewriter" target="_blank" class="FooterLink">
           <i class="bi bi-github"></i>
+        </a>
+        <a href="https://mastodon.social/@junglewriter" target="_blank" class="FooterLink">
+          <i class="bi bi-mastodon"></i>
         </a>
       </div>
     </div>
@@ -288,8 +291,12 @@ async function onFileSelected(event) {
   transform: translateX(-50%);
 }
 
-.GitHubLink {
-  /*color: rgba(255, 255, 255, 0.7);*/
+.Footer {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.FooterLink {
   color: white;
   font-size: var(--f-l);
   text-decoration: none;
@@ -302,7 +309,7 @@ async function onFileSelected(event) {
   border-radius: var(--border-radius-m);
 }
 
-.GitHubLink:hover {
+.FooterLink:hover {
   color: white;
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
