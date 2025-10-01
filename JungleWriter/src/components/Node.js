@@ -89,14 +89,14 @@ export class Node {
     // Override in subclasses
     // Called when this node becomes part of the current scene (after onCreate)
     // Ex. Site opened, node added, etc.
-    console.log(`Node.onEnter: ${this.name} (${this.type})`);
+    //console.log(`Node.onEnter: ${this.name} (${this.type})`);
   }
 
   onExit() {
     // Override in subclasses
     // Called when this node is removed from the current scene (after onDestroy)
     // Ex. Site closed, node removed (before destroy), etc.
-    console.log(`Node.onExit: ${this.name} (${this.type})`);
+    //console.log(`Node.onExit: ${this.name} (${this.type})`);
   }
 
   enterSubtree() {

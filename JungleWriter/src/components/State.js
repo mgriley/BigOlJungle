@@ -254,6 +254,7 @@ class Site {
 
   async updateImageFiles() {
     try {
+      console.log("Updating image files list...");
       // Revoke old object URLs to prevent memory leaks
       for (const file of this.imageFiles) {
         if (file.url) {
