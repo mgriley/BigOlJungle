@@ -81,7 +81,8 @@ function toggleDetails(toast) {
 
 .Toast__header {
   display: flex;
-  align-items: flex-start;
+  flex-flow: row nowrap;
+  align-items: center;
   gap: var(--space-xs);
   padding: var(--space-s);
 }

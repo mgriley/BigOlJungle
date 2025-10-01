@@ -291,7 +291,8 @@ class Site {
       const zipBlob = await this.siteDir.exportToZip();
       downloadBlobFile(zipBlob, `${this.name || 'site'}_export.zip`);
       console.log('Site exported successfully');
-      this.editor.toastSuccess('Success');
+      //this.editor.toastSuccess('Success');
+      throw new Error('Intentional error to test toast'); // IGNORE
     } catch (error) {
       console.error('Failed to export site:', error);
       this.editor.toastError('Failed to export site. Please contact the developer.', {id: 'export-site-failed', details: error});
@@ -328,7 +329,7 @@ class Site {
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);
       console.log("Generated static site");
-      gApp.toastSuccess("Success");
+      //gApp.toastSuccess("Success");
     } catch (error) {
       console.error("Failed to generate static site:", error);
       this.editor.toastError("Failed to generate site. Please contact the developer.", {id: 'generate-static-site-failed', details: error});
