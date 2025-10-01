@@ -388,4 +388,18 @@ async function deleteSite(site) {
   color: #ff6b35;
 }
 
+.SiteActions .DropdownButton {
+  background: transparent;
+  border: none;
+  padding: var(--space-xs);
+  color: var(--light-color);
+  font-size: var(--f-l);
+}
+
+.SiteActions .DropdownButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--main-text);
+}
+
 </style>
