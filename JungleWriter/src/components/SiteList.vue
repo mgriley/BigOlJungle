@@ -201,7 +201,7 @@ async function onFileSelected(event) {
 }
 
 .SiteItem {
-  padding: 8px;
+  padding: var(--space-xs) var(--space-s);
   border: var(--border-reg);
   border-radius: var(--border-radius-m);
   margin-bottom: var(--space-xs);
