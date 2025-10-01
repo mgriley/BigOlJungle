@@ -793,6 +793,62 @@ class Editor {
     gToastManager.toastSuccess(message, opts)
   }
 
+  async duplicateSite(siteId) {
+    try {
+      console.log("Duplicating site with ID:", siteId);
+      
+      // Find the original site in the sites array
+      const originalSiteInfo = this.sites.find(s => s.id === siteId);
+      if (!originalSiteInfo) {
+        throw new Error(`Site with ID ${siteId} not found`);
+      }
+      
+      // Get the original site directory
+      const originalSiteDir = await this.fileStorage.root.findChild(`sites/${siteId}`);
+      if (!originalSiteDir) {
+        throw new Error(`Site directory for ID ${siteId} not found`);
+      }
+      
+      // Create a new site ID and directory
+      const newSiteId = this.siteIdCtr++;
+      const newSiteDir = await this.fileStorage.root.findOrCreateDir(`sites/${newSiteId}`);
+      
+      // Copy all files from the original site directory to the new one
+      const originalChildren = await originalSiteDir.getChildren();
+      for (const [fileName, fileObj] of Object.entries(originalChildren)) {
+        if (fileObj.isFile()) {
+          const fileContents = await fileObj.readAsBlob();
+          const newFile = await newSiteDir.createFile(fileName);
+          await newFile.writeContents(fileContents);
+        }
+      }
+      
+      // Load the duplicated site to update its ID and name
+      const duplicatedSite = await Site.load(this, newSiteId, newSiteDir);
+      duplicatedSite.id = newSiteId;
+      duplicatedSite.name = `${originalSiteInfo.name} Copy`;
+      await duplicatedSite.saveSite();
+      
+      // Add the new site to the sites array
+      this.sites.unshift({
+        id: duplicatedSite.id,
+        name: duplicatedSite.name
+      });
+      
+      console.log(`Duplicated site: ${originalSiteInfo.name} -> ${duplicatedSite.name}`);
+      this.toastSuccess(`Duplicated site "${originalSiteInfo.name}"`);
+      
+      return duplicatedSite;
+    } catch (error) {
+      console.error('Failed to duplicate site:', error);
+      this.toastError('Failed to duplicate site. Please contact the developer.', {
+        id: 'duplicate-site-failed',
+        details: error
+      });
+      throw error;
+    }
+  }
+
   async deleteSite(site) {
     const confirmed = confirm(`Are you sure you want to delete "${site.name || 'Untitled'}"? This action cannot be undone.`);
     if (confirmed) {
