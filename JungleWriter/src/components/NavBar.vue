@@ -22,15 +22,6 @@ function onGenerateStaticSite() {
   }
 }
 
-function onNewFile() {
-}
-
-function onOpenFile() {
-}
-
-function onSaveFile() {
-}
-
 function goToSites() {
   gApp.closeSiteEditor();
 }
@@ -65,11 +56,6 @@ const kMenuItems = [
     name: "Back to sites",
     icon: "bi bi-arrow-left",
     action: goToSites
-  },
-  {
-    name: "Save",
-    icon: "bi bi-floppy",
-    action: onSaveFile,
   },
   /*
   {
