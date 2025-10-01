@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import FileNameInput from './FileNameInput.vue'
 import NumberInput from './NumberInput.vue'
 import BoolInput from './BoolInput.vue'
 import ColorInput from './ColorInput.vue'

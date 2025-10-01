@@ -95,6 +95,10 @@ class Site {
     // siteDir is the DirObj for the current site, for convenience.
     // It is set from the Editor
     this.siteDir = siteDir;
+
+    // This is put here to support the ImageChooser components, which require 
+    // a list of all image files (along with URLS).
+    this.imageFiles = []
   }
 
   writeToJson() {
@@ -214,6 +218,10 @@ class Site {
 
   getSiteDir() {
     return this.siteDir;
+  }
+
+  async updateImageFiles() {
+    // TODO
   }
 
   async exportSite() {

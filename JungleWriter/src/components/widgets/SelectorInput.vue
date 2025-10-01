@@ -43,7 +43,7 @@ function onValueChanged(newVal) {
 </script>
 
 <template>
-  <div class="FileNameInput StdInput">
+  <div class="StdInput">
     <div class="InputLabel" v-if="name">{{name}}</div>
     <div class="Parent">
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
