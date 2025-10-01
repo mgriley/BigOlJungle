@@ -12,6 +12,9 @@ let settings = gApp.site.getSettings();
 <template>
   <div>
     <div class="mb-s">
+      <TextInput v-model="gApp.site.name" name="Project Name" placeholder="Enter project name..." />
+    </div>
+    <div class="mb-s">
       <TextInput v-model="settings.siteName" name="Site Name" placeholder="Enter site title..." />
     </div>
     <div class="mb-s">

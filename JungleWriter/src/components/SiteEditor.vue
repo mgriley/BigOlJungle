@@ -13,9 +13,9 @@ import FileEditor from './FileEditor.vue'
 
 let sidebarTabs = [
   {name: 'Editor', icon: 'bi bi-sliders', comp: PropEditor},
-  {name: 'Settings', icon: 'bi bi-gear', comp: SettingsEditor},
+  {name: 'Global settings', icon: 'bi bi-sliders', comp: SettingsEditor},
   // {name: 'Nodes', comp: NodeTreeView},
-  {name: 'Files', icon: 'bi bi-folder', comp: FileEditor},
+  {name: 'Upload files', icon: 'bi bi-folder', comp: FileEditor},
 ];
 
 let sidebarTab = shallowRef(sidebarTabs[0].comp);
