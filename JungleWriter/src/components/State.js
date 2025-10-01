@@ -564,13 +564,11 @@ class Editor {
           }
           const jsonStr = await dataFile.readText();
           const siteData = JSON.parse(jsonStr);
-          const siteName = siteData.name || `Site ${siteId}`;
-
+          const siteName = siteData.name;
           loadedSites.push({
             id: siteId,
             name: siteName,
           });
-
           // Update the site ID counter to avoid conflicts
           if (siteId >= this.siteIdCtr) {
             this.siteIdCtr = siteId + 1;

@@ -71,7 +71,7 @@ async function onFileSelected(event) {
         <button @click="showDevView" class="TertiaryButton">Developer Tools</button>
       </div>
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.openSiteWithId(site.id)">
-        <p class="SiteName">{{ site.name ? site.name : "NoName" }}</p>
+        <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
         <p class="SiteId">Id: {{ site.id }}</p>
       </div>
     </div>
