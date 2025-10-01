@@ -111,9 +111,11 @@ function toggleDetails(toast) {
 
 .Toast__close-btn {
   flex-shrink: 0;
+  align-self: flex-start;
   background: none;
   border: none;
-  padding: 2px;
+  padding: 0px;
+  font-size: var(--f-xl) !important;
   min-width: 0px;
   cursor: pointer;
   color: var(--text-color);
