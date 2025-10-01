@@ -101,6 +101,11 @@ async function onFileSelected(event) {
 function getSiteDropdownOptions() {
   return [
     {
+      name: 'Duplicate',
+      icon: 'bi bi-copy',
+      action: 'duplicate'
+    },
+    {
       name: 'Delete',
       icon: 'bi bi-trash',
       action: 'delete'
@@ -109,7 +114,9 @@ function getSiteDropdownOptions() {
 }
 
 function onSiteDropdownChoice(site, option) {
-  if (option.action === 'delete') {
+  if (option.action === 'duplicate') {
+    gApp.duplicateSite(site.id);
+  } else if (option.action === 'delete') {
     gApp.deleteSite(site);
   }
 }
