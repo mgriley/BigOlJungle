@@ -461,7 +461,68 @@ class Editor {
 
   async loadAllSites() {
     // Load the list of sites from storage
-    // TODO - implement
+    try {
+      const sitesDir = await this.fileStorage.root.findChild('sites');
+      if (!sitesDir || !sitesDir.isDir()) {
+        console.log('No sites directory found');
+        return;
+      }
+
+      const siteChildren = await sitesDir.getChildren();
+      const loadedSites = [];
+
+      for (const [dirName, dirObj] of Object.entries(siteChildren)) {
+        if (!dirObj.isDir()) {
+          continue; // Skip non-directory entries
+        }
+
+        // Try to parse the directory name as a site ID
+        const siteId = parseInt(dirName);
+        if (isNaN(siteId)) {
+          console.warn(`Skipping invalid site directory: ${dirName}`);
+          continue;
+        }
+
+        try {
+          // Check if data.json exists in this site directory
+          const dataFile = await dirObj.findChild('data.json');
+          if (!dataFile) {
+            console.warn(`Site ${siteId} has no data.json, skipping`);
+            continue;
+          }
+
+          // Read the site data to get the name
+          const jsonStr = await dataFile.readText();
+          const siteData = JSON.parse(jsonStr);
+          
+          const siteName = siteData.name || `Site ${siteId}`;
+          
+          loadedSites.push({
+            id: siteId,
+            name: siteName,
+            ptr: null // Will be loaded when needed
+          });
+
+          // Update the site ID counter to avoid conflicts
+          if (siteId >= this.siteIdCtr) {
+            this.siteIdCtr = siteId + 1;
+          }
+
+        } catch (error) {
+          console.warn(`Failed to load site ${siteId}:`, error);
+        }
+      }
+
+      // Sort sites by ID (newest first)
+      loadedSites.sort((a, b) => b.id - a.id);
+      
+      // Replace the sites array with loaded sites
+      this.sites.splice(0, this.sites.length, ...loadedSites);
+      
+      console.log(`Loaded ${loadedSites.length} sites`);
+    } catch (error) {
+      console.error('Failed to load sites:', error);
+    }
   }
 
   async autosaveSite() {
@@ -504,6 +565,9 @@ class Editor {
 
     console.log("Loading app...");
     await this.load();
+    
+    console.log("Loading all sites...");
+    await this.loadAllSites();
 
     // Set up paste event listener for images
     this._setupPasteListener();
