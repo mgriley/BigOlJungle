@@ -102,19 +102,19 @@ async function onFileSelected(event) {
 <template>
   <div class="Toplevel">
     <div class="SiteList">
-      <div class="Header">
+      <div class="MenuContainer">
+        <button @click="showMenu" class="MenuButton">
+          <i class="bi bi-three-dots"></i>
+        </button>
+      </div>
+      <div class="Header mb-l">
         <div class="HeaderContent">
           <h1 class="Title mb-s">JungleWriter 🌴🐒</h1>
-          <p class="Subtitle mb-l">Build a website for your next project now. No coding experience required. Free and open-source.</p>
-        </div>
-        <div class="MenuContainer">
-          <button @click="showMenu" class="MenuButton">
-            <i class="bi bi-three-dots"></i>
-          </button>
+          <p class="Subtitle">Build a website for your next project now. No coding experience required. Free and open-source.</p>
         </div>
       </div>
       
-      <div class="ButtonContainer MarginBotS">
+      <div class="ButtonContainer mb-l">
         <button @click="addSite">
           <i class="bi bi-plus-circle"></i>
           New Site
@@ -212,10 +212,6 @@ async function onFileSelected(event) {
 }
 
 .Header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--space-l);
 }
 
 .HeaderContent {
@@ -228,15 +224,14 @@ async function onFileSelected(event) {
 }
 
 .MenuButton {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  float: right;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.6);
   color: white;
-  padding: var(--space-xs);
   border-radius: var(--border-radius-m);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: var(--space-xxs);
+  min-width: 0px;
   width: 40px;
   height: 40px;
   transition: all 0.2s ease;
