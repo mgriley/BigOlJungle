@@ -55,8 +55,22 @@ function isImageFile(fileName) {
   return imageExtensions.some(ext => lowerFileName.endsWith(ext));
 }
 
-async function updateFileOptions() {
-  console.log("ImageChooser updating options");
+async function updateFileOptions(changeObj) {
+  if (files.value && !isImageFile(changeObj?.name)) {
+    // We only update the files list on image file changes
+    return;
+  }
+  console.log("ImageChooser updating options: ", changeObj);
+
+  // Revoke old object URLs
+  if (files.value) {
+    for (const file of files.value) {
+      if (file.url) {
+        URL.revokeObjectURL(file.url);
+      }
+    }
+  }
+
   let children = await gApp.site.siteDir.getSortedChildren();
   let newFiles = [];
   for (const file of children) {
@@ -94,10 +108,18 @@ async function onFilesPicked(files) {
 
 onMounted(() => {
   changeEvtHandle = gApp.fileStorage.onChangeEvt.addListener(updateFileOptions);
-  updateFileOptions();
+  updateFileOptions({name: null, type: 'init'});
 })
 
 onUnmounted(() => {
+  // Revoke object URLs
+  if (files.value) {
+    for (const file of files.value) {
+      if (file.url) {
+        URL.revokeObjectURL(file.url);
+      }
+    }
+  }
   gApp.fileStorage.onChangeEvt.removeListener(changeEvtHandle);
 });
 

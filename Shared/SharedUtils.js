@@ -395,3 +395,15 @@ export class Vec2 {
   }
 }
 
+export class Options {
+  constructor(optionsObj) {
+    this.options = optionsObj || {};
+  }
+
+  get(key, defaultVal) {
+    if (key in this.options) {
+      return this.options[key];
+    }
+    return defaultVal;
+  }
+}

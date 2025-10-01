@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { gApp, } from './State.js'
 import FilePicker from './FilePicker.vue'
 
@@ -58,6 +58,10 @@ async function onFilesPicked(files) {
 async function selectFile(file) {
   console.log("Selecting file: " + file.getName());
   selectedFile.value = file;
+  if (thumbnailSrc.value) {
+    URL.revokeObjectURL(thumbnailSrc.value);
+    thumbnailSrc.value = "";
+  }
   thumbnailSrc.value = await file.createObjectUrl();
 }
 
@@ -80,6 +84,13 @@ async function downloadSelectedFile() {
 
 onMounted(async () => {
   await reloadFiles();  
+});
+
+onUnmounted(() => {
+  if (thumbnailSrc.value) {
+    URL.revokeObjectURL(thumbnailSrc.value);
+    thumbnailSrc.value = "";
+  }
 });
 
 </script>

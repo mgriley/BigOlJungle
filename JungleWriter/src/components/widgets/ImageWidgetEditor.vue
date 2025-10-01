@@ -13,10 +13,6 @@ const props = defineProps({
   editorData: Object
 })
 
-function onSrcNameChanged(newVal) {
-  editorData.setSrcName(newVal);
-}
-
 let srcName = computed({
   get() {
     return props.editorData.getSrcName();

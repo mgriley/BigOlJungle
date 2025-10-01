@@ -1,6 +1,11 @@
 import { Marked } from 'marked';
 import { gApp, setGApp } from './Globals.js';
 
+/**
+ * NOTE - these classes are not currently used.
+ * They were made for a potential RSS / posting feature. Maybe will get to this later.
+ */
+
 export class Post {
   constructor() {
     /*
@@ -48,6 +53,7 @@ export class Post {
   async renderMarkdown() {
     // We have to replace the img srcs with the blob URLs of the img files, for
     // any such imgs.
+    // TODO - this method no longer exists
     let blobUrlMap = await gApp.site.getBlobUrlMap();
     const renderer = {
       image(href, title, text) {

@@ -1,5 +1,6 @@
 import { reactive, ref, watchEffect, watch } from 'vue'
 import { removeItem, prettyJson, AsyncValue } from './Utils.js'
+import { valOr } from 'Shared/SharedUtils.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
@@ -55,7 +56,7 @@ export class Node {
       let childNode = reactive(new (gNodeDataMap[childObj.type].nodeClass)(childObj.id));
       childNode.onCreate();
       childNode.readFromJson(childObj);
-      this.addChildToBottom(childNode);
+      this.addChildToBottom(childNode, {callOnEnter: false});
     }
   }
 
@@ -72,14 +73,44 @@ export class Node {
   }
 
   destroy() {
+    // Call the exit event before destroy
+    this.exitSubtree();
     // Destroy all children first
     for (const child of this.children) {
       child.destroy();
     }
     // Then destroy this node
     this.onDestroy();
-    this.removeFromParent();
+    this.removeFromParent({callOnExit: false});
     gApp.site.unregisterNode(this.id);
+  }
+
+  onEnter() {
+    // Override in subclasses
+    // Called when this node becomes part of the current scene (after onCreate)
+    // Ex. Site opened, node added, etc.
+    console.log(`Node.onEnter: ${this.name} (${this.type})`);
+  }
+
+  onExit() {
+    // Override in subclasses
+    // Called when this node is removed from the current scene (after onDestroy)
+    // Ex. Site closed, node removed (before destroy), etc.
+    console.log(`Node.onExit: ${this.name} (${this.type})`);
+  }
+
+  enterSubtree() {
+    this.onEnter();
+    for (const child of this.children) {
+      child.enterSubtree();
+    }
+  }
+
+  exitSubtree() {
+    for (const child of this.children) {
+      child.exitSubtree();
+    }
+    this.onExit();
   }
 
   getAllowsChildren() {
@@ -279,7 +310,8 @@ export class Node {
   }
 
   // Use index=null to insert at end.
-  addChildAtIndex(childNode, index) {
+  addChildAtIndex(childNode, index, opts) {
+    opts = opts || {};
     if (!this.getAllowsChildren()) {
       throw new Error("Does not allow children");
     }
@@ -291,10 +323,13 @@ export class Node {
       this.children.unshift(childNode);
     }
     childNode.parentNode = this;
+    if (valOr(opts.callOnEnter, true)) {
+      childNode.enterSubtree();
+    }
   }
 
-  addChildToBottom(childNode) {
-    this.addChildAtIndex(childNode, this.children.length);
+  addChildToBottom(childNode, opts) {
+    this.addChildAtIndex(childNode, this.children.length, opts);
   }
 
   addSiblingBefore(siblingNode) {
@@ -313,8 +348,12 @@ export class Node {
     this.parentNode.addChildAtIndex(siblingNode, myIndex + 1);
   }
 
-  removeFromParent() {
+  removeFromParent(opts) {
+    opts = opts || {};
     if (this.parentNode !== null) {
+      if (valOr(opts.callOnExit, true)) {
+        this.exitSubtree();
+      }
       removeItem(this.parentNode.children, this);
       this.parentNode = null;
     }
@@ -353,25 +392,11 @@ export class Node {
     }
     // Note - we want to preserve global position so that nothing changes visually
     // when the do the move (other than maybe z-order).
+    // Note - we don't call onExit/onEnter because the node is not leaving the scene.
     let originalGlobalPos = this.getGlobalPos();
-    this.removeFromParent();
-    newParentNode.addChildAtIndex(this, index);
+    this.removeFromParent({callOnExit: false});
+    newParentNode.addChildAtIndex(this, index, {callOnEnter: false});
     this.setGlobalPos(originalGlobalPos);
-  }
-
-  // Moves this node so that it becomes the next sibling
-  // of the given node.
-  moveNode(otherNode) {
-    if (!this.parentNode || this === otherNode) {
-      return;
-    }
-    this.removeFromParent();
-    if (!otherNode.parentNode) {
-      otherNode.addChildAtIndex(this, 0);
-    } else {
-      let otherNodeIndex = otherNode.getIndexInParent();
-      otherNode.parentNode.addChildAtIndex(this, otherNodeIndex + 1);
-    }
   }
 
   swapChildren(indexA, indexB) {
@@ -505,6 +530,14 @@ export class NodeTree {
     // Root node always has id=0
     this.root = new Node(0);
     this.root.name = "Root";
+  }
+
+  enter() {
+    this.root.enterSubtree();
+  }
+
+  exit() {
+    this.root.exitSubtree();
   }
 
   writeToJson() {

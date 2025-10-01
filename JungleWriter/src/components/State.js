@@ -172,7 +172,7 @@ class Site {
       let jsonStr = prettyJson(obj);
       await this.siteDir.writeTextFile("data.json", jsonStr);
       this._lastSavedHash = objectHash;
-      console.log("Saved site:", prettyJson(obj));
+      console.log("Saved site!");
     } catch (error) {
       console.error("Failed to save site:", error);
       this.editor.toastError("Failed to save site. Please contact the developer.", {id: 'save-site-failed', details: error});
@@ -200,6 +200,16 @@ class Site {
       this.editor.toastError("Failed to load site. Please contact the developer.", {id: 'load-site-failed', details: error});
       throw error;
     }
+  }
+
+  onEnter() {
+    // Called when the site is opened for editing
+    this.nodeTree.enter();
+  }
+
+  onExit() {
+    // Called when the site is closed
+    this.nodeTree.exit();
   }
 
   getSiteDir() {
@@ -272,19 +282,6 @@ class Site {
     this.isEditing = newVal;
   }
 
-  async getBlobUrlMap() {
-    // TODO - should probs cache these, but fine for now
-    let blobUrlMap = {};
-    let fileObjs = await this.siteDir.getSortedChildren();
-    for (const fileObj of fileObjs) {
-      if (fileObj.isFile()) {
-        blobUrlMap[fileObj.getName()] = await fileObj.createObjectUrl();
-      }
-    }
-    console.log("BlobUrlMap: " + prettyJson(blobUrlMap));
-    return blobUrlMap;
-  }
-
   getSelectedNode() {
     return this.selectedEntity;
   }
@@ -319,6 +316,7 @@ class Site {
   }
 
   createNode(nodeClass) {
+    console.log("Creating node: ", nodeClass.name);
     let nodeId = this.getNextNodeId();
     let newNode = reactive(new nodeClass(nodeId));
     this.registerNode(newNode);
@@ -589,9 +587,6 @@ class Editor {
     this.autosaveTimer.start();
     this.canvasSizeTimer.start();
 
-    // Trigger this event to get the Nodes that depend on the FileStorage setup properly
-    //this.fileStorage.onChangeEvt.emit();
-
     console.log("Started");
   }
 
@@ -661,20 +656,27 @@ class Editor {
   }
 
   async openSiteWithId(siteId) {
+    if (this.siteRef.value) {
+      // Close any currently open site first
+      this.siteRef.value.onExit();
+      this.siteRef.value = null;
+    }
     try {
       let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
       let site = reactive(await Site.load(this, siteId, siteDir));
       this.siteRef.value = site;
-      // Emit a FS evt so that any FS-dependent nodes like ImageNode can setup
-      this.fileStorage.onChangeEvt.emit();
+      this.siteRef.value.onEnter();
     } catch (error) {
       console.error(`Failed to open site with id ${siteId}:`, error);
       this.toastError("Failed to open site. Please contact the developer.", {id: 'open-site-failed', details: error});
     }
   }
 
-  deselectSite() {
-    this.siteRef.value = null;
+  closeSiteEditor() {
+    if (this.siteRef.value) {
+      this.siteRef.value.onExit();
+      this.siteRef.value = null;
+    }
   }
 
   async importSite(zipBlob) {

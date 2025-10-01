@@ -77,8 +77,8 @@ class FileObj extends BaseObj {
     return result;
   }
 
-  emitChangeEvt() {
-    this.emitter.emitChangeEvt();
+  emitChangeEvt(obj) {
+    this.emitter.emitChangeEvt(obj);
   }
 
   async getFile() {
@@ -86,7 +86,9 @@ class FileObj extends BaseObj {
   }
 
   async createObjectUrl() {
-    // Note: should release/revoke at an appropriate time, perhaps? Ignore for now.
+    // Note - this must be released with URL.revokeObjectURL when no longer needed
+    // Also note - this must be called each time the file changes, since it is based
+    // on a snapshot of the file at the time of the call.
     let file = await this.getFile();
     return URL.createObjectURL(file);
   }
@@ -96,7 +98,7 @@ class FileObj extends BaseObj {
     const writable = await this.nativeHandle.createWritable();
     await writable.write(contents);
     await writable.close();
-    this.emitChangeEvt();
+    this.emitChangeEvt({type: 'write-file', name: this.getName()});
   }
 
   async readText() {
@@ -146,8 +148,8 @@ class DirObj extends BaseObj {
     console.log(dumpString);
   }
 
-  emitChangeEvt() {
-    this.emitter.emitChangeEvt();
+  emitChangeEvt(obj) {
+    this.emitter.emitChangeEvt(obj);
   }
 
   /*
@@ -199,14 +201,14 @@ class DirObj extends BaseObj {
   async createSubDir(name) {
     let childHandle = await this.nativeHandle.getDirectoryHandle(name, {create: true});
     let childObj = new DirObj(childHandle, this, this.emitter);
-    this.emitChangeEvt();
+    this.emitChangeEvt({name: childObj.getName(), type: 'create-dir'});
     return childObj;
   }
 
   async createFile(name) {
     let childHandle = await this.nativeHandle.getFileHandle(name, {create: true});
     let childObj = new FileObj(childHandle, this, this.emitter);
-    this.emitChangeEvt();
+    this.emitChangeEvt({name: childObj.getName(), type: 'create-file'});
     return childObj;
   }
 
@@ -280,20 +282,19 @@ class DirObj extends BaseObj {
       }
       curDir = nextDir;
     }
-    if (didCreateDir) {
-      this.emitChangeEvt();
-    }
     return curDir;
   }
 
   async removeChild(name) {
     await this.nativeHandle.removeEntry(name);
-    this.emitChangeEvt();
+    this.emitChangeEvt({name: name, type: 'delete'});
   }
 
   async removeChildRecursive(name) {
     await this.nativeHandle.removeEntry(name, {recursive: true});
-    this.emitChangeEvt();
+    // TODO - probs want to recursively call removeChild ourselves here so
+    // we can emit delete events for each child. Fine for now b/c unused.
+    this.emitChangeEvt({name: name, type: 'delete' });
   }
 
   async exportToZip() {
@@ -350,8 +351,6 @@ class DirObj extends BaseObj {
           await fileObj.writeContents(fileBlob);
         }
       }
-      
-      this.emitChangeEvt();
       console.log('Zip imported successfully');
     } catch (error) {
       console.error('Failed to import zip:', error);
@@ -372,8 +371,9 @@ export class FileStorage {
     this.root = new DirObj(rootDirHandle, null, this);
   }
 
-  emitChangeEvt() {
-    this.onChangeEvt.emit();
+  emitChangeEvt(obj) {
+    console.log("Emitting file change event: ", obj);
+    this.onChangeEvt.emit(obj);
   }
 
   async dump() {

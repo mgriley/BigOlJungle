@@ -28,15 +28,44 @@ export class ImageNode extends Node {
   }
 
   onCreate() {
+    // TODO - this is a bit hacky
+    /*
     let node = this;
     function onChange() {
       node.reloadSrcUrl();
     }
     this.fileChangeHandle = gApp.fileStorage.onChangeEvt.addListener(onChange);
+    */
   }
 
   onDestroy() {
+    // TODO - this is a bit hacky
+    /*
     gApp.fileStorage.onChangeEvt.removeListener(this.fileChangeHandle);
+    */
+  }
+
+  onEnter() {
+    super.onEnter();
+    this.reloadSrcUrl();
+
+    this.fileChangeHandle = gApp.fileStorage.onChangeEvt.addListener((obj) => {
+      if ((obj.type === 'delete' || obj.type === 'write-file')
+        && obj.name === this.srcName) {
+        this.reloadSrcUrl();
+      }
+    });
+  }
+
+  onExit() {
+    super.onExit();
+    if (this.srcUrl) {
+      URL.revokeObjectURL(this.srcUrl);
+    }
+    if (this.fileChangeHandle) {
+      gApp.fileStorage.onChangeEvt.removeListener(this.fileChangeHandle);
+      this.fileChangeHandle = null;
+    }
   }
 
   getAllowsChildren() {
@@ -90,27 +119,29 @@ export class ImageNode extends Node {
 
   async asyncReloadSrcUrl() {
     await nextTick();
+    console.log("Reloading srcUrl...");
     if (!gApp.site || !gApp.site.siteDir) {
+      console.log("No site or siteDir");
       return;
     }
-    console.log("Reloading srcUrl...");
-    this.srcUrl = "Loading";
+    if (this.srcUrl) {
+      URL.revokeObjectURL(this.srcUrl);
+    }
+    this.srcUrl = null;
     let siteDir = gApp.site.siteDir;
     let fileObj = await siteDir.findChild(this.srcName);
     if (!fileObj) {
-      this.srcUrl = "NotFound";
+      // Not found
       return;
     }
     if (!fileObj.isFile()) {
-      this.srcUrl = "Error";
-      throw new Error("Found file is not file-kind. Unexpected.");
+      throw new Error("The image src does not refer to a file.");
     }
     this.srcUrl = await fileObj.createObjectUrl();
     console.log("Reloaded srcUrl: " + this.srcUrl);
   }
 
   reloadSrcUrl() {
-    // TODO - handle cancels better
     this.asyncReloadSrcUrl();
   }
 
@@ -156,7 +187,7 @@ export class ImageNode extends Node {
     clone.width = this.width;
     clone.height = this.height;
     clone.linkUrl = this.linkUrl;
-    clone.setSrcName(this.srcName); // to trigger reload
+    clone.srcName = this.srcName;
     
     return clone;
   }

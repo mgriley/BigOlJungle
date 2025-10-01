@@ -32,7 +32,7 @@ function onSaveFile() {
 }
 
 function goToSites() {
-  gApp.deselectSite();
+  gApp.closeSiteEditor();
 }
 
 function goToSceneEditor() {
