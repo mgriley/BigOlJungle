@@ -4,6 +4,7 @@ import { gApp } from './State.js'
 import BasicModal from 'Shared/BasicModal.vue'
 import DevView from './DevView.vue'
 import ModalSelector from './ModalSelector.vue'
+import DropdownSelector from './DropdownSelector.vue'
 
 let createSiteModal = ref(null);
 let siteToAdd = ref(null);
@@ -97,6 +98,50 @@ async function onFileSelected(event) {
   event.target.value = '';
 }
 
+function getSiteDropdownOptions() {
+  return [
+    {
+      name: 'Delete',
+      icon: 'bi bi-trash',
+      action: 'delete'
+    }
+  ];
+}
+
+function onSiteDropdownChoice(site, option) {
+  if (option.action === 'delete') {
+    deleteSite(site);
+  }
+}
+
+async function deleteSite(site) {
+  const confirmed = confirm(`Are you sure you want to delete "${site.name || 'Untitled'}"? This action cannot be undone.`);
+  if (confirmed) {
+    try {
+      // Remove from sites array
+      const index = gApp.sites.findIndex(s => s.id === site.id);
+      if (index !== -1) {
+        gApp.sites.splice(index, 1);
+      }
+      
+      // Delete the site directory from storage
+      const siteDir = await gApp.fileStorage.root.findChild(`sites/${site.id}`);
+      if (siteDir) {
+        await gApp.fileStorage.root.removeChild(`${site.id}`);
+      }
+      
+      console.log(`Deleted site: ${site.name}`);
+      gApp.toastSuccess(`Deleted site "${site.name || 'Untitled'}"`);
+    } catch (error) {
+      console.error('Failed to delete site:', error);
+      gApp.toastError('Failed to delete site. Please contact the developer.', {
+        id: 'delete-site-failed',
+        details: error
+      });
+    }
+  }
+}
+
 </script>
 
 <template>
@@ -120,9 +165,21 @@ async function onFileSelected(event) {
           New Site
         </button>
       </div>
-      <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.openSiteWithId(site.id)">
-        <i class="bi bi-globe mr-s"></i>
-        <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
+      <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex">
+        <div class="SiteContent" @click="gApp.openSiteWithId(site.id)">
+          <i class="bi bi-globe mr-s"></i>
+          <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
+        </div>
+        <div class="SiteActions" @click.stop>
+          <DropdownSelector
+            :items="getSiteDropdownOptions()"
+            :currentItem="null"
+            placeholder="⋯"
+            :showIcon="false"
+            minWidth="120px"
+            @select="(option) => onSiteDropdownChoice(site, option)"
+          />
+        </div>
       </div>
       <BasicModal class="CreateSiteModal" ref="createSiteModal" title="Create Site"
         doneText="Create" @onCancel="onCancelAddSite" @onDone="onDoneAddSite">
@@ -204,8 +261,20 @@ async function onFileSelected(event) {
   border: var(--border-reg);
   border-radius: var(--border-radius-m);
   margin-bottom: var(--space-xs);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.SiteContent {
+  display: flex;
   align-items: baseline;
+  flex: 1;
   cursor: pointer;
+}
+
+.SiteActions {
+  flex-shrink: 0;
+  margin-left: var(--space-s);
 }
 
 .SiteItem:hover {
