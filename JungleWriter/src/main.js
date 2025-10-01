@@ -28,7 +28,6 @@ async function loadApp() {
 
   const app = createApp(App)
   app.use(router);
-  app.component(VueFeather.name, VueFeather)
 
   const editor = await initGlobalApp(app.config.globalProperties.$router)
   registerNodeTypes();

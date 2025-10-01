@@ -438,9 +438,7 @@ class Editor {
     this.fileStorage = reactive(new FileStorage());
 
     this.autosaveTimer = new IntervalTimer(() => {
-      if (this.site) {
-        this.saveSite();
-      }
+      this.autosaveSite();
     }, kAutosaveIntervalSec, {onlyWhenVisible: true});
 
     // Set up interval timer to update canvas size
