@@ -293,7 +293,7 @@ class DirObj extends BaseObj {
   async removeChildRecursive(name) {
     await this.nativeHandle.removeEntry(name, {recursive: true});
     // TODO - probs want to recursively call removeChild ourselves here so
-    // we can emit delete events for each child. Fine for now b/c unused.
+    // we can emit delete events for each child.
     this.emitChangeEvt({name: name, type: 'delete' });
   }
 
