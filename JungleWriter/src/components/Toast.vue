@@ -53,7 +53,7 @@ function toggleDetails(toast) {
 <style scoped>
 .ToastContainer {
   position: fixed;
-  top: 20px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10000;
@@ -68,9 +68,9 @@ function toggleDetails(toast) {
   color: black;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  animation: slideIn 0.3s ease-out;
+  animation: slideUp 0.3s ease-out;
 }
 
 .Toast--success {
@@ -175,13 +175,13 @@ function toggleDetails(toast) {
   color: var(--muted-text-color);
 }
 
-@keyframes slideIn {
+@keyframes slideUp {
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
