@@ -727,7 +727,7 @@ class Editor {
       let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
       let site = reactive(new Site(this, siteId, siteDir));
       site.name = siteName || 'Untitled Site';
-      this.sites.unshift({id: site.id, name: site.name});
+      this.sites.unshift({id: site.id, name: site.name, lastModifiedTime: new Date()});
       // Save the site now so that it populates the storage with an entry
       await site.saveSite();
       return site;
@@ -845,7 +845,8 @@ class Editor {
       // Add the new site to the sites array
       this.sites.unshift({
         id: duplicatedSite.id,
-        name: duplicatedSite.name
+        name: duplicatedSite.name,
+        lastModifiedTime: new Date(),
       });
       
       console.log(`Duplicated site: ${originalSiteInfo.name} -> ${duplicatedSite.name}`);
