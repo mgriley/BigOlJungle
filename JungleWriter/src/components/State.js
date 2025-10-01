@@ -18,6 +18,7 @@ import { ColorInput } from './widgets/ColorInput.js'
 
 import { gApp, setGApp } from './Globals.js';
 import { Post, PostsFeed } from './Post.js'
+import { gToastManager } from './Toast.js'
 
 class SiteSettings {
   constructor() {
@@ -783,12 +784,12 @@ class Editor {
     }
   }
 
-  toastError(message, opts) {
-    // TODO
+  toastError(message, opts = {}) {
+    gToastManager.toastError(message, opts)
   }
 
-  toastSuccess(message, opts) {
-    // TODO
+  toastSuccess(message, opts = {}) {
+    gToastManager.toastSuccess(message, opts)
   }
 };
 
