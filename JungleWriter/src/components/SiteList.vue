@@ -152,10 +152,10 @@ async function onFileSelected(event) {
       />
       
       <div class="Footer">
-        <a href="https://github.com/junglewriter/junglewriter" target="_blank" class="FooterLink">
+        <a href="https://github.com/mgriley/BigOlJungle" target="_blank" class="FooterLink">
           <i class="bi bi-github"></i>
         </a>
-        <a href="https://mastodon.social/@junglewriter" target="_blank" class="FooterLink">
+        <a href="https://mastodon.social/@mriley" target="_blank" class="FooterLink">
           <i class="bi bi-mastodon"></i>
         </a>
       </div>
