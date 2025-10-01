@@ -250,29 +250,29 @@ async function onFileSelected(event) {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  /*background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);*/
+  background-color: #ff6b35;
   color: white;
   border: none;
-  padding: var(--space-m) var(--space-xl);
+  padding: var(--space-s) var(--space-l);
   border-radius: var(--border-radius-l);
   font-weight: 600;
   font-size: var(--f-l);
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+  /*box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);*/
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .ButtonContainer button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
-  background: linear-gradient(135deg, #ff7849 0%, #fa9f32 100%);
+  /*box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);*/
 }
 
 .ButtonContainer button:active {
   transform: translateY(0);
-  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+  /*box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);*/
 }
 
 </style>
