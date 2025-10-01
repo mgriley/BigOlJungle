@@ -803,25 +803,23 @@ class Editor {
         throw new Error(`Site with ID ${siteId} not found`);
       }
       
-      // Get the original site directory
-      const originalSiteDir = await this.fileStorage.root.findChild(`sites/${siteId}`);
+      // Get the original site directory using the correct path
+      const sitesDir = await this.fileStorage.root.findChild('sites');
+      if (!sitesDir) {
+        throw new Error('Sites directory not found');
+      }
+      
+      const originalSiteDir = await sitesDir.findChild(`${siteId}`);
       if (!originalSiteDir) {
         throw new Error(`Site directory for ID ${siteId} not found`);
       }
       
       // Create a new site ID and directory
       const newSiteId = this.siteIdCtr++;
-      const newSiteDir = await this.fileStorage.root.findOrCreateDir(`sites/${newSiteId}`);
+      const newSiteDir = await sitesDir.createSubDir(`${newSiteId}`);
       
-      // Copy all files from the original site directory to the new one
-      const originalChildren = await originalSiteDir.getChildren();
-      for (const [fileName, fileObj] of Object.entries(originalChildren)) {
-        if (fileObj.isFile()) {
-          const fileContents = await fileObj.readAsBlob();
-          const newFile = await newSiteDir.createFile(fileName);
-          await newFile.writeContents(fileContents);
-        }
-      }
+      // Copy all files recursively from the original site directory to the new one
+      await originalSiteDir.copyToDirectory(newSiteDir);
       
       // Load the duplicated site to update its ID and name
       const duplicatedSite = await Site.load(this, newSiteId, newSiteDir);

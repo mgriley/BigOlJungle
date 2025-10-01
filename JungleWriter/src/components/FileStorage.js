@@ -322,6 +322,26 @@ class DirObj extends BaseObj {
     }
   }
 
+  async copyToDirectory(targetDir) {
+    /**
+     * Recursively copy this directory and all its contents to the target directory
+     */
+    const children = await this.getChildren();
+    
+    for (const [name, child] of Object.entries(children)) {
+      if (child.isFile()) {
+        // Copy file
+        const fileContents = await child.getFile();
+        const newFile = await targetDir.createFile(name);
+        await newFile.writeContents(fileContents);
+      } else if (child.isDir()) {
+        // Create subdirectory and recursively copy
+        const newSubDir = await targetDir.createSubDir(name);
+        await child.copyToDirectory(newSubDir);
+      }
+    }
+  }
+
   async importZip(zipBlob) {
     try {
       const zip = new JSZip();
