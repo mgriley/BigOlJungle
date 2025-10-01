@@ -17,8 +17,6 @@ const emit = defineEmits(['update:modelValue', 'onCancel', 'onDone'])
 
 let initialValue = props.modelValue;
 let modal = ref(null);
-let files = ref(null);
-let changeEvtHandle = null;
 let uploadingText = ref("");
 
 const value = computed({
@@ -43,44 +41,21 @@ function showModal() {
   modal.value.showModal();
 }
 
-function isImageFile(fileName) {
-  const lowerFileName = fileName.toLowerCase();
+const files = computed(() => {
+  if (!gApp.site) {
+    return [];
+  }
   
+  // Filter files based on fileFilter prop
   if (props.fileFilter === 'png') {
-    return lowerFileName.endsWith('.png');
+    return gApp.site.imageFiles.filter(file => 
+      file.name.toLowerCase().endsWith('.png')
+    );
   }
   
-  // Default to all image types
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
-  return imageExtensions.some(ext => lowerFileName.endsWith(ext));
-}
-
-async function updateFileOptions(changeObj) {
-  if (files.value && !isImageFile(changeObj?.name)) {
-    // We only update the files list on image file changes
-    return;
-  }
-  console.log("ImageChooser updating options: ", changeObj);
-
-  // Revoke old object URLs
-  if (files.value) {
-    for (const file of files.value) {
-      if (file.url) {
-        URL.revokeObjectURL(file.url);
-      }
-    }
-  }
-
-  let children = await gApp.site.siteDir.getSortedChildren();
-  let newFiles = [];
-  for (const file of children) {
-    if (file.isFile() && isImageFile(file.getName())) {
-      let url = await file.createObjectUrl();
-      newFiles.push({name: file.getName(), url: url})
-    }
-  }
-  files.value = newFiles;
-}
+  // Return all image files
+  return gApp.site.imageFiles;
+});
 
 function handleCancel() {
   console.log("Setting to initialValue: " + initialValue);
@@ -106,22 +81,7 @@ async function onFilesPicked(files) {
   console.log("Done uploading");
 }
 
-onMounted(() => {
-  changeEvtHandle = gApp.fileStorage.onChangeEvt.addListener(updateFileOptions);
-  updateFileOptions({name: null, type: 'init'});
-})
-
-onUnmounted(() => {
-  // Revoke object URLs
-  if (files.value) {
-    for (const file of files.value) {
-      if (file.url) {
-        URL.revokeObjectURL(file.url);
-      }
-    }
-  }
-  gApp.fileStorage.onChangeEvt.removeListener(changeEvtHandle);
-});
+// No need for onMounted/onUnmounted since we're using the site's imageFiles list
 
 defineExpose({
   showModal
@@ -134,9 +94,9 @@ defineExpose({
     <div class="mb-l">
       <p class="mb-m">Current: {{ value || 'None' }}</p>
       <div class="ImgGrid MarginBotS">
-        <div v-for="file of files" class="Preview" @click="value = file.name"
+        <div v-for="file of files" :key="file.name" class="Preview" @click="value = file.name"
           :class="{IsChosen: file.name == modelValue}">
-          <img class="PreviewImg" :src="file.url" alt="Preview of {{ file.name }} image." />
+          <img class="PreviewImg" :src="file.url" :alt="`Preview of ${file.name} image.`" />
           <!-- <p>{{ file.name }}</p> -->
         </div>
       </div>

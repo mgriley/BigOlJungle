@@ -99,6 +99,9 @@ class Site {
     // This is put here to support the ImageChooser components, which require 
     // a list of all image files (along with URLS).
     this.imageFiles = []
+
+    // Set up file change listener to update image files
+    this._fileChangeListener = null;
   }
 
   writeToJson() {
@@ -198,6 +201,7 @@ class Site {
         site._lastSavedHash = hashObject(siteData);
         site.fixupNodeIds();
       }
+      await site.updateImageFiles();
       return site;
     } catch (error) {
       console.error("Failed to load site:", error);
@@ -209,19 +213,75 @@ class Site {
   onEnter() {
     // Called when the site is opened for editing
     this.nodeTree.enter();
+    
+    // Set up file change listener
+    this._fileChangeListener = this.editor.fileStorage.onChangeEvt.addListener((changeObj) => {
+      // Only update if it's an image file change
+      if (changeObj?.name && this._isImageFile(changeObj.name)) {
+        this.updateImageFiles();
+      }
+    });
   }
 
   onExit() {
     // Called when the site is closed
     this.nodeTree.exit();
+    
+    // Clean up file change listener
+    if (this._fileChangeListener) {
+      this.editor.fileStorage.onChangeEvt.removeListener(this._fileChangeListener);
+      this._fileChangeListener = null;
+    }
+    
+    // Revoke object URLs to prevent memory leaks
+    for (const file of this.imageFiles) {
+      if (file.url) {
+        URL.revokeObjectURL(file.url);
+      }
+    }
+    this.imageFiles.splice(0, this.imageFiles.length);
   }
 
   getSiteDir() {
     return this.siteDir;
   }
 
+  _isImageFile(fileName) {
+    const lowerFileName = fileName.toLowerCase();
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
+    return imageExtensions.some(ext => lowerFileName.endsWith(ext));
+  }
+
   async updateImageFiles() {
-    // TODO
+    try {
+      // Revoke old object URLs to prevent memory leaks
+      for (const file of this.imageFiles) {
+        if (file.url) {
+          URL.revokeObjectURL(file.url);
+        }
+      }
+
+      // Get all files from the site directory
+      const children = await this.siteDir.getSortedChildren();
+      const newImageFiles = [];
+
+      // Filter for image files and create object URLs
+      for (const file of children) {
+        if (file.isFile() && this._isImageFile(file.getName())) {
+          const url = await file.createObjectUrl();
+          newImageFiles.push({
+            name: file.getName(),
+            url: url
+          });
+        }
+      }
+
+      // Replace the imageFiles array
+      this.imageFiles.splice(0, this.imageFiles.length, ...newImageFiles);
+      console.log(`Updated image files list: ${this.imageFiles.length} images`);
+    } catch (error) {
+      console.error('Failed to update image files:', error);
+    }
   }
 
   async exportSite() {
