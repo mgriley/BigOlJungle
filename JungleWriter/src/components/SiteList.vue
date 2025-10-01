@@ -106,6 +106,11 @@ function getSiteDropdownOptions() {
       action: 'duplicate'
     },
     {
+      name: 'Export',
+      icon: 'bi bi-download',
+      action: 'export'
+    },
+    {
       name: 'Delete',
       icon: 'bi bi-trash',
       action: 'delete'
@@ -116,6 +121,8 @@ function getSiteDropdownOptions() {
 function onSiteDropdownChoice(site, option) {
   if (option.action === 'duplicate') {
     gApp.duplicateSite(site.id);
+  } else if (option.action === 'export') {
+    gApp.exportSite(site.id);
   } else if (option.action === 'delete') {
     gApp.deleteSite(site);
   }
