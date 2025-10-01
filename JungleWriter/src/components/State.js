@@ -791,7 +791,8 @@ class Editor {
 
   toastSuccess(message, opts = {}) {
     console.log("Toast success: ", message, opts);
-    gToastManager.toastSuccess(message, opts)
+    //gToastManager.toastSuccess(message, opts)
+    gToastManager.toastSuccess(message, {...opts, duration: 30000, details: 'LOL HI SOME DETAILS HERE'} )
   }
 };
 

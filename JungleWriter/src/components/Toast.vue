@@ -63,6 +63,7 @@ function toggleDetails(toast) {
 
 .Toast {
   background: white;
+  color: black;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -111,6 +112,7 @@ function toggleDetails(toast) {
   background: none;
   border: none;
   padding: 2px;
+  min-width: 0px;
   cursor: pointer;
   color: var(--text-color);
   opacity: 0.7;
