@@ -792,6 +792,34 @@ class Editor {
     console.log("Toast success: ", message, opts);
     gToastManager.toastSuccess(message, opts)
   }
+
+  async deleteSite(site) {
+    const confirmed = confirm(`Are you sure you want to delete "${site.name || 'Untitled'}"? This action cannot be undone.`);
+    if (confirmed) {
+      try {
+        // Remove from sites array
+        const index = this.sites.findIndex(s => s.id === site.id);
+        if (index !== -1) {
+          this.sites.splice(index, 1);
+        }
+        
+        // Delete the site directory from storage
+        const sitesDir = await this.fileStorage.root.findChild('sites');
+        if (sitesDir) {
+          await sitesDir.removeChild(`${site.id}`);
+        }
+        
+        console.log(`Deleted site: ${site.name}`);
+        this.toastSuccess(`Deleted site "${site.name || 'Untitled'}"`);
+      } catch (error) {
+        console.error('Failed to delete site:', error);
+        this.toastError('Failed to delete site. Please contact the developer.', {
+          id: 'delete-site-failed',
+          details: error
+        });
+      }
+    }
+  }
 };
 
 async function initGlobalApp(router) {

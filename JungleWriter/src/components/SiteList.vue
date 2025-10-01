@@ -110,35 +110,7 @@ function getSiteDropdownOptions() {
 
 function onSiteDropdownChoice(site, option) {
   if (option.action === 'delete') {
-    deleteSite(site);
-  }
-}
-
-async function deleteSite(site) {
-  const confirmed = confirm(`Are you sure you want to delete "${site.name || 'Untitled'}"? This action cannot be undone.`);
-  if (confirmed) {
-    try {
-      // Remove from sites array
-      const index = gApp.sites.findIndex(s => s.id === site.id);
-      if (index !== -1) {
-        gApp.sites.splice(index, 1);
-      }
-      
-      // Delete the site directory from storage
-      const siteDir = await gApp.fileStorage.root.findChild(`sites/${site.id}`);
-      if (siteDir) {
-        await gApp.fileStorage.root.removeChild(`${site.id}`);
-      }
-      
-      console.log(`Deleted site: ${site.name}`);
-      gApp.toastSuccess(`Deleted site "${site.name || 'Untitled'}"`);
-    } catch (error) {
-      console.error('Failed to delete site:', error);
-      gApp.toastError('Failed to delete site. Please contact the developer.', {
-        id: 'delete-site-failed',
-        details: error
-      });
-    }
+    gApp.deleteSite(site);
   }
 }
 
