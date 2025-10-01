@@ -388,7 +388,7 @@ async function deleteSite(site) {
   color: #ff6b35;
 }
 
-.SiteActions .DropdownButton {
+.SiteActions :deep(.DropdownButton) {
   background: transparent;
   border: none;
   padding: var(--space-xs);
@@ -396,7 +396,7 @@ async function deleteSite(site) {
   font-size: var(--f-l);
 }
 
-.SiteActions .DropdownButton:hover {
+.SiteActions :deep(.DropdownButton:hover) {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: var(--main-text);
