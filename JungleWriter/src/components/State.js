@@ -167,11 +167,10 @@ class Site {
       let objectHash = hashObject(obj);
       if (this._lastSavedHash === objectHash) {
         // No changes since last save, skip saving
-        console.log("No changes since last save, skipping save");
         return;
       }
       let jsonStr = prettyJson(obj);
-      await this.siteSite.writeTextFile("data.json", jsonStr);
+      await this.siteDir.writeTextFile("data.json", jsonStr);
       this._lastSavedHash = objectHash;
       console.log("Saved site:", prettyJson(obj));
     } catch (error) {
@@ -191,6 +190,8 @@ class Site {
         let siteData = JSON.parse(jsonStr);
         console.log("Site data:", prettyJson(siteData));
         site.readFromJson(siteData);
+        // Set the _lastSavedHash to avoid an immediate save
+        site._lastSavedHash = hashObject(siteData);
         site.fixupNodeIds();
       }
       return site;
