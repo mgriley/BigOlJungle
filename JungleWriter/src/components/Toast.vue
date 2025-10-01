@@ -25,19 +25,21 @@ function toggleDetails(toast) {
         </div>
         <div class="Toast__message">{{ toast.message }}</div>
         <button 
-          v-if="toast.details" 
-          class="Toast__details-btn"
-          @click="toggleDetails(toast)"
-          :title="toast.showDetails ? 'Hide details' : 'Show details'"
-        >
-          <i class="bi bi-info-circle"></i>
-        </button>
-        <button 
           class="Toast__close-btn" 
           @click="removeToast(toast.id)"
           title="Close"
         >
           <i class="bi bi-x"></i>
+        </button>
+      </div>
+      
+      <div v-if="toast.details" class="Toast__details-toggle">
+        <button 
+          class="Toast__details-btn"
+          @click="toggleDetails(toast)"
+        >
+          <i class="bi bi-chevron-right" :class="{ 'rotated': toast.showDetails }"></i>
+          Details
         </button>
       </div>
       
@@ -107,7 +109,6 @@ function toggleDetails(toast) {
   word-wrap: break-word;
 }
 
-.Toast__details-btn,
 .Toast__close-btn {
   flex-shrink: 0;
   background: none;
@@ -120,10 +121,40 @@ function toggleDetails(toast) {
   border-radius: 2px;
 }
 
-.Toast__details-btn:hover,
 .Toast__close-btn:hover {
   opacity: 1;
   background: var(--hover-color);
+}
+
+.Toast__details-toggle {
+  padding: 0 var(--space-s) var(--space-xs) var(--space-s);
+}
+
+.Toast__details-btn {
+  background: none;
+  border: none;
+  padding: var(--space-xs);
+  cursor: pointer;
+  color: var(--text-color);
+  opacity: 0.8;
+  border-radius: 2px;
+  font-size: var(--f-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxs);
+}
+
+.Toast__details-btn:hover {
+  opacity: 1;
+  background: var(--hover-color);
+}
+
+.Toast__details-btn i {
+  transition: transform 0.2s ease;
+}
+
+.Toast__details-btn i.rotated {
+  transform: rotate(90deg);
 }
 
 .Toast__details {
