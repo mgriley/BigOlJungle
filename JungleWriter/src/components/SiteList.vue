@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { gApp } from './State.js'
 import BasicModal from 'Shared/BasicModal.vue'
 import DevView from './DevView.vue'
@@ -143,6 +143,10 @@ function getLastModifiedText(site) {
   
   return `Last modified: ${timeAgo}`;
 }
+
+onMounted(() => {
+  gApp.reloadSites();
+});
 
 </script>
 
