@@ -787,6 +787,7 @@ class Editor {
   toastError(message, opts = {}) {
     console.log("Toast error: ", message, opts);
     gToastManager.toastError(message, opts)
+    // TODO - submit to error-handler here, too.
   }
 
   toastSuccess(message, opts = {}) {
