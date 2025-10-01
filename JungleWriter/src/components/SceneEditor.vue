@@ -97,6 +97,16 @@ function onKeyDown(evt) {
     }
   }
 
+  // Handle Delete/Backspace for deleting selected node
+  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity && 
+      (evt.key === 'Delete' || evt.key === 'Backspace')) {
+    const selectedNode = gApp.site.selectedEntity;
+    if (!selectedNode.isRoot()) {
+      gApp.site.deleteSelectedNodes();
+      handled = true;
+    }
+  }
+
   // Only handle arrow keys when editing and a node is selected
   if (!handled && gApp.site.isEditing && gApp.site.selectedEntity) {
     const moveAmount = 1; // pixels to move per keypress
