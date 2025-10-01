@@ -75,9 +75,9 @@ async function onFileSelected(event) {
           <i class="bi bi-upload"></i>
           Import
         </button>
-        <button @click="showDevView" class="TertiaryButton">
+        <button @click="showDevView">
           <i class="bi bi-gear"></i>
-          Developer Tools
+          DevTools
         </button>
       </div>
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.openSiteWithId(site.id)">
