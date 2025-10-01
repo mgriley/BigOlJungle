@@ -283,21 +283,21 @@ async function onFileSelected(event) {
 
 .Footer {
   position: absolute;
-  bottom: var(--space-l);
+  bottom: var(--space-xs);
   left: 50%;
   transform: translateX(-50%);
 }
 
 .GitHubLink {
   color: rgba(255, 255, 255, 0.7);
-  font-size: var(--f-xl);
+  font-size: var(--f-l);
   text-decoration: none;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--border-radius-m);
 }
 
