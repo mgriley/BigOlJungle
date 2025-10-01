@@ -316,4 +316,8 @@ async function onFileSelected(event) {
   transform: translateY(-2px);
 }
 
+.SiteItem .bi-globe {
+  color: #ff6b35;
+}
+
 </style>
