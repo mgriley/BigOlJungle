@@ -150,6 +150,12 @@ async function onFileSelected(event) {
         :options="menuOptions" 
         @choose="onMenuChoice"
       />
+      
+      <div class="Footer">
+        <a href="https://github.com/junglewriter/junglewriter" target="_blank" class="GitHubLink">
+          <i class="bi bi-github"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -273,6 +279,32 @@ async function onFileSelected(event) {
 .ButtonContainer button:active {
   transform: translateY(0);
   /*box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);*/
+}
+
+.Footer {
+  position: absolute;
+  bottom: var(--space-l);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.GitHubLink {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--f-xl);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-m);
+}
+
+.GitHubLink:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 </style>
