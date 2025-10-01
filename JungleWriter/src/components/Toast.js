@@ -16,7 +16,8 @@ export class ToastManager {
   }
 
   _addToast(type, message, opts) {
-    let defaultDuration = type === 'error' ? 30000 : 2000
+    // Note - error ones should stay around a while (or until dismissed)
+    let defaultDuration = type === 'error' ? 60000 : 2000
     const { id, details, duration = defaultDuration } = opts
 
     // Check for duplicate ID
