@@ -178,18 +178,21 @@ class Site {
 
   async saveSite() {
     try {
-      // Update the last modified time before saving
-      this.lastModifiedTime = new Date();
-      
       let obj = this.writeToJson();
       let objectHash = hashObject(obj);
       if (this._lastSavedHash === objectHash) {
         // No changes since last save, skip saving
         return;
       }
+      
+      // Update the last modified time only when we actually save
+      this.lastModifiedTime = new Date();
+      
+      // Regenerate the object with the updated timestamp
+      obj = this.writeToJson();
       let jsonStr = prettyJson(obj);
       await this.siteDir.writeTextFile("data.json", jsonStr);
-      this._lastSavedHash = objectHash;
+      this._lastSavedHash = hashObject(obj);
       console.log("Saved site!");
     } catch (error) {
       console.error("Failed to save site:", error);
