@@ -578,9 +578,11 @@ class Editor {
           const jsonStr = await dataFile.readText();
           const siteData = JSON.parse(jsonStr);
           const siteName = siteData.name;
+          const lastModifiedTime = siteData.lastModifiedTime ? new Date(siteData.lastModifiedTime) : new Date();
           loadedSites.push({
             id: siteId,
             name: siteName,
+            lastModifiedTime: lastModifiedTime,
           });
           // Update the site ID counter to avoid conflicts
           if (siteId >= this.siteIdCtr) {
