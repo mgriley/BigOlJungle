@@ -67,12 +67,12 @@ async function onFileSelected(event) {
       <h1 class="Title mb-s">JungleWriter 🌴🐒</h1>
       <p class="Subtitle mb-l">Build a website for your next project now. No coding experience required. Free and open-source.</p>
       <div class="ButtonContainer MarginBotS">
-        <button @click="addSite" class="mr-xxs">
+        <button @click="addSite" class="mr-xs">
           <i class="bi bi-plus-circle"></i>
           New Site
         </button>
         <button @click="importSite" class="mr-xs">
-          <i class="bi bi-upload"></i>
+          <i class="bi bi-download"></i>
           Import
         </button>
         <button @click="showDevView">
