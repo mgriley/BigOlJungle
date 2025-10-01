@@ -123,7 +123,6 @@ async function onFileSelected(event) {
       <div v-for="site in gApp.sites" :key="site.id" class="SiteItem Flex" @click="gApp.openSiteWithId(site.id)">
         <i class="bi bi-globe mr-s"></i>
         <p class="SiteName">{{ site.name ? site.name : "Untitled" }}</p>
-        <p class="SiteId">Id: {{ site.id }}</p>
       </div>
       <BasicModal class="CreateSiteModal" ref="createSiteModal" title="Create Site"
         doneText="Create" @onCancel="onCancelAddSite" @onDone="onDoneAddSite">
