@@ -205,7 +205,7 @@ async function onFileSelected(event) {
   border: var(--border-reg);
   border-radius: var(--border-radius-m);
   margin-bottom: var(--space-xs);
-
+  align-items: baseline;
   cursor: pointer;
 }
 
