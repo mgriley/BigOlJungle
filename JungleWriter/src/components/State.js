@@ -85,6 +85,7 @@ class Site {
     this.filesPageConfig = "";
     this.resolvedFilesDict = {};
     this._lastSavedHash = null;
+    this.lastModifiedTime = new Date();
 
     this.translateX = 0;
     this.translateY = 0;
@@ -117,6 +118,7 @@ class Site {
       galleryFeed: this.galleryFeed.writeToJson(),
       filesPageConfig: this.filesPageConfig,
       nodeIdCtr: this.nodeIdCtr,
+      lastModifiedTime: this.lastModifiedTime.getTime(),
     };
     return obj;
   }
@@ -129,6 +131,11 @@ class Site {
     }
     if ('nodeIdCtr' in obj) {
       this.nodeIdCtr = obj.nodeIdCtr;
+    }
+    if ('lastModifiedTime' in obj) {
+      this.lastModifiedTime = new Date(obj.lastModifiedTime);
+    } else {
+      this.lastModifiedTime = new Date();
     }
     this.nodeTree.readFromJson(obj.nodeTree);
     this.settings.readFromJson(obj.settings);
@@ -171,6 +178,9 @@ class Site {
 
   async saveSite() {
     try {
+      // Update the last modified time before saving
+      this.lastModifiedTime = new Date();
+      
       let obj = this.writeToJson();
       let objectHash = hashObject(obj);
       if (this._lastSavedHash === objectHash) {
