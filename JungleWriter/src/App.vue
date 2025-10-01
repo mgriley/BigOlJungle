@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { gApp } from './components/State.js'
 import SiteEditor from './components/SiteEditor.vue'
 import SiteList from './components/SiteList.vue'
+import Toast from './components/Toast.vue'
 </script>
 
 <template>
@@ -12,6 +13,9 @@ import SiteList from './components/SiteList.vue'
   <template v-else>
     <SiteList />
   </template>
+  
+  <!-- Global toast notifications -->
+  <Toast />
 </template>
 
 <style scoped>
