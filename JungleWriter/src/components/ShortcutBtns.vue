@@ -9,10 +9,6 @@ function togglePreview() {
 
 <template>  
   <div class="ShortcutBtns">
-    <button class="MenuIcon mr-xxs" v-if="gApp.site.getIsEditing()" @click="gApp.site.save()">
-      <i class="bi bi-floppy"></i>
-      Save
-    </button>
     <button class="MenuIcon" @click="togglePreview">
       <i class="bi bi-eye"></i>
       {{ gApp.site.getIsEditing() ? 'Preview' : 'Done Preview' }}

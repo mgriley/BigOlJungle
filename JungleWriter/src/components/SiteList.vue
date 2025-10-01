@@ -26,8 +26,7 @@ function onCancelAddSite() {
 
 async function onDoneAddSite() {
   console.log("Adding site");
-  let site = await gApp.createSite();
-  gApp.changeSiteName(site.id, siteToAdd.value.name);
+  await gApp.createSite(siteToAdd.value.name);
   siteToAdd.value = null;
 }
 

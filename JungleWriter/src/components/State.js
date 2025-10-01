@@ -3,7 +3,10 @@ import { removeItem, prettyJson, AsyncValue } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
-import { downloadTextFile, downloadBlobFile, IntervalTimer } from 'Shared/SharedUtils.js'
+import {
+  downloadTextFile, downloadBlobFile, IntervalTimer,
+  hashObject,
+} from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
   StaticIndexHtml, createElementString, stylesDictToInlineString
@@ -80,6 +83,7 @@ class Site {
     this.galleryFeed = new PostsFeed();
     this.filesPageConfig = "";
     this.resolvedFilesDict = {};
+    this._lastSavedHash = null;
 
     this.translateX = 0;
     this.translateY = 0;
@@ -159,16 +163,25 @@ class Site {
     };
   }
 
-  async save() {
-    // TODO - handle errors
-    let obj = this.writeToJson();
-    let jsonStr = prettyJson(obj);
-    let dataFile = await this.siteDir.findChild("data.json");
-    if (!dataFile) {
-      dataFile = await this.siteDir.createFile("data.json");
+  async saveSite() {
+    try {
+      let obj = this.writeToJson();
+      let objectHash = hashObject(obj);
+      if (this._lastSavedHash === objectHash) {
+        // No changes since last save, skip saving
+        console.log("No changes since last save, skipping save");
+        return;
+      }
+      let jsonStr = prettyJson(obj);
+      let dataFile = await this.siteDir.findChild("data.json");
+      if (!dataFile) {
+        dataFile = await this.siteDir.createFile("data.json");
+      }
+      await dataFile.writeContents(jsonStr);
+      console.log("Saved site:", prettyJson(obj));
+    } catch (error) {
+      console.error("Failed to save site:", error);
     }
-    await dataFile.writeContents(jsonStr);
-    console.log("Saved site:", prettyJson(obj));
   }
 
   static async load(editor, siteId, siteDir) {
@@ -400,6 +413,9 @@ class Site {
   }
 };
 
+
+export const kAutosaveIntervalSec = 1;
+
 class Editor {
   constructor(router) {
     this.router = router;
@@ -414,6 +430,12 @@ class Editor {
     this.userStorage = new UserStorage();
     this.fileStorage = reactive(new FileStorage());
 
+    this.autosaveTimer = new IntervalTimer(() => {
+      if (this.site) {
+        this.saveSite();
+      }
+    }, kAutosaveIntervalSec, {onlyWhenVisible: true});
+
     // Set up interval timer to update canvas size
     this.canvasSizeTimer = new IntervalTimer(() => {
       if (this.site) {
@@ -422,7 +444,7 @@ class Editor {
       }
     }, 0.5); // 500ms
 
-    // TODO - debug
+    // DEBUG
     router.afterEach((to, from) => {
       console.log(`Route change: ${from} -> ${to}`);
     });
@@ -431,21 +453,24 @@ class Editor {
   writeToJson() {
     return {
       version: "1",
-      sites: this.sites.map((site) => {
-        return {id: site.id, name: site.name, ptr: null};
-      }), 
-      siteIdCtr: this.siteIdCtr,
     }
   }
   
   readFromJson(obj) {
-    for (const site of obj.sites) {
-      this.sites.push(site);
-    }
-    this.siteIdCtr = obj.siteIdCtr;
   }
 
-  async save() {
+  async loadAllSites() {
+    // Load the list of sites from storage
+    // TODO - implement
+  }
+
+  async autosaveSite() {
+    if (this.site) {
+      await this.site.saveSite();
+    }
+  }
+
+  async saveEditor() {
     // TODO - handle errors
     let obj = this.writeToJson();
     let jsonStr = prettyJson(obj);
@@ -483,7 +508,8 @@ class Editor {
     // Set up paste event listener for images
     this._setupPasteListener();
 
-    // Start the canvas size update timer
+    // Start timers
+    this.autosaveTimer.start();
     this.canvasSizeTimer.start();
 
     // Trigger this event to get the Nodes that depend on the FileStorage setup properly
@@ -540,14 +566,14 @@ class Editor {
     });
   }
 
-  async createSite() {
+  async createSite(siteName) {
     let siteId = this.siteIdCtr++;
     let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
     let site = reactive(new Site(this, siteId, siteDir));
+    site.name = siteName || 'Untitled Site';
     this.sites.unshift({id: site.id, name: site.name, ptr: site});
     // Save the site now so that it populates the storage with an entry
-    site.save();
-    this.save();
+    await site.saveSite();
     return site;
   }
 
@@ -620,13 +646,13 @@ class Editor {
           }
 
           // Save the site after importing
-          await site.save();
+          await site.saveSite();
         } catch (error) {
           console.warn('Failed to load site data from imported zip:', error);
         }
       }
       
-      await this.save();
+      await this.saveEditor();
       console.log('Site imported successfully');
       return site;
     } catch (error) {

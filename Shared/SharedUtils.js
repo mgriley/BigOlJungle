@@ -123,6 +123,11 @@ export function hashString(str) {
   return hashFnv32a(str);
 }
 
+export function hashObject(obj) {
+  let str = JSON.stringify(obj);
+  return hashString(str);
+}
+
 /*
 export function hash64(str) {
     var h1 = hash32(str);  // returns 32 bit (as 8 byte hex string)
