@@ -785,10 +785,12 @@ class Editor {
   }
 
   toastError(message, opts = {}) {
+    console.log("Toast error: ", message, opts);
     gToastManager.toastError(message, opts)
   }
 
   toastSuccess(message, opts = {}) {
+    console.log("Toast success: ", message, opts);
     gToastManager.toastSuccess(message, opts)
   }
 };
