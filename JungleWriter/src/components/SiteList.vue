@@ -156,5 +156,14 @@ async function onFileSelected(event) {
   margin-left: var(--space-m);
 }
 
+.ButtonContainer {
+  text-align: center;
+}
+
+.ButtonContainer button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
 
 </style>
