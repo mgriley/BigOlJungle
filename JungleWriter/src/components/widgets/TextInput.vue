@@ -8,6 +8,7 @@ const props = defineProps({
   isOptional: Boolean,
   // Used when toggling the `Optional` flag
   defaultValue: [String, Number, Object],
+  helpText: String,
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -43,6 +44,7 @@ const optionalValue = computed({
       <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="EditorInput InputChild" type="text" v-model="value">
     </div>
+    <div class="HelpText" v-if="helpText">{{helpText}}</div>
   </div>
 </template>
 
@@ -58,6 +60,13 @@ const optionalValue = computed({
 .InputChild {
   /*display: inline-block;*/
   flex: 1;
+}
+
+.HelpText {
+  font-size: var(--f-xs);
+  color: var(--mute-text);
+  margin-top: var(--space-xxs);
+  line-height: 1.4;
 }
 
 </style>
