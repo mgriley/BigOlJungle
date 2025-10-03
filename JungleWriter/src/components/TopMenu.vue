@@ -76,7 +76,8 @@ function createNode(nodeOption) {
   flex-flow: row nowrap;
   gap: 8px;
   background-color: var(--main-bg);
-  border-radius: 8px 8px 0 0;
+  border-radius: 6px 6px 0 0;
+  /*border-radius: 0;*/
   padding: var(--space-xs) var(--space-xs);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
@@ -91,6 +92,7 @@ function createNode(nodeOption) {
   height: 32px;
   border: none;
   /*border-radius: 50%;*/
+  border-radius: 4px;
   color: white;
   cursor: pointer;
   font-size: 14px;
