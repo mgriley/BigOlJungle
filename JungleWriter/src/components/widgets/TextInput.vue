@@ -6,6 +6,7 @@ const props = defineProps({
   modelValue: [String, Number, Object],
   name: String,
   helpText: String,
+  placeholder: String,
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -24,7 +25,7 @@ const value = computed({
   <div class="TextInput StdInput">
     <div class="f-s" v-if="name">{{name}}</div>
     <div class="Parent">
-      <input class="EditorInput InputChild" type="text" v-model="value">
+      <input class="EditorInput InputChild" type="text" v-model="value" :placeholder="placeholder">
     </div>
     <div class="HelpText" v-if="helpText">{{helpText}}</div>
   </div>
