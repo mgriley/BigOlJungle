@@ -5,9 +5,6 @@ import { makeDraggableExt } from '../Utils.js'
 const props = defineProps({
   modelValue: [String, Number, Object],
   name: String,
-  isOptional: Boolean,
-  // Used when toggling the `Optional` flag
-  defaultValue: [String, Number, Object],
   helpText: String,
 })
 const emit = defineEmits(['update:modelValue'])
@@ -21,27 +18,12 @@ const value = computed({
   }
 })
 
-const optionalValue = computed({
-  get() {
-    return props.modelValue !== null;
-  },
-  set(value) {
-    if (value) {
-      //console.log("DefaultValue: "+props.defaultValue);
-      emit('update:modelValue', props.defaultValue);
-    } else {
-      emit('update:modelValue', null);
-    }
-  }
-})
-
 </script>
 
 <template>
   <div class="TextInput StdInput">
     <div class="f-s" v-if="name">{{name}}</div>
     <div class="Parent">
-      <input v-if="isOptional" class="OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="EditorInput InputChild" type="text" v-model="value">
     </div>
     <div class="HelpText" v-if="helpText">{{helpText}}</div>
@@ -51,10 +33,6 @@ const optionalValue = computed({
 <style scoped>
 .Parent {
   display: flex;
-}
-
-.OptionalToggle {
-  margin-right: 8px;
 }
 
 .InputChild {

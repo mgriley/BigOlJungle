@@ -59,13 +59,13 @@ function openTextModal() {
     <TextAlignInput v-model="editorData.textAlign" />
   </div>
   <div class="mb-xs FlexRow">
-    <NumberInput id="LineHeightInput" v-model="editorData.lineHeight" name="Line Height" :min="0" :isOptional="false" :defaultValue="1.15" :increment="0.1"/>
-    <NumberInput id="LetterSpacingInput" v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
+    <NumberInput id="LineHeightInput" v-model="editorData.lineHeight" name="Line Height" :min="0" :increment="0.1"/>
+    <NumberInput id="LetterSpacingInput" v-model="editorData.letterSpacing" name="Letter Spacing" :increment="0.1" />
   </div>
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
 
   <div class="mb-xs">
-    <TextInput v-model="editorData.linkUrl" name="Link URL" />
+    <TextInput v-model="editorData.linkUrl" name="Link URL" helpText="Set this to make the text clickable as a link." />
   </div>
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
