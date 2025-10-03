@@ -63,7 +63,10 @@ function openTextModal() {
     <NumberInput id="LetterSpacingInput" v-model="editorData.letterSpacing" name="Letter Spacing" :isOptional="false" :defaultValue="0" :increment="0.1" />
   </div>
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
-  <!-- <TextInput v-model="editorData.linkUrl" name="Link URL" /> -->
+
+  <div class="mb-xs">
+    <TextInput v-model="editorData.linkUrl" name="Link URL" />
+  </div>
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
   <div class="mt-s">

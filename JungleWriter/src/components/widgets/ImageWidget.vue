@@ -35,10 +35,6 @@ function onLinkClicked(evt) {
   }
 }
 
-let isImgLink = computed(() => {
-  return props.node.linkUrl !== "";
-});
-
 let srcName = computed({
   get() {
     return props.node.getSrcName();
@@ -64,17 +60,14 @@ onMounted(() => {
     :style="node.getStyleObject()" @click="onClick" @dblclick="onDoubleClick"
     :class="{ 'no-image': hasNoImage }"
     >
-    <a :class="{DisabledLink: !isImgLink}" :href="node.linkUrl"
-      target="_blank" @click="onLinkClicked">
-      <img v-if="!hasNoImage" class="" :style="node.getImgStyleObject()"
-        ref="imgRef"
-        :src="node.getSrcUrl()" :alt="node.altText"
-      />
-      <div v-else class="placeholder-content">
-        <i class="bi bi-image mr-xxs"></i>
-        Double-click me
-      </div>
-    </a>
+    <img v-if="!hasNoImage" class="" :style="node.getImgStyleObject()"
+      ref="imgRef"
+      :src="node.getSrcUrl()" :alt="node.altText"
+    />
+    <div v-else class="placeholder-content">
+      <i class="bi bi-image mr-xxs"></i>
+      Double-click me
+    </div>
     <DragCorners v-if="node.selected" :node="node" />
     <ImageChooserModal ref="imgChooser" v-model="srcName" />
   </div>

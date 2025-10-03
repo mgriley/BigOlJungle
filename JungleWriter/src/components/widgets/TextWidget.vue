@@ -88,7 +88,9 @@ onMounted(() => {
         {{ node.text || "Double-click me 🐍"}}
       </template>
       <template v-else>
-        <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">{{node.text}}</a>
+        <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">
+          {{node.text || "Double-click me 🐍"}}
+        </a>
       </template>
     </div>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
