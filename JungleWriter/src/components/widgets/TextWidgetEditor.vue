@@ -65,7 +65,9 @@ function openTextModal() {
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
 
   <div class="mb-xs">
-    <TextInput v-model="editorData.linkUrl" name="Link URL" helpText="Set this to make the text clickable as a link." />
+    <TextInput v-model="editorData.linkUrl" name="Link URL"
+      placeholder="www.mypage.com"
+      helpText="Set this to make the text a link." />
   </div>
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
