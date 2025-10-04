@@ -44,6 +44,28 @@ const linkTypeOptions = [
   { value: LinkType.Download, label: 'Download' }
 ]
 
+let placeholderText = computed(() => {
+  switch (typeValue.value) {
+    case LinkType.External:
+      return 'www.example.com';
+    case LinkType.Download:
+      return 'myfile.pdf';
+    default:
+      return '';
+  }
+});
+
+let helpText = computed(() => {
+  switch (typeValue.value) {
+    case LinkType.External:
+      return 'A link to an external website (ex. www.example.com)';
+    case LinkType.Download:
+      return 'A link to a file from the "Upload Files" tab (ex. myfile.pdf)';
+    default:
+      return '';
+  }
+});
+
 </script>
 
 <template>
@@ -59,8 +81,8 @@ const linkTypeOptions = [
         <div class="UrlInputContainer" v-if="typeValue !== LinkType.None">
           <TextInput 
             v-model="urlValue" 
-            placeholder="Enter URL..."
-            helpText="The URL this link should point to"
+            :placeholder="placeholderText"
+            :helpText="helpText"
           />
         </div>
       </div>

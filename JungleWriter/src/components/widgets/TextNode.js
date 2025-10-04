@@ -73,14 +73,6 @@ export class TextNode extends Node {
     }
     if (obj.link) {
       this.link.readFromJson(obj.link);
-    } else if (obj.linkUrl) {
-      // Handle legacy linkUrl field
-      this.link = new LinkInput();
-      if (obj.linkUrl) {
-        this.link.setLink('External', obj.linkUrl);
-      }
-    } else {
-      this.link = new LinkInput();
     }
   }
 
