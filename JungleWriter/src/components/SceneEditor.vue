@@ -271,7 +271,7 @@ onMounted(() => {
   //onPageResize();
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
-  window.addEventListener("wheel", onWheel, { passive: false });
+  //window.addEventListener("wheel", onWheel, { passive: false });
   window.addEventListener("mousedown", onMouseDown);
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseUp);

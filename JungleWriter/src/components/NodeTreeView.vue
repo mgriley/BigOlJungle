@@ -215,13 +215,14 @@ let nodeList = computed(() => {
 
 <style scoped>
 .NodeTreeView {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
 .TreeInner {
   overflow: auto;
   scrollbar-width: thin;
-  height: 100%;
 }
 
 .item {

@@ -41,9 +41,7 @@ function selectTab(tab) {
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
       <NavBar class="mb-s" />
-      <div class="EditorPane">
-        <component :is="NodeTreeView"></component>
-      </div>
+      <NodeTreeView />
     </div>
     <div class="MainArea">
       <router-view></router-view>
@@ -56,9 +54,7 @@ function selectTab(tab) {
           @select="selectTab"
         />
       </div>
-      <div class="EditorPane">
-        <component :is="sidebarTab"></component>
-      </div>
+      <component :is="sidebarTab"></component>
     </div>
   </div>
 </template>
@@ -78,6 +74,8 @@ function selectTab(tab) {
   background-color: var(--main-bg);
   z-index: 1000;
   height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   /*padding: var(--space-s) var(--space-m);*/
 
   display: flex;
@@ -102,12 +100,6 @@ function selectTab(tab) {
 
 .TabSelector {
   margin-bottom: var(--space-m);
-}
-
-.EditorPane {
-  height: 100%;
-  overflow: hidden;
-  /*padding-right: 16px;*/
 }
 
 </style>
