@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, computed, nextTick } from 'vue'
 import { gApp } from '../State.js'
 import { setupWidgetDrag } from '../Utils.js'
 import { TextNode } from './TextNode.js'
+import { LinkType } from './LinkInput.js'
 import DragCorners from './DragCorners.vue'
 
 const props = defineProps({
@@ -74,6 +75,39 @@ function onInput() {
   autoResizeTextarea();
 }
 
+function getLinkHref() {
+  if (!props.node.link.hasLink()) {
+    return '';
+  }
+  
+  if (props.node.link.type === LinkType.External) {
+    let url = props.node.link.url;
+    // Add protocol if missing
+    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+    return url;
+  } else if (props.node.link.type === LinkType.Download) {
+    return props.node.link.url;
+  }
+  
+  return '';
+}
+
+function getLinkTarget() {
+  if (props.node.link.type === LinkType.External) {
+    return '_blank';
+  }
+  return '';
+}
+
+function getLinkDownload() {
+  if (props.node.link.type === LinkType.Download) {
+    return props.node.link.url;
+  }
+  return null;
+}
+
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
 })
@@ -84,11 +118,11 @@ onMounted(() => {
   <div class="Widget TextWidget NoSelect" :class="{ 'editing': isEditing }" :style="node.getStyleObject()"
       ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
     <div v-if="!isEditing">
-      <template v-if="node.linkUrl === ''">
+      <template v-if="!node.link.hasLink()">
         {{ node.text || "Double-click me 🐍"}}
       </template>
       <template v-else>
-        <a :href="node.linkUrl" target="_blank" @click="onLinkClicked">
+        <a :href="getLinkHref()" :target="getLinkTarget()" :download="getLinkDownload()" @click="onLinkClicked">
           {{node.text || "Double-click me 🐍"}}
         </a>
       </template>
