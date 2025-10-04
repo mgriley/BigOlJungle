@@ -111,6 +111,8 @@ defineExpose({
   display: grid;
   grid-template-columns: repeat(4, min-content);
   gap: var(--space-xs);
+  max-height: 300px;
+  overflow: auto;
 }
 
 .Preview {
