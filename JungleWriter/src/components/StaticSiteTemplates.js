@@ -38,6 +38,9 @@ export function stylesDictToInlineString(stylesDict) {
     let kebabKey = camelToKebab(key);
     strings.push(`${kebabKey}: ${value};`);
   }
+  if (strings.length === 0) {
+    return null;
+  }
   return strings.join(' ');
 }
 
