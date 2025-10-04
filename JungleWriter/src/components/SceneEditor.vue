@@ -272,7 +272,7 @@ onMounted(() => {
   //onPageResize();
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
-  //window.addEventListener("wheel", onWheel, { passive: false });
+  window.addEventListener("wheel", onWheel, { passive: false });
   window.addEventListener("mousedown", onMouseDown);
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseUp);
@@ -297,8 +297,8 @@ onUnmounted(() => {
 
 <template>  
   <router-view></router-view>
-  <ShortcutBtns />
   <main id="Main" @click="onClickBackground" :style="{...getMainStyleObject(), cursor: mainCursor}">
+    <ShortcutBtns />
     <div id="CanvasArea">
       <div class="AnchorDiv">
         <NodeWidget id="RootNode" :node="rootNode" />

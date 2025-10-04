@@ -9,9 +9,9 @@ function togglePreview() {
 
 <template>  
   <div class="ShortcutBtns">
-    <button class="MenuIcon" @click="togglePreview">
+    <button class="MenuIcon NoSelect" @click="togglePreview">
       <i class="bi bi-eye"></i>
-      {{ gApp.site.getIsEditing() ? 'Preview' : 'Done Preview' }}
+      {{ gApp.site.getIsEditing() ? 'Preview' : 'Done' }}
     </button>
   </div>
 </template>
@@ -20,8 +20,8 @@ function togglePreview() {
 .ShortcutBtns {
   z-index: 2000;
   position: absolute;
-  right: 16px;
-  bottom: 16px;
+  right: 8px;
+  bottom: 8px;
   display: flex;
   flex-flow: row nowrap;
   gap: 4px;
@@ -31,11 +31,11 @@ function togglePreview() {
   border: 1px solid var(--main-text);
   /* border-radius: var(--border-radius-med); */
   display: inline-block;
-  padding: var(--space-xs) var(--space-s);
+  padding: var(--space-xs) var(--space-xxs);
   background-color: var(--dark-color);
   color: var(--main-text);
   cursor: pointer;
-  font-size: var(--smaller-size);
+  font-size: var(--f-s);
   min-width: 120px;
 
   display: flex;
