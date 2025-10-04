@@ -70,41 +70,26 @@ let helpText = computed(() => {
 
 <template>
   <div class="LinkInput StdInput">
-    <div class="Parent">
-      <div class="InputLabel LeftLabel" v-if="name" :style="{ width: labelWidth, minWidth: labelWidth }">{{name}}</div>
-      <div class="LinkControls">
-        <select class="TypeSelector" v-model="typeValue">
-          <option v-for="option in linkTypeOptions" :key="option.value" :value="option.value">
-            {{ option.label }}
-          </option>
-        </select>
-        <div class="UrlInputContainer" v-if="typeValue !== LinkType.None">
-          <TextInput 
-            v-model="urlValue" 
-            :placeholder="placeholderText"
-            :helpText="helpText"
-          />
-        </div>
+    <div class="f-s" v-if="name">{{name}}</div>
+    <div class="LinkControls">
+      <select class="TypeSelector" v-model="typeValue">
+        <option v-for="option in linkTypeOptions" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+      <div class="UrlInputContainer" v-if="typeValue !== LinkType.None">
+        <TextInput 
+          v-model="urlValue" 
+          :placeholder="placeholderText"
+          :helpText="helpText"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.Parent {
-  display: flex;
-  align-items: flex-start;
-}
-
-.LeftLabel {
-  margin-right: 8px;
-  margin-bottom: 0;
-  white-space: nowrap;
-  margin-top: 4px; /* Align with select element */
-}
-
 .LinkControls {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
