@@ -142,9 +142,17 @@ export class TextNode extends Node {
   }
 
   async generateStaticHtml(writer) {
+    let content = this.text;
+    
+    // Wrap content in link if link is present
+    if (this.link.hasLink()) {
+      const linkAttrs = this.link.getLinkAttributes();
+      content = createElementString('a', linkAttrs, {}, content);
+    }
+    
     return createElementString(
       'div', {class: "Widget TextWidget"}, this.getStyleObject(),
-       this.text
+      content
     );
   }
 };
