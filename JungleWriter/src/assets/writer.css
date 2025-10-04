@@ -73,6 +73,18 @@ main {
   pointer-events: none;
 }
 
+.TextLink {
+  color: inherit;
+  background-color: inherit;
+  transition: inherit;
+  text-decoration: none;
+}
+
+.TextLink:hover, .TextLink:active {
+  color: inherit;
+  background-color: inherit;
+}
+
 /* END - WIDGETS CSS */
 
 /* OTHER UTILS */

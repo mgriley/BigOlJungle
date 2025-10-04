@@ -148,6 +148,10 @@ export class TextNode extends Node {
     if (this.link.hasLink()) {
       const linkAttrs = this.link.getLinkAttributes();
       content = createElementString('a', linkAttrs, {}, content);
+
+      if (this.link.type === 'Download') {
+        await writer.addFileWithName(this.link.url);
+      }
     }
     
     return createElementString(

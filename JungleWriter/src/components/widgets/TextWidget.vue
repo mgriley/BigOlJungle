@@ -90,7 +90,7 @@ onMounted(() => {
         {{ node.text || "Double-click me 🐍"}}
       </template>
       <template v-else>
-        <a v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
+        <a class="TextLink" v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
           {{node.text || "Double-click me 🐍"}}
         </a>
       </template>
