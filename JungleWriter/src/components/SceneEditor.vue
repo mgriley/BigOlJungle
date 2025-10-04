@@ -2,6 +2,7 @@
 import { reactive, computed, onMounted, onUnmounted, ref } from 'vue'
 import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
+import ShortcutBtns from './ShortcutBtns.vue'
 
 let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
@@ -296,6 +297,7 @@ onUnmounted(() => {
 
 <template>  
   <router-view></router-view>
+  <ShortcutBtns />
   <main id="Main" @click="onClickBackground" :style="{...getMainStyleObject(), cursor: mainCursor}">
     <div id="CanvasArea">
       <div class="AnchorDiv">

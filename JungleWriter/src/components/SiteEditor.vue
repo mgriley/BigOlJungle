@@ -2,7 +2,6 @@
 import { ref, shallowRef, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { gApp } from './State.js'
 import NavBar from './NavBar.vue'
-import ShortcutBtns from './ShortcutBtns.vue'
 import TopMenu from './TopMenu.vue'
 import DropdownSelector from './DropdownSelector.vue'
 
@@ -35,7 +34,6 @@ function selectTab(tab) {
 </script>
 
 <template>  
-  <ShortcutBtns />
   <TopMenu v-if="isEditing" />
 
   <div class="Toplevel" :class="{IsEditing: isEditing}">
