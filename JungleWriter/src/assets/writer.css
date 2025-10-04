@@ -76,15 +76,12 @@ main {
 .TextLink {
   color: inherit;
   background-color: inherit;
-  transition: transform 0.1s ease, opacity 0.1s ease;
   text-decoration: none;
 }
 
 .TextLink:hover, .TextLink:active {
-  color: inherit;
+  color: blue;
   background-color: inherit;
-  transform: scale(1.02);
-  opacity: 0.9;
 }
 
 /* END - WIDGETS CSS */
