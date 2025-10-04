@@ -1,12 +1,12 @@
 export const LinkType = {
-  none: 'None',
-  external: 'External',
-  download: 'Download'
+  None: 'None',
+  External: 'External',
+  Download: 'Download'
 };
 
 export class LinkInput {
-  constructor(type = LinkType.none, url = '') {
-    this.type = type; // LinkType.none, LinkType.external, or LinkType.download
+  constructor(type = LinkType.None, url = '') {
+    this.type = type;
     this.url = url;
   }
 
@@ -20,16 +20,16 @@ export class LinkInput {
   readFromJson(obj) {
     // Handle legacy case where obj is a string URL
     if (typeof obj === 'string') {
-      this.type = obj ? LinkType.external : LinkType.none;
+      this.type = obj ? LinkType.External : LinkType.none;
       this.url = obj || '';
     } else {
-      this.type = obj.type || LinkType.none;
+      this.type = obj.type || LinkType.None;
       this.url = obj.url || '';
     }
   }
 
   hasLink() {
-    return this.type !== LinkType.none && this.url.trim() !== '';
+    return this.type !== LinkType.None && this.url.trim() !== '';
   }
 
   getLinkUrl() {
