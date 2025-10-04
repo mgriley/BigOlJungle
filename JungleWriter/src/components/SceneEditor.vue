@@ -221,7 +221,21 @@ function startScrollAnimation() {
 function onWheel(evt) {
   /**
    * Handle mouse wheel scrolling to manually control scroll behavior
+   * Only when mouse is over #Main or #CanvasArea elements
    */
+  
+  // Check if the event target is #Main or #CanvasArea or a descendant of them
+  const target = evt.target;
+  const mainElement = document.getElementById('Main');
+  const canvasElement = document.getElementById('CanvasArea');
+  
+  const isOverMain = target === mainElement || mainElement?.contains(target);
+  const isOverCanvas = target === canvasElement || canvasElement?.contains(target);
+  
+  if (!isOverMain && !isOverCanvas) {
+    return;
+  }
+  
   evt.preventDefault();
   
   const scrollMultiplier = 1.0; // Adjust sensitivity as needed
