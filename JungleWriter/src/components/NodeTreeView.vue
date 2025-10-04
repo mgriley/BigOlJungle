@@ -223,6 +223,7 @@ let nodeList = computed(() => {
 .TreeInner {
   overflow: auto;
   scrollbar-width: thin;
+  flex: 1;
 }
 
 .item {

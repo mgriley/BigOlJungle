@@ -41,7 +41,9 @@ function selectTab(tab) {
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
       <NavBar class="mb-s" />
-      <NodeTreeView />
+      <div class="SidebarContent">
+        <NodeTreeView />
+      </div>
     </div>
     <div class="MainArea">
       <router-view></router-view>
@@ -54,7 +56,9 @@ function selectTab(tab) {
           @select="selectTab"
         />
       </div>
-      <component :is="sidebarTab"></component>
+      <div class="SidebarContent">
+        <component :is="sidebarTab"></component>
+      </div>
     </div>
   </div>
 </template>
@@ -80,6 +84,11 @@ function selectTab(tab) {
 
   display: flex;
   flex-direction: column;
+}
+
+.SidebarContent {
+  flex: 1;
+  overflow: auto;
 }
 
 .SidebarLeft {
