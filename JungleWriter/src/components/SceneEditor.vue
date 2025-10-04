@@ -222,10 +222,18 @@ function onWheel(evt) {
   /**
    * Handle mouse wheel scrolling to manually control scroll behavior
    * Only when mouse is over #Main or #CanvasArea elements
+   * Don't consume the event if mouse is over a BasicModal
    */
   
-  // Check if the event target is #Main or #CanvasArea or a descendant of them
+  // Check if the event target is inside a BasicModal
   const target = evt.target;
+  const modalElement = target.closest('.BasicModal');
+  
+  if (modalElement) {
+    return; // Don't consume the event, let the modal handle scrolling
+  }
+  
+  // Check if the event target is #Main or #CanvasArea or a descendant of them
   const mainElement = document.getElementById('Main');
   const canvasElement = document.getElementById('CanvasArea');
   
