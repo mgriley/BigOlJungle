@@ -172,12 +172,6 @@ function onDropEnd() {
   resetDragState();
 }
 
-/*
-let nodeList = computed(() => {
-  return nodeTree.root.getChildrenDfs();
-})
-*/
-
 // TODO - this is probably not good for vue perf. Use recursive Comp
 // method instead, but without nesting the divs.
 let nodeList = computed(() => {
@@ -220,6 +214,21 @@ let nodeList = computed(() => {
 </template>
 
 <style scoped>
+.NodeTreeView {
+  height: 100%;
+}
+
+.TreeInner {
+  overflow: auto;
+  scrollbar-width: thin;
+  height: 100%;
+}
+
+.item {
+  /*cursor: pointer;*/
+  line-height: 1.5;
+}
+
 .ButtonPane {
   display: flex;
   flex-flow: row nowrap;
@@ -243,24 +252,6 @@ let nodeList = computed(() => {
 #DeleteLayerBtn {
   /*margin-left: var(--space-xs);*/
   margin-left: auto;
-}
-
-</style>
-
-<style>
-.NodeTreeView {
-  height: 100%;
-}
-
-.TreeInner {
-  overflow: auto;
-  scrollbar-width: thin;
-  height: 100%;
-}
-
-.item {
-  /*cursor: pointer;*/
-  line-height: 1.5;
 }
 
 </style>

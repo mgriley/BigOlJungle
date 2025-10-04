@@ -297,7 +297,7 @@ export class Node {
     let clone = this.clone();
     // Offset the clone a bit so that it is visible
     clone.moveBy({x: 20, y: 20});
-    this.addSiblingBefore(clone);
+    this.addSiblingAfter(clone);
     return clone;
   }
 
@@ -319,8 +319,8 @@ export class Node {
     if (index !== null) {
       this.children.splice(index, 0, childNode);    
     } else {
-      // Add the start of the array (on top visually)
-      this.children.unshift(childNode);
+      // Add the wned of the array (on top visually)
+      this.children.push(childNode);
     }
     childNode.parentNode = this;
     if (valOr(opts.callOnEnter, true)) {
@@ -330,14 +330,6 @@ export class Node {
 
   addChildToBottom(childNode, opts) {
     this.addChildAtIndex(childNode, this.children.length, opts);
-  }
-
-  addSiblingBefore(siblingNode) {
-    if (!this.parentNode) {
-      throw new Error("Root node cannot have siblings");
-    }
-    let myIndex = this.getIndexInParent();
-    this.parentNode.addChildAtIndex(siblingNode, myIndex);
   }
 
   addSiblingAfter(siblingNode) {
@@ -475,12 +467,29 @@ export class Node {
     }
   }
 
+  // Same as Dfs variant but iterates in post-order because the last child
+  // of any node is rendered on top of earlier children.
+  /*
+  iterateChildrenZOrder(nodeFunc) {
+    let stack = [{node: this, depth: 0}];
+    while (stack.length > 0) {
+      let item = stack.pop();
+      let visitChildren = nodeFunc(item.node, item.depth);
+      if (visitChildren === false) {
+        continue;
+      }
+      for (let i = 0; i < item.node.children.length; ++i) {
+        stack.push({node: item.node.children[i], depth: item.depth + 1});
+      }
+    }
+  }
+  */
+
   getChildrenInHtmlOrder() {
-    // The order stored in this.children is the visual stacking order,
-    // where the topmost child is the first in the array.
-    // The order displayed in HTML is the reverse of that,
-    // because later elements are rendered on top of earlier ones.
-    return [...this.children].reverse();
+    // The order stored in this.children is top-to-bottom,
+    // where the first child is the first element in the HTML.
+    // So we can just return the order as-is.
+    return this.children;
   }
 
   async generateStaticHtml(writer) {
@@ -505,24 +514,6 @@ export class Node {
     }
     return htmlStrings.join('\n');
   }
-
-  // Same as Dfs variant but iterates in post-order because the last child
-  // of any node is rendered on top of earlier children.
-  /*
-  iterateChildrenZOrder(nodeFunc) {
-    let stack = [{node: this, depth: 0}];
-    while (stack.length > 0) {
-      let item = stack.pop();
-      let visitChildren = nodeFunc(item.node, item.depth);
-      if (visitChildren === false) {
-        continue;
-      }
-      for (let i = 0; i < item.node.children.length; ++i) {
-        stack.push({node: item.node.children[i], depth: item.depth + 1});
-      }
-    }
-  }
-  */
 }
 
 export class NodeTree {
