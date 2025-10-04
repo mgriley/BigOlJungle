@@ -48,6 +48,7 @@ export function createElementString(tag, attrs = {}, styles = {}, content = '') 
   let stylesStr = stylesDictToInlineString(styles);
   let allAttrs = { ...attrs, style: stylesStr };
   let attrString = Object.entries(allAttrs)
+    .filter(([key, value]) => value !== null && value !== undefined)
     .map(([key, value]) => ` ${key}="${value}"`)
     .join('');
   return `<${tag}${attrString}>${content}</${tag}>`;
