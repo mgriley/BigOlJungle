@@ -58,9 +58,9 @@ let placeholderText = computed(() => {
 let helpText = computed(() => {
   switch (typeValue.value) {
     case LinkType.External:
-      return 'A link to an external website (ex. www.example.com)';
+      return 'Give an external website to link to.';
     case LinkType.Download:
-      return 'A link to a file from the "Upload Files" tab (ex. myfile.pdf)';
+      return "Give the name of a file you uploaded in the 'Upload Files' tab."
     default:
       return '';
   }
@@ -70,7 +70,7 @@ let helpText = computed(() => {
 
 <template>
   <div class="LinkInput StdInput">
-    <div class="f-s" v-if="name">{{name}}</div>
+    <div class="f-s mb-xxs" v-if="name">{{name}}</div>
     <div class="LinkControls">
       <select class="TypeSelector" v-model="typeValue">
         <option v-for="option in linkTypeOptions" :key="option.value" :value="option.value">
