@@ -6,6 +6,7 @@ import TextInput from './TextInput.vue'
 import TextAlignInput from './TextAlignInput.vue'
 import FontInput from './FontInput.vue'
 import ColorInput from './ColorInput.vue'
+import LinkInput from './LinkInput.vue'
 import TextEntryModal from './TextEntryModal.vue'
 import PositionInput from './PositionInput.vue'
 
@@ -65,9 +66,7 @@ function openTextModal() {
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
 
   <div class="mb-xs">
-    <TextInput v-model="editorData.linkUrl" name="Link URL"
-      placeholder="www.mypage.com"
-      helpText="Set this to make the text a link." />
+    <LinkInput :input="editorData.link" name="Link" />
   </div>
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->

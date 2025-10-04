@@ -4,6 +4,7 @@ import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { createElementString } from '../StaticSiteTemplates.js';
 import { ColorInput } from './ColorInput.js';
+import { LinkInput } from './LinkInput.js';
 
 export class TextNode extends Node {
   static sUiShortName = "T";
@@ -25,7 +26,7 @@ export class TextNode extends Node {
     this.textAlign = 'left';
     this.width = 350;
 
-    this.linkUrl = "";
+    this.link = new LinkInput();
   }
 
   writeToJson() {
@@ -42,7 +43,7 @@ export class TextNode extends Node {
       letterSpacing: this.letterSpacing,
       textAlign: this.textAlign,
       width: this.width,
-      linkUrl: this.linkUrl,
+      link: this.link.writeToJson(),
     });
     return obj;
   }
@@ -70,7 +71,17 @@ export class TextNode extends Node {
     if (obj.width !== null) {
       this.width = Number(obj.width) || 200;
     }
-    this.linkUrl = obj.linkUrl;
+    if (obj.link) {
+      this.link.readFromJson(obj.link);
+    } else if (obj.linkUrl) {
+      // Handle legacy linkUrl field
+      this.link = new LinkInput();
+      if (obj.linkUrl) {
+        this.link.setLink('External', obj.linkUrl);
+      }
+    } else {
+      this.link = new LinkInput();
+    }
   }
 
   getAllowsChildren() {
@@ -130,7 +141,10 @@ export class TextNode extends Node {
     clone.letterSpacing = this.letterSpacing;
     clone.textAlign = this.textAlign;
     clone.width = this.width;
-    clone.linkUrl = this.linkUrl;
+    
+    // Clone link
+    clone.link = new LinkInput();
+    clone.link.readFromJson(this.link.writeToJson());
     
     return clone;
   }
