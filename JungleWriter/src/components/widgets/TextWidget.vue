@@ -90,7 +90,7 @@ onMounted(() => {
         {{ node.text || "Double-click me 🐍"}}
       </template>
       <template v-else>
-        <a :href="node.link.getHref()" :target="node.link.getTarget()" :download="node.link.getDownload()" @click="onLinkClicked">
+        <a v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
           {{node.text || "Double-click me 🐍"}}
         </a>
       </template>

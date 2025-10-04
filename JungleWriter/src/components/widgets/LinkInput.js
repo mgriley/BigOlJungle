@@ -81,4 +81,12 @@ export class LinkInput {
     }
     return null;
   }
+
+  getLinkAttributes() {
+    return {
+      href: this.getHref(),
+      target: this.getTarget(),
+      download: this.getDownload()
+    };
+  }
 }
