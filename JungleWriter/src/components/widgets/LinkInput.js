@@ -48,4 +48,37 @@ export class LinkInput {
     this.type = LinkType.none;
     this.url = '';
   }
+
+  getHref() {
+    if (!this.hasLink()) {
+      return '';
+    }
+    
+    if (this.type === LinkType.External) {
+      let url = this.url;
+      // Add protocol if missing
+      if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      return url;
+    } else if (this.type === LinkType.Download) {
+      return this.url;
+    }
+    
+    return '';
+  }
+
+  getTarget() {
+    if (this.type === LinkType.External) {
+      return '_blank';
+    }
+    return '';
+  }
+
+  getDownload() {
+    if (this.type === LinkType.Download) {
+      return this.url;
+    }
+    return null;
+  }
 }

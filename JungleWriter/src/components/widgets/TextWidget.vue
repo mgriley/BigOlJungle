@@ -75,38 +75,6 @@ function onInput() {
   autoResizeTextarea();
 }
 
-function getLinkHref() {
-  if (!props.node.link.hasLink()) {
-    return '';
-  }
-  
-  if (props.node.link.type === LinkType.External) {
-    let url = props.node.link.url;
-    // Add protocol if missing
-    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'https://' + url;
-    }
-    return url;
-  } else if (props.node.link.type === LinkType.Download) {
-    return props.node.link.url;
-  }
-  
-  return '';
-}
-
-function getLinkTarget() {
-  if (props.node.link.type === LinkType.External) {
-    return '_blank';
-  }
-  return '';
-}
-
-function getLinkDownload() {
-  if (props.node.link.type === LinkType.Download) {
-    return props.node.link.url;
-  }
-  return null;
-}
 
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
@@ -122,7 +90,7 @@ onMounted(() => {
         {{ node.text || "Double-click me 🐍"}}
       </template>
       <template v-else>
-        <a :href="getLinkHref()" :target="getLinkTarget()" :download="getLinkDownload()" @click="onLinkClicked">
+        <a :href="node.link.getHref()" :target="node.link.getTarget()" :download="node.link.getDownload()" @click="onLinkClicked">
           {{node.text || "Double-click me 🐍"}}
         </a>
       </template>
