@@ -77,6 +77,21 @@ export class TextNode extends Node {
     }
   }
 
+  onCreate() {
+  }
+
+  applyPreferences(prefs) {
+    if (prefs.fontFamily) {
+      this.fontFamily = prefs.fontFamily;
+    }
+    if (prefs.fontSize) {
+      this.fontSize = prefs.fontSize;
+    }
+    if (prefs.textColor) {
+      this.color = prefs.textColor.clone();
+    }  
+  }
+
   getAllowsChildren() {
     return false;
   }

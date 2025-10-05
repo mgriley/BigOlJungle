@@ -63,8 +63,8 @@ onMounted(() => {
 <style>
 .DragCorner {
   background-color: red;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   position: absolute;
 }
@@ -80,8 +80,8 @@ onMounted(() => {
 }
 
 .BR {
-  bottom: -7px;
-  right: -7px;
+  bottom: -8px;
+  right: -8px;
 }
 
 .BL {

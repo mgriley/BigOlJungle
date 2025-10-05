@@ -69,6 +69,38 @@ class SiteSettings {
   }
 }
 
+/**
+ * Preferences are defaults automatically stored per site, like the last
+ * font family and size used, etc.
+ */
+class SitePreferences {
+  constructor() {
+    this.fontFamily = "sans-serif";
+    this.fontSize = 36;
+    this.textColor = new ColorInput('#000000', 1.0);
+  }
+
+  writeToJson() {
+    return {
+      fontFamily: this.fontFamily,
+      fontSize: this.fontSize,
+      textColor: this.textColor.writeToJson(),
+    }
+  }
+
+  readFromJson(obj) {
+    if (obj.fontFamily) {
+      this.fontFamily = obj.fontFamily;
+    }
+    if (obj.fontSize) {
+      this.fontSize = obj.fontSize;
+    }
+    if (obj.textColor) {
+      this.textColor.readFromJson(obj.textColor);
+    }
+  }
+}
+
 class Site {
   constructor(editor, id, siteDir) {
     this.editor = editor;
@@ -78,6 +110,7 @@ class Site {
     this.nodeTree = new NodeTree();
     this.selectedEntity = null;
     this.settings = new SiteSettings();
+    this.preferences = new SitePreferences();
     this.isEditing = true;
     this.postsFeed = new PostsFeed();
     this.blogFeed = new PostsFeed();
@@ -113,6 +146,7 @@ class Site {
       version: this.version,
       nodeTree: this.nodeTree.writeToJson(),
       settings: this.settings.writeToJson(),
+      preferences: this.preferences.writeToJson(),
       postsFeed: this.postsFeed.writeToJson(),
       blogFeed: this.blogFeed.writeToJson(),
       galleryFeed: this.galleryFeed.writeToJson(),
@@ -139,6 +173,9 @@ class Site {
     }
     this.nodeTree.readFromJson(obj.nodeTree);
     this.settings.readFromJson(obj.settings);
+    if ('preferences' in obj) {
+      this.preferences.readFromJson(obj.preferences);
+    }
     if ('postsFeed' in obj) {
       this.postsFeed.readFromJson(obj.postsFeed);
     }
@@ -260,6 +297,10 @@ class Site {
     return this.siteDir;
   }
 
+  getPreferences() {
+    return this.preferences;
+  }
+
   _isImageFile(fileName) {
     const lowerFileName = fileName.toLowerCase();
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
@@ -374,7 +415,7 @@ class Site {
       this.selectedEntity.selected = false;
     }
     this.selectedEntity = node;
-    console.log("Selected node: " + (node ? node.name : "null"));
+    //console.log("Selected node: " + (node ? node.name : "null"));
     if (node) {
       node.selected = true;
     }
@@ -404,6 +445,7 @@ class Site {
     let newNode = reactive(new nodeClass(nodeId));
     this.registerNode(newNode);
     newNode.onCreate();
+    newNode.applyPreferences(this.preferences);
     return newNode;
   }
 
@@ -471,6 +513,11 @@ class Site {
 
   getCenterPos() {
     return {x: -this.translateX, y: -this.translateY};
+  }
+
+  setCenterPos(pos) {
+    this.translateX = -pos.x;
+    this.translateY = -pos.y;
   }
 
   getRootPos() {

@@ -22,6 +22,10 @@ export class ColorInput {
     }
   }
 
+  clone() {
+    return new ColorInput(this.color, this.alpha);
+  }
+
   getColorValue() {
     // Convert hex to RGB
     const r = parseInt(this.color.slice(1, 3), 16);

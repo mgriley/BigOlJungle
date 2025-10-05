@@ -30,7 +30,14 @@ function selectNode() {
 let editingName = ref(false);
 let nameInput = ref(null);
 
-function onDoubleClickName() {
+function onDoubleClickItem() {
+  // Center on the node in the editor
+  let nodePos = props.node.getGlobalCenterPos();
+  gApp.site.setCenterPos(nodePos);
+}
+
+function onDoubleClickName(evt) {
+  evt.stopPropagation();
   editingName.value = !editingName.value;
   if (editingName.value) {
     nextTick(() => {
@@ -177,6 +184,7 @@ onMounted(() => {
     class="NoSelect" 
     :style="styleObject"
     @click="selectNode" 
+    @dblclick="onDoubleClickItem"
     ref="itemElem"
     draggable="true"
     @dragstart="onDragStart"

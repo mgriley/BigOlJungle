@@ -11,7 +11,12 @@ const props = defineProps({
 
 <template>
   <div>
-    <PositionInput :node="editorData" />
+    <div v-if="editorData.isRoot()">
+      Root Node at ({{editorData.posX}}, {{editorData.posY}})
+    </div>
+    <div v-else>
+      <PositionInput :node="editorData" />
+    </div>
   </div>
 </template>
 

@@ -33,6 +33,9 @@ function onLinkClicked(evt) {
 }
 
 async function startEditing() {
+  if (isEditing.value) {
+    return;
+  }
   isEditing.value = true;
   await nextTick();
   if (inputRef.value) {

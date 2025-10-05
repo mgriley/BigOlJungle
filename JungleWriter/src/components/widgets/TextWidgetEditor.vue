@@ -71,7 +71,7 @@ function openTextModal() {
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
   <div class="mt-s">
-    <button class="EditTextButton" @click="openTextModal"><i class="bi bi-chat-right-text mr-xs"></i>Edit text</button>
+    <button class="EditTextButton" @click="openTextModal"><i class="bi bi-chat-right-text mr-xs"></i>Big Editor</button>
   </div>
 
   <TextEntryModal 

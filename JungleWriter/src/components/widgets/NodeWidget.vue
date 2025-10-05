@@ -16,7 +16,10 @@ let elementRef = ref(null);
 let groupIndicatorRef = ref(null);
 
 onMounted(() => {
-  setupWidgetDrag(groupIndicatorRef.value, props.node);
+  // Note - we don't allow dragging the root node
+  if (!props.node.isRoot()) {
+    setupWidgetDrag(groupIndicatorRef.value, props.node);
+  }
 })
 
 let styleObject = computed(() => {

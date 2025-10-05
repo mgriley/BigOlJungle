@@ -113,6 +113,12 @@ export class Node {
     this.onExit();
   }
 
+  applyPreferences(sitePreferences) {
+    // After node creation, this is called to apply site preferences
+    // like default font family, size, etc.
+    // Override in subclasses as needed.
+  }
+
   getAllowsChildren() {
     return true;
   }
@@ -129,6 +135,31 @@ export class Node {
   moveBy(delta) {
     this.posX += delta.x;
     this.posY += delta.y;
+  }
+
+  getCenterPos() {
+    let centerX = this.posX;
+    let centerY = this.posY;
+    if (this.width) {
+      centerX += this.width / 2;
+    }
+    if (this.height) {
+      centerY += this.height / 2;
+    }
+    return {x: centerX, y: centerY};
+  }
+
+  getGlobalCenterPos() {
+    let globalPos = this.getGlobalPos();
+    let centerX = globalPos.x;
+    let centerY = globalPos.y;
+    if (this.width) {
+      centerX += this.width / 2;
+    }
+    if (this.height) {
+      centerY += this.height / 2;
+    }
+    return {x: centerX, y: centerY};
   }
 
   setCenterPos(newCenter) {

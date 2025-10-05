@@ -109,7 +109,8 @@ function onKeyDown(evt) {
   }
 
   // Only handle arrow keys when editing and a node is selected
-  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity) {
+  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity &&
+      !gApp.site.selectedEntity.isRoot()) {
     const moveAmount = 1; // pixels to move per keypress
     const resizeAmount = 1; // pixels to resize per keypress
     const selectedNode = gApp.site.selectedEntity;
@@ -327,9 +328,11 @@ onUnmounted(() => {
       </div>
       <div v-if="isEditing" class="DesignAreaGuide">
       </div>
+      <!--
       <div v-if="isEditing" class="CenterIndicator">
         <i class="bi bi-plus-lg"></i>
       </div>
+      -->
     </div>
   </main>
 </template>
