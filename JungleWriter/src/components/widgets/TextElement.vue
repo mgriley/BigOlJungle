@@ -84,4 +84,8 @@ const elementOptions = [
 .HelpIcon:hover {
   color: var(--main-text);
 }
+
+.HelpIcon[title]:hover::after {
+  transition-delay: 0s !important;
+}
 </style>
