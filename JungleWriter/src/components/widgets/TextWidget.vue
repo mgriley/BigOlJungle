@@ -86,8 +86,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget TextWidget NoSelect" :class="{ 'editing': isEditing }" :style="node.getStyleObject()"
-      ref="elementRef" @click="onClick" @dblclick="onDoubleClick">
+  <component 
+    :is="node.elementType" 
+    class="Widget TextWidget NoSelect" 
+    :class="{ 'editing': isEditing }" 
+    :style="node.getStyleObject()"
+    ref="elementRef" 
+    @click="onClick" 
+    @dblclick="onDoubleClick"
+  >
     <div v-if="!isEditing">
       <template v-if="!node.link.hasLink()">
         {{ node.text || "Double-click me 🐍"}}
@@ -110,7 +117,7 @@ onMounted(() => {
       @mousedown.stop
     ></textarea>
     <DragCorners v-if="node.selected" :node="node" />
-  </div>
+  </component>
 </template>
 
 <style>
