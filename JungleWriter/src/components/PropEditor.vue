@@ -28,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="PropEditor">
     <template v-if="propEditor">
       <!--<p class="MarginBotXS">Type: {{ propEditor.type }}</p>-->
       <component v-if="gNodeDataMap[propEditor.type].editor" :is="gNodeDataMap[propEditor.type].editor" :editorData="propEditor"></component>
@@ -43,4 +43,7 @@ onMounted(() => {
 </style>
 
 <style scoped>
+.PropEditor {
+  position: relative;
+}
 </style>
