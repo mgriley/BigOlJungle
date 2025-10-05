@@ -46,9 +46,9 @@ const showTooltip = ref(false)
   border-radius: 4px;
   font-size: var(--f-xs);
   white-space: nowrap;
-  max-width: 300px;
+  max-width: 175px;
   white-space: normal;
-  width: max-content;
+  width: 175px;
   z-index: 20000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }

@@ -73,12 +73,11 @@ function selectTab(tab) {
 }
 
 .Sidebar {
-  position: relative;
   background-color: var(--main-bg);
   z-index: 1000;
   height: 100vh;
   max-height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   /*padding: var(--space-s) var(--space-m);*/
 
   display: flex;

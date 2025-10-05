@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, computed, nextTick } from 'vue'
+import { ref, onMounted, reactive, computed, nextTick, watch } from 'vue'
 import { gApp } from '../State.js'
 import { setupWidgetDrag } from '../Utils.js'
 import { TextNode } from './TextNode.js'
@@ -77,6 +77,14 @@ function autoResizeTextarea() {
 function onInput() {
   autoResizeTextarea();
 }
+
+// Note - elementRef changes when the component switches between
+// element types (e.g. div to h1), so we need to watch it.
+watch(elementRef, (newEl, oldEl) => {
+  if (newEl) {
+    setupWidgetDrag(newEl, props.node);
+  }
+})
 
 
 onMounted(() => {

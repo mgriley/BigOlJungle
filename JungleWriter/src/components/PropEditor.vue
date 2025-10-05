@@ -44,6 +44,5 @@ onMounted(() => {
 
 <style scoped>
 .PropEditor {
-  position: relative;
 }
 </style>

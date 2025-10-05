@@ -48,7 +48,7 @@ const elementOptions = [
           {{ option.label }}
         </option>
       </select>
-      <HelpTooltip text="Choose the HTML tag to use for this text. Does not affect appearance. Use <p> for paragraph, <h1> for header-1, etc. Set properly for better accessibility and SEO." />
+      <HelpTooltip text="Set the HTML tag to use for this text. Does not affect appearance. Set correctly to improve accessibility and SEO." />
     </div>
   </div>
 </template>
