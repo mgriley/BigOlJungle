@@ -15,6 +15,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'change'])
 
+const showTooltip = ref(false)
+
 const value = computed({
   get() {
     return props.modelValue || 'p'
@@ -47,8 +49,11 @@ const elementOptions = [
           {{ option.label }}
         </option>
       </select>
-      <div class="HelpIcon" title="Choose the HTML element to use for this input. Does not affect appearance. Use <p> for paragraph, <h1> for header-1, etc. Set properly for better accessibility and SEO.">
+      <div class="HelpIcon" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false">
         <i class="bi bi-question-circle"></i>
+        <div v-if="showTooltip" class="CustomTooltip">
+          Choose the HTML element to use for this input. Does not affect appearance. Use &lt;p&gt; for paragraph, &lt;h1&gt; for header-1, etc. Set properly for better accessibility and SEO.
+        </div>
       </div>
     </div>
   </div>
@@ -79,13 +84,40 @@ const elementOptions = [
   cursor: help;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .HelpIcon:hover {
   color: var(--main-text);
 }
 
-.HelpIcon[title]:hover::after {
-  transition-delay: 0s !important;
+.CustomTooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background-color: var(--popup-bg);
+  color: var(--popup-text);
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius-s);
+  font-size: var(--f-xs);
+  white-space: nowrap;
+  max-width: 300px;
+  white-space: normal;
+  width: max-content;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.CustomTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--popup-bg);
 }
 </style>
