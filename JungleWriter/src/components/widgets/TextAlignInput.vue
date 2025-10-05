@@ -64,7 +64,7 @@ const value = computed({
   /*width: 32px;*/
   flex: 1;
   min-width: 32px;
-  height: 32px;
+  height: 24px;
   border: 1px solid var(--medium-color);
   border-radius: var(--border-radius-s);
   background-color: var(--input-bg);

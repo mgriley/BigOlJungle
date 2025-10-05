@@ -175,8 +175,8 @@ it gets clicked. Say if using for a button
   flex: 1;
   padding: 4px 8px;
   min-height: auto;
-  width: 80px;
-  min-width: 50px;
+  width: 50px;
+  min-width: 20px;
   /*max-width: 120px;*/
   border: none;
   border-radius: var(--border-radius-small);

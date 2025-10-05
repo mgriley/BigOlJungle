@@ -80,7 +80,7 @@ function onUpdateColor(evt) {
 }
 
 .LeftLabel {
-  margin-right: 8px;
+  margin-right: 4px;
   margin-bottom: 0;
   white-space: nowrap;
 }

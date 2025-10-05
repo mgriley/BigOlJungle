@@ -39,15 +39,17 @@ function onColorChange(newColor) {
   }
 }
 
-
 </script>
 
 <template>
-  <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
+  <PositionInput :node="editorData" :includeSize="true" class="mb-s" />
   <div class="mb-m">
-    <FontInput v-model="editorData.fontFamily" name="Font" @change="onFontChange" />
-    <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" @change="onFontSizeChange" />
-    <ColorInput :color="editorData.color" name="Color" @change="onColorChange"/>
+    <FontInput v-model="editorData.fontFamily" name="Font" @change="onFontChange"
+      labelWidth="5ch"/>
+    <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" @change="onFontSizeChange"
+      labelWidth="5ch" />
+    <ColorInput :color="editorData.color" name="Color" @change="onColorChange"
+      labelWidth="5ch" />
   </div>
   <div class="mb-s">
     <div class="FontStyleButtons">
@@ -78,13 +80,13 @@ function onColorChange(newColor) {
     </div>
     <TextAlignInput v-model="editorData.textAlign" />
   </div>
-  <div class="mb-m FlexRow">
+  <div class="mb-xs FlexRow">
     <NumberInput id="LineHeightInput" v-model="editorData.lineHeight" name="Line Height" :min="0" :increment="0.1"/>
     <NumberInput id="LetterSpacingInput" v-model="editorData.letterSpacing" name="Letter Spacing" :increment="0.1" />
   </div>
   <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
 
-  <div class="mb-l">
+  <div class="mb-m">
     <LinkInput :input="editorData.link" name="Link" />
   </div>
 
@@ -123,7 +125,7 @@ function onColorChange(newColor) {
 .StyleToggle {
   flex: 1;
   min-width: 32px;
-  height: 32px;
+  height: 24px;
   border: 1px solid var(--medium-color);
   border-radius: var(--border-radius-s);
   background-color: var(--input-bg);
