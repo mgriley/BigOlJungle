@@ -14,6 +14,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['change'])
+
 let showDialog = ref(false);
 
 function toggleModal() {
@@ -27,6 +29,7 @@ const value = computed({
   set(color) {
     if (props.color) {
       props.color.color = color;
+      emit('change', props.color);
     }
   }
 })
@@ -38,6 +41,7 @@ const alphaValue = computed({
   set(alpha) {
     if (props.color) {
       props.color.alpha = alpha;
+      emit('change', props.color);
     }
   }
 })
