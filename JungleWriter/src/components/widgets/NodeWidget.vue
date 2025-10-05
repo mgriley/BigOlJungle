@@ -60,6 +60,7 @@ let styleObject = computed(() => {
   width: 150px;
   height: 150px;
   transform: translate(-50%, -50%);
+  filter: hue-rotate(0deg) saturate(2) brightness(0.8) sepia(1) hue-rotate(320deg);
 }
 </style>
 
