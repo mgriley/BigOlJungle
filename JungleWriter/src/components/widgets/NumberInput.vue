@@ -25,7 +25,7 @@ const props = defineProps({
     default: 1
   }
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 const value = computed({
   get() {
@@ -33,6 +33,7 @@ const value = computed({
   },
   set(value) {
     emit('update:modelValue', value)
+    emit('change', value)
   }
 })
 
@@ -51,8 +52,10 @@ const optionalValue = computed({
     if (value) {
       //console.log("DefaultValue: "+props.defaultValue);
       emit('update:modelValue', props.defaultValue);
+      emit('change', props.defaultValue);
     } else {
       emit('update:modelValue', null);
+      emit('change', null);
     }
   }
 })
