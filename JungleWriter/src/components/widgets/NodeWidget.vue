@@ -75,6 +75,7 @@ let styleObject = computed(() => {
   left: 0;
   width: auto;
   height: auto;
+  transform: translate(-50%, -50%);
 }
 
 .arrow {
