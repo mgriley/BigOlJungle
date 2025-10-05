@@ -105,7 +105,9 @@ const labelWidth = computed(() => {
 
 .FontButton {
   font-weight: normal;
-  padding: 0 var(--space-xs);
+  padding: var(--space-xxs) var(--space-xs);
+  font-size: var(--f-s);
+  text-align: left;
 }
 
 .InputLabel {
