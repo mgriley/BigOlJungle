@@ -9,6 +9,7 @@ import ColorInput from './ColorInput.vue'
 import LinkInput from './LinkInput.vue'
 import TextEntryModal from './TextEntryModal.vue'
 import PositionInput from './PositionInput.vue'
+import { gApp } from '../Globals.js'
 
 const props = defineProps({
   editorData: Object
@@ -20,15 +21,33 @@ function openTextModal() {
   textModal.value.showModal()
 }
 
+function onFontChange(newFont) {
+  if (gApp.site) {
+    gApp.site.preferences.fontFamily = newFont
+  }
+}
+
+function onFontSizeChange(newSize) {
+  if (gApp.site) {
+    gApp.site.preferences.fontSize = newSize
+  }
+}
+
+function onColorChange(newColor) {
+  if (gApp.site) {
+    gApp.site.preferences.textColor = newColor
+  }
+}
+
 
 </script>
 
 <template>
   <PositionInput :node="editorData" :includeSize="true" class="mb-m" />
   <div class="mb-m">
-    <FontInput v-model="editorData.fontFamily" name="Font" />
-    <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" />
-    <ColorInput :color="editorData.color" name="Color"/>
+    <FontInput v-model="editorData.fontFamily" name="Font" @change="onFontChange" />
+    <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" @change="onFontSizeChange" />
+    <ColorInput :color="editorData.color" name="Color" @change="onColorChange"/>
   </div>
   <div class="mb-s">
     <div class="FontStyleButtons">
