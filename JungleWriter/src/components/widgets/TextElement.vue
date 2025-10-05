@@ -47,6 +47,9 @@ const elementOptions = [
           {{ option.label }}
         </option>
       </select>
+      <div class="HelpIcon" title="Choose the HTML element to use for this input. Does not affect appearance. Use for SEO and accessibility.">
+        <i class="bi bi-question-circle"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +59,7 @@ const elementOptions = [
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: var(--space-xs);
 }
 
 .ElementSelector {
@@ -67,5 +71,17 @@ const elementOptions = [
   padding: 4px 8px;
   min-width: 0px;
   width: 100px;
+}
+
+.HelpIcon {
+  color: var(--mute-text);
+  font-size: var(--f-s);
+  cursor: help;
+  display: flex;
+  align-items: center;
+}
+
+.HelpIcon:hover {
+  color: var(--main-text);
 }
 </style>
