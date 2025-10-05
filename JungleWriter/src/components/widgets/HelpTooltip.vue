@@ -41,16 +41,15 @@ const showTooltip = ref(false)
   right: 0;
   margin-bottom: 8px;
   padding: 8px 12px;
-  background-color: var(--popup-bg);
-  color: var(--popup-text);
-  border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-s);
+  background-color: blue;
+  color: white;
+  border-radius: 4px;
   font-size: var(--f-xs);
   white-space: nowrap;
   max-width: 300px;
   white-space: normal;
   width: max-content;
-  z-index: 9999;
+  z-index: 20000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
