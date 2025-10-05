@@ -102,6 +102,9 @@ onMounted(() => {
   background-color: blue;
   border-radius: var(--border-radius-sm);
   min-width: 160px;
+  max-height: 60vh;
+  max-width: 90vw;
+  overflow-y: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   pointer-events: auto;
 }
