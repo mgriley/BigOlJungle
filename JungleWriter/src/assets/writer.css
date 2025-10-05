@@ -34,7 +34,9 @@ main {
   /*transform: translate(-50%, -50%);*/
 }
 
-.AnchorDiv p,h1,h2,h3,h4 {
+.AnchorDiv p, .AnchorDiv h1,
+.AnchorDiv h2, .AnchorDiv h3,
+.AnchorDiv h4 {
   display: block;
   margin: 0;
   padding: 0;

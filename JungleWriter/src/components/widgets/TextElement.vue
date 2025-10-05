@@ -32,10 +32,10 @@ const labelWidth = computed(() => {
 })
 
 const elementOptions = [
-  { value: 'p', label: '<p>' },
-  { value: 'h1', label: '<h1>' },
-  { value: 'h2', label: '<h2>' },
-  { value: 'h3', label: '<h3>' }
+  { value: 'p', label: 'Paragraph' },
+  { value: 'h1', label: 'Heading-1' },
+  { value: 'h2', label: 'Heading-2' },
+  { value: 'h3', label: 'Heading-3' }
 ]
 
 </script>
@@ -64,7 +64,6 @@ const elementOptions = [
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--space-xs);
 }
 
 .ElementSelector {
@@ -75,7 +74,7 @@ const elementOptions = [
   border-radius: var(--border-radius-small);
   padding: 4px 8px;
   min-width: 0px;
-  width: 100px;
+  width: 120px;
 }
 
 .HelpIcon {
@@ -85,6 +84,7 @@ const elementOptions = [
   display: flex;
   align-items: center;
   position: relative;
+  margin-left: var(--space-xs);
 }
 
 .HelpIcon:hover {
