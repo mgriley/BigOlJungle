@@ -50,7 +50,7 @@ const showTooltip = ref(false)
   max-width: 300px;
   white-space: normal;
   width: max-content;
-  z-index: 1000;
+  z-index: 9999;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
