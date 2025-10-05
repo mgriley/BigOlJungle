@@ -6,6 +6,10 @@ import ModalSelector from '../ModalSelector.vue'
 const props = defineProps({
   modelValue: [String, Number, Object],
   name: String,
+  labelWidth: {
+    type: String,
+    default: null
+  }
 })
 const emit = defineEmits(['update:modelValue', 'change'])
 
@@ -71,12 +75,16 @@ function onPickFont(newFont) {
   value.value = newFont.name;
 }
 
+const labelWidth = computed(() => {
+  return props.labelWidth || 'auto';
+})
+
 </script>
 
 <template>
   <div class="FontInput StdInput">
     <div class="Parent">
-      <div class="InputLabel mr-s" v-if="name">{{name}}</div>
+      <div class="InputLabel mr-s" v-if="name" :style="{ width: labelWidth, minWidth: labelWidth }">{{name}}</div>
       <!-- <input class="BasicTextInput InputChild" type="text" v-model="value"> -->
       <button class="FontButton" :style="{'font-family': value}" @click="startPickFont">{{value}}</button>
       <ModalSelector ref="fontPickerModal" :options="fontOptions" @choose="onPickFont"/>
@@ -98,6 +106,12 @@ function onPickFont(newFont) {
 .FontButton {
   font-weight: normal;
   padding: 0 var(--space-xs);
+}
+
+.InputLabel {
+  margin-right: 8px;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 #OptionA {
