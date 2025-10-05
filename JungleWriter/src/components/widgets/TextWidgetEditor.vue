@@ -9,6 +9,7 @@ import ColorInput from './ColorInput.vue'
 import LinkInput from './LinkInput.vue'
 import TextEntryModal from './TextEntryModal.vue'
 import PositionInput from './PositionInput.vue'
+import TextElement from './TextElement.vue'
 import { gApp } from '../Globals.js'
 
 const props = defineProps({
@@ -44,6 +45,7 @@ function onColorChange(newColor) {
 <template>
   <PositionInput :node="editorData" :includeSize="true" class="mb-s" />
   <div class="mb-m">
+    <TextElement v-model="editorData.elementType" name="Element" class="mb-xs" />
     <FontInput v-model="editorData.fontFamily" name="Font" @change="onFontChange"
       labelWidth="5ch"/>
     <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" @change="onFontSizeChange"

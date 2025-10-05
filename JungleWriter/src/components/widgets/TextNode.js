@@ -7,6 +7,13 @@ import { createElementString } from '../StaticSiteTemplates.js';
 import { ColorInput } from './ColorInput.js';
 import { LinkInput } from './LinkInput.js';
 
+export const ElementType = {
+  Paragraph: 'p',
+  Heading1: 'h1',
+  Heading2: 'h2',
+  Heading3: 'h3'
+};
+
 export class TextNode extends Node {
   static sUiShortName = "T";
 
@@ -16,6 +23,7 @@ export class TextNode extends Node {
     this.type = "TextNode";
 
     this.text = "";
+    this.elementType = ElementType.Paragraph;
     this.fontFamily = "sans-serif";
     this.fontSize = 36;
     this.color = new ColorInput('#000000', 1.0);
@@ -34,6 +42,7 @@ export class TextNode extends Node {
     let obj = super.writeToJson();
     extendMap(obj, {
       text: this.text,
+      elementType: this.elementType,
       fontFamily: this.fontFamily,
       fontSize: this.fontSize,
       color: this.color.writeToJson(),
@@ -52,6 +61,7 @@ export class TextNode extends Node {
   readFromJson(obj) {
     super.readFromJson(obj);
     this.text = obj.text;
+    this.elementType = obj.elementType || ElementType.Paragraph;
     if (obj.fontFamily) {
       this.fontFamily = obj.fontFamily;
     }
@@ -143,6 +153,7 @@ export class TextNode extends Node {
     clone.posX = this.posX;
     clone.posY = this.posY;
     clone.text = this.text;
+    clone.elementType = this.elementType;
     clone.fontFamily = this.fontFamily;
     clone.fontSize = this.fontSize;
     
@@ -179,7 +190,7 @@ export class TextNode extends Node {
     }
     
     return createElementString(
-      'div', {class: "Widget TextWidget"}, this.getStyleObject(),
+      this.elementType, {class: "Widget TextWidget"}, this.getStyleObject(),
       content
     );
   }
