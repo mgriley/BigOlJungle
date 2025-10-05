@@ -2,6 +2,7 @@
 import { gApp } from './State.js'
 
 function togglePreview() {
+  gApp.site.deselectAll();
   gApp.site.setIsEditing(!gApp.site.getIsEditing());
 }
 

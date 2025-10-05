@@ -11,7 +11,6 @@ const props = defineProps({
 })
 
 let elementRef = ref(null);
-let imgRef = ref(null);
 let imgChooser = ref(null);
 
 function onClick() {
@@ -50,7 +49,6 @@ let hasNoImage = computed(() => {
 
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
-  //setupWidgetDrag(imgRef.value, props.node);
 })
 
 </script>
@@ -60,8 +58,7 @@ onMounted(() => {
     :style="node.getStyleObject()" @click="onClick" @dblclick="onDoubleClick"
     :class="{ 'no-image': hasNoImage }"
     >
-    <img v-if="!hasNoImage" class="" :style="node.getImgStyleObject()"
-      ref="imgRef"
+    <img v-if="!hasNoImage"
       :src="node.getSrcUrl()" :alt="node.altText"
     />
     <div v-else class="placeholder-content">

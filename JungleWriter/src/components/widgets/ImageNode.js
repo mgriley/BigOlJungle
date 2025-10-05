@@ -158,6 +158,7 @@ export class ImageNode extends Node {
         ...myStyle,
         width: `${this.width}px`,
         height: 'auto',
+        height: '300px',
       };
     } else {
       myStyle = {
@@ -173,6 +174,7 @@ export class ImageNode extends Node {
   }
 
   getImgStyleObject() {
+    // NOTE - currently unused
     let myStyle = {};
     return {
       ...myStyle
@@ -199,17 +201,14 @@ export class ImageNode extends Node {
   async generateStaticHtml(writer) {
     await writer.addFileWithName(this.srcName);
 
-    let imgStyleObject = this.getImgStyleObject();
     let imgHtml = createElementString(
       'img', 
       {
         class: "",
         src: this.srcName,
         alt: this.altText
-      }, 
-      imgStyleObject
+      }
     );
-    
     return createElementString(
       'div', 
       {class: "Widget ImageWidget"}, 
