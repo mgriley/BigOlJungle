@@ -95,7 +95,6 @@ onMounted(() => {
     @click="onClick" 
     @dblclick="onDoubleClick"
   >
-    <p>{{node.elementType}}</p>
     <div v-if="!isEditing">
       <template v-if="!node.link.hasLink()">
         {{ node.text || "Double-click me 🐍"}}

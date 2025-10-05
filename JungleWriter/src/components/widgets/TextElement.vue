@@ -30,10 +30,10 @@ const labelWidth = computed(() => {
 })
 
 const elementOptions = [
-  { value: 'p', label: 'Paragraph' },
-  { value: 'h1', label: 'Heading 1' },
-  { value: 'h2', label: 'Heading 2' },
-  { value: 'h3', label: 'Heading 3' }
+  { value: 'p', label: '<p>' },
+  { value: 'h1', label: '<h1>' },
+  { value: 'h2', label: '<h2>' },
+  { value: 'h3', label: '<h3>' }
 ]
 
 </script>
@@ -65,7 +65,7 @@ const elementOptions = [
   border: none;
   border-radius: var(--border-radius-small);
   padding: 4px 8px;
-  min-width: 120px;
-  max-width: 200px;
+  min-width: 0px;
+  width: 100px;
 }
 </style>
