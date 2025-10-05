@@ -6,7 +6,7 @@
 import { ref, onMounted, reactive, computed } from 'vue'
 import { gNodeDataMap } from './NodeDataMap.js'
 import { gApp } from '../State.js'
-import { setupWidgetDrag } from '../Utils.js'
+import { setupWidgetDrag } from '../DragUtils.js'
 
 const props = defineProps({
   node: Object
@@ -27,14 +27,6 @@ let styleObject = computed(() => {
     // Reset the outline, which may be set to red for selected nodes
     outline: 'none',
   }
-  /*
-  if (props.node.isSelected()) {
-    let boxLen = 30;
-    curStyle.width = boxLen+'px';
-    curStyle.height = boxLen+'px';
-    curStyle.outline = "2px solid black";
-  }
-  */
   return {
     ...baseStyle,
     ...curStyle
@@ -47,12 +39,12 @@ let styleObject = computed(() => {
   <div class="Widget NodeWidget" ref="elementRef" :style="styleObject">
     <!-- Use a separate indicator for the drag handle so that we can display it on top 
      without messing up the node hierarchy. -->
-    <div class="GroupIndicator" ref="groupIndicatorRef">
-      <img src="../../assets/Axis.png" alt="Axis" class="AxisImage" />
-    </div>
-    <svg class="arrow" width="40" height="20" viewBox="0 0 40 20">
-      <polygon points="0,0 30,10 0,20" fill="currentColor" />
-    </svg>
+    <img
+      v-show="node.isSelected()"
+      ref="groupIndicatorRef"
+      src="../../assets/Axis.png"
+      alt="Axis"
+      class="AxisImage" />
     <template v-for="childNode in node.getChildrenInHtmlOrder()" :key="childNode.id">
       <component v-if="childNode.type !== null" :is="gNodeDataMap[childNode.type].widget" :node="childNode" />
     </template>
@@ -60,26 +52,14 @@ let styleObject = computed(() => {
 </template>
 
 <style scoped>
-.GroupIndicator {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  width: 0px;
-  height: 0px;
-}
-
 .AxisImage {
   position: absolute;
   top: 0;
   left: 0;
-  width: auto;
-  height: auto;
+  z-index: 1000;
+  width: 150px;
+  height: 150px;
   transform: translate(-50%, -50%);
-}
-
-.arrow {
-  color: red;
 }
 </style>
 
