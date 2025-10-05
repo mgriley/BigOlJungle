@@ -52,7 +52,7 @@ const elementOptions = [
       <div class="HelpIcon" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false">
         <i class="bi bi-question-circle"></i>
         <div v-if="showTooltip" class="CustomTooltip">
-          Choose the HTML element to use for this input. Does not affect appearance. Use &lt;p&gt; for paragraph, &lt;h1&gt; for header-1, etc. Set properly for better accessibility and SEO.
+          Choose the HTML tag to use for this text. Does not affect appearance. Use &lt;p&gt; for paragraph, &lt;h1&gt; for header-1, etc. Set properly for better accessibility and SEO.
         </div>
       </div>
     </div>
