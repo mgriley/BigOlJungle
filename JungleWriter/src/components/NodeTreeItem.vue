@@ -88,6 +88,10 @@ let nodeIcon = computed(() => {
   }
 })
 
+let usesAutomaticName = computed(() => {
+  return props.node.getAutomaticName() !== null;
+})
+
 let itemElem = ref(null);
 let dragBtn = ref(null);
 
@@ -181,16 +185,19 @@ onMounted(() => {
     @drop="onDrop"
     @dragend="onDragEnd"
   >
-    <!--<span class="DepthSpan">{{depthText}}</span>-->
-    <span v-if="depth > 0" class="DepthSpan ml-xxs mr-xxs">{{depthText}}<i class="bi bi-arrow-return-right"></i></span>
-    <!--<span class="NodeTypeIcon"><sup>{{ node.constructor.sUiShortName }}</sup></span>-->
+    <span v-if="depth > 0" class="DepthSpan ml-xxs mr-xxs">
+      {{depthText}}<!--<i class="bi bi-arrow-return-right"></i>-->
+    </span>
     <button class="OpenBtn SmallButton" v-if="isFolder" @click="toggleOpen">
       <i :class="isOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
     </button>
     <i v-else :class="nodeIcon" class="NodeIcon"></i>
     <p v-if="!editingName" class="NodeName InlineBlock ml-xxs f-m">
-      <span @dblclick="onDoubleClickName">
+      <span v-if="!usesAutomaticName" @dblclick="onDoubleClickName">
       {{ node.name }}
+      </span>
+      <span v-else>
+      {{ node.getAutomaticName() }}
       </span>
     </p>
     <template v-else>

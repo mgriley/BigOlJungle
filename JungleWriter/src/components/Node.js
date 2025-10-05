@@ -426,7 +426,8 @@ export class Node {
     if (this.selected) {
       // Note: style.border affects element size. outline is drawn
       // outside of it.
-      style.outline = '1px solid lightgrey';
+      //style.outline = '1px solid lightgrey';
+      style.outline = '2px solid red';
       style.cursor = 'move';
     }
     return style;
@@ -434,6 +435,13 @@ export class Node {
 
   isSelected() {
     return this.selected;
+  }
+
+  getAutomaticName() {
+    // Override in subclasses
+    // If return a valid string, use this as the name in the Node Tree editor.
+    // Otherwise, just use this.name property.
+    return null;
   }
 
   // Returns [{node: Node, depth: Number}] in DFS display order.

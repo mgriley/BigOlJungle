@@ -2,6 +2,7 @@ import { reactive, ref, watchEffect, watch, nextTick } from 'vue'
 import { gApp } from '../State.js'
 import { Node } from '../Node.js'
 import { extendMap, AsyncValue } from '../Utils.js'
+import { trimText } from 'Shared/SharedUtils.js'
 import { createElementString } from '../StaticSiteTemplates.js'
 
 export class ImageNode extends Node {
@@ -68,6 +69,14 @@ export class ImageNode extends Node {
 
   getAllowsChildren() {
     return false;
+  }
+
+  getAutomaticName() {
+    let trimmed = trimText(this.srcName, 12);
+    if (trimmed) {
+      return trimmed;
+    }
+    return "(No Image)";
   }
 
   writeToJson() {

@@ -2,6 +2,7 @@ import * as State from '../State.js'
 import { gApp } from '../Globals.js'
 import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
+import { trimText } from 'Shared/SharedUtils.js'
 import { createElementString } from '../StaticSiteTemplates.js';
 import { ColorInput } from './ColorInput.js';
 import { LinkInput } from './LinkInput.js';
@@ -78,6 +79,14 @@ export class TextNode extends Node {
 
   getAllowsChildren() {
     return false;
+  }
+
+  getAutomaticName() {
+    let trimmed = trimText(this.text, 12);
+    if (trimmed) {
+      return trimmed;
+    }
+    return "(Empty)";
   }
 
   getStyleObject() {
