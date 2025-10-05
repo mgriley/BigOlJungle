@@ -38,7 +38,6 @@ export class StaticSiteWriter {
     this.addStyleBlock('utils', this._removeImportLines(utilsCss));
     this.addStyleBlock('buttons', this._removeImportLines(buttonsCss));
     this.addStyleBlock('writer', this._removeImportLines(writerCss));
-    this.addStyleBlock('main', this._removeImportLines(mainCss));
   }
 
   addTextFile(path, content) {

@@ -34,6 +34,14 @@ main {
   /*transform: translate(-50%, -50%);*/
 }
 
+.AnchorDiv p,h1,h2,h3,h4 {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: inherit;
+}
+
 /* END - STYLES FROM SceneEditor.vue */
 
 /* WIDGETS CSS */

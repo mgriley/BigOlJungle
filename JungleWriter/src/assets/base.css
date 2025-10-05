@@ -32,6 +32,8 @@
 
   --row-highlight-bg: blue;
 
+  --editor-header-color: #2196F3;
+
   --space-zero: 0px;
   --space-xxs: 4px;
   --space-xs: 8px;
@@ -123,3 +125,108 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
+Disable double-tap to globally on mobile. It causes a lot of problems with buttons
+like menu show/hide.
+See: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices
+*/
+* {
+  touch-action: manipulation;
+}
+
+#app {
+  margin: 0 auto;
+  /*padding: 2rem;*/
+  /*font-weight: normal;*/
+}
+
+/* Prevent flashes on tap on mobile */
+/* https://stackoverflow.com/questions/6211959/html5-div-flashes-on-tap */
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+p {
+  line-height: var(--main-line-height);
+  font-size: var(--p-size);
+  color: var(--main-text);
+}
+
+h1, h2, h3, h4 {
+  font-weight: var(--bold-weight);
+  color: var(--header-text);
+}
+
+h1 {
+  font-size: var(--h1-size);
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+h2 {
+  font-size: var(--h2-size);
+  line-height: 1.2;
+  /* letter-spacing: -1px; */
+}
+
+h3 {
+  font-size: var(--h3-size);
+  line-height: 1.4;
+  /* letter-spacing: -1px; */
+}
+
+h4 {
+  font-size: var(--h4-size);
+  line-height: 1.6;
+}
+
+b {
+  font-weight: var(--bold-weight);
+}
+
+a {
+  color: var(--main-text);
+  transition: 0.2s;
+}
+
+a:hover, a:active {
+  background-color: var(--link-hover-bg);
+}
+
+/* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
+/* See: https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width */
+.BasicTextInput {
+  display: block;
+  padding: 4px;
+  /* margin: 5px 0; */
+  /* border: 1px solid var(--light-color); */
+  border: none;
+  border-radius: var(--border-radius-small);
+  font-size: var(--p-size);
+  background-color: var(--input-bg);
+}
+
+input[type="text"]{
+  background-color: var(--input-bg); 
+  color: var(--main-text);
+}
+
+textarea {
+  background-color: var(--input-bg); 
+  color: var(--main-text);
+  border: var(--border-reg);
+  border-radius: 4px;
+  padding: 4px;
+  font-size: var(--smaller-size);
+}
+
+select {
+  font-size: var(--p-size);
+  /* color: var(--main-text); */
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: 4px;
+  min-width: 18ch;
+  max-width: 30ch;
+}

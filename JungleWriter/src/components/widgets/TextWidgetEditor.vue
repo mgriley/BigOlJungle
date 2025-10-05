@@ -45,13 +45,13 @@ function onColorChange(newColor) {
 <template>
   <PositionInput :node="editorData" :includeSize="true" class="mb-s" />
   <div class="mb-m">
-    <TextElement v-model="editorData.elementType" name="Type" class="mb-xs" labelWidth="5ch" />
     <FontInput v-model="editorData.fontFamily" name="Font" @change="onFontChange"
       labelWidth="5ch"/>
     <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" @change="onFontSizeChange"
       labelWidth="5ch" />
     <ColorInput :color="editorData.color" name="Color" @change="onColorChange"
       labelWidth="5ch" />
+    <TextElement v-model="editorData.elementType" name="Type" class="mb-xs" labelWidth="5ch" />
   </div>
   <div class="mb-s">
     <div class="FontStyleButtons">

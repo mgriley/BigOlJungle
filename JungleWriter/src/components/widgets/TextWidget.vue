@@ -95,7 +95,7 @@ onMounted(() => {
     @click="onClick" 
     @dblclick="onDoubleClick"
   >
-    <div v-if="!isEditing">
+    <template v-if="!isEditing">
       <template v-if="!node.link.hasLink()">
         {{ node.text || "Double-click me 🐍"}}
       </template>
@@ -104,7 +104,7 @@ onMounted(() => {
           {{node.text || "Double-click me 🐍"}}
         </a>
       </template>
-    </div>
+    </template>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->
     <textarea v-else

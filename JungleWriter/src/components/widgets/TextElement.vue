@@ -41,7 +41,7 @@ const elementOptions = [
 <template>
   <div class="TextElement StdInput">
     <div class="ElementControls">
-      <div class="f-s" v-if="name" :style="{ width: labelWidth }">{{name}}</div>
+      <div class="InputLabel mr-xxs" v-if="name" :style="{ width: labelWidth }">{{name}}</div>
       <select class="ElementSelector" v-model="value">
         <option v-for="option in elementOptions" :key="option.value" :value="option.value">
           {{ option.label }}
@@ -56,7 +56,6 @@ const elementOptions = [
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--space-xs);
 }
 
 .ElementSelector {
