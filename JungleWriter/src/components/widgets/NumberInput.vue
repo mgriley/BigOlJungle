@@ -9,9 +9,6 @@ const props = defineProps({
     type: Number,
     default: null,
   },
-  isOptional: Boolean,
-  // Used when toggling the `Optional` flag
-  defaultValue: [String, Number, Object],
   labelLeft: {
     type: Boolean,
     default: false
@@ -44,21 +41,6 @@ const leftLabelWidth = computed(() => {
   return `${props.name.length + 0.5}ch`;
 })
 
-const optionalValue = computed({
-  get() {
-    return props.modelValue !== null;
-  },
-  set(value) {
-    if (value) {
-      //console.log("DefaultValue: "+props.defaultValue);
-      emit('update:modelValue', props.defaultValue);
-      emit('change', props.defaultValue);
-    } else {
-      emit('update:modelValue', null);
-      emit('change', null);
-    }
-  }
-})
 
 function setupDragBall(elmnt) {
   var startVal = null;
@@ -108,7 +90,6 @@ onMounted(() => {
     <div class="InputLabel TopLabel" v-if="name && !labelLeft">{{name}}</div>
     <div class="FlexRowNoWrap">
       <div class="InputLabel LeftLabel" v-if="name && labelLeft" :style="{ width: leftLabelWidth, minWidth: leftLabelWidth }">{{name}}</div>
-      <input v-if="isOptional" class="EditorInput OptionalToggle" v-model="optionalValue" type="checkbox" name="optionalToggle"/>
       <input class="EditorInput InputChild" type="number" v-model="value" :min="min" :step="increment">
       <!--<input class="MyInput" type="number" v-model="value" :min="min" :step="increment">-->
       <div class="DragBall" ref="dragBall" title="Drag up and down"><i class="bi bi-arrow-down-up ml-xxs"></i></div>
@@ -122,9 +103,6 @@ onMounted(() => {
   margin-bottom: var(--space-xs);
 }
 
-.OptionalToggle {
-  margin-right: 8px;
-}
 
 .TopLabel {
   font-size: var(--f-s);
