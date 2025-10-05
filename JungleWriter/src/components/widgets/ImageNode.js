@@ -158,7 +158,6 @@ export class ImageNode extends Node {
         ...myStyle,
         width: `${this.width}px`,
         height: 'auto',
-        height: '300px',
       };
     } else {
       myStyle = {

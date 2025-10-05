@@ -65,6 +65,7 @@ onMounted(() => {
   background-color: red;
   width: 12px;
   height: 12px;
+  border-radius: 50%;
   position: absolute;
 }
 
@@ -79,8 +80,8 @@ onMounted(() => {
 }
 
 .BR {
-  bottom: -10px;
-  right: -10px;
+  bottom: -7px;
+  right: -7px;
 }
 
 .BL {

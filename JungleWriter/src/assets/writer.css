@@ -63,6 +63,9 @@ main {
 }
 
 .ImageWidget img {
+  /* NOTE - img is inline-block by default and if you don't set to block here
+  there will be a weird gap below the image */
+  display: block;
   width: 100%;
   height: auto;
   object-fit: cover;
