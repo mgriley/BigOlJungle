@@ -7,7 +7,7 @@ const props = defineProps({
   modelValue: [String, Number, Object],
   name: String,
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 let fontPickerModal = ref(null);
 
@@ -17,6 +17,7 @@ const value = computed({
   },
   set(value) {
     emit('update:modelValue', value)
+    emit('change', value)
   }
 })
 
