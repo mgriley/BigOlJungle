@@ -94,8 +94,7 @@ const elementOptions = [
 .CustomTooltip {
   position: absolute;
   bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0;
   margin-bottom: 8px;
   padding: 8px 12px;
   background-color: var(--popup-bg);
@@ -115,8 +114,7 @@ const elementOptions = [
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 12px;
   border: 6px solid transparent;
   border-top-color: var(--popup-bg);
 }
