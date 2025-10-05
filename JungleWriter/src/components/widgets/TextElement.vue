@@ -47,7 +47,7 @@ const elementOptions = [
           {{ option.label }}
         </option>
       </select>
-      <div class="HelpIcon" title="Choose the HTML element to use for this input. Does not affect appearance. Use for SEO and accessibility.">
+      <div class="HelpIcon" title="Choose the HTML element to use for this input. Does not affect appearance. Use <p> for paragraph, <h1> for header-1, etc. Set properly for better accessibility and SEO.">
         <i class="bi bi-question-circle"></i>
       </div>
     </div>
