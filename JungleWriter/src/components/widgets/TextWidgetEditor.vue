@@ -45,7 +45,7 @@ function onColorChange(newColor) {
 <template>
   <PositionInput :node="editorData" :includeSize="true" class="mb-s" />
   <div class="mb-m">
-    <TextElement v-model="editorData.elementType" name="Element" class="mb-xs" />
+    <TextElement v-model="editorData.elementType" name="Type" class="mb-xs" labelWidth="5ch" />
     <FontInput v-model="editorData.fontFamily" name="Font" @change="onFontChange"
       labelWidth="5ch"/>
     <NumberInput v-model="editorData.fontSize" name="Size" :min="1" :labelLeft="true" @change="onFontSizeChange"
