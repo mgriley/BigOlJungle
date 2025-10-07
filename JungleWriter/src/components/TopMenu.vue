@@ -30,6 +30,12 @@ const nodeCreationOptions = [
 ];
 
 function createNode(nodeOption) {
+  // Special handling for Group creation - if items are selected, group them
+  if (nodeOption.name === "Group" && gApp.site.getSelectedItems().length > 0) {
+    gApp.site.groupSelected();
+    return;
+  }
+  
   const parentNode = gApp.site.nodeTree.root;
   const newNode = gApp.site.createNode(nodeOption.classCtor);
   parentNode.addChildAtIndex(newNode, null);
