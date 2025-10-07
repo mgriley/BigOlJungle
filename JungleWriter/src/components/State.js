@@ -5,7 +5,7 @@ import { FileStorage } from './FileStorage.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import {
   downloadTextFile, downloadBlobFile, IntervalTimer,
-  hashObject,
+  hashObject, RectUtils,
 } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
@@ -650,14 +650,7 @@ class Site {
       };
       
       // Check if the node's bounding box overlaps with the selection rectangle
-      const overlaps = !(
-        nodeRect.x > selectionRectangle.x + selectionRectangle.w ||
-        nodeRect.x + nodeRect.w < selectionRectangle.x ||
-        nodeRect.y > selectionRectangle.y + selectionRectangle.h ||
-        nodeRect.y + nodeRect.h < selectionRectangle.y
-      );
-      
-      if (overlaps) {
+      if (RectUtils.doesOverlap(nodeRect, selectionRectangle)) {
         nodesInRegion.push(node);
       }
       
