@@ -116,22 +116,17 @@ function groupNodes() {
   
   // Create a new group node
   const groupNode = gApp.site.createNode(gNodeDataMap["Node"].nodeClass);
+  groupNode.name = "Group";
   
-  // Find the common parent and calculate the position for the group
+  // Find the common parent and get the first node's position
   const firstNode = groupableNodes[0];
   const parentNode = firstNode.parentNode;
+  const firstNodeIndex = firstNode.getIndexInParent();
+  const firstNodeGlobalPos = firstNode.getGlobalPos();
   
-  // Calculate bounding box of selected nodes to position the group
-  let minX = Infinity, minY = Infinity;
-  for (const node of groupableNodes) {
-    const globalPos = node.getGlobalPos();
-    minX = Math.min(minX, globalPos.x);
-    minY = Math.min(minY, globalPos.y);
-  }
-  
-  // Add the group to the parent of the first selected node
-  parentNode.addChild(groupNode);
-  groupNode.setGlobalPos({x: minX, y: minY});
+  // Add the group to the parent at the first node's index
+  parentNode.addChildAtIndex(groupNode, firstNodeIndex);
+  groupNode.setGlobalPos(firstNodeGlobalPos);
   
   // Move all selected nodes into the group, adjusting their positions
   for (const node of groupableNodes) {
