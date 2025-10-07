@@ -187,13 +187,13 @@ let nodeList = computed(() => {
 <template>
   <div class="NodeTreeView">
     <div class="ButtonPane">
-      <button class="TertiaryButton NewButton" @click="makeNewNode">➕</button>
-      <button class="TertiaryButton" @click="cloneNode">🐑</button>
-      <button class="TertiaryButton" @click="groupNodes">📦</button>
-      <button class="TertiaryButton" @click="ungroupNodes">📤</button>
-      <button class="TertiaryButton" @click="moveNodeUp">⬆️</button>
-      <button class="TertiaryButton" @click="moveNodeDown">⬇️</button>
-      <button id="DeleteLayerBtn" class="DeleteBtn TertiaryButton" @click="deleteNode">🗑️</button>
+      <button class="NodeTreeButton NewButton" @click="makeNewNode">➕</button>
+      <button class="NodeTreeButton" @click="cloneNode">🐑</button>
+      <button class="NodeTreeButton" @click="groupNodes">📦</button>
+      <button class="NodeTreeButton" @click="ungroupNodes">📤</button>
+      <button class="NodeTreeButton" @click="moveNodeUp">⬆️</button>
+      <button class="NodeTreeButton" @click="moveNodeDown">⬇️</button>
+      <button id="DeleteLayerBtn" class="DeleteBtn NodeTreeButton" @click="deleteNode">🗑️</button>
       <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
     <div class="TreeInner"> 
@@ -254,6 +254,24 @@ let nodeList = computed(() => {
 #DeleteLayerBtn {
   /*margin-left: var(--space-xs);*/
   margin-left: auto;
+}
+
+.NodeTreeButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.NodeTreeButton:hover {
+  background-color: #0056b3;
+}
+
+.NodeTreeButton:active {
+  background-color: #004085;
 }
 
 </style>
