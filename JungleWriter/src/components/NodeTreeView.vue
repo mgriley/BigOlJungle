@@ -104,19 +104,18 @@ function onChooseNewNode(nodeOption) {
 
 function groupNodes() {
   const selectedNodes = gApp.site.getSelectedItems();
-  if (selectedNodes.length < 2) {
-    return; // Need at least 2 nodes to group
+  if (selectedNodes.length < 1) {
+    return;
   }
   
   // Filter out root nodes (can't be grouped)
   const groupableNodes = selectedNodes.filter(node => !node.isRoot());
-  if (groupableNodes.length < 2) {
+  if (groupableNodes.length < 1) {
     return;
   }
   
   // Create a new group node
   const groupNode = gApp.site.createNode(gNodeDataMap["Node"].nodeClass);
-  groupNode.name = "Group";
   
   // Find the common parent and calculate the position for the group
   const firstNode = groupableNodes[0];
@@ -163,21 +162,19 @@ function ungroupNodes() {
   
   // Store the children before we start moving them
   const childrenToMove = [...groupNode.children];
-  const newSelection = [];
   
   // Move all children to the group's parent, preserving global positions
   for (const child of childrenToMove) {
     const globalPos = child.getGlobalPos();
     child.moveToNode(parentNode);
     child.setGlobalPos(globalPos);
-    newSelection.push(child);
   }
   
   // Remove the now-empty group
   groupNode.destroy();
   
   // Select the ungrouped nodes
-  gApp.site.selectMany(newSelection);
+  gApp.site.selectMany(childrenToMove);
 }
 
 function deleteNode() {
