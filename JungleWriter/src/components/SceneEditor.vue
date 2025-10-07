@@ -30,8 +30,9 @@ function onClickBackground(evt) {
 }
 
 function onMouseDown(evt) {
+  console.log("SCENE EDITOR MOUSEDOWN", evt.target);
   // Check if we clicked on the background (Main or CanvasArea)
-  if (evt.target.id === "Main" || evt.target.id === "CanvasArea") {
+  //if (evt.target.id === "Main" || evt.target.id === "CanvasArea") {
     if (gApp.site.isEditing) {
       // Start selection rectangle drag
       isSelectionDragging.value = true;
@@ -47,7 +48,7 @@ function onMouseDown(evt) {
       evt.preventDefault();
       return;
     }
-  }
+  //}
 }
 
 function onMouseMove(evt) {
@@ -352,7 +353,8 @@ let isEditing = computed(() => {
 
 let mainCursor = computed(() => {
   if (isEditing.value) {
-    return isSelectionDragging.value ? 'crosshair' : 'default';
+    //return isSelectionDragging.value ? 'crosshair' : 'default';
+    return 'default';
   }
   return isDragging.value ? 'grabbing' : 'grab';
 });
