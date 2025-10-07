@@ -187,7 +187,7 @@ let nodeList = computed(() => {
 <template>
   <div class="NodeTreeView">
     <div class="ButtonPane">
-      <button class="NodeTreeButton NewButton" @click="makeNewNode" title="Add new">➕</button>
+      <button class="NodeTreeButton NewButton" @click="makeNewNode" title="Add new"><i class="bi bi-plus-square"></i></button>
       <button class="NodeTreeButton" @click="cloneNode" title="Duplicate selected">🐑</button>
       <button class="NodeTreeButton" @click="groupNodes" title="Group selected">📦</button>
       <button class="NodeTreeButton" @click="ungroupNodes" title="Explode group">📤</button>
