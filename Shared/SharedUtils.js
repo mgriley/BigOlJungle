@@ -407,3 +407,20 @@ export class Options {
     return defaultVal;
   }
 }
+
+export class RectUtils {
+  /**
+   * Check if two rectangles overlap
+   * @param {Object} rect1 - First rectangle with {x, y, w, h} properties
+   * @param {Object} rect2 - Second rectangle with {x, y, w, h} properties
+   * @returns {boolean} True if rectangles overlap, false otherwise
+   */
+  static doesOverlap(rect1, rect2) {
+    return !(
+      rect1.x > rect2.x + rect2.w ||
+      rect1.x + rect1.w < rect2.x ||
+      rect1.y > rect2.y + rect2.h ||
+      rect1.y + rect1.h < rect2.y
+    );
+  }
+}
