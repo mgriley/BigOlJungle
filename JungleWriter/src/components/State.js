@@ -570,6 +570,7 @@ class Site {
     // Move all selected nodes into the group, adjusting their positions
     for (const node of groupableNodes) {
       const globalPos = node.getGlobalPos();
+      console.log(`Moving node ${node.getAutomaticName()} to group`);
       node.moveToNode(groupNode);
       node.setGlobalPos(globalPos);
     }
