@@ -60,10 +60,25 @@ function makeNewNode(clickEvt) {
 }
 
 function cloneNode() {
-  let selNode = gApp.site.getPrimarySelection();
-  if (selNode && !selNode.isRoot()) {
-    let clonedNode = selNode.cloneAndAddAsSibling();
-    gApp.site.selectNode(clonedNode);
+  const selectedNodes = gApp.site.getSelectedItems();
+  if (selectedNodes.length === 0) {
+    return;
+  }
+  
+  // Filter out root nodes (can't be duplicated)
+  const duplicatableNodes = selectedNodes.filter(node => !node.isRoot());
+  
+  if (duplicatableNodes.length > 0) {
+    const clonedNodes = [];
+    
+    // Clone all selected nodes
+    for (const node of duplicatableNodes) {
+      const clonedNode = node.cloneAndAddAsSibling();
+      clonedNodes.push(clonedNode);
+    }
+    
+    // Select all the cloned nodes
+    gApp.site.selectMany(clonedNodes);
   }
 }
 
