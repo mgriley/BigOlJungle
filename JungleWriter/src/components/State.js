@@ -625,6 +625,60 @@ class Site {
     this.selectMany(childrenToMove);
   }
 
+  selectNodesInRegion(selectionRectangle, evt) {
+    /**
+     * Select all nodes whose global bounding box overlaps with the selection rectangle.
+     * @param {Object} selectionRectangle - Object with {x, y, w, h} properties
+     * @param {Event} evt - Mouse event object with modifier keys
+     */
+    const nodesInRegion = [];
+    
+    // Iterate through all nodes in the tree to find overlapping ones
+    this.nodeTree.root.iterateChildrenDfs((node, depth) => {
+      // Skip the root node
+      if (node.isRoot()) {
+        return true;
+      }
+      
+      // Get the node's global position and dimensions
+      const globalPos = node.getGlobalPos();
+      const nodeRect = {
+        x: globalPos.x,
+        y: globalPos.y,
+        w: node.width || 0,
+        h: node.height || 0
+      };
+      
+      // Check if the node's bounding box overlaps with the selection rectangle
+      const overlaps = !(
+        nodeRect.x > selectionRectangle.x + selectionRectangle.w ||
+        nodeRect.x + nodeRect.w < selectionRectangle.x ||
+        nodeRect.y > selectionRectangle.y + selectionRectangle.h ||
+        nodeRect.y + nodeRect.h < selectionRectangle.y
+      );
+      
+      if (overlaps) {
+        nodesInRegion.push(node);
+      }
+      
+      return true; // Continue visiting children
+    });
+    
+    // Handle selection based on modifier keys
+    if (evt.shiftKey) {
+      // Add to existing selection
+      this.addManyToSelection(nodesInRegion);
+    } else if (evt.ctrlKey || evt.metaKey) {
+      // Toggle selection for each node
+      for (const node of nodesInRegion) {
+        this.toggleSelection(node);
+      }
+    } else {
+      // Replace current selection
+      this.selectMany(nodesInRegion);
+    }
+  }
+
   getPropEditor() {
     return this.getPrimarySelection();
   }
