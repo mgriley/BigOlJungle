@@ -520,6 +520,9 @@ class Site {
     // Filter out root nodes (can't be moved)
     const movableNodes = selectedNodes.filter(node => !node.isRoot());
     
+    // Sort nodes by their tree order to maintain proper ordering
+    Node.sortNodesByTreeOrder(movableNodes, this.nodeTree.root);
+    
     // Move all selected nodes up
     for (const node of movableNodes) {
       node.moveUp();
@@ -534,6 +537,9 @@ class Site {
     
     // Filter out root nodes (can't be moved)
     const movableNodes = selectedNodes.filter(node => !node.isRoot());
+    
+    // Sort nodes by their tree order to maintain proper ordering
+    Node.sortNodesByTreeOrder(movableNodes, this.nodeTree.root);
     
     // Move all selected nodes down in reverse order to maintain relative positions
     for (let i = movableNodes.length - 1; i >= 0; i--) {
