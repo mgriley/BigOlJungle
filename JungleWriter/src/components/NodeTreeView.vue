@@ -187,13 +187,13 @@ let nodeList = computed(() => {
 <template>
   <div class="NodeTreeView">
     <div class="ButtonPane">
-      <button class="TertiaryButton NewButton" @click="makeNewNode"><i class="bi bi-plus-square"></i></button>
-      <button class="TertiaryButton" @click="cloneNode"><i class="bi bi-copy"></i></button>
-      <button class="TertiaryButton" @click="groupNodes"><i class="bi bi-collection"></i></button>
-      <button class="TertiaryButton" @click="ungroupNodes"><i class="bi bi-box-arrow-up"></i></button>
-      <button class="TertiaryButton" @click="moveNodeUp"><i class="bi bi-arrow-up-square"></i></button>
-      <button class="TertiaryButton" @click="moveNodeDown"><i class="bi bi-arrow-down-square"></i></button>
-      <button id="DeleteLayerBtn" class="DeleteBtn TertiaryButton" @click="deleteNode"><i class="bi bi-trash3"></i></button>
+      <button class="TertiaryButton NewButton" @click="makeNewNode">➕</button>
+      <button class="TertiaryButton" @click="cloneNode">🐑</button>
+      <button class="TertiaryButton" @click="groupNodes">📦</button>
+      <button class="TertiaryButton" @click="ungroupNodes">📤</button>
+      <button class="TertiaryButton" @click="moveNodeUp">⬆️</button>
+      <button class="TertiaryButton" @click="moveNodeDown">⬇️</button>
+      <button id="DeleteLayerBtn" class="DeleteBtn TertiaryButton" @click="deleteNode">🗑️</button>
       <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
     <div class="TreeInner"> 
