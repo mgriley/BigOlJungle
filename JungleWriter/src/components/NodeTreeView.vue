@@ -102,6 +102,84 @@ function onChooseNewNode(nodeOption) {
   gApp.site.selectNode(newNode);
 }
 
+function groupNodes() {
+  const selectedNodes = gApp.site.getSelectedItems();
+  if (selectedNodes.length < 2) {
+    return; // Need at least 2 nodes to group
+  }
+  
+  // Filter out root nodes (can't be grouped)
+  const groupableNodes = selectedNodes.filter(node => !node.isRoot());
+  if (groupableNodes.length < 2) {
+    return;
+  }
+  
+  // Create a new group node
+  const groupNode = gApp.site.createNode(gNodeDataMap["Node"].nodeClass);
+  groupNode.name = "Group";
+  
+  // Find the common parent and calculate the position for the group
+  const firstNode = groupableNodes[0];
+  const parentNode = firstNode.parentNode;
+  
+  // Calculate bounding box of selected nodes to position the group
+  let minX = Infinity, minY = Infinity;
+  for (const node of groupableNodes) {
+    const globalPos = node.getGlobalPos();
+    minX = Math.min(minX, globalPos.x);
+    minY = Math.min(minY, globalPos.y);
+  }
+  
+  // Add the group to the parent of the first selected node
+  parentNode.addChild(groupNode);
+  groupNode.setGlobalPos({x: minX, y: minY});
+  
+  // Move all selected nodes into the group, adjusting their positions
+  for (const node of groupableNodes) {
+    const globalPos = node.getGlobalPos();
+    node.moveToNode(groupNode);
+    node.setGlobalPos(globalPos);
+  }
+  
+  // Select the new group
+  gApp.site.selectNode(groupNode);
+}
+
+function ungroupNodes() {
+  const selectedNodes = gApp.site.getSelectedItems();
+  if (selectedNodes.length !== 1) {
+    return; // Need exactly one node selected
+  }
+  
+  const groupNode = selectedNodes[0];
+  if (groupNode.isRoot() || groupNode.children.length === 0) {
+    return; // Can't ungroup root or empty nodes
+  }
+  
+  const parentNode = groupNode.parentNode;
+  if (!parentNode) {
+    return; // Can't ungroup root
+  }
+  
+  // Store the children before we start moving them
+  const childrenToMove = [...groupNode.children];
+  const newSelection = [];
+  
+  // Move all children to the group's parent, preserving global positions
+  for (const child of childrenToMove) {
+    const globalPos = child.getGlobalPos();
+    child.moveToNode(parentNode);
+    child.setGlobalPos(globalPos);
+    newSelection.push(child);
+  }
+  
+  // Remove the now-empty group
+  groupNode.destroy();
+  
+  // Select the ungrouped nodes
+  gApp.site.selectMany(newSelection);
+}
+
 function deleteNode() {
   gApp.site.deleteSelectedNodes();
 }
@@ -191,6 +269,8 @@ let nodeList = computed(() => {
     <div class="ButtonPane">
       <button class="TertiaryButton NewButton" @click="makeNewNode"><i class="bi bi-plus-square"></i></button>
       <button class="TertiaryButton" @click="cloneNode"><i class="bi bi-copy"></i></button>
+      <button class="TertiaryButton" @click="groupNodes"><i class="bi bi-collection"></i></button>
+      <button class="TertiaryButton" @click="ungroupNodes"><i class="bi bi-box-arrow-up"></i></button>
       <button class="TertiaryButton" @click="moveNodeUp"><i class="bi bi-arrow-up-square"></i></button>
       <button class="TertiaryButton" @click="moveNodeDown"><i class="bi bi-arrow-down-square"></i></button>
       <button id="DeleteLayerBtn" class="DeleteBtn TertiaryButton" @click="deleteNode"><i class="bi bi-trash3"></i></button>
