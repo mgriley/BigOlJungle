@@ -19,10 +19,12 @@ export function makeDraggableExt(element, dragFuncs) {
   var curX = null;
   var curY = null;
   var constraintDirection = null; // 'horizontal', 'vertical', or null
+  var hasDragged = false; // Track if actual dragging occurred
 
   let dragMouseDown = null;
   let elementDrag = null;
   let closeDragElement = null;
+  let preventClick = null;
 
   dragMouseDown = (e) => {
     e = e || window.event;
@@ -40,6 +42,7 @@ export function makeDraggableExt(element, dragFuncs) {
       curX = startX;
       curY = startY;
       constraintDirection = null; // Reset constraint direction
+      hasDragged = false; // Reset drag flag
       document.addEventListener("mouseup", closeDragElement);
       document.addEventListener("mousemove", elementDrag);
       if (dragFuncs.onStart) {
@@ -56,11 +59,15 @@ export function makeDraggableExt(element, dragFuncs) {
     let newX = e.clientX;
     let newY = e.clientY;
     
+    // Check if we've moved enough to consider this a drag
+    let deltaX = Math.abs(newX - startX);
+    let deltaY = Math.abs(newY - startY);
+    if (deltaX > 3 || deltaY > 3) {
+      hasDragged = true;
+    }
+    
     // If shift is pressed, constrain movement to horizontal or vertical
     if (e.shiftKey) {
-      let deltaX = Math.abs(newX - startX);
-      let deltaY = Math.abs(newY - startY);
-      
       // Only determine constraint direction if we haven't already and there's enough movement
       if (!constraintDirection && (deltaX > 5 || deltaY > 5)) {
         constraintDirection = deltaX > deltaY ? 'horizontal' : 'vertical';
@@ -88,9 +95,20 @@ export function makeDraggableExt(element, dragFuncs) {
   closeDragElement = () => {
     document.removeEventListener("mouseup", closeDragElement);
     document.removeEventListener("mousemove", elementDrag);
+    
+    // If we dragged, prevent the next click event
+    if (hasDragged) {
+      element.addEventListener("click", preventClick, { capture: true, once: true });
+    }
+    
     if (dragFuncs.onEnd) {
       dragFuncs.onEnd(startX, startY, curX, curY);
     }
+  }
+
+  preventClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   element.addEventListener("mousedown", dragMouseDown);
