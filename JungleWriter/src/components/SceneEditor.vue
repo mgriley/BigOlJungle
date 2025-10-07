@@ -88,9 +88,9 @@ function onKeyDown(evt) {
   }
 
   // Handle Ctrl/Cmd+D for duplicating selected node
-  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity && 
+  let selectedNode = gApp.site.getPrimarySelection();
+  if (!handled && gApp.site.isEditing && selectedNode && 
       (evt.ctrlKey || evt.metaKey) && evt.key.toLowerCase() === 'd') {
-    const selectedNode = gApp.site.selectedEntity;
     if (!selectedNode.isRoot()) {
       let clonedNode = selectedNode.cloneAndAddAsSibling();
       gApp.site.selectNode(clonedNode);
@@ -99,9 +99,8 @@ function onKeyDown(evt) {
   }
 
   // Handle Delete/Backspace for deleting selected node
-  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity && 
+  if (!handled && gApp.site.isEditing && selectedNode && 
       (evt.key === 'Delete' || evt.key === 'Backspace')) {
-    const selectedNode = gApp.site.selectedEntity;
     if (!selectedNode.isRoot()) {
       gApp.site.deleteSelectedNodes();
       handled = true;
@@ -109,11 +108,10 @@ function onKeyDown(evt) {
   }
 
   // Only handle arrow keys when editing and a node is selected
-  if (!handled && gApp.site.isEditing && gApp.site.selectedEntity &&
-      !gApp.site.selectedEntity.isRoot()) {
+  if (!handled && gApp.site.isEditing && selectedNode &&
+      !selectedNode.isRoot()) {
     const moveAmount = 1; // pixels to move per keypress
     const resizeAmount = 1; // pixels to resize per keypress
-    const selectedNode = gApp.site.selectedEntity;
 
     if (evt.shiftKey) {
       // Shift + arrow keys: resize the element

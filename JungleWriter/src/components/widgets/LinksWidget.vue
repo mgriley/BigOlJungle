@@ -12,7 +12,7 @@ let elementRef = ref(null);
 
 function onClick() {
   if (gApp.site.isEditing) {
-    gApp.site.selectNode(props.node);
+    gApp.site.handleNodeClick(props.node);
   }
 }
 

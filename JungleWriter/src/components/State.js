@@ -108,7 +108,7 @@ class Site {
     this.name = "";
     this.version = "1";
     this.nodeTree = new NodeTree();
-    this.selectedEntity = null;
+    this.selectedItems = reactive([]);
     this.settings = new SiteSettings();
     this.preferences = new SitePreferences();
     this.isEditing = true;
@@ -301,6 +301,18 @@ class Site {
     return this.preferences;
   }
 
+  hasSelection() {
+    return this.selectedItems.length > 0;
+  }
+
+  getPrimarySelection() {
+    return this.selectedItems.length > 0 ? this.selectedItems[0] : null;
+  }
+
+  getSelectedItems() {
+    return this.selectedItems;
+  }
+
   _isImageFile(fileName) {
     const lowerFileName = fileName.toLowerCase();
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'];
@@ -407,36 +419,61 @@ class Site {
   }
 
   getSelectedNode() {
-    return this.selectedEntity;
+    return this.getPrimarySelection();
   }
 
-  selectNode(node) {
-    if (this.selectedEntity) {
-      this.selectedEntity.selected = false;
-    }
-    this.selectedEntity = node;
-    //console.log("Selected node: " + (node ? node.name : "null"));
-    if (node) {
+  addToSelection(node) {
+    if (!this.selectedItems.includes(node)) {
+      this.selectedItems.push(node);
       node.selected = true;
     }
   }
 
-  deselectAll() {
-    if (this.selectedEntity) {
-      this.selectedEntity.selected = false;
+  addManyToSelection(nodes) {
+    for (const node of nodes) {
+      this.addToSelection(node);
     }
-    this.selectedEntity = null;
+  }
+
+  removeFromSelection(node) {
+    const index = this.selectedItems.indexOf(node);
+    if (index !== -1) {
+      this.selectedItems.splice(index, 1);
+      node.selected = false;
+    }
+  }
+
+  removeManyFromSelection(nodes) {
+    for (const node of nodes) {
+      this.removeFromSelection(node);
+    }
+  }
+
+  handleNodeClick(node, evt) {
+    // TODO
+    this.selectNode(node);
+  }
+
+  // Selects a single node, deselecting all others
+  selectNode(node) {
+    this.deselectAll();
+    this.addToSelection(node);
+  }
+
+  deselectAll() {
+    this.removeManyFromSelection(this.selectedItems.slice());
   }
 
   deleteSelectedNodes() {
-    if (this.selectedEntity) {
-      this.selectedEntity.destroy();
-      this.selectedEntity = null;
+    let nodesToDelete = this.selectedItems.slice();
+    this.deselectAll();
+    for (let node of nodesToDelete) {
+      node.destroy();
     }
   }
 
   getPropEditor() {
-    return this.selectedEntity;
+    return this.getPrimarySelection();
   }
 
   createNode(nodeClass) {

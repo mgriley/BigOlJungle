@@ -23,8 +23,8 @@ function toggleOpen() {
   props.node.openInNodeTree = !props.node.openInNodeTree;
 }
 
-function selectNode() {
-  gApp.site.selectNode(props.node);    
+function selectNode(evt) {
+  gApp.site.handleNodeClick(props.node, evt);    
 }
 
 let editingName = ref(false);

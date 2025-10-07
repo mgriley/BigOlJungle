@@ -9,8 +9,8 @@ const props = defineProps({
   node: Object
 })
 
-function onClick() {
-  gApp.site.selectNode(props.node);
+function onClick(evt) {
+  gApp.site.handleNodeClick(props.node, evt);
 }
 
 let elementRef = ref(null);
