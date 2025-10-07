@@ -163,8 +163,8 @@ export function setupWidgetDrag(widgetElem, node) {
     return;
   }
   var dragObj = {
-    origPosX: null,
-    origPosY: null,
+    selectedNodes: null,
+    originalPositions: null,
   };
   makeDraggableExt(widgetElem, {
     allowDrag: () => {
@@ -174,14 +174,23 @@ export function setupWidgetDrag(widgetElem, node) {
     },
     onStart: (startX, startY) => {
       node.interaction = 'move';
-      dragObj.origPosX = node.posX;
-      dragObj.origPosY = node.posY;
+      // Get all selected nodes that can be moved (non-root)
+      dragObj.selectedNodes = gApp.site.getSelectedItems().filter(n => !n.isRoot());
+      // Store original positions for all movable selected nodes
+      dragObj.originalPositions = dragObj.selectedNodes.map(n => ({
+        node: n,
+        origPosX: n.posX,
+        origPosY: n.posY
+      }));
     },
     onUpdate: (startX, startY, curX, curY) => {
       let diffX = curX - startX;
       let diffY = curY - startY;
-      node.posX = dragObj.origPosX + diffX;
-      node.posY = dragObj.origPosY + diffY;
+      // Update positions for all movable selected nodes
+      for (const posData of dragObj.originalPositions) {
+        posData.node.posX = posData.origPosX + diffX;
+        posData.node.posY = posData.origPosY + diffY;
+      }
     },
     onEnd: () => {
       node.interaction = null;
