@@ -32,8 +32,15 @@ function onClickBackground(evt) {
 
 function onMouseDown(evt) {
   console.log("SCENE EDITOR MOUSEDOWN", evt.target);
-  // Check if we clicked on the background (Main or CanvasArea)
-  if (evt.target.id === "Main" || evt.target.id === "CanvasArea") {
+  
+  // Check if we clicked on Main or CanvasArea, or if the target is a descendant of Main
+  const mainElement = document.getElementById('Main');
+  const canvasElement = document.getElementById('CanvasArea');
+  const isMainOrDescendant = evt.target.id === "Main" || 
+                            evt.target.id === "CanvasArea" || 
+                            (mainElement && mainElement.contains(evt.target));
+  
+  if (isMainOrDescendant) {
     if (gApp.site.isEditing) {
       // Start selection rectangle drag
       isSelectionDragging.value = true;
