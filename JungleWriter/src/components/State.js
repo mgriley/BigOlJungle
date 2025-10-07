@@ -553,6 +553,9 @@ class Site {
       return;
     }
     
+    // Sort nodes by their tree order to maintain proper ordering
+    Node.sortNodesByTreeOrder(groupableNodes);
+    
     // Create a new group node
     const groupNode = this.createNode(gNodeDataMap["Node"].nodeClass);
     groupNode.name = "Group";

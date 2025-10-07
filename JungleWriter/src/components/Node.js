@@ -299,6 +299,33 @@ export class Node {
     };
   }
 
+  static sortNodesByTreeOrder(nodes) {
+    /**
+     * Reorders a list of nodes in-place according to their position in the tree (first to last).
+     * Nodes that appear earlier in the tree (depth-first traversal) will come first in the array.
+     * @param {Array} nodes - Array of nodes to sort in-place
+     */
+    if (!gApp?.site?.nodeTree?.root) {
+      return; // Can't sort without a tree
+    }
+
+    // Create a map of node ID to tree order index
+    const orderMap = new Map();
+    let orderIndex = 0;
+    
+    gApp.site.nodeTree.root.iterateChildrenDfs((node, depth) => {
+      orderMap.set(node.id, orderIndex++);
+      return true; // Continue visiting children
+    });
+
+    // Sort the nodes array in-place based on tree order
+    nodes.sort((a, b) => {
+      const orderA = orderMap.get(a.id) ?? Infinity;
+      const orderB = orderMap.get(b.id) ?? Infinity;
+      return orderA - orderB;
+    });
+  }
+
   _cloneSelf() {
     // Override this in subclasses
     if (!this.parentNode) {
