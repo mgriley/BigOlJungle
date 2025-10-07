@@ -71,6 +71,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.ImageWidget {
+  user-select: none;
+}
+
 .ImageWidget.no-image {
   background-color: blue;
   display: flex;
