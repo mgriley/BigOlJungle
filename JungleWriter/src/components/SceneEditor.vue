@@ -58,6 +58,117 @@ function onMouseUp(evt) {
   }
 }
 
+function shouldIgnoreKeyEvent() {
+  // Don't handle keys if cursor is in a text input
+  const activeElement = document.activeElement;
+  return activeElement && (
+    activeElement.tagName === 'INPUT' || 
+    activeElement.tagName === 'TEXTAREA' || 
+    activeElement.contentEditable === 'true'
+  );
+}
+
+function handleWASDScrolling(evt) {
+  const key = evt.key.toLowerCase();
+  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
+    keysPressed.value.add(key);
+    if (!scrollAnimationId) {
+      startScrollAnimation();
+    }
+    return true;
+  }
+  return false;
+}
+
+function handleNodeDuplication(evt) {
+  const selectedNode = gApp.site.getPrimarySelection();
+  if (gApp.site.isEditing && selectedNode && 
+      (evt.ctrlKey || evt.metaKey) && evt.key.toLowerCase() === 'd') {
+    if (!selectedNode.isRoot()) {
+      let clonedNode = selectedNode.cloneAndAddAsSibling();
+      gApp.site.selectNode(clonedNode);
+      return true;
+    }
+  }
+  return false;
+}
+
+function handleNodeDeletion(evt) {
+  const selectedNode = gApp.site.getPrimarySelection();
+  if (gApp.site.isEditing && selectedNode && 
+      (evt.key === 'Delete' || evt.key === 'Backspace')) {
+    if (!selectedNode.isRoot()) {
+      gApp.site.deleteSelectedNodes();
+      return true;
+    }
+  }
+  return false;
+}
+
+function handleNodeResize(evt, selectedNode) {
+  const resizeAmount = 1; // pixels to resize per keypress
+  
+  // Only resize if the node has width/height properties
+  if (selectedNode.width !== undefined && selectedNode.height !== undefined) {
+    switch (evt.key) {
+      case 'ArrowLeft':
+        // Shift left edge in (decrease width)
+        selectedNode.width = Math.max(1, selectedNode.width - resizeAmount);
+        return true;
+      case 'ArrowRight':
+        // Shift right edge out (increase width)
+        selectedNode.width += resizeAmount;
+        return true;
+      case 'ArrowUp':
+        // Shift top edge in (decrease height)
+        selectedNode.height = Math.max(1, selectedNode.height - resizeAmount);
+        return true;
+      case 'ArrowDown':
+        // Shift bottom edge out (increase height)
+        selectedNode.height += resizeAmount;
+        return true;
+    }
+  }
+  return false;
+}
+
+function handleNodeMovement(evt, selectedNode) {
+  const moveAmount = 1; // pixels to move per keypress
+  
+  switch (evt.key) {
+    case 'ArrowLeft':
+      selectedNode.posX -= moveAmount;
+      return true;
+    case 'ArrowRight':
+      selectedNode.posX += moveAmount;
+      return true;
+    case 'ArrowUp':
+      selectedNode.posY -= moveAmount;
+      return true;
+    case 'ArrowDown':
+      selectedNode.posY += moveAmount;
+      return true;
+  }
+  return false;
+}
+
+function handleArrowKeys(evt) {
+  const selectedNode = gApp.site.getPrimarySelection();
+  
+  // Only handle arrow keys when editing and a node is selected
+  if (!gApp.site.isEditing || !selectedNode || selectedNode.isRoot()) {
+    return false;
+  }
+
+  if (evt.shiftKey) {
+    // Shift + arrow keys: resize the element
+    return handleNodeResize(evt, selectedNode);
+  } else {
+    // Regular arrow keys: move the element
+    return handleNodeMovement(evt, selectedNode);
+  }
+}
+
 function onKeyDown(evt) {
   /**
    * Use arrow keys to move selected node when in editing mode.
@@ -65,102 +176,30 @@ function onKeyDown(evt) {
    * Use WASD keys to scroll the main element.
    */ 
   
-  // Don't handle keys if cursor is in a text input
-  const activeElement = document.activeElement;
-  if (activeElement && (
-    activeElement.tagName === 'INPUT' || 
-    activeElement.tagName === 'TEXTAREA' || 
-    activeElement.contentEditable === 'true'
-  )) {
+  if (shouldIgnoreKeyEvent()) {
     return;
   }
 
   let handled = false;
-  const key = evt.key.toLowerCase();
 
   // Handle WASD keys for scrolling (if feature flag is enabled)
-  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
-    keysPressed.value.add(key);
-    if (!scrollAnimationId) {
-      startScrollAnimation();
-    }
-    handled = true;
+  if (!handled) {
+    handled = handleWASDScrolling(evt);
   }
 
   // Handle Ctrl/Cmd+D for duplicating selected node
-  let selectedNode = gApp.site.getPrimarySelection();
-  if (!handled && gApp.site.isEditing && selectedNode && 
-      (evt.ctrlKey || evt.metaKey) && evt.key.toLowerCase() === 'd') {
-    if (!selectedNode.isRoot()) {
-      let clonedNode = selectedNode.cloneAndAddAsSibling();
-      gApp.site.selectNode(clonedNode);
-      handled = true;
-    }
+  if (!handled) {
+    handled = handleNodeDuplication(evt);
   }
 
   // Handle Delete/Backspace for deleting selected node
-  if (!handled && gApp.site.isEditing && selectedNode && 
-      (evt.key === 'Delete' || evt.key === 'Backspace')) {
-    if (!selectedNode.isRoot()) {
-      gApp.site.deleteSelectedNodes();
-      handled = true;
-    }
+  if (!handled) {
+    handled = handleNodeDeletion(evt);
   }
 
-  // Only handle arrow keys when editing and a node is selected
-  if (!handled && gApp.site.isEditing && selectedNode &&
-      !selectedNode.isRoot()) {
-    const moveAmount = 1; // pixels to move per keypress
-    const resizeAmount = 1; // pixels to resize per keypress
-
-    if (evt.shiftKey) {
-      // Shift + arrow keys: resize the element
-      // Only resize if the node has width/height properties
-      if (selectedNode.width !== undefined && selectedNode.height !== undefined) {
-        switch (evt.key) {
-          case 'ArrowLeft':
-            // Shift left edge in (decrease width)
-            selectedNode.width = Math.max(1, selectedNode.width - resizeAmount);
-            handled = true;
-            break;
-          case 'ArrowRight':
-            // Shift right edge out (increase width)
-            selectedNode.width += resizeAmount;
-            handled = true;
-            break;
-          case 'ArrowUp':
-            // Shift top edge in (decrease height)
-            selectedNode.height = Math.max(1, selectedNode.height - resizeAmount);
-            handled = true;
-            break;
-          case 'ArrowDown':
-            // Shift bottom edge out (increase height)
-            selectedNode.height += resizeAmount;
-            handled = true;
-            break;
-        }
-      }
-    } else {
-      // Regular arrow keys: move the element
-      switch (evt.key) {
-        case 'ArrowLeft':
-          selectedNode.posX -= moveAmount;
-          handled = true;
-          break;
-        case 'ArrowRight':
-          selectedNode.posX += moveAmount;
-          handled = true;
-          break;
-        case 'ArrowUp':
-          selectedNode.posY -= moveAmount;
-          handled = true;
-          break;
-        case 'ArrowDown':
-          selectedNode.posY += moveAmount;
-          handled = true;
-          break;
-      }
-    }
+  // Handle arrow keys for movement/resizing
+  if (!handled) {
+    handled = handleArrowKeys(evt);
   }
 
   if (handled) {
