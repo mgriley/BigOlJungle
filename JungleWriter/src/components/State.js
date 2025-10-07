@@ -482,7 +482,9 @@ class Site {
     let nodesToDelete = this.selectedItems.slice();
     this.deselectAll();
     for (let node of nodesToDelete) {
-      node.destroy();
+      if (!node.isRoot()) {
+        node.destroy();
+      }
     }
   }
 

@@ -106,13 +106,11 @@ function handleNodeDuplication(evt) {
 }
 
 function handleNodeDeletion(evt) {
-  const selectedNode = gApp.site.getPrimarySelection();
-  if (gApp.site.isEditing && selectedNode && 
+  let selectedNodes = gApp.site.getSelectedItems();
+  if (gApp.site.isEditing && selectedNodes.length > 0 && 
       (evt.key === 'Delete' || evt.key === 'Backspace')) {
-    if (!selectedNode.isRoot()) {
-      gApp.site.deleteSelectedNodes();
-      return true;
-    }
+    gApp.site.deleteSelectedNodes();
+    return true;
   }
   return false;
 }
