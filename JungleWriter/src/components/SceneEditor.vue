@@ -17,6 +17,11 @@ const isDragging = ref(false);
 const dragStart = ref({ x: 0, y: 0 });
 const scrollStart = ref({ x: 0, y: 0 });
 
+// Track selection rectangle drag state
+const isSelectionDragging = ref(false);
+const selectionDragStart = ref({ x: 0, y: 0 });
+const selectionDragCurrent = ref({ x: 0, y: 0 });
+
 function onClickBackground(evt) {
   if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
     console.log("Clicked background, deselecting. TargetId: ", evt.target.id);
@@ -25,35 +30,48 @@ function onClickBackground(evt) {
 }
 
 function onMouseDown(evt) {
-  // Only handle drag scrolling when not editing
-  if (gApp.site.isEditing) {
-    return;
+  // Check if we clicked on the background (Main or CanvasArea)
+  if (evt.target.id === "Main" || evt.target.id === "CanvasArea") {
+    if (gApp.site.isEditing) {
+      // Start selection rectangle drag
+      isSelectionDragging.value = true;
+      selectionDragStart.value = { x: evt.clientX, y: evt.clientY };
+      selectionDragCurrent.value = { x: evt.clientX, y: evt.clientY };
+      evt.preventDefault();
+      return;
+    } else {
+      // Start scroll drag when not editing
+      isDragging.value = true;
+      dragStart.value = { x: evt.clientX, y: evt.clientY };
+      scrollStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
+      evt.preventDefault();
+      return;
+    }
   }
-
-  isDragging.value = true;
-  dragStart.value = { x: evt.clientX, y: evt.clientY };
-  scrollStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
-  
-  evt.preventDefault();
 }
 
 function onMouseMove(evt) {
-  if (!isDragging.value) {
-    return;
+  if (isDragging.value) {
+    const deltaX = evt.clientX - dragStart.value.x;
+    const deltaY = evt.clientY - dragStart.value.y;
+    
+    gApp.site.translateX = scrollStart.value.x + deltaX;
+    gApp.site.translateY = scrollStart.value.y + deltaY;
+    
+    evt.preventDefault();
+  } else if (isSelectionDragging.value) {
+    selectionDragCurrent.value = { x: evt.clientX, y: evt.clientY };
+    evt.preventDefault();
   }
-
-  const deltaX = evt.clientX - dragStart.value.x;
-  const deltaY = evt.clientY - dragStart.value.y;
-  
-  gApp.site.translateX = scrollStart.value.x + deltaX;
-  gApp.site.translateY = scrollStart.value.y + deltaY;
-  
-  evt.preventDefault();
 }
 
 function onMouseUp(evt) {
   if (isDragging.value) {
     isDragging.value = false;
+    evt.preventDefault();
+  } else if (isSelectionDragging.value) {
+    isSelectionDragging.value = false;
+    // onDone handler - leave blank for now
     evt.preventDefault();
   }
 }
@@ -334,9 +352,32 @@ let isEditing = computed(() => {
 
 let mainCursor = computed(() => {
   if (isEditing.value) {
-    return 'default';
+    return isSelectionDragging.value ? 'crosshair' : 'default';
   }
   return isDragging.value ? 'grabbing' : 'grab';
+});
+
+let selectionRectStyle = computed(() => {
+  if (!isSelectionDragging.value) {
+    return { display: 'none' };
+  }
+  
+  const startX = Math.min(selectionDragStart.value.x, selectionDragCurrent.value.x);
+  const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
+  const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
+  const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
+  
+  return {
+    position: 'fixed',
+    left: startX + 'px',
+    top: startY + 'px',
+    width: width + 'px',
+    height: height + 'px',
+    border: '1px dashed #007bff',
+    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+    pointerEvents: 'none',
+    zIndex: 1000
+  };
 });
 
 function clamp(x, a, b) {
@@ -404,6 +445,8 @@ onUnmounted(() => {
       </div>
       -->
     </div>
+    <!-- Selection rectangle overlay -->
+    <div v-if="isSelectionDragging" class="SelectionRect" :style="selectionRectStyle"></div>
   </main>
 </template>
 
