@@ -449,9 +449,22 @@ class Site {
     }
   }
 
+  toggleSelection(node) {
+    if (this.selectedItems.includes(node)) {
+      this.removeFromSelection(node);
+    } else {
+      this.addToSelection(node);
+    }
+  }
+
   handleNodeClick(node, evt) {
-    // TODO
-    this.selectNode(node);
+    if (evt.shiftKey) {
+      this.addToSelection(node);
+    } else if (evt.ctrlKey || evt.metaKey) {
+      this.toggleSelection(node);
+    } else {
+      this.selectNode(node);
+    }
   }
 
   // Selects a single node, deselecting all others
