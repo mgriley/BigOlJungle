@@ -96,7 +96,8 @@ export function makeDraggableExt(element, dragFuncs) {
     document.removeEventListener("mouseup", closeDragElement);
     document.removeEventListener("mousemove", elementDrag);
     
-    // If we dragged, prevent the next click event
+    // If we dragged, prevent the next click event.
+    // This prevents XXXWidget.onClick from firing after a drag and selecting/deselecting things.
     if (hasDragged) {
       element.addEventListener("click", preventClick, { capture: true, once: true });
     }

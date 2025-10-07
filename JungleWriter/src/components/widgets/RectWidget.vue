@@ -11,7 +11,7 @@ const props = defineProps({
 
 function onClick(evt) {
   if (gApp.site.isEditing) {
-    //console.log("CLICKED RECT WIDGET");
+    console.log("CLICKED RECT WIDGET");
     gApp.site.handleNodeClick(props.node, evt);
   }
 }
