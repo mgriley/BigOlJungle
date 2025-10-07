@@ -115,67 +115,90 @@ function handleNodeDeletion(evt) {
   return false;
 }
 
-function handleNodeResize(evt, selectedNode) {
+function handleNodeResize(evt, selectedNodes) {
   const resizeAmount = 1; // pixels to resize per keypress
+  let anyResized = false;
   
-  // Only resize if the node has width/height properties
-  if (selectedNode.width !== undefined && selectedNode.height !== undefined) {
-    switch (evt.key) {
-      case 'ArrowLeft':
-        // Shift left edge in (decrease width)
-        selectedNode.width = Math.max(1, selectedNode.width - resizeAmount);
-        return true;
-      case 'ArrowRight':
-        // Shift right edge out (increase width)
-        selectedNode.width += resizeAmount;
-        return true;
-      case 'ArrowUp':
-        // Shift top edge in (decrease height)
-        selectedNode.height = Math.max(1, selectedNode.height - resizeAmount);
-        return true;
-      case 'ArrowDown':
-        // Shift bottom edge out (increase height)
-        selectedNode.height += resizeAmount;
-        return true;
+  for (const node of selectedNodes) {
+    // Only resize if the node has width/height properties
+    if (node.width !== undefined && node.height !== undefined) {
+      switch (evt.key) {
+        case 'ArrowLeft':
+          // Shift left edge in (decrease width)
+          node.width = Math.max(1, node.width - resizeAmount);
+          anyResized = true;
+          break;
+        case 'ArrowRight':
+          // Shift right edge out (increase width)
+          node.width += resizeAmount;
+          anyResized = true;
+          break;
+        case 'ArrowUp':
+          // Shift top edge in (decrease height)
+          node.height = Math.max(1, node.height - resizeAmount);
+          anyResized = true;
+          break;
+        case 'ArrowDown':
+          // Shift bottom edge out (increase height)
+          node.height += resizeAmount;
+          anyResized = true;
+          break;
+      }
     }
   }
-  return false;
+  
+  return anyResized;
 }
 
-function handleNodeMovement(evt, selectedNode) {
+function handleNodeMovement(evt, selectedNodes) {
   const moveAmount = 1; // pixels to move per keypress
+  let anyMoved = false;
   
-  switch (evt.key) {
-    case 'ArrowLeft':
-      selectedNode.posX -= moveAmount;
-      return true;
-    case 'ArrowRight':
-      selectedNode.posX += moveAmount;
-      return true;
-    case 'ArrowUp':
-      selectedNode.posY -= moveAmount;
-      return true;
-    case 'ArrowDown':
-      selectedNode.posY += moveAmount;
-      return true;
+  for (const node of selectedNodes) {
+    switch (evt.key) {
+      case 'ArrowLeft':
+        node.posX -= moveAmount;
+        anyMoved = true;
+        break;
+      case 'ArrowRight':
+        node.posX += moveAmount;
+        anyMoved = true;
+        break;
+      case 'ArrowUp':
+        node.posY -= moveAmount;
+        anyMoved = true;
+        break;
+      case 'ArrowDown':
+        node.posY += moveAmount;
+        anyMoved = true;
+        break;
+    }
   }
-  return false;
+  
+  return anyMoved;
 }
 
 function handleArrowKeys(evt) {
-  const selectedNode = gApp.site.getPrimarySelection();
+  const selectedNodes = gApp.site.getSelectedItems();
   
-  // Only handle arrow keys when editing and a node is selected
-  if (!gApp.site.isEditing || !selectedNode || selectedNode.isRoot()) {
+  // Only handle arrow keys when editing and nodes are selected
+  if (!gApp.site.isEditing || selectedNodes.length === 0) {
+    return false;
+  }
+
+  // Filter out root nodes (can't be moved/resized)
+  const movableNodes = selectedNodes.filter(node => !node.isRoot());
+  
+  if (movableNodes.length === 0) {
     return false;
   }
 
   if (evt.shiftKey) {
-    // Shift + arrow keys: resize the element
-    return handleNodeResize(evt, selectedNode);
+    // Shift + arrow keys: resize the elements
+    return handleNodeResize(evt, movableNodes);
   } else {
-    // Regular arrow keys: move the element
-    return handleNodeMovement(evt, selectedNode);
+    // Regular arrow keys: move the elements
+    return handleNodeMovement(evt, movableNodes);
   }
 }
 
