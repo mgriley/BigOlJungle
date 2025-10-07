@@ -187,12 +187,12 @@ let nodeList = computed(() => {
 <template>
   <div class="NodeTreeView">
     <div class="ButtonPane">
-      <button class="NodeTreeButton NewButton" @click="makeNewNode" title="Add new node">➕</button>
-      <button class="NodeTreeButton" @click="cloneNode" title="Duplicate selected nodes">🐑</button>
-      <button class="NodeTreeButton" @click="groupNodes" title="Group selected nodes">📦</button>
-      <button class="NodeTreeButton" @click="ungroupNodes" title="Ungroup selected group">📤</button>
-      <button class="NodeTreeButton" @click="moveNodeUp" title="Move selected nodes up">⬆️</button>
-      <button class="NodeTreeButton" @click="moveNodeDown" title="Move selected nodes down">⬇️</button>
+      <button class="NodeTreeButton NewButton" @click="makeNewNode" title="Add new">➕</button>
+      <button class="NodeTreeButton" @click="cloneNode" title="Duplicate selected">🐑</button>
+      <button class="NodeTreeButton" @click="groupNodes" title="Group selected">📦</button>
+      <button class="NodeTreeButton" @click="ungroupNodes" title="Explode group">📤</button>
+      <button class="NodeTreeButton" @click="moveNodeUp" title="Move up">⬆️</button>
+      <button class="NodeTreeButton" @click="moveNodeDown" title="Move down">⬇️</button>
       <button id="DeleteLayerBtn" class="DeleteBtn NodeTreeButton" @click="deleteNode" title="Delete selected nodes">🗑️</button>
       <ModalSelector ref="newNodeModal" :options="newNodeOptions" @choose="onChooseNewNode"/>
     </div>
