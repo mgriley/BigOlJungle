@@ -21,6 +21,7 @@ const scrollStart = ref({ x: 0, y: 0 });
 const isSelectionDragging = ref(false);
 const selectionDragStart = ref({ x: 0, y: 0 });
 const selectionDragCurrent = ref({ x: 0, y: 0 });
+const selectionHasDragged = ref(false);
 
 function onClickBackground(evt) {
   if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
@@ -38,6 +39,7 @@ function onMouseDown(evt) {
       isSelectionDragging.value = true;
       selectionDragStart.value = { x: evt.clientX, y: evt.clientY };
       selectionDragCurrent.value = { x: evt.clientX, y: evt.clientY };
+      selectionHasDragged.value = false;
       evt.preventDefault();
       return;
     } else {
@@ -61,6 +63,14 @@ function onMouseMove(evt) {
     
     evt.preventDefault();
   } else if (isSelectionDragging.value) {
+    const deltaX = Math.abs(evt.clientX - selectionDragStart.value.x);
+    const deltaY = Math.abs(evt.clientY - selectionDragStart.value.y);
+    
+    // Check if we've moved enough to consider this a drag
+    if (deltaX > 3 || deltaY > 3) {
+      selectionHasDragged.value = true;
+    }
+    
     selectionDragCurrent.value = { x: evt.clientX, y: evt.clientY };
     evt.preventDefault();
   }
@@ -72,9 +82,21 @@ function onMouseUp(evt) {
     evt.preventDefault();
   } else if (isSelectionDragging.value) {
     isSelectionDragging.value = false;
+    
+    // If we dragged, prevent click events on widgets
+    if (selectionHasDragged.value) {
+      // Add event listener to capture and prevent click events
+      document.addEventListener("click", preventClickAfterDrag, { capture: true, once: true });
+    }
+    
     // onDone handler - leave blank for now
     evt.preventDefault();
   }
+}
+
+function preventClickAfterDrag(evt) {
+  evt.preventDefault();
+  evt.stopPropagation();
 }
 
 function shouldIgnoreKeyEvent() {
