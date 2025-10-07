@@ -257,11 +257,10 @@ let nodeList = computed(() => {
 }
 
 .NodeTreeButton {
-  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
+  padding: 2px 4px;
+  min-width: 0px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
