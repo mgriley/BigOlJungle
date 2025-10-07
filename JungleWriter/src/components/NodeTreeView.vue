@@ -160,13 +160,17 @@ function ungroupNodes() {
     return; // Can't ungroup root
   }
   
+  // Get the group's position in the parent
+  const groupIndex = groupNode.getIndexInParent();
+  
   // Store the children before we start moving them
   const childrenToMove = [...groupNode.children];
   
-  // Move all children to the group's parent, preserving global positions
-  for (const child of childrenToMove) {
+  // Move all children to the group's parent at the group's position, preserving global positions
+  for (let i = 0; i < childrenToMove.length; i++) {
+    const child = childrenToMove[i];
     const globalPos = child.getGlobalPos();
-    child.moveToNode(parentNode);
+    child.moveToNode(parentNode, groupIndex + i);
     child.setGlobalPos(globalPos);
   }
   
