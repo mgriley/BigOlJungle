@@ -299,21 +299,22 @@ export class Node {
     };
   }
 
-  static sortNodesByTreeOrder(nodes) {
+  static sortNodesByTreeOrder(nodes, root) {
     /**
      * Reorders a list of nodes in-place according to their position in the tree (first to last).
      * Nodes that appear earlier in the tree (depth-first traversal) will come first in the array.
      * @param {Array} nodes - Array of nodes to sort in-place
+     * @param {Node} root - The root node to use for tree traversal
      */
-    if (!gApp?.site?.nodeTree?.root) {
-      return; // Can't sort without a tree
+    if (!root) {
+      return; // Can't sort without a root
     }
 
     // Create a map of node ID to tree order index
     const orderMap = new Map();
     let orderIndex = 0;
     
-    gApp.site.nodeTree.root.iterateChildrenDfs((node, depth) => {
+    root.iterateChildrenDfs((node, depth) => {
       orderMap.set(node.id, orderIndex++);
       return true; // Continue visiting children
     });

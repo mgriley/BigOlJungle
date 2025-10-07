@@ -554,7 +554,7 @@ class Site {
     }
     
     // Sort nodes by their tree order to maintain proper ordering
-    Node.sortNodesByTreeOrder(groupableNodes);
+    Node.sortNodesByTreeOrder(groupableNodes, this.nodeTree.root);
     
     // Create a new group node
     const groupNode = this.createNode(gNodeDataMap["Node"].nodeClass);
