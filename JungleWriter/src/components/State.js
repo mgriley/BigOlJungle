@@ -488,6 +488,133 @@ class Site {
     }
   }
 
+  cloneSelected() {
+    const selectedNodes = this.getSelectedItems();
+    if (selectedNodes.length === 0) {
+      return;
+    }
+    
+    // Filter out root nodes (can't be duplicated)
+    const duplicatableNodes = selectedNodes.filter(node => !node.isRoot());
+    
+    if (duplicatableNodes.length > 0) {
+      const clonedNodes = [];
+      
+      // Clone all selected nodes
+      for (const node of duplicatableNodes) {
+        const clonedNode = node.cloneAndAddAsSibling();
+        clonedNodes.push(clonedNode);
+      }
+      
+      // Select all the cloned nodes
+      this.selectMany(clonedNodes);
+    }
+  }
+
+  moveUpSelected() {
+    const selectedNodes = this.getSelectedItems();
+    if (selectedNodes.length === 0) {
+      return;
+    }
+    
+    // Filter out root nodes (can't be moved)
+    const movableNodes = selectedNodes.filter(node => !node.isRoot());
+    
+    // Move all selected nodes up
+    for (const node of movableNodes) {
+      node.moveUp();
+    }
+  }
+
+  moveDownSelected() {
+    const selectedNodes = this.getSelectedItems();
+    if (selectedNodes.length === 0) {
+      return;
+    }
+    
+    // Filter out root nodes (can't be moved)
+    const movableNodes = selectedNodes.filter(node => !node.isRoot());
+    
+    // Move all selected nodes down in reverse order to maintain relative positions
+    for (let i = movableNodes.length - 1; i >= 0; i--) {
+      movableNodes[i].moveDown();
+    }
+  }
+
+  groupSelected() {
+    const selectedNodes = this.getSelectedItems();
+    if (selectedNodes.length < 1) {
+      return;
+    }
+    
+    // Filter out root nodes (can't be grouped)
+    const groupableNodes = selectedNodes.filter(node => !node.isRoot());
+    if (groupableNodes.length < 1) {
+      return;
+    }
+    
+    // Create a new group node
+    const groupNode = this.createNode(gNodeDataMap["Node"].nodeClass);
+    groupNode.name = "Group";
+    
+    // Find the common parent and get the first node's position
+    const firstNode = groupableNodes[0];
+    const parentNode = firstNode.parentNode;
+    const firstNodeIndex = firstNode.getIndexInParent();
+    const firstNodeGlobalPos = firstNode.getGlobalPos();
+    
+    // Add the group to the parent at the first node's index
+    parentNode.addChildAtIndex(groupNode, firstNodeIndex);
+    groupNode.setGlobalPos(firstNodeGlobalPos);
+    
+    // Move all selected nodes into the group, adjusting their positions
+    for (const node of groupableNodes) {
+      const globalPos = node.getGlobalPos();
+      node.moveToNode(groupNode);
+      node.setGlobalPos(globalPos);
+    }
+    
+    // Select the new group
+    this.selectNode(groupNode);
+  }
+
+  ungroupSelected() {
+    const selectedNodes = this.getSelectedItems();
+    if (selectedNodes.length !== 1) {
+      return; // Need exactly one node selected
+    }
+    
+    const groupNode = selectedNodes[0];
+    if (groupNode.isRoot() || groupNode.children.length === 0) {
+      return; // Can't ungroup root or empty nodes
+    }
+    
+    const parentNode = groupNode.parentNode;
+    if (!parentNode) {
+      return; // Can't ungroup root
+    }
+    
+    // Get the group's position in the parent
+    const groupIndex = groupNode.getIndexInParent();
+    
+    // Store the children before we start moving them
+    const childrenToMove = [...groupNode.children];
+    
+    // Move all children to the group's parent at the group's position, preserving global positions
+    for (let i = 0; i < childrenToMove.length; i++) {
+      const child = childrenToMove[i];
+      const globalPos = child.getGlobalPos();
+      child.moveToNode(parentNode, groupIndex + i);
+      child.setGlobalPos(globalPos);
+    }
+    
+    // Remove the now-empty group
+    groupNode.destroy();
+    
+    // Select the ungrouped nodes
+    this.selectMany(childrenToMove);
+  }
+
   getPropEditor() {
     return this.getPrimarySelection();
   }
