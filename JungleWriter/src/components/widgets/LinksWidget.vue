@@ -10,9 +10,9 @@ const props = defineProps({
 
 let elementRef = ref(null);
 
-function onClick() {
+function onClick(evt) {
   if (gApp.site.isEditing) {
-    gApp.site.handleNodeClick(props.node);
+    gApp.site.handleNodeClick(props.node, evt);
   }
 }
 

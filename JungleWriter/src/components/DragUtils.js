@@ -173,7 +173,6 @@ export function setupWidgetDrag(widgetElem, node) {
       return node.isSelected() && !node.interaction;
     },
     onStart: (startX, startY) => {
-      console.log("START DRAG", node);
       node.interaction = 'move';
       dragObj.origPosX = node.posX;
       dragObj.origPosY = node.posY;

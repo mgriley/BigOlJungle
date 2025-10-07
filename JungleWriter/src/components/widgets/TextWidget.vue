@@ -14,9 +14,9 @@ let elementRef = ref(null);
 let inputRef = ref(null);
 let isEditing = ref(false);
 
-function onClick() {
+function onClick(evt) {
   if (gApp.site.isEditing) {
-    gApp.site.handleNodeClick(props.node);
+    gApp.site.handleNodeClick(props.node, evt);
   }
 }
 

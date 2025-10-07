@@ -24,9 +24,9 @@ let tabs = [
   {name: 'Files', view: FilesView},
 ];
 
-function onClick() {
+function onClick(evt) {
   if (gApp.site.isEditing) {
-    gApp.site.handleNodeClick(props.node);
+    gApp.site.handleNodeClick(props.node, evt);
   }
 }
 

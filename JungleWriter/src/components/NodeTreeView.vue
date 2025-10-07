@@ -60,7 +60,7 @@ function makeNewNode(clickEvt) {
 }
 
 function cloneNode() {
-  let selNode = gApp.site.getSelectedNode();
+  let selNode = gApp.site.getPrimarySelection();
   if (selNode && !selNode.isRoot()) {
     let clonedNode = selNode.cloneAndAddAsSibling();
     gApp.site.selectNode(clonedNode);
@@ -68,14 +68,14 @@ function cloneNode() {
 }
 
 function moveNodeUp() {
-  let selNode = gApp.site.getSelectedNode();
+  let selNode = gApp.site.getPrimarySelection();
   if (selNode) {
     selNode.moveUp();
   }
 }
 
 function moveNodeDown() {
-  let selNode = gApp.site.getSelectedNode();
+  let selNode = gApp.site.getPrimarySelection();
   if (selNode) {
     selNode.moveDown();
   }
@@ -85,7 +85,7 @@ function onChooseNewNode(nodeOption) {
   let parentNode = null;
   let insertIndex = null;
   /*
-  let selectedNode = gApp.site.getSelectedNode();
+  let selectedNode = gApp.site.getPrimarySelection();
   if (selectedNode && selectedNode.getAllowsChildren()) {
     parentNode = selectedNode;
   } else {

@@ -418,10 +418,6 @@ class Site {
     this.isEditing = newVal;
   }
 
-  getSelectedNode() {
-    return this.getPrimarySelection();
-  }
-
   addToSelection(node) {
     if (!this.selectedItems.includes(node)) {
       this.selectedItems.push(node);
@@ -471,6 +467,11 @@ class Site {
   selectNode(node) {
     this.deselectAll();
     this.addToSelection(node);
+  }
+
+  selectMany(nodes) {
+    this.deselectAll();
+    this.addManyToSelection(nodes);
   }
 
   deselectAll() {
