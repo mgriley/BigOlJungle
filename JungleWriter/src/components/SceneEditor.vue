@@ -81,12 +81,24 @@ function handleWASDScrolling(evt) {
 }
 
 function handleNodeDuplication(evt) {
-  const selectedNode = gApp.site.getPrimarySelection();
-  if (gApp.site.isEditing && selectedNode && 
+  const selectedNodes = gApp.site.getSelectedItems();
+  if (gApp.site.isEditing && selectedNodes.length > 0 && 
       (evt.ctrlKey || evt.metaKey) && evt.key.toLowerCase() === 'd') {
-    if (!selectedNode.isRoot()) {
-      let clonedNode = selectedNode.cloneAndAddAsSibling();
-      gApp.site.selectNode(clonedNode);
+    
+    // Filter out root nodes (can't be duplicated)
+    const duplicatableNodes = selectedNodes.filter(node => !node.isRoot());
+    
+    if (duplicatableNodes.length > 0) {
+      const clonedNodes = [];
+      
+      // Clone all selected nodes
+      for (const node of duplicatableNodes) {
+        const clonedNode = node.cloneAndAddAsSibling();
+        clonedNodes.push(clonedNode);
+      }
+      
+      // Select all the cloned nodes
+      gApp.site.selectMany(clonedNodes);
       return true;
     }
   }
