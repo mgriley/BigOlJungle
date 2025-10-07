@@ -106,9 +106,9 @@ function moveNodeDown() {
   // Filter out root nodes (can't be moved)
   const movableNodes = selectedNodes.filter(node => !node.isRoot());
   
-  // Move all selected nodes down
-  for (const node of movableNodes) {
-    node.moveDown();
+  // Move all selected nodes down in reverse order to maintain relative positions
+  for (let i = movableNodes.length - 1; i >= 0; i--) {
+    movableNodes[i].moveDown();
   }
 }
 
