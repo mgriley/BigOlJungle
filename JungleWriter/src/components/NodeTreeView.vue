@@ -83,16 +83,32 @@ function cloneNode() {
 }
 
 function moveNodeUp() {
-  let selNode = gApp.site.getPrimarySelection();
-  if (selNode) {
-    selNode.moveUp();
+  const selectedNodes = gApp.site.getSelectedItems();
+  if (selectedNodes.length === 0) {
+    return;
+  }
+  
+  // Filter out root nodes (can't be moved)
+  const movableNodes = selectedNodes.filter(node => !node.isRoot());
+  
+  // Move all selected nodes up
+  for (const node of movableNodes) {
+    node.moveUp();
   }
 }
 
 function moveNodeDown() {
-  let selNode = gApp.site.getPrimarySelection();
-  if (selNode) {
-    selNode.moveDown();
+  const selectedNodes = gApp.site.getSelectedItems();
+  if (selectedNodes.length === 0) {
+    return;
+  }
+  
+  // Filter out root nodes (can't be moved)
+  const movableNodes = selectedNodes.filter(node => !node.isRoot());
+  
+  // Move all selected nodes down
+  for (const node of movableNodes) {
+    node.moveDown();
   }
 }
 
