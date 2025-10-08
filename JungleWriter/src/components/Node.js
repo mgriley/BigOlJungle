@@ -327,6 +327,16 @@ export class Node {
     });
   }
 
+  static getToplevelNodes(nodes) {
+    /**
+     * Given a list of nodes, return only the top-level nodes (i.e., those that are not
+     * descendants of any other node in the list).
+     * @param {Array} nodes - Array of nodes to filter
+     * @returns {Array} Array of top-level nodes
+     */
+    // TODO
+  }
+
   static moveNodes(nodes, delta) {
     /**
      * Move a list of nodes by the specified delta amount.
