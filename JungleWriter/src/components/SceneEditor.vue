@@ -90,13 +90,36 @@ function onMouseUp(evt) {
   } else if (isSelectionDragging.value) {
     isSelectionDragging.value = false;
     
-    // If we dragged, prevent click events on widgets
+    // If we dragged, prevent click events on widgets and select nodes in region
     if (selectionHasDragged.value) {
       // Add event listener to capture and prevent click events
       document.addEventListener("click", preventClickAfterDrag, { capture: true, once: true });
+      
+      // Calculate selection rectangle
+      const startX = Math.min(selectionDragStart.value.x, selectionDragCurrent.value.x);
+      const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
+      const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
+      const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
+      
+      // Convert screen coordinates to canvas coordinates
+      const mainElement = document.getElementById('Main');
+      if (mainElement) {
+        const mainRect = mainElement.getBoundingClientRect();
+        const canvasX = startX - mainRect.left - gApp.site.translateX;
+        const canvasY = startY - mainRect.top - gApp.site.translateY;
+        
+        const selectionRect = {
+          x: canvasX,
+          y: canvasY,
+          w: width,
+          h: height
+        };
+        
+        // Select nodes in the region
+        gApp.site.selectNodesInRegion(selectionRect, evt);
+      }
     }
     
-    // onDone handler - leave blank for now
     evt.preventDefault();
   }
 }
