@@ -327,6 +327,18 @@ export class Node {
     });
   }
 
+  static moveNodes(nodes, delta) {
+    /**
+     * Move a list of nodes by the specified delta amount.
+     * @param {Array} nodes - Array of nodes to move
+     * @param {Object} delta - Object with deltaX and deltaY properties
+     */
+    for (const node of nodes) {
+      node.posX += delta.deltaX;
+      node.posY += delta.deltaY;
+    }
+  }
+
   _cloneSelf() {
     // Override this in subclasses
     if (!this.parentNode) {
