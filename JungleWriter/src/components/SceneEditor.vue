@@ -102,12 +102,12 @@ function onMouseUp(evt) {
       const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
       console.log(`Selection rect: x=${startX}, y=${startY}, w=${width}, h=${height}`);
       
-      // Convert screen coordinates to canvas coordinates
-      const mainElement = document.getElementById('Main');
-      if (mainElement) {
-        const mainRect = mainElement.getBoundingClientRect();
-        const canvasX = startX - mainRect.left - gApp.site.translateX;
-        const canvasY = startY - mainRect.top - gApp.site.translateY;
+      // Convert screen coordinates to AnchorDiv coordinates
+      const anchorElement = document.querySelector('.AnchorDiv');
+      if (anchorElement) {
+        const anchorRect = anchorElement.getBoundingClientRect();
+        const canvasX = startX - anchorRect.left;
+        const canvasY = startY - anchorRect.top;
         
         const selectionRect = {
           x: canvasX,
