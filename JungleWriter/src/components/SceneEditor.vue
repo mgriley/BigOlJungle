@@ -3,6 +3,7 @@ import { reactive, computed, onMounted, onUnmounted, ref } from 'vue'
 import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
 import ShortcutBtns from './ShortcutBtns.vue'
+import { Node } from './Node.js'
 
 let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
