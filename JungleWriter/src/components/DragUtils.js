@@ -194,8 +194,10 @@ export function setupWidgetDrag(widgetElem, node) {
     onStart: (startX, startY) => {
       node.interaction = 'move';
       // Get all selected nodes that can be moved (non-root)
-      dragObj.selectedNodes = gApp.site.getSelectedItems().filter(n => !n.isRoot());
-      // Store original positions for all movable selected nodes
+      const allSelectedNodes = gApp.site.getSelectedItems().filter(n => !n.isRoot());
+      // Get only the toplevel nodes to avoid moving children multiple times
+      dragObj.selectedNodes = Node.getToplevelNodes(allSelectedNodes);
+      // Store original positions for all toplevel movable selected nodes
       dragObj.originalPositions = dragObj.selectedNodes.map(n => ({
         node: n,
         origPosX: n.posX,
@@ -205,7 +207,7 @@ export function setupWidgetDrag(widgetElem, node) {
     onUpdate: (startX, startY, curX, curY) => {
       let diffX = curX - startX;
       let diffY = curY - startY;
-      // Update positions for all movable selected nodes
+      // Update positions for all toplevel movable selected nodes
       for (const posData of dragObj.originalPositions) {
         posData.node.posX = posData.origPosX + diffX;
         posData.node.posY = posData.origPosY + diffY;
