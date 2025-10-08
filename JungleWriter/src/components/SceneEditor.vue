@@ -100,6 +100,7 @@ function onMouseUp(evt) {
       const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
       const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
       const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
+      console.log(`Selection rect: x=${startX}, y=${startY}, w=${width}, h=${height}`);
       
       // Convert screen coordinates to canvas coordinates
       const mainElement = document.getElementById('Main');
