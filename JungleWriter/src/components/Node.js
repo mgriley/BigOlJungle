@@ -334,16 +334,37 @@ export class Node {
      * @param {Array} nodes - Array of nodes to filter
      * @returns {Array} Array of top-level nodes
      */
-    // TODO
+    const toplevelNodes = [];
+    
+    for (const node of nodes) {
+      let isDescendant = false;
+      
+      // Check if this node is a descendant of any other node in the list
+      for (const otherNode of nodes) {
+        if (node !== otherNode && node.isDescendantOf(otherNode)) {
+          isDescendant = true;
+          break;
+        }
+      }
+      
+      // If this node is not a descendant of any other node in the list, it's toplevel
+      if (!isDescendant) {
+        toplevelNodes.push(node);
+      }
+    }
+    
+    return toplevelNodes;
   }
 
   static moveNodes(nodes, delta) {
     /**
      * Move a list of nodes by the specified delta amount.
+     * Only moves toplevel nodes to avoid moving children multiple times.
      * @param {Array} nodes - Array of nodes to move
      * @param {Object} delta - Object with deltaX and deltaY properties
      */
-    for (const node of nodes) {
+    const toplevelNodes = Node.getToplevelNodes(nodes);
+    for (const node of toplevelNodes) {
       node.posX += delta.deltaX;
       node.posY += delta.deltaY;
     }
