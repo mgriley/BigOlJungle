@@ -100,7 +100,6 @@ function onMouseUp(evt) {
       const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
       const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
       const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
-      console.log(`Selection rect: x=${startX}, y=${startY}, w=${width}, h=${height}`);
       
       // Convert screen coordinates to AnchorDiv coordinates
       const anchorElement = document.querySelector('.AnchorDiv');
@@ -115,6 +114,7 @@ function onMouseUp(evt) {
           w: width,
           h: height
         };
+        console.log(`Selection rect: x=${canvasX}, y=${canvasY}, w=${width}, h=${height}`);
         
         // Select nodes in the region
         gApp.site.selectNodesInRegion(selectionRect, evt);
