@@ -224,30 +224,27 @@ function handleNodeResize(evt, selectedNodes) {
 
 function handleNodeMovement(evt, selectedNodes) {
   const moveAmount = 1; // pixels to move per keypress
-  let anyMoved = false;
+  let delta = { deltaX: 0, deltaY: 0 };
   
-  for (const node of selectedNodes) {
-    switch (evt.key) {
-      case 'ArrowLeft':
-        node.posX -= moveAmount;
-        anyMoved = true;
-        break;
-      case 'ArrowRight':
-        node.posX += moveAmount;
-        anyMoved = true;
-        break;
-      case 'ArrowUp':
-        node.posY -= moveAmount;
-        anyMoved = true;
-        break;
-      case 'ArrowDown':
-        node.posY += moveAmount;
-        anyMoved = true;
-        break;
-    }
+  switch (evt.key) {
+    case 'ArrowLeft':
+      delta.deltaX = -moveAmount;
+      break;
+    case 'ArrowRight':
+      delta.deltaX = moveAmount;
+      break;
+    case 'ArrowUp':
+      delta.deltaY = -moveAmount;
+      break;
+    case 'ArrowDown':
+      delta.deltaY = moveAmount;
+      break;
+    default:
+      return false;
   }
   
-  return anyMoved;
+  Node.moveNodes(selectedNodes, delta);
+  return true;
 }
 
 function handleArrowKeys(evt) {
