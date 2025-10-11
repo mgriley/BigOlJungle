@@ -158,10 +158,12 @@ function selectTab(tab) {
 
 .MemeImage {
   margin-bottom: var(--space-l);
+  width: 100%;
 }
 
 .MemeImage img {
-  max-width: 200px;
+  width: 80%;
+  max-width: 100%;
   height: auto;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
