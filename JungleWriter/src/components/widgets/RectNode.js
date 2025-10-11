@@ -106,8 +106,12 @@ export class RectNode extends Node {
   }
 
   async generateStaticHtml(writer) {
+    let classes = "Widget RectWidget";
+    if (this.elementClasses) {
+      classes += " " + this.elementClasses;
+    }
     let htmlString = createElementString(
-      'div', {id: this.getElementId(), class: "Widget RectWidget"}, this.getStyleObject());
+      'div', {id: this.getElementId(), class: classes}, this.getStyleObject());
     return htmlString;
   }
 };

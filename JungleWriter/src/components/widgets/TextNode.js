@@ -189,8 +189,13 @@ export class TextNode extends Node {
       }
     }
     
+    let classes = "Widget TextWidget";
+    if (this.elementClasses) {
+      classes += " " + this.elementClasses;
+    }
+    
     return createElementString(
-      this.elementType, {id: this.getElementId(), class: "Widget TextWidget"}, this.getStyleObject(),
+      this.elementType, {id: this.getElementId(), class: classes}, this.getStyleObject(),
       content
     );
   }

@@ -208,9 +208,13 @@ export class ImageNode extends Node {
         alt: this.altText
       }
     );
+    let classes = "Widget ImageWidget";
+    if (this.elementClasses) {
+      classes += " " + this.elementClasses;
+    }
     return createElementString(
       'div', 
-      {id: this.getElementId(), class: "Widget ImageWidget"}, 
+      {id: this.getElementId(), class: classes}, 
       this.getStyleObject(),
       imgHtml
     );

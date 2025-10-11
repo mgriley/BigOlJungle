@@ -656,8 +656,12 @@ export class Node {
      * Override in subclasses as needed.
      */
     let childHtml = await this.getChildHtml(writer);
+    let classes = "Widget NodeWidget";
+    if (this.elementClasses) {
+      classes += " " + this.elementClasses;
+    }
     let htmlString = createElementString(
-      'div', {id: this.getElementId(), class: "Widget NodeWidget"}, this.getStyleObject(),
+      'div', {id: this.getElementId(), class: classes}, this.getStyleObject(),
       childHtml);
     return htmlString;
   }
