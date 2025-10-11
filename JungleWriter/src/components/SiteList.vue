@@ -61,8 +61,8 @@ function onCancelAddSite() {
 
 async function onDoneAddSite() {
   console.log("Creating site and closing modal");
-  // Unfocus the text input
-  document.activeElement?.blur();
+  createSiteModal.value.closeModal();
+  /*
   try {
     await gApp.createSite(siteToAdd.value.name);
     siteToAdd.value = null;
@@ -72,6 +72,7 @@ async function onDoneAddSite() {
     // Don't close modal on error so user can try again
     throw error;
   }
+  */
 }
 
 function showDevView() {
@@ -220,7 +221,7 @@ onMounted(() => {
         <div v-if="siteToAdd">
           <div class="FormFieldName">Name</div>
           <div>
-            <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus @keydown.enter="onDoneAddSite">
+            <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus @keydown.enter.prevent="onDoneAddSite">
             <button @click="onDoneAddSite" class="ml-s">LOL</button>
           </div>
         </div>
