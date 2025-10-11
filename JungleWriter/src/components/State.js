@@ -47,13 +47,11 @@ class SiteSettings {
   }
 
   readFromJson(obj) {
-    this.siteName = obj && obj.siteName ? obj.siteName : "";
-    this.description = obj && obj.description ? obj.description : "";
-    this.faviconSrcName = obj && obj.faviconSrcName ? obj.faviconSrcName : "";
-    if (obj && obj.backgroundColor) {
+    this.siteName = obj.siteName ? obj.siteName : "";
+    this.description = obj.description ? obj.description : "";
+    this.faviconSrcName = obj.faviconSrcName ? obj.faviconSrcName : "";
+    if (obj.backgroundColor) {
       this.backgroundColor.readFromJson(obj.backgroundColor);
-    } else {
-      this.backgroundColor = new ColorInput('#ffffff', 1.0);
     }
     /*
     if (obj && obj.foregroundColor) {
@@ -62,13 +60,13 @@ class SiteSettings {
       this.foregroundColor = new ColorInput('#ffffff', 1.0);
     }
     */
-    if (obj && obj.canvasWidth) {
+    if (obj.canvasWidth) {
       this.canvasWidth = obj.canvasWidth;
     }
-    if (obj && obj.canvasHeight) {
+    if (obj.canvasHeight) {
       this.canvasHeight = obj.canvasHeight;
     }
-    this.enableWASDNavigation = obj && obj.enableWASDNavigation ? obj.enableWASDNavigation : false;
+    this.enableWASDNavigation = obj.enableWASDNavigation ? obj.enableWASDNavigation : false;
   }
 }
 
