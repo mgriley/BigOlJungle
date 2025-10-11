@@ -7,6 +7,74 @@ Some helper utils around the browser-native File Access APIs,
 for Origin Private File System (OPFS).
 */
 
+class SafariFileWorker {
+  constructor() {
+    this._worker = null;
+    this._workerPromises = new Map();
+    this._nextWorkerId = 1;
+  }
+
+  static getInstance() {
+    if (!SafariFileWorker._instance) {
+      SafariFileWorker._instance = new SafariFileWorker();
+    }
+    return SafariFileWorker._instance;
+  }
+
+  async writeWithWorker(fileHandle, contents) {
+    // Convert contents to transferable format
+    let data;
+    if (typeof contents === 'string') {
+      data = contents;
+    } else if (contents instanceof ArrayBuffer) {
+      data = new Uint8Array(contents);
+    } else if (contents instanceof Blob || contents instanceof File) {
+      // Convert Blob/File to ArrayBuffer first
+      const arrayBuffer = await contents.arrayBuffer();
+      data = new Uint8Array(arrayBuffer);
+    } else {
+      data = contents;
+    }
+
+    return new Promise((resolve, reject) => {
+      // Create worker if it doesn't exist
+      if (!this._worker) {
+        this._worker = new Worker(new URL('../workers/fileWriter.js', import.meta.url));
+        this._worker.onmessage = (e) => {
+          const { id, success, error } = e.data;
+          const promise = this._workerPromises.get(id);
+          if (promise) {
+            this._workerPromises.delete(id);
+            if (success) {
+              promise.resolve();
+            } else {
+              promise.reject(new Error(error));
+            }
+          }
+        };
+      }
+
+      const workerId = this._nextWorkerId++;
+      this._workerPromises.set(workerId, { resolve, reject });
+
+      // Send work to the worker
+      this._worker.postMessage({
+        id: workerId,
+        fileHandle: fileHandle,
+        data: data
+      });
+    });
+  }
+
+  cleanup() {
+    if (this._worker) {
+      this._worker.terminate();
+      this._worker = null;
+      this._workerPromises.clear();
+    }
+  }
+}
+
 class BaseObj {
   // TODO: should probably remove parentObj and just have this be a nativeHandle wrapper
   // Note: parentObj is null for the root dir
@@ -47,8 +115,6 @@ class FileObj extends BaseObj {
   constructor(nativeHandle, parentObj, emitter) {
     super(nativeHandle, parentObj);
     this.emitter = emitter;
-    this._workerPromises = new Map(); // Track pending worker operations
-    this._nextWorkerId = 1;
   }
 
   async dumpToString(indent = 0) {
@@ -106,58 +172,14 @@ class FileObj extends BaseObj {
     } 
     // Fallback for Safari using Web Worker
     else if (this.nativeHandle.createSyncAccessHandle) {
-      await this._writeWithWorker(contents);
+      const safariWorker = SafariFileWorker.getInstance();
+      await safariWorker.writeWithWorker(this.nativeHandle, contents);
     }
     else {
       throw new Error('No supported write method available');
     }
     
     this.emitChangeEvt({type: 'write-file', name: this.getName()});
-  }
-
-  async _writeWithWorker(contents) {
-    // Convert contents to transferable format
-    let data;
-    if (typeof contents === 'string') {
-      data = contents;
-    } else if (contents instanceof ArrayBuffer) {
-      data = new Uint8Array(contents);
-    } else if (contents instanceof Blob || contents instanceof File) {
-      // Convert Blob/File to ArrayBuffer first
-      const arrayBuffer = await contents.arrayBuffer();
-      data = new Uint8Array(arrayBuffer);
-    } else {
-      data = contents;
-    }
-
-    return new Promise((resolve, reject) => {
-      // Create worker if it doesn't exist
-      if (!this._worker) {
-        this._worker = new Worker(new URL('../workers/fileWriter.js', import.meta.url));
-        this._worker.onmessage = (e) => {
-          const { id, success, error } = e.data;
-          const promise = this._workerPromises.get(id);
-          if (promise) {
-            this._workerPromises.delete(id);
-            if (success) {
-              promise.resolve();
-            } else {
-              promise.reject(new Error(error));
-            }
-          }
-        };
-      }
-
-      const workerId = this._nextWorkerId++;
-      this._workerPromises.set(workerId, { resolve, reject });
-
-      // Send work to the worker
-      this._worker.postMessage({
-        id: workerId,
-        fileHandle: this.nativeHandle,
-        data: data
-      });
-    });
   }
 
   async readText() {
@@ -446,23 +468,9 @@ export class FileStorage {
   }
 
   cleanup() {
-    // Clean up any workers when FileStorage is destroyed
-    if (this.root) {
-      this._cleanupWorkersRecursive(this.root);
-    }
-  }
-
-  async _cleanupWorkersRecursive(dirObj) {
-    const children = await dirObj.getChildren();
-    for (const child of Object.values(children)) {
-      if (child.isFile() && child._worker) {
-        child._worker.terminate();
-        child._worker = null;
-        child._workerPromises.clear();
-      } else if (child.isDir()) {
-        await this._cleanupWorkersRecursive(child);
-      }
-    }
+    // Clean up the Safari worker when FileStorage is destroyed
+    const safariWorker = SafariFileWorker.getInstance();
+    safariWorker.cleanup();
   }
 
   // Must finish before calling other FileStorage functions
