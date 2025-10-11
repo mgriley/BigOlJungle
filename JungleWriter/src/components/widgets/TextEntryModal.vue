@@ -150,6 +150,25 @@ function stopResize() {
   document.removeEventListener('mouseup', stopResize);
 }
 
+function handleTabKey(event) {
+  if (event.key === 'Tab') {
+    event.preventDefault();
+    
+    const textarea = event.target;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    
+    // Insert 2 spaces at the cursor position
+    const spaces = '  ';
+    localValue.value = localValue.value.substring(0, start) + spaces + localValue.value.substring(end);
+    
+    // Move cursor to after the inserted spaces
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + spaces.length;
+    }, 0);
+  }
+}
+
 defineExpose({
   showModal, closeModal, toggleModal
 })
@@ -175,6 +194,7 @@ defineExpose({
             class="ModalTextArea" 
             v-model="localValue"
             :placeholder="placeholder"
+            @keydown="handleTabKey"
           ></textarea>
         </div>
         
