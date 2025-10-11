@@ -3,7 +3,7 @@ import { gApp } from '../Globals.js'
 import { Node } from '../Node.js'
 import { extendMap } from '../Utils.js'
 import { trimText } from 'Shared/SharedUtils.js'
-import { createElementString } from '../StaticSiteTemplates.js';
+import { createElementString, escapeHtml } from '../StaticSiteTemplates.js';
 import { ColorInput } from './ColorInput.js';
 import { LinkInput } from './LinkInput.js';
 
@@ -177,12 +177,12 @@ export class TextNode extends Node {
   }
 
   async generateStaticHtml(writer) {
-    let content = this.text;
+    let content = escapeHtml(this.text);
     
     // Wrap content in link if link is present
     if (this.link.hasLink()) {
       const linkAttrs = this.link.getLinkAttributes();
-      content = createElementString('a', {class: 'TextLink', ...linkAttrs}, {}, content);
+      content = createElementString('a', {class: 'TextLink', ...linkAttrs}, {}, escapeHtml(this.text));
 
       if (this.link.type === 'Download') {
         await writer.addFileWithName(this.link.url);

@@ -42,14 +42,14 @@ export class StaticSiteWriter {
 
   addTextFile(path, content) {
     if (!this.addedFiles.has(path)) {
-      this.zip.file(`${this.siteName}/${path}`, content);
+      this.zip.file(`${path}`, content);
       this.addedFiles.add(path);
     }
   }
 
   addBlobFile(path, blob) {
     if (!this.addedFiles.has(path)) {
-      this.zip.file(`${this.siteName}/${path}`, blob);
+      this.zip.file(`${path}`, blob);
       console.log(`Added file at path: ${this.siteName}/${path}. Blob: `, blob);
       this.addedFiles.add(path);
     }
