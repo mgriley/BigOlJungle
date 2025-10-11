@@ -154,53 +154,61 @@ function stopResize() {
   document.removeEventListener('mouseup', stopResize);
 }
 
+function handleTab(event) {
+  event.preventDefault();
+  
+  const textarea = event.target;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  
+  // Insert 2 spaces at the cursor position
+  const spaces = '  ';
+  localValue.value = localValue.value.substring(0, start) + spaces + localValue.value.substring(end);
+  
+  // Move cursor to after the inserted spaces
+  setTimeout(() => {
+    textarea.selectionStart = textarea.selectionEnd = start + spaces.length;
+  }, 0);
+}
+
+function handleBackspace(event) {
+  const textarea = event.target;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  
+  // Only handle if no text is selected (cursor position)
+  if (start === end && start > 0) {
+    const text = localValue.value;
+    
+    // Find the start of the current line
+    const lineStart = text.lastIndexOf('\n', start - 1) + 1;
+    const beforeCursor = text.substring(lineStart, start);
+    
+    // Check if the line before cursor contains only spaces
+    if (beforeCursor.match(/^ +$/)) {
+      // Check if we can remove 2 spaces (a "tab")
+      if (beforeCursor.length >= 2 && beforeCursor.endsWith('  ')) {
+        event.preventDefault();
+        
+        // Remove 2 spaces instead of 1
+        localValue.value = text.substring(0, start - 2) + text.substring(start);
+        
+        // Move cursor back by 2 positions
+        setTimeout(() => {
+          textarea.selectionStart = textarea.selectionEnd = start - 2;
+        }, 0);
+      }
+    }
+  }
+}
+
 function handleKeyDown(event) {
   if (!props.isCodeEditor) return;
   
   if (event.key === 'Tab') {
-    event.preventDefault();
-    
-    const textarea = event.target;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    
-    // Insert 2 spaces at the cursor position
-    const spaces = '  ';
-    localValue.value = localValue.value.substring(0, start) + spaces + localValue.value.substring(end);
-    
-    // Move cursor to after the inserted spaces
-    setTimeout(() => {
-      textarea.selectionStart = textarea.selectionEnd = start + spaces.length;
-    }, 0);
+    handleTab(event);
   } else if (event.key === 'Backspace') {
-    const textarea = event.target;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    
-    // Only handle if no text is selected (cursor position)
-    if (start === end && start > 0) {
-      const text = localValue.value;
-      
-      // Find the start of the current line
-      const lineStart = text.lastIndexOf('\n', start - 1) + 1;
-      const beforeCursor = text.substring(lineStart, start);
-      
-      // Check if the line before cursor contains only spaces
-      if (beforeCursor.match(/^ +$/)) {
-        // Check if we can remove 2 spaces (a "tab")
-        if (beforeCursor.length >= 2 && beforeCursor.endsWith('  ')) {
-          event.preventDefault();
-          
-          // Remove 2 spaces instead of 1
-          localValue.value = text.substring(0, start - 2) + text.substring(start);
-          
-          // Move cursor back by 2 positions
-          setTimeout(() => {
-            textarea.selectionStart = textarea.selectionEnd = start - 2;
-          }, 0);
-        }
-      }
-    }
+    handleBackspace(event);
   }
 }
 
