@@ -261,7 +261,8 @@ class Site {
     */
     let canvasWidth = this.settings.canvasWidth;
     let canvasHeight = this.settings.canvasHeight;
-    let canvasScale = this._calcCanvasScale();
+    //let canvasScale = this._calcCanvasScale();
+    let canvasScale = 1.0;
     return {
       'background-color': this.settings.backgroundColor.getColorValue(),
       '--translateX': this.translateX + 'px',
