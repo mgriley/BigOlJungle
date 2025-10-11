@@ -284,7 +284,40 @@ export class Node {
   }
 
   getGlobalBoundingBox() {
-    // TODO
+    /**
+     * Get the global bounding box of this node by querying the DOM element.
+     * Returns an object with {x, y, width, height} or null if element not found.
+     */
+    const elementId = this.getElementId();
+    const element = document.getElementById(elementId);
+    
+    if (!element) {
+      console.warn(`Element with ID "${elementId}" not found in DOM`);
+      return null;
+    }
+    
+    const rect = element.getBoundingClientRect();
+    
+    // Find the root canvas element to calculate relative position
+    const rootElement = document.querySelector('#RootNode');
+    if (!rootElement) {
+      console.warn('Root node element not found in DOM');
+      return {
+        x: rect.left,
+        y: rect.top,
+        width: rect.width,
+        height: rect.height
+      };
+    }
+    
+    const rootRect = rootElement.getBoundingClientRect();
+    
+    return {
+      x: rect.left - rootRect.left,
+      y: rect.top - rootRect.top,
+      width: rect.width,
+      height: rect.height
+    };
   }
 
   static getNodeById(id) {
