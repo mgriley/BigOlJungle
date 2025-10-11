@@ -253,12 +253,9 @@ defineExpose({
     
     <dialog class="TextEntryModal" ref="dialog" @close="" @cancel="handleNativeCancel">
       <div class="InnerModal">
-        <div class="Header">
-          <div class="DragHandle" @mousedown="startDrag">
-            <i class="bi bi-grip-horizontal"></i>
-          </div>
+        <div class="Header" @mousedown="startDrag">
           <div class="Title">{{ title }}</div>
-          <button class="CloseButton" @click="closeModal" title="Close">
+          <button class="CloseButton" @click="closeModal" @mousedown.stop title="Close">
             <i class="bi bi-x"></i>
           </button>
         </div>
@@ -320,23 +317,9 @@ defineExpose({
   width: 100%;
   border-bottom: 1px solid var(--medium-color);
   margin-bottom: var(--space-s);
-  padding: var(--space-xxs);
-}
-
-.DragHandle {
-  cursor: move;
   padding: var(--space-xs);
-  color: var(--light-color);
+  cursor: move;
   user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.DragHandle:hover {
-  color: var(--primary-color);
 }
 
 .Title {
