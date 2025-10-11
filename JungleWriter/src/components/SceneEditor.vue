@@ -522,7 +522,7 @@ onUnmounted(() => {
       <div class="AnchorDiv">
         <NodeWidget id="RootNode" :node="rootNode" />
       </div>
-      <div v-if="isEditing" class="DesignAreaGuide">
+      <div v-if="isEditing && gApp.site.settings.showDesignGuide" class="DesignAreaGuide">
       </div>
       <!--
       <div v-if="isEditing" class="CenterIndicator">
