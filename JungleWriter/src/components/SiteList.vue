@@ -215,6 +215,7 @@ onMounted(() => {
           <div class="FormFieldName">Name</div>
           <div>
             <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus @keydown.enter="onDoneAddSite">
+            <button @click="onDoneAddSite" class="ml-s">LOL</button>
           </div>
         </div>
       </BasicModal>
