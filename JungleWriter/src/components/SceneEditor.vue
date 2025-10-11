@@ -470,26 +470,17 @@ function removeCustomCssStyleTag() {
   }
 }
 
-// TODO - currently unused
-/*
 function onPageResize() {
-  // Note: could impl debounce later.
-  // See: https://web.archive.org/web/20220714020647/https://bencentra.com/code/2015/02/27/optimizing-window-resize.html
-
-  // Resize so that the canvas square is contained in the page/window area, as large as possible
-  let margin = 64;
-  let newWidth = window.innerWidth - margin * 2;
-  let newHeight = window.innerHeight - margin * 2;
-  let scaleAmt = Math.min(
-    newWidth / canvasBaseWidth, newHeight / (canvasBaseWidth / canvasAspectRatio));
-  scaleAmt = clamp(scaleAmt, 0, 1);
-  canvasStyleObj['transform'] = `scale(${scaleAmt})`;
+  // Update the site's page dimensions when window is resized
+  if (gApp.site) {
+    gApp.site.pageWidth = window.innerWidth;
+    gApp.site.pageHeight = window.innerHeight;
+  }
 }
-*/
 
 onMounted(() => {
-  //window.addEventListener("resize", onPageResize);
-  //onPageResize();
+  window.addEventListener("resize", onPageResize);
+  onPageResize();
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
   window.addEventListener("wheel", onWheel, { passive: false });
@@ -502,7 +493,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  //window.removeEventListener("resize", onPageResize);
+  window.removeEventListener("resize", onPageResize);
   window.removeEventListener("keydown", onKeyDown);
   window.removeEventListener("keyup", onKeyUp);
   window.removeEventListener("wheel", onWheel);
