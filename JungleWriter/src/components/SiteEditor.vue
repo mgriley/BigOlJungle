@@ -55,16 +55,18 @@ function selectTab(tab) {
 
 <template>  
   <div v-if="isMobile" class="MobileMessage">
+    <!--
     <div class="HeroImage">
       <img src="../assets/robin-teng-unsplash.jpg" alt="Bat photo by Robin Teng on Unsplash" />
     </div>
+    -->
     <div class="MobileMessageContent">
       <h2>Small Device Detected 👀</h2>
       <p>This screen is too small to display our glorious website editor, sorry!</p>
       <p>Please come back on desktop to create a site.</p>
     </div>
     <div class="ImageAttribution">
-      Photo by Robin Teng on Unsplash
+      Photo by Robin Teng, Unsplash
     </div>
   </div>
 
@@ -195,7 +197,7 @@ function selectTab(tab) {
   bottom: var(--space-s);
   left: 50%;
   transform: translateX(-50%);
-  font-size: var(--text-size-xs);
+  font-size: var(--f-m);
   color: var(--text-color-tertiary);
   opacity: 0.6;
   text-align: center;
