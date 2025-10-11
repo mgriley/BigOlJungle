@@ -37,19 +37,14 @@ const textareaFontFamily = computed(() => {
 })
 
 const modalStyle = computed(() => {
-  let style = {
+  return {
     width: width.value + 'px',
     height: height.value + 'px',
+    left: posX.value + 'px',
+    top: posY.value + 'px',
+    margin: '0',
+    transform: 'none',
   };
-  
-  if (posX.value !== null && posY.value !== null) {
-    style.left = posX.value + 'px';
-    style.top = posY.value + 'px';
-    style.margin = '0';
-    style.transform = 'none';
-  }
-  
-  return style;
 })
 
 // Watch for changes to localValue and emit updates if updateWhileTyping is enabled
@@ -68,20 +63,13 @@ let initialSize = ref({ width: 0, height: 0 });
 let initialPos = ref({ x: 0, y: 0 });
 
 // Position and size variables
-let posX = ref(null);
-let posY = ref(null);
+let posX = ref(0);
+let posY = ref(0);
 let width = ref(400);
 let height = ref(400);
 
 function showModal() {
   localValue.value = props.modelValue;
-  
-  // Reset position to center if not already positioned
-  if (posX.value === null || posY.value === null) {
-    posX.value = null;
-    posY.value = null;
-  }
-  
   dialog.value.showModal();
 }
 
@@ -160,12 +148,6 @@ function handleResize(event) {
   width.value = Math.max(300, initialSize.value.width + deltaX);
   height.value = Math.max(200, initialSize.value.height + deltaY);
   
-  // Ensure position is set when resizing
-  if (posX.value === null || posY.value === null) {
-    const rect = dialog.value.getBoundingClientRect();
-    posX.value = rect.left;
-    posY.value = rect.top;
-  }
 }
 
 function stopResize() {
@@ -261,6 +243,15 @@ function handleKeyDown(event) {
   }
 }
 
+onMounted(() => {
+  // Calculate default centered position
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  posX.value = Math.max(0, (viewportWidth - width.value) / 2);
+  posY.value = Math.max(0, (viewportHeight - height.value) / 2);
+})
+
 defineExpose({
   showModal, closeModal, toggleModal
 })
@@ -309,9 +300,6 @@ defineExpose({
   min-width: 300px;
   max-width: 90%;
   position: fixed;
-  top: 20vh;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .TextEntryModal::backdrop {
