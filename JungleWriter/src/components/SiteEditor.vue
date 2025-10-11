@@ -10,26 +10,6 @@ import PropEditor from './PropEditor.vue'
 import NodeTreeView from './NodeTreeView.vue'
 import FileEditor from './FileEditor.vue'
 
-const isMobile = ref(false)
-
-function checkIfMobile() {
-  // Consider mobile if screen width is less than 768px
-  isMobile.value = window.innerWidth < 768
-}
-
-function onResize() {
-  checkIfMobile()
-}
-
-onMounted(() => {
-  checkIfMobile()
-  window.addEventListener('resize', onResize)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', onResize)
-})
-
 let sidebarTabs = [
   {name: 'Editor', icon: 'bi bi-sliders', comp: PropEditor},
   {name: 'Global settings', icon: 'bi bi-sliders', comp: SettingsEditor},
@@ -54,16 +34,6 @@ function selectTab(tab) {
 </script>
 
 <template>  
-<!--
-  <div v-if="isMobile" class="MobileMessage">
-    <div class="MobileMessageContent">
-      <h2>Small Device Detected 👀</h2>
-      <p>This screen is too small to display our glorious website editor, sorry!</p>
-      <p>Please come back on desktop to create a site.</p>
-    </div>
-  </div>
--->
-
   <div>
     <TopMenu v-if="isEditing" />
 
@@ -141,60 +111,5 @@ function selectTab(tab) {
   margin-bottom: var(--space-m);
 }
 
-.MobileMessage {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: blue;
-}
-
-.HeroImage {
-  width: 100%;
-  height: 40vh;
-  overflow: hidden;
-}
-
-.HeroImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.MobileMessageContent {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: var(--space-l);
-}
-
-.MobileMessageContent h2 {
-  color: var(--text-color);
-  margin-bottom: var(--space-l);
-  font-size: var(--f-xl);
-}
-
-.MobileMessageContent p {
-  color: var(--text-color-secondary);
-  margin-bottom: var(--space-m);
-  font-size: var(--f-l);
-  line-height: 1.5;
-}
-
-.ImageAttribution {
-  position: absolute;
-  bottom: var(--space-s);
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: var(--f-m);
-  color: var(--text-color-tertiary);
-  opacity: 0.6;
-  text-align: center;
-}
 
 </style>

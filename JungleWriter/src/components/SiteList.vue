@@ -1,11 +1,22 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { gApp } from './State.js'
 import BasicModal from 'Shared/BasicModal.vue'
 import DevView from './DevView.vue'
 import ModalSelector from './ModalSelector.vue'
 import DropdownSelector from './DropdownSelector.vue'
 import { getTimeAgoStr } from 'Shared/SharedUtils.js'
+
+const isMobile = ref(false)
+
+function checkIfMobile() {
+  // Consider mobile if screen width is less than 768px
+  isMobile.value = window.innerWidth < 768
+}
+
+function onResize() {
+  checkIfMobile()
+}
 
 let createSiteModal = ref(null);
 let siteToAdd = ref(null);
@@ -146,12 +157,32 @@ function getLastModifiedText(site) {
 
 onMounted(() => {
   gApp.reloadSites();
+  checkIfMobile()
+  window.addEventListener('resize', onResize)
 });
+
+onUnmounted(() => {
+  window.removeEventListener('resize', onResize)
+})
 
 </script>
 
 <template>
-  <div class="Toplevel">
+  <div v-if="isMobile" class="MobileMessage">
+    <div class="HeroImage">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Forest path by Robin Teng" />
+    </div>
+    <div class="MobileMessageContent">
+      <h2>Small Device Detected 👀</h2>
+      <p>This screen is too small to display our glorious website editor, sorry!</p>
+      <p>Please come back on desktop to create a site.</p>
+    </div>
+    <div class="ImageAttribution">
+      Photo by Robin Teng on Unsplash
+    </div>
+  </div>
+
+  <div v-else class="Toplevel">
     <div class="SiteList">
       <div class="MenuContainer">
         <button @click="showMenu" class="MenuButton">
@@ -422,6 +453,62 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: var(--main-text);
+}
+
+.MobileMessage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--main-bg);
+}
+
+.HeroImage {
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+}
+
+.HeroImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.MobileMessageContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--space-l);
+}
+
+.MobileMessageContent h2 {
+  color: var(--text-color);
+  margin-bottom: var(--space-l);
+  font-size: var(--f-xl);
+}
+
+.MobileMessageContent p {
+  color: var(--text-color-secondary);
+  margin-bottom: var(--space-m);
+  font-size: var(--f-l);
+  line-height: 1.5;
+}
+
+.ImageAttribution {
+  position: absolute;
+  bottom: var(--space-s);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--f-m);
+  color: var(--text-color-tertiary);
+  opacity: 0.6;
+  text-align: center;
 }
 
 </style>
