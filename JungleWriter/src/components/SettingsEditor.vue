@@ -18,7 +18,7 @@ let settings = gApp.site.getSettings();
     </div>
     <div class="mb-m">
       <BoolInput v-model="settings.showDesignGuide" name="Show Design Guide"
-        helpText="Shows a centered box. Fit your hero content in the box for good mobile support."
+        helpText="Shows a centered box. Aim to fit your intro/hero content in the box."
       />
     </div>
     <div class="mb-s">

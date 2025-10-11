@@ -73,7 +73,9 @@ class SiteSettings {
       this.canvasHeight = obj.canvasHeight;
     }
     this.enableWASDNavigation = obj.enableWASDNavigation ? obj.enableWASDNavigation : false;
-    this.showDesignGuide = obj.showDesignGuide ? obj.showDesignGuide : false;
+    if (obj.showDesignGuide !== undefined) {
+      this.showDesignGuide = obj.showDesignGuide;
+    }
   }
 }
 
