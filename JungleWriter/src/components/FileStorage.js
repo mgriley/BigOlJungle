@@ -176,6 +176,7 @@ class FileObj extends BaseObj {
     } 
     // Fallback to using the Safari worker method if createWritable is not supported
     else {
+      console.log("Using Safari file worker to write file: " + this.getName());
       const safariWorker = SafariFileWorker.getInstance();
       await safariWorker.writeWithWorker(this.nativeHandle, contents);
     }
