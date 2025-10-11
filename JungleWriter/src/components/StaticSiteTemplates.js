@@ -36,7 +36,6 @@ export let StaticInteractiveJs = `
   let isDragging = false;
   let dragStart = { x: 0, y: 0 };
   let scrollStart = { x: 0, y: 0 };
-  let lastTouchTime = 0;
   
   // Get current translate values from CSS variables
   function getCurrentTranslate() {
@@ -86,11 +85,6 @@ export let StaticInteractiveJs = `
       // Set cursor to grabbing
       if (mainElement) {
         mainElement.style.cursor = 'grabbing';
-      }
-      
-      // Store touch time for touch events
-      if (evt.type.startsWith('touch')) {
-        lastTouchTime = Date.now();
       }
     }
   }
@@ -149,13 +143,6 @@ export let StaticInteractiveJs = `
   }
   
   function onTouchMove(evt) {
-    // Handle touch scrolling when not dragging
-    if (!isDragging && evt.touches.length === 1) {
-      // Allow normal touch scrolling behavior
-      return;
-    }
-    
-    // If we're dragging, the onPointerMove will handle it
     if (isDragging) {
       onPointerMove(evt);
     }
