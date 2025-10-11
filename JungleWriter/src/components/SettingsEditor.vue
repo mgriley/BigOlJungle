@@ -21,7 +21,10 @@ let settings = gApp.site.getSettings();
       <TextInput v-model="settings.siteName" name="Site Name" placeholder="Enter site title..." />
     </div>
     <div class="mb-s">
-      <TextInput v-model="settings.description" name="Description" placeholder="Enter site description..." />
+      <TextInput v-model="settings.description" name="Description"
+        placeholder="Enter site description..."
+        helpText="Ex. A site documenting the life of my goldfish Hans."
+      />
     </div>
     <div class="mb-s">
       <ImageInput v-model="settings.faviconSrcName" name="Favicon" />
