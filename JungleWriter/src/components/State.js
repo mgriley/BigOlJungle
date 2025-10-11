@@ -233,7 +233,7 @@ class Site {
       'background-color': this.settings.backgroundColor.getColorValue(),
       '--translateX': this.translateX + 'px',
       '--translateY': this.translateY + 'px',
-      '--design-guide-color': 'white',
+      '--design-guide-color': 'darkgrey',
       //'--canvasWidth': canvasWidth + 'px',
       //'--canvasHeight': canvasHeight + 'px',
     };

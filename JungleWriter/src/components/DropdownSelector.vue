@@ -148,12 +148,12 @@ onUnmounted(() => {
 }
 
 .DropdownItem.IsHighlighted {
-  background-color: #ff8c00;
+  background-color: orangered;
   color: white;
 }
 
 .DropdownItem.IsHighlighted:hover {
-  background-color: #ff7700;
+  background-color: orangered;
 }
 
 .ItemIcon {
