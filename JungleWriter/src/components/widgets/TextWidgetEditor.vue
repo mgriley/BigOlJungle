@@ -89,6 +89,7 @@ function onColorChange(newColor) {
   </div>
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
+  <!--
   <div class="mt-s">
     <TextEntryModal 
       v-model="editorData.text"
@@ -97,6 +98,7 @@ function onColorChange(newColor) {
       :updateWhileTyping="true"
     />
   </div>
+  -->
 
   <div class="mt-s">
     <StyleInput :node="editorData" />

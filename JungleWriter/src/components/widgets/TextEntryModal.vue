@@ -254,10 +254,11 @@ defineExpose({
 }
 
 .EditTextButton {
-  width: 100%;
-  margin-top: var(--space-xxs);
-  font-size: var(--f-m);
-  padding: var(--space-xs) var(--space-m);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xxs);
+  padding: var(--space-xxs) var(--space-xs);
 }
 
 .Footer {
