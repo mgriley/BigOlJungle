@@ -62,7 +62,7 @@ function toggleExpanded() {
   display: flex;
   align-items: center;
   line-height: 1;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .Arrow.expanded {

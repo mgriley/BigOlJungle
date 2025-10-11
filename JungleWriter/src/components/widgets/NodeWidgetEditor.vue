@@ -18,7 +18,9 @@ const props = defineProps({
     <div v-else>
       <PositionInput :node="editorData" />
     </div>
-    <StyleInput :node="editorData" />
+    <div class="mt-s">
+      <StyleInput :node="editorData" />
+    </div>
   </div>
 </template>
 

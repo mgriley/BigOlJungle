@@ -31,7 +31,7 @@ let placeholderId = computed(() => {
         v-model="elementId" 
         name="Element ID"
         :placeholder="placeholderId"
-        helpText="Override this element's 'id', to target with custom CSS and JS."
+        helpText="Set this element's 'id'. Use with custom CSS and JS."
       />
     </Collapse>
   </div>
