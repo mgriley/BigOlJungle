@@ -103,6 +103,25 @@ class SitePreferences {
   }
 }
 
+let kDefaultCustomCssString = `/* Write your site's custom CSS here */
+/* If you're new to CSS, ask ChatGPT for some help */
+
+/*
+Example 1 - Try giving some elements the class "RedBackground".
+Note - use !important to override styles set from the editor.
+*/
+.RedBackground {
+  background-color: red !important;
+}
+
+/*
+Example 2 - Use ids to give specific elements custom styles.
+*/
+#YourIdGoesHere {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+`;
+
 class Site {
   constructor(editor, id, siteDir) {
     this.editor = editor;
@@ -118,7 +137,7 @@ class Site {
     this.blogFeed = new PostsFeed();
     this.galleryFeed = new PostsFeed();
     this.filesPageConfig = "";
-    this.customCssString = "";
+    this.customCssString = kDefaultCustomCssString;
     this.resolvedFilesDict = {};
     this._lastSavedHash = null;
     this.lastModifiedTime = new Date();
@@ -190,7 +209,9 @@ class Site {
       this.galleryFeed.readFromJson(obj.galleryFeed);
     }
     this.filesPageConfig = obj.filesPageConfig || "";
-    this.customCssString = obj.customCssString || "";
+    if (obj.customCssString) {
+      this.customCssString = obj.customCssString;
+    }
   }
 
   getMainStyleObject() {
