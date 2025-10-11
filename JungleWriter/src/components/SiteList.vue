@@ -60,9 +60,12 @@ function onCancelAddSite() {
 }
 
 async function onDoneAddSite() {
-  console.log("Adding site");
+  console.log("Closing modal and adding site");
+  createSiteModal.value.closeModal();
+  /*
   await gApp.createSite(siteToAdd.value.name);
   siteToAdd.value = null;
+  */
 }
 
 function showDevView() {
