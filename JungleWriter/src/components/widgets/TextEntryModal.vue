@@ -207,7 +207,7 @@ function handleKeyDown(event) {
   
   if (event.key === 'Tab') {
     handleTab(event);
-  } else if (event.key === 'Backspace') {
+  } else if (event.key === 'Backspace' || event.key === 'Delete') {
     handleBackspace(event);
   }
 }
