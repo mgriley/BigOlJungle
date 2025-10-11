@@ -182,8 +182,12 @@ class Site {
   }
 
   readFromJson(obj) {
-    this.id = obj.id;
-    this.name = obj.name;
+    if ('id' in obj) {
+      this.id = obj.id;
+    }
+    if ('name' in obj) {
+      this.name = obj.name;
+    }
     if ('version' in obj) {
       this.version = obj.version;
     }
@@ -195,8 +199,12 @@ class Site {
     } else {
       this.lastModifiedTime = new Date();
     }
-    this.nodeTree.readFromJson(obj.nodeTree);
-    this.settings.readFromJson(obj.settings);
+    if ('nodeTree' in obj) {
+      this.nodeTree.readFromJson(obj.nodeTree);
+    }
+    if ('settings' in obj) {
+      this.settings.readFromJson(obj.settings);
+    }
     if ('preferences' in obj) {
       this.preferences.readFromJson(obj.preferences);
     }
@@ -209,7 +217,9 @@ class Site {
     if ('galleryFeed' in obj) {
       this.galleryFeed.readFromJson(obj.galleryFeed);
     }
-    this.filesPageConfig = obj.filesPageConfig || "";
+    if ('filesPageConfig' in obj) {
+      this.filesPageConfig = obj.filesPageConfig || "";
+    }
     if (obj.customCssString) {
       this.customCssString = obj.customCssString;
     }
