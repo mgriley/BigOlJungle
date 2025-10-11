@@ -51,15 +51,15 @@ const customCssString = computed({
     <Collapse v-model="isExpanded" title="Advanced">
       <TextInput 
         v-model="elementId" 
-        name="Element ID"
+        name="ID"
         :placeholder="placeholderId"
         helpText="Set this element's 'id' for custom CSS."
       />
       <TextInput 
         v-model="elementClasses" 
-        name="CSS Classes"
+        name="Classes"
         placeholder="class1 class2 class3"
-        helpText="Space-separated list of CSS classes to apply to this element."
+        helpText="* Must be space-separated. Use for custom CSS."
       />
       <div class="mt-s">
         <TextEntryModal 
