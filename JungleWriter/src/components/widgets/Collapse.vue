@@ -59,6 +59,9 @@ function toggleExpanded() {
   transition: transform 0.2s ease;
   font-size: 12px;
   color: var(--main-text);
+  display: flex;
+  align-items: center;
+  line-height: 1;
 }
 
 .Arrow.expanded {
