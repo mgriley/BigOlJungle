@@ -67,6 +67,7 @@ const customCssString = computed({
           buttonText="Edit custom CSS"
           placeholder="/* Add your custom CSS here */&#10;&#10;.my-element {&#10;  color: red;&#10;}"
           :updateWhileTyping="true"
+          :isCodeEditor="true"
         />
       </div>
     </Collapse>

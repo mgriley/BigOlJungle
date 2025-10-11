@@ -17,6 +17,10 @@ const props = defineProps({
   updateWhileTyping: {
     type: Boolean,
     default: false
+  },
+  isCodeEditor: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -151,7 +155,7 @@ function stopResize() {
 }
 
 function handleTabKey(event) {
-  if (event.key === 'Tab') {
+  if (event.key === 'Tab' && props.isCodeEditor) {
     event.preventDefault();
     
     const textarea = event.target;
