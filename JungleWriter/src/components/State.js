@@ -116,6 +116,7 @@ class Site {
     this.blogFeed = new PostsFeed();
     this.galleryFeed = new PostsFeed();
     this.filesPageConfig = "";
+    this.customCssString = "";
     this.resolvedFilesDict = {};
     this._lastSavedHash = null;
     this.lastModifiedTime = new Date();
@@ -151,6 +152,7 @@ class Site {
       blogFeed: this.blogFeed.writeToJson(),
       galleryFeed: this.galleryFeed.writeToJson(),
       filesPageConfig: this.filesPageConfig,
+      customCssString: this.customCssString,
       nodeIdCtr: this.nodeIdCtr,
       lastModifiedTime: this.lastModifiedTime.getTime(),
     };
@@ -186,6 +188,7 @@ class Site {
       this.galleryFeed.readFromJson(obj.galleryFeed);
     }
     this.filesPageConfig = obj.filesPageConfig || "";
+    this.customCssString = obj.customCssString || "";
   }
 
   getMainStyleObject() {
