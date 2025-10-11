@@ -54,9 +54,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :id="node.getElementId()" class="Widget ImageWidget" ref="elementRef"
+  <div :id="node.getElementId()" class="Widget ImageWidget" :class="{ 'no-image': hasNoImage, ...node.getElementClassesDict() }" ref="elementRef"
     :style="node.getStyleObject()" @click="onClick" @dblclick="onDoubleClick"
-    :class="{ 'no-image': hasNoImage }"
     >
     <img v-if="!hasNoImage"
       :src="node.getSrcUrl()" :alt="node.altText"
