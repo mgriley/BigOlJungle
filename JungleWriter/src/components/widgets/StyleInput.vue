@@ -1,16 +1,13 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import TextInput from './TextInput.vue'
+import Collapse from './Collapse.vue'
 
 const props = defineProps({
   node: Object
 })
 
 const isExpanded = ref(false)
-
-function toggleExpanded() {
-  isExpanded.value = !isExpanded.value
-}
 
 const elementId = computed({
   get() {
@@ -29,43 +26,16 @@ let placeholderId = computed(() => {
 
 <template>
   <div class="StyleInput">
-    <div class="Header" @click="toggleExpanded">
-      <div class="HeaderLeft">
-        <span class="Arrow" :class="{ expanded: isExpanded }">▶</span>
-        <div class="EditorSubheading">Advanced</div>
-      </div>
-    </div>
-    <div v-if="isExpanded">
+    <Collapse v-model="isExpanded" title="Advanced">
       <TextInput 
         v-model="elementId" 
         name="Element ID"
         :placeholder="placeholderId"
         helpText="Override this element's 'id', to target with custom CSS and JS."
       />
-    </div>
+    </Collapse>
   </div>
 </template>
 
 <style scoped>
-.Header {
-  margin-bottom: var(--space-xs);
-  cursor: pointer;
-  user-select: none;
-}
-
-.HeaderLeft {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.Arrow {
-  transition: transform 0.2s ease;
-  font-size: 12px;
-  color: var(--main-text);
-}
-
-.Arrow.expanded {
-  transform: rotate(90deg);
-}
 </style>
