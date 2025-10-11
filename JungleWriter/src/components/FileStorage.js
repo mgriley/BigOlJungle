@@ -61,12 +61,12 @@ class SafariFileWorker {
       const workerId = this._nextWorkerId++;
       this._workerPromises.set(workerId, { resolve, reject });
 
-      // Send work to the worker
+      // Send work to the worker with transfer list
       this._worker.postMessage({
         id: workerId,
         fileHandle: fileHandle,
         data: data
-      });
+      }, [fileHandle]);
     });
   }
 
