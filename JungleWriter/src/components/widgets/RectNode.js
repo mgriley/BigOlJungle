@@ -107,7 +107,7 @@ export class RectNode extends Node {
 
   async generateStaticHtml(writer) {
     let htmlString = createElementString(
-      'div', {class: "Widget RectWidget"}, this.getStyleObject());
+      'div', {id: this.getElementId(), class: "Widget RectWidget"}, this.getStyleObject());
     return htmlString;
   }
 };

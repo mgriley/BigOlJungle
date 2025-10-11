@@ -210,7 +210,7 @@ export class ImageNode extends Node {
     );
     return createElementString(
       'div', 
-      {class: "Widget ImageWidget"}, 
+      {id: this.getElementId(), class: "Widget ImageWidget"}, 
       this.getStyleObject(),
       imgHtml
     );

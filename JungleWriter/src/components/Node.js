@@ -642,7 +642,7 @@ export class Node {
      */
     let childHtml = await this.getChildHtml(writer);
     let htmlString = createElementString(
-      'div', {class: "Widget NodeWidget"}, this.getStyleObject(),
+      'div', {id: this.getElementId(), class: "Widget NodeWidget"}, this.getStyleObject(),
       childHtml);
     return htmlString;
   }

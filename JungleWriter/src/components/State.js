@@ -391,6 +391,7 @@ class Site {
         stylesDictToInlineString(this.getMainStyleObject()));
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
       writer.addTextFile("index.html", indexHtmlStr);
+      writer.addStyleBlock('custom', this.customCssString || '');
 
       await writer.addFileWithName(this.settings.faviconSrcName, faviconFilename);
 

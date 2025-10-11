@@ -190,7 +190,7 @@ export class TextNode extends Node {
     }
     
     return createElementString(
-      this.elementType, {class: "Widget TextWidget"}, this.getStyleObject(),
+      this.elementType, {id: this.getElementId(), class: "Widget TextWidget"}, this.getStyleObject(),
       content
     );
   }
