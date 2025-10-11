@@ -30,8 +30,6 @@ class SiteSettings {
     this.description = "";
     this.faviconSrcName = "";
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
-    // NOTE - currently unused
-    //this.foregroundColor = new ColorInput('#ffffff', 1.0);
     this.canvasWidth = 4000;
     this.canvasHeight = 4000;
     this.enableWASDNavigation = false;
@@ -44,7 +42,6 @@ class SiteSettings {
       description: this.description,
       faviconSrcName: this.faviconSrcName,
       backgroundColor: this.backgroundColor.writeToJson(),
-      //foregroundColor: this.foregroundColor.writeToJson(),
       canvasWidth: this.canvasWidth,
       canvasHeight: this.canvasHeight,
       enableWASDNavigation: this.enableWASDNavigation,
@@ -59,13 +56,6 @@ class SiteSettings {
     if (obj.backgroundColor) {
       this.backgroundColor.readFromJson(obj.backgroundColor);
     }
-    /*
-    if (obj && obj.foregroundColor) {
-      this.foregroundColor.readFromJson(obj.foregroundColor);
-    } else {
-      this.foregroundColor = new ColorInput('#ffffff', 1.0);
-    }
-    */
     if (obj.canvasWidth) {
       this.canvasWidth = obj.canvasWidth;
     }
@@ -252,18 +242,6 @@ class Site {
   }
 
   getMainStyleObject() {
-    // TODO - fix this up
-    /*
-    let canvasBaseWidth = 600;
-    // let canvasAspectRatio = 9.0 / 16.0;
-    let canvasAspectRatio = 3.0 / 4.0;
-    let canvasStyleObj = {
-      //'background-color': this.settings.foregroundColor.getColorValue(),
-      '--canvasWidth': canvasBaseWidth + 'px',
-      '--canvasHeight': canvasBaseWidth / canvasAspectRatio + 'px',
-      'transform': 'scale(1.0)',
-    }
-    */
     let canvasWidth = this.settings.canvasWidth;
     let canvasHeight = this.settings.canvasHeight;
     //let canvasScale = this._calcCanvasScale();
