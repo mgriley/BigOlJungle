@@ -220,7 +220,7 @@ class Site {
     }
   }
 
-  _calcScaleToDesignGuide() {
+  _calcCanvasScale() {
     // TODO
   }
 
