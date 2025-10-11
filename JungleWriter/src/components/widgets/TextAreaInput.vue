@@ -52,10 +52,10 @@ const value = computed({
 
 .EditorTextArea {
   width: 100%;
-  min-height: 60px;
+  min-height: 30px;
   resize: vertical;
   font-family: inherit;
-  font-size: inherit;
+  font-size: var(--f-s);
   line-height: 1.4;
 }
 

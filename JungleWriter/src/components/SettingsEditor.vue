@@ -24,7 +24,7 @@ let settings = gApp.site.getSettings();
     <div class="mb-s">
       <TextAreaInput v-model="settings.description" name="Description"
         placeholder="Enter site description..."
-        helpText="Ex. A site documenting the life of my goldfish Hans."
+        helpText="Ex. A site documenting the life of my goldfish."
       />
     </div>
     <div class="mb-s">
