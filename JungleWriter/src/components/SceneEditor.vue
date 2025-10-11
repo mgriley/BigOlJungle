@@ -439,6 +439,30 @@ function clamp(x, a, b) {
   return Math.max(a, Math.min(x, b));
 }
 
+function _calcCanvasScale(pageWidth, pageHeight, designWidth) {
+  /**
+   * Calculate the scale necessary so that the designWidth is contained in the pageWidth
+   * Returns 1.0 if pageWidth/pageHeight are not set or if no scaling is needed
+   */
+  if (!pageWidth || !pageHeight || !designWidth) {
+    return 1.0;
+  }
+  
+  // Add some margin to prevent the design from touching the edges
+  const margin = 64;
+  const availableWidth = pageWidth - (margin * 2);
+  
+  if (availableWidth <= 0) {
+    return 1.0;
+  }
+  
+  // Calculate scale to fit design width within available width
+  const scale = availableWidth / designWidth;
+  
+  // Clamp scale to reasonable bounds (don't scale up beyond 1.0, don't scale down too much)
+  return clamp(scale, 0.1, 1.0);
+}
+
 function setupCustomCssWatcher() {
   // Watch for changes to the site's custom CSS string
   watch(
