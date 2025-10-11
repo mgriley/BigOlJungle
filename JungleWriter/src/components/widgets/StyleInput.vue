@@ -64,6 +64,7 @@ const customCssString = computed({
       <div class="mt-s">
         <TextEntryModal 
           v-model="customCssString"
+          title="Custom CSS"
           buttonText="Edit custom CSS"
           placeholder="/* Add your custom CSS here */&#10;&#10;.my-element {&#10;  color: red;&#10;}"
           :updateWhileTyping="true"

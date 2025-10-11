@@ -93,6 +93,7 @@ function onColorChange(newColor) {
   <div class="mt-s">
     <TextEntryModal 
       v-model="editorData.text"
+      title="Edit Text"
       buttonText="Big Editor"
       placeholder="Enter your text content here..."
       :updateWhileTyping="true"

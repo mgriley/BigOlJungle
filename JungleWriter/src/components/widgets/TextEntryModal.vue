@@ -282,10 +282,7 @@ defineExpose({
 <style scoped>
 
 .TextEntryModal {
-  color: var(--popup-text);
-  background-color: var(--popup-bg);
-  border: var(--popup-border);
-  border-radius: var(--border-radius-m);
+  border: 1px solid white;
   padding: 0;
   min-width: 400px;
   max-width: 90%;
@@ -303,7 +300,6 @@ defineExpose({
 }
 
 .InnerModal {
-  padding: var(--space-xs) var(--space-m) var(--space-m) var(--space-m);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -315,8 +311,8 @@ defineExpose({
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid var(--medium-color);
-  margin-bottom: var(--space-s);
+  border-bottom: 1px solid white;
+  background-color: blue;
   padding: var(--space-xs);
   cursor: move;
   user-select: none;
@@ -331,11 +327,12 @@ defineExpose({
 }
 
 .CloseButton {
-  background: none;
   border: none;
-  color: var(--light-color);
+  background: red;
+  color: white;
   cursor: pointer;
-  padding: var(--space-xs);
+  padding: 2px;
+  min-width: var(--space-xl);
   border-radius: var(--border-radius-s);
   display: flex;
   align-items: center;
@@ -358,15 +355,22 @@ defineExpose({
   padding: var(--space-xxs) var(--space-xs);
 }
 
+.Body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
 .ModalTextArea {
   width: 100%;
   height: 100%;
   padding: var(--space-xs);
   border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-s);
-  background-color: var(--input-bg);
-  color: var(--input-text);
+  border-radius: 0;
+  background-color: blue;
+  color: white;
+  /*color: var(--input-text);*/
   font-family: inherit;
   font-size: var(--f-s);
   resize: none;
@@ -377,13 +381,6 @@ defineExpose({
 .ModalTextArea:focus {
   outline: 2px solid var(--primary-color);
   outline-offset: -2px;
-}
-
-.Body {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 .ResizeHandle {
