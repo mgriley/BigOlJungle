@@ -5,6 +5,7 @@ export let StaticIndexHtml = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <link rel="icon" href="{{FAVICON_HREF}}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{SITE_DESCRIPTION}}">
   <title>{{SITE_TITLE}}</title>
   <link rel="stylesheet" href="styles.css">
   <!-- Site made with JungleWriter - https://www.junglewriter.com -->

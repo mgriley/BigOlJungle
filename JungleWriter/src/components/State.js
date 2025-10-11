@@ -387,6 +387,7 @@ class Site {
       let nodesHtml = await this.nodeTree.generateStaticHtml(writer);
       let indexHtmlStr = StaticIndexHtml;
       indexHtmlStr = indexHtmlStr.replace("{{SITE_TITLE}}", writer.siteName);
+      indexHtmlStr = indexHtmlStr.replace("{{SITE_DESCRIPTION}}", this.settings.description || '');
       indexHtmlStr = indexHtmlStr.replace("{{FAVICON_HREF}}", `/${faviconFilename}`);
       indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
         stylesDictToInlineString(this.getMainStyleObject()));
