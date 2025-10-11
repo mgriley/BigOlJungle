@@ -54,25 +54,17 @@ function selectTab(tab) {
 </script>
 
 <template>  
+<!--
   <div v-if="isMobile" class="MobileMessage">
-    <!--
-    <div class="HeroImage">
-      <img src="../assets/robin-teng-unsplash.jpg" alt="Bat photo by Robin Teng on Unsplash" />
-    </div>
-    -->
     <div class="MobileMessageContent">
       <h2>Small Device Detected 👀</h2>
       <p>This screen is too small to display our glorious website editor, sorry!</p>
       <p>Please come back on desktop to create a site.</p>
     </div>
-    <!--
-    <div class="ImageAttribution">
-      Photo by Robin Teng, Unsplash
-    </div>
-    -->
   </div>
+-->
 
-  <div v-else>
+  <div>
     <TopMenu v-if="isEditing" />
 
     <div class="Toplevel" :class="{IsEditing: isEditing}">
