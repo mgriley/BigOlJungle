@@ -232,7 +232,7 @@ class Site {
     const designWidth = kDefaultDesignWidth;
     
     // Add some margin to prevent the design from touching the edges
-    const margin = 64;
+    const margin = 16;
     const availableWidth = this.pageWidth - (margin * 2);
     
     if (availableWidth <= 0) {
@@ -243,7 +243,7 @@ class Site {
     const scale = availableWidth / designWidth;
     
     // Clamp scale to reasonable bounds (don't scale up beyond 1.0, don't scale down too much)
-    return Math.max(0.4, Math.min(scale, 1.0));
+    return Math.max(0.5, Math.min(scale, 1.0));
   }
 
   getMainStyleObject() {
@@ -264,9 +264,9 @@ class Site {
     let canvasScale = this._calcCanvasScale();
     return {
       'background-color': this.settings.backgroundColor.getColorValue(),
-      'transform': `scale(canvasScale)`,
       '--translateX': this.translateX + 'px',
       '--translateY': this.translateY + 'px',
+      '--canvas-scale': canvasScale,
       // Design guide styles (purely for editor use)
       '--design-width': kDefaultDesignWidth + 'px',
       '--design-height': kDefaultDesignHeight + 'px',

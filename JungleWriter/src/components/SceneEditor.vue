@@ -474,6 +474,7 @@ function removeCustomCssStyleTag() {
 function onPageResize() {
   // Update the site's page dimensions when window is resized
   if (gApp.site) {
+    console.log(`Window resized to ${window.innerWidth}x${window.innerHeight}`);
     gApp.site.pageWidth = window.innerWidth;
     gApp.site.pageHeight = window.innerHeight;
   }

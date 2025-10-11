@@ -18,7 +18,7 @@ main {
 
 #CanvasArea {
   position: relative;
-  transform: translate(var(--translateX, 0px), var(--translateY, 0px));
+  transform: translate(var(--translateX, 0px), var(--translateY, 0px)) scale(var(--canvas-scale));
   /*width: var(--canvasWidth);*/
   /*height: var(--canvasHeight);*/
 }
