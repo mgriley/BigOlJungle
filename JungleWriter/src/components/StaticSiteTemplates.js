@@ -18,8 +18,138 @@ export let StaticIndexHtml = `<!DOCTYPE html>
       </div>
     </main>
   </div>
+  <script src="interactive.js"></script>
 </body>
 </html>
+`;
+
+export let StaticInteractiveJs = `
+// Interactive drag functionality for static sites
+(function() {
+  'use strict';
+  
+  // Track drag state
+  let isDragging = false;
+  let dragStart = { x: 0, y: 0 };
+  let scrollStart = { x: 0, y: 0 };
+  
+  // Get current translate values from CSS variables
+  function getCurrentTranslate() {
+    const mainElement = document.getElementById('Main');
+    if (!mainElement) return { x: 0, y: 0 };
+    
+    const style = getComputedStyle(mainElement);
+    const translateX = parseFloat(style.getPropertyValue('--translateX')) || 0;
+    const translateY = parseFloat(style.getPropertyValue('--translateY')) || 0;
+    
+    return { x: translateX, y: translateY };
+  }
+  
+  // Set translate values as CSS variables
+  function setTranslate(x, y) {
+    const mainElement = document.getElementById('Main');
+    if (!mainElement) return;
+    
+    mainElement.style.setProperty('--translateX', x + 'px');
+    mainElement.style.setProperty('--translateY', y + 'px');
+  }
+  
+  function onMouseDown(evt) {
+    // Check if we clicked on Main or CanvasArea, or if the target is a descendant of Main
+    const mainElement = document.getElementById('Main');
+    const canvasElement = document.getElementById('CanvasArea');
+    const isMainOrDescendant = evt.target.id === "Main" || 
+                              evt.target.id === "CanvasArea" || 
+                              (mainElement && mainElement.contains(evt.target));
+    
+    if (isMainOrDescendant) {
+      // Start scroll drag
+      isDragging = true;
+      dragStart = { x: evt.clientX, y: evt.clientY };
+      scrollStart = getCurrentTranslate();
+      evt.preventDefault();
+      
+      // Set cursor to grabbing
+      if (mainElement) {
+        mainElement.style.cursor = 'grabbing';
+      }
+    }
+  }
+  
+  function onMouseMove(evt) {
+    if (isDragging) {
+      const deltaX = evt.clientX - dragStart.x;
+      const deltaY = evt.clientY - dragStart.y;
+      
+      const newX = scrollStart.x + deltaX;
+      const newY = scrollStart.y + deltaY;
+      
+      setTranslate(newX, newY);
+      evt.preventDefault();
+    }
+  }
+  
+  function onMouseUp(evt) {
+    if (isDragging) {
+      isDragging = false;
+      evt.preventDefault();
+      
+      // Reset cursor
+      const mainElement = document.getElementById('Main');
+      if (mainElement) {
+        mainElement.style.cursor = 'grab';
+      }
+    }
+  }
+  
+  function onWheel(evt) {
+    // Check if the event target is #Main or #CanvasArea or a descendant of them
+    const mainElement = document.getElementById('Main');
+    const canvasElement = document.getElementById('CanvasArea');
+    const target = evt.target;
+    
+    const isOverMain = target === mainElement || mainElement?.contains(target);
+    const isOverCanvas = target === canvasElement || canvasElement?.contains(target);
+    
+    if (!isOverMain && !isOverCanvas) {
+      return;
+    }
+    
+    evt.preventDefault();
+    
+    const scrollMultiplier = 1.0;
+    const deltaX = evt.deltaX * scrollMultiplier;
+    const deltaY = evt.deltaY * scrollMultiplier;
+    
+    const currentTranslate = getCurrentTranslate();
+    const newX = currentTranslate.x - deltaX;
+    const newY = currentTranslate.y - deltaY;
+    
+    setTranslate(newX, newY);
+  }
+  
+  // Initialize when DOM is ready
+  function init() {
+    // Set initial cursor style
+    const mainElement = document.getElementById('Main');
+    if (mainElement) {
+      mainElement.style.cursor = 'grab';
+    }
+    
+    // Add event listeners
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('wheel', onWheel, { passive: false });
+  }
+  
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 `;
 
 export let StaticStylesCss = `

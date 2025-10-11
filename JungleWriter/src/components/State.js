@@ -9,7 +9,7 @@ import {
 } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
-  StaticIndexHtml, createElementString, stylesDictToInlineString, escapeHtml,
+  StaticIndexHtml, StaticInteractiveJs, createElementString, stylesDictToInlineString, escapeHtml,
   applyIndent,
 } from './StaticSiteTemplates.js'
 
@@ -425,6 +425,9 @@ Allow: /`;
 
       await writer.addFileWithName(this.settings.faviconSrcName, faviconFilename);
 
+      // Add the interactive JavaScript file
+      writer.addTextFile('interactive.js', StaticInteractiveJs);
+      
       let siteBlob = await writer.finalize();
       downloadBlobFile(siteBlob, `${this.name || 'site'}.zip`);
       console.log("Generated static site");
