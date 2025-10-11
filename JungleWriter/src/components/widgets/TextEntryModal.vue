@@ -152,35 +152,35 @@ defineExpose({
     </button>
     
     <dialog class="TextEntryModal" ref="dialog" @close="" @cancel="handleNativeCancel">
-    <div class="InnerModal">
-      <div class="Header">
-        <div class="DragHandle" @mousedown="startDrag">
-          <i class="bi bi-grip-horizontal"></i>
+      <div class="InnerModal">
+        <div class="Header">
+          <div class="DragHandle" @mousedown="startDrag">
+            <i class="bi bi-grip-horizontal"></i>
+          </div>
+        </div>
+        
+        <div class="Body">
+          <textarea 
+            class="ModalTextArea" 
+            v-model="localValue"
+            :placeholder="placeholder"
+          ></textarea>
+        </div>
+        
+        <div class="Footer">
+          <button class="CancelButton" @click="onCancel" title="Cancel">
+            Cancel
+          </button>
+          <button class="DoneButton" @click="onDone" title="Done">
+            Done
+          </button>
+        </div>
+        
+        <!-- Resize handle -->
+        <div class="ResizeHandle" @mousedown="startResize($event, 'bottom-right')">
+          <i class="bi bi-arrows-angle-expand"></i>
         </div>
       </div>
-      
-      <div class="Body">
-        <textarea 
-          class="ModalTextArea" 
-          v-model="localValue"
-          :placeholder="placeholder"
-        ></textarea>
-      </div>
-      
-      <div class="Footer">
-        <button class="CancelButton" @click="onCancel" title="Cancel">
-          Cancel
-        </button>
-        <button class="DoneButton" @click="onDone" title="Done">
-          Done
-        </button>
-      </div>
-      
-      <!-- Resize handle -->
-      <div class="ResizeHandle" @mousedown="startResize($event, 'bottom-right')">
-        <i class="bi bi-arrows-angle-expand"></i>
-      </div>
-    </div>
     </dialog>
   </div>
 </template>
