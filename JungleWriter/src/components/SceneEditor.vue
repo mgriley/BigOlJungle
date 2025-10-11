@@ -547,8 +547,8 @@ onUnmounted(() => {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 800px;
-  height: 600px;
+  width: var(--design-width);
+  height: var(--design-height);
   transform: translate(-50%, -50%);
   border: 2px dashed var(--design-guide-color);
   border-radius: var(--border-radius-large);

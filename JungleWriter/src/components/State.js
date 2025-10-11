@@ -21,6 +21,9 @@ import { gApp, setGApp } from './Globals.js';
 import { Post, PostsFeed } from './Post.js'
 import { gToastManager } from './Toast.js'
 
+const kDefaultDesignWidth = 800;
+const kDefaultDesignHeight = 600;
+
 class SiteSettings {
   constructor() {
     this.siteName = "";
@@ -233,6 +236,9 @@ class Site {
       'background-color': this.settings.backgroundColor.getColorValue(),
       '--translateX': this.translateX + 'px',
       '--translateY': this.translateY + 'px',
+      // Design guide styles (purely for editor use)
+      '--design-width': kDefaultDesignWidth + 'px',
+      '--design-height': kDefaultDesignHeight + 'px',
       '--design-guide-color': 'darkgrey',
       //'--canvasWidth': canvasWidth + 'px',
       //'--canvasHeight': canvasHeight + 'px',
