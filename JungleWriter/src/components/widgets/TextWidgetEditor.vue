@@ -17,11 +17,6 @@ const props = defineProps({
   editorData: Object
 })
 
-const textModal = ref(null)
-
-function openTextModal() {
-  textModal.value.showModal()
-}
 
 function onFontChange(newFont) {
   if (gApp.site) {
@@ -95,18 +90,12 @@ function onColorChange(newColor) {
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
   <div class="mt-s">
-    <button class="EditTextButton" @click="openTextModal"><i class="bi bi-chat-right-text mr-xs"></i>Big Editor</button>
-  </div>
-
-  <TextEntryModal 
-    ref="textModal"
-  >
-    <textarea 
-      class="ModalTextArea" 
+    <TextEntryModal 
       v-model="editorData.text"
+      buttonText="Big Editor"
       placeholder="Enter your text content here..."
-    ></textarea>
-  </TextEntryModal>
+    />
+  </div>
 
   <div class="mt-s">
     <StyleInput :node="editorData" />
@@ -167,32 +156,6 @@ function onColorChange(newColor) {
   font-size: 18px;
 }
 
-.EditTextButton {
-  width: 100%;
-  margin-top: var(--space-xxs);
-  font-size: var(--f-m);
-  padding: var(--space-xs) var(--space-m);
-}
-
-.ModalTextArea {
-  width: 100%;
-  height: 100%;
-  padding: var(--space-xs);
-  border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-s);
-  background-color: var(--input-bg);
-  color: var(--input-text);
-  font-family: inherit;
-  font-size: var(--f-s);
-  resize: none;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.ModalTextArea:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: -2px;
-}
 
 .FlexRow {
   display: flex;

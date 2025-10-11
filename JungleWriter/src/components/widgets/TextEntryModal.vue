@@ -2,21 +2,23 @@
 import { ref, onMounted, reactive, computed, watch } from 'vue'
 
 const props = defineProps({
-  showDone: {
-    default: true,
+  modelValue: {
+    type: String,
+    default: ''
   },
-  doneText: {
-    default: 'Done',
+  buttonText: {
+    type: String,
+    default: 'Edit Text'
   },
-  showCancel: {
-    default: true,
-  },
-  cancelText: {
-    default: 'Cancel',
-  },
+  placeholder: {
+    type: String,
+    default: 'Enter your text content here...'
+  }
 });
 
-const emit = defineEmits(['onCancel', 'onDone'])
+const emit = defineEmits(['update:modelValue'])
+
+const localValue = ref('')
 
 let dialog = ref(null);
 let isDragging = ref(false);
@@ -27,6 +29,7 @@ let initialSize = ref({ width: 0, height: 0 });
 let initialPos = ref({ x: 0, y: 0 });
 
 function showModal() {
+  localValue.value = props.modelValue;
   dialog.value.showModal();
 }
 
@@ -43,17 +46,17 @@ function toggleModal() {
 }
 
 function onDone() {
-  emit('onDone');
+  emit('update:modelValue', localValue.value);
   closeModal();
 }
 
 function onCancel() {
-  emit('onCancel');
+  localValue.value = props.modelValue; // Reset to original value
   closeModal();
 }
 
 function handleNativeCancel() {
-  emit('onCancel');
+  onCancel();
 }
 
 function startDrag(event) {
@@ -143,7 +146,12 @@ defineExpose({
 </script>
 
 <template>
-  <dialog class="TextEntryModal" ref="dialog" @close="" @cancel="handleNativeCancel">
+  <div class="TextEntryModalWrapper">
+    <button class="EditTextButton" @click="showModal">
+      <i class="bi bi-chat-right-text mr-xs"></i>{{ buttonText }}
+    </button>
+    
+    <dialog class="TextEntryModal" ref="dialog" @close="" @cancel="handleNativeCancel">
     <div class="InnerModal">
       <div class="Header">
         <div class="DragHandle" @mousedown="startDrag">
@@ -152,12 +160,19 @@ defineExpose({
       </div>
       
       <div class="Body">
-        <slot>Default Body</slot>
+        <textarea 
+          class="ModalTextArea" 
+          v-model="localValue"
+          :placeholder="placeholder"
+        ></textarea>
       </div>
       
       <div class="Footer">
-        <button class="CloseButton" @click="closeModal" title="Close">
-          Close
+        <button class="CancelButton" @click="onCancel" title="Cancel">
+          Cancel
+        </button>
+        <button class="DoneButton" @click="onDone" title="Done">
+          Done
         </button>
       </div>
       
@@ -166,7 +181,8 @@ defineExpose({
         <i class="bi bi-arrows-angle-expand"></i>
       </div>
     </div>
-  </dialog>
+    </dialog>
+  </div>
 </template>
 
 <style scoped>
@@ -226,13 +242,21 @@ defineExpose({
   color: var(--primary-color);
 }
 
+.EditTextButton {
+  width: 100%;
+  margin-top: var(--space-xxs);
+  font-size: var(--f-m);
+  padding: var(--space-xs) var(--space-m);
+}
+
 .Footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  gap: var(--space-s);
   margin-top: var(--space-s);
 }
 
-.CloseButton {
+.CancelButton, .DoneButton {
   background-color: var(--input-bg);
   border: 1px solid var(--medium-color);
   color: var(--input-text);
@@ -241,11 +265,43 @@ defineExpose({
   padding: var(--space-xs) var(--space-s);
   font-size: var(--f-s);
   transition: all 0.2s ease;
+  flex: 1;
 }
 
-.CloseButton:hover {
+.CancelButton:hover, .DoneButton:hover {
   background-color: var(--medium-color);
   border-color: var(--light-color);
+}
+
+.DoneButton {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--darkest-color);
+}
+
+.DoneButton:hover {
+  background-color: var(--primary-color);
+  opacity: 0.8;
+}
+
+.ModalTextArea {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-xs);
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius-s);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  font-family: inherit;
+  font-size: var(--f-s);
+  resize: none;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ModalTextArea:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
 }
 
 .Body {
