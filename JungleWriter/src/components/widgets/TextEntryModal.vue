@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, computed, watch } from 'vue'
+import { makeDraggableExt } from '../DragUtils.js'
 
 const props = defineProps({
   modelValue: {
@@ -55,8 +56,7 @@ watch(localValue, (newValue) => {
 })
 
 let dialog = ref(null);
-let isDragging = ref(false);
-let dragOffset = ref({ x: 0, y: 0 });
+let headerRef = ref(null);
 let isResizing = ref(false);
 let resizeType = ref('');
 let initialSize = ref({ width: 0, height: 0 });
@@ -88,35 +88,6 @@ function toggleModal() {
 
 function handleNativeCancel() {
   emit('update:modelValue', localValue.value);
-}
-
-function startDrag(event) {
-  isDragging.value = true;
-  const rect = dialog.value.getBoundingClientRect();
-  dragOffset.value = {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top
-  };
-  
-  document.addEventListener('mousemove', handleDrag);
-  document.addEventListener('mouseup', stopDrag);
-  event.preventDefault();
-}
-
-function handleDrag(event) {
-  if (!isDragging.value) return;
-  
-  const newX = event.clientX - dragOffset.value.x;
-  const newY = event.clientY - dragOffset.value.y;
-  
-  posX.value = newX;
-  posY.value = newY;
-}
-
-function stopDrag() {
-  isDragging.value = false;
-  document.removeEventListener('mousemove', handleDrag);
-  document.removeEventListener('mouseup', stopDrag);
 }
 
 function startResize(event, type) {
@@ -250,6 +221,27 @@ onMounted(() => {
   
   posX.value = Math.max(0, (viewportWidth - width.value) / 2);
   posY.value = Math.max(0, (viewportHeight - height.value) / 2);
+  
+  // Set up dragging using DragUtils
+  if (headerRef.value) {
+    makeDraggableExt(headerRef.value, {
+      onStart: (startX, startY) => {
+        // Store the initial offset between mouse and dialog position
+        const rect = dialog.value.getBoundingClientRect();
+        headerRef.value._dragOffset = {
+          x: startX - rect.left,
+          y: startY - rect.top
+        };
+      },
+      onUpdate: (startX, startY, curX, curY) => {
+        const newX = curX - headerRef.value._dragOffset.x;
+        const newY = curY - headerRef.value._dragOffset.y;
+        
+        posX.value = newX;
+        posY.value = newY;
+      }
+    });
+  }
 })
 
 defineExpose({
@@ -266,9 +258,9 @@ defineExpose({
     
     <dialog class="TextEntryModal" ref="dialog" :style="modalStyle" @close="" @cancel="handleNativeCancel">
       <div class="InnerModal">
-        <div class="Header" @mousedown="startDrag">
+        <div class="Header" ref="headerRef">
           <div class="Title">{{ title }}</div>
-          <button class="CloseButton" @click="closeModal" @mousedown.stop title="Close">
+          <button class="CloseButton" @click="closeModal" title="Close">
             <i class="bi bi-x"></i>
           </button>
         </div>
