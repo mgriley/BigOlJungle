@@ -237,8 +237,18 @@ onMounted(() => {
         const newX = curX - headerRef.value._dragOffset.x;
         const newY = curY - headerRef.value._dragOffset.y;
         
-        posX.value = newX;
-        posY.value = newY;
+        // Constrain to viewport bounds
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const modalWidth = width.value;
+        const modalHeight = height.value;
+        
+        // Ensure the modal stays within viewport bounds
+        const constrainedX = Math.max(0, Math.min(newX, viewportWidth - modalWidth));
+        const constrainedY = Math.max(0, Math.min(newY, viewportHeight - modalHeight));
+        
+        posX.value = constrainedX;
+        posY.value = constrainedY;
       }
     });
   }
