@@ -77,16 +77,9 @@ export class StaticSiteWriter {
   async finalize() {
     // Add the combined CSS file if there are any style blocks
     if (this.cssBlocks.size > 0) {
-      const combinedCSS = Array.from(this.cssBlobs.values()).join('\n\n');
+      const combinedCSS = Array.from(this.cssBlocks.values()).join('\n\n');
       this.addTextFile('styles.css', combinedCSS);
     }
-    
-    // Add a generic robots.txt file
-    const robotsTxt = `User-agent: *
-Allow: /
-
-# Sitemap: https://yoursite.com/sitemap.xml`;
-    this.addTextFile('robots.txt', robotsTxt);
     
     return await this.zip.generateAsync({type: 'blob'});
   }
