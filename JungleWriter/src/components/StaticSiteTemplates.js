@@ -45,12 +45,27 @@ export function stylesDictToInlineString(stylesDict) {
   return strings.join(' ');
 }
 
+export function escapeHtml(text) {
+  /**
+   * Escape HTML special characters to prevent XSS and ensure valid HTML
+   */
+  if (typeof text !== 'string') {
+    return text;
+  }
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export function createElementString(tag, attrs = {}, styles = {}, content = '') {
   let stylesStr = stylesDictToInlineString(styles);
   let allAttrs = { ...attrs, style: stylesStr };
   let attrString = Object.entries(allAttrs)
     .filter(([key, value]) => value !== null && value !== undefined)
-    .map(([key, value]) => ` ${key}="${value}"`)
+    .map(([key, value]) => ` ${key}="${escapeHtml(value)}"`)
     .join('');
   return `<${tag}${attrString}>${content}</${tag}>`;
 }

@@ -9,7 +9,7 @@ import {
 } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
-  StaticIndexHtml, createElementString, stylesDictToInlineString
+  StaticIndexHtml, createElementString, stylesDictToInlineString, escapeHtml
 } from './StaticSiteTemplates.js'
 
 import { NodeTree, Node } from './Node.js'
@@ -386,9 +386,9 @@ class Site {
 
       let nodesHtml = await this.nodeTree.generateStaticHtml(writer);
       let indexHtmlStr = StaticIndexHtml;
-      indexHtmlStr = indexHtmlStr.replace("{{SITE_TITLE}}", writer.siteName);
-      indexHtmlStr = indexHtmlStr.replace("{{SITE_DESCRIPTION}}", this.settings.description || '');
-      indexHtmlStr = indexHtmlStr.replace("{{FAVICON_HREF}}", `/${faviconFilename}`);
+      indexHtmlStr = indexHtmlStr.replace("{{SITE_TITLE}}", escapeHtml(writer.siteName));
+      indexHtmlStr = indexHtmlStr.replace("{{SITE_DESCRIPTION}}", escapeHtml(this.settings.description || ''));
+      indexHtmlStr = indexHtmlStr.replace("{{FAVICON_HREF}}", escapeHtml(`/${faviconFilename}`));
       indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
         stylesDictToInlineString(this.getMainStyleObject()));
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
