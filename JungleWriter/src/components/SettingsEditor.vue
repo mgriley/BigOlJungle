@@ -17,7 +17,9 @@ let settings = gApp.site.getSettings();
       <ColorInput name="Background" :color="settings.backgroundColor" />
     </div>
     <div class="mb-m">
-      <BoolInput v-model="settings.showDesignGuide" name="Show Design Guide" />
+      <BoolInput v-model="settings.showDesignGuide" name="Show Design Guide"
+        helpText="Shows a centered box. Put your hero content in the box for good mobile display."
+      />
     </div>
     <div class="mb-s">
       <TextInput v-model="gApp.site.name" name="Project Name" placeholder="Enter project name..." />
