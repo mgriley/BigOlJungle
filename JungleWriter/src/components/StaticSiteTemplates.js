@@ -13,8 +13,10 @@ export let StaticIndexHtml = `<!DOCTYPE html>
 <body>
   <div id="app">
     <main id="Main" style="{{MAIN_STYLE_STRING}}">
-      <div class="AnchorDiv">
-{{CONTENT}}
+      <div id="CanvasArea">
+        <div class="AnchorDiv">
+  {{CONTENT}}
+        </div>
       </div>
     </main>
   </div>
@@ -24,7 +26,9 @@ export let StaticIndexHtml = `<!DOCTYPE html>
 `;
 
 export let StaticInteractiveJs = `
-// Interactive drag functionality for static sites
+// Interactive drag functionality for JungleWriter sites.
+// Allows clicking+dragging the canvas to scroll around.
+// Also handles mouse wheel scrolling.
 (function() {
   'use strict';
   

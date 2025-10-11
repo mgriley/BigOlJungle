@@ -46,11 +46,11 @@ function onGenerateStaticSite() {
 
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
+      <NavBar class="mb-s" />
       <button @click="onGenerateStaticSite" class="GenerateSiteBtn">
         <i class="bi bi-globe"></i>
         Generate Site
       </button>
-      <NavBar class="mb-s" />
       <div class="SidebarContent">
         <NodeTreeView />
       </div>
@@ -125,7 +125,7 @@ function onGenerateStaticSite() {
   width: 100%;
   padding: var(--space-s);
   margin-bottom: var(--space-s);
-  background-color: var(--primary-color);
+  background-color: blue;
   color: white;
   border: none;
   border-radius: var(--border-radius);
