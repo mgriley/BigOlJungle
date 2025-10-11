@@ -28,7 +28,7 @@ export let StaticIndexHtml = `<!DOCTYPE html>
 export let StaticInteractiveJs = `
 // Interactive drag functionality for JungleWriter sites.
 // Allows clicking+dragging the canvas to scroll around.
-// Also handles mouse wheel scrolling.
+// Also handles mouse wheel scrolling and touch events for mobile.
 (function() {
   'use strict';
   
@@ -36,6 +36,7 @@ export let StaticInteractiveJs = `
   let isDragging = false;
   let dragStart = { x: 0, y: 0 };
   let scrollStart = { x: 0, y: 0 };
+  let lastTouchTime = 0;
   
   // Get current translate values from CSS variables
   function getCurrentTranslate() {
@@ -58,8 +59,16 @@ export let StaticInteractiveJs = `
     mainElement.style.setProperty('--translateY', y + 'px');
   }
   
-  function onMouseDown(evt) {
-    // Check if we clicked on Main or CanvasArea, or if the target is a descendant of Main
+  function getEventCoords(evt) {
+    // Handle both mouse and touch events
+    if (evt.touches && evt.touches.length > 0) {
+      return { x: evt.touches[0].clientX, y: evt.touches[0].clientY };
+    }
+    return { x: evt.clientX, y: evt.clientY };
+  }
+  
+  function onPointerStart(evt) {
+    // Check if we clicked/touched on Main or CanvasArea, or if the target is a descendant of Main
     const mainElement = document.getElementById('Main');
     const canvasElement = document.getElementById('CanvasArea');
     const isMainOrDescendant = evt.target.id === "Main" || 
@@ -69,7 +78,8 @@ export let StaticInteractiveJs = `
     if (isMainOrDescendant) {
       // Start scroll drag
       isDragging = true;
-      dragStart = { x: evt.clientX, y: evt.clientY };
+      const coords = getEventCoords(evt);
+      dragStart = { x: coords.x, y: coords.y };
       scrollStart = getCurrentTranslate();
       evt.preventDefault();
       
@@ -77,13 +87,19 @@ export let StaticInteractiveJs = `
       if (mainElement) {
         mainElement.style.cursor = 'grabbing';
       }
+      
+      // Store touch time for touch events
+      if (evt.type.startsWith('touch')) {
+        lastTouchTime = Date.now();
+      }
     }
   }
   
-  function onMouseMove(evt) {
+  function onPointerMove(evt) {
     if (isDragging) {
-      const deltaX = evt.clientX - dragStart.x;
-      const deltaY = evt.clientY - dragStart.y;
+      const coords = getEventCoords(evt);
+      const deltaX = coords.x - dragStart.x;
+      const deltaY = coords.y - dragStart.y;
       
       const newX = scrollStart.x + deltaX;
       const newY = scrollStart.y + deltaY;
@@ -93,7 +109,7 @@ export let StaticInteractiveJs = `
     }
   }
   
-  function onMouseUp(evt) {
+  function onPointerEnd(evt) {
     if (isDragging) {
       isDragging = false;
       evt.preventDefault();
@@ -132,18 +148,40 @@ export let StaticInteractiveJs = `
     setTranslate(newX, newY);
   }
   
+  function onTouchMove(evt) {
+    // Handle touch scrolling when not dragging
+    if (!isDragging && evt.touches.length === 1) {
+      // Allow normal touch scrolling behavior
+      return;
+    }
+    
+    // If we're dragging, the onPointerMove will handle it
+    if (isDragging) {
+      onPointerMove(evt);
+    }
+  }
+  
   // Initialize when DOM is ready
   function init() {
     // Set initial cursor style
     const mainElement = document.getElementById('Main');
     if (mainElement) {
       mainElement.style.cursor = 'grab';
+      // Prevent default touch behaviors that might interfere
+      mainElement.style.touchAction = 'none';
     }
     
-    // Add event listeners
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    // Add mouse event listeners
+    document.addEventListener('mousedown', onPointerStart);
+    document.addEventListener('mousemove', onPointerMove);
+    document.addEventListener('mouseup', onPointerEnd);
+    
+    // Add touch event listeners
+    document.addEventListener('touchstart', onPointerStart, { passive: false });
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onPointerEnd, { passive: false });
+    
+    // Add wheel event listener
     document.addEventListener('wheel', onWheel, { passive: false });
   }
   
