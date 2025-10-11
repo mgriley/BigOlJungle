@@ -283,6 +283,10 @@ export class Node {
     };
   }
 
+  getBoundingBoxFromDom() {
+    // TODO
+  }
+
   static getNodeById(id) {
     return gApp.site.getNodeById(id);
   }
