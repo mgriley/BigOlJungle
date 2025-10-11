@@ -65,9 +65,11 @@ function selectTab(tab) {
       <p>This screen is too small to display our glorious website editor, sorry!</p>
       <p>Please come back on desktop to create a site.</p>
     </div>
+    <!--
     <div class="ImageAttribution">
       Photo by Robin Teng, Unsplash
     </div>
+    -->
   </div>
 
   <div v-else>
@@ -181,14 +183,14 @@ function selectTab(tab) {
 
 .MobileMessageContent h2 {
   color: var(--text-color);
-  margin-bottom: var(--space-m);
-  font-size: var(--text-size-xl);
+  margin-bottom: var(--space-l);
+  font-size: var(--f-xl);
 }
 
 .MobileMessageContent p {
   color: var(--text-color-secondary);
-  margin-bottom: var(--space-s);
-  font-size: var(--text-size-base);
+  margin-bottom: var(--space-m);
+  font-size: var(--f-l);
   line-height: 1.5;
 }
 
