@@ -94,6 +94,7 @@ function onColorChange(newColor) {
       v-model="editorData.text"
       buttonText="Big Editor"
       placeholder="Enter your text content here..."
+      :updateWhileTyping="true"
     />
   </div>
 
