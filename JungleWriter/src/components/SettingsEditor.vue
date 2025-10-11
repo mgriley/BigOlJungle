@@ -21,6 +21,9 @@ let settings = gApp.site.getSettings();
       <TextInput v-model="settings.siteName" name="Site Name" placeholder="Enter site title..." />
     </div>
     <div class="mb-s">
+      <TextInput v-model="settings.description" name="Description" placeholder="Enter site description..." />
+    </div>
+    <div class="mb-s">
       <ImageInput v-model="settings.faviconSrcName" name="Favicon" />
       <p class="mute-text f-xs">We recommend a 48x48 .png file.</p>
     </div>

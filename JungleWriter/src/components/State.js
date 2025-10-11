@@ -23,6 +23,7 @@ import { gToastManager } from './Toast.js'
 class SiteSettings {
   constructor() {
     this.siteName = "";
+    this.description = "";
     this.faviconSrcName = "";
     this.backgroundColor = new ColorInput('#ffffff', 1.0);
     // NOTE - currently unused
@@ -35,6 +36,7 @@ class SiteSettings {
   writeToJson() {
     return {
       siteName: this.siteName,
+      description: this.description,
       faviconSrcName: this.faviconSrcName,
       backgroundColor: this.backgroundColor.writeToJson(),
       //foregroundColor: this.foregroundColor.writeToJson(),
@@ -46,6 +48,7 @@ class SiteSettings {
 
   readFromJson(obj) {
     this.siteName = obj && obj.siteName ? obj.siteName : "";
+    this.description = obj && obj.description ? obj.description : "";
     this.faviconSrcName = obj && obj.faviconSrcName ? obj.faviconSrcName : "";
     if (obj && obj.backgroundColor) {
       this.backgroundColor.readFromJson(obj.backgroundColor);
