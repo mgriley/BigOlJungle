@@ -283,7 +283,7 @@ export class Node {
     };
   }
 
-  getBoundingBoxFromDom() {
+  getGlobalBoundingBox() {
     // TODO
   }
 
