@@ -148,6 +148,9 @@ class Site {
     this.translateX = 0;
     this.translateY = 0;
 
+    this.pageWidth = null;
+    this.pageHeight = null;
+
     // Node state management
     this.nodeIdCtr = 1;
     this.nodeLookupMap = {};
