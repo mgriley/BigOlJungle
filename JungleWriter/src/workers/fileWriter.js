@@ -1,4 +1,7 @@
 // Web Worker for Safari file writing using createSyncAccessHandle
+// This is necessary because Safari does not support the async createWritable()
+// method on the main thread. It only supports synchronous file access through
+// a web worker.
 self.onmessage = async function(e) {
   const { id, fileHandle, data } = e.data;
   

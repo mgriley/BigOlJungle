@@ -3,10 +3,13 @@ import * as utils from './Utils.js'
 import JSZip from 'jszip'
 
 /*
-Some helper utils around the browser-native File Access APIs,
-for Origin Private File System (OPFS).
+Writing files to OPFS (Origin Private File System) is not fully supported yet, so there
+is some hackery here.
+- On Chrome and Firefox, you can use the async createWritable() method directly on the main thread.
+-- This works great.
+- On Safari, the only way to write to OPFS files is to do so synchronously
+through a web-worker. No way to do it on the main thread. So we use this class to manage stuff.
 */
-
 class SafariFileWorker {
   constructor() {
     this._worker = null;
@@ -39,6 +42,7 @@ class SafariFileWorker {
     return new Promise((resolve, reject) => {
       // Create worker if it doesn't exist
       if (!this._worker) {
+        console.log("Creating Safari file worker");
         this._worker = new Worker(new URL('../workers/fileWriter.js', import.meta.url));
         this._worker.onmessage = (e) => {
           const { id, success, error } = e.data;
@@ -170,13 +174,10 @@ class FileObj extends BaseObj {
       await writable.write(contents);
       await writable.close();
     } 
-    // Fallback for Safari using Web Worker
-    else if (this.nativeHandle.createSyncAccessHandle) {
+    // Fallback to using the Safari worker method if createWritable is not supported
+    else {
       const safariWorker = SafariFileWorker.getInstance();
       await safariWorker.writeWithWorker(this.nativeHandle, contents);
-    }
-    else {
-      throw new Error('No supported write method available');
     }
     
     this.emitChangeEvt({type: 'write-file', name: this.getName()});
