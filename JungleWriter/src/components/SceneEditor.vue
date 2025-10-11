@@ -426,8 +426,10 @@ let selectionRectStyle = computed(() => {
     top: startY + 'px',
     width: width + 'px',
     height: height + 'px',
-    border: '1px dashed #007bff',
-    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+    //border: '2px dashed #007bff',
+    //backgroundColor: 'rgba(0, 123, 255, 0.1)',
+    border: '3px dashed purple',
+    backgroundColor: 'rgba(255,0,255,0.1)',
     pointerEvents: 'none',
     zIndex: 1000
   };

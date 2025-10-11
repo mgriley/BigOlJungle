@@ -1,4 +1,5 @@
 import { gApp } from './State.js'
+import { Node } from './Node.js'
 
 /*
 dragFuncs {
