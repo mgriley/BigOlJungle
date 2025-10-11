@@ -150,6 +150,17 @@ export class Node {
     return this.elementClasses;
   }
 
+  getElementClassesDict() {
+    let classDict = {};
+    if (this.elementClasses) {
+      let classList = this.elementClasses.split(',').map(s => s.trim()).filter(s => s.length > 0);
+      for (const cls of classList) {
+        classDict[cls] = true;
+      }
+    }
+    return classDict;
+  }
+
   setElementClasses(classString) {
     this.elementClasses = classString;
   }
