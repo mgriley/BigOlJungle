@@ -58,8 +58,8 @@ const customCssString = computed({
       <TextInput 
         v-model="elementClasses" 
         name="CSS Classes"
-        placeholder="class1, class2, class3"
-        helpText="Comma-separated list of CSS classes to apply to this element."
+        placeholder="class1 class2 class3"
+        helpText="Space-separated list of CSS classes to apply to this element."
       />
       <div class="mt-s">
         <TextEntryModal 

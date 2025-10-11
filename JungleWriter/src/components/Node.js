@@ -153,7 +153,7 @@ export class Node {
   getElementClassesDict() {
     let classDict = {};
     if (this.elementClasses) {
-      let classList = this.elementClasses.split(',').map(s => s.trim()).filter(s => s.length > 0);
+      let classList = this.elementClasses.split(/\s+/).filter(s => s.length > 0);
       for (const cls of classList) {
         classDict[cls] = true;
       }
