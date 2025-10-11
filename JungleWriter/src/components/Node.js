@@ -153,9 +153,9 @@ export class Node {
   getElementClassesDict() {
     let classDict = {};
     if (this.elementClasses) {
-      // Support both comma-separated and space-separated classes
+      // Support only space-separated classes
       let classList = this.elementClasses
-        .split(/[,\s]+/)  // Split on both commas and whitespace
+        .split(/\s+/)  // Split on whitespace only
         .map(s => s.trim())  // Trim whitespace from each class
         .filter(s => s.length > 0);  // Remove empty strings
       for (const cls of classList) {
