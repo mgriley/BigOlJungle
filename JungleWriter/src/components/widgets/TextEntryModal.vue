@@ -28,6 +28,10 @@ const emit = defineEmits(['update:modelValue'])
 
 const localValue = ref('')
 
+const textareaFontFamily = computed(() => {
+  return props.isCodeEditor ? 'monospace' : 'inherit'
+})
+
 // Watch for changes to localValue and emit updates if updateWhileTyping is enabled
 watch(localValue, (newValue) => {
   if (props.updateWhileTyping) {
@@ -266,6 +270,7 @@ defineExpose({
             v-model="localValue"
             :placeholder="placeholder"
             @keydown="handleKeyDown"
+            :style="{ fontFamily: textareaFontFamily }"
           ></textarea>
         </div>
         
