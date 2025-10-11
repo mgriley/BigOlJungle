@@ -96,6 +96,7 @@ onMounted(() => {
 <template>
   <component 
     :is="node.elementType" 
+    :id="node.getElementId()"
     class="Widget TextWidget NoSelect" 
     :class="{ 'editing': isEditing }" 
     :style="node.getStyleObject()"

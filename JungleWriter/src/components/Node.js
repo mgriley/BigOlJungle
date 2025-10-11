@@ -13,6 +13,10 @@ export class Node {
   constructor(id) {
     this.id = id !== undefined ? id : (gApp?.site ? gApp.site.getNextNodeId() : 0);
     this.type = "Node";
+    // The 'id' attribute of this element. When null, uses `{name}-{id}`.
+    this.elementId = null;
+    // Extra CSS classes for this element, as a comma-separated list.
+    this.elementClasses = "";
 
     this.name = "Group";
     this.parentNode = null;
@@ -33,6 +37,8 @@ export class Node {
     return {
       id: this.id,
       type: this.type,
+      elementId: this.elementId,
+      elementClasses: this.elementClasses,
       name: this.name,
       openInNodeTree: this.openInNodeTree,
       posX: this.posX,
@@ -47,6 +53,12 @@ export class Node {
     // console.log("Reading Node:", prettyJson(obj));
     this.id = obj.id;
     this.type = obj.type;
+    if (obj.elementId) {
+      this.elementId = obj.elementId;
+    }
+    if (obj.elementClasses) {
+      this.elementClasses = obj.elementClasses;
+    }
     this.name = obj.name;
     this.openInNodeTree = obj.openInNodeTree;
     this.posX = obj.posX;
@@ -121,6 +133,25 @@ export class Node {
 
   getAllowsChildren() {
     return true;
+  }
+
+  getElementId() {
+    if (this.elementId) {
+      return this.elementId;
+    }
+    return `${this.name}-${this.id}`;
+  }
+
+  setElementId(newIdString) {
+    this.elementId = newIdString;
+  }
+
+  getElementClasses() {
+    return this.elementClasses;
+  }
+
+  setElementClasses(classString) {
+    this.elementClasses = classString;
   }
 
   getPos() {

@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget RectWidget" ref="elementRef"
+  <div :id="node.getElementId()" class="Widget RectWidget" ref="elementRef"
     :style="node.getStyleObject()" @click="onClick">
     <DragCorners v-if="node.selected" :node="node" />
   </div>

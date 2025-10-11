@@ -54,7 +54,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="Widget ImageWidget" ref="elementRef"
+  <div :id="node.getElementId()" class="Widget ImageWidget" ref="elementRef"
     :style="node.getStyleObject()" @click="onClick" @dblclick="onDoubleClick"
     :class="{ 'no-image': hasNoImage }"
     >

@@ -39,7 +39,7 @@ let styleObject = computed(() => {
 </script>
 
 <template>
-  <div class="Widget NodeWidget" ref="elementRef" :style="styleObject">
+  <div :id="node.getElementId()" class="Widget NodeWidget" ref="elementRef" :style="styleObject">
     <!-- Use a separate indicator for the drag handle so that we can display it on top 
      without messing up the node hierarchy. -->
     <img
