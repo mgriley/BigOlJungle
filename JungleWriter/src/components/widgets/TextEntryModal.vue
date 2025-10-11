@@ -154,8 +154,10 @@ function stopResize() {
   document.removeEventListener('mouseup', stopResize);
 }
 
-function handleTabKey(event) {
-  if (event.key === 'Tab' && props.isCodeEditor) {
+function handleKeyDown(event) {
+  if (!props.isCodeEditor) return;
+  
+  if (event.key === 'Tab') {
     event.preventDefault();
     
     const textarea = event.target;
@@ -170,11 +172,7 @@ function handleTabKey(event) {
     setTimeout(() => {
       textarea.selectionStart = textarea.selectionEnd = start + spaces.length;
     }, 0);
-  }
-}
-
-function handleBackspaceKey(event) {
-  if (event.key === 'Backspace' && props.isCodeEditor) {
+  } else if (event.key === 'Backspace') {
     const textarea = event.target;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -231,8 +229,7 @@ defineExpose({
             class="ModalTextArea" 
             v-model="localValue"
             :placeholder="placeholder"
-            @keydown="handleTabKey"
-            @keydown="handleBackspaceKey"
+            @keydown="handleKeyDown"
           ></textarea>
         </div>
         
