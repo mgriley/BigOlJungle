@@ -10,6 +10,26 @@ import PropEditor from './PropEditor.vue'
 import NodeTreeView from './NodeTreeView.vue'
 import FileEditor from './FileEditor.vue'
 
+const isMobile = ref(false)
+
+function checkIfMobile() {
+  // Consider mobile if screen width is less than 768px
+  isMobile.value = window.innerWidth < 768
+}
+
+function onResize() {
+  checkIfMobile()
+}
+
+onMounted(() => {
+  checkIfMobile()
+  window.addEventListener('resize', onResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', onResize)
+})
+
 let sidebarTabs = [
   {name: 'Editor', icon: 'bi bi-sliders', comp: PropEditor},
   {name: 'Global settings', icon: 'bi bi-sliders', comp: SettingsEditor},
@@ -34,28 +54,38 @@ function selectTab(tab) {
 </script>
 
 <template>  
-  <TopMenu v-if="isEditing" />
+  <div v-if="isMobile" class="MobileMessage">
+    <div class="MobileMessageContent">
+      <h2>📱 Mobile Not Supported</h2>
+      <p>JungleWriter does not support editing on mobile, sorry!</p>
+      <p>Come back on desktop to create your site.</p>
+    </div>
+  </div>
 
-  <div class="Toplevel" :class="{IsEditing: isEditing}">
-    <div v-if="isEditing" class="Sidebar SidebarLeft">
-      <NavBar class="mb-s" />
-      <div class="SidebarContent">
-        <NodeTreeView />
+  <div v-else>
+    <TopMenu v-if="isEditing" />
+
+    <div class="Toplevel" :class="{IsEditing: isEditing}">
+      <div v-if="isEditing" class="Sidebar SidebarLeft">
+        <NavBar class="mb-s" />
+        <div class="SidebarContent">
+          <NodeTreeView />
+        </div>
       </div>
-    </div>
-    <div class="MainArea">
-      <router-view></router-view>
-    </div>
-    <div v-if="isEditing" class="Sidebar SidebarRight">
-      <div class="TabSelector">
-        <DropdownSelector 
-          :items="sidebarTabs"
-          :currentItem="currentTab"
-          @select="selectTab"
-        />
+      <div class="MainArea">
+        <router-view></router-view>
       </div>
-      <div class="SidebarContent">
-        <component :is="sidebarTab"></component>
+      <div v-if="isEditing" class="Sidebar SidebarRight">
+        <div class="TabSelector">
+          <DropdownSelector 
+            :items="sidebarTabs"
+            :currentItem="currentTab"
+            @select="selectTab"
+          />
+        </div>
+        <div class="SidebarContent">
+          <component :is="sidebarTab"></component>
+        </div>
       </div>
     </div>
   </div>
@@ -107,6 +137,33 @@ function selectTab(tab) {
 
 .TabSelector {
   margin-bottom: var(--space-m);
+}
+
+.MobileMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--main-bg);
+  padding: var(--space-l);
+}
+
+.MobileMessageContent {
+  text-align: center;
+  max-width: 400px;
+}
+
+.MobileMessageContent h2 {
+  color: var(--text-color);
+  margin-bottom: var(--space-m);
+  font-size: var(--text-size-xl);
+}
+
+.MobileMessageContent p {
+  color: var(--text-color-secondary);
+  margin-bottom: var(--space-s);
+  font-size: var(--text-size-base);
+  line-height: 1.5;
 }
 
 </style>
