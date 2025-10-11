@@ -55,10 +55,10 @@ function selectTab(tab) {
 
 <template>  
   <div v-if="isMobile" class="MobileMessage">
+    <div class="HeroImage">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Forest path by Robin Teng" />
+    </div>
     <div class="MobileMessageContent">
-      <div class="MemeImage">
-        <img src="https://i.imgflip.com/2/1wz3as.jpg" alt="This is fine dog meme" />
-      </div>
       <h2>Small Device Detected 👀</h2>
       <p>This screen is too small to display our glorious website editor, sorry!</p>
       <p>Please come back on desktop to create a site.</p>
@@ -144,29 +144,34 @@ function selectTab(tab) {
 
 .MobileMessage {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   height: 100vh;
-  background-color: blue;
-  padding: var(--space-l);
+  background-color: var(--main-bg);
+}
+
+.HeroImage {
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+}
+
+.HeroImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .MobileMessageContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   max-width: 400px;
-}
-
-.MemeImage {
-  margin-bottom: var(--space-l);
-  width: 100%;
-}
-
-.MemeImage img {
-  width: 80%;
-  max-width: 100%;
-  height: auto;
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  padding: var(--space-l);
 }
 
 .MobileMessageContent h2 {
