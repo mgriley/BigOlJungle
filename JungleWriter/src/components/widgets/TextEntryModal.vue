@@ -13,12 +13,23 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: 'Enter your text content here...'
+  },
+  updateWhileTyping: {
+    type: Boolean,
+    default: false
   }
 });
 
 const emit = defineEmits(['update:modelValue'])
 
 const localValue = ref('')
+
+// Watch for changes to localValue and emit updates if updateWhileTyping is enabled
+watch(localValue, (newValue) => {
+  if (props.updateWhileTyping) {
+    emit('update:modelValue', newValue)
+  }
+})
 
 let dialog = ref(null);
 let isDragging = ref(false);
