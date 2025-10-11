@@ -220,6 +220,10 @@ class Site {
     }
   }
 
+  _calcScaleToDesignGuide() {
+    // TODO
+  }
+
   getMainStyleObject() {
     // TODO - fix this up
     /*
