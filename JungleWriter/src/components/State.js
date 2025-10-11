@@ -243,7 +243,7 @@ class Site {
     const scale = availableWidth / designWidth;
     
     // Clamp scale to reasonable bounds (don't scale up beyond 1.0, don't scale down too much)
-    return Math.max(0.1, Math.min(scale, 1.0));
+    return Math.max(0.4, Math.min(scale, 1.0));
   }
 
   getMainStyleObject() {
@@ -261,8 +261,10 @@ class Site {
     */
     let canvasWidth = this.settings.canvasWidth;
     let canvasHeight = this.settings.canvasHeight;
+    let canvasScale = this._calcCanvasScale();
     return {
       'background-color': this.settings.backgroundColor.getColorValue(),
+      'transform': `scale(canvasScale)`,
       '--translateX': this.translateX + 'px',
       '--translateY': this.translateY + 'px',
       // Design guide styles (purely for editor use)
