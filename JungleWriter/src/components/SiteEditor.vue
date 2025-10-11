@@ -62,6 +62,9 @@ function selectTab(tab) {
       <h2>Small Device Detected 👀</h2>
       <p>This screen is too small to display our glorious website editor, sorry!</p>
       <p>Please come back on desktop to create a site.</p>
+      <div class="ImageAttribution">
+        Photo by Robin Teng on Unsplash
+      </div>
     </div>
   </div>
 
@@ -185,6 +188,13 @@ function selectTab(tab) {
   margin-bottom: var(--space-s);
   font-size: var(--text-size-base);
   line-height: 1.5;
+}
+
+.ImageAttribution {
+  margin-top: var(--space-l);
+  font-size: var(--text-size-sm);
+  color: var(--text-color-tertiary);
+  opacity: 0.7;
 }
 
 </style>
