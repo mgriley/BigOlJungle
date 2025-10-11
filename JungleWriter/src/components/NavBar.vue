@@ -63,11 +63,6 @@ const kMenuItems = [
     action: onDeploy
   },
   */
-  {
-    name: "Generate site",
-    icon: "bi bi-globe",
-    action: onGenerateStaticSite
-  },
   /*
   {
     name: "SceneEditor",

@@ -31,6 +31,14 @@ function selectTab(tab) {
   sidebarTab.value = tab.comp;
 }
 
+function onGenerateStaticSite() {
+  if (gApp.site) {
+    gApp.site.generateStaticSite();
+  } else {
+    console.log("No site selected to generate static site");
+  }
+}
+
 </script>
 
 <template>  
@@ -38,6 +46,10 @@ function selectTab(tab) {
 
   <div class="Toplevel" :class="{IsEditing: isEditing}">
     <div v-if="isEditing" class="Sidebar SidebarLeft">
+      <button @click="onGenerateStaticSite" class="GenerateSiteBtn">
+        <i class="bi bi-globe"></i>
+        Generate Site
+      </button>
       <NavBar class="mb-s" />
       <div class="SidebarContent">
         <NodeTreeView />
@@ -107,6 +119,25 @@ function selectTab(tab) {
 
 .TabSelector {
   margin-bottom: var(--space-m);
+}
+
+.GenerateSiteBtn {
+  width: 100%;
+  padding: var(--space-s);
+  margin-bottom: var(--space-s);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-weight: 500;
+}
+
+.GenerateSiteBtn:hover {
+  background-color: var(--primary-color-dark);
 }
 
 </style>
