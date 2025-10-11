@@ -56,9 +56,9 @@ function selectTab(tab) {
 <template>  
   <div v-if="isMobile" class="MobileMessage">
     <div class="MobileMessageContent">
-      <h2>📱 Mobile Not Supported</h2>
-      <p>JungleWriter does not support editing on mobile, sorry!</p>
-      <p>Come back on desktop to create your site.</p>
+      <h2>Small Device Detected 👀</h2>
+      <p>This screen is too small to display our glorious website editor, sorry!</p>
+      <p>Please come back on desktop to create a site.</p>
     </div>
   </div>
 
@@ -144,7 +144,7 @@ function selectTab(tab) {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: var(--main-bg);
+  background-color: blue;
   padding: var(--space-l);
 }
 
