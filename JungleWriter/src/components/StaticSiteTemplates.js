@@ -47,7 +47,7 @@ export function stylesDictToInlineString(stylesDict) {
 
 export function escapeHtml(text) {
   /**
-   * Escape HTML special characters to prevent XSS and ensure valid HTML
+   * Escape HTML special characters to ensure valid HTML
    */
   if (typeof text !== 'string') {
     return text;
