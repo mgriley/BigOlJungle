@@ -14,10 +14,6 @@ function checkIfMobile() {
   isMobile.value = window.innerWidth < 768
 }
 
-function onResize() {
-  checkIfMobile()
-}
-
 let createSiteModal = ref(null);
 let siteToAdd = ref(null);
 let devModal = ref(null);
@@ -158,27 +154,16 @@ function getLastModifiedText(site) {
 onMounted(() => {
   gApp.reloadSites();
   checkIfMobile()
-  window.addEventListener('resize', onResize)
 });
-
-onUnmounted(() => {
-  window.removeEventListener('resize', onResize)
-})
 
 </script>
 
 <template>
   <div v-if="isMobile" class="MobileMessage">
-    <div class="HeroImage">
-      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Forest path by Robin Teng" />
-    </div>
     <div class="MobileMessageContent">
       <h2>Small Device Detected 👀</h2>
       <p>This screen is too small to display our glorious website editor, sorry!</p>
       <p>Please come back on desktop to create a site.</p>
-    </div>
-    <div class="ImageAttribution">
-      Photo by Robin Teng on Unsplash
     </div>
   </div>
 
@@ -459,7 +444,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--main-bg);
+  background-color: blue;
 }
 
 .HeroImage {
@@ -498,17 +483,6 @@ onUnmounted(() => {
   margin-bottom: var(--space-m);
   font-size: var(--f-l);
   line-height: 1.5;
-}
-
-.ImageAttribution {
-  position: absolute;
-  bottom: var(--space-s);
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: var(--f-m);
-  color: var(--text-color-tertiary);
-  opacity: 0.6;
-  text-align: center;
 }
 
 </style>
