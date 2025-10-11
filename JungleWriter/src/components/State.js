@@ -395,9 +395,7 @@ class Site {
 
       // Add a generic robots.txt file
       const robotsTxt = `User-agent: *
-Allow: /
-
-# Sitemap: https://yoursite.com/sitemap.xml`;
+Allow: /`;
       writer.addTextFile('robots.txt', robotsTxt);
 
       await writer.addFileWithName(this.settings.faviconSrcName, faviconFilename);
