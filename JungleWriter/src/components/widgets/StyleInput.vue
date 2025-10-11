@@ -15,15 +15,19 @@ const elementId = computed({
   }
 })
 
+let placeholderId = computed(() => {
+  return props.node.getElementId();
+})
+
 </script>
 
 <template>
   <div class="StyleInput">
     <TextInput 
       v-model="elementId" 
-      name="Element ID" 
-      placeholder="Leave blank for auto-generated ID"
-      helpText="Override the HTML element ID for this node. Used for CSS targeting and JavaScript."
+      name="Element ID"
+      :placeholder="placeholderId"
+      helpText="Override this element's 'id', to target with custom CSS and JS."
     />
   </div>
 </template>
