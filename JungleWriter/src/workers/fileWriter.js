@@ -3,9 +3,25 @@
 // method on the main thread. It only supports synchronous file access through
 // a web worker.
 self.onmessage = async function(e) {
-  const { id, fileHandle, data } = e.data;
+  const { id, filePath, data } = e.data;
   
   try {
+    // Get the root directory handle
+    const rootHandle = await navigator.storage.getDirectory();
+    
+    // Navigate to the file using the path
+    const pathParts = filePath.split('/');
+    let currentHandle = rootHandle;
+    
+    // Navigate through directories
+    for (let i = 0; i < pathParts.length - 1; i++) {
+      currentHandle = await currentHandle.getDirectoryHandle(pathParts[i]);
+    }
+    
+    // Get the file handle
+    const fileName = pathParts[pathParts.length - 1];
+    const fileHandle = await currentHandle.getFileHandle(fileName);
+    
     if (!fileHandle.createSyncAccessHandle) {
       throw new Error('createSyncAccessHandle not supported');
     }

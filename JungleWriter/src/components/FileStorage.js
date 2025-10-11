@@ -24,7 +24,7 @@ class SafariFileWorker {
     return SafariFileWorker._instance;
   }
 
-  async writeWithWorker(fileHandle, contents) {
+  async writeWithWorker(filePath, contents) {
     // Convert contents to transferable format
     let data;
     if (typeof contents === 'string') {
@@ -61,12 +61,12 @@ class SafariFileWorker {
       const workerId = this._nextWorkerId++;
       this._workerPromises.set(workerId, { resolve, reject });
 
-      // Send work to the worker with transfer list
+      // Send work to the worker
       this._worker.postMessage({
         id: workerId,
-        fileHandle: fileHandle,
+        filePath: filePath,
         data: data
-      }, [fileHandle]);
+      });
     });
   }
 
@@ -119,6 +119,19 @@ class FileObj extends BaseObj {
   constructor(nativeHandle, parentObj, emitter) {
     super(nativeHandle, parentObj);
     this.emitter = emitter;
+  }
+
+  getFilePath() {
+    // Build the file path from root to this file
+    const pathParts = [];
+    let current = this;
+    
+    while (current.parentObj) {
+      pathParts.unshift(current.getName());
+      current = current.parentObj;
+    }
+    
+    return pathParts.join('/');
   }
 
   async dumpToString(indent = 0) {
@@ -178,7 +191,7 @@ class FileObj extends BaseObj {
     else {
       console.log("Using Safari file worker to write file: " + this.getName());
       const safariWorker = SafariFileWorker.getInstance();
-      await safariWorker.writeWithWorker(this.nativeHandle, contents);
+      await safariWorker.writeWithWorker(this.getFilePath(), contents);
     }
     
     this.emitChangeEvt({type: 'write-file', name: this.getName()});
