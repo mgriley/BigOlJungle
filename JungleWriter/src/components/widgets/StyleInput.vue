@@ -24,6 +24,15 @@ let placeholderId = computed(() => {
   return props.node.getElementId();
 })
 
+const elementClasses = computed({
+  get() {
+    return props.node.elementClasses || ''
+  },
+  set(value) {
+    props.node.setElementClasses(value || '')
+  }
+})
+
 const customCssString = computed({
   get() {
     return gApp.site?.customCssString || ''
@@ -45,6 +54,12 @@ const customCssString = computed({
         name="Element ID"
         :placeholder="placeholderId"
         helpText="Set this element's 'id' for custom CSS."
+      />
+      <TextInput 
+        v-model="elementClasses" 
+        name="CSS Classes"
+        placeholder="class1, class2, class3"
+        helpText="Comma-separated list of CSS classes to apply to this element."
       />
       <div class="mt-s">
         <TextEntryModal 
