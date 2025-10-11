@@ -7,6 +7,7 @@ import SelectorInput from './SelectorInput.vue'
 import BackgroundInput from './BackgroundInput.vue'
 import BorderInput from './BorderInput.vue'
 import PositionInput from './PositionInput.vue'
+import StyleInput from './StyleInput.vue'
 //import FilterInput from './FilterInput.vue'
 
 const props = defineProps({
@@ -22,6 +23,9 @@ const props = defineProps({
     <BorderInput v-model="editorData.border" name="Border" />
     <!-- <FilterInput v-model="editorData.filter" name="Filter" /> -->
     <!-- <FilterInput v-model="editorData.backdropFilter" name="Backdrop-Filter" /> -->
+    <div class="mt-s">
+      <StyleInput :node="editorData" />
+    </div>
   </div>
 </template>
 

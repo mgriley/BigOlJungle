@@ -7,6 +7,7 @@ import ColorInput from './ColorInput.vue'
 import SelectorInput from './SelectorInput.vue'
 import ImageInput from './ImageInput.vue'
 import PositionInput from './PositionInput.vue'
+import StyleInput from './StyleInput.vue'
 
 const props = defineProps({
   editorData: Object
@@ -41,6 +42,9 @@ let preserveAspectRatio = computed({
     </div>
     <TextInput v-model="editorData.altText" name="Alt text" />
     <!-- <SelectorInput v-model="editorData.objectFit" name="Image Fit" :options="['cover', 'contain', 'fill', 'none']" /> -->
+    <div class="mt-s">
+      <StyleInput :node="editorData" />
+    </div>
   </div>
 </template>
 

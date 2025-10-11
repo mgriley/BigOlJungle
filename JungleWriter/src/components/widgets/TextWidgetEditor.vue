@@ -10,6 +10,7 @@ import LinkInput from './LinkInput.vue'
 import TextEntryModal from './TextEntryModal.vue'
 import PositionInput from './PositionInput.vue'
 import TextElement from './TextElement.vue'
+import StyleInput from './StyleInput.vue'
 import { gApp } from '../Globals.js'
 
 const props = defineProps({
@@ -106,6 +107,10 @@ function onColorChange(newColor) {
       placeholder="Enter your text content here..."
     ></textarea>
   </TextEntryModal>
+
+  <div class="mt-s">
+    <StyleInput :node="editorData" />
+  </div>
 </template>
 
 <style scoped>
