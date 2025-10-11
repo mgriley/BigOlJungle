@@ -394,6 +394,7 @@ class Site {
       indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
       writer.addTextFile("index.html", indexHtmlStr);
       writer.addStyleBlock('custom', this.customCssString || '');
+      console.log("INDEX.HTML:\n", indexHtmlStr);
 
       // Add a generic robots.txt file
       const robotsTxt = `User-agent: *

@@ -67,5 +67,5 @@ export function createElementString(tag, attrs = {}, styles = {}, content = '') 
     .filter(([key, value]) => value !== null && value !== undefined)
     .map(([key, value]) => ` ${key}="${escapeHtml(value)}"`)
     .join('');
-  return `<${tag}${attrString}>${content}</${tag}>`;
+  return `<${tag}${attrString}>\n${content}\n</${tag}>`;
 }
