@@ -9,7 +9,8 @@ import {
 } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
-  StaticIndexHtml, createElementString, stylesDictToInlineString, escapeHtml
+  StaticIndexHtml, createElementString, stylesDictToInlineString, escapeHtml,
+  applyIndent,
 } from './StaticSiteTemplates.js'
 
 import { NodeTree, Node } from './Node.js'
@@ -391,7 +392,7 @@ class Site {
       indexHtmlStr = indexHtmlStr.replace("{{FAVICON_HREF}}", escapeHtml(`/${faviconFilename}`));
       indexHtmlStr = indexHtmlStr.replace("{{MAIN_STYLE_STRING}}",
         stylesDictToInlineString(this.getMainStyleObject()));
-      indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", nodesHtml);
+      indexHtmlStr = indexHtmlStr.replace("{{CONTENT}}", applyIndent(nodesHtml, 8));
       writer.addTextFile("index.html", indexHtmlStr);
       writer.addStyleBlock('custom', this.customCssString || '');
       console.log("INDEX.HTML:\n", indexHtmlStr);

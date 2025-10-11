@@ -14,7 +14,7 @@ export let StaticIndexHtml = `<!DOCTYPE html>
   <div id="app">
     <main id="Main" style="{{MAIN_STYLE_STRING}}">
       <div class="AnchorDiv">
-        {{CONTENT}}
+{{CONTENT}}
       </div>
     </main>
   </div>
@@ -60,6 +60,14 @@ export function escapeHtml(text) {
     .replace(/'/g, '&#39;');
 }
 
+export function applyIndent(text, indent) {
+  /**
+   * Apply indentation to each line of the given text
+   */
+  let indentStr = ' '.repeat(indent);
+  return text.split('\n').map(line => indentStr + line).join('\n');
+}
+
 export function createElementString(tag, attrs = {}, styles = {}, content = '') {
   let stylesStr = stylesDictToInlineString(styles);
   let allAttrs = { ...attrs, style: stylesStr };
@@ -67,5 +75,8 @@ export function createElementString(tag, attrs = {}, styles = {}, content = '') 
     .filter(([key, value]) => value !== null && value !== undefined)
     .map(([key, value]) => ` ${key}="${escapeHtml(value)}"`)
     .join('');
-  return `<${tag}${attrString}>\n${content}\n</${tag}>`;
+  if (!content) {
+    return `<${tag}${attrString}></${tag}>`;
+  }
+  return `<${tag}${attrString}>${content}</${tag}>`;
 }
