@@ -1,13 +1,16 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import TextInput from './TextInput.vue'
-import SectionToggle from './SectionToggle.vue'
 
 const props = defineProps({
   node: Object
 })
 
 const isExpanded = ref(false)
+
+function toggleExpanded() {
+  isExpanded.value = !isExpanded.value
+}
 
 const elementId = computed({
   get() {
@@ -26,10 +29,10 @@ let placeholderId = computed(() => {
 
 <template>
   <div class="StyleInput">
-    <div class="Header">
+    <div class="Header" @click="toggleExpanded">
       <div class="HeaderLeft">
-        <div class="EditorSubheading">Custom Styles</div>
-        <SectionToggle v-model="isExpanded" />
+        <span class="Arrow" :class="{ expanded: isExpanded }">▶</span>
+        <div class="EditorSubheading">Advanced</div>
       </div>
     </div>
     <div v-if="isExpanded">
@@ -46,11 +49,23 @@ let placeholderId = computed(() => {
 <style scoped>
 .Header {
   margin-bottom: var(--space-xs);
+  cursor: pointer;
+  user-select: none;
 }
 
 .HeaderLeft {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+}
+
+.Arrow {
+  transition: transform 0.2s ease;
+  font-size: 12px;
+  color: var(--main-text);
+}
+
+.Arrow.expanded {
+  transform: rotate(90deg);
 }
 </style>
