@@ -649,13 +649,18 @@ Allow: /`;
         return true;
       }
       
-      // Get the node's global position and dimensions
-      const globalPos = node.getGlobalPos();
+      // Get the node's global bounding box from the DOM
+      const boundingBox = node.getGlobalBoundingBox();
+      if (!boundingBox) {
+        // If we can't get the bounding box from DOM, skip this node
+        return true;
+      }
+      
       const nodeRect = {
-        x: globalPos.x,
-        y: globalPos.y,
-        w: node.width || 0,
-        h: node.height || 0
+        x: boundingBox.x,
+        y: boundingBox.y,
+        w: boundingBox.width,
+        h: boundingBox.height
       };
       
       // Check if the node's bounding box overlaps with the selection rectangle
