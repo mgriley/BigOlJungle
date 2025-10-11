@@ -16,6 +16,9 @@ let settings = gApp.site.getSettings();
     <div class="mb-s">
       <ColorInput name="Background" :color="settings.backgroundColor" />
     </div>
+    <div class="mb-m">
+      <BoolInput v-model="settings.showDesignGuide" name="Show Design Guide" />
+    </div>
     <div class="mb-s">
       <TextInput v-model="gApp.site.name" name="Project Name" placeholder="Enter project name..." />
     </div>
@@ -31,9 +34,6 @@ let settings = gApp.site.getSettings();
     <div class="mb-s">
       <ImageInput v-model="settings.faviconSrcName" name="Favicon" />
       <p class="mute-text f-xs">We recommend a 48x48 .png file.</p>
-    </div>
-    <div class="mb-s">
-      <BoolInput v-model="settings.showDesignGuide" name="Show Design Guide" />
     </div>
     <!--<ColorInput name="Foreground" :color="settings.foregroundColor" />-->
   </div>
