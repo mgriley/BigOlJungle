@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 
-const props = defineProps(['modelValue', 'name'])
+const props = defineProps(['modelValue', 'name', 'helpText'])
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
@@ -19,6 +19,7 @@ const value = computed({
   <div class="StdInput BoolParent">
     <input v-model="value" type="checkbox" name="name" class="Checkbox" />
     <label for="name">{{name}}</label>
+    <p v-if="helpText" class="mute-text f-xs">{{helpText}}</p>
   </div>
 </template>
 
