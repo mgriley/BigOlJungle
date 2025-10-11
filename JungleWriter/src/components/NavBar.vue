@@ -66,7 +66,8 @@ const kMenuItems = [
   {
     name: "Generate site",
     icon: "bi bi-globe",
-    action: onGenerateStaticSite
+    action: onGenerateStaticSite,
+    isHighlighted: true
   },
   /*
   {

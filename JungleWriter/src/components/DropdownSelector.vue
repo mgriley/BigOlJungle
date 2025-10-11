@@ -86,7 +86,7 @@ onUnmounted(() => {
       <div v-for="item in items" :key="item.name"
         @click="selectItem(item)"
         class="DropdownItem"
-        :class="{IsActive: currentItem === item}">
+        :class="{IsActive: currentItem === item, IsHighlighted: item.isHighlighted}">
         <i v-if="item.icon" :class="item.icon" class="ItemIcon mr-xs"></i>
         <span>{{ item.name }}</span>
       </div>
@@ -145,6 +145,15 @@ onUnmounted(() => {
   padding: var(--space-xs) var(--space-s);
   cursor: pointer;
   font-size: var(--text-size-sm);
+}
+
+.DropdownItem.IsHighlighted {
+  background-color: #ff8c00;
+  color: white;
+}
+
+.DropdownItem.IsHighlighted:hover {
+  background-color: #ff7700;
 }
 
 .ItemIcon {
