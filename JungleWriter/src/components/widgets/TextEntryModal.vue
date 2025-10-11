@@ -10,6 +10,10 @@ const props = defineProps({
     type: String,
     default: 'Edit Text'
   },
+  title: {
+    type: String,
+    default: 'Edit Text'
+  },
   placeholder: {
     type: String,
     default: 'Enter your text content here...'
@@ -53,6 +57,7 @@ function showModal() {
 }
 
 function closeModal() {
+  emit('update:modelValue', localValue.value);
   dialog.value.close();
 }
 
@@ -64,18 +69,8 @@ function toggleModal() {
   }
 }
 
-function onDone() {
-  emit('update:modelValue', localValue.value);
-  closeModal();
-}
-
-function onCancel() {
-  localValue.value = props.modelValue; // Reset to original value
-  closeModal();
-}
-
 function handleNativeCancel() {
-  onCancel();
+  emit('update:modelValue', localValue.value);
 }
 
 function startDrag(event) {
@@ -262,6 +257,10 @@ defineExpose({
           <div class="DragHandle" @mousedown="startDrag">
             <i class="bi bi-grip-horizontal"></i>
           </div>
+          <div class="Title">{{ title }}</div>
+          <button class="CloseButton" @click="closeModal" title="Close">
+            <i class="bi bi-x"></i>
+          </button>
         </div>
         
         <div class="Body">
@@ -272,15 +271,6 @@ defineExpose({
             @keydown="handleKeyDown"
             :style="{ fontFamily: textareaFontFamily }"
           ></textarea>
-        </div>
-        
-        <div class="Footer">
-          <button class="CancelButton" @click="onCancel" title="Cancel">
-            Cancel
-          </button>
-          <button class="DoneButton" @click="onDone" title="Done">
-            Done
-          </button>
         </div>
         
         <!-- Resize handle -->
@@ -325,7 +315,7 @@ defineExpose({
 
 .Header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   border-bottom: 1px solid var(--medium-color);
@@ -335,7 +325,6 @@ defineExpose({
 
 .DragHandle {
   cursor: move;
-  width: 100%;
   padding: var(--space-xs);
   color: var(--light-color);
   user-select: none;
@@ -343,10 +332,39 @@ defineExpose({
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .DragHandle:hover {
   color: var(--primary-color);
+}
+
+.Title {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+  color: var(--popup-text);
+  user-select: none;
+}
+
+.CloseButton {
+  background: none;
+  border: none;
+  color: var(--light-color);
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--border-radius-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.CloseButton:hover {
+  color: var(--popup-text);
+  background-color: var(--medium-color);
 }
 
 .EditTextButton {
@@ -357,40 +375,6 @@ defineExpose({
   padding: var(--space-xxs) var(--space-xs);
 }
 
-.Footer {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-s);
-  margin-top: var(--space-s);
-}
-
-.CancelButton, .DoneButton {
-  background-color: var(--input-bg);
-  border: 1px solid var(--medium-color);
-  color: var(--input-text);
-  cursor: pointer;
-  border-radius: var(--border-radius-s);
-  padding: var(--space-xs) var(--space-s);
-  font-size: var(--f-s);
-  transition: all 0.2s ease;
-  flex: 1;
-}
-
-.CancelButton:hover, .DoneButton:hover {
-  background-color: var(--medium-color);
-  border-color: var(--light-color);
-}
-
-.DoneButton {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: var(--darkest-color);
-}
-
-.DoneButton:hover {
-  background-color: var(--primary-color);
-  opacity: 0.8;
-}
 
 .ModalTextArea {
   width: 100%;
@@ -413,7 +397,6 @@ defineExpose({
 }
 
 .Body {
-  margin-bottom: 0;
   flex: 1;
   overflow: hidden;
   display: flex;
