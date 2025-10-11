@@ -9,7 +9,7 @@ const props = defineProps({
   placeholder: String,
   rows: {
     type: Number,
-    default: 3
+    default: 2
   }
 })
 const emit = defineEmits(['update:modelValue'])
