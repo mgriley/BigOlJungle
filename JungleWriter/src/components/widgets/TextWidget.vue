@@ -113,11 +113,11 @@ onMounted(() => {
   >
     <template v-if="!isEditing">
       <template v-if="!node.link.hasLink()">
-        {{ node.text || "Double-click me 🐍"}}
+        {{ node.text || "🐍 Double-click me"}}
       </template>
       <template v-else>
         <a class="TextLink" v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
-          {{node.text || "Double-click me 🐍"}}
+          {{node.text || "🐍 Double-click me"}}
         </a>
       </template>
     </template>

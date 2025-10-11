@@ -62,17 +62,9 @@ function onCancelAddSite() {
 async function onDoneAddSite() {
   console.log("Creating site and closing modal");
   createSiteModal.value.closeModal();
-  /*
-  try {
-    await gApp.createSite(siteToAdd.value.name);
-    siteToAdd.value = null;
-    // Modal will be closed automatically by BasicModal's onDone method
-  } catch (error) {
-    console.error("Failed to create site:", error);
-    // Don't close modal on error so user can try again
-    throw error;
-  }
-  */
+  let newSite = await gApp.createSite(siteToAdd.value.name);
+  await gApp.openSiteWithId(newSite.id);
+  siteToAdd.value = null;
 }
 
 function showDevView() {
@@ -222,7 +214,6 @@ onMounted(() => {
           <div class="FormFieldName">Name</div>
           <div>
             <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus @keydown.enter.prevent="onDoneAddSite">
-            <button @click="onDoneAddSite" class="ml-s">LOL</button>
           </div>
         </div>
       </BasicModal>
@@ -327,7 +318,7 @@ onMounted(() => {
 }
 
 .SiteItem:hover {
-  background-color: var(--light-color);
+  background-color: #5383dc;
 }
 
 .SiteItem p {
