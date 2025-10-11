@@ -56,7 +56,7 @@ function selectTab(tab) {
 <template>  
   <div v-if="isMobile" class="MobileMessage">
     <div class="HeroImage">
-      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Forest path by Robin Teng" />
+      <img src="../assets/robin-teng-unsplash.jpg" alt="Bat photo by Robin Teng on Unsplash" />
     </div>
     <div class="MobileMessageContent">
       <h2>Small Device Detected 👀</h2>
@@ -146,7 +146,7 @@ function selectTab(tab) {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--main-bg);
+  background-color: blue;
 }
 
 .HeroImage {
