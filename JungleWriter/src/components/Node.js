@@ -737,6 +737,9 @@ export class NodeTree {
   readFromJson(obj) {
     // console.log("Reading NodeTree:", prettyJson(obj));
     this.root.readFromJson(obj.root);
+    // Normalize the root position (old versions allowed moving root)
+    this.root.posX = 0;
+    this.root.posY = 0;
   }
 
   async generateStaticHtml(writer) {
