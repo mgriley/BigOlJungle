@@ -86,6 +86,13 @@ watch(elementRef, (newEl, oldEl) => {
   }
 })
 
+// Watch the node's selected state and stop editing when deselected
+watch(() => props.node.selected, (newSelected, oldSelected) => {
+  if (oldSelected && !newSelected && isEditing.value) {
+    stopEditing();
+  }
+})
+
 
 onMounted(() => {
   setupWidgetDrag(elementRef.value, props.node);
