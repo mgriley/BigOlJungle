@@ -202,6 +202,32 @@ function handleBackspace(event) {
   }
 }
 
+function handleEnter(event) {
+  event.preventDefault();
+  
+  const textarea = event.target;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = localValue.value;
+  
+  // Find the start of the current line
+  const lineStart = text.lastIndexOf('\n', start - 1) + 1;
+  const currentLine = text.substring(lineStart, start);
+  
+  // Extract leading spaces from current line
+  const indentMatch = currentLine.match(/^( *)/);
+  const indent = indentMatch ? indentMatch[1] : '';
+  
+  // Insert newline followed by matching indentation
+  const newContent = '\n' + indent;
+  localValue.value = text.substring(0, start) + newContent + text.substring(end);
+  
+  // Move cursor to after the inserted content
+  setTimeout(() => {
+    textarea.selectionStart = textarea.selectionEnd = start + newContent.length;
+  }, 0);
+}
+
 function handleKeyDown(event) {
   if (!props.isCodeEditor) return;
   
@@ -209,6 +235,8 @@ function handleKeyDown(event) {
     handleTab(event);
   } else if (event.key === 'Backspace' || event.key === 'Delete') {
     handleBackspace(event);
+  } else if (event.key === 'Enter') {
+    handleEnter(event);
   }
 }
 
