@@ -221,7 +221,29 @@ class Site {
   }
 
   _calcCanvasScale() {
-    // TODO
+    /**
+     * Calculate the scale necessary so that the designWidth is contained in the pageWidth
+     * Returns 1.0 if pageWidth/pageHeight are not set or if no scaling is needed
+     */
+    if (!this.pageWidth || !this.pageHeight) {
+      return 1.0;
+    }
+    
+    const designWidth = kDefaultDesignWidth;
+    
+    // Add some margin to prevent the design from touching the edges
+    const margin = 64;
+    const availableWidth = this.pageWidth - (margin * 2);
+    
+    if (availableWidth <= 0) {
+      return 1.0;
+    }
+    
+    // Calculate scale to fit design width within available width
+    const scale = availableWidth / designWidth;
+    
+    // Clamp scale to reasonable bounds (don't scale up beyond 1.0, don't scale down too much)
+    return Math.max(0.1, Math.min(scale, 1.0));
   }
 
   getMainStyleObject() {
