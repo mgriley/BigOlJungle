@@ -35,6 +35,7 @@ class SiteSettings {
     this.canvasWidth = 4000;
     this.canvasHeight = 4000;
     this.enableWASDNavigation = false;
+    this.showDesignGuide = false;
   }
 
   writeToJson() {
@@ -47,6 +48,7 @@ class SiteSettings {
       canvasWidth: this.canvasWidth,
       canvasHeight: this.canvasHeight,
       enableWASDNavigation: this.enableWASDNavigation,
+      showDesignGuide: this.showDesignGuide,
     }
   }
 
@@ -71,6 +73,7 @@ class SiteSettings {
       this.canvasHeight = obj.canvasHeight;
     }
     this.enableWASDNavigation = obj.enableWASDNavigation ? obj.enableWASDNavigation : false;
+    this.showDesignGuide = obj.showDesignGuide ? obj.showDesignGuide : false;
   }
 }
 
