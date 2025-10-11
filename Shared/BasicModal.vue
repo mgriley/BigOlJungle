@@ -25,6 +25,13 @@ let dialog = ref(null);
 
 function showModal() {
   dialog.value.showModal();
+  // Focus the first autofocus element after the modal is shown
+  setTimeout(() => {
+    const autofocusElement = dialog.value.querySelector('[autofocus]');
+    if (autofocusElement) {
+      autofocusElement.focus();
+    }
+  }, 0);
 }
 
 function closeModal() {

@@ -211,7 +211,7 @@ onMounted(() => {
         <div v-if="siteToAdd">
           <div class="FormFieldName">Name</div>
           <div>
-            <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus>
+            <input class="BasicTextInput" v-model="siteToAdd.name" type="text" autofocus @keydown.enter="onDoneAddSite">
           </div>
         </div>
       </BasicModal>
