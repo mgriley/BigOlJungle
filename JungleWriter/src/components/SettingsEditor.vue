@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { gApp, } from './State.js'
 import ColorInput from './widgets/ColorInput.vue'
 import TextInput from './widgets/TextInput.vue'
+import TextAreaInput from './widgets/TextAreaInput.vue'
 import ImageInput from './widgets/ImageInput.vue'
 
 let settings = gApp.site.getSettings();
@@ -21,7 +22,7 @@ let settings = gApp.site.getSettings();
       <TextInput v-model="settings.siteName" name="Site Name" placeholder="Enter site title..." />
     </div>
     <div class="mb-s">
-      <TextInput v-model="settings.description" name="Description"
+      <TextAreaInput v-model="settings.description" name="Description"
         placeholder="Enter site description..."
         helpText="Ex. A site documenting the life of my goldfish Hans."
       />
