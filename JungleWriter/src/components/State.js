@@ -292,7 +292,7 @@ class Site {
       let site = new Site(editor, siteId, siteDir);
       if (dataFile) {
         let jsonStr = await dataFile.readText();
-        let siteData = JSON.parse(jsonStr);
+        let siteData = jsonStr.trim() ? JSON.parse(jsonStr) : {};
         console.log("Site data:", prettyJson(siteData));
         site.readFromJson(siteData);
         // Set the _lastSavedHash to avoid an immediate save
@@ -923,7 +923,7 @@ class Editor {
             continue;
           }
           const jsonStr = await dataFile.readText();
-          const siteData = JSON.parse(jsonStr);
+          const siteData = jsonStr.trim() ? JSON.parse(jsonStr) : {};
           const siteName = siteData.name;
           // Use the last modified time from the site data, or default to 24 hours ago
           const lastModifiedTime = siteData.lastModifiedTime ?
