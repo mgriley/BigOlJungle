@@ -60,12 +60,18 @@ function onCancelAddSite() {
 }
 
 async function onDoneAddSite() {
-  console.log("Closing modal and adding site");
-  createSiteModal.value.closeModal();
-  /*
-  await gApp.createSite(siteToAdd.value.name);
-  siteToAdd.value = null;
-  */
+  console.log("Creating site and closing modal");
+  // Unfocus the text input
+  document.activeElement?.blur();
+  try {
+    await gApp.createSite(siteToAdd.value.name);
+    siteToAdd.value = null;
+    // Modal will be closed automatically by BasicModal's onDone method
+  } catch (error) {
+    console.error("Failed to create site:", error);
+    // Don't close modal on error so user can try again
+    throw error;
+  }
 }
 
 function showDevView() {
