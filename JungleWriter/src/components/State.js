@@ -270,6 +270,40 @@ class Site {
     };
   }
 
+  onFirstCreate() {
+    // Create some starter / tutorial content here
+    console.log("Site onFirstCreate");
+    let root = this.nodeTree.root;
+
+    let rectNode = this.createNode(gNodeDataMap["RectNode"].nodeClass);
+    rectNode.width = 500;
+    rectNode.height = 300;
+    rectNode.posX = -250;
+    rectNode.posY = -150;
+    rectNode.background.color.setColorValue('rgba(0, 0, 255, 1.0)');
+    root.addChild(rectNode);
+
+    let textNode = this.createNode(gNodeDataMap["TextNode"].nodeClass);
+    textNode.text = "Hello World!";
+    textNode.fontSize = 72;
+    textNode.bold = true;
+    textNode.width = 400;
+    textNode.posX = -200;
+    textNode.posY = -50;
+    textNode.textAlign = 'center';
+    root.addChild(textNode);
+
+    let tutorialText = this.createNode(gNodeDataMap["TextNode"].nodeClass);
+    tutorialText.fontSize = 24;
+    tutorialText.width = 300;
+    tutorialText.width = 
+    tutorialText.posX = 0;
+    tutorialText.posY = 100;
+    tutorialText.textAlign = 'center';
+    tutorialText.text = "If you haven't already, we recommend checkout out the tutorial project to get started!";
+    root.addChild(tutorialText);
+  }
+
   async saveSite() {
     try {
       let obj = this.writeToJson();
@@ -1087,6 +1121,7 @@ class Editor {
       let site = reactive(new Site(this, siteId, siteDir));
       site.name = siteName || 'Untitled Site';
       this.sites.unshift({id: site.id, name: site.name, lastModifiedTime: new Date()});
+      site.onFirstCreate();
       // Save the site now so that it populates the storage with an entry
       await site.saveSite();
       return site;
