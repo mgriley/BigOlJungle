@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import TextInput from './TextInput.vue'
+import TextEntryModal from './TextEntryModal.vue'
 import Collapse from './Collapse.vue'
+import { gApp } from '../State.js'
 
 const props = defineProps({
   node: Object
@@ -22,6 +24,17 @@ let placeholderId = computed(() => {
   return props.node.getElementId();
 })
 
+const customCssString = computed({
+  get() {
+    return gApp.site?.customCssString || ''
+  },
+  set(value) {
+    if (gApp.site) {
+      gApp.site.customCssString = value
+    }
+  }
+})
+
 </script>
 
 <template>
@@ -33,6 +46,14 @@ let placeholderId = computed(() => {
         :placeholder="placeholderId"
         helpText="Set this element's 'id' for custom CSS."
       />
+      <div class="mt-s">
+        <TextEntryModal 
+          v-model="customCssString"
+          buttonText="Edit custom CSS"
+          placeholder="/* Add your custom CSS here */&#10;&#10;.my-element {&#10;  color: red;&#10;}"
+          :updateWhileTyping="true"
+        />
+      </div>
     </Collapse>
   </div>
 </template>
