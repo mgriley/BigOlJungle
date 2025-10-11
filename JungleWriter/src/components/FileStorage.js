@@ -95,9 +95,42 @@ class FileObj extends BaseObj {
 
   async writeContents(contents) {
     // Note: contents may be a string, Blob, File (which is a kind of Blob), etc.
-    const writable = await this.nativeHandle.createWritable();
-    await writable.write(contents);
-    await writable.close();
+    
+    // Check if createWritable is supported (Chrome, Firefox)
+    if (this.nativeHandle.createWritable) {
+      const writable = await this.nativeHandle.createWritable();
+      await writable.write(contents);
+      await writable.close();
+    } 
+    // Fallback for Safari
+    else if (this.nativeHandle.createSyncAccessHandle) {
+      const accessHandle = await this.nativeHandle.createSyncAccessHandle();
+      try {
+        // Convert data to appropriate format if needed
+        let buffer;
+        if (typeof contents === 'string') {
+          buffer = new TextEncoder().encode(contents);
+        } else if (contents instanceof ArrayBuffer) {
+          buffer = new Uint8Array(contents);
+        } else if (contents instanceof Blob || contents instanceof File) {
+          // Convert Blob/File to ArrayBuffer first
+          const arrayBuffer = await contents.arrayBuffer();
+          buffer = new Uint8Array(arrayBuffer);
+        } else {
+          buffer = contents;
+        }
+        
+        accessHandle.truncate(0); // Clear file first
+        accessHandle.write(buffer, { at: 0 });
+        accessHandle.flush();
+      } finally {
+        accessHandle.close();
+      }
+    }
+    else {
+      throw new Error('No supported write method available');
+    }
+    
     this.emitChangeEvt({type: 'write-file', name: this.getName()});
   }
 
