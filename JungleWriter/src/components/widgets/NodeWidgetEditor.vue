@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import NumberInput from './NumberInput.vue'
 import PositionInput from './PositionInput.vue'
+import StyleInput from './StyleInput.vue'
 
 const props = defineProps({
   editorData: Object
@@ -17,6 +18,7 @@ const props = defineProps({
     <div v-else>
       <PositionInput :node="editorData" />
     </div>
+    <StyleInput :node="editorData" />
   </div>
 </template>
 
