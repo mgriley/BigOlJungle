@@ -65,8 +65,8 @@ let initialPos = ref({ x: 0, y: 0 });
 // Position and size variables
 let posX = ref(0);
 let posY = ref(0);
-let width = ref(400);
-let height = ref(400);
+let width = ref(600);
+let height = ref(600);
 
 function showModal() {
   localValue.value = props.modelValue;
