@@ -36,6 +36,22 @@ const textareaFontFamily = computed(() => {
   return props.isCodeEditor ? 'monospace' : 'inherit'
 })
 
+const modalStyle = computed(() => {
+  let style = {
+    width: width.value + 'px',
+    height: height.value + 'px',
+  };
+  
+  if (posX.value !== null && posY.value !== null) {
+    style.left = posX.value + 'px';
+    style.top = posY.value + 'px';
+    style.margin = '0';
+    style.transform = 'none';
+  }
+  
+  return style;
+})
+
 // Watch for changes to localValue and emit updates if updateWhileTyping is enabled
 watch(localValue, (newValue) => {
   if (props.updateWhileTyping) {
@@ -51,8 +67,21 @@ let resizeType = ref('');
 let initialSize = ref({ width: 0, height: 0 });
 let initialPos = ref({ x: 0, y: 0 });
 
+// Position and size variables
+let posX = ref(null);
+let posY = ref(null);
+let width = ref(400);
+let height = ref(400);
+
 function showModal() {
   localValue.value = props.modelValue;
+  
+  // Reset position to center if not already positioned
+  if (posX.value === null || posY.value === null) {
+    posX.value = null;
+    posY.value = null;
+  }
+  
   dialog.value.showModal();
 }
 
@@ -92,9 +121,8 @@ function handleDrag(event) {
   const newX = event.clientX - dragOffset.value.x;
   const newY = event.clientY - dragOffset.value.y;
   
-  dialog.value.style.left = `${newX}px`;
-  dialog.value.style.top = `${newY}px`;
-  dialog.value.style.margin = '0';
+  posX.value = newX;
+  posY.value = newY;
 }
 
 function stopDrag() {
@@ -129,20 +157,14 @@ function handleResize(event) {
   const deltaX = event.clientX - initialPos.value.x;
   const deltaY = event.clientY - initialPos.value.y;
   
-  let newWidth = Math.max(300, initialSize.value.width + deltaX);
-  let newHeight = Math.max(200, initialSize.value.height + deltaY);
+  width.value = Math.max(300, initialSize.value.width + deltaX);
+  height.value = Math.max(200, initialSize.value.height + deltaY);
   
-  dialog.value.style.width = `${newWidth}px`;
-  dialog.value.style.height = `${newHeight}px`;
-  dialog.value.style.margin = '0';
-  
-  // Keep the dialog positioned from its left edge, not center
-  const rect = dialog.value.getBoundingClientRect();
-  if (!dialog.value.style.left) {
-    // If not already positioned, calculate current left position
-    const currentLeft = rect.left;
-    dialog.value.style.left = `${currentLeft}px`;
-    dialog.value.style.transform = 'none';
+  // Ensure position is set when resizing
+  if (posX.value === null || posY.value === null) {
+    const rect = dialog.value.getBoundingClientRect();
+    posX.value = rect.left;
+    posY.value = rect.top;
   }
 }
 
@@ -251,7 +273,7 @@ defineExpose({
       <i class="bi bi-chat-right-text mr-xs"></i>{{ buttonText }}
     </button>
     
-    <dialog class="TextEntryModal" ref="dialog" @close="" @cancel="handleNativeCancel">
+    <dialog class="TextEntryModal" ref="dialog" :style="modalStyle" @close="" @cancel="handleNativeCancel">
       <div class="InnerModal">
         <div class="Header" @mousedown="startDrag">
           <div class="Title">{{ title }}</div>
@@ -284,11 +306,8 @@ defineExpose({
 .TextEntryModal {
   border: 1px solid white;
   padding: 0;
-  min-width: 400px;
+  min-width: 300px;
   max-width: 90%;
-  width: 400px;
-  height: 400px;
-  margin: 0;
   position: fixed;
   top: 20vh;
   left: 50%;
