@@ -70,7 +70,7 @@ let helpText = computed(() => {
 
 <template>
   <div class="LinkInput StdInput">
-    <div class="f-s mb-xxs" v-if="name">{{name}}</div>
+    <div class="f-s mb-xxs" v-if="name">🔗 {{name}}</div>
     <div class="LinkControls">
       <select class="TypeSelector" v-model="typeValue">
         <option v-for="option in linkTypeOptions" :key="option.value" :value="option.value">

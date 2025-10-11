@@ -182,7 +182,7 @@ export class TextNode extends Node {
     // Wrap content in link if link is present
     if (this.link.hasLink()) {
       const linkAttrs = this.link.getLinkAttributes();
-      content = createElementString('a', linkAttrs, {}, content);
+      content = createElementString('a', {class: 'TextLink', ...linkAttrs}, {}, content);
 
       if (this.link.type === 'Download') {
         await writer.addFileWithName(this.link.url);
