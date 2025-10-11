@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, onMounted, onUnmounted, ref } from 'vue'
+import { reactive, computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
 import ShortcutBtns from './ShortcutBtns.vue'
@@ -439,6 +439,37 @@ function clamp(x, a, b) {
   return Math.max(a, Math.min(x, b));
 }
 
+function setupCustomCssWatcher() {
+  // Watch for changes to the site's custom CSS string
+  watch(
+    () => gApp.site?.customCssString,
+    (newCssString) => {
+      updateCustomCssStyleTag(newCssString || '');
+    },
+    { immediate: true }
+  );
+}
+
+function updateCustomCssStyleTag(cssString) {
+  // Remove existing custom CSS style tag if it exists
+  removeCustomCssStyleTag();
+  
+  // Add new style tag if CSS string is not empty
+  if (cssString.trim()) {
+    const styleTag = document.createElement('style');
+    styleTag.id = 'junglewriter-custom-css';
+    styleTag.textContent = cssString;
+    document.head.appendChild(styleTag);
+  }
+}
+
+function removeCustomCssStyleTag() {
+  const existingStyleTag = document.getElementById('junglewriter-custom-css');
+  if (existingStyleTag) {
+    existingStyleTag.remove();
+  }
+}
+
 // TODO - currently unused
 /*
 function onPageResize() {
@@ -465,6 +496,9 @@ onMounted(() => {
   window.addEventListener("mousedown", onMouseDown);
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseUp);
+  
+  // Set up watcher for custom CSS
+  setupCustomCssWatcher();
 })
 
 onUnmounted(() => {
@@ -480,6 +514,9 @@ onUnmounted(() => {
   if (scrollAnimationId) {
     cancelAnimationFrame(scrollAnimationId);
   }
+  
+  // Clean up custom CSS
+  removeCustomCssStyleTag();
 })
 
 </script>
