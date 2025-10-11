@@ -17,26 +17,38 @@ const value = computed({
 
 <template>
   <div class="StdInput BoolParent">
-    <input v-model="value" type="checkbox" name="name" class="Checkbox" />
-    <label for="name">{{name}}</label>
-    <p v-if="helpText" class="mute-text f-xs">{{helpText}}</p>
+    <div class="CheckboxRow">
+      <input v-model="value" type="checkbox" name="name" class="Checkbox" />
+      <label for="name">{{name}}</label>
+    </div>
+    <div class="HelpText" v-if="helpText">{{helpText}}</div>
   </div>
 </template>
 
 <style scoped>
 .BoolParent {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: baseline;
   font-size: var(--f-m);
 }
 
-.BoolParent input {
+.CheckboxRow {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+}
+
+.CheckboxRow input {
   margin-right: 4px;
 }
 
 .Checkbox {
   width: 16px;
   height: 16px;
+}
+
+.HelpText {
+  font-size: var(--f-xs);
+  color: var(--mute-text);
+  margin-top: var(--space-xxs);
+  line-height: 1.4;
 }
 </style>
