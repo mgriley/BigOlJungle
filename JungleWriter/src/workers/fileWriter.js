@@ -4,6 +4,7 @@
 // a web worker.
 self.onmessage = async function(e) {
   const { id, filePath, data } = e.data;
+  console.log(`Worker received request to write file: ${filePath}`);
   
   try {
     // Get the root directory handle
@@ -40,15 +41,18 @@ self.onmessage = async function(e) {
         buffer = data;
       }
       
+      console.log(`Writing file...`);
       accessHandle.truncate(0); // Clear file first
       accessHandle.write(buffer, { at: 0 });
       accessHandle.flush();
       
+      console.log(`File write complete.`);
       self.postMessage({ id, success: true });
     } finally {
       accessHandle.close();
     }
   } catch (error) {
+    console.log(`Error writing file: ${error.message}`);
     self.postMessage({ 
       id, 
       success: false, 
