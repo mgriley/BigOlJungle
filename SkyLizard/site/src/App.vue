@@ -36,68 +36,70 @@ const installApp = () => {
 <style scoped>
 .app-container {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 2rem 1rem;
-  background-color: #f5f5f5;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: monospace;
 }
 
 .content {
   width: 100%;
   max-width: 800px;
-  background: white;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  background: #fff;
+  color: #000;
+  padding: 40px;
+  border: 4px solid #000;
 }
 
 h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
+  font-size: 48px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 0 40px 0;
+  letter-spacing: 2px;
 }
 
 .install-button {
   width: 100%;
-  padding: 1rem 2rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 6px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #000;
+  border: 4px solid #000;
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-bottom: 3rem;
+  margin-bottom: 40px;
+  font-family: monospace;
 }
 
 .install-button:hover {
-  background-color: #0056b3;
-}
-
-.install-button:active {
-  transform: translateY(1px);
+  background-color: #fff;
+  color: #000;
 }
 
 .apps-section {
-  border-top: 1px solid #eee;
-  padding-top: 2rem;
+  border-top: 4px solid #000;
+  padding-top: 40px;
 }
 
 h2 {
-  color: #333;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  letter-spacing: 1px;
 }
 
 .empty-state {
+  padding: 40px;
+  background-color: #000;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
   text-align: center;
-  color: #666;
-  font-style: italic;
-  padding: 2rem;
-  background-color: #f8f9fa;
-  border-radius: 4px;
 }
 
 .apps-list {
