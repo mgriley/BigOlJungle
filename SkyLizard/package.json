@@ -1,0 +1,13 @@
+{
+  "name": "skylizard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build-image": "docker build -t sky-lizard-ubuntu .",
+    "docker-run": "docker run --rm -it -v $(pwd):/app -w /app sky-lizard-ubuntu node src/main.js",
+    "local": "node src/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
