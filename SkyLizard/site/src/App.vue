@@ -12,7 +12,7 @@ const installApp = () => {
 <template>
   <div class="app-container">
     <div class="content">
-      <h1>App Manager</h1>
+      <h1>Sky Lizard</h1>
       
       <!-- Install App Button -->
       <button class="install-button" @click="installApp">
@@ -37,19 +37,18 @@ const installApp = () => {
 .app-container {
   min-height: 100vh;
   padding: 0;
-  background-color: #000;
   color: #fff;
   font-family: monospace;
+  width: 800px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .content {
   width: 100%;
-  max-width: 800px;
   margin: 0 auto;
-  background: #fff;
   color: #000;
   padding: 40px;
-  border: 4px solid #000;
 }
 
 h1 {
