@@ -7,7 +7,7 @@ const port = 3000;
 app.use(express.json());
 
 // Serve static files from ../site/public
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '../site/public')));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
