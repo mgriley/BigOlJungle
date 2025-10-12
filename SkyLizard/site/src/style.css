@@ -1,79 +1,232 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Dark theme */
+  color-scheme: light;
+  --primary-color-h: 166;
+  --primary-color-s: 50%;
+  --primary-color-l: 90%;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --primary-color: hsl(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l));
+  --darkest-color: hsl(var(--primary-color-h), 8%, 12%);
+  --dark-color: hsl(var(--primary-color-h), 8%, 18%);
+  --medium-color: hsl(var(--primary-color-h), 8%, 30%);
+  --light-color: hsl(var(--primary-color-h), 6%, 65%);
+  --lightest-color: hsl(var(--primary-color-h), 4%, 80%);
+  --white-color: hsl(0, 0%, 100%);
+  --black-color: hsl(0, 0%, 0%);
 
-  font-synthesis: none;
+  --header-text: var(--black-color);
+  /* --main-text: var(--lightest-color); */
+  --main-text: var(--black-color);
+  --secondary-text: var(--lightest-color);
+  --main-bg: var(--darkest-color);
+  --popup-text: var(--main-text);
+  --popup-bg: var(--dark-color);
+  --input-text: var(--main-text);
+  --input-bg: var(--medium-color);
+  --mute-text: var(--light-color);
+  --very-mute-text: var(--medium-color);
+  --link-hover-bg: rgba(127, 127, 127, 0.4);
+  --nice-red: rgb(215, 46, 36);
+  --bright-red: rgb(245, 49, 0);
+  --text-button-hover: var(--nice-red);
+
+  --row-highlight-bg: blue;
+
+  --editor-header-color: #2196F3;
+
+  --space-zero: 0px;
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-s: 16px;
+  --space-m: 24px;
+  --space-l: 32px;
+  --space-xl: 48px;
+  --space-xxl: 80px;
+
+  /* Base font sizes */
+  --f-xxs: 12px;
+  --f-2xs: 12px;
+  --f-xs: 14px;
+  --f-s: 16px;
+  --f-m: 18px;
+  --f-l: 20px;
+  --f-2l: 24px;
+  --f-xl: 30px;
+  --f-xxl: 36px;
+  --f-2xl: 36px;
+  --f-xxxl: 48px;
+  --f-3xl: 48px;
+  --f-4xl: 60px;
+  --f-5xl: 72px;
+
+  --p-size: var(--f-m);
+  --h4-size: var(--f-l);
+  --h3-size: var(--f-2l);
+  --h2-size: var(--f-xl);
+  --h1-size: var(--f-xxl);
+
+  /* --p-size: 1rem; */
+  --p-size: 22px;
+  --h4-size: calc(var(--p-size)*1.25);
+  --h3-size: calc(var(--h4-size)*1.25);
+  --h2-size: calc(var(--h3-size)*1.25);
+  --h1-size: calc(var(--h2-size)*1.25);
+  --small-size: calc(var(--p-size)*0.90);
+  --smaller-size: calc(var(--small-size)*0.90);
+
+  --main-line-height: 1.6;
+
+  --bold-weight: 700;
+
+  --border-radius-s: 4px;
+  --border-radius-m: 6px;
+  --border-radius-l: 8px;
+
+  /* Legacy */
+  --border-radius-small: var(--border-radius-s);
+  --border-radius-med: var(--border-radius-m);
+  --border-radius-large: var(--border-radius-l);
+
+  --border-reg: 1px solid var(--secondary-text);
+
+  --box-shadow-front: 0px 4px 8px hsl(0, 0%, 38%);
+  /*
+  --box-shadow-mid: 0px 4px 8px hsl(0, 0%, 40%);
+  --box-shadow-back: 0px 4px 8px hsl(0, 0%, 40%);
+  */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  /*font-weight: normal;*/
+}
+
+html {
+  /* Always show the y scroll-bar, to prevent reflow on scrollbar show/hide */
+  /* overflow-y: scroll; */
+}
+
+body {
+  position: relative;
+  max-width: 100vw;
+  min-height: 100vh;
+  /* background: var(--main-bg); */
+  background: var(--white-color);
+  color: var(--main-text);
+  transition: color 0.5s, background-color 0.5s;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: var(--p-size);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-.card {
-  padding: 2em;
+/*
+Disable double-tap to globally on mobile. It causes a lot of problems with buttons
+like menu show/hide.
+See: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices
+*/
+* {
+  touch-action: manipulation;
 }
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /*padding: 2rem;*/
+  /*font-weight: normal;*/
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Prevent flashes on tap on mobile */
+/* https://stackoverflow.com/questions/6211959/html5-div-flashes-on-tap */
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+p {
+  line-height: var(--main-line-height);
+  font-size: var(--p-size);
+  color: var(--main-text);
+}
+
+h1, h2, h3, h4 {
+  font-weight: var(--bold-weight);
+  color: var(--header-text);
+}
+
+h1 {
+  font-size: var(--h1-size);
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+h2 {
+  font-size: var(--h2-size);
+  line-height: 1.2;
+  /* letter-spacing: -1px; */
+}
+
+h3 {
+  font-size: var(--h3-size);
+  line-height: 1.4;
+  /* letter-spacing: -1px; */
+}
+
+h4 {
+  font-size: var(--h4-size);
+  line-height: 1.6;
+}
+
+b {
+  font-weight: var(--bold-weight);
+}
+
+a {
+  color: var(--main-text);
+  transition: 0.2s;
+}
+
+a:hover, a:active {
+  background-color: var(--link-hover-bg);
+}
+
+/* Note: if need to set a small min-width, set the <input size="1" .../>. Default size is large and overrides min-width */
+/* See: https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width */
+.BasicTextInput {
+  display: block;
+  padding: 4px;
+  /* margin: 5px 0; */
+  /* border: 1px solid var(--light-color); */
+  border: none;
+  border-radius: var(--border-radius-small);
+  font-size: var(--p-size);
+  background-color: var(--input-bg);
+}
+
+input[type="text"]{
+  background-color: var(--input-bg);
+  color: var(--main-text);
+}
+
+textarea {
+  background-color: var(--input-bg);
+  color: var(--main-text);
+  border: var(--border-reg);
+  border-radius: 4px;
+  padding: 4px;
+  font-size: var(--smaller-size);
+}
+
+select {
+  font-size: var(--p-size);
+  /* color: var(--main-text); */
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: 4px;
+  min-width: 18ch;
+  max-width: 30ch;
 }
