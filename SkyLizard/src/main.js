@@ -6,7 +6,7 @@ const port = 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Serve static files from src/dist
+// Serve static files from ../site/public
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Health check endpoint
