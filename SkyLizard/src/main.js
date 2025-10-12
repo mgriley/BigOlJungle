@@ -6,8 +6,9 @@ const port = 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Serve static files from ../site/public
-app.use(express.static(path.join(__dirname, '../site/public')));
+// Serve static files from ../site/dist (built by vite)
+let sitePath = path.join(__dirname, '../site/dist');
+app.use(express.static(sitePath));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
