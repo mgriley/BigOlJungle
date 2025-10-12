@@ -1,20 +1,5 @@
 import { reactive } from "vue";
-
-export class DownloadInfo {
-  constructor() {
-    this.url = "";
-  }
-}
-
-export class AppInfo {
-  constructor() {
-    this.idString = "TODO";
-  }
-
-  static create(...args) {
-    return reactive(new AppInfo(...args));
-  }
-}
+import { AppInfo, SourceInfo } from "../../shared/Shared.js";
 
 /**
  * Manages app stuff
@@ -56,7 +41,12 @@ export class AppManager {
   async checkAppUpdates(appId) {
     // TODO
   }
-async updateApp(appId) {
+  
+  async updateApp(appId) {
+    // TODO
+  }
+
+  async getAppLogs(appId) {
     // TODO
   }
 }
