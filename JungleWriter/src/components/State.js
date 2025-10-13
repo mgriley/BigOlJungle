@@ -2,10 +2,12 @@ import { reactive, ref, watchEffect, watch } from 'vue'
 import { removeItem, prettyJson, AsyncValue } from './Utils.js'
 import { UserStorage } from './UserStorage.js'
 import { FileStorage } from './FileStorage.js'
+import { registerNodeTypes } from './widgets/RegisterNodes.js'
 import { gNodeDataMap } from './widgets/NodeDataMap.js'
 import {
   downloadTextFile, downloadBlobFile, IntervalTimer,
   hashObject, RectUtils,
+  valOr,
 } from 'Shared/SharedUtils.js'
 import { StaticSiteWriter } from './StaticSiteWriter.js'
 import {
@@ -270,39 +272,41 @@ class Site {
     };
   }
 
-  onFirstCreate() {
+  onFirstCreate(addStarterContent = true) {
     // Create some starter / tutorial content here
     console.log("Site onFirstCreate");
-    let root = this.nodeTree.root;
+    if (addStarterContent) {
+      let root = this.nodeTree.root;
 
-    let rectNode = this.createNode(gNodeDataMap["RectNode"].nodeClass);
-    rectNode.width = 500;
-    rectNode.height = 380;
-    rectNode.posX = -250;
-    rectNode.posY = -185;
-    rectNode.background.color.setColorValue('rgba(0, 0, 255, 1.0)');
-    root.addChild(rectNode);
+      let rectNode = this.createNode(gNodeDataMap["RectNode"].nodeClass);
+      rectNode.width = 500;
+      rectNode.height = 380;
+      rectNode.posX = -250;
+      rectNode.posY = -185;
+      rectNode.background.color.setColorValue('rgba(0, 0, 255, 1.0)');
+      root.addChild(rectNode);
 
-    let textNode = this.createNode(gNodeDataMap["TextNode"].nodeClass);
-    textNode.text = "hello world";
-    textNode.color.setColorValue('rgba(255, 255, 255, 1.0)');
-    textNode.fontSize = 72;
-    textNode.bold = true;
-    textNode.width = 450;
-    textNode.posX = -230;
-    textNode.posY = -150;
-    textNode.textAlign = 'center';
-    root.addChild(textNode);
+      let textNode = this.createNode(gNodeDataMap["TextNode"].nodeClass);
+      textNode.text = "hello world";
+      textNode.color.setColorValue('rgba(255, 255, 255, 1.0)');
+      textNode.fontSize = 72;
+      textNode.bold = true;
+      textNode.width = 450;
+      textNode.posX = -230;
+      textNode.posY = -150;
+      textNode.textAlign = 'center';
+      root.addChild(textNode);
 
-    let tutorialText = this.createNode(gNodeDataMap["TextNode"].nodeClass);
-    tutorialText.fontSize = 24;
-    tutorialText.color.setColorValue('rgba(255, 255, 255, 1.0)');
-    tutorialText.width = 390;
-    tutorialText.posX = -195;
-    tutorialText.posY = -14;
-    tutorialText.textAlign = 'center';
-    tutorialText.text = "Use the buttons along the bottom to create things. Go Menu -> Generate Site when you're done.";
-    root.addChild(tutorialText);
+      let tutorialText = this.createNode(gNodeDataMap["TextNode"].nodeClass);
+      tutorialText.fontSize = 24;
+      tutorialText.color.setColorValue('rgba(255, 255, 255, 1.0)');
+      tutorialText.width = 390;
+      tutorialText.posX = -195;
+      tutorialText.posY = -14;
+      tutorialText.textAlign = 'center';
+      tutorialText.text = "Use the buttons along the bottom to create things. Go Menu -> Generate Site when you're done.";
+      root.addChild(tutorialText);
+    }
   }
 
   async saveSite() {
@@ -1048,6 +1052,8 @@ class Editor {
   async start() {
     console.log("Starting JungleWriter...");
 
+    registerNodeTypes();
+
     let fileRootDir = await navigator.storage.getDirectory();
     this.fileStorage.setRoot(fileRootDir);
 
@@ -1125,14 +1131,15 @@ class Editor {
     });
   }
 
-  async createSite(siteName) {
+  async createSite(siteName, opts) {
+    opts = opts || {};
     try {
       let siteId = this.siteIdCtr++;
       let siteDir = await this.fileStorage.root.findOrCreateDir(`sites/${siteId}`);
       let site = reactive(new Site(this, siteId, siteDir));
       site.name = siteName || 'Untitled Site';
       this.sites.unshift({id: site.id, name: site.name, lastModifiedTime: new Date()});
-      site.onFirstCreate();
+      site.onFirstCreate(valOr(opts.addStarterContent, true));
       // Save the site now so that it populates the storage with an entry
       await site.saveSite();
       return site;
@@ -1170,7 +1177,7 @@ class Editor {
   async importSite(zipBlob) {
     try {
       // Create a new site first
-      let site = await this.createSite();
+      let site = await this.createSite("Imported Site", {addStarterContent: false});
       
       // Import the zip contents into the site directory
       await site.siteDir.importZip(zipBlob);
@@ -1202,7 +1209,7 @@ class Editor {
   async importTutorialSite() {
     try {
       console.log('Fetching tutorial site...');
-      const response = await fetch('TutorialSite_export.zip');
+      const response = await fetch('Tutorial Site_export.zip');
       if (!response.ok) {
         throw new Error(`Failed to fetch tutorial site: ${response.status} ${response.statusText}`);
       }
@@ -1216,7 +1223,6 @@ class Editor {
       await this.reloadSites();
       
       console.log('Tutorial site imported successfully');
-      this.toastSuccess('Tutorial site imported successfully');
       return site;
     } catch (error) {
       console.error('Failed to import tutorial site:', error);
