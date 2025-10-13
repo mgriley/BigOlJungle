@@ -11,7 +11,7 @@ All projects are free and under an AGPL license.
 
 See the sub-directories for project-specific READMEs.
 
-## 🦒 JungleReader
+## JungleReader 🐸 
 
 JungleReader is a no-frills web reader. Follow RSS, YouTube, blogs, and more, all in one place.
 
@@ -25,7 +25,7 @@ Try it!
 - Follow blogs without RSS support
 - Free and open-source under AGPL license
 
-## 🐒 JungleWriter
+## JungleWriter 🐒 
 
 JungleWriter is an online tool for creating fun, free-form websites. Create a site without any coding experience.
 Mainly for hobbyists and artists/designers who are looking to create something more free-form, instead of a traditional site.
@@ -33,7 +33,7 @@ Mainly for hobbyists and artists/designers who are looking to create something m
 Try it!
 www.junglewriter.com
 
-## 🦎 SkyLizard
+## SkyLizard 🦎 
 
 This is very early, WIP.
 
