@@ -1192,6 +1192,35 @@ class Editor {
     }
   }
 
+  async importTutorialSite() {
+    try {
+      console.log('Fetching tutorial site...');
+      const response = await fetch('/public/TutorialSite_export.zip');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch tutorial site: ${response.status} ${response.statusText}`);
+      }
+      
+      const zipBlob = await response.blob();
+      const site = await this.importSite(zipBlob);
+      
+      // Set a recognizable name for the tutorial site
+      site.name = 'Tutorial Site';
+      await site.saveSite();
+      await this.reloadSites();
+      
+      console.log('Tutorial site imported successfully');
+      this.toastSuccess('Tutorial site imported successfully');
+      return site;
+    } catch (error) {
+      console.error('Failed to import tutorial site:', error);
+      this.toastError('Failed to import tutorial site. Please contact the developer.', {
+        id: 'import-tutorial-site-failed',
+        details: error
+      });
+      throw error;
+    }
+  }
+
   toastError(message, opts = {}) {
     console.log("Toast error: ", message, opts);
     gToastManager.toastError(message, opts)
