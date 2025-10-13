@@ -12,7 +12,7 @@ import FileEditor from './FileEditor.vue'
 
 let sidebarTabs = [
   {name: 'Editor', icon: 'bi bi-sliders', comp: PropEditor},
-  {name: 'Global settings', icon: 'bi bi-sliders', comp: SettingsEditor},
+  {name: 'Site settings', icon: 'bi bi-sliders', comp: SettingsEditor},
   // {name: 'Nodes', comp: NodeTreeView},
   {name: 'Upload files', icon: 'bi bi-folder', comp: FileEditor},
 ];

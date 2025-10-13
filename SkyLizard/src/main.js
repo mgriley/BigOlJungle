@@ -1,34 +1,42 @@
 const express = require('express');
 const path = require('path');
-const app = express();
+const { ServerState } = require('./ServerState.js');
 const port = 3000;
 
-/*
-API routes.
-Place before the static site middleware.
-*/
+async function runServer() {
+  let gApp = new ServerState();
+  await gApp.loadApps();
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
+  const app = express();
 
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello API' });
-});
+  /*
+  API routes.
+  Place before the static site middleware.
+  */
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  });
 
-// Serve static files from ../site/dist (built by vite)
-let staticPath = path.join(__dirname, '../site/dist');
-app.use(express.static(staticPath));
+  app.get('/api/hello', (req, res) => {
+    res.json({ message: 'Hello API' });
+  });
 
-// SPA fallback for everything else
-/*
-app.get('*', (req, res) => {
-  if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(staticPath, 'index.html'));
-  }
-});
-*/
+  // Serve static files from ../site/dist (built by vite)
+  let staticPath = path.join(__dirname, '../site/dist');
+  app.use(express.static(staticPath));
 
-app.listen(port, () => {
-  console.log(`Listening on http://localhost:${port}`);
-});
+  // SPA fallback for everything else
+  /*
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(staticPath, 'index.html'));
+    }
+  });
+  */
+
+  app.listen(port, () => {
+    console.log(`Listening on http://localhost:${port}`);
+  });
+}
+
+runServer();

@@ -33,7 +33,7 @@ class SiteSettings {
     this.canvasWidth = 4000;
     this.canvasHeight = 4000;
     this.enableWASDNavigation = false;
-    this.showDesignGuide = false;
+    this.showDesignGuide = true;
   }
 
   writeToJson() {
@@ -277,30 +277,31 @@ class Site {
 
     let rectNode = this.createNode(gNodeDataMap["RectNode"].nodeClass);
     rectNode.width = 500;
-    rectNode.height = 300;
+    rectNode.height = 380;
     rectNode.posX = -250;
-    rectNode.posY = -150;
+    rectNode.posY = -185;
     rectNode.background.color.setColorValue('rgba(0, 0, 255, 1.0)');
     root.addChild(rectNode);
 
     let textNode = this.createNode(gNodeDataMap["TextNode"].nodeClass);
-    textNode.text = "Hello World!";
+    textNode.text = "hello world";
+    textNode.color.setColorValue('rgba(255, 255, 255, 1.0)');
     textNode.fontSize = 72;
     textNode.bold = true;
-    textNode.width = 400;
-    textNode.posX = -200;
-    textNode.posY = -50;
+    textNode.width = 450;
+    textNode.posX = -230;
+    textNode.posY = -150;
     textNode.textAlign = 'center';
     root.addChild(textNode);
 
     let tutorialText = this.createNode(gNodeDataMap["TextNode"].nodeClass);
     tutorialText.fontSize = 24;
-    tutorialText.width = 300;
-    tutorialText.width = 
-    tutorialText.posX = 0;
-    tutorialText.posY = 100;
+    tutorialText.color.setColorValue('rgba(255, 255, 255, 1.0)');
+    tutorialText.width = 390;
+    tutorialText.posX = -195;
+    tutorialText.posY = -14;
     tutorialText.textAlign = 'center';
-    tutorialText.text = "If you haven't already, we recommend checkout out the tutorial project to get started!";
+    tutorialText.text = "Use the buttons along the bottom to create things. Go Menu -> Generate Site when you're done.";
     root.addChild(tutorialText);
   }
 

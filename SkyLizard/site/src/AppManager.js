@@ -6,7 +6,7 @@ import { AppInfo, SourceInfo } from "../../shared/Shared.js";
  */
 export class AppManager {
   constructor() {
-    this.runningApps = reactive([]);
+    this.apps = reactive([]);
   }
 
   async getMyApps() {
