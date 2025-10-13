@@ -1,4 +1,4 @@
-# BigOlJungle
+# BigOlJungle 🌿🐒
 
 BigOlJungle is an assorted collection of open-source web projects that I chip away at when I have free time. The overall vision is to make reading, writing, and following content on the web more fun.
 
