@@ -11,7 +11,10 @@ const isMobile = ref(false)
 
 function checkIfMobile() {
   // Consider mobile if screen width is less than 768px
+  /*
   isMobile.value = window.innerWidth < 768
+  */
+ return false;
 }
 
 let createSiteModal = ref(null);
