@@ -1057,6 +1057,16 @@ class Editor {
     console.log("Loading all sites...");
     await this.reloadSites();
 
+    // If no sites were loaded, import the tutorial site
+    if (this.sites.length === 0) {
+      try {
+        await this.importTutorialSite();
+      } catch (error) {
+        console.error('Failed to import tutorial site on first run:', error);
+        // Don't throw here - we want the app to continue working even if tutorial import fails
+      }
+    }
+
     // Set up paste event listener for images
     this._setupPasteListener();
 
