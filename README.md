@@ -1,46 +1,41 @@
 # BigOlJungle
 
-BigOlJungle contains a collection of open-source web projects. Please see the sub-directories for project-specific READMEs.
+BigOlJungle is an assorted collection of open-source web projects that I chip away at when I have free time. The overall vision is to make reading, writing, and following content on the web more fun.
 
 Projects:
+- JungleReader: [WIP] Online web-reader. Read whatever you like, across the web.
+- JungleWriter: [WIP] Online website-builder. Create your own free-form websites.
+- SkyLizard: [WIP] A simple tool to help you host server-side apps.
 
-- JungleReader: Feed-reader webapp. Read whatever you like, across the web.
-- JungleWriter: [WIP] Website-builder webapp. Create your own website with a feed, files, and blog without leaving the browser.
-- JungleNode: [WIP] Coming soon ;)
-- JungleExt: A web-extension that is required by JungleReader, for making cross-domain web requests.
+All projects are free and under an AGPL license.
 
-Other:
-- ToucanProxy: CORs proxy built on CloudFlare Workers. Only used for development.
+See the sub-directories for project-specific READMEs.
 
-# JungleReader
+## JungleReader
 
-JungleReader is a free + open-source feed reader.
+JungleReader is a no-frills web reader. Follow RSS, YouTube, blogs, and more, all in one place.
 
-Available on web and mobile:
+Try it!
 - www.zajungle.com
-- JungleReader on iOS
+- JungleReader on iOS App Store
 
 See it in action: https://mastodon.social/@mriley/111619998502052493
 
-## Features
-- Supports: RSS, Mastodon, YouTube, and Reddit
-- Free + open-source under AGPL license.
+### Features
+- Web and mobile (iOS) apps
 - All data stored locally
 - Follow blogs without RSS support
-- Custom plugin support
+- Free and open-source under AGPL license
 
-## Community Add-ons
+## JungleWriter
 
-### Jungle-Reader-Sidebar by OutshineIssue
+JungleWriter is an online tool for creating fun, free-form websites. Create a site without any coding experience.
+Mainly for hobbyists and artists/designers who are looking to create something more free-form, instead of a traditional site.
 
-@OutshineIssue made a sidebar add-on for Firefox. It lets you quickly jump to JungleReader without needing a browser
-bookmark for it.
+Try it!
+www.junglewriter.com
 
-Get it here: https://github.com/OutshineIssue/Jungle-Reader-Sidebar
+## SkyLizard
 
-## Future Work:
-- Twitter support
-- Android app
-- Sync data to cloud storage
-- And so on
+This is very early, WIP.
 

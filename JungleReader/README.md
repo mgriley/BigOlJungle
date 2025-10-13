@@ -2,26 +2,31 @@
 
 This is the JungleReader web-reader. Read what you like, and skip the rest.
 
-Available on web and iOS:
-- www.zajungle.com
-- Search "JungleReader" on iOS app store
-
-# About
-
 ## Features
+
 - Supports: RSS, Mastodon, YouTube, and Reddit
 - Free + open-source under AGPL license.
 - All data stored locally
 - Follow blogs without RSS support
-- Custom plugin support: Write custom scripts to parse websites that don't support RSS. They run locally in a sandbox within the web-app.
+- Custom plugin support
 
-## Still needs:
+## Community Add-ons
+
+### Jungle-Reader-Sidebar by OutshineIssue
+
+@OutshineIssue made a sidebar add-on for Firefox. It lets you quickly jump to JungleReader without needing a browser
+bookmark for it.
+
+Get it here: https://github.com/OutshineIssue/Jungle-Reader-Sidebar
+
+## Future Work:
 - Twitter support
 - Android app
 - Sync data to cloud storage
 - And so on
 
-# Dev Guide
+
+## Dev Guide
 
 Dev server:
 ```sh
