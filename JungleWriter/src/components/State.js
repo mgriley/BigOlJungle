@@ -1167,21 +1167,18 @@ class Editor {
       
       // Try to load the site data if it exists
       const dataFile = await site.siteDir.findChild('data.json');
-      if (dataFile) {
-        try {
-          const jsonStr = await dataFile.readText();
-          const siteData = JSON.parse(jsonStr);
-          // Note - Ensure the site keeps its new unique ID
-          const originalSiteId = site.id;
-          site.readFromJson(siteData);
-          site.id = originalSiteId;
-          await site.saveSite();
-          await this.reloadSites();
-        } catch (error) {
-          // TODO - toast error here
-          console.error('Failed to load site data from imported zip:', error);
-        }
+      if (!dataFile) {
+        throw new Error('Imported zip does not contain data.json');
       }
+      const jsonStr = await dataFile.readText();
+      const siteData = JSON.parse(jsonStr);
+
+      // Note - Ensure the site keeps its new unique ID
+      const originalSiteId = site.id;
+      site.readFromJson(siteData);
+      site.id = originalSiteId;
+      await site.saveSite();
+      await this.reloadSites();
       
       console.log('Site imported successfully');
       return site;
@@ -1195,7 +1192,7 @@ class Editor {
   async importTutorialSite() {
     try {
       console.log('Fetching tutorial site...');
-      const response = await fetch('/public/TutorialSite_export.zip');
+      const response = await fetch('TutorialSite_export.zip');
       if (!response.ok) {
         throw new Error(`Failed to fetch tutorial site: ${response.status} ${response.statusText}`);
       }
