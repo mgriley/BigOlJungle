@@ -7,9 +7,7 @@ Projects:
 - JungleWriter: [WIP] Online website-builder. Create your own free-form websites.
 - SkyLizard: [WIP] A simple tool to help you host server-side apps.
 
-All projects are free and under an AGPL license.
-
-See the sub-directories for project-specific READMEs.
+All projects are free and AGPL licensed.
 
 ## JungleReader 🐸 
 
@@ -28,7 +26,7 @@ Try it!
 ## JungleWriter 🐒 
 
 JungleWriter is an online tool for creating fun, free-form websites. Create a site without any coding experience.
-Mainly for hobbyists and artists/designers who are looking to create something more free-form, instead of a traditional site.
+Made for hobbyists, artists, and designers who are looking to create something unique, instead of a traditional site.
 
 Try it!
 www.junglewriter.com
