@@ -6,6 +6,7 @@ import { trimText } from 'Shared/SharedUtils.js'
 import { createElementString, escapeHtml } from '../StaticSiteTemplates.js';
 import { ColorInput } from './ColorInput.js';
 import { LinkInput } from './LinkInput.js';
+import { TextStyle } from './TextStyle.js';
 
 export class LinkNode extends Node {
   static sUiShortName = "L";
@@ -19,9 +20,8 @@ export class LinkNode extends Node {
     this.fontFamily = "sans-serif";
     this.fontSize = 36;
     this.color = new ColorInput('#0000ff', 1.0);
-    this.bold = false;
-    this.italic = false;
-    this.underline = true;
+    this.textStyle = new TextStyle();
+    this.textStyle.underline = true; // Links are underlined by default
     this.width = 250;
 
     this.link = new LinkInput();
@@ -34,9 +34,7 @@ export class LinkNode extends Node {
       fontFamily: this.fontFamily,
       fontSize: this.fontSize,
       color: this.color.writeToJson(),
-      bold: this.bold,
-      italic: this.italic,
-      underline: this.underline,
+      textStyle: this.textStyle.writeToJson(),
       width: this.width,
       link: this.link.writeToJson(),
     });
@@ -55,9 +53,17 @@ export class LinkNode extends Node {
     } else {
       this.color = new ColorInput('#000000', 1.0);
     }
-    this.bold = obj.bold;
-    this.italic = obj.italic;
-    this.underline = obj.underline;
+    
+    // Support both new textStyle format and legacy individual fields
+    if (obj.textStyle) {
+      this.textStyle.readFromJson(obj.textStyle);
+    } else {
+      // Legacy support: read individual bold/italic/underline fields
+      this.textStyle.bold = obj.bold || false;
+      this.textStyle.italic = obj.italic || false;
+      this.textStyle.underline = obj.underline !== undefined ? obj.underline : true;
+    }
+    
     if (obj.width !== null) {
       this.width = Number(obj.width) || 200;
     }
@@ -105,15 +111,7 @@ export class LinkNode extends Node {
     if (this.color) {
       myStyle.color = this.color.getColorValue();
     }
-    if (this.bold) {
-      myStyle.fontWeight = "bold";
-    }
-    if (this.italic) {
-      myStyle.fontStyle = "italic";
-    }
-    if (this.underline) {
-      myStyle.textDecoration = "underline";
-    }
+    this.textStyle.applyToStyleObject(myStyle);
     myStyle.width = this.width + 'px';
     return {
       ...parentStyle,
@@ -137,9 +135,9 @@ export class LinkNode extends Node {
     clone.color = new ColorInput();
     clone.color.readFromJson(this.color.writeToJson());
     
-    clone.bold = this.bold;
-    clone.italic = this.italic;
-    clone.underline = this.underline;
+    // Clone text style
+    clone.textStyle = this.textStyle.clone();
+    
     clone.width = this.width;
     
     // Clone link
