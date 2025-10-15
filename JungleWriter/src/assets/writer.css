@@ -90,6 +90,7 @@ main {
   color: inherit;
   background-color: inherit;
   text-decoration: none;
+  user-select: none;
 }
 
 .TextLink:hover, .TextLink:active {

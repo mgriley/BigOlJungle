@@ -82,11 +82,12 @@ export class LinkInput {
     return null;
   }
 
-  getLinkAttributes() {
-    return {
+  getLinkAttributes(isEditing = false) {
+    let obj = {
       href: this.getHref(),
       target: this.getTarget(),
-      download: this.getDownload()
+      download: this.getDownload(),
     };
+    return obj;
   }
 }

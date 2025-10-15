@@ -187,9 +187,9 @@ export class TextNode extends Node {
     return this.elementType;
   }
 
-  getLinkAttributes() {
+  getLinkAttributes(isEditing = false) {
     if (this.isLink()) {
-      return this.link.getLinkAttributes();
+      return this.link.getLinkAttributes(isEditing);
     }
     return {};
   }

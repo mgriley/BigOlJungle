@@ -16,6 +16,9 @@ let isEditing = ref(false);
 function onClick(evt) {
   if (gApp.site.isEditing) {
     gApp.site.handleNodeClick(props.node, evt);
+    if (props.node.isLink()) {
+      evt.preventDefault();
+    }
   }
 }
 
@@ -103,10 +106,10 @@ onMounted(() => {
     ref="elementRef" 
     @click="onClick" 
     @dblclick="onDoubleClick"
-    v-bind="node.getLinkAttributes()"
+    v-bind="node.getLinkAttributes(isEditing)"
   >
     <template v-if="!isEditing">
-      {{ node.text || "🐍 Double-click me"}}
+      {{ node.text || "Double-click me"}}
     </template>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->
