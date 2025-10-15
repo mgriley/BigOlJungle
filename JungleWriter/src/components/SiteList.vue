@@ -8,11 +8,17 @@ import DropdownSelector from './DropdownSelector.vue'
 import { getTimeAgoStr } from 'Shared/SharedUtils.js'
 
 const isMobile = ref(false)
+const showMobileWarning = ref(false)
 
 function checkIfMobile() {
   // Consider mobile if screen width is less than 768px
   isMobile.value = window.innerWidth < 768
+  showMobileWarning.value = isMobile.value
   return isMobile.value;
+}
+
+function dismissMobileWarning() {
+  showMobileWarning.value = false
 }
 
 let createSiteModal = ref(null);
@@ -162,15 +168,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="isMobile" class="MobileMessage">
-    <div class="MobileMessageContent">
-      <h2>Small Device Detected 👀</h2>
-      <p>This screen is too small to display our glorious website editor, sorry!</p>
-      <p>Please come back on desktop to create a site.</p>
+  <div v-if="showMobileWarning" class="MobileWarning">
+    <div class="MobileWarningContent">
+      <h3>Small Device Detected 👀</h3>
+      <p>This screen may be too small for the best editing experience.</p>
+      <p>We recommend using a desktop or tablet for creating sites.</p>
+      <button @click="dismissMobileWarning" class="DismissButton">
+        Continue Anyway
+      </button>
     </div>
   </div>
 
-  <div v-else class="Toplevel">
+  <div v-if="!showMobileWarning" class="Toplevel">
     <div class="SiteList">
       <div class="MenuContainer">
         <button @click="showMenu" class="MenuButton">
@@ -443,49 +452,57 @@ onMounted(() => {
   color: var(--main-text);
 }
 
-.MobileMessage {
+.MobileWarning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: blue;
-}
-
-.HeroImage {
-  width: 100%;
-  height: 40vh;
-  overflow: hidden;
-}
-
-.HeroImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.MobileMessageContent {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: var(--space-l);
+  z-index: 1000;
 }
 
-.MobileMessageContent h2 {
+.MobileWarningContent {
+  background-color: var(--bg-color);
+  border: var(--border-reg);
+  border-radius: var(--border-radius-l);
+  padding: var(--space-xl);
+  max-width: 400px;
+  text-align: center;
+  margin: var(--space-l);
+}
+
+.MobileWarningContent h3 {
   color: var(--text-color);
   margin-bottom: var(--space-l);
   font-size: var(--f-xl);
 }
 
-.MobileMessageContent p {
+.MobileWarningContent p {
   color: var(--text-color-secondary);
   margin-bottom: var(--space-m);
   font-size: var(--f-l);
   line-height: 1.5;
+}
+
+.DismissButton {
+  background-color: #ff6b35;
+  color: white;
+  border: none;
+  padding: var(--space-s) var(--space-l);
+  border-radius: var(--border-radius-m);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: var(--space-s);
+}
+
+.DismissButton:hover {
+  background-color: #e55a2b;
+  transform: translateY(-1px);
 }
 
 </style>
