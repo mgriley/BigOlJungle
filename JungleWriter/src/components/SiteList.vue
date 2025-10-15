@@ -171,8 +171,8 @@ onMounted(() => {
   <div v-if="showMobileWarning" class="MobileMessage">
     <div class="MobileMessageContent">
       <h2>Small Device Detected 👀</h2>
-      <p>This screen may be too small for the best editing experience.</p>
-      <p>We recommend using a desktop or tablet for creating sites.</p>
+      <p>Our glorious website editor does not yet work on mobile, sorry.</p>
+      <p>Please come back on desktop to create a site.</p>
       <button @click="dismissMobileWarning" class="DismissButton">
         Continue Anyway
       </button>
