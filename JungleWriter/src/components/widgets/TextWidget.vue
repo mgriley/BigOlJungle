@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, computed, nextTick, watch } from 'vue'
 import { gApp } from '../State.js'
 import { setupWidgetDrag } from '../Utils.js'
 import { TextNode } from './TextNode.js'
+import { LinkType } from './LinkInput.js'
 import DragCorners from './DragCorners.vue'
 
 const props = defineProps({
@@ -16,15 +17,18 @@ let isEditing = ref(false);
 function onClick(evt) {
   if (gApp.site.isEditing) {
     gApp.site.handleNodeClick(props.node, evt);
-    if (props.node.isLink()) {
-      evt.preventDefault();
-    }
   }
 }
 
 function onDoubleClick() {
   if (gApp.site.isEditing) {
     startEditing();
+  }
+}
+
+function onLinkClicked(evt) {
+  if (gApp.site.isEditing) {
+    evt.preventDefault();
   }
 }
 
@@ -98,18 +102,24 @@ onMounted(() => {
 
 <template>
   <component 
-    :is="node.getElementType()" 
+    :is="node.elementType" 
     :id="node.getElementId()"
     class="Widget TextWidget NoSelect" 
-    :class="{ 'editing': isEditing, 'TextLink': node.isLink(), ...node.getElementClassesDict() }" 
+    :class="{ 'editing': isEditing, ...node.getElementClassesDict() }" 
     :style="node.getStyleObject()"
     ref="elementRef" 
     @click="onClick" 
     @dblclick="onDoubleClick"
-    v-bind="node.getLinkAttributes(isEditing)"
   >
     <template v-if="!isEditing">
-      {{ node.text || "Double-click me"}}
+      <template v-if="!node.link.hasLink()">
+        {{ node.text || "🐍 Double-click me"}}
+      </template>
+      <template v-else>
+        <a class="TextLink" v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
+          {{node.text || "🐍 Double-click me"}}
+        </a>
+      </template>
     </template>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->

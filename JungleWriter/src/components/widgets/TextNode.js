@@ -176,24 +176,6 @@ export class TextNode extends Node {
     return clone;
   }
 
-  isLink() {
-    return this.link.hasLink();
-  }
-
-  getElementType() {
-    if (this.isLink()) {
-      return 'a';
-    }
-    return this.elementType;
-  }
-
-  getLinkAttributes(isEditing = false) {
-    if (this.isLink()) {
-      return this.link.getLinkAttributes(isEditing);
-    }
-    return {};
-  }
-
   async generateStaticHtml(writer) {
     let content = escapeHtml(this.text);
     
