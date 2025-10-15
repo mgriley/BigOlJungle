@@ -50,7 +50,6 @@ function onColorChange(newColor) {
       labelWidth="5ch" />
     <ColorInput :color="editorData.color" name="Color" @change="onColorChange"
       labelWidth="5ch" />
-    <TextElement v-model="editorData.elementType" name="Type" class="mb-xs" labelWidth="5ch" />
   </div>
   <div class="mb-s">
     <TextStyleInput :textStyle="editorData.textStyle" />

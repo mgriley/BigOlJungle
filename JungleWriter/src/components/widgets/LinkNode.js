@@ -170,7 +170,7 @@ export class LinkNode extends Node {
       classes += " " + this.elementClasses;
     }
     return createElementString(
-      this.elementType, {id: this.getElementId(), class: classes}, this.getStyleObject(),
+      'div', {id: this.getElementId(), class: classes}, this.getStyleObject(),
       content
     );
   }
