@@ -14,7 +14,7 @@ const props = defineProps({
 
 const typeValue = computed({
   get() {
-    return props.input?.type || LinkType.None
+    return props.input?.type || LinkType.External
   },
   set(type) {
     if (props.input) {
@@ -39,7 +39,6 @@ const labelWidth = computed(() => {
 })
 
 const linkTypeOptions = [
-  { value: LinkType.None, label: 'None' },
   { value: LinkType.External, label: 'External' },
   { value: LinkType.Download, label: 'Download' }
 ]
@@ -77,7 +76,7 @@ let helpText = computed(() => {
           {{ option.label }}
         </option>
       </select>
-      <div class="UrlInputContainer" v-if="typeValue !== LinkType.None">
+      <div class="UrlInputContainer">
         <TextInput 
           v-model="urlValue" 
           :placeholder="placeholderText"
