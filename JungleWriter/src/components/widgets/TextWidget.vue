@@ -102,7 +102,7 @@ onMounted(() => {
 
 <template>
   <component 
-    :is="node.elementType" 
+    :is="node.getElementType()" 
     :id="node.getElementId()"
     class="Widget TextWidget NoSelect" 
     :class="{ 'editing': isEditing, ...node.getElementClassesDict() }" 
@@ -112,7 +112,7 @@ onMounted(() => {
     @dblclick="onDoubleClick"
   >
     <template v-if="!isEditing">
-      <template v-if="!node.link.hasLink()">
+      <template v-if="!node.isLink()">
         {{ node.text || "🐍 Double-click me"}}
       </template>
       <template v-else>

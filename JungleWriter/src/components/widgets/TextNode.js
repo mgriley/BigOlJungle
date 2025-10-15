@@ -114,6 +114,19 @@ export class TextNode extends Node {
     return "(Empty)";
   }
 
+  getElementType() {
+    if (this.isLink()) {
+      // When we have a link, the outer element is always a div.
+      // We nest to avoid weird issues with dragging <a> tags.
+      return 'div';
+    }
+    return this.elementType;
+  }
+
+  isLink() {
+    return this.link.hasLink();
+  }
+
   getStyleObject() {
     let parentStyle = super.getStyleObject();
     let myStyle = {
