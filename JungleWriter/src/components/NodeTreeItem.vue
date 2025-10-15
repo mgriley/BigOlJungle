@@ -86,9 +86,7 @@ let nodeIcon = computed(() => {
       return 'bi bi-image';
     case 'RectNode':
       return 'bi bi-app';
-    case 'OmniNode':
-      return 'bi bi-circle';
-    case 'LinksNode':
+    case 'LinkNode':
       return 'bi bi-link-45deg';
     default:
       return 'bi bi-file-earmark'; // Default file icon

@@ -27,6 +27,12 @@ const nodeCreationOptions = [
     color: "#9C27B0",
     classCtor: gNodeDataMap["ImageNode"].nodeClass,
   },
+  {
+    name: "Link",
+    icon: "bi bi-link-45deg",
+    color: "#FF9800",
+    classCtor: gNodeDataMap["LinkNode"].nodeClass,
+  },
 ];
 
 function createNode(nodeOption) {

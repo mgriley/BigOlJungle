@@ -99,10 +99,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <component 
-    :is="node.getElementType()" 
+  <div 
     :id="node.getElementId()"
-    class="Widget TextWidget NoSelect" 
+    class="Widget NoSelect" 
     :class="{ 'editing': isEditing, ...node.getElementClassesDict() }" 
     :style="node.getStyleObject()"
     ref="elementRef" 
@@ -110,14 +109,7 @@ onMounted(() => {
     @dblclick="onDoubleClick"
   >
     <template v-if="!isEditing">
-      <template v-if="!node.isLink()">
-        {{ node.text || "Double-click me"}}
-      </template>
-      <template v-else>
-        <a class="TextLink" v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
-          {{node.text || "Double-click me"}}
-        </a>
-      </template>
+      {{ node.text || "Double-click me"}}
     </template>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->
@@ -131,7 +123,7 @@ onMounted(() => {
       @mousedown.stop
     ></textarea>
     <DragCorners v-if="node.selected" :node="node" />
-  </component>
+  </div>
 </template>
 
 <style>

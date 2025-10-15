@@ -27,6 +27,11 @@ let newNodeOptions = [
   classCtor: gNodeDataMap["Node"].nodeClass,
 },
 {
+  name: "Rect",
+  icon: "bi bi-app",
+  classCtor: gNodeDataMap["RectNode"].nodeClass,
+},
+{
   name: "Text",
   icon: "bi bi-type",
   classCtor: gNodeDataMap["TextNode"].nodeClass,
@@ -37,22 +42,10 @@ let newNodeOptions = [
   classCtor: gNodeDataMap["ImageNode"].nodeClass,
 },
 {
-  name: "Rect",
-  icon: "bi bi-app",
-  classCtor: gNodeDataMap["RectNode"].nodeClass,
+  name: "Link",
+  icon: "bi bi-link-45deg",
+  classCtor: gNodeDataMap["LinkNode"].nodeClass,
 },
-/*
-{
-  name: "Omni",
-  classCtor: gNodeDataMap["OmniNode"].nodeClass,
-},
- */
-/*
-{
-  name: "Links",
-  classCtor: gNodeDataMap["LinksNode"].nodeClass,
-},
- */
 ];
 
 function makeNewNode(clickEvt) {
