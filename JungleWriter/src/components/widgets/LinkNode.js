@@ -18,11 +18,11 @@ export class LinkNode extends Node {
     this.text = "";
     this.fontFamily = "sans-serif";
     this.fontSize = 36;
-    this.color = new ColorInput('#000000', 1.0);
+    this.color = new ColorInput('#0000ff', 1.0);
     this.bold = false;
     this.italic = false;
-    this.underline = false;
-    this.width = 350;
+    this.underline = true;
+    this.width = 250;
 
     this.link = new LinkInput();
   }

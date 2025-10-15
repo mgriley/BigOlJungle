@@ -82,11 +82,6 @@ function onColorChange(newColor) {
     <NumberInput id="LineHeightInput" v-model="editorData.lineHeight" name="Line Height" :min="0" :increment="0.1"/>
     <NumberInput id="LetterSpacingInput" v-model="editorData.letterSpacing" name="Letter Spacing" :increment="0.1" />
   </div>
-  <!-- <TextAreaInput class="TextWidgetTextArea" v-model="editorData.text" /> -->
-
-  <div class="mb-m">
-    <LinkInput :input="editorData.link" name="Link" />
-  </div>
 
   <!--<textarea class="TextWidgetTextArea" v-model="editorData.text"></textarea>-->
   <!--

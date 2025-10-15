@@ -109,7 +109,9 @@ onMounted(() => {
     @dblclick="onDoubleClick"
   >
     <template v-if="!isEditing">
-      {{ node.text || "Double-click me"}}
+      <a class="TextLink" v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
+        {{node.text || "Double-click me"}}
+      </a>
     </template>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->

@@ -16,7 +16,6 @@ const props = defineProps({
   editorData: Object
 })
 
-
 function onFontChange(newFont) {
   if (gApp.site) {
     gApp.site.preferences.fontFamily = newFont

@@ -34,8 +34,6 @@ export class TextNode extends Node {
     this.letterSpacing = 0;
     this.textAlign = 'left';
     this.width = 350;
-
-    this.link = new LinkInput();
   }
 
   writeToJson() {
@@ -53,7 +51,6 @@ export class TextNode extends Node {
       letterSpacing: this.letterSpacing,
       textAlign: this.textAlign,
       width: this.width,
-      link: this.link.writeToJson(),
     });
     return obj;
   }
@@ -81,9 +78,6 @@ export class TextNode extends Node {
     this.textAlign = obj.textAlign;
     if (obj.width !== null) {
       this.width = Number(obj.width) || 200;
-    }
-    if (obj.link) {
-      this.link.readFromJson(obj.link);
     }
   }
 
@@ -115,16 +109,7 @@ export class TextNode extends Node {
   }
 
   getElementType() {
-    if (this.isLink()) {
-      // When we have a link, the outer element is always a div.
-      // We nest to avoid weird issues with dragging <a> tags.
-      return 'div';
-    }
     return this.elementType;
-  }
-
-  isLink() {
-    return this.link.hasLink();
   }
 
   getStyleObject() {
@@ -182,31 +167,15 @@ export class TextNode extends Node {
     clone.textAlign = this.textAlign;
     clone.width = this.width;
     
-    // Clone link
-    clone.link = new LinkInput();
-    clone.link.readFromJson(this.link.writeToJson());
-    
     return clone;
   }
 
   async generateStaticHtml(writer) {
     let content = escapeHtml(this.text);
-    
-    // Wrap content in link if link is present
-    if (this.link.hasLink()) {
-      const linkAttrs = this.link.getLinkAttributes();
-      content = createElementString('a', {class: 'TextLink', ...linkAttrs}, {}, escapeHtml(this.text));
-
-      if (this.link.type === 'Download') {
-        await writer.addFileWithName(this.link.url);
-      }
-    }
-    
     let classes = "Widget TextWidget";
     if (this.elementClasses) {
       classes += " " + this.elementClasses;
     }
-    
     return createElementString(
       this.elementType, {id: this.getElementId(), class: classes}, this.getStyleObject(),
       content

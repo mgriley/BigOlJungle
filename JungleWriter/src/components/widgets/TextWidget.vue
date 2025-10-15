@@ -24,12 +24,6 @@ function onDoubleClick() {
   }
 }
 
-function onLinkClicked(evt) {
-  if (gApp.site.isEditing) {
-    evt.preventDefault();
-  }
-}
-
 async function startEditing() {
   if (isEditing.value) {
     return;
@@ -110,14 +104,7 @@ onMounted(() => {
     @dblclick="onDoubleClick"
   >
     <template v-if="!isEditing">
-      <template v-if="!node.isLink()">
-        {{ node.text || "Double-click me"}}
-      </template>
-      <template v-else>
-        <a class="TextLink" v-bind="node.link.getLinkAttributes()" @click="onLinkClicked">
-          {{node.text || "Double-click me"}}
-        </a>
-      </template>
+      {{ node.text || "Double-click me"}}
     </template>
     <!-- Note: must do mousedown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->
