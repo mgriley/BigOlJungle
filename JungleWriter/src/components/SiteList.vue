@@ -168,9 +168,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="showMobileWarning" class="MobileWarning">
-    <div class="MobileWarningContent">
-      <h3>Small Device Detected 👀</h3>
+  <div v-if="showMobileWarning" class="MobileMessage">
+    <div class="MobileMessageContent">
+      <h2>Small Device Detected 👀</h2>
       <p>This screen may be too small for the best editing experience.</p>
       <p>We recommend using a desktop or tablet for creating sites.</p>
       <button @click="dismissMobileWarning" class="DismissButton">
@@ -452,36 +452,45 @@ onMounted(() => {
   color: var(--main-text);
 }
 
-.MobileWarning {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+.MobileMessage {
   display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: blue;
+}
+
+.HeroImage {
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+}
+
+.HeroImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.MobileMessageContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-}
-
-.MobileWarningContent {
-  background-color: var(--bg-color);
-  border: var(--border-reg);
-  border-radius: var(--border-radius-l);
-  padding: var(--space-xl);
-  max-width: 400px;
   text-align: center;
-  margin: var(--space-l);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--space-l);
 }
 
-.MobileWarningContent h3 {
+.MobileMessageContent h2 {
   color: var(--text-color);
   margin-bottom: var(--space-l);
   font-size: var(--f-xl);
 }
 
-.MobileWarningContent p {
+.MobileMessageContent p {
   color: var(--text-color-secondary);
   margin-bottom: var(--space-m);
   font-size: var(--f-l);
