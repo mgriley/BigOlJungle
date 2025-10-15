@@ -54,6 +54,7 @@ function onColorChange(newColor) {
   </div>
   <div class="mb-s">
     <TextStyleInput :textStyle="editorData.textStyle" />
+    <TextAlignInput v-model="editorData.textAlign" />
   </div>
 
   <div class="mt-s">

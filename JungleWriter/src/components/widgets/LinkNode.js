@@ -22,6 +22,7 @@ export class LinkNode extends Node {
     this.color = new ColorInput('#0000ff', 1.0);
     this.textStyle = new TextStyle();
     this.textStyle.underline = true; // Links are underlined by default
+    this.textAlign = 'left';
     this.width = 250;
 
     this.link = new LinkInput();
@@ -35,6 +36,7 @@ export class LinkNode extends Node {
       fontSize: this.fontSize,
       color: this.color.writeToJson(),
       textStyle: this.textStyle.writeToJson(),
+      textAlign: this.textAlign,
       width: this.width,
       link: this.link.writeToJson(),
     });
@@ -64,6 +66,7 @@ export class LinkNode extends Node {
       this.textStyle.underline = obj.underline !== undefined ? obj.underline : true;
     }
     
+    this.textAlign = obj.textAlign || 'left';
     if (obj.width !== null) {
       this.width = Number(obj.width) || 200;
     }
@@ -114,6 +117,7 @@ export class LinkNode extends Node {
       myStyle.color = this.color.getColorValue();
     }
     this.textStyle.applyToStyleObject(myStyle);
+    myStyle.textAlign = this.textAlign;
     myStyle.width = this.width + 'px';
     return {
       ...parentStyle,
@@ -140,6 +144,7 @@ export class LinkNode extends Node {
     // Clone text style
     clone.textStyle = this.textStyle.clone();
     
+    clone.textAlign = this.textAlign;
     clone.width = this.width;
     
     // Clone link
