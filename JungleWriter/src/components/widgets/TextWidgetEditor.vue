@@ -11,6 +11,7 @@ import TextEntryModal from './TextEntryModal.vue'
 import PositionInput from './PositionInput.vue'
 import TextElement from './TextElement.vue'
 import StyleInput from './StyleInput.vue'
+import TextStyleInput from './TextStyleInput.vue'
 import { gApp } from '../Globals.js'
 
 const props = defineProps({
@@ -50,32 +51,7 @@ function onColorChange(newColor) {
     <TextElement v-model="editorData.elementType" name="Type" class="mb-xs" labelWidth="5ch" />
   </div>
   <div class="mb-s">
-    <div class="FontStyleButtons">
-      <button 
-        class="StyleToggle" 
-        :class="{ active: editorData.bold }"
-        @click="editorData.bold = !editorData.bold"
-        title="Bold"
-      >
-        <strong>B</strong>
-      </button>
-      <button 
-        class="StyleToggle" 
-        :class="{ active: editorData.italic }"
-        @click="editorData.italic = !editorData.italic"
-        title="Italic"
-      >
-        <em>I</em>
-      </button>
-      <button 
-        class="StyleToggle" 
-        :class="{ active: editorData.underline }"
-        @click="editorData.underline = !editorData.underline"
-        title="Underline"
-      >
-        <span style="text-decoration: underline;">U</span>
-      </button>
-    </div>
+    <TextStyleInput :textStyle="editorData.textStyle" />
     <TextAlignInput v-model="editorData.textAlign" />
   </div>
   <div class="mb-xs FlexRow">
@@ -109,52 +85,6 @@ function onColorChange(newColor) {
   max-height: 200px;
   resize: none;
 }
-
-.FontStyleButtons {
-  display: flex;
-  flex-direction: row;
-  gap: var(--space-xxs);
-  margin-bottom: var(--space-xs);
-}
-
-.StyleToggle {
-  flex: 1;
-  min-width: 32px;
-  height: 24px;
-  border: 1px solid var(--medium-color);
-  border-radius: var(--border-radius-s);
-  background-color: var(--input-bg);
-  color: var(--input-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: var(--f-s);
-  font-weight: normal;
-}
-
-.StyleToggle:hover {
-  background-color: var(--medium-color);
-  border-color: var(--light-color);
-}
-
-.StyleToggle.active {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: var(--darkest-color);
-}
-
-.StyleToggle strong {
-  font-weight: bold;
-}
-
-.StyleToggle em {
-  font-style: italic;
-  font-family: serif;
-  font-size: 18px;
-}
-
 
 .FlexRow {
   display: flex;
