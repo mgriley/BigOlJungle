@@ -82,9 +82,11 @@ export class LinkNode extends Node {
     if (prefs.fontSize) {
       this.fontSize = prefs.fontSize;
     }
+    /*
     if (prefs.textColor) {
       this.color = prefs.textColor.clone();
     }  
+    */
   }
 
   getAllowsChildren() {

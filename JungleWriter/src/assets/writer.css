@@ -94,7 +94,7 @@ main {
 }
 
 .TextLink:hover, .TextLink:active {
-  color: blue;
+  color: inherit;
   background-color: inherit;
 }
 
