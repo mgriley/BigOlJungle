@@ -30,7 +30,7 @@ const nodeCreationOptions = [
   {
     name: "Link",
     icon: "bi bi-link-45deg",
-    color: "#FF9800",
+    color: "#007BFF",
     classCtor: gNodeDataMap["LinkNode"].nodeClass,
   },
 ];

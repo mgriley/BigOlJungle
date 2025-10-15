@@ -39,7 +39,7 @@ const labelWidth = computed(() => {
 })
 
 const linkTypeOptions = [
-  { value: LinkType.External, label: 'External' },
+  { value: LinkType.External, label: 'URL' },
   { value: LinkType.Download, label: 'Download' }
 ]
 
@@ -57,7 +57,7 @@ let placeholderText = computed(() => {
 let helpText = computed(() => {
   switch (typeValue.value) {
     case LinkType.External:
-      return 'Give an external website to link to.';
+      return 'Give a URL to link to.';
     case LinkType.Download:
       return "Give the name of a file you uploaded in the 'Upload Files' tab."
     default:
