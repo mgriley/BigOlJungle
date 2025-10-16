@@ -22,12 +22,12 @@ export function makeDraggableExt(element, dragFuncs) {
   var constraintDirection = null; // 'horizontal', 'vertical', or null
   var hasDragged = false; // Track if actual dragging occurred
 
-  let dragMouseDown = null;
+  let dragPointerDown = null;
   let elementDrag = null;
   let closeDragElement = null;
   let preventClick = null;
 
-  dragMouseDown = (e) => {
+  dragPointerDown = (e) => {
     e = e || window.event;
 
     let allowDrag = true;
@@ -44,8 +44,9 @@ export function makeDraggableExt(element, dragFuncs) {
       curY = startY;
       constraintDirection = null; // Reset constraint direction
       hasDragged = false; // Reset drag flag
-      document.addEventListener("mouseup", closeDragElement);
-      document.addEventListener("mousemove", elementDrag);
+      element.setPointerCapture(e.pointerId);
+      document.addEventListener("pointerup", closeDragElement);
+      document.addEventListener("pointermove", elementDrag);
       if (dragFuncs.onStart) {
         dragFuncs.onStart(startX, startY);
       }
@@ -93,9 +94,12 @@ export function makeDraggableExt(element, dragFuncs) {
     }
   }
 
-  closeDragElement = () => {
-    document.removeEventListener("mouseup", closeDragElement);
-    document.removeEventListener("mousemove", elementDrag);
+  closeDragElement = (e) => {
+    document.removeEventListener("pointerup", closeDragElement);
+    document.removeEventListener("pointermove", elementDrag);
+    if (e && e.pointerId) {
+      element.releasePointerCapture(e.pointerId);
+    }
     
     // If we dragged, prevent the next click event.
     // This prevents XXXWidget.onClick from firing after a drag and selecting/deselecting things.
@@ -113,7 +117,7 @@ export function makeDraggableExt(element, dragFuncs) {
     e.stopPropagation();
   }
 
-  element.addEventListener("mousedown", dragMouseDown);
+  element.addEventListener("pointerdown", dragPointerDown);
 }
 
 // See: https://www.w3schools.com/howto/howto_js_draggable.asp
