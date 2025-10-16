@@ -11,10 +11,8 @@ import {
   selectionDragStart, 
   selectionDragCurrent,
   onClickBackground,
-  onMouseDown,
-  onMouseMove,
-  onMouseUp,
-  onWheel
+  installHandlers as installMouseHandlers,
+  removeHandlers as removeMouseHandlers
 } from './SceneMouseHandler.js'
 
 let rootNode = computed(() => {
@@ -104,10 +102,7 @@ function getMainStyleObject() {
 
 onMounted(() => {
   installKeyHandlers();
-  window.addEventListener("mousedown", onMouseDown);
-  window.addEventListener("mousemove", onMouseMove);
-  window.addEventListener("mouseup", onMouseUp);
-  window.addEventListener("wheel", onWheel, { passive: false });
+  installMouseHandlers();
 
   window.addEventListener("resize", onPageResize);
   onPageResize();
@@ -118,10 +113,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   removeKeyHandlers();
-  window.removeEventListener("mousedown", onMouseDown);
-  window.removeEventListener("mousemove", onMouseMove);
-  window.removeEventListener("mouseup", onMouseUp);
-  window.removeEventListener("wheel", onWheel);
+  removeMouseHandlers();
 
   window.removeEventListener("resize", onPageResize);
   

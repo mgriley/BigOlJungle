@@ -154,14 +154,26 @@ function onWheel(evt) {
   gApp.site.scrollMainBy(deltaX, deltaY);
 }
 
+function installHandlers() {
+  window.addEventListener("mousedown", onMouseDown);
+  window.addEventListener("mousemove", onMouseMove);
+  window.addEventListener("mouseup", onMouseUp);
+  window.addEventListener("wheel", onWheel, { passive: false });
+}
+
+function removeHandlers() {
+  window.removeEventListener("mousedown", onMouseDown);
+  window.removeEventListener("mousemove", onMouseMove);
+  window.removeEventListener("mouseup", onMouseUp);
+  window.removeEventListener("wheel", onWheel);
+}
+
 export {
   isDragging,
   isSelectionDragging,
   selectionDragStart,
   selectionDragCurrent,
   onClickBackground,
-  onMouseDown,
-  onMouseMove,
-  onMouseUp,
-  onWheel
+  installHandlers,
+  removeHandlers
 }
