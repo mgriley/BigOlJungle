@@ -38,8 +38,9 @@ export let StaticInteractiveJs = `
   let scrollStart = { x: 0, y: 0 };
   
   // Track pinch-to-zoom state
-  let initialDistance = 0;
+  let activePointers = new Map();
   let startScale = 1;
+  let initialDistance = 0;
   
   // Get current translate values from CSS variables
   function getCurrentTranslate() {
@@ -88,40 +89,57 @@ export let StaticInteractiveJs = `
   }
   
   function onPointerDown(evt) {
-    // Start scroll drag
-    isDragging = true;
-    dragStart = { x: evt.clientX, y: evt.clientY };
-    scrollStart = getCurrentTranslate();
-    // Set cursor to grabbing
     const mainElement = document.getElementById('Main');
     if (mainElement) {
-      mainElement.style.cursor = 'grabbing';
+      mainElement.setPointerCapture(evt.pointerId);
+    }
+    activePointers.set(evt.pointerId, evt);
+    
+    if (activePointers.size === 1) {
+      // Start dragging
+      isDragging = true;
+      dragStart = { x: evt.clientX, y: evt.clientY };
+      scrollStart = getCurrentTranslate();
+      if (mainElement) {
+        mainElement.style.cursor = 'grabbing';
+      }
+    } else if (activePointers.size === 2) {
+      // Start pinch
+      const touches = Array.from(activePointers.values());
+      initialDistance = getDistance(touches);
+      startScale = getScale();
     }
     evt.preventDefault();
   }
   
   function onPointerMove(evt) {
-    if (isDragging) {
+    if (!activePointers.has(evt.pointerId)) return;
+    activePointers.set(evt.pointerId, evt);
+
+    if (activePointers.size === 1 && isDragging) {
       const deltaX = evt.clientX - dragStart.x;
       const deltaY = evt.clientY - dragStart.y;
-      const newX = scrollStart.x + deltaX;
-      const newY = scrollStart.y + deltaY;
-      setTranslate(newX, newY);
-      evt.preventDefault();
+      setTranslate(scrollStart.x + deltaX, scrollStart.y + deltaY);
+    } else if (activePointers.size === 2) {
+      const touches = Array.from(activePointers.values());
+      const newDistance = getDistance(touches);
+      const factor = newDistance / initialDistance;
+      setScale(startScale * factor);
     }
+    evt.preventDefault();
   }
   
   function onPointerUp(evt) {
-    if (isDragging) {
+    activePointers.delete(evt.pointerId);
+    if (activePointers.size < 2) initialDistance = 0;
+    if (activePointers.size === 0) {
       isDragging = false;
-      evt.preventDefault();
-      
-      // Reset cursor
       const mainElement = document.getElementById('Main');
       if (mainElement) {
         mainElement.style.cursor = 'grab';
       }
     }
+    evt.preventDefault();
   }
   
   function onWheel(evt) {
@@ -138,23 +156,6 @@ export let StaticInteractiveJs = `
     setTranslate(newX, newY);
   }
   
-  function onTouchStart(evt) {
-    if (evt.touches.length === 2) {
-      evt.preventDefault();
-      initialDistance = getDistance(evt.touches);
-      startScale = getScale();
-    }
-  }
-  
-  function onTouchMove(evt) {
-    if (evt.touches.length === 2) {
-      evt.preventDefault();
-      const newDistance = getDistance(evt.touches);
-      const factor = newDistance / initialDistance;
-      const newScale = startScale * factor;
-      setScale(newScale);
-    }
-  }
   
   // Initialize when DOM is ready
   function init() {
@@ -172,10 +173,6 @@ export let StaticInteractiveJs = `
       
       // Add wheel event listener to Main element
       mainElement.addEventListener('wheel', onWheel, { passive: false });
-      
-      // Add touch event listeners for pinch-to-zoom
-      mainElement.addEventListener('touchstart', onTouchStart, { passive: false });
-      mainElement.addEventListener('touchmove', onTouchMove, { passive: false });
 
       // Prevent any touch scroll / bounce on iOS Safari
       /*
