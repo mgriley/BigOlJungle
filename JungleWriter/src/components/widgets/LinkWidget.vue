@@ -121,30 +121,6 @@ onMounted(() => {
 </template>
 
 <style>
-/* Match to the outer div exactly so that text lines up */
-.TextWidgetInput {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  outline: none;
-  font-size: inherit;
-  font-family: inherit;
-  color: inherit;
-  font-weight: inherit;
-  font-style: inherit;
-  text-decoration: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  text-align: inherit;
-  white-space: pre-wrap;
-  width: 100%;
-  height: auto;
-  padding: 0;
-  margin: 0;
-  resize: none;
-  overflow: hidden;
-  min-height: 1em;
-}
 
 .TextWidget.editing {
   outline: 3px solid blue !important;

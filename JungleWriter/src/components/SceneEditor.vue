@@ -24,6 +24,7 @@ const selectionDragStart = ref({ x: 0, y: 0 });
 const selectionDragCurrent = ref({ x: 0, y: 0 });
 const selectionHasDragged = ref(false);
 
+
 function onClickBackground(evt) {
   if (evt.target.id == "Main" || evt.target.id == "CanvasArea") {
     console.log("Clicked background, deselecting. TargetId: ", evt.target.id);
@@ -139,18 +140,6 @@ function shouldIgnoreKeyEvent() {
     activeElement.tagName === 'TEXTAREA' || 
     activeElement.contentEditable === 'true'
   );
-}
-
-function handleWASDScrolling(evt) {
-  const key = evt.key.toLowerCase();
-  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
-    keysPressed.value.add(key);
-    if (!scrollAnimationId) {
-      startScrollAnimation();
-    }
-    return true;
-  }
-  return false;
 }
 
 function handleNodeDuplication(evt) {
@@ -323,77 +312,6 @@ function onKeyUp(evt) {
   }
 }
 
-function startScrollAnimation() {
-  const scrollSpeed = 10; // pixels per frame
-  
-  function animate() {
-    if (keysPressed.value.size === 0) {
-      scrollAnimationId = null;
-      return;
-    }
-
-    let offsetX = 0;
-    let offsetY = 0;
-
-    // Calculate movement based on pressed keys
-    if (keysPressed.value.has('w')) offsetY -= 1;
-    if (keysPressed.value.has('s')) offsetY += 1;
-    if (keysPressed.value.has('a')) offsetX -= 1;
-    if (keysPressed.value.has('d')) offsetX += 1;
-
-    // Normalize diagonal movement
-    if (offsetX !== 0 && offsetY !== 0) {
-      const norm = Math.sqrt(2);
-      offsetX /= norm;
-      offsetY /= norm;
-    }
-
-    // Apply scrolling
-    if (offsetX !== 0 || offsetY !== 0) {
-      gApp.site.scrollMainBy(offsetX * scrollSpeed, offsetY * scrollSpeed);
-    }
-
-    scrollAnimationId = requestAnimationFrame(animate);
-  }
-
-  scrollAnimationId = requestAnimationFrame(animate);
-}
-
-function onWheel(evt) {
-  /**
-   * Handle mouse wheel scrolling to manually control scroll behavior
-   * Only when mouse is over #Main or #CanvasArea elements
-   * Don't consume the event if mouse is over a BasicModal
-   */
-  
-  // Check if the event target is inside a BasicModal
-  const target = evt.target;
-  const modalElement = target.closest('.BasicModal');
-  
-  if (modalElement) {
-    return; // Don't consume the event, let the modal handle scrolling
-  }
-  
-  // Check if the event target is #Main or #CanvasArea or a descendant of them
-  const mainElement = document.getElementById('Main');
-  const canvasElement = document.getElementById('CanvasArea');
-  
-  const isOverMain = target === mainElement || mainElement?.contains(target);
-  const isOverCanvas = target === canvasElement || canvasElement?.contains(target);
-  
-  if (!isOverMain && !isOverCanvas) {
-    return;
-  }
-  
-  evt.preventDefault();
-  
-  const scrollMultiplier = 1.0; // Adjust sensitivity as needed
-  const deltaX = evt.deltaX * scrollMultiplier;
-  const deltaY = evt.deltaY * scrollMultiplier;
-  
-  gApp.site.scrollMainBy(deltaX, deltaY);
-}
-
 function getMainStyleObject() {
   return gApp.site.getMainStyleObject();
 }
@@ -435,10 +353,101 @@ let selectionRectStyle = computed(() => {
   };
 });
 
-function clamp(x, a, b) {
-  return Math.max(a, Math.min(x, b));
+/*
+function startScrollAnimation() {
+  const scrollSpeed = 10; // pixels per frame
+  
+  function animate() {
+    if (keysPressed.value.size === 0) {
+      scrollAnimationId = null;
+      return;
+    }
+
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Calculate movement based on pressed keys
+    if (keysPressed.value.has('w')) offsetY -= 1;
+    if (keysPressed.value.has('s')) offsetY += 1;
+    if (keysPressed.value.has('a')) offsetX -= 1;
+    if (keysPressed.value.has('d')) offsetX += 1;
+
+    // Normalize diagonal movement
+    if (offsetX !== 0 && offsetY !== 0) {
+      const norm = Math.sqrt(2);
+      offsetX /= norm;
+      offsetY /= norm;
+    }
+
+    // Apply scrolling
+    if (offsetX !== 0 || offsetY !== 0) {
+      gApp.site.scrollMainBy(offsetX * scrollSpeed, offsetY * scrollSpeed);
+    }
+
+    scrollAnimationId = requestAnimationFrame(animate);
+  }
+
+  scrollAnimationId = requestAnimationFrame(animate);
+}
+*/
+
+/*
+function handleWASDScrolling(evt) {
+  const key = evt.key.toLowerCase();
+  if (gApp.site.settings.enableWASDNavigation && ['w', 'a', 's', 'd'].includes(key)) {
+    keysPressed.value.add(key);
+    if (!scrollAnimationId) {
+      startScrollAnimation();
+    }
+    return true;
+  }
+  return false;
+}
+*/
+
+function onWheel(evt) {
+  /**
+   * Handle mouse wheel scrolling to manually control scroll behavior
+   * Only when mouse is over #Main or #CanvasArea elements
+   * Don't consume the event if mouse is over a BasicModal
+   */
+  
+  // Check if the event target is inside a BasicModal
+  const target = evt.target;
+  const modalElement = target.closest('.BasicModal');
+  
+  if (modalElement) {
+    return; // Don't consume the event, let the modal handle scrolling
+  }
+  
+  // Check if the event target is #Main or #CanvasArea or a descendant of them
+  const mainElement = document.getElementById('Main');
+  const canvasElement = document.getElementById('CanvasArea');
+  
+  const isOverMain = target === mainElement || mainElement?.contains(target);
+  const isOverCanvas = target === canvasElement || canvasElement?.contains(target);
+  
+  if (!isOverMain && !isOverCanvas) {
+    return;
+  }
+  
+  evt.preventDefault();
+  
+  const scrollMultiplier = 1.0; // Adjust sensitivity as needed
+  const deltaX = evt.deltaX * scrollMultiplier;
+  const deltaY = evt.deltaY * scrollMultiplier;
+  
+  gApp.site.scrollMainBy(deltaX, deltaY);
 }
 
+function onPageResize() {
+  // Update the site's page dimensions when window is resized
+  if (gApp.site) {
+    console.log(`Window resized to ${window.innerWidth}x${window.innerHeight}`);
+    gApp.site.pageWidth = window.innerWidth;
+    gApp.site.pageHeight = window.innerHeight;
+  }
+}
 
 function setupCustomCssWatcher() {
   // Watch for changes to the site's custom CSS string
@@ -471,37 +480,30 @@ function removeCustomCssStyleTag() {
   }
 }
 
-function onPageResize() {
-  // Update the site's page dimensions when window is resized
-  if (gApp.site) {
-    console.log(`Window resized to ${window.innerWidth}x${window.innerHeight}`);
-    gApp.site.pageWidth = window.innerWidth;
-    gApp.site.pageHeight = window.innerHeight;
-  }
-}
-
 onMounted(() => {
-  window.addEventListener("resize", onPageResize);
-  onPageResize();
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
-  window.addEventListener("wheel", onWheel, { passive: false });
   window.addEventListener("mousedown", onMouseDown);
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseUp);
+  window.addEventListener("wheel", onWheel, { passive: false });
+
+  window.addEventListener("resize", onPageResize);
+  onPageResize();
   
   // Set up watcher for custom CSS
   setupCustomCssWatcher();
 })
 
 onUnmounted(() => {
-  window.removeEventListener("resize", onPageResize);
   window.removeEventListener("keydown", onKeyDown);
   window.removeEventListener("keyup", onKeyUp);
-  window.removeEventListener("wheel", onWheel);
   window.removeEventListener("mousedown", onMouseDown);
   window.removeEventListener("mousemove", onMouseMove);
   window.removeEventListener("mouseup", onMouseUp);
+  window.removeEventListener("wheel", onWheel);
+
+  window.removeEventListener("resize", onPageResize);
   
   // Clean up animation frame if still running
   if (scrollAnimationId) {
