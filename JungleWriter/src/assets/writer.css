@@ -15,13 +15,16 @@ main {
   justify-content: center;
   align-items: center;
 
-
   /*
   Disable double-tap to globally on mobile. It causes a lot of problems with buttons
   like menu show/hide.
   See: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices
   */
   touch-action: manipulation;
+
+  --translateX: 0px;
+  --translateY: 0px;
+  --canvas-scale: 1;
 }
 
 #CanvasArea {
