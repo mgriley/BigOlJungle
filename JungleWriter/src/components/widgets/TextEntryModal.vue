@@ -57,10 +57,7 @@ watch(localValue, (newValue) => {
 
 let dialog = ref(null);
 let headerRef = ref(null);
-let isResizing = ref(false);
-let resizeType = ref('');
-let initialSize = ref({ width: 0, height: 0 });
-let initialPos = ref({ x: 0, y: 0 });
+let resizeHandleRef = ref(null);
 
 // Position and size variables
 let posX = ref(0);
@@ -90,43 +87,6 @@ function handleNativeCancel() {
   emit('update:modelValue', localValue.value);
 }
 
-function startResize(event, type) {
-  isResizing.value = true;
-  resizeType.value = type;
-  
-  const rect = dialog.value.getBoundingClientRect();
-  initialSize.value = {
-    width: rect.width,
-    height: rect.height
-  };
-  initialPos.value = {
-    x: event.clientX,
-    y: event.clientY
-  };
-  
-  document.addEventListener('mousemove', handleResize);
-  document.addEventListener('mouseup', stopResize);
-  event.preventDefault();
-  event.stopPropagation();
-}
-
-function handleResize(event) {
-  if (!isResizing.value) return;
-  
-  const deltaX = event.clientX - initialPos.value.x;
-  const deltaY = event.clientY - initialPos.value.y;
-  
-  width.value = Math.max(300, initialSize.value.width + deltaX);
-  height.value = Math.max(200, initialSize.value.height + deltaY);
-  
-}
-
-function stopResize() {
-  isResizing.value = false;
-  resizeType.value = '';
-  document.removeEventListener('mousemove', handleResize);
-  document.removeEventListener('mouseup', stopResize);
-}
 
 function handleTab(event) {
   event.preventDefault();
@@ -252,6 +212,27 @@ onMounted(() => {
       }
     });
   }
+  
+  // Set up resizing using DragUtils
+  if (resizeHandleRef.value) {
+    makeDraggableExt(resizeHandleRef.value, {
+      onStart: (startX, startY) => {
+        // Store initial size for resize calculations
+        resizeHandleRef.value._initialSize = {
+          width: width.value,
+          height: height.value
+        };
+      },
+      onUpdate: (startX, startY, curX, curY) => {
+        const deltaX = curX - startX;
+        const deltaY = curY - startY;
+        
+        const initialSize = resizeHandleRef.value._initialSize;
+        width.value = Math.max(300, initialSize.width + deltaX);
+        height.value = Math.max(200, initialSize.height + deltaY);
+      }
+    });
+  }
 })
 
 defineExpose({
@@ -286,7 +267,7 @@ defineExpose({
         </div>
         
         <!-- Resize handle -->
-        <div class="ResizeHandle" @mousedown="startResize($event, 'bottom-right')">
+        <div class="ResizeHandle" ref="resizeHandleRef">
           <i class="bi bi-arrows-angle-expand"></i>
         </div>
       </div>
