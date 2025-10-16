@@ -4,7 +4,7 @@ import { gApp } from './State.js'
 import NodeWidget from './widgets/NodeWidget.vue'
 import ShortcutBtns from './ShortcutBtns.vue'
 import { Node } from './Node.js'
-import { onKeyDown, onKeyUp, cleanup as keyHandlerCleanup } from './SceneKeyHandler.js'
+import { installHandlers as installKeyHandlers, removeHandlers as removeKeyHandlers } from './SceneKeyHandler.js'
 import { 
   isDragging, 
   isSelectionDragging, 
@@ -103,8 +103,7 @@ function getMainStyleObject() {
 }
 
 onMounted(() => {
-  window.addEventListener("keydown", onKeyDown);
-  window.addEventListener("keyup", onKeyUp);
+  installKeyHandlers();
   window.addEventListener("mousedown", onMouseDown);
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseUp);
@@ -118,17 +117,13 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener("keydown", onKeyDown);
-  window.removeEventListener("keyup", onKeyUp);
+  removeKeyHandlers();
   window.removeEventListener("mousedown", onMouseDown);
   window.removeEventListener("mousemove", onMouseMove);
   window.removeEventListener("mouseup", onMouseUp);
   window.removeEventListener("wheel", onWheel);
 
   window.removeEventListener("resize", onPageResize);
-  
-  // Clean up key handler
-  keyHandlerCleanup();
   
   // Clean up custom CSS
   removeCustomCssStyleTag();

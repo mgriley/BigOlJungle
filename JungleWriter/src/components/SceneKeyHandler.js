@@ -241,8 +241,18 @@ function cleanup() {
   }
 }
 
+function installHandlers() {
+  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("keyup", onKeyUp);
+}
+
+function removeHandlers() {
+  window.removeEventListener("keydown", onKeyDown);
+  window.removeEventListener("keyup", onKeyUp);
+  cleanup();
+}
+
 export {
-  onKeyDown,
-  onKeyUp,
-  cleanup
+  installHandlers,
+  removeHandlers
 }
