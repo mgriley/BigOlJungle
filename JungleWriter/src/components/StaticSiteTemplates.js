@@ -77,8 +77,7 @@ export let StaticInteractiveJs = `
     if (!mainElement) return;
     
     scale = newScale;
-    // TODO - set the style var here
-    console.log("NEW SCALE: ", scale);
+    mainElement.style.setProperty('--canvas-scale', scale);
   }
   
   function onPointerDown(evt) {
