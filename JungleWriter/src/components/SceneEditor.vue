@@ -96,7 +96,10 @@ function getMainStyleObject() {
 
 onMounted(() => {
   installKeyHandlers();
-  installMouseHandlers();
+  
+  // Get the canvas element and install mouse handlers on it
+  const canvasElement = document.getElementById('Main');
+  installMouseHandlers(canvasElement);
 
   window.addEventListener("resize", onPageResize);
   onPageResize();
