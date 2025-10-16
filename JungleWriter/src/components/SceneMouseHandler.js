@@ -149,25 +149,25 @@ function getSelectionRect() {
   };
 }
 
-let canvasElement = null;
+let editorArea = null;
 
-function installHandlers(canvas) {
-  canvasElement = canvas;
-  if (canvasElement) {
-    canvasElement.addEventListener("mousedown", onMouseDown);
-    canvasElement.addEventListener("mousemove", onMouseMove);
-    canvasElement.addEventListener("mouseup", onMouseUp);
-    canvasElement.addEventListener("wheel", onWheel, { passive: false });
+function installHandlers(editorAreaElement) {
+  editorArea = editorAreaElement;
+  if (editorArea) {
+    editorArea.addEventListener("pointerdown", onPointerDown);
+    editorArea.addEventListener("pointermove", onPointerMove);
+    editorArea.addEventListener("pointerup", onPointerUp);
+    editorArea.addEventListener("wheel", onWheel, { passive: false });
   }
 }
 
 function removeHandlers() {
-  if (canvasElement) {
-    canvasElement.removeEventListener("mousedown", onMouseDown);
-    canvasElement.removeEventListener("mousemove", onMouseMove);
-    canvasElement.removeEventListener("mouseup", onMouseUp);
-    canvasElement.removeEventListener("wheel", onWheel);
-    canvasElement = null;
+  if (editorArea) {
+    editorArea.removeEventListener("pointerdown", onPointerDown);
+    editorArea.removeEventListener("pointermove", onPointerMove);
+    editorArea.removeEventListener("pointerup", onPointerUp);
+    editorArea.removeEventListener("wheel", onWheel);
+    editorArea = null;
   }
 }
 
