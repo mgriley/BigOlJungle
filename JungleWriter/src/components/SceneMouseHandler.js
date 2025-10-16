@@ -4,7 +4,7 @@ import { gApp } from './State.js'
 // Track drag state for scrolling
 const isScrollDragging = ref(false);
 const dragStart = ref({ x: 0, y: 0 });
-const scrollStart = ref({ x: 0, y: 0 });
+const translateStart = ref({ x: 0, y: 0 });
 
 // Track selection rectangle drag state
 const isSelectionDragging = ref(false);
@@ -33,7 +33,7 @@ function onMouseDown(evt) {
     // Start scroll drag when not editing
     isScrollDragging.value = true;
     dragStart.value = { x: evt.clientX, y: evt.clientY };
-    scrollStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
+    translateStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
     evt.preventDefault();
     return;
   }
@@ -44,8 +44,8 @@ function onMouseMove(evt) {
     const deltaX = evt.clientX - dragStart.value.x;
     const deltaY = evt.clientY - dragStart.value.y;
     
-    gApp.site.translateX = scrollStart.value.x + deltaX;
-    gApp.site.translateY = scrollStart.value.y + deltaY;
+    gApp.site.translateX = translateStart.value.x + deltaX;
+    gApp.site.translateY = translateStart.value.y + deltaY;
     
     evt.preventDefault();
   } else if (isSelectionDragging.value) {
