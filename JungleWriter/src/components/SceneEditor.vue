@@ -21,7 +21,6 @@ let rootNode = computed(() => {
   return gApp.site.nodeTree.root;
 })
 
-
 function onPageResize() {
   // Update the site's page dimensions when window is resized
   if (gApp.site) {
@@ -102,7 +101,6 @@ let selectionRectStyle = computed(() => {
 function getMainStyleObject() {
   return gApp.site.getMainStyleObject();
 }
-
 
 onMounted(() => {
   window.addEventListener("keydown", onKeyDown);
