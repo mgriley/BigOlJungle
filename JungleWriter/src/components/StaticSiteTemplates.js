@@ -58,15 +58,7 @@ export let StaticInteractiveJs = `
     mainElement.style.setProperty('--translateY', y + 'px');
   }
   
-  function getEventCoords(evt) {
-    // Handle both mouse and touch events
-    if (evt.touches && evt.touches.length > 0) {
-      return { x: evt.touches[0].clientX, y: evt.touches[0].clientY };
-    }
-    return { x: evt.clientX, y: evt.clientY };
-  }
-  
-  function onPointerStart(evt) {
+  function onPointerDown(evt) {
     // Check if we clicked/touched on Main or CanvasArea, or if the target is a descendant of Main
     const mainElement = document.getElementById('Main');
     const canvasElement = document.getElementById('CanvasArea');
@@ -77,8 +69,7 @@ export let StaticInteractiveJs = `
     if (isMainOrDescendant) {
       // Start scroll drag
       isDragging = true;
-      const coords = getEventCoords(evt);
-      dragStart = { x: coords.x, y: coords.y };
+      dragStart = { x: evt.clientX, y: evt.clientY };
       scrollStart = getCurrentTranslate();
       evt.preventDefault();
       
@@ -91,9 +82,8 @@ export let StaticInteractiveJs = `
   
   function onPointerMove(evt) {
     if (isDragging) {
-      const coords = getEventCoords(evt);
-      const deltaX = coords.x - dragStart.x;
-      const deltaY = coords.y - dragStart.y;
+      const deltaX = evt.clientX - dragStart.x;
+      const deltaY = evt.clientY - dragStart.y;
       
       const newX = scrollStart.x + deltaX;
       const newY = scrollStart.y + deltaY;
@@ -103,7 +93,7 @@ export let StaticInteractiveJs = `
     }
   }
   
-  function onPointerEnd(evt) {
+  function onPointerUp(evt) {
     if (isDragging) {
       isDragging = false;
       evt.preventDefault();
@@ -142,11 +132,6 @@ export let StaticInteractiveJs = `
     setTranslate(newX, newY);
   }
   
-  function onTouchMove(evt) {
-    if (isDragging) {
-      onPointerMove(evt);
-    }
-  }
   
   // Initialize when DOM is ready
   function init() {
@@ -157,15 +142,10 @@ export let StaticInteractiveJs = `
       // Prevent default touch behaviors that might interfere
       mainElement.style.touchAction = 'none';
       
-      // Add mouse event listeners to Main element
-      mainElement.addEventListener('mousedown', onPointerStart);
-      mainElement.addEventListener('mousemove', onPointerMove);
-      mainElement.addEventListener('mouseup', onPointerEnd);
-      
-      // Add touch event listeners to Main element
-      mainElement.addEventListener('touchstart', onPointerStart, { passive: false });
-      mainElement.addEventListener('touchmove', onTouchMove, { passive: false });
-      mainElement.addEventListener('touchend', onPointerEnd, { passive: false });
+      // Add pointer event listeners to Main element
+      mainElement.addEventListener('pointerdown', onPointerDown);
+      mainElement.addEventListener('pointermove', onPointerMove);
+      mainElement.addEventListener('pointerup', onPointerUp);
       
       // Add wheel event listener to Main element
       mainElement.addEventListener('wheel', onWheel, { passive: false });
