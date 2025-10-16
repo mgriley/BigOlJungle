@@ -7,9 +7,7 @@ import { Node } from './Node.js'
 import { installHandlers as installKeyHandlers, removeHandlers as removeKeyHandlers } from './SceneKeyHandler.js'
 import { 
   isDragging, 
-  isSelectionDragging, 
-  selectionDragStart, 
-  selectionDragCurrent,
+  getSelectionRect,
   onClickBackground,
   installHandlers as installMouseHandlers,
   removeHandlers as removeMouseHandlers
@@ -65,28 +63,24 @@ let isEditing = computed(() => {
 
 let mainCursor = computed(() => {
   if (isEditing.value) {
-    //return isSelectionDragging.value ? 'crosshair' : 'default';
+    //return getSelectionRect() ? 'crosshair' : 'default';
     return 'default';
   }
   return isDragging.value ? 'grabbing' : 'grab';
 });
 
 let selectionRectStyle = computed(() => {
-  if (!isSelectionDragging.value) {
+  const rect = getSelectionRect();
+  if (!rect) {
     return { display: 'none' };
   }
   
-  const startX = Math.min(selectionDragStart.value.x, selectionDragCurrent.value.x);
-  const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
-  const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
-  const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
-  
   return {
     position: 'fixed',
-    left: startX + 'px',
-    top: startY + 'px',
-    width: width + 'px',
-    height: height + 'px',
+    left: rect.x + 'px',
+    top: rect.y + 'px',
+    width: rect.width + 'px',
+    height: rect.height + 'px',
     //border: '2px dashed #007bff',
     //backgroundColor: 'rgba(0, 123, 255, 0.1)',
     border: '3px dashed purple',
@@ -140,7 +134,7 @@ onUnmounted(() => {
       -->
     </div>
     <!-- Selection rectangle overlay -->
-    <div v-if="isSelectionDragging" class="SelectionRect" :style="selectionRectStyle"></div>
+    <div v-if="getSelectionRect()" class="SelectionRect" :style="selectionRectStyle"></div>
   </main>
 </template>
 

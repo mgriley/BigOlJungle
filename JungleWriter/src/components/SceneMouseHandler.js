@@ -154,6 +154,24 @@ function onWheel(evt) {
   gApp.site.scrollMainBy(deltaX, deltaY);
 }
 
+function getSelectionRect() {
+  if (!isSelectionDragging.value) {
+    return null;
+  }
+  
+  const startX = Math.min(selectionDragStart.value.x, selectionDragCurrent.value.x);
+  const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
+  const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
+  const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
+  
+  return {
+    x: startX,
+    y: startY,
+    width: width,
+    height: height
+  };
+}
+
 function installHandlers() {
   window.addEventListener("mousedown", onMouseDown);
   window.addEventListener("mousemove", onMouseMove);
@@ -170,9 +188,7 @@ function removeHandlers() {
 
 export {
   isDragging,
-  isSelectionDragging,
-  selectionDragStart,
-  selectionDragCurrent,
+  getSelectionRect,
   onClickBackground,
   installHandlers,
   removeHandlers
