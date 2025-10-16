@@ -19,8 +19,8 @@ function onClickBackground(evt) {
   }
 }
 
-function onMouseDown(evt) {
-  console.log("SCENE EDITOR MOUSEDOWN", evt.target);
+function onPointerDown(evt) {
+  console.log("SCENE EDITOR POINTERDOWN", evt.target);
   if (gApp.site.isEditing) {
     // Start selection rectangle drag
     isSelectionDragging.value = true;
@@ -39,7 +39,7 @@ function onMouseDown(evt) {
   }
 }
 
-function onMouseMove(evt) {
+function onPointerMove(evt) {
   if (isScrollDragging.value) {
     const deltaX = evt.clientX - dragStart.value.x;
     const deltaY = evt.clientY - dragStart.value.y;
@@ -62,7 +62,7 @@ function onMouseMove(evt) {
   }
 }
 
-function onMouseUp(evt) {
+function onPointerUp(evt) {
   if (isScrollDragging.value) {
     isScrollDragging.value = false;
     evt.preventDefault();
