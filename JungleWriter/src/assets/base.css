@@ -125,15 +125,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*
-Disable double-tap to globally on mobile. It causes a lot of problems with buttons
-like menu show/hide.
-See: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices
-*/
-* {
-  touch-action: manipulation;
-}
-
 #app {
   margin: 0 auto;
   /*padding: 2rem;*/

@@ -80,7 +80,6 @@ function createNode(nodeOption) {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1500;
-  pointer-events: none;
 }
 
 .MenuContainer {
@@ -93,7 +92,6 @@ function createNode(nodeOption) {
   padding: var(--space-xs) var(--space-xs);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
-  pointer-events: auto;
 }
 
 .MenuButton {
