@@ -76,14 +76,6 @@ function onInput() {
   autoResizeTextarea();
 }
 
-// Note - elementRef changes when the component switches between
-// element types (e.g. div to h1), so we need to watch it.
-watch(elementRef, (newEl, oldEl) => {
-  if (newEl) {
-    setupWidgetDrag(newEl, props.node);
-  }
-})
-
 // Watch the node's selected state and stop editing when deselected
 watch(() => props.node.selected, (newSelected, oldSelected) => {
   if (!newSelected && isEditing.value) {

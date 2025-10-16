@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { gApp } from './State.js'
-import { makeDraggableExt, addHoverListener } from './Utils.js'
 
 const props = defineProps({
   node: Object,

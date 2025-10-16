@@ -146,37 +146,6 @@ export function makeDraggable(elmnt) {
   });
 }
 
-// Returns an opaque `listener` object that you can
-// removeHoverListener with when want to remove.
-export function addHoverListener(elem, hoverFuncs) {
-  if (!elem) {
-    console.warn("addHoverListener: No element!");
-    return;
-  }
-  let onHoverStart = (evt) => {
-    if (hoverFuncs.onStart) {
-      hoverFuncs.onStart(evt);
-    }
-  };
-  let onHoverEnd = (evt) => {
-    if (hoverFuncs.onEnd) {
-      hoverFuncs.onEnd(evt);
-    }
-  };
-  elem.addEventListener("mouseover", onHoverStart);
-  elem.addEventListener("mouseout", onHoverEnd);
-  return {onStart: onHoverStart, onEnd: onHoverEnd};
-}
-
-export function removeHoverListener(elem, listenerObj) {
-  if (!elem) {
-    console.warn("removeHoverListener: No element!");
-    return;
-  }
-  elem.removeEventListener("mouseover", listenerObj.onStart);
-  elem.removeEventListener("mouseout", listenerObj.onEnd);
-}
-
 export function setupWidgetDrag(widgetElem, node) {
   if (!widgetElem) {
     console.warn("setupWidgetDrag: No widgetElem!");
