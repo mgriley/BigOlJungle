@@ -6,7 +6,7 @@ import ShortcutBtns from './ShortcutBtns.vue'
 import { Node } from './Node.js'
 import { installHandlers as installKeyHandlers, removeHandlers as removeKeyHandlers } from './SceneKeyHandler.js'
 import { 
-  isDragging, 
+  isScrollDragging, 
   getSelectionRect,
   onClickBackground,
   installHandlers as installMouseHandlers,
@@ -66,7 +66,7 @@ let mainCursor = computed(() => {
     //return getSelectionRect() ? 'crosshair' : 'default';
     return 'default';
   }
-  return isDragging.value ? 'grabbing' : 'grab';
+  return isScrollDragging.value ? 'grabbing' : 'grab';
 });
 
 let selectionRectStyle = computed(() => {
@@ -97,9 +97,9 @@ function getMainStyleObject() {
 onMounted(() => {
   installKeyHandlers();
   
-  // Get the canvas element and install mouse handlers on it
-  const canvasElement = document.getElementById('Main');
-  installMouseHandlers(canvasElement);
+  // Get the main/editor element and install mouse handlers on it
+  const mainElement = document.getElementById('Main');
+  installMouseHandlers(mainElement);
 
   window.addEventListener("resize", onPageResize);
   onPageResize();

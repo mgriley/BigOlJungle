@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { gApp } from './State.js'
 
 // Track drag state for scrolling
-const isDragging = ref(false);
+const isScrollDragging = ref(false);
 const dragStart = ref({ x: 0, y: 0 });
 const scrollStart = ref({ x: 0, y: 0 });
 
@@ -21,36 +21,26 @@ function onClickBackground(evt) {
 
 function onMouseDown(evt) {
   console.log("SCENE EDITOR MOUSEDOWN", evt.target);
-  
-  // Check if we clicked on Main or CanvasArea, or if the target is a descendant of Main
-  const mainElement = document.getElementById('Main');
-  const canvasElement = document.getElementById('CanvasArea');
-  const isMainOrDescendant = evt.target.id === "Main" || 
-                            evt.target.id === "CanvasArea" || 
-                            (mainElement && mainElement.contains(evt.target));
-  
-  if (isMainOrDescendant) {
-    if (gApp.site.isEditing) {
-      // Start selection rectangle drag
-      isSelectionDragging.value = true;
-      selectionDragStart.value = { x: evt.clientX, y: evt.clientY };
-      selectionDragCurrent.value = { x: evt.clientX, y: evt.clientY };
-      selectionHasDragged.value = false;
-      evt.preventDefault();
-      return;
-    } else {
-      // Start scroll drag when not editing
-      isDragging.value = true;
-      dragStart.value = { x: evt.clientX, y: evt.clientY };
-      scrollStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
-      evt.preventDefault();
-      return;
-    }
+  if (gApp.site.isEditing) {
+    // Start selection rectangle drag
+    isSelectionDragging.value = true;
+    selectionDragStart.value = { x: evt.clientX, y: evt.clientY };
+    selectionDragCurrent.value = { x: evt.clientX, y: evt.clientY };
+    selectionHasDragged.value = false;
+    evt.preventDefault();
+    return;
+  } else {
+    // Start scroll drag when not editing
+    isScrollDragging.value = true;
+    dragStart.value = { x: evt.clientX, y: evt.clientY };
+    scrollStart.value = { x: gApp.site.translateX, y: gApp.site.translateY };
+    evt.preventDefault();
+    return;
   }
 }
 
 function onMouseMove(evt) {
-  if (isDragging.value) {
+  if (isScrollDragging.value) {
     const deltaX = evt.clientX - dragStart.value.x;
     const deltaY = evt.clientY - dragStart.value.y;
     
@@ -73,8 +63,8 @@ function onMouseMove(evt) {
 }
 
 function onMouseUp(evt) {
-  if (isDragging.value) {
-    isDragging.value = false;
+  if (isScrollDragging.value) {
+    isScrollDragging.value = false;
     evt.preventDefault();
   } else if (isSelectionDragging.value) {
     isSelectionDragging.value = false;
@@ -121,30 +111,17 @@ function preventClickAfterDrag(evt) {
 
 function onWheel(evt) {
   /**
-   * Handle mouse wheel scrolling to manually control scroll behavior
-   * Only when mouse is over #Main or #CanvasArea elements
+   * Handle mouse wheel scrolling to manually control scroll behavior.
    * Don't consume the event if mouse is over a BasicModal
    */
   
   // Check if the event target is inside a BasicModal
-  const target = evt.target;
-  const modalElement = target.closest('.BasicModal');
-  
+  const modalElement = evt.target.closest('.BasicModal');
   if (modalElement) {
     return; // Don't consume the event, let the modal handle scrolling
   }
   
-  // Check if the event target is #Main or #CanvasArea or a descendant of them
-  const mainElement = document.getElementById('Main');
-  const canvasElement = document.getElementById('CanvasArea');
-  
-  const isOverMain = target === mainElement || mainElement?.contains(target);
-  const isOverCanvas = target === canvasElement || canvasElement?.contains(target);
-  
-  if (!isOverMain && !isOverCanvas) {
-    return;
-  }
-  
+  // Override default scrolling and use our custom scrolling
   evt.preventDefault();
   
   const scrollMultiplier = 1.0; // Adjust sensitivity as needed
@@ -195,7 +172,7 @@ function removeHandlers() {
 }
 
 export {
-  isDragging,
+  isScrollDragging,
   getSelectionRect,
   onClickBackground,
   installHandlers,
