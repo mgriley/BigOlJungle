@@ -156,20 +156,20 @@ export let StaticInteractiveJs = `
       mainElement.style.cursor = 'grab';
       // Prevent default touch behaviors that might interfere
       mainElement.style.touchAction = 'none';
+      
+      // Add mouse event listeners to Main element
+      mainElement.addEventListener('mousedown', onPointerStart);
+      mainElement.addEventListener('mousemove', onPointerMove);
+      mainElement.addEventListener('mouseup', onPointerEnd);
+      
+      // Add touch event listeners to Main element
+      mainElement.addEventListener('touchstart', onPointerStart, { passive: false });
+      mainElement.addEventListener('touchmove', onTouchMove, { passive: false });
+      mainElement.addEventListener('touchend', onPointerEnd, { passive: false });
+      
+      // Add wheel event listener to Main element
+      mainElement.addEventListener('wheel', onWheel, { passive: false });
     }
-    
-    // Add mouse event listeners
-    document.addEventListener('mousedown', onPointerStart);
-    document.addEventListener('mousemove', onPointerMove);
-    document.addEventListener('mouseup', onPointerEnd);
-    
-    // Add touch event listeners
-    document.addEventListener('touchstart', onPointerStart, { passive: false });
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-    document.addEventListener('touchend', onPointerEnd, { passive: false });
-    
-    // Add wheel event listener
-    document.addEventListener('wheel', onWheel, { passive: false });
   }
   
   // Initialize when DOM is loaded
