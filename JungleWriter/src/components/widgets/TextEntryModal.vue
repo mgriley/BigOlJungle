@@ -71,6 +71,7 @@ function showModal() {
 }
 
 function closeModal() {
+  console.log("Closing modal!");
   emit('update:modelValue', localValue.value);
   dialog.value.close();
 }
@@ -81,6 +82,13 @@ function toggleModal() {
   } else {
     closeModal();
   }
+}
+
+function noOp() {
+  // Intentionally empty to prevent unwanted behaviors
+  // Note - need this because otherwise the makeDraggableExt on the header
+  // eats pointerdown, pointerup and never triggers @click on the close button!
+  //console.log("No-op function called");
 }
 
 function handleNativeCancel() {
@@ -251,7 +259,7 @@ defineExpose({
       <div class="InnerModal">
         <div class="Header" ref="headerRef">
           <div class="Title">{{ title }}</div>
-          <button class="CloseButton" @click="closeModal" title="Close">
+          <button class="CloseButton" @pointerdown.stop="noOp()" @click.stop="closeModal" title="Close">
             <i class="bi bi-x"></i>
           </button>
         </div>
