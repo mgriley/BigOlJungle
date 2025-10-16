@@ -59,35 +59,24 @@ export let StaticInteractiveJs = `
   }
   
   function onPointerDown(evt) {
-    // Check if we clicked/touched on Main or CanvasArea, or if the target is a descendant of Main
+    // Start scroll drag
+    isDragging = true;
+    dragStart = { x: evt.clientX, y: evt.clientY };
+    scrollStart = getCurrentTranslate();
+    // Set cursor to grabbing
     const mainElement = document.getElementById('Main');
-    const canvasElement = document.getElementById('CanvasArea');
-    const isMainOrDescendant = evt.target.id === "Main" || 
-                              evt.target.id === "CanvasArea" || 
-                              (mainElement && mainElement.contains(evt.target));
-    
-    if (isMainOrDescendant) {
-      // Start scroll drag
-      isDragging = true;
-      dragStart = { x: evt.clientX, y: evt.clientY };
-      scrollStart = getCurrentTranslate();
-      evt.preventDefault();
-      
-      // Set cursor to grabbing
-      if (mainElement) {
-        mainElement.style.cursor = 'grabbing';
-      }
+    if (mainElement) {
+      mainElement.style.cursor = 'grabbing';
     }
+    evt.preventDefault();
   }
   
   function onPointerMove(evt) {
     if (isDragging) {
       const deltaX = evt.clientX - dragStart.x;
       const deltaY = evt.clientY - dragStart.y;
-      
       const newX = scrollStart.x + deltaX;
       const newY = scrollStart.y + deltaY;
-      
       setTranslate(newX, newY);
       evt.preventDefault();
     }
@@ -107,18 +96,6 @@ export let StaticInteractiveJs = `
   }
   
   function onWheel(evt) {
-    // Check if the event target is #Main or #CanvasArea or a descendant of them
-    const mainElement = document.getElementById('Main');
-    const canvasElement = document.getElementById('CanvasArea');
-    const target = evt.target;
-    
-    const isOverMain = target === mainElement || mainElement?.contains(target);
-    const isOverCanvas = target === canvasElement || canvasElement?.contains(target);
-    
-    if (!isOverMain && !isOverCanvas) {
-      return;
-    }
-    
     evt.preventDefault();
     
     const scrollMultiplier = 1.0;
@@ -149,6 +126,11 @@ export let StaticInteractiveJs = `
       
       // Add wheel event listener to Main element
       mainElement.addEventListener('wheel', onWheel, { passive: false });
+
+      // Prevent any touch scroll / bounce on iOS Safari
+      window.addEventListener('touchmove', (e) => {
+        e.preventDefault()
+      }, { passive: false })
     }
   }
   
