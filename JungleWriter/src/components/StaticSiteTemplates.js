@@ -77,8 +77,8 @@ export let StaticInteractiveJs = `
     if (!mainElement) return;
     
     scale = newScale;
-    const currentTranslate = getCurrentTranslate();
-    mainElement.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${scale})`;
+    // TODO - set the style var here
+    console.log("NEW SCALE: ", scale);
   }
   
   function onPointerDown(evt) {
@@ -172,9 +172,11 @@ export let StaticInteractiveJs = `
       mainElement.addEventListener('touchmove', onTouchMove, { passive: false });
 
       // Prevent any touch scroll / bounce on iOS Safari
+      /*
       window.addEventListener('touchmove', (e) => {
         e.preventDefault()
       }, { passive: false })
+      */
     }
   }
   
