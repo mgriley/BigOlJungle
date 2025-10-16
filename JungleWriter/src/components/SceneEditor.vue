@@ -129,49 +129,6 @@ function preventClickAfterDrag(evt) {
   evt.stopPropagation();
 }
 
-
-function getMainStyleObject() {
-  return gApp.site.getMainStyleObject();
-}
-
-let isEditing = computed(() => {
-  return gApp.site?.getIsEditing();
-});
-
-let mainCursor = computed(() => {
-  if (isEditing.value) {
-    //return isSelectionDragging.value ? 'crosshair' : 'default';
-    return 'default';
-  }
-  return isDragging.value ? 'grabbing' : 'grab';
-});
-
-let selectionRectStyle = computed(() => {
-  if (!isSelectionDragging.value) {
-    return { display: 'none' };
-  }
-  
-  const startX = Math.min(selectionDragStart.value.x, selectionDragCurrent.value.x);
-  const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
-  const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
-  const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
-  
-  return {
-    position: 'fixed',
-    left: startX + 'px',
-    top: startY + 'px',
-    width: width + 'px',
-    height: height + 'px',
-    //border: '2px dashed #007bff',
-    //backgroundColor: 'rgba(0, 123, 255, 0.1)',
-    border: '3px dashed purple',
-    backgroundColor: 'rgba(255,0,255,0.1)',
-    pointerEvents: 'none',
-    zIndex: 1000
-  };
-});
-
-
 function onWheel(evt) {
   /**
    * Handle mouse wheel scrolling to manually control scroll behavior
@@ -246,6 +203,48 @@ function removeCustomCssStyleTag() {
     existingStyleTag.remove();
   }
 }
+
+let isEditing = computed(() => {
+  return gApp.site?.getIsEditing();
+});
+
+let mainCursor = computed(() => {
+  if (isEditing.value) {
+    //return isSelectionDragging.value ? 'crosshair' : 'default';
+    return 'default';
+  }
+  return isDragging.value ? 'grabbing' : 'grab';
+});
+
+let selectionRectStyle = computed(() => {
+  if (!isSelectionDragging.value) {
+    return { display: 'none' };
+  }
+  
+  const startX = Math.min(selectionDragStart.value.x, selectionDragCurrent.value.x);
+  const startY = Math.min(selectionDragStart.value.y, selectionDragCurrent.value.y);
+  const width = Math.abs(selectionDragCurrent.value.x - selectionDragStart.value.x);
+  const height = Math.abs(selectionDragCurrent.value.y - selectionDragStart.value.y);
+  
+  return {
+    position: 'fixed',
+    left: startX + 'px',
+    top: startY + 'px',
+    width: width + 'px',
+    height: height + 'px',
+    //border: '2px dashed #007bff',
+    //backgroundColor: 'rgba(0, 123, 255, 0.1)',
+    border: '3px dashed purple',
+    backgroundColor: 'rgba(255,0,255,0.1)',
+    pointerEvents: 'none',
+    zIndex: 1000
+  };
+});
+
+function getMainStyleObject() {
+  return gApp.site.getMainStyleObject();
+}
+
 
 onMounted(() => {
   window.addEventListener("keydown", onKeyDown);
