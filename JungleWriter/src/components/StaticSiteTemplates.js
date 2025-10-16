@@ -39,7 +39,6 @@ export let StaticInteractiveJs = `
   
   // Track pinch-to-zoom state
   let initialDistance = 0;
-  let scale = 1;
   let startScale = 1;
   
   // Get current translate values from CSS variables
@@ -71,13 +70,21 @@ export let StaticInteractiveJs = `
     mainElement.style.setProperty('--translateY', y + 'px');
   }
   
+  // Get current scale value from CSS variable
+  function getScale() {
+    const mainElement = document.getElementById('Main');
+    if (!mainElement) return 1;
+    
+    const style = getComputedStyle(mainElement);
+    return parseFloat(style.getPropertyValue('--canvas-scale')) || 1;
+  }
+  
   // Set scale value
   function setScale(newScale) {
     const mainElement = document.getElementById('Main');
     if (!mainElement) return;
     
-    scale = newScale;
-    mainElement.style.setProperty('--canvas-scale', scale);
+    mainElement.style.setProperty('--canvas-scale', newScale);
   }
   
   function onPointerDown(evt) {
@@ -135,7 +142,7 @@ export let StaticInteractiveJs = `
     if (evt.touches.length === 2) {
       evt.preventDefault();
       initialDistance = getDistance(evt.touches);
-      startScale = scale;
+      startScale = getScale();
     }
   }
   
