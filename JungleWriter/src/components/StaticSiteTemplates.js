@@ -37,6 +37,11 @@ export let StaticInteractiveJs = `
   let dragStart = { x: 0, y: 0 };
   let scrollStart = { x: 0, y: 0 };
   
+  // Track pinch-to-zoom state
+  let initialDistance = 0;
+  let scale = 1;
+  let startScale = 1;
+  
   // Get current translate values from CSS variables
   function getCurrentTranslate() {
     const mainElement = document.getElementById('Main');
@@ -49,6 +54,14 @@ export let StaticInteractiveJs = `
     return { x: translateX, y: translateY };
   }
   
+  // Calculate distance between two touch points
+  function getDistance(touches) {
+    const [a, b] = touches;
+    const dx = b.clientX - a.clientX;
+    const dy = b.clientY - a.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+  
   // Set translate values as CSS variables
   function setTranslate(x, y) {
     const mainElement = document.getElementById('Main');
@@ -56,6 +69,16 @@ export let StaticInteractiveJs = `
     
     mainElement.style.setProperty('--translateX', x + 'px');
     mainElement.style.setProperty('--translateY', y + 'px');
+  }
+  
+  // Set scale value
+  function setScale(newScale) {
+    const mainElement = document.getElementById('Main');
+    if (!mainElement) return;
+    
+    scale = newScale;
+    const currentTranslate = getCurrentTranslate();
+    mainElement.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${scale})`;
   }
   
   function onPointerDown(evt) {
@@ -109,6 +132,23 @@ export let StaticInteractiveJs = `
     setTranslate(newX, newY);
   }
   
+  function onTouchStart(evt) {
+    if (evt.touches.length === 2) {
+      evt.preventDefault();
+      initialDistance = getDistance(evt.touches);
+      startScale = scale;
+    }
+  }
+  
+  function onTouchMove(evt) {
+    if (evt.touches.length === 2) {
+      evt.preventDefault();
+      const newDistance = getDistance(evt.touches);
+      const factor = newDistance / initialDistance;
+      const newScale = startScale * factor;
+      setScale(newScale);
+    }
+  }
   
   // Initialize when DOM is ready
   function init() {
@@ -126,6 +166,10 @@ export let StaticInteractiveJs = `
       
       // Add wheel event listener to Main element
       mainElement.addEventListener('wheel', onWheel, { passive: false });
+      
+      // Add touch event listeners for pinch-to-zoom
+      mainElement.addEventListener('touchstart', onTouchStart, { passive: false });
+      mainElement.addEventListener('touchmove', onTouchMove, { passive: false });
 
       // Prevent any touch scroll / bounce on iOS Safari
       window.addEventListener('touchmove', (e) => {
