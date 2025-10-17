@@ -36,6 +36,7 @@ export let StaticInteractiveJs = `
   let isDragging = false;
   let dragStart = { x: 0, y: 0 };
   let scrollStart = { x: 0, y: 0 };
+  let hasDragged = false;
   
   // Track pinch-to-zoom state
   let activePointers = new Map();
@@ -98,6 +99,7 @@ export let StaticInteractiveJs = `
     if (activePointers.size === 1) {
       // Start dragging
       isDragging = true;
+      hasDragged = false;
       dragStart = { x: evt.clientX, y: evt.clientY };
       scrollStart = getCurrentTranslate();
       if (mainElement) {
@@ -108,8 +110,8 @@ export let StaticInteractiveJs = `
       const touches = Array.from(activePointers.values());
       initialDistance = getDistance(touches);
       startScale = getScale();
+      evt.preventDefault();
     }
-    evt.preventDefault();
   }
   
   function onPointerMove(evt) {
@@ -119,14 +121,23 @@ export let StaticInteractiveJs = `
     if (activePointers.size === 1 && isDragging) {
       const deltaX = evt.clientX - dragStart.x;
       const deltaY = evt.clientY - dragStart.y;
-      setTranslate(scrollStart.x + deltaX, scrollStart.y + deltaY);
+      
+      // Check if we've moved enough to consider this a drag
+      if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) {
+        hasDragged = true;
+      }
+      
+      if (hasDragged) {
+        setTranslate(scrollStart.x + deltaX, scrollStart.y + deltaY);
+        evt.preventDefault();
+      }
     } else if (activePointers.size === 2) {
       const touches = Array.from(activePointers.values());
       const newDistance = getDistance(touches);
       const factor = newDistance / initialDistance;
       setScale(startScale * factor);
+      evt.preventDefault();
     }
-    evt.preventDefault();
   }
   
   function onPointerUp(evt) {
@@ -138,8 +149,17 @@ export let StaticInteractiveJs = `
       if (mainElement) {
         mainElement.style.cursor = 'grab';
       }
+      
+      // If we dragged, prevent the next click event
+      if (hasDragged) {
+        const preventClick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        };
+        mainElement.addEventListener('click', preventClick, { capture: true, once: true });
+        evt.preventDefault();
+      }
     }
-    evt.preventDefault();
   }
   
   function onWheel(evt) {
