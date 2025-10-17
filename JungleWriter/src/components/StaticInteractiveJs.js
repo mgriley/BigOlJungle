@@ -172,6 +172,18 @@
     
     mainElement.style.setProperty('--canvas-scale', newScale);
   }
+  
+  // Calculate initial scale to fit design width to viewport
+  function calculateInitialScale() {
+    const designWidth = 800; // Design width in pixels
+    const viewportWidth = window.innerWidth;
+    const padding = 40; // Leave some padding on sides
+    const availableWidth = viewportWidth - padding;
+    
+    // Calculate scale to fit design width, but don't scale up beyond 1.0
+    const scale = Math.min(1.0, availableWidth / designWidth);
+    return Math.max(0.1, scale); // Ensure minimum scale of 0.1
+  }
 
   function isInteractiveTarget(el) {
     return el.closest('a, button, input, textarea, select, [data-no-drag]');
@@ -224,6 +236,10 @@
       mainElement.style.cursor = 'grab';
       // Prevent default touch behaviors that might interfere
       mainElement.style.touchAction = 'none';
+      
+      // Set initial scale to fit design width
+      const initialScale = calculateInitialScale();
+      setScale(initialScale);
       
       mainElement.addEventListener('pointerdown', onPointerDown);
       mainElement.addEventListener('pointermove', onPointerMove);
