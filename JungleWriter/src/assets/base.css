@@ -125,6 +125,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Disable overscroll bounce/scroll on mobile */
+html, body {
+  overscroll-behavior: none;
+}
+
 #app {
   margin: 0 auto;
   /*padding: 2rem;*/

@@ -22,8 +22,10 @@
     onPointerDown(evt, mainElement) {
       if (this.pointerId !== null) {
         // Already dragging, ignore
+        console.log(`DragState: Ignoring pointer down with id ${evt.pointerId}`);
         return;
       }
+      console.log(`DragState: Starting drag with pointerId ${evt.pointerId}`);
       this.pointerId = evt.pointerId;
       this.mainElement = mainElement;
       this.dragStart = { x: evt.clientX, y: evt.clientY }
@@ -35,8 +37,10 @@
     onPointerMove(evt) {
       if (evt.pointerId !== this.pointerId) {
         // Not our pointer, ignore
+        //console.log(`DragState: Ignoring pointer move with id ${evt.pointerId}`);
         return;
       }
+      //console.log(`DragState: Moving drag with pointerId ${evt.pointerId}`);
       const deltaX = evt.clientX - this.dragStart.x;
       const deltaY = evt.clientY - this.dragStart.y;
 
@@ -53,8 +57,10 @@
     onPointerUp(evt) {
       if (evt.pointerId !== this.pointerId) {
         // Not our pointer, ignore.
+        console.log(`DragState: Ignoring pointer up with id ${evt.pointerId}`);
         return;
       }
+      console.log(`DragState: Ending drag with pointerId ${evt.pointerId}`);
       this.mainElement.style.cursor = 'grab';
 
       // If we dragged, prevent the next click event
@@ -70,6 +76,7 @@
       // If there is still a pointer down, switch to that one
       this._reset();
       if (this.activePointers.size > 0) {
+        console.log("DragState: Switching to another active pointer");
         const nextPointer = this.activePointers.values().next().value;
         this.onPointerDown(nextPointer, this.mainElement);
       }
@@ -96,6 +103,7 @@
         const touches = Array.from(this.activePointers.values());
         this.pointerOneId = touches[0].pointerId;
         this.pointerTwoId = touches[1].pointerId;
+        console.log(`PinchState: Starting pinch with pointers ${this.pointerOneId} and ${this.pointerTwoId}`)
         this.initialDistance = getDistance(touches);
         this.startScale = getScale();
         evt.preventDefault();
@@ -105,8 +113,10 @@
     onPointerMove(evt) {
       if (evt.pointerId !== this.pointerOneId && evt.pointerId !== this.pointerTwoId) {
         // Not our pointers, ignore.
+        //console.log(`PinchState: Ignoring pointer move with id ${evt.pointerId}`);
         return;
       }
+      //console.log(`PinchState: Moving pinch with pointerId ${evt.pointerId}`);
       const touches = Array.from(this.activePointers.values());
       const newDistance = getDistance(touches);
       const factor = newDistance / Math.max(this.initialDistance, 0.0001);
@@ -116,8 +126,10 @@
     onPointerUp(evt) {
       if (evt.pointerId !== this.pointerOneId && evt.pointerId !== this.pointerTwoId) {
         // Not our pointers, ignore.
+        console.log(`PinchState: Ignoring pointer up with id ${evt.pointerId}`);
         return;
       }
+      console.log(`PinchState: Ending pinch with pointerId ${evt.pointerId}`);
       this._reset();
     }
   }
@@ -214,6 +226,14 @@
     dragState.onPointerUp(evt);
     pinchState.onPointerUp(evt);
   }
+
+  function onPointerCancel(evt) {
+    if (!activePointers.has(evt.pointerId)) return;
+    activePointers.delete(evt.pointerId);
+    // Handle the same as pointerup for now
+    dragState.onPointerUp(evt);
+    pinchState.onPointerUp(evt);
+  }
   
   function onWheel(evt) {
     evt.preventDefault();
@@ -245,6 +265,7 @@
       mainElement.addEventListener('pointerdown', onPointerDown);
       mainElement.addEventListener('pointermove', onPointerMove);
       mainElement.addEventListener('pointerup', onPointerUp);
+      mainElement.addEventListener('pointercancel', onPointerCancel);
       mainElement.addEventListener('wheel', onWheel, { passive: false });
     }
   }
