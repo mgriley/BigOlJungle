@@ -94,6 +94,8 @@
       this.pointerTwoId = null;
       this.initialDistance = null;
       this.startScale = null;
+      this.startTranslate = null;
+      this.pinchCenter = null;
     }
 
     onPointerDown(evt, mainElement) {
@@ -106,6 +108,8 @@
         console.log(`PinchState: Starting pinch with pointers ${this.pointerOneId} and ${this.pointerTwoId}`)
         this.initialDistance = getDistance(touches);
         this.startScale = getScale();
+        this.startTranslate = getCurrentTranslate();
+        this.pinchCenter = getMidpoint(touches);
         evt.preventDefault();
       }  
     }
@@ -120,7 +124,18 @@
       const touches = Array.from(this.activePointers.values());
       const newDistance = getDistance(touches);
       const factor = newDistance / Math.max(this.initialDistance, 0.0001);
-      setScale(this.startScale * factor);
+      const newScale = this.startScale * factor;
+      
+      // Calculate how much to adjust translation to keep pinch center fixed
+      const scaleDelta = newScale - this.startScale;
+      const adjustX = (this.pinchCenter.x - window.innerWidth / 2) * scaleDelta / this.startScale;
+      const adjustY = (this.pinchCenter.y - window.innerHeight / 2) * scaleDelta / this.startScale;
+      
+      setScale(newScale);
+      setTranslate(
+        this.startTranslate.x - adjustX,
+        this.startTranslate.y - adjustY
+      );
     }
 
     onPointerUp(evt) {
@@ -157,6 +172,15 @@
     const dx = b.clientX - a.clientX;
     const dy = b.clientY - a.clientY;
     return Math.sqrt(dx * dx + dy * dy);
+  }
+  
+  // Calculate midpoint between two touch points
+  function getMidpoint(touches) {
+    const [a, b] = touches;
+    return {
+      x: (a.clientX + b.clientX) / 2,
+      y: (a.clientY + b.clientY) / 2
+    };
   }
   
   // Set translate values as CSS variables
