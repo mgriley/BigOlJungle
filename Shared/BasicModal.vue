@@ -76,7 +76,7 @@ Ends up being very finnicky.
 
 <template>
   <Teleport to="body">
-    <dialog :class="['BasicModal', props.class]" ref="dialog" @close="" @cancel="handleNativeCancel">
+    <dialog :class="['BasicModal', ...(props.class ? props.class.split(' ') : [])]" ref="dialog" @close="" @cancel="handleNativeCancel">
       <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
       <!-- <div v-if="isOpen"> -->
         <div class="InnerModal">
