@@ -192,9 +192,6 @@ export let StaticInteractiveJs = `
 })();
 `;
 
-export let StaticStylesCss = `
-`
-
 function camelToKebab(str) {
   return str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 }
