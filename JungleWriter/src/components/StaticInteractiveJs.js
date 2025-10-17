@@ -177,7 +177,7 @@
   function calculateInitialScale() {
     const designWidth = 800; // Design width in pixels
     const viewportWidth = window.innerWidth;
-    const padding = 40; // Leave some padding on sides
+    const padding = 10; // Leave some padding on sides
     const availableWidth = viewportWidth - padding;
     
     // Calculate scale to fit design width, but don't scale up beyond 1.0
@@ -239,6 +239,7 @@
       
       // Set initial scale to fit design width
       const initialScale = calculateInitialScale();
+      console.log("Setting initial scale to ", initialScale);
       setScale(initialScale);
       
       mainElement.addEventListener('pointerdown', onPointerDown);
