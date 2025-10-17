@@ -72,22 +72,24 @@ Ends up being very finnicky.
 </script>
 
 <template>
-  <dialog class="BasicModal" ref="dialog" @close="" @cancel="handleNativeCancel">
-    <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
-    <!-- <div v-if="isOpen"> -->
-      <div class="InnerModal">
-        <h2 v-if="title" class="Title">{{ title }}</h2>
-        <div class="Body">
-          <slot>Default Body</slot>
+  <Teleport to="body">
+    <dialog class="BasicModal" ref="dialog" @close="" @cancel="handleNativeCancel">
+      <!-- Note: Only rendering the body when isOpen messes up the autofocus -->
+      <!-- <div v-if="isOpen"> -->
+        <div class="InnerModal">
+          <h2 v-if="title" class="Title">{{ title }}</h2>
+          <div class="Body">
+            <slot>Default Body</slot>
+          </div>
+          
+          <div class="Footer">
+            <button class="TertiaryButton" v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
+            <button v-if="showDone" @click="onDone">{{ doneText }}</button>
+          </div>
         </div>
-        
-        <div class="Footer">
-          <button class="TertiaryButton" v-if="showCancel" @click="onCancel">{{ cancelText }}</button>
-          <button v-if="showDone" @click="onDone">{{ doneText }}</button>
-        </div>
-      </div>
-    <!-- </div> -->
-  </dialog>
+      <!-- </div> -->
+    </dialog>
+  </Teleport>
 </template>
 
 <style scoped>
