@@ -106,7 +106,7 @@ onMounted(() => {
     <template v-if="!isEditing">
       {{ node.text || "Double-click me"}}
     </template>
-    <!-- Note: must do mousedown.stop here o/w widget drag screws -->
+    <!-- Note: must do pointerdown.stop here o/w widget drag screws -->
     <!-- up the click-to-move-cursor functionality of the text-area -->
     <textarea v-else
       ref="inputRef"
@@ -115,7 +115,7 @@ onMounted(() => {
       @keydown="onInputKeydown"
       @blur="onInputBlur"
       @input="onInput"
-      @mousedown.stop
+      @pointerdown.stop
     ></textarea>
     <DragCorners v-if="node.selected" :node="node" />
   </component>
