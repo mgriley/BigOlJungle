@@ -94,8 +94,6 @@
       this.pointerTwoId = null;
       this.initialDistance = null;
       this.startScale = null;
-      this.startTranslate = null;
-      this.pinchCenter = null;
     }
 
     onPointerDown(evt, mainElement) {
@@ -108,8 +106,6 @@
         console.log(`PinchState: Starting pinch with pointers ${this.pointerOneId} and ${this.pointerTwoId}`)
         this.initialDistance = getDistance(touches);
         this.startScale = getScale();
-        this.startTranslate = getCurrentTranslate();
-        this.pinchCenter = getMidpoint(touches);
         evt.preventDefault();
       }  
     }
@@ -126,16 +122,33 @@
       const factor = newDistance / Math.max(this.initialDistance, 0.0001);
       const newScale = this.startScale * factor;
       
-      // Calculate how much to adjust translation to keep pinch center fixed
-      const scaleDelta = newScale - this.startScale;
-      const adjustX = (this.pinchCenter.x - window.innerWidth / 2) * scaleDelta / this.startScale;
-      const adjustY = (this.pinchCenter.y - window.innerHeight / 2) * scaleDelta / this.startScale;
+      // Calculate how much to adjust translation to keep the screen center fixed
+      // while we scale.
+      // TODO - improve this part
+      let currentScale = getScale();
+      let currentTranslate = getCurrentTranslate();
+      let currentOffset = {
+        x: currentTranslate.x * currentScale,
+        y: currentTranslate.y * currentScale,
+      };
+      let newOffset = {
+        x: currentTranslate.x * newScale,
+        y: currentTranslate.y * newScale,
+      };
+      // This is how much the screen center moves due to scaling.
+      // Translate by this amount to keep the screen center fixed.
+      let centerMovement = {
+        x: (newOffset.x - currentOffset.x),
+        y: (newOffset.y - currentOffset.y),
+      };
       
       setScale(newScale);
+      /*
       setTranslate(
-        this.startTranslate.x - adjustX,
-        this.startTranslate.y - adjustY
+        currentTranslate.x - centerMovement.x / newScale,
+        currentTranslate.y - centerMovement.y / newScale,
       );
+      */
     }
 
     onPointerUp(evt) {
